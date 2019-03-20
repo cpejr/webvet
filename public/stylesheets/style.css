@@ -6043,6 +6043,15 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF; }
+  color: #FED531; }
+
+.login-box {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
+.login {
+  color: white;
+  float: top; }
 
 /*# sourceMappingURL=style.css.map */
