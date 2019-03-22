@@ -21,7 +21,7 @@ const app = express();
  *  Database setup
  */
 
- mongoose.connect(`mongodb+srv://rafaela:${process.env.MONGO_PASSWORD}@cluster0-k9fs0.mongodb.net/test?retryWrites=true`);
+ mongoose.connect(`mongodb+srv://rafaela:${process.env.MONGO_PASS}@cluster0-k9fs0.mongodb.net/test?retryWrites=true`);
  mongoose.connection.on('error', console.error.bind(console, 'connection error: '));
  mongoose.connection.once('open',() => {
    console.log('Database connect!');
@@ -44,6 +44,46 @@ firebase.initializeApp(config);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.engine('hbs', exphbs({
+ layoutsDir: './views',
+ defaultLayout: 'layout',
+ extname: '.hbs',
+ partialsDir: 'views/partials',
+ helpers: {
+    // Here we're declaring the #section that appears in layout/layout.hbs
+    section(name, options) {
+      if (!this._sections) this._sections = {};
+      this._sections[name] = options.fn(this);
+      return null;
+    },
+    // Compare logic
+    compare(lvalue, rvalue, options) {
+      if (arguments.length < 3) {
+        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+      }
+
+      const operator = options.hash.operator || '==';
+      const operators = {
+        '==': function(l, r) { return l == r; },
+        '===': function(l, r) { return l === r; },
+        '!=': function(l, r) { return l != r; },
+        '<': function(l, r) { return l < r; },
+        '>': function(l, r) { return l > r; },
+        '<=': function(l, r) { return l <= r; },
+        '>=': function(l, r) { return l >= r; },
+        'typeof': function(l, r) { return typeof l == r; }
+      }
+      if (!operators[operator]) {
+        throw new Error(`Handlerbars Helper 'compare' doesn't know the operator ${operator}`);
+      }
+      const result = operators[operator](lvalue, rvalue);
+      if (result) {
+        return options.fn(this);
+      }
+      return options.inverse(this);
+    }
+  }
+}));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
