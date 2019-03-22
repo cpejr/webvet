@@ -45,7 +45,6 @@ firebase.initializeApp(config);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({
- layoutsDir: './views',
  defaultLayout: 'layout',
  extname: '.hbs',
  partialsDir: 'views/partials',
