@@ -15,6 +15,10 @@ router.get('/login', (req, res) => {
   res.render('login', {title:'Login'});
 });
 
+router.get('/zearalenona', function(req, res, next) {
+  res.render('zearalenona', {title:'Zearalenona'});
+});
+
 router.get('/user', function(req, res, next) {
   res.render('user', {title:'User'});
 });
@@ -27,7 +31,7 @@ router.post('/login',(req,res)=> {
   const user = req.body.user;
 
   firebase.auth().signInWithEmailAndPassword(user.email, user.password).then((userID) => {
-    
+
   /* console.log(userID);*/
    res.redirect('/user');
  }).catch(function(error) {
