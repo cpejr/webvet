@@ -1,6 +1,6 @@
 var express = require('express');
+var firebase = require('firebase');
 var router = express.Router();
-const firebase = require('firebase');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -24,10 +24,11 @@ router.get('/user', function(req, res, next) {
  */
 
 router.post('/login',(req,res)=> {
-  const user = req.body.user;
+  const { email } = req.body.user;
+  const { password } = req.body.user;
 
   firebase.auth().signInWithEmailAndPassword(user.email, user.password).then((userID) => {
-    
+
   /* console.log(userID);*/
    res.redirect('/user');
  }).catch(function(error) {
