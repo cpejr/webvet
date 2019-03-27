@@ -21,6 +21,10 @@ const kitSchema = new mongoose.Schema({
   deleted: {
     type: Boolean, //1 for deleted, 0 for not deleted
     default: 0
+  },
+  mycotoxin: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'mycotoxin'
   }
 });
 
