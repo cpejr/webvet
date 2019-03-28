@@ -1,23 +1,21 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String
-  },
-  persontype:{
-    type: Boolean, // 0 = pessoa fisica, 1 = pessoa juridica
-  },
-  fullName: {
-    type: String,
-  },
+  username: String,
+  persontype: Boolean, // 0 = pessoa fisica, 1 = pessoa juridica
+  fullName: String,
   register: {
     type: Number,   //CPF ou CNPJ
-    unique: true,
+    unique: true
   },
   type: {
     type: String,
     enum: ['Admin', 'Analista', 'Usuário'],
-    required: true,
+    required: true
+  },
+  usertype:{
+    type: String,
+    enum: ['Produtor', 'Gerencia', 'Convenio'],
   },
   address: {
     cep: Number,
@@ -40,6 +38,10 @@ const userSchema = new mongoose.Schema({
     default: 'Aguardando aprovação',
     required: true
   },
+  deleted: {
+    type: Boolean, //1 for deleted, 0 for not deleted
+    default: 0
+  }
 });
 
 const UserModel = mongoose.model('User', userSchema);
@@ -104,3 +106,19 @@ class User {
       });
     });
   }
+
+  /**
+  * Delete a User
+  * @param {string} id - User Id
+  * @returns {null}
+  */
+ static delete(id) {
+   return new Promise((resolve, reject) => {
+     UserModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
+       resolve();
+     }).catch((err) => {
+       reject(err);
+     });
+   });
+ }
+}
