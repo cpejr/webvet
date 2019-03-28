@@ -15,6 +15,10 @@ router.get('/login', (req, res) => {
   res.render('login', {title:'Login'});
 });
 
+router.get('/form', (req, res) => {
+  res.render('form', {title:'Form'});
+});
+
 router.get('/user', function(req, res, next) {
   res.render('user', {title:'User'});
 });
