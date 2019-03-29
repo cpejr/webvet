@@ -24,7 +24,7 @@ const kitSchema = new mongoose.Schema({
   },
   mycotoxin: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'mycotoxin'
+    ref: 'Mycotoxin'
   }
 });
 
@@ -81,7 +81,7 @@ class Kit {
    * @param {Object} Kit - Kit Document Data
    * @returns {null}
    */
-  static update(id, Kit) {
+  static update(id, kit) {
     return new Promise((resolve, reject) => {
       KitModel.findByIdAndUpdate(id, kit).then(() => {
         resolve();
