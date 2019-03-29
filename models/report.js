@@ -88,7 +88,7 @@ class Report {
 
   static addMycotoxin(id, mycotoxin){
     return new Promise((resolve, reject) => {
-      ReportModel.findByIdAndUpdate(id, { $push: { mycotoxins: mycotoxin } }).catch((err) => {
+      ReportModel.findByIdAndUpdate(id, { $push: { mycotoxins: mycotoxin } }).populate().catch((err) => {
         reject(err);
       });
     });
