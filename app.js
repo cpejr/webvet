@@ -1,5 +1,13 @@
 require('dotenv').config();
 
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var sassMiddleware = require('node-sass-middleware');
+var firebase = require('firebase');
+
 const createError = require('http-errors');
 const express = require('express');
 const exphbs  = require('express-handlebars');
@@ -40,6 +48,19 @@ const config = {
 };
 firebase.initializeApp(config);
 
+
+
+ // firebase setup
+
+ const config = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
+};
+firebase.initializeApp(config);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
