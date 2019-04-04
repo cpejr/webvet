@@ -2,11 +2,12 @@
 
   <div class="cards-element">
     <div class="cards-front">
-      <h1 class="cards-front-title">Teste 1 </h1>
-
+      <h1 class="cards-front-title">Micotoxina</h1>
+      <p class="cards-front-subtitle">1</p>
     </div>
 
     <div class="cards-back">
+      <h1 class="cards-front-title"></h1>
 
     </div>
 
@@ -14,31 +15,91 @@
 
   <div class="cards-element">
     <div class="cards-front">
-      <h1 class="cards-front-title">Teste 2</h1>
+      <h1 class="cards-front-title">Micotoxina</h1>
+      <p class="cards-front-subtitle">2</p>
 
     </div>
 
     <div class="cards-back">
+      <h1 class="cards-front-title"></h1>
 
     </div>
 
   </div>
 
-  <script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
-  <script type='text/javascript'>
-  $(document).ready(function(){
+  <div class="cards-element">
+    <div class="cards-front">
+      <h1 class="cards-front-title">Micotoxina</h1>
+      <p class="cards-front-subtitle">3</p>
 
-  	$('.cards-element').on('click', function(){
+    </div>
 
-  		if ( $(this).hasClass('cards-open') ) {
-  			$(this).removeClass('cards-open');
-  		} else {
-  			$('.element-card').removeClass('cards-open');
-  			$(this).addClass('cards-open');
-  		}
+    <div class="cards-back">
+      <h1 class="cards-front-title"></h1>
 
-  	});
+    </div>
 
-  });
-  </script>
+  </div>
+
+  <div class="cards-element">
+    <div class="cards-front">
+      <h1 class="cards-front-title">Micotoxina</h1>
+      <p class="cards-front-subtitle">4</p>
+
+    </div>
+
+    <div class="cards-back">
+      <h1 class="cards-front-title"></h1>
+
+    </div>
+
+  </div>
+
+  <div class="cards-element">
+    <div class="cards-front">
+      <h1 class="cards-front-title">Micotoxina</h1>
+      <p class="cards-front-subtitle">5</p>
+
+    </div>
+
+    <div class="cards-back">
+      <h1 class="cards-front-title"></h1>
+
+    </div>
+
+  </div>
+
+  <div class="cards-element">
+    <div class="cards-front">
+      <h1 class="cards-front-title">Micotoxina</h1>
+      <p class="cards-front-subtitle">6</p>
+
+    </div>
+
+    <div class="cards-back">
+      <h1 class="cards-front-title"></h1>
+
+    </div>
+
+  </div>
+
 </div>
+
+ <hr class="cards-line"/>
+
+ <script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
+ <script type='text/javascript'>
+ $(document).ready(function(){
+
+ 	$('.cards-element').on('click', function(){
+ 		if ( $(this).hasClass('cards-open') ) {
+ 			$(this).removeClass('cards-open');
+ 		} else {
+ 			$('.element-card').removeClass('cards-open');
+ 			$(this).addClass('cards-open');
+ 		}
+
+ 	});
+
+ });
+ </script>

@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('cardsadmin', { title: 'Dashboard do Administrador' });
+  res.render('cardsAdmin', { title: 'Dashboard do Administrador', layout: 'layoutDashboard.hbs' });
 });
 
 module.exports = router;
