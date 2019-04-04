@@ -6039,9 +6039,12 @@ a.text-dark:hover, a.text-dark:focus {
     border: 1px solid #ddd !important; } }
 
 body {
-  margin: 0;
-  padding: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  width: 100%;
+  overflow-x: hidden; }
 
 a {
   color: #00B7FF; }
@@ -6105,5 +6108,40 @@ a {
 
 .box input[type="submit"]:hover {
   background: #00FF00; }
+
+div {
+  position: relative;
+  box-sizing: border-box;
+  padding: 20px;
+  background: #e6ffe6; }
+
+.btn-expand {
+  background-color: #006600;
+  position: absolute;
+  left: 12px;
+  top: 18px;
+  border: none;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 4px 2px;
+  transition: 0.3s;
+  display: inline-block;
+  cursor: pointer; }
+
+.expandable {
+  display: none; }
+
+.expand {
+  width: 100%;
+  padding-left: 30px;
+  font-weight: bold;
+  font-size: 22px;
+  cursor: pointer;
+  text-align: left; }
+
+.kanban {
+  overflow-x: auto;
+  padding: 10px; }
 
 /*# sourceMappingURL=style.css.map */
