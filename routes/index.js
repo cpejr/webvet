@@ -44,22 +44,29 @@ router.post('/login',(req,res)=> {
 });
 
 router.post('/form',(req,res)=> {
-  const { username } = req.body.user;
-  const { persontype } = req.body.user;
-  const { fullname } = req.body.user;
-  const { register.type } = req.body.user;
-  const { type.type } = req.body.user;
-  const { adress.cep } = req.body.user;
-  const { address.street } = req.body.user;
-  const { adress.number } = req.body.user;
-  const { adress.complement } = req.body.user;
-  const { adress.city } = req.body.user;
-  const { adress.state } = req.body.user;
-  const { email.type } = req.body.user;
-  const { phone } = req.body.user;
-  const { cellphone } = req.body.user;
-  const { status.type } = req.body.user;
-)};
+  const { user } = req.body;
+
+  // pra quem estiver vendo esse código comentado:
+  // essa linha de cima substitui tudo isso. É mais prático e as variáveis não podem ter nome com ponto
+  // (tipo register.type) porque dá pau de sintaxe. Depois de verem podem apagar o comentado, só deixei registrado
+  // pra mostrar pra vocês.
+
+  // const { username } = req.body.user;
+  // const { persontype } = req.body.user;
+  // const { fullname } = req.body.user;
+  // const { register.type } = req.body.user;
+  // const { type.type } = req.body.user;
+  // const { adress.cep } = req.body.user;
+  // const { address.street } = req.body.user;
+  // const { adress.number } = req.body.user;
+  // const { adress.complement } = req.body.user;
+  // const { adress.city } = req.body.user;
+  // const { adress.state } = req.body.user;
+  // const { email.type } = req.body.user;
+  // const { phone } = req.body.user;
+  // const { cellphone } = req.body.user;
+  // const { status.type } = req.body.user;
+});
 
 // GET /logout
 router.get('/logout', function(req, res, next) {
