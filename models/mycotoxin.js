@@ -47,7 +47,8 @@ static getById(id) {
  */
 static create(mycotoxin) {
   return new Promise((resolve, reject) => {
-    MycotoxinModel.create(kit).then((result) => {
+    MycotoxinModel.create(mycotoxin).then((result) => {
+      console.log(result);
       resolve(result._id);
     }).catch((err) => {
       reject(err);
@@ -71,8 +72,6 @@ static update(id, mycotoxin) {
   });
 }
 
-}
-
 /**
 * Delete a Mycotoxin
 * @param {string} id - Mycotoxin Id
@@ -84,7 +83,9 @@ static delete(id) {
      resolve();
    }).catch((err) => {
      reject(err);
-   });
- });
+    });
+  });
+  }
 }
-}
+
+module.exports = Mycotoxin;

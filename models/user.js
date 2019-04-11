@@ -38,22 +38,22 @@ const userSchema = new mongoose.Schema({
     default: 'Aguardando aprovação',
     required: true
   },
-  deleted: {
-    type: Boolean, //1 for deleted, 0 for not deleted
-    default: 0
+  uid: {
+    type: String,
+    unique: true
   }
-});
+}, { timestamps: true, static: false });
 
 const UserModel = mongoose.model('User', userSchema);
 
 class User {
   /**
-   * Get all Users from database
+   * Get all active Users from database
    * @returns {Array} Array of Users
    */
   static getAll() {
     return new Promise((resolve, reject) => {
-      UserModel.find({}).exec().then((results) => {
+      UserModel.find({status: 'Ativo'}).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -114,11 +114,28 @@ class User {
   */
  static delete(id) {
    return new Promise((resolve, reject) => {
-     UserModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
+     UserModel.findByIdAndUpdate(id, { status: 'Inativo' }).then(() => {
        resolve();
      }).catch((err) => {
        reject(err);
      });
    });
  }
+
+ /**
+   * Get a User by it's uid
+   * @param {string} id - User Uid
+   * @returns {Object} - User Document Data
+   */
+  static getByUid(id) {
+    return new Promise((resolve, reject) => {
+      UserModel.findOne({ uid: id }).exec().then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
+
+module.exports = User;
