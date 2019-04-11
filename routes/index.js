@@ -7,9 +7,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/queue', (req, res) => {
-  res.render('queue', {title:'Queue'});
-});
+// router.get('/queue', (req, res) => {
+//   res.render('queue', {title:'Queueiii'});
+// });
 
 router.get('/login', (req, res) => {
   res.render('login', {title:'Login'});

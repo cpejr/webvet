@@ -1,7 +1,10 @@
 @import ../bootstrap/scss/bootstrap.scss
 
-$colorMain : #396333
-$colorBack : #f1ffef
+$color1: #113619
+$color2 : #3DC95F
+$color3: #F7FCF2
+$color4 : #708074
+$color5: #2B2B2B
 
 body
   padding: 0px
@@ -126,19 +129,19 @@ header
   position: absolute
   z-index: 0
   left: 0
-  background-color: #111
+  background-color: $color5
   overflow-x: hidden
 
 .dashboard-sidebar a
   padding: 10px 10px 10px 10px
   text-decoration: none
   font-size: 25px
-  color: #818181
+  color: $color3
   display: block
 
 .dashboard-sidebar a:hover
-  color: #f1f1f1
-  background: #818181
+  color: $color5
+  background: $color4
 
 .dashboard-content
   width: 100%
@@ -158,7 +161,7 @@ header
   -webkit-box-sizing: border-box
   -moz-box-sizing: border-box
   box-sizing: border-box
-  background: $colorMain
+  background: $color2
 
 .dashboard-menu-button
   font-size: 29px
@@ -210,7 +213,7 @@ header
   left: 0
   right: 0
   bottom: 0
-  background-color: $colorBack
+  background-color: $color3
   border-radius: 3px
 
 .cards-front-title
@@ -236,9 +239,66 @@ header
   left: 0
   right: 0
   bottom: 0
-  background-color: $colorBack
-
+  background-color: $color3
 
 .cards-line
   height: 2px
   border: none
+
+.queue-tabs
+  flex-wrap: wrap
+  display: flex
+  padding-bottom: 0
+
+.queue-tabs label
+  order: 1
+  display: block
+  padding: 1rem 2rem
+  margin-right: 0.2rem
+  cursor: pointer
+  background: $color1
+  font-weight: bold
+  transition: background ease 0.2s
+  color: $color4
+
+.queue-tabs .queue-tab
+  order: 99
+  flex-grow: 1
+  display: none
+  width: 100%
+  padding: 1rem
+  background: $color3
+
+.queue-tab
+  margin-top: -8px
+
+.queue-tabs input[type="radio"]
+	display: none
+
+.queue-tabs input[type="radio"]:checked + label
+	background: $color3
+
+.queue-tabs input[type="radio"]:checked + label + .queue-tab
+	display: block
+
+@media (max-width: 45em)
+  .tabs .tab,
+  .tabs label
+    order: initial
+  .tabs label
+    width: 100%
+    margin-right: 0
+    margin-top: 0.2rem
+
+#myKanban
+  overflow-x: hidden
+  padding: 20px 0
+  z-index: 1
+
+.info
+  background: $color1
+  color: #fff
+
+.success
+  background: $color1
+  color: #fff
