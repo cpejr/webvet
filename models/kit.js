@@ -133,3 +133,5 @@ class Kit {
    });
   }
 }
+
+module.exports = Kit;

@@ -1,12 +1,25 @@
 @import ../bootstrap/scss/bootstrap.scss
 
+$color1: #113619
+$color2 : #3DC95F
+$color3: #F7FCF2
+$color4 : #708074
+$color5: #2B2B2B
+
 body
-  margin: 0
-  padding: 0
+  padding: 0px
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  text-align: center
+  width: 100%
+  overflow-x: hidden
+  margin: 0px
 
 a
   color: #00B7FF
+  text-decoration: none
+
+header
+  display: block
 
 .login
   height: 100vh
@@ -68,3 +81,258 @@ a
 
 .box input[type = "submit"]:hover
   background: #00FF00
+
+
+.expanding-div
+  box-sizing: border-box
+  position: absolute
+  padding: 1px
+  background: #e6ffe6
+
+.btn-expand
+  background-color: #006600
+  float: left
+  left: 10px
+  top: 2px
+  border: none
+  text-align: center
+  font-weight: bold
+  font-size: 20px
+  margin: 2px
+  transition: 0.3s
+  display: inline-block
+  cursor: pointer
+
+.expanding-container
+  position: relative
+  box-sizing: border-box
+  padding: 20px
+  background: #e6ffe6
+
+.expandable
+  display: none
+  position: relative
+  padding: 1px
+  background: #e6ffe6
+
+.expand
+  width: 100%
+  padding-left: 50px
+  padding-bottom: 0px
+  font-weight: bold
+  font-size: 22px
+  cursor: pointer
+  text-align: left
+
+.dashboard-sidebar
+  height: 100%
+  width: 18%
+  position: absolute
+  z-index: 0
+  left: 0
+  background-color: $color5
+  overflow-x: hidden
+
+.dashboard-sidebar a
+  padding: 10px 10px 10px 10px
+  text-decoration: none
+  font-size: 25px
+  color: $color3
+  display: block
+
+.dashboard-sidebar a:hover
+  color: $color5
+  background: $color4
+
+.dashboard-content
+  width: 100%
+  height: 100%
+  word-wrap: break-word
+  background: #FFFFFF
+  font-family: Raleway, sans-serif
+
+.dashboard-header
+  width: 100%
+  position: relative
+  background: #FFFFFF
+  z-index: 1
+
+.dashboard-header-nav
+  min-height: 64px
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+  background: $color2
+
+.dashboard-menu-button
+  font-size: 29px
+  color: #FFFFFF
+  padding: 12px 19px
+
+.dashboard-container
+  padding: 10px 10px 10px 10px
+  position: relative
+  left: 18%
+  width: 82%
+  box-sizing: border-box
+  display: block
+  flex-direction: row
+  flex-wrap: wrap
+  justify-content: center
+
+.cards-container
+  position: relative
+  width: 100%
+  margin: 0px auto
+  padding: 20px
+  box-sizing: border-box
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  justify-content: center
+  align-items: center
+
+.cards-element
+  position: relative
+  margin: 10px
+  width: 110px
+  height: 150px
+  transform-style: preserve-3d
+  box-shadow: 1px 1px 10px #f0f0f0
+  align-items: center
+  cursor: pointer
+  transition: all 0.3s cubic-bezier(1, 1, 1, 1)
+
+  &.cards-open
+    width: 154px
+    height: 194px
+    transform: rotatey(180deg)
+
+.cards-front
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: $color3
+  border-radius: 3px
+
+.cards-front-title
+  width: 100%
+  position: absolute
+  top: 20%
+  font-size: 20px
+  text-align: center
+
+.cards-front-subtitle
+  width: 100%
+  position: absolute
+  top: 30%
+  font-size: 42px
+  text-align: center
+
+
+.cards-back
+  transform: rotateY( 180deg ) translateZ( 0px )
+  display: flex
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: $color3
+
+.cards-line
+  height: 2px
+  border: none
+
+.queue-tabs
+  flex-wrap: wrap
+  display: flex
+  padding-bottom: 0
+
+.queue-tabs label
+  order: 1
+  display: block
+  padding: 1rem 2rem
+  margin-right: 0.2rem
+  cursor: pointer
+  background: $color1
+  font-weight: bold
+  transition: background ease 0.2s
+  color: $color4
+
+.queue-tabs .queue-tab
+  order: 99
+  flex-grow: 1
+  display: none
+  width: 100%
+  padding: 1rem
+  background: $color3
+
+.queue-tab
+  margin-top: -8px
+
+.queue-tabs input[type="radio"]
+	display: none
+
+.queue-tabs input[type="radio"]:checked + label
+	background: $color3
+
+.queue-tabs input[type="radio"]:checked + label + .queue-tab
+	display: block
+
+@media (max-width: 45em)
+  .tabs .tab,
+  .tabs label
+    order: initial
+  .tabs label
+    width: 100%
+    margin-right: 0
+    margin-top: 0.2rem
+
+#myKanban
+  overflow-x: hidden
+  padding: 20px 0
+  z-index: 1
+
+.info
+  background: $color1
+  color: #fff
+
+.success
+  background: $color1
+  color: #fff
+
+.showstock
+  background: rgb(119, 192, 106)
+  width: 1660px
+  height: 1500px
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%,-50%)
+  text-align: center
+
+
+.showbox
+  width: 660px
+  padding: 02px
+  height: 500px
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%,-50%)
+  background: white
+  text-align: center
+  box-shadow: 0px 0px 29px rgba(27, 27, 10, 0.6)
+  padding-left: 10px
+  padding-right: 10px
+
+
+.showboxinfo
+  text-align: left
+  position: absolute
+  padding-top: 40px
+  padding-left: 60px
+
