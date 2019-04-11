@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
-  requsition: {
+  requisition: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Requisition'
   }
