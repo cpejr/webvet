@@ -15,6 +15,7 @@ const cardsadminRouter = require('./routes/cardsAdmin');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const stockRouter = require('./routes/stock');
 
 const app = express();
 
@@ -102,6 +103,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/expandingDivs', expandingdivsRouter);
 app.use('/cardsAdmin', cardsadminRouter);
+app.use('/stock', stockRouter);
 
 
 // catch 404 and forward to error handler
