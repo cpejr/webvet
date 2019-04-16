@@ -47,9 +47,6 @@ router.post('/form',(req,res)=> {
   const { user } = req.body;
 });
 
- console.log(user);
-});
-
 // GET /logout
 router.get('/logout', function(req, res, next) {
 
