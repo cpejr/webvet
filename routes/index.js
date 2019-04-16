@@ -45,6 +45,7 @@ router.post('/login',(req,res)=> {
 
 router.post('/form',(req,res)=> {
   const { user } = req.body;
+});
 
  console.log(user);
 });
