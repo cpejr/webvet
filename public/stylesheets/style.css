@@ -6047,15 +6047,19 @@ a {
   color: #00B7FF; }
 
 .login-box {
-  width: 280px;
+  width: 300px;
+  height: 280px;
   position: absolute;
+  text-align: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #98FB98; }
+  color: #98FB98;
+  border-radius: 10%;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px; }
 
 .login-box h1 {
-  float: left;
   color: white;
   font-size: 40px;
   border-bottom: 4px solid #90EE90;
@@ -6079,8 +6083,7 @@ a {
   outline: none;
   background: none;
   font-size: 18px;
-  width: 80%;
-  float: left;
+  width: 100%;
   margin: 0 10px; }
 
 .btn {
@@ -6094,7 +6097,7 @@ a {
   margin: 12px 0;
   color: #F0FFF0; }
 
-.webkit-input-placeholder {
+.input-placeholder::placeholder {
   color: white; }
 
 /*# sourceMappingURL=style.css.map */
