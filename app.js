@@ -16,6 +16,7 @@ const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const stockRouter = require('./routes/stock');
 
 const app = express();
 

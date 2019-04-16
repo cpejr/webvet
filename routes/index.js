@@ -10,24 +10,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// router.get('/queue', (req, res) => {
-//   res.render('queue', {title:'Queueiii'});
-// });
-
 router.get('/login', (req, res) => {
-  res.render('layouts/login', {title:'Login'});
-});
-
-router.get('/stock/show', (req, res) => {
-  res.render('layouts/show', {title:'Show'});
-});
-
-router.get('/zearalenona', function(req, res, next) {
-  res.render('layouts/zearalenona', {title:'Zearalenona'});
+  res.render('login', {title:'Login'});
 });
 
 router.get('/user', function(req, res, next) {
-  res.render('layouts/user', {title:'User'});
+  res.render('user', {title:'User'});
 });
 
 /**
