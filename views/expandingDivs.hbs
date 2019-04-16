@@ -50,13 +50,5 @@
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script type="text/javascript">
 
-  $(document).ready(function() {
-    $('.expanding').click(function(){
-      target_num = $(this).attr('id').split('-')[1];
-      content_id = '#expandable-'.concat(target_num);
-      $(content_id).slideToggle('fast');
-    });
-  });
-</script>
+<script src="/javascripts/expandingDivs.js"></script>
