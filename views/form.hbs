@@ -1,118 +1,97 @@
 <img src='/images/MicoTox2.jpg' width="100%">
-<div class="signup-box">
+<form class="signup-box"  action="/signup" method="post">
   <div class="signup">
     <h1> Formulário de Cadastro</h1>
-    <form>
+    <div>
+      <div>
         <div class="signup-text col-md-12">
-          <input type="text" name="userSchema[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
+          <input type="text" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
+        </div>
+      </div>
+      <div>
+        <div class="form-row">
+          <div class="signup-text col-md-6">
+            <input type="email" name="user[email]" class="input-placeholder-green" placeholder="Email">
+          </div>
+          <div class="signup-text col-md-3">
+            <input type="text" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular">
+          </div>
+          <div class="signup-text col-md-3">
+            <input type="text" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-row">
+        <div class="form-check form-check-inline">
+          <p>
+            <input class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
+            <label class="form-check-label" name="user[persontype]">CPF</label>
+            <input class="form-check-input position-static" type="radio" name="user[persontype]" value="1">
+            <label class="form-check-label" name="user[persontype]">CNPJ</label>
+          </p>
         </div>
         <div class="signup-text col-md-12">
-          <input type="text" name="userSchema[username]" class="input-placeholder-green" placeholder="Usuário">
+          <input type="text" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ">
         </div>
-    </form>
-    <form>
+      </div>
       <div class="form-row">
         <div class="signup-text col-md-6">
-          <input type="email" name="userSchema[email]" class="input-placeholder-green" placeholder="Email">
+          <input type="text" name="user[address][street]" class="input-placeholder-green" placeholder="Endereço">
         </div>
         <div class="signup-text col-md-3">
-          <input type="text" name="userSchema[cellphone]" class="input-placeholder-green" placeholder="Celular">
+          <input type="text" name="user[address][number]" class="input-placeholder-green" placeholder="Número">
         </div>
         <div class="signup-text col-md-3">
-          <input type="text" name="userSchema[phone]" class="input-placeholder-green" placeholder="Telefone">
+          <input type="text" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
         </div>
       </div>
-    </form>
+      <div>
+          <div class="form-row">
+            <div class="signup-text col-md-6">
+              <label for="user[address][city]">Cidade</label>
+              <input type="text" name="user[address][city]">
+            </div>
+            <div class="signup-text col-md-3">
+              <label for="user[address][state]">Estado</label>
+              <select name="user[address][state]" class="signup-text">
+                <option selected>Escolher...</option>
+                <option>AC</option>
+                <option>AL</option>
+                <option>AP</option>
+                <option>AM</option>
+                <option>BA</option>
+                <option>CE</option>
+                <option>DF</option>
+                <option>GO</option>
+                <option>MA</option>
+                <option>MT</option>
+                <option>MS</option>
+                <option>MG</option>
+                <option>PA</option>
+                <option>PB</option>
+                <option>PR</option>
+                <option>PE</option>
+                <option>PI</option>
+                <option>RJ</option>
+                <option>RN</option>
+                <option>RS</option>
+                <option>RO</option>
+                <option>RR</option>
+                <option>SC</option>
+                <option>SP</option>
+                <option>SE</option>
+                <option>TO</option>
+              </select>
+            </div>
+            <div class="signup-text col-md-3">
+              <label for="user[address][cep]">CEP</label>
+              <input type="text" class="signup-text" name="user[address][cep]">
+            </div>
+          </div>
+        </div>
+      </div>
     <br>
-    <form class="form-row">
-      <div class="form-check form-check-inline">
-        <p>
-          <input class="form-check-input position-static" type="radio" name="userSchema[persontype]" value="0">
-          <label class="form-check-label" name="userSchema[persontype]">CPF</label>
-          <input class="form-check-input position-static" type="radio" name="userSchema[persontype]" value="1">
-          <label class="form-check-label" name="userSchema[persontype]">CNPJ</label>
-        </p>
-      </div>
-      <div class="signup-text col-md-12">
-        <input type="text" name="userSchema[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ">
-      </div>
-    </form>
-    <form class="form-row">
-      <div class="signup-text col-md-6">
-        <input type="text" name="userSchema[adress][street]" class="input-placeholder-green" placeholder="Endereço">
-      </div>
-      <div class="signup-text col-md-3">
-        <input type="text" name="userSchema[adress][number]" class="input-placeholder-green" placeholder="Número">
-      </div>
-      <div class="signup-text col-md-3">
-        <input type="text" name="userSchema[adress][complement]" class="input-placeholder-green" placeholder="Complemento">
-      </div>
-    </form>
-    <form>
-        <div class="form-row">
-          <div class="signup-text col-md-6">
-            <label for="userSchema[adress][city]">Cidade</label>
-            <input type="text" name="userSchema[adress][city]">
-          </div>
-          <div class="signup-text col-md-3">
-            <label for="userSchema[adress][state]">Estado</label>
-            <select name="userSchema[adress][state]" class="signup-text">
-              <option selected>Escolher...</option>
-              <option>AC</option>
-              <option>AL</option>
-              <option>AP</option>
-              <option>AM</option>
-              <option>BA</option>
-              <option>CE</option>
-              <option>DF</option>
-              <option>GO</option>
-              <option>MA</option>
-              <option>MT</option>
-              <option>MS</option>
-              <option>MG</option>
-              <option>PA</option>
-              <option>PB</option>
-              <option>PR</option>
-              <option>PE</option>
-              <option>PI</option>
-              <option>RJ</option>
-              <option>RN</option>
-              <option>RS</option>
-              <option>RO</option>
-              <option>RR</option>
-              <option>SC</option>
-              <option>SP</option>
-              <option>SE</option>
-              <option>TO</option>
-            </select>
-          </div>
-          <div class="signup-text col-md-3">
-            <label for="userSchema[adress][cep]">CEP</label>
-            <input type="text" class="signup-text" name="userSchema[adress][cep]">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="signup-text col-md-6">
-            <label for="userSchema[type][enum]">Tipo</label>
-            <select name="userSchema[type][enum]" class="signup-text">
-              <option selected>Escolher...</option>
-              <option>Administrador</option>
-              <option>Analista</option>
-              <option>Usuário</option>
-            </select>
-          </div>
-          <div class="signup-text col-md-6">
-            <label for="userSchema[usertype][enum]">Tipo de Usuário</label>
-            <select name="userSchema[usertype][enum]" class="signup-text">
-              <option selected>Escolher...</option>
-              <option>Produtor</option>
-              <option>Gerencia</option>
-              <option>Convenio</option>
-            </select>
-          </div>
-        </div>
-      <br>
-      <input type="button" class="btn" value="Sign Up">
-    </form>
+    <button type="submit" class="btn">Sign up</button>
   </div>
-</div>
+</form>

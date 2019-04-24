@@ -6114,7 +6114,7 @@ a {
 .signup {
   width: 700px;
   position: absolute;
-  top: 50%;
+  margin-top: 25em;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #006400; }
@@ -6157,6 +6157,7 @@ a {
 
 .btn {
   width: 700px;
+  height: 40px;
   background: none;
   border: 2px solid #006400;
   padding: 5px;

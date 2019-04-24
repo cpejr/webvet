@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ['Admin', 'Analista', 'Usuário'],
+    default: 'Usuário',
     required: true
   },
   usertype:{
@@ -42,7 +43,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean, //1 for deleted, 0 for not deleted
     default: 0
   }
-});
+}, { timestamps: true, static: false });
 
 const UserModel = mongoose.model('User', userSchema);
 
@@ -82,8 +83,10 @@ class User {
    * @returns {string} - New User Id
    */
   static create(user) {
+    console.log('Entrou no create');
     return new Promise((resolve, reject) => {
       UserModel.create(user).then((result) => {
+        console.log('Criou um usuário');
         resolve(result._id);
       }).catch((err) => {
         reject(err);
@@ -122,3 +125,5 @@ class User {
    });
  }
 }
+
+module.exports = User;
