@@ -17,7 +17,7 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/signup', (req, res) => {
-  res.render('form', {title:'signup'});
+  res.render('form', {title:'signup', layout:'layout'});
 });
 
 router.get('/user', function(req, res, next) {

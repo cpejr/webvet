@@ -1,14 +1,11 @@
 <img src='/images/MicoTox2.jpg' width="100%">
 <form class="signup-box"  action="/signup" method="post">
-  <div class="signup">
+  <main class="signup">
     <h1> Formulário de Cadastro</h1>
     <div>
-      <div>
         <div class="signup-text col-md-12">
           <input type="text" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
         </div>
-      </div>
-      <div>
         <div class="form-row">
           <div class="signup-text col-md-6">
             <input type="email" name="user[email]" class="input-placeholder-green" placeholder="Email">
@@ -20,7 +17,9 @@
             <input type="text" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
           </div>
         </div>
-      </div>
+        <div class="signup-text col-md-12">
+          <input type="password" name="user[password]" class="input-placeholder-green" placeholder="Senha">
+        </div>
       <br>
       <div class="form-row">
         <div class="form-check form-check-inline">
@@ -93,5 +92,5 @@
       </div>
     <br>
     <button type="submit" class="btn">Sign up</button>
-  </div>
+  </main>
 </form>
