@@ -124,25 +124,28 @@ header
   cursor: pointer
   text-align: left
 
-.dashboard-sidebar
-  height: 100%
-  width: 18%
-  position: absolute
-  z-index: 0
-  left: 0
-  background-color: $color5
-  overflow-x: hidden
 
-.dashboard-sidebar a
-  padding: 10px 10px 10px 10px
-  text-decoration: none
-  font-size: 25px
-  color: $color3
-  display: block
+@media screen and (min-width: 601px)
+  .dashboard-sidebar
+    height: 100%
+    width: 18%
+    top: 9.5%
+    position: fixed
+    z-index: 1
+    left: 0
+    background-color: $color5
+    overflow-x: hidden
 
-.dashboard-sidebar a:hover
-  color: $color5
-  background: $color4
+  .dashboard-sidebar a
+    padding: 10px 10px 10px 10px
+    text-decoration: none
+    font-size: 25px
+    color: $color3
+    display: block
+
+  .dashboard-sidebar a:hover
+    color: $color5
+    background: $color4
 
 .dashboard-content
   width: 100%
@@ -150,12 +153,15 @@ header
   word-wrap: break-word
   background: #FFFFFF
   font-family: Raleway, sans-serif
+  position: sticky
+  position: -webkit-sticky
+  top: 0
+  z-index: 1
 
 .dashboard-header
   width: 100%
   position: relative
   background: #FFFFFF
-  z-index: 1
 
 .dashboard-header-nav
   min-height: 64px
@@ -164,10 +170,28 @@ header
   box-sizing: border-box
   background: $color2
 
+
 .dashboard-menu-button
   font-size: 29px
   color: #FFFFFF
-  padding: 12px 19px
+
+.dashboard-hamburguer
+  display: none
+
+@media screen and (max-width: 600px)
+  .dashboard-hamburguer
+    display: block
+    left: 10px
+    color: $color5
+    position: absolute
+    cursor: pointer
+
+  .dashboard-sidebar
+    transition: all 2s linear
+    display: block
+
+.fa-bars
+  color: $color1
 
 .dashboard-container
   padding: 10px 10px 10px 10px
@@ -336,3 +360,70 @@ header
   padding-top: 40px
   padding-left: 60px
 
+
+.card
+  display: inline-block
+  width: 30%
+  vertical-align: top
+  li
+    box-sizing: border-box
+    color: #FFFFFF
+    cursor: pointer
+    font-size: 13px
+    padding: 15px 16px
+    position: relative
+    .icon
+      position: absolute
+      left: 10px
+    &:before
+      content: ""
+      height: 100%
+      left: -1px
+      opacity: 0
+      position: absolute
+      top: 0
+      width: 4px
+    &:hover
+        background-color: #FFFFFF
+        color: $color5
+        &:before
+          opacity: 1
+  .hidden-content
+    border-top: 1px solid #FFFFFF
+    .show-more
+      border-top: 1px solid #FFFFFF
+      color: $color5
+      font-size: 12px
+      padding: 8px 15px
+      text-align: right
+      .fa
+        font-size: 12px
+        margin-left: 5px
+        &:before
+          content: none
+    .tabs
+      position: relative
+      li
+        background: transparent
+        border: 0
+        border-radius: 3px 3px 0 0
+        box-sizing: border-box
+        color: #FFFFFF
+        cursor: pointer
+        display: inline-block
+        font-size: 12px
+        padding: 10px
+        text-align: center
+        text-transform: uppercase
+        width: 50%
+        span
+          display: block
+          font-size: 34px
+          font-weight: bold
+          margin-bottom: 5px
+        &.active
+          background-color: white
+          border: 1px solid #FFFFFF
+          border-bottom: 0
+    + .card
+      margin-left: 5%
