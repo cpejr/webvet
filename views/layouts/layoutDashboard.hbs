@@ -4,6 +4,7 @@
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="/stylesheets/jkanban.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content ="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   </head>
@@ -16,13 +17,15 @@
      <div class="dashboard-header">
        <div class="dashboard-header-nav">
         <div class="dashboard-menu-button">
-
+          <a href="javascript:void(0);" class="icon dashboard-hamburguer" onclick="abrirMenu()">
+            <i class="fa fa-2x fa-bars"></i>
+          </a>
         </div>
        </div>
      </div>
     </section>
 
-    <div class="dashboard-sidebar">
+    <div class="dashboard-sidebar" id="menu">
       <a href="#">About</a>
       <a href="#">Services</a>
       <a href="#">Clients</a>
@@ -33,5 +36,6 @@
     <div class="dashboard-container">
       {{{body}}}
     </div>
+
   </body>
 </html>

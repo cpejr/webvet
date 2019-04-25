@@ -3,8 +3,7 @@ const mycotoxin1 = new jKanban({
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
-    alert(el.innerHTML);
-    alert(el.dataset.eid)
+    window.location.href = "requisition/show";
   },
   boards  : [
     {

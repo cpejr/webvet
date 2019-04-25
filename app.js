@@ -16,6 +16,7 @@ const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const requisitionShowRouter = require('./routes/requisitionShow');
 
 const app = express();
 
@@ -104,6 +105,7 @@ app.use('/users', usersRouter);
 app.use('/expandingDivs', expandingdivsRouter);
 app.use('/cardsAdmin', cardsadminRouter);
 app.use('/queue', queueRouter);
+app.use('/requisition/show', requisitionShowRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
