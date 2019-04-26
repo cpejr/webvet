@@ -47,12 +47,29 @@ router.post('/login',(req,res)=> {
 router.post('/signup',(req,res)=> {
   const { user } = req.body;
   console.log(user);
-  User.create(user).then((id) => {
-    console.log(`Created new user with id: ${id}`);
-    req.flash('success', 'Cadastrado com sucesso. Aguarde aprovação');
-    res.redirect('/login');
+  firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then((userF) => {
+    userF.uid = user.uid;
+    console.log('ATE AQUI OK');
+    User.create(user).then((id) => {
+      req.session.fullname = user.fullname;
+      req.session.persontype = user.persontype;
+      req.session.register = user.register;
+      req.session.address.cep = user.address.cep;
+      req.session.address.street = user.address.street;
+      req.session.address.number = user.address.number;
+      req.session.address.complement = user.address.complement;
+      req.session.address.city = user.address.city;
+      req.session.address.state = user.address.state;
+      req.session.email = user.email;
+      req.session.phone = user.phone;
+      req.session.cellphone = user.cellphone;
+      console.log(`Created new user with id: ${id}`);
+      req.flash('success', 'Cadastrado com sucesso. Aguarde aprovação');
+  });
   }).catch((error) => {
     // Handle Errors here.
+    console.log('Ta dando erro');
+    res.redirect('login');
     var errorCode = error.code;
     var errorMessage = error.message;
     // ...

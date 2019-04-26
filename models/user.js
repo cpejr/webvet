@@ -5,14 +5,14 @@ const userSchema = new mongoose.Schema({
   persontype: Boolean, // 0 = pessoa fisica, 1 = pessoa juridica
   fullName: String,
   register: {
-    type: Number,   //CPF ou CNPJ
-    unique: true
+    type: Number   //CPF ou CNPJ
+    //unique: true
   },
   type: {
     type: String,
     enum: ['Admin', 'Analista', 'Usuário'],
-    default: 'Usuário',
-    required: true
+    default: 'Usuário'
+    //required: true
   },
   usertype:{
     type: String,
@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    lowercase: true,
-    unique: true
+    lowercase: true
+    //unique: true
   },
   phone: String,
   cellphone: String,
@@ -42,6 +42,9 @@ const userSchema = new mongoose.Schema({
   deleted: {
     type: Boolean, //1 for deleted, 0 for not deleted
     default: 0
+  },
+  uid: {
+    type: String
   }
 }, { timestamps: true, static: false });
 
