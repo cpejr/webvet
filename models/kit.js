@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const kitSchema = new mongoose.Schema({
   kitId: String,
   lot: String,
-  moveDate: Date,
-  expirationDate: Date,
+  moveDate: String,
+  expirationDate: String,
   stdLevel: Number,
   Lod: Number,
   LoQ: Number,
