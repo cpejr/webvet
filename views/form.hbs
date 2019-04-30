@@ -1,6 +1,96 @@
-<h1> Formulário de Cadastro</h1>
-  <form>
-    <div class="col">
-      <input type="text" name="fullname" class="form-control" placeholder="Nome Completo">
-    </div>
-  </form>
+<img src='/images/MicoTox2.jpg' width="100%">
+<form class="signup-box" action="/signup" method="post">
+  <main class="signup">
+    <h1> Formulário de Cadastro</h1>
+    <div>
+        <div class="signup-text col-md-12">
+          <input type="text" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
+        </div>
+        <div class="form-row">
+          <div class="signup-text col-md-6">
+            <input type="email" name="user[email]" class="input-placeholder-green" placeholder="Email">
+          </div>
+          <div class="signup-text col-md-3">
+            <input type="text" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular">
+          </div>
+          <div class="signup-text col-md-3">
+            <input type="text" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
+          </div>
+        </div>
+        <div class="signup-text col-md-12">
+          <input type="password" name="user[password]" class="input-placeholder-green" placeholder="Senha">
+        </div>
+      <br>
+      <div class="form-row">
+        <div class="form-check form-check-inline">
+          <p>
+            <input class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
+            <label class="form-check-label">CPF</label>
+            <input class="form-check-input position-static" type="radio" name="user[persontype]" value="1">
+            <label class="form-check-label">CNPJ</label>
+          </p>
+        </div>
+        <div class="signup-text col-md-12">
+          <input type="text" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="signup-text col-md-6">
+          <input type="text" name="user[address][street]" class="input-placeholder-green" placeholder="Endereço">
+        </div>
+        <div class="signup-text col-md-3">
+          <input type="text" name="user[address][number]" class="input-placeholder-green" placeholder="Número">
+        </div>
+        <div class="signup-text col-md-3">
+          <input type="text" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
+        </div>
+      </div>
+      <div>
+          <div class="form-row">
+            <div class="signup-text col-md-6">
+              <label for="user[address][city]">Cidade</label>
+              <input type="text" name="user[address][city]">
+            </div>
+            <div class="signup-text col-md-3">
+              <label for="user[address][state]">Estado</label>
+              <select name="user[address][state]" class="signup-text">
+                <option selected>Escolher...</option>
+                <option>AC</option>
+                <option>AL</option>
+                <option>AP</option>
+                <option>AM</option>
+                <option>BA</option>
+                <option>CE</option>
+                <option>DF</option>
+                <option>GO</option>
+                <option>MA</option>
+                <option>MT</option>
+                <option>MS</option>
+                <option>MG</option>
+                <option>PA</option>
+                <option>PB</option>
+                <option>PR</option>
+                <option>PE</option>
+                <option>PI</option>
+                <option>RJ</option>
+                <option>RN</option>
+                <option>RS</option>
+                <option>RO</option>
+                <option>RR</option>
+                <option>SC</option>
+                <option>SP</option>
+                <option>SE</option>
+                <option>TO</option>
+              </select>
+            </div>
+            <div class="signup-text col-md-3">
+              <label for="user[address][cep]">CEP</label>
+              <input type="text" class="signup-text" name="user[address][cep]">
+            </div>
+          </div>
+        </div>
+      </div>
+    <br>
+    <button type="submit" class="btn">Sign up</button>
+  </main>
+</form>

@@ -1,25 +1,31 @@
 var express = require('express');
 var firebase = require('firebase');
+const User = require('../models/user');
 var router = express.Router();
 const User = require('../models/user');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
 
+
+router.get('/queue', (req, res) => {
+  res.render('queue', { title: 'Queue' });
+});
+
 router.get('/login', (req, res) => {
-  res.render('login', {title:'Login'});
+  res.render('login', { title: 'Login' });
 });
 
-router.get('/form', (req, res) => {
-  res.render('form', {title:'Form'});
+router.get('/signup', (req, res) => {
+  res.render('form', { title: 'signup', layout: 'layout' });
 });
 
-router.get('/user', function(req, res, next) {
-  res.render('user', {title:'User'});
+router.get('/user', (req, res) => {
+  res.render('user', { title: 'User' });
 });
 
 /**
@@ -38,15 +44,38 @@ router.post('/login',(req,res)=> {
      // ...
    });
 });
-//get /logout
 
-router.get('/logout',(req,res) => {
-    firebase.auth().signOut().then(function() {
-      console.log('Signed Out');
+router.post('/signup', (req, res) => {
+  const { user } = req.body;
+  console.log(user);
+  firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then((userF) => {
+    user.uid = userF.uid;
+    User.create(user).then((id) => {
+      console.log(`Created new user with id: ${id}`);
+      req.flash('success', 'Cadastrado com sucesso. Aguarde aprovação');
       res.redirect('/login');
-    }, function(error) {
-      console.error('Sign Out Error', error);
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
     });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+// GET /logout
+router.get('/logout', (req, res, next) => {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function(err) {
+      if(err) {
+        return next(err);
+      } else {
+        return res.redirect('/login');
+      }
+    });
+  }
 });
 
 

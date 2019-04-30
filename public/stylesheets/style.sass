@@ -1,11 +1,36 @@
 @import ../bootstrap/scss/bootstrap.scss
+  
+$color1: #113619
+$color2 : #3DC95F
+$color3: #F7FCF2
+$color4 : #708074
+$color5: #2B2B2B
 
+body
+  padding: 0px
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  text-align: center
+  width: 100%
+  overflow-x: hidden
+  margin: 0px
+
+a
+  color: #00B7FF
+  text-decoration: none
+
+header
+  display: block
+  
+  
 .login-box
   width: 300px
   height: 280px
   position: absolute
+
+  top: 60%
   text-align: center
   top: 50%
+
   left: 50%
   transform: translate(-50%,-50%)
   color: #98FB98
@@ -51,29 +76,85 @@
   margin: 12px 0
   color: #F0FFF0
 
+.box input[type = "submit"]:hover
+  background: #006400
+
+.form
+  padding-left: 35px
+  background-image: "../images/planta.jpg"
+
+
+.signup
+  width: 700px
+  position: absolute
+  margin-top: 25em
+  left: 50%
+  transform: translate(-50%,-50%)
+  color: 	#006400
+
+.signup h1
+  font-size: 20px
+  border-bottom: 4px solid #006400
+  margin-bottom: 20px
+  margin-top: 90px
+  padding: 13px 0
+
+.signup-text
+  width: 100%
+  overflow: hidden
+  font-size: 18px
+  padding: 8px 0
+  margin: 8px 0
+  border-bottom: 1px solid 	#006400
+
+.signup-text input
+  border: none
+  outline: none
+  background: none
+  padding: 0px
+  overflow: hidden
+  font-size: 17px
+  width: 100%
+  float: left
+  margin: 0 10px
+
+.signup-text select
+  border: none
+  outline: none
+  background: none
+  color: 	#006400
+  font-size: 17px
+  width: 100%
+  float: left
+  margin: 0 10px
+
+.btn
+  width: 700px
+  height: 40px
+  background: none
+  border: 2px solid #006400
+  padding: 5px
+  font-size: 18px
+  cursor: pointer
+  margin: 12px 0
+  margin-bottom: 50px
+  color: 	#006400
+
+.signup-box
+  width: 800px
+  height: 800px
+  position: absolute
+  top: 45%
+  left: 50%
+  transform: translate(-50%,-50%)
+  box-sizing: border-box
+  background: rgba(255, 255, 255, 0.5)
+
+  .input-placeholder-green::placeholder
+    color: #006400
+
 .input-placeholder::placeholder
   color: white
-
-$color1: #113619
-$color2 : #3DC95F
-$color3: #F7FCF2
-$color4 : #708074
-$color5: #2B2B2B
-
-body
-  padding: 0px
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
-  text-align: center
-  width: 100%
-  overflow-x: hidden
-  margin: 0px
-
-a
-  color: #00B7FF
-  text-decoration: none
-
-header
-  display: block
 
 .login
   height: 100vh
@@ -386,3 +467,4 @@ header
   text-align: left
   padding-top: 40px
   padding-left: 60px
+
