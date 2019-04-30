@@ -27,12 +27,9 @@ router.get('/user', function(req, res, next) {
  */
 
 router.post('/login',(req,res)=> {
-  const { email } = req.body.user;
-  const { password } = req.body.user;
-
-  firebase.auth().signInWithEmailAndPassword(email, password).then((userID) => {
-    firebase.auth().signInWithEmailAndPassword(user.email, user.password).then((userID) => {
-    /* console.log(userID);*/
+  const userData  = req.body.user;
+    firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
+    console.log(userID);
      res.redirect('/user');
    }).catch(function(error) {
      // Handle Errors here.
@@ -40,7 +37,6 @@ router.post('/login',(req,res)=> {
      var errorMessage = error.message;
      // ...
    });
-  });
 });
 //get /logout
 
