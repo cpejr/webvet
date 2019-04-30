@@ -1,14 +1,14 @@
 var express = require('express');
 var firebase = require('firebase');
 var router = express.Router();
+const firebase = require('firebase');
+const User = require('../models/user');
+const Kit = require('../models/kit');
+const Mycotoxin = require('../models/mycotoxin');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
-});
-
-router.get('/queue', (req, res) => {
-  res.render('queue', {title:'Queue'});
 });
 
 router.get('/login', (req, res) => {
@@ -33,6 +33,11 @@ router.post('/login',(req,res)=> {
 
   firebase.auth().signInWithEmailAndPassword(email, password).then((userID) => {
 
+<<<<<<< HEAD
+=======
+  firebase.auth().signInWithEmailAndPassword(user.email, user.password).then((userID) => {
+
+>>>>>>> master
   /* console.log(userID);*/
    res.redirect('/user');
  }).catch(function(error) {
