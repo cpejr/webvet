@@ -1,6 +1,5 @@
 var express = require('express');
 var firebase = require('firebase');
-const User = require('../models/user');
 var router = express.Router();
 const User = require('../models/user');
 const Kit = require('../models/kit');
