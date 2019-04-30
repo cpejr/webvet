@@ -1,22 +1,20 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: String,
+  // username: String,
   persontype: Boolean, // 0 = pessoa fisica, 1 = pessoa juridica
-  fullName: String,
+  fullname: String,
+  uid: {
+    type: String
+  },
   register: {
-    type: Number   //CPF ou CNPJ
-    //unique: true
+    type: String // CPF ou CNPJ
+    // unique: true
   },
   type: {
     type: String,
-    enum: ['Admin', 'Analista', 'Usuário'],
-    default: 'Usuário'
-    //required: true
-  },
-  usertype:{
-    type: String,
-    enum: ['Produtor', 'Gerencia', 'Convenio'],
+    enum: ['Admin', 'Analista', 'Produtor', 'Gerencia', 'Convenio'],
+    default: 'Produtor'
   },
   address: {
     cep: Number,
@@ -29,7 +27,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     lowercase: true
-    //unique: true
+    // unique: true
   },
   phone: String,
   cellphone: String,
@@ -40,11 +38,8 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   deleted: {
-    type: Boolean, //1 for deleted, 0 for not deleted
+    type: Boolean, // 1 for deleted, 0 for not deleted
     default: 0
-  },
-  uid: {
-    type: String
   }
 }, { timestamps: true, static: false });
 
@@ -86,10 +81,8 @@ class User {
    * @returns {string} - New User Id
    */
   static create(user) {
-    console.log('Entrou no create');
     return new Promise((resolve, reject) => {
       UserModel.create(user).then((result) => {
-        console.log('Criou um usuário');
         resolve(result._id);
       }).catch((err) => {
         reject(err);
@@ -118,15 +111,15 @@ class User {
   * @param {string} id - User Id
   * @returns {null}
   */
- static delete(id) {
-   return new Promise((resolve, reject) => {
-     UserModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
-       resolve();
-     }).catch((err) => {
-       reject(err);
-     });
-   });
- }
+  static delete(id) {
+    return new Promise((resolve, reject) => {
+      UserModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
+        resolve();
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 module.exports = User;
