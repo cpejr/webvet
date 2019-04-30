@@ -2,11 +2,15 @@ var express = require('express');
 var firebase = require('firebase');
 const User = require('../models/user');
 var router = express.Router();
+const User = require('../models/user');
+const Kit = require('../models/kit');
+const Mycotoxin = require('../models/mycotoxin');
 
 /* GET home page. */
 router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
+
 
 router.get('/queue', (req, res) => {
   res.render('queue', { title: 'Queue' });
@@ -27,19 +31,18 @@ router.get('/user', (req, res) => {
 /**
  * POST LOGIN
  */
-router.post('/login', (req, res) => {
-  const { email } = req.body.user;
-  const { password } = req.body.user;
 
-  firebase.auth().signInWithEmailAndPassword(user.email, user.password).then((userID) => {
-    console.log('Logou o usuário');
-    res.redirect('/user');
-  }).catch((error) => {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // ...
-  });
+router.post('/login',(req,res)=> {
+  const userData  = req.body.user;
+    firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
+    console.log(userID);
+     res.redirect('/user');
+   }).catch(function(error) {
+     // Handle Errors here.
+     var errorCode = error.code;
+     var errorMessage = error.message;
+     // ...
+   });
 });
 
 router.post('/signup', (req, res) => {
@@ -74,6 +77,7 @@ router.get('/logout', (req, res, next) => {
     });
   }
 });
+
 
 
 module.exports = router;

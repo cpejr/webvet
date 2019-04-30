@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+
   // username: String,
   persontype: Boolean, // 0 = pessoa fisica, 1 = pessoa juridica
   fullname: String,
@@ -15,6 +16,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['Admin', 'Analista', 'Produtor', 'Gerencia', 'Convenio'],
     default: 'Produtor'
+
   },
   address: {
     cep: Number,
@@ -26,8 +28,10 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+
     lowercase: true
     // unique: true
+
   },
   phone: String,
   cellphone: String,
@@ -37,10 +41,12 @@ const userSchema = new mongoose.Schema({
     default: 'Aguardando aprovação',
     required: true
   },
+
   deleted: {
     type: Boolean, // 1 for deleted, 0 for not deleted
     default: 0
   }
+
 }, { timestamps: true, static: false });
 
 const UserModel = mongoose.model('User', userSchema);
@@ -111,15 +117,115 @@ class User {
   * @param {string} id - User Id
   * @returns {null}
   */
+
   static delete(id) {
     return new Promise((resolve, reject) => {
       UserModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
         resolve();
+     }).catch((err) => {
+       reject(err);
+     });
+   });
+ }
+
+  /**
+   * Get a User by it's uid
+   * @param {string} id - User Uid
+   * @returns {Object} - User Document Data
+   */
+  static getByUid(id) {
+    return new Promise((resolve, reject) => {
+      UserModel.findOne({ uid: id }).exec().then((result) => {
+        resolve(result);
       }).catch((err) => {
         reject(err);
       });
     });
   }
+  /**
+  * Add Producer to associatedProducers
+  * @param {string} id - User Id
+  * @param {string} user - User Id
+  * @returns {null}
+  */
+ static addProducer(id, user) {
+   return new Promise((resolve, reject) => {
+     UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user } }).catch((err) => {
+       reject(err);
+     });
+   });
+ }
+
+  /**
+   * Remove Producer from associatedProducers
+   * @param {string} id - User Id
+   * @param {string} user - User Id
+   * @returns {null}
+   */
+  static removeProducer(id, user) {
+    return new Promise((resolve, reject) => {
+      UserModel.findByIdAndUpdate(id, { $pull: { associatedProducers: user } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
+  * Add Manager to associatedManagement
+  * @param {string} id - User Id
+  * @param {string} user - User Id
+  * @returns {null}
+  */
+ static addProducer(id, user) {
+   return new Promise((resolve, reject) => {
+     UserModel.findByIdAndUpdate(id, { $push: { associatedManagement: user } }).catch((err) => {
+       reject(err);
+     });
+   });
+ }
+
+  /**
+   * Remove Manager from associatedProducers
+   * @param {string} id - User Id
+   * @param {string} user - User Id
+   * @returns {null}
+   */
+  static removeProducer(id, user) {
+    return new Promise((resolve, reject) => {
+      UserModel.findByIdAndUpdate(id, { $pull: { associatedManagement: user } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
+  * Add covenant to associatedCovenants
+  * @param {string} id - User Id
+  * @param {string} user - User Id
+  * @returns {null}
+  */
+ static addProducer(id, user) {
+   return new Promise((resolve, reject) => {
+     UserModel.findByIdAndUpdate(id, { $push: { associatedCovenants: user } }).catch((err) => {
+       reject(err);
+     });
+   });
+ }
+
+  /**
+   * Remove covenant from associatedCovenants
+   * @param {string} id - User Id
+   * @param {string} user - User Id
+   * @returns {null}
+   */
+  static removeProducer(id, user) {
+    return new Promise((resolve, reject) => {
+      UserModel.findByIdAndUpdate(id, { $pull: { associatedCovenants: user } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
 }
 
 module.exports = User;
