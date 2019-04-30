@@ -1,7 +1,6 @@
 var express = require('express');
 var firebase = require('firebase');
 var router = express.Router();
-const firebase = require('firebase');
 const User = require('../models/user');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
@@ -32,22 +31,17 @@ router.post('/login',(req,res)=> {
   const { password } = req.body.user;
 
   firebase.auth().signInWithEmailAndPassword(email, password).then((userID) => {
-
-<<<<<<< HEAD
-=======
-  firebase.auth().signInWithEmailAndPassword(user.email, user.password).then((userID) => {
-
->>>>>>> master
-  /* console.log(userID);*/
-   res.redirect('/user');
- }).catch(function(error) {
-   // Handle Errors here.
-   var errorCode = error.code;
-   var errorMessage = error.message;
-   // ...
- });
+    firebase.auth().signInWithEmailAndPassword(user.email, user.password).then((userID) => {
+    /* console.log(userID);*/
+     res.redirect('/user');
+   }).catch(function(error) {
+     // Handle Errors here.
+     var errorCode = error.code;
+     var errorMessage = error.message;
+     // ...
+   });
+  });
 });
-
 //get /logout
 
 router.get('/logout',(req,res) => {
