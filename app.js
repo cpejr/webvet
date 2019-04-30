@@ -11,12 +11,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const firebase = require('firebase');
 
-const cardsadminRouter = require('./routes/cardsAdmin');
-const queueRouter = require('./routes/queue');
-const expandingdivsRouter = require('./routes/expandingDivs');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const stockRouter = require('./routes/stock');
+
 
 const app = express();
 
@@ -42,6 +39,7 @@ const config = {
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
 };
 firebase.initializeApp(config);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -102,9 +100,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/expandingDivs', expandingdivsRouter);
-app.use('/cardsAdmin', cardsadminRouter);
-app.use('/queue', queueRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

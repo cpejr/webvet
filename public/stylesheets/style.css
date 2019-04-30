@@ -6053,65 +6053,59 @@ a {
 header {
   display: block; }
 
-.login {
-  height: 100vh;
-  width: 100vh;
-  background: #2F4F4F;
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); }
-
-.box {
+.login-box {
   width: 300px;
-  padding: 40px;
+  height: 280px;
   position: absolute;
+  text-align: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #000000;
+  color: #98FB98;
+  border-radius: 10%;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px; }
+
+.login-box h1 {
+  color: white;
+  font-size: 40px;
+  border-bottom: 4px solid #90EE90;
+  margin-bottom: 13px 0; }
+
+.textbox {
+  width: 100%;
+  overflow: hidden;
+  font-size: 20px;
+  padding: 8px 0;
+  margin: 8px 0;
+  border-bottom: 2px solid #F0FFF0; }
+
+.textbox i {
+  width: 26px;
+  float: left;
   text-align: center; }
 
-.box h1 {
-  color: white;
-  text-transform: uppercase;
-  font-weight: 500; }
-
-.box input[type="email"], .box input[type="password"] {
-  border: 0;
-  background: none;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  border: 2px solid #00FA9A;
-  padding: 14px 10px;
-  width: 200px;
+.textbox input {
+  border: none;
   outline: none;
-  color: white;
-  border-radius: 24px;
-  transition: 0.25s; }
-
-.box input[type="email"]:focus, .box input[type="password"]:focus {
-  width: 220px;
-  border-color: #00FF00; }
-
-.box input[type="submit"] {
-  border: 0;
   background: none;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  border: 2px solid #00FF00;
-  padding: 14px 40px;
-  outline: none;
-  color: white;
-  border-radius: 24px;
-  transition: 0.25s;
-  cursor: pointer; }
+  font-size: 18px;
+  width: 100%;
+  margin: 0 10px; }
 
-.box input[type="submit"]:hover {
-  background: #00FF00; }
+.btn {
+  width: 100%;
+  background: none;
+  border: 2px solid #90EE90;
+  color: black;
+  padding: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 12px 0;
+  color: #F0FFF0; }
+
+.input-placeholder::placeholder {
+  color: white; }
 
 .expanding-div {
   box-sizing: border-box;

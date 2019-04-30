@@ -1,4 +1,5 @@
 var express = require('express');
+var firebase = require('firebase');
 var router = express.Router();
 const firebase = require('firebase');
 const User = require('../models/user');
@@ -14,6 +15,10 @@ router.get('/login', (req, res) => {
   res.render('login', {title:'Login'});
 });
 
+router.get('/form', (req, res) => {
+  res.render('form', {title:'Form'});
+});
+
 router.get('/user', function(req, res, next) {
   res.render('user', {title:'User'});
 });
@@ -23,10 +28,16 @@ router.get('/user', function(req, res, next) {
  */
 
 router.post('/login',(req,res)=> {
-  const user = req.body.user;
+  const { email } = req.body.user;
+  const { password } = req.body.user;
 
+  firebase.auth().signInWithEmailAndPassword(email, password).then((userID) => {
+
+<<<<<<< HEAD
+=======
   firebase.auth().signInWithEmailAndPassword(user.email, user.password).then((userID) => {
 
+>>>>>>> master
   /* console.log(userID);*/
    res.redirect('/user');
  }).catch(function(error) {
@@ -36,5 +47,18 @@ router.post('/login',(req,res)=> {
    // ...
  });
 });
+
+//get /logout
+
+router.get('/logout',(req,res) => {
+    firebase.auth().signOut().then(function() {
+      console.log('Signed Out');
+      res.redirect('/login');
+    }, function(error) {
+      console.error('Sign Out Error', error);
+    });
+});
+
+
 
 module.exports = router;
