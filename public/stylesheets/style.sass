@@ -128,15 +128,13 @@ header
 
 .navbar
   background-color: $color2
-  height: 10vh
-
+  height: 65px
 
 li
   list-style-type: none
 
 .nav-pills > li > a
   border-radius: 0
-
 
 .fa-bars
   color: $color1
@@ -165,7 +163,9 @@ li
   position: absolute
 
 #dashboard-user
-  color: $color2
+  color: $color5
+  right: 5%
+  position: absolute
 
 #wrapper
   padding-left: 0
@@ -256,7 +256,10 @@ li
 .no-margin
   margin: 0
 
-@media (max-width: 600px)
+#dashboard-user
+  font-size: 0.9em
+
+@media (max-width: 768px)
   #wrapper.toggled #sidebar-wrapper
     width: 100vw
 
@@ -265,9 +268,12 @@ li
     position: relative
 
   #dashboard-phone
-    font-size: 0.9em
+    display: none
 
-@media (min-width: 601px)
+  #dashboard-user
+    right: 20%
+
+@media (min-width: 769px)
   #wrapper
     padding-left: 250px
 
@@ -312,6 +318,25 @@ li
     transition: all 0.5s ease
     width: auto
 
+//USERS PAGE
+
+@media (max-width: 360px)
+  #tb-user
+    width: 90vw
+
+  .th-action
+    width: 40vw
+
+@media (max-width: 470px)
+  .th-action
+    width: 50vw
+
+@media (max-width: 321px)
+  .th-action
+    width: 10vw
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th
+   background-color: $color3
 
 //CARDS-MYCOTOXINS
 

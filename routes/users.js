@@ -1,21 +1,12 @@
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
+var mongoose = require('mongodb');
 
-/* GET users listing. */
+/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.render('users', { title: 'Usuários', layout: 'layoutDashboard.hbs' });
+  
 });
 
-router.get('/queue', function(req, res, next) {
-  res.render('queue', {title:'queue'});
-});
-
-router.get('/login', function(req, res, next) {
-  res.render('login', {title:'Login'});
-});
-
-router.get('/user', function(req, res, next) {
-  res.render('user', {title:'User'});
-});
 
 module.exports = router;
