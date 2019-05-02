@@ -6053,6 +6053,119 @@ a {
 header {
   display: block; }
 
+.login-box {
+  width: 300px;
+  height: 280px;
+  position: absolute;
+  top: 60%;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #98FB98;
+  border-radius: 10%;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px; }
+
+.login-box h1 {
+  color: white;
+  font-size: 40px;
+  border-bottom: 4px solid #90EE90;
+  margin-bottom: 13px 0; }
+
+.textbox {
+  width: 100%;
+  overflow: hidden;
+  font-size: 20px;
+  padding: 8px 0;
+  margin: 8px 0;
+  border-bottom: 2px solid #F0FFF0; }
+
+.textbox i {
+  width: 26px;
+  float: left;
+  text-align: center; }
+
+.textbox input {
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 18px;
+  width: 100%;
+  margin: 0 10px; }
+
+.btn-login {
+  background: none;
+  border: 2px solid #006400;
+  margin-bottom: 50px;
+  color: #006400; }
+
+.box input[type="submit"]:hover {
+  background: #006400; }
+
+.form {
+  padding-left: 35px;
+  background-image: "../images/planta.jpg"; }
+
+.signup {
+  width: 700px;
+  position: absolute;
+  margin-top: 25em;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #006400; }
+
+.signup h1 {
+  font-size: 20px;
+  border-bottom: 4px solid #006400;
+  margin-bottom: 20px;
+  margin-top: 90px;
+  padding: 13px 0; }
+
+.signup-text {
+  width: 100%;
+  overflow: hidden;
+  font-size: 18px;
+  padding: 8px 0;
+  margin: 8px 0;
+  border-bottom: 1px solid 	#006400; }
+
+.signup-text input {
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0px;
+  overflow: hidden;
+  font-size: 17px;
+  width: 100%;
+  float: left;
+  margin: 0 10px; }
+
+.signup-text select {
+  border: none;
+  outline: none;
+  background: none;
+  color: #006400;
+  font-size: 17px;
+  width: 100%;
+  float: left;
+  margin: 0 10px; }
+
+.signup-box {
+  width: 800px;
+  height: 800px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.5); }
+  .signup-box .input-placeholder-green::placeholder {
+    color: #006400; }
+
+.input-placeholder::placeholder {
+  color: white; }
+
 .login {
   height: 100vh;
   width: 100vh;
@@ -6476,8 +6589,8 @@ li {
 .showstock {
   background: #77c06a;
   width: 1660px;
-  height: 1500px;
-  position: absolute;
+  height: 1800px;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -6485,12 +6598,10 @@ li {
 
 .showbox {
   width: 660px;
-  padding: 02px;
   height: 500px;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 52%;
+  left: 22%;
   background: white;
   text-align: center;
   box-shadow: 0px 0px 29px rgba(27, 27, 10, 0.6);
@@ -6499,7 +6610,6 @@ li {
 
 .showboxinfo {
   text-align: left;
-  position: absolute;
   padding-top: 40px;
   padding-left: 60px; }
 
@@ -6569,5 +6679,4 @@ li {
           border-bottom: 0; }
     .card .hidden-content + .card {
       margin-left: 5%; }
-
 /*# sourceMappingURL=style.css.map */
