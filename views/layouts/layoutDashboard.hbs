@@ -3,34 +3,90 @@
   <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/jkanban.min.css">
     <link rel="stylesheet" href="../public/font-awesome/css/font-awesome.min.css">
     <meta name="viewport" content ="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   </head>
   <body>
     <script src="/javascripts/jquery.js" charset="utf-8"></script>
     <script src="/javascripts/vue.js"></script>
     <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
+    <script src="/javascripts/jkanban.min.js" charset="utf-8"></script>
 
-    <section class="dashboard-content">
-     <div class="dashboard-header">
-       <div class="dashboard-header-nav">
-        <div class="dashboard-menu-button">
+    <nav class="navbar navbar-default no-margin">
+      <div class="navbar-header fixed-brand">
+        <button class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
+          <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
+        </button>
+      </div>
 
-        </div>
-       </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2">
+              <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div id="dashboard-phone">
+        <p>(31) 3409-2113 </p>
+        <p>(31) 3409-2115 </p>
+      </div>
+
+      <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i> Usuário</a></div>
+      <button type="button" id="dashboard-logout" class="btn btn-primary btn-sm">Logout</button>
+    </nav>
+
+    <div id="wrapper">
+      <div id="sidebar-wrapper">
+         <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+            <li class="active">
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
+            </li>
+
+            <li>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Shortcut</a>
+            </li>
+
+            <li>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Overview</a>
+            </li>
+
+            <li>
+               <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Events</a>
+            </li>
+
+            <li>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>About</a>
+            </li>
+
+            <li>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>Services</a>
+            </li>
+
+            <li>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>Contact</a>
+            </li>
+         </ul>
+      </div>
+
+      <div id="page-content-wrapper">
+         <div class="container-fluid xyz">
+            <div class="row">
+               <div class="col-lg-12">
+                 {{{body}}}
+                </div>
+            </div>
+         </div>
+      </div>
+
      </div>
-    </section>
 
-    <div class="dashboard-sidebar">
-      <a href="#">About</a>
-      <a href="#">Services</a>
-      <a href="#">Clients</a>
-      <a href="#">Contact</a>
 
-    </div>
+     <script src="/javascripts/layoutDashboard.js"></script>
 
-    <div class="dashboard-container">
-      {{{body}}}
-    </div>
   </body>
 </html>

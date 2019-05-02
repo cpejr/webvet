@@ -11,12 +11,17 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const firebase = require('firebase');
+const flash = require('express-flash');
+const session = require('express-session');
 
-const cardsadminRouter = require('./routes/cardsAdmin');
-const expandingdivsRouter = require('./routes/expandingDivs');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const stockRouter = require('./routes/stock');
+const testRouter = require('./routes/test');
+
+const cardsadminRouter = require('./routes/cardsAdmin');
+const queueRouter = require('./routes/queue');
+const expandingdivsRouter = require('./routes/expandingDivs');
+const requisitionShowRouter = require('./routes/requisitionShow');
 
 const app = express();
 
@@ -24,11 +29,11 @@ const app = express();
  *  Database setup
  */
 
- mongoose.connect(`mongodb+srv://rafaela:${process.env.MONGO_PASS}@cluster0-k9fs0.mongodb.net/test?retryWrites=true`);
- mongoose.connection.on('error', console.error.bind(console, 'connection error: '));
- mongoose.connection.once('open',() => {
-   console.log('Database connect!');
- });
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}?${process.env.MONGO_OPTIONS}`);
+mongoose.connection.on('error', console.error.bind(console, 'connection error: '));
+mongoose.connection.once('open', () => {
+  console.log('Database connect!');
+});
 
 /**
  * firebase setup
@@ -43,14 +48,15 @@ const config = {
 };
 firebase.initializeApp(config);
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({
- defaultLayout: 'layout',
- extname: '.hbs',
- partialsDir: 'views/partials',
- helpers: {
+  defaultLayout: 'layout',
+  extname: '.hbs',
+  partialsDir: 'views/partials',
+  helpers: {
     // Here we're declaring the #section that appears in layout/layout.hbs
     section(name, options) {
       if (!this._sections) this._sections = {};
@@ -92,6 +98,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: 'some-private-cpe-key',
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
@@ -100,21 +111,22 @@ app.use(sassMiddleware({
 }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/expandingDivs', expandingdivsRouter);
 app.use('/cardsAdmin', cardsadminRouter);
-app.use('/stock', stockRouter);
-
+app.use('/queue', queueRouter);
+app.use('/requisition/show', requisitionShowRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
