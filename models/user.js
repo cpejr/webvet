@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   usertype: {
     type: String,
     enum: ['Admin', 'Analista', 'Produtor', 'Gerencia', 'Convenio'],
-    //required: true
+    required: true
   },
   address: {
     cep: Number,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     lowercase: true,
-  //  unique: true
+    unique: true
   },
   phone: String,
   cellphone: String,
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['Inativo', 'Bloqueado', 'Aguardando aprovação', 'Ativo'],
     default: 'Aguardando aprovação',
-  //  required: true
+    required: true
   },
   uid: {
     type: String,
