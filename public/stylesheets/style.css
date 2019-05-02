@@ -6614,11 +6614,6 @@ li {
   padding-top: 40px;
   padding-left: 60px; }
 
-<<<<<<< HEAD
-.input {
-  text-align: center; }
-
-=======
 .card {
   display: inline-block;
   width: 30%;
@@ -6685,5 +6680,5 @@ li {
           border-bottom: 0; }
     .card .hidden-content + .card {
       margin-left: 5%; }
->>>>>>> master
+
 /*# sourceMappingURL=style.css.map */
