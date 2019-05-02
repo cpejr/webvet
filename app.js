@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const firebase = require('firebase');
 const flash = require('express-flash');
@@ -108,6 +109,7 @@ app.use(sassMiddleware({
   indentedSyntax: true, // true = .sass and false = .scss
   sourceMap: true
 }));
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
