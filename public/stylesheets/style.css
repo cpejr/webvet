@@ -6166,15 +6166,43 @@ header {
 .input-placeholder::placeholder {
   color: white; }
 
-.login {
-  height: 100vh;
-  width: 100vh;
-  background: #2F4F4F;
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); }
+.user-box {
+  width: 100%;
+  margin: 0px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center; }
+
+.user-card {
+  margin: 40px;
+  width: 35%;
+  height: 400px;
+  transform-style: preserve-3d;
+  box-shadow: 1px 1px 10px #f0f0f0;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(1, 1, 1, 1); }
+
+.user-card h1 {
+  font-size: 20px;
+  border-bottom: 4px solid 	#32CD32;
+  margin-bottom: 5px;
+  margin-top: 10px;
+  padding: 13px 0; }
+
+.user-card li {
+  box-sizing: border-box;
+  color: #32CD32;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 15px 16px;
+  position: relative;
+  border-bottom: 1px solid	#32CD32;
+  margin-bottom: 3px;
+  margin-top: 1px; }
 
 .box {
   width: 300px;
