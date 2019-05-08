@@ -9,7 +9,8 @@ const User = require('../models/user');
 router.get('/', function(req, res, next) {
   Kit.getAll().then((kits) => {
     console.log(kits);
-    res.render('stock/index', { title: 'Kits', layout: 'layoutDashboard.hbs',});
+    console.log(req.session);
+    res.render('stock/index', { title: 'Kits', layout: 'layoutDashboard.hbs', ...req.session });
   })
 });
 

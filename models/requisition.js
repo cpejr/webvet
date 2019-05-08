@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const requisitionSchema = new mongoose.Schema({
   datecollection: Date,
+  detectedConcetration: Number,
   numapproval: Number,
   comment: String,
   destination: String,

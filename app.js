@@ -16,6 +16,7 @@ const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const stockRouter = require('./routes/stock');
 const testRouter = require('./routes/test');
 
 const cardsadminRouter = require('./routes/cardsAdmin');
@@ -119,6 +120,7 @@ app.use('/expandingDivs', expandingdivsRouter);
 app.use('/cardsAdmin', cardsadminRouter);
 app.use('/queue', queueRouter);
 app.use('/requisition/show', requisitionShowRouter);
+app.use('/stock', stockRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
