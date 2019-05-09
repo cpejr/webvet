@@ -24,7 +24,7 @@ router.get('/signup', (req, res) => {
 });
 
 router.get('/user', (req, res) => {
-  res.render('user', { title: 'User', layout: 'layoutDashboard' });
+  res.render('user', { title: 'User', layout: 'layoutDashboard_user' });
 });
 
 router.get('/forgotPassword', (req, res) => {
