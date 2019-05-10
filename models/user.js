@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   // username: String,
   persontype: Boolean, // 0 = pessoa fisica, 1 = pessoa juridica
   fullname: String,
+  firstname: String,
   uid: {
     type: String
   },
