@@ -3,10 +3,14 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 const requisitionSchema = new mongoose.Schema({
+  identification: Number,
   datecollection: Date,
   detectedConcetration: Number,
   numapproval: Number,
+  packing: String,
+  origin: String,
   comment: String,
+  lab: String,
   destination: String,
   farmname: String,
   farmcity: String,
