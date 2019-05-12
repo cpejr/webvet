@@ -112,17 +112,16 @@ router.post('/forgotPassword', (req, res) => {
 
 // GET /logout
 router.get('/logout', (req, res, next) => {
-  if (req.session) {
-    // delete session object
-    req.session.destroy(function(err) {
-      if(err) {
-        return next(err);
-      } else {
-        return res.redirect('/login');
-      }
+  firebase.auth().signOut().then(() => {
+      delete req.session.fullName;
+      delete req.session.userId;
+      delete req.session.email;
+      res.redirect('/login');
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
     });
-  }
-});
+  });
 
 
 
