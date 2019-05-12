@@ -59,10 +59,23 @@ router.get('/forgotPassword', (req, res) => {
        var errorMessage = error.message
      });
    }).catch((error) => {
-     // Handle Errors here.
-     var errorCode = error.code;
-     var errorMessage = error.message;
-     // ...
+       switch (error.code) {
+      case 'auth/wrong-password':
+        req.flash('danger', 'Senha incorreta.');
+        break;
+      case 'auth/user-not-found':
+        req.flash('danger', 'Email não cadastrado.');
+        break;
+      case 'auth/network-request-failed':
+        req.flash('danger', 'Falha na internet. Verifique sua conexão de rede.');
+        break;
+      default:
+        req.flash('danger', 'Erro indefinido.');
+    }
+    console.log(`Error Code: ${error.code}`);
+    console.log(`Error Message: ${error.message}`);
+    res.redirect('/login');
+
    });
  });
 
