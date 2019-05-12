@@ -4,15 +4,11 @@
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="/stylesheets/jkanban.min.css">
-    <link rel="stylesheet" href="../public/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
     <meta name="viewport" content ="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   </head>
   <body>
-    <script src="/javascripts/jquery.js" charset="utf-8"></script>
-    <script src="/javascripts/vue.js"></script>
-    <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
-    <script src="/javascripts/jkanban.min.js" charset="utf-8"></script>
 
     <nav class="navbar navbar-default no-margin">
       <div class="navbar-header fixed-brand">
@@ -37,7 +33,7 @@
       </div>
 
       <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i> Usuário</a></div>
-      <button type="button" id="dashboard-logout" class="btn btn-primary btn-sm">Logout</button>
+      <a type="button" id="dashboard-logout" href="/logout" class="btn btn-primary btn-sm">Logout</a>
     </nav>
 
     <div id="wrapper">
@@ -77,8 +73,10 @@
 
      </div>
 
-
+     <script src="/javascripts/jquery.js" charset="utf-8"></script>
+     <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
      <script src="/javascripts/layoutDashboard.js"></script>
+     <script src="/javascripts/jkanban.min.js" charset="utf-8"></script>
 
   </body>
 </html>

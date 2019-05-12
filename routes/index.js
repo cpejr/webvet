@@ -4,6 +4,7 @@ var router = express.Router();
 const User = require('../models/user');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
+const auth = require('./middleware/auth');
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -11,19 +12,19 @@ router.get('/', (req, res) => {
 });
 
 
-router.get('/queue', (req, res) => {
-  res.render('queue', { title: 'Queue' });
+router.get('/queue', auth.isAuthenticated, (req, res) => {
+  res.render('queue', { title: 'Queue', layout: 'layout' });
 });
 
 router.get('/login', (req, res) => {
-  res.render('login', { title: 'Login' });
+  res.render('login', { title: 'Login', layout: 'layout' });
 });
 
 router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
 });
 
-router.get('/user', (req, res) => {
+router.get('/user', auth.isAuthenticated, (req, res) => {
   res.render('user', { title: 'User', layout: 'layoutDashboard_user' });
 });
 
@@ -111,7 +112,8 @@ router.post('/forgotPassword', (req, res) => {
 });
 
 // GET /logout
-router.get('/logout', (req, res, next) => {
+router.get('/logout', auth.isAuthenticated, (req, res, next) => {
+  console.log('im logging out');
   firebase.auth().signOut().then(() => {
       delete req.session.fullName;
       delete req.session.userId;
