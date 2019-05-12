@@ -113,7 +113,6 @@ router.post('/forgotPassword', (req, res) => {
 
 // GET /logout
 router.get('/logout', auth.isAuthenticated, (req, res, next) => {
-  console.log('im logging out');
   firebase.auth().signOut().then(() => {
       delete req.session.fullName;
       delete req.session.userId;
