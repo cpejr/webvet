@@ -4,7 +4,7 @@
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="/stylesheets/jkanban.min.css">
-    <link rel="stylesheet" href="../public/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
     <meta name="viewport" content ="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   </head>
@@ -37,7 +37,7 @@
       </div>
 
       <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i> {{user.fullname}}</a></div>
-      <button type="button" id="dashboard-logout" class="btn btn-primary btn-sm">Logout</button>
+      <button type="button" id="dashboard-logout" class="btn btn-primary btn-sm" href="/logout">Logout</button>
     </nav>
 
     <div id="wrapper">
@@ -85,7 +85,8 @@
 
      </div>
 
-
+     <script src="/javascripts/jquery.js" charset="utf-8"></script>
+     <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
      <script src="/javascripts/layoutDashboard.js"></script>
 
   </body>
