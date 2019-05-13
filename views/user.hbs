@@ -1,13 +1,8 @@
 <div class="user-box">
   <div class= "user-card">
     <h1>Requisições em Progresso</h1>
-      <li>Requisição 1</li>
-      <li>Requisição 2</li>
-      <li>Requisição 3</li>
-      <li>Requisição 4</li>
-      <li>Requisição 5</li>
-      <li>Requisição 6</li>
-      <li>Requisição 7</li>
+    {{#each requisition}}
+      <li>{{.}}</li>
   </div>
   <div class= "user-card">
     <h1>Laudos disponíveis</h1>
