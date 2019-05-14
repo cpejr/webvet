@@ -1,0 +1,123 @@
+<form class="form-show-box" action="/users/edit/{{user._id}}" method="POST">
+    <h1 class="form-show-title"> Visualização de Usuário</h1>
+    <div>
+        <div class="form-show-text col-md-12">
+          <label for="user[fullname]">Nome</label>
+          <input disabled type="text" value="{{user.fullname}}" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
+        </div>
+        <div class="form-row">
+          <div class="form-show-text col-md-6">
+            <label for="user[email]">Email</label>
+            <input disabled type="email" value="{{user.email}}" name="user[email]" class="input-placeholder-green" placeholder="Email">
+          </div>
+          <div class="form-show-text col-md-3">
+            <label for="user[cellphone]">Celular</label>
+            <input disabled type="text" value="{{user.cellphone}}" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular">
+          </div>
+          <div class="form-show-text col-md-3">
+            <label for="user[phone]">Telefone</label>
+            <input disabled type="text" value="{{user.phone}}" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
+          </div>
+        </div>
+      <br>
+      <div class="form-row">
+        <div class="col-md-3 mt-3">
+          <div class="form-check form-check-inline">
+              {{#if user.persontype}}
+                <input disabled class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
+                <label class="radio-text form-check-label mr-3">CPF</label>
+                <input disabled class="form-check-input position-static" type="radio" name="user[persontype]" value="1" checked>
+                <label class="radio-text form-check-label mr-3">CNPJ</label>
+              {{else}}
+                <input disabled class="form-check-input position-static" type="radio" name="user[persontype]" value="0" checked>
+                <label class="radio-text form-check-label mr-3">CPF</label>
+                <input disabled class="form-check-input position-static" type="radio" name="user[persontype]" value="1">
+                <label class="radio-text form-check-label mr-3">CNPJ</label>
+              {{/if}}
+          </div>
+        </div>
+        <div class="form-show-text col-md-9">
+          <input disabled type="text" value="{{user.register}}" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-show-text col-md-6">
+          <label for="user[address][street]">Rua</label>
+          <input disabled type="text" value="{{user.address.street}}" name="user[address][street]" class="input-placeholder-green" placeholder="Endereço">
+        </div>
+        <div class="form-show-text col-md-3">
+          <label for="user[address][number]">Número</label>
+          <input disabled type="text" value="{{user.address.number}}" name="user[address][number]" class="input-placeholder-green" placeholder="Número">
+        </div>
+        <div class="form-show-text col-md-3">
+          <label for="user[address][complement]">Complemento</label>
+          <input disabled type="text" value="{{user.address.complement}}" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
+        </div>
+      </div>
+      <div>
+          <div class="form-row">
+            <div class="form-show-text col-md-6">
+              <label for="user[address][city]">Cidade</label>
+              <input disabled type="text" value="{{user.address.city}}" name="user[address][city]">
+            </div>
+            <div class="form-show-text col-md-3">
+              <label for="user[address][state]">Cidade</label>
+              <input disabled type="text" value="{{user.address.state}}" name="user[address][state]">
+            </div>
+            <div class="form-show-text col-md-3">
+              <label for="user[address][cep]">CEP</label>
+              <input disabled type="text" value="{{user.address.cep}}" class="form-show-text" name="user[address][cep]">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="form-row mt-2">
+          <div class="form-check form-check-inline mb-2 mt-2 col-md-10">
+            {{#compare user.type "Produtor"}}
+              <input checked class="form-check-input position-static" type="radio" name="user[type]" value="Produtor">
+              <label class="radio-text form-check-label">Produtor</label>
+            {{else}}
+              <input class="form-check-input position-static" type="radio" name="user[type]" value="Produtor">
+              <label class="radio-text form-check-label">Produtor</label>
+            {{/compare}}
+
+            {{#compare user.type "Gerencia"}}
+              <input checked class="form-check-input position-static" type="radio" name="user[type]" value="Gerencia">
+              <label class="radio-text form-check-label">Gerencia</label>
+            {{else}}
+              <input class="form-check-input position-static" type="radio" name="user[type]" value="Gerencia">
+              <label class="radio-text form-check-label">Gerencia</label>
+            {{/compare}}
+
+            {{#compare user.type "Convenio"}}
+              <input checked class="form-check-input position-static" type="radio" name="user[type]" value="Convenio">
+              <label class="radio-text form-check-label">Convenio</label>
+            {{else}}
+              <input class="form-check-input position-static" type="radio" name="user[type]" value="Convenio">
+              <label class="radio-text form-check-label">Convenio</label>
+            {{/compare}}
+
+            {{#compare user.type "Admin"}}
+              <input checked class="form-check-input position-static" type="radio" name="user[type]" value="Admin">
+              <label class="radio-text form-check-label">Admin</label>
+            {{else}}
+              <input class="form-check-input position-static" type="radio" name="user[type]" value="Admin">
+              <label class="radio-text form-check-label">Admin</label>
+            {{/compare}}
+
+            {{#compare user.type "Analista"}}
+              <input checked class="form-check-input position-static" type="radio" name="user[type]" value="Analista">
+              <label class="radio-text form-check-label mr-3">Analista</label>
+            {{else}}
+              <input class="form-check-input position-static" type="radio" name="user[type]" value="Analista">
+              <label class="radio-text form-check-label mr-3">Analista</label>
+            {{/compare}}
+          </div>
+        </div>
+      </div>
+    <br>
+
+    <button class="btn mr-1" type="button" onclick="location.href='/users/pending'"><i class="fa fa-reply"></i> Voltar</button>
+    <button class="btn ml-1" type="submit" ><i class="fa fa-pencil"></i>Alterar</button>
+</form>

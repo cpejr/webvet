@@ -10,11 +10,11 @@ router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
 
-
+/*
 router.get('/queue', (req, res) => {
   res.render('queue', { title: 'Queue' });
 });
-
+*/
 router.get('/login', (req, res) => {
   res.render('login', { title: 'Login' });
 });
@@ -23,9 +23,11 @@ router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
 });
 
+/*
 router.get('/user', (req, res) => {
   res.render('user', { title: 'User' });
 });
+*/
 
 /**
  * POST LOGIN
@@ -33,15 +35,27 @@ router.get('/user', (req, res) => {
 
 router.post('/login',(req,res)=> {
   const userData  = req.body.user;
+  if (userData.status == "Ativo") {
     firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
-    console.log(userID);
-     res.redirect('/user');
-   }).catch(function(error) {
-     // Handle Errors here.
-     var errorCode = error.code;
-     var errorMessage = error.message;
-     // ...
-   });
+      console.log(userID);
+      res.redirect('/user');
+     }).catch(function(error) {
+       // Handle Errors here.
+       var errorCode = error.code;
+       var errorMessage = error.message;
+       // ...
+    });
+  } else {
+    if (userData.status == "Aguardando aprovação") {
+      req.flash('fail', 'Usuário aguardando aprovação do administrador para acesso.');
+    }
+    if (userData.status == "Inativo") {
+      req.flash('fail', 'Usuário foi inativado do sistema.');
+    }
+    if (userData.status == "Bloqueado") {
+      req.flash('fail', 'Usuário não permitido pelo administrador.');
+    }
+  }
 });
 
 router.post('/signup', (req, res) => {

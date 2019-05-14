@@ -6107,6 +6107,11 @@ header {
   padding-left: 35px;
   background-image: "../images/planta.jpg"; }
 
+.radio-text {
+  font-size: 17px;
+  width: 100%;
+  text-align: left; }
+
 .signup {
   width: 700px;
   position: absolute;
@@ -6128,6 +6133,7 @@ header {
   font-size: 18px;
   padding: 8px 0;
   margin: 8px 0;
+  text-align: left;
   border-bottom: 1px solid 	#006400; }
 
 .signup-text input {
@@ -6344,7 +6350,9 @@ li {
   overflow-x: hidden; }
 
 .xyz {
-  min-width: 360px; }
+  min-width: 360px;
+  position: relative;
+  display: inline; }
 
 #wrapper.toggled #page-content-wrapper {
   position: relative;
@@ -6399,6 +6407,12 @@ li {
 #dashboard-user {
   font-size: 0.9em; }
 
+.webvet-alert {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  margin-left: 10px; }
+
 @media (max-width: 768px) {
   #wrapper.toggled #sidebar-wrapper {
     width: 100vw; }
@@ -6445,20 +6459,6 @@ li {
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
     width: auto; } }
-
-@media (max-width: 360px) {
-  #tb-user {
-    width: 90vw; }
-  .th-action {
-    width: 40vw; } }
-
-@media (max-width: 470px) {
-  .th-action {
-    width: 50vw; } }
-
-@media (max-width: 321px) {
-  .th-action {
-    width: 10vw; } }
 
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
   background-color: #F7FCF2; }
@@ -6679,4 +6679,67 @@ li {
           border-bottom: 0; }
     .card .hidden-content + .card {
       margin-left: 5%; }
+
+.edit-user-img {
+  opacity: 0.06; }
+
+.form-show-title {
+  width: 850px;
+  font-size: 20px;
+  border-bottom: 4px solid #006400; }
+
+.form-show-text {
+  width: 100%;
+  overflow: hidden;
+  font-size: 18px;
+  padding: 8px 0;
+  margin: 8px 0;
+  text-align: left;
+  border-bottom: 1px solid 	#006400; }
+
+.form-show-text input {
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0px;
+  overflow: hidden;
+  font-size: 17px;
+  width: 100%;
+  float: left;
+  margin: 0 10px; }
+
+.form-show-text select {
+  border: none;
+  outline: none;
+  background: none;
+  color: #006400;
+  font-size: 17px;
+  width: 100%;
+  float: left;
+  margin: 0 10px; }
+
+.form-show-box {
+  position: relative;
+  width: 100%;
+  margin: 0px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; }
+  .form-show-box .input-placeholder-green::placeholder {
+    color: #006400; }
+  @media screen and (max-width: 640px) {
+    .form-show-box .form-show-box {
+      width: 400px;
+      height: 400px;
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.5); } }
+
 /*# sourceMappingURL=style.css.map */

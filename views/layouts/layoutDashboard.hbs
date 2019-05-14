@@ -4,13 +4,12 @@
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="/stylesheets/jkanban.min.css">
-    <link rel="stylesheet" href="../public/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
     <meta name="viewport" content ="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   </head>
   <body>
     <script src="/javascripts/jquery.js" charset="utf-8"></script>
-    <script src="/javascripts/vue.js"></script>
     <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
     <script src="/javascripts/jkanban.min.js" charset="utf-8"></script>
 
@@ -44,47 +43,46 @@
       <div id="sidebar-wrapper">
          <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
             <li class="active">
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-home fa-stack-1x "></i></span> Principal</a>
             </li>
 
             <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Shortcut</a>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-columns fa-stack-1x "></i></span>Mapa de Trabalho</a>
             </li>
 
             <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Overview</a>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Clientes</a>
             </li>
 
             <li>
-               <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Events</a>
+               <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-user fa-stack-1x "></i></span>Analistas</a>
             </li>
 
             <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>About</a>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-area-chart fa-stack-1x "></i></span>Dados estatísticos</a>
             </li>
 
             <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>Services</a>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
             </li>
 
             <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>Contact</a>
+               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-truck fa-stack-1x "></i></span>Controle de estoque</a>
             </li>
          </ul>
       </div>
 
       <div id="page-content-wrapper">
          <div class="container-fluid xyz">
-            <div class="row">
-               <div class="col-lg-12">
-                 {{{body}}}
-                </div>
-            </div>
+           {{{body}}}
          </div>
       </div>
 
      </div>
 
+     <div class="webvet-alert col-12 col-lg-4 col-md-6">
+       {{> messages}}
+     </div>
 
      <script src="/javascripts/layoutDashboard.js"></script>
 
