@@ -6,13 +6,46 @@ $color3: #F7FCF2
 $color4 : #708074
 $color5: #2B2B2B
 
+@font-face
+  font-family: 'OpenSans'
+  src: url('../fonts/OpenSans-Regular.ttf') format('truetype')
+
+@font-face
+  font-family: 'OpenSans-Light'
+  src: url("../fonts/OpenSans-Light.ttf")
+
+@font-face
+  font-family: 'OpenSans-Bold'
+  src: url("../fonts/OpenSans-Bold.ttf")
+
+@font-face
+  font-family: 'ProzaLibre'
+  src: url('../fonts/ProzaLibre-Regular.ttf') format('truetype')
+
+@font-face
+  font-family: 'ProzaLibre-Bold'
+  src: url("../fonts/ProzaLibre-Bold.ttf")
+  font-weight: bold
+
 body
   padding: 0px
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  font: 13.5px "OpenSans", Helvetica, Arial, sans-serif
   text-align: center
   width: 100%
   overflow-x: hidden
   margin: 0px
+
+h4
+  font-family: "ProzaLibre"
+
+h3
+  font-family: "ProzaLibre"
+
+thead
+  font-family: "ProzaLibre-Bold"
+
+tbody
+  font-family: "OpenSans-Light"
 
 a
   color: #00B7FF
@@ -286,6 +319,33 @@ li
   top: 30%
   position: absolute
 
+#dashboard-social-media
+  right: 36%
+  top: 20%
+  position: absolute
+  font-size: 1.1em
+
+#btn-facebook
+  background-color: transparent
+  border: 1px solid $color1
+  color: $color1
+
+#btn-facebook:focus
+  outline: thin dotted
+  outline: 0px auto -webkit-focus-ring-color
+  outline-offset: 0px
+
+#btn-instagram
+  background-color: transparent
+  border: 1px solid $color1
+  color: $color1
+
+#btn-instagram:focus
+  outline: thin dotted
+  outline: 0px auto -webkit-focus-ring-color
+  outline-offset: 0px
+
+
 #dashboard-user
   color: $color5
   right: 5%
@@ -343,10 +403,13 @@ li
   position: absolute
   top: 0
   width: 250px
-  margin: 0
+  margin-left: 2px
   padding: 0
   list-style: none
   margin-top: 2px
+  font-family: "OpenSans"
+  font-size: 15px
+  text-align: left
 
 .sidebar-nav li
   text-indent: 15px
@@ -400,6 +463,9 @@ li
     position: relative
 
   #dashboard-phone
+    display: none
+
+  #dashboard-social-media
     display: none
 
   #dashboard-user
@@ -537,7 +603,6 @@ li
   margin-right: 0.2rem
   cursor: pointer
   background: $color5
-  font-weight: bold
   transition: background ease 0.2s
   color: $color4
 
@@ -686,18 +751,21 @@ li
 
 
 .form-show-title
-  width: 850px
-  font-size: 20px
-  border-bottom: 4px solid #006400
+  width: 870px
+  font-size: 22px
+  padding-bottom: 5px
+  font-family: 'ProzaLibre'
+  border-bottom: 4px solid $color1
 
 .form-show-text
+  font-family: 'OpenSans'
   width: 100%
   overflow: hidden
-  font-size: 18px
-  padding: 8px 0
+  font-size: 16px
+  padding: 5px 0
   margin: 8px 0
   text-align: left
-  border-bottom: 1px solid 	#006400
+  border-bottom: 1px solid $color2
 
 .form-show-text input
   border: none
@@ -705,7 +773,7 @@ li
   background: none
   padding: 0px
   overflow: hidden
-  font-size: 17px
+  font-size: 15px
   width: 100%
   float: left
   margin: 0 10px
@@ -714,7 +782,7 @@ li
   border: none
   outline: none
   background: none
-  color: 	#006400
+  color: 	$color2
   font-size: 17px
   width: 100%
   float: left
@@ -734,14 +802,3 @@ li
 
   .input-placeholder-green::placeholder
     color: #006400
-
-  @media screen and (max-width: 640px)
-    .form-show-box
-      width: 400px
-      height: 400px
-      position: absolute
-      top: 45%
-      left: 50%
-      transform: translate(-50%,-50%)
-      box-sizing: border-box
-      background: rgba(255, 255, 255, 0.5)

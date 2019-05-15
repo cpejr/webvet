@@ -1,0 +1,28 @@
+<h4>Lista de Gerentes</h4>
+<p></p>
+<div class="table-responsive">
+  <table id="tb-user" class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+          {{#compare type 'Gerencia'}}
+            <tr>
+              <th>{{fullname}}</th>
+              <th>{{cellphone}}</th>
+              <th>{{email}}</th>
+              <th>
+                <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn"></button>
+              </th>
+            </tr>
+          {{/compare}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>

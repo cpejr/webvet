@@ -34,6 +34,51 @@ router.get('/pending', function(req, res, next) {
 
 });
 
+router.get('/associated', function(req, res, next) {
+
+  User.getAll().then((users) => {
+    console.log(users);
+    res.render('admin/users/associated', { title: 'Conveniados', layout: 'layoutDashboard.hbs', users, ...req.session });
+
+    return;
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+    return error;
+  });
+
+});
+
+router.get('/producers', function(req, res, next) {
+
+  User.getAll().then((users) => {
+    console.log(users);
+    res.render('admin/users/producers', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
+
+    return;
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+    return error;
+  });
+
+});
+
+router.get('/managers', function(req, res, next) {
+
+  User.getAll().then((users) => {
+    console.log(users);
+    res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session });
+
+    return;
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+    return error;
+  });
+
+});
+
 
 router.post('/edit/:id',  function(req, res, next) {
   const { user } = req.body;
