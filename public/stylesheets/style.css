@@ -6096,18 +6096,25 @@ header {
 
 .btn-login {
   background: none;
-  border: 2px solid #006400;
+  border: 2px solid #90EE90;
   margin-bottom: 50px;
-  color: #006400; }
+  color: #90EE90;
+  width: 100%; }
 
 .box input[type="submit"]:hover {
   background: #006400; }
 
-.form {
-  padding-left: 35px;
-  background-image: "../images/planta.jpg"; }
+.img {
+  background-image: url("/images/MicoTox2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 26em; }
 
 @media (max-width: 425px) {
+  .img {
+    background-color: #113619;
+    background-image: none; }
   .login-box {
     width: 500px;
     height: 450px;
