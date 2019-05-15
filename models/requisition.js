@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const User = require('./user');
+const Mycotoxin = require('./mycotoxin');
 
 const requisitionSchema = new mongoose.Schema({
   identification: Number,
@@ -29,8 +31,7 @@ const requisitionSchema = new mongoose.Schema({
   }]
 }, { timestamps: true, strict: false });
 
-const Client  = mongoose.model('User', userSchema);
-const Mycotoxin = mongoose.model('Mycotoxin', mycotoxinSchema);
+//const Mycotoxin = mongoose.model('Mycotoxin', mycotoxinSchema);
 
 const RequisitionModel = mongoose.model('Requisition', requisitionSchema);
 
@@ -88,7 +89,7 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.create(requisition).then((result) => {
         resolve(result._id);
-
+        console.log('entrou no cliente');
       }).catch((err) => {
         reject(err);
       });

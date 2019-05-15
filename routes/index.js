@@ -2,6 +2,7 @@ var express = require('express');
 var firebase = require('firebase');
 var router = express.Router();
 const User = require('../models/user');
+const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
 const auth = require('./middleware/auth');
@@ -10,7 +11,6 @@ const auth = require('./middleware/auth');
 router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
-
 
 router.get('/queue', auth.isAuthenticated, (req, res) => {
   res.render('queue', { title: 'Queue', layout: 'layout' });
@@ -30,6 +30,10 @@ router.get('/user', auth.isAuthenticated, (req, res) => {
 
 router.get('/forgotPassword', (req, res) => {
   res.render('forgotPassword', { title: 'forgotPassword' });
+});
+
+router.get('/requisition', (req, res) => {
+  res.render('requisition', {title:'requisition',layout:'layout'});
 });
 
 /**
@@ -98,6 +102,22 @@ router.post('/signup', (req, res) => {
     console.log(error);
     res.redirect('/error');
   });
+});
+
+//post / NovoRegistro
+router.post('/requisition', (req,res) => {
+
+  const newRequisition = req.body;
+
+      console.log(newRequisition);
+      Requisition.create(newRequisition).then((userID)=>{
+        console.log(`New requisition with user id: ${userID}`);
+        req.flash('success', 'Nova requisição enviada')
+        res.redirect('/user');
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      });
 });
 
 //POST password reset
