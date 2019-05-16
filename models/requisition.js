@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const User = require('./user');
+const Mycotoxin = require('./mycotoxin');
 
 const requisitionSchema = new mongoose.Schema({
   identification: Number,

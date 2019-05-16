@@ -24,9 +24,9 @@ router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
 });
 
-router.get('/user', auth.isAuthenticated, (req, res) => {
-  res.render('user', { title: 'User', layout: 'layoutDashboard_user' });
-});
+// router.get('/user', auth.isAuthenticated, (req, res) => {
+//   res.render('user', { title: 'User', layout: 'layoutDashboard_user' });
+// });
 
 router.get('/forgotPassword', (req, res) => {
   res.render('forgotPassword', { title: 'forgotPassword' });
@@ -39,7 +39,6 @@ router.get('/forgotPassword', (req, res) => {
  router.post('/login',(req,res)=> {
    const userData  = req.body.user;
    firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
-     console.log(userID.user.uid);
      User.getByUid(userID.user.uid).then((currentLogged) =>   {
        if (currentLogged) {
          const userR = {

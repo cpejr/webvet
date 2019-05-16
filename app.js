@@ -24,6 +24,8 @@ const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const requisitionShowRouter = require('./routes/requisitionShow');
 
+const userRouter = require('./routes/requisition');
+
 const app = express();
 
 /**
