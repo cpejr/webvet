@@ -11,7 +11,6 @@ router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
 
-
 router.get('/queue', auth.isAuthenticated, (req, res) => {
   res.render('queue', { title: 'Queue', layout: 'layout' });
 });

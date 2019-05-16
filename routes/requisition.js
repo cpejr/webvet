@@ -6,7 +6,7 @@ const Requisition = require('../models/requisition');
 router.get('/user', function(req, res, next) {
   Requisition.getAll().then((requisitions) => {
     console.log("oi");
-    res.render('user', { title: 'Cliente', layout: 'layoutDashboard_user.hbs', user, ...req.session });
+    res.render('user', { title: 'Cliente', layout: 'layoutDashboard_user.hbs'});
     return;
  }).catch((error) => {
     console.log(error);

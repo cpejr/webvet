@@ -123,6 +123,7 @@ app.use('/cardsAdmin', cardsadminRouter);
 app.use('/queue', queueRouter);
 app.use('/requisition/show', requisitionShowRouter);
 app.use('/stock', stockRouter);
+app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
