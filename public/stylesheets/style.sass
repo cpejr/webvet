@@ -516,6 +516,71 @@ li
     transition: all 0.5s ease
     width: auto
 
+//ADMIN PAGE DASHBOARD
+
+.dashboard-container
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+
+.dashboard-item
+  margin: 5px 5px 5px 5px
+  border-color: $color2
+  background-color: $color3
+  height: 100px
+
+.dashboard-header
+  margin: 5px 5px 5px 5px
+  background-color: $color2
+  color: $color3
+  height: 40px
+  margin: 0 0 0 0
+
+.dashboard-header h1
+  font-family: 'ProzaLibre-Bold'
+
+.dashboard-counter
+  margin: 5px 5px 5px 5px
+  background-color: $color2
+  height: 100px
+  display: flex
+  flex-direction: row
+  justify-content: space-around
+  align-content: center
+
+.dashboard-number
+  font-size: 40px
+  color: $color3
+  height: 60px
+
+.dashboard-label
+  font-size: 20px
+  color: $color3
+  height: 30px
+
+
+#samples
+  flex-grow: 2
+
+#analysis
+  flex-grow: 2
+
+#clients
+  flex-grow: 2
+
+#requisitions
+  flex-grow: 2
+
+#kits
+  flex-grow: 4
+
+@media (max-width: 620px)
+  .dashboard-container
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+
+
 //USERS PAGE
 
 
