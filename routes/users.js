@@ -5,7 +5,6 @@ const User = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
   User.getAll().then((users) => {
     console.log(users);
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
@@ -124,6 +123,15 @@ router.post('/approve/:id',  function(req, res, next) {
 
 router.post('/reject/:id',  function(req, res, next) {
 
+});
+
+router.put('/blocked', function(req, res, next) {
+  const user = {
+    status: 'Bloqueado'
+  };
+  User.update(req.params.id, user).then(() => {
+    res.redirect(`/users`)
+  })
 });
 
 module.exports = router;

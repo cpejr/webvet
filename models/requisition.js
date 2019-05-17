@@ -1,11 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const User = require('./user');
+const Mycotoxin = require('./mycotoxin');
 
 const requisitionSchema = new mongoose.Schema({
+  identification: Number,
   datecollection: Date,
+  detectedConcetration: Number,
   numapproval: Number,
+  packing: String,
+  origin: String,
   comment: String,
+  lab: String,
   destination: String,
   farmname: String,
   farmcity: String,
@@ -23,9 +30,6 @@ const requisitionSchema = new mongoose.Schema({
     ref: 'Sample'
   }]
 }, { timestamps: true, strict: false });
-
-const Client  = mongoose.model('User', userSchema);
-const Mycotoxin = mongoose.model('Mycotoxin', mycotoxinSchema);
 
 const RequisitionModel = mongoose.model('Requisition', requisitionSchema);
 

@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const firebase = require('firebase');
 const flash = require('express-flash');
@@ -15,13 +16,14 @@ const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
+const stockRouter = require('./routes/stock');
 const testRouter = require('./routes/test');
-const cardsAdminRouter = require('./routes/cardsAdmin');
-const homeAdminRouter = require('./routes/homeAdmin');
 const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const requisitionShowRouter = require('./routes/requisitionShow');
+const userRouter = require('./routes/requisition');
+const cardsAdminRouter = require('./routes/cardsAdmin');
+const homeAdminRouter = require('./routes/homeAdmin');
 
 const app = express();
 
@@ -109,6 +111,7 @@ app.use(sassMiddleware({
   indentedSyntax: true, // true = .sass and false = .scss
   sourceMap: true
 }));
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
@@ -116,9 +119,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/expandingDivs', expandingdivsRouter);
 app.use('/cardsAdmin', cardsAdminRouter);
-app.use('/homeAdmin', homeAdminRouter);
 app.use('/queue', queueRouter);
-app.use('/requisitionShow', requisitionShowRouter);
+app.use('/requisition/show', requisitionShowRouter);
+app.use('/stock', stockRouter);
+app.use('/user', userRouter);
+app.use('/homeAdmin', homeAdminRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

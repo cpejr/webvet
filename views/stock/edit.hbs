@@ -1,0 +1,20 @@
+<div class="showstock">
+    <div class="showbox">
+      <br>
+      <p><font color="gray" size="5">Kit {{kit.kitId}}</p>
+      <hr color="lightgray">
+      <div class="showboxinfo">
+        <form action="/stock/{{kit.id}}?_method=PUT" method="post">
+          <p><font size="4" color="black">Quantidade em Estoque: <input type="text" style="width: 27px" value= {{kit.amount}} name="kit[amount]"></p>
+          <p><font size="4" color="black">Lod: {{kit.Lod}}</p>
+          <p><font size="4" color="black">LoQ: {{kit.LoQ}}</p>
+          <p><font size="4" color="black">Fornecedor: {{kit.provider}}</p>
+          <p><font size="4" color="black">Data de Expiração: {{kit.expirationDate}}</p>
+          <p><font size="4" color="black">Estoque Mínimo:  <input type="text" style="width: 29px" value= {{kit.stockMin}} name="kit[stockMin]"></p>
+          <button type="submit" align="center" class="btn btn-outline-success">
+          Enviar Alterações
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
