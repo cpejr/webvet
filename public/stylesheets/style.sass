@@ -6,13 +6,47 @@ $color3: #F7FCF2
 $color4 : #708074
 $color5: #2B2B2B
 
+@font-face
+  font-family: 'OpenSans'
+  src: url('../fonts/OpenSans-Regular.ttf') format('truetype')
+
+@font-face
+  font-family: 'OpenSans-Light'
+  src: url("../fonts/OpenSans-Light.ttf")
+
+@font-face
+  font-family: 'OpenSans-Bold'
+  src: url("../fonts/OpenSans-Bold.ttf")
+
+@font-face
+  font-family: 'ProzaLibre'
+  src: url('../fonts/ProzaLibre-Regular.ttf') format('truetype')
+
+@font-face
+  font-family: 'ProzaLibre-Bold'
+  src: url("../fonts/ProzaLibre-Bold.ttf")
+  font-weight: bold
+
+
 body
   padding: 0px
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  font: 13.5px "OpenSans", Helvetica, Arial, sans-serif
   text-align: center
   width: 100%
   overflow-x: hidden
   margin: 0px
+
+h4
+  font-family: "ProzaLibre"
+
+h3
+  font-family: "ProzaLibre"
+
+thead
+  font-family: "ProzaLibre-Bold"
+
+tbody
+  font-family: "OpenSans-Light"
 
 a
   color: #00B7FF
@@ -20,8 +54,8 @@ a
 
 header
   display: block
-
-//LOGIN PAGE
+  
+ //LOGIN PAGE
 
 .login-box
   width: 300px
@@ -253,6 +287,7 @@ header
 .box input[type = "submit"]:hover
   background: #00FF00
 
+//EXPANDING DIVs
 
 .expanding-div
   box-sizing: border-box
@@ -294,6 +329,9 @@ header
   font-size: 22px
   cursor: pointer
   text-align: left
+  
+
+
 
 //DASHBOARD-ADMIN
 
@@ -332,6 +370,33 @@ li
   right: 45%
   top: 30%
   position: absolute
+
+#dashboard-social-media
+  right: 36%
+  top: 20%
+  position: absolute
+  font-size: 1.1em
+
+#btn-facebook
+  background-color: transparent
+  border: 1px solid $color1
+  color: $color1
+
+#btn-facebook:focus
+  outline: thin dotted
+  outline: 0px auto -webkit-focus-ring-color
+  outline-offset: 0px
+
+#btn-instagram
+  background-color: transparent
+  border: 1px solid $color1
+  color: $color1
+
+#btn-instagram:focus
+  outline: thin dotted
+  outline: 0px auto -webkit-focus-ring-color
+  outline-offset: 0px
+
 
 #dashboard-user
   color: $color5
@@ -376,6 +441,8 @@ li
 
 .xyz
   min-width: 360px
+  position: relative
+  display: inline
 
 #wrapper.toggled #page-content-wrapper
   position: relative
@@ -388,10 +455,13 @@ li
   position: absolute
   top: 0
   width: 250px
-  margin: 0
+  margin-left: 2px
   padding: 0
   list-style: none
   margin-top: 2px
+  font-family: "OpenSans"
+  font-size: 15px
+  text-align: left
 
 .sidebar-nav li
   text-indent: 15px
@@ -430,6 +500,12 @@ li
 #dashboard-user
   font-size: 0.9em
 
+.webvet-alert
+  position: fixed
+  top: 10px
+  right: 10px
+  margin-left: 10px
+
 @media (max-width: 768px)
   #wrapper.toggled #sidebar-wrapper
     width: 100vw
@@ -439,6 +515,9 @@ li
     position: relative
 
   #dashboard-phone
+    display: none
+
+  #dashboard-social-media
     display: none
 
   #dashboard-user
@@ -488,6 +567,70 @@ li
     -o-transition: all 0.5s ease
     transition: all 0.5s ease
     width: auto
+
+//ADMIN PAGE DASHBOARD
+
+.dashboard-container
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+
+.dashboard-item
+  margin: 5px 5px 5px 5px
+  border-color: $color2
+  background-color: $color3
+  height: 100px
+
+.dashboard-header
+  margin: 5px 5px 5px 5px
+  background-color: $color2
+  color: $color3
+  height: 40px
+  margin: 0 0 0 0
+
+.dashboard-header h1
+  font-family: 'ProzaLibre-Bold'
+
+.dashboard-counter
+  margin: 5px 5px 5px 5px
+  background-color: $color2
+  height: 100px
+  display: flex
+  flex-direction: row
+  justify-content: space-around
+  align-content: center
+
+.dashboard-number
+  font-size: 40px
+  color: $color3
+  height: 60px
+
+.dashboard-label
+  font-size: 20px
+  color: $color3
+  height: 30px
+
+
+#samples
+  flex-grow: 2
+
+#analysis
+  flex-grow: 2
+
+#clients
+  flex-grow: 2
+
+#requisitions
+  flex-grow: 2
+
+#kits
+  flex-grow: 4
+
+@media (max-width: 620px)
+  .dashboard-container
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
 
 //USERS PAGE
 
@@ -577,6 +720,7 @@ li
   height: 2px
   border: none
 
+ //MAPA DE TRABALHO
 .queue-tabs
   flex-wrap: wrap
   display: flex
@@ -590,7 +734,6 @@ li
   margin-right: 0.2rem
   cursor: pointer
   background: $color5
-  font-weight: bold
   transition: background ease 0.2s
   color: $color4
 
@@ -666,136 +809,62 @@ li
   padding-top: 40px
   padding-left: 60px
 
-.card
-  display: inline-block
-  width: 30%
-  vertical-align: top
-  li
-    box-sizing: border-box
-    color: #FFFFFF
-    cursor: pointer
-    font-size: 13px
-    padding: 15px 16px
-    position: relative
-    .icon
-      position: absolute
-      left: 10px
-    &:before
-      content: ""
-      height: 100%
-      left: -1px
-      opacity: 0
-      position: absolute
-      top: 0
-      width: 4px
-    &:hover
-        background-color: #FFFFFF
-        color: $color5
-        &:before
-          opacity: 1
-  .hidden-content
-    border-top: 1px solid #FFFFFF
-    .show-more
-      border-top: 1px solid #FFFFFF
-      color: $color5
-      font-size: 12px
-      padding: 8px 15px
-      text-align: right
-      .fa
-        font-size: 12px
-        margin-left: 5px
-        &:before
-          content: none
-    .tabs
-      position: relative
-      li
-        background: transparent
-        border: 0
-        border-radius: 3px 3px 0 0
-        box-sizing: border-box
-        color: #FFFFFF
-        cursor: pointer
-        display: inline-block
-        font-size: 12px
-        padding: 10px
-        text-align: center
-        text-transform: uppercase
-        width: 50%
-        span
-          display: block
-          font-size: 34px
-          font-weight: bold
-          margin-bottom: 5px
-        &.active
-          background-color: white
-          border: 1px solid #FFFFFF
-          border-bottom: 0
-    + .card
-      margin-left: 5%
+//PAGINA DE EDITAR USUARIO
 
-.card
-  display: inline-block
-  width: 30%
-  vertical-align: top
-  li
-    box-sizing: border-box
-    color: #FFFFFF
-    cursor: pointer
-    font-size: 13px
-    padding: 15px 16px
-    position: relative
-    .icon
-      position: absolute
-      left: 10px
-    &:before
-      content: ""
-      height: 100%
-      left: -1px
-      opacity: 0
-      position: absolute
-      top: 0
-      width: 4px
-    &:hover
-        background-color: #FFFFFF
-        color: $color5
-        &:before
-          opacity: 1
-  .hidden-content
-    border-top: 1px solid #FFFFFF
-    .show-more
-      border-top: 1px solid #FFFFFF
-      color: $color5
-      font-size: 12px
-      padding: 8px 15px
-      text-align: right
-      .fa
-        font-size: 12px
-        margin-left: 5px
-        &:before
-          content: none
-    .tabs
-      position: relative
-      li
-        background: transparent
-        border: 0
-        border-radius: 3px 3px 0 0
-        box-sizing: border-box
-        color: #FFFFFF
-        cursor: pointer
-        display: inline-block
-        font-size: 12px
-        padding: 10px
-        text-align: center
-        text-transform: uppercase
-        width: 50%
-        span
-          display: block
-          font-size: 34px
-          font-weight: bold
-          margin-bottom: 5px
-        &.active
-          background-color: white
-          border: 1px solid #FFFFFF
-          border-bottom: 0
-    + .card
-      margin-left: 5%
+.edit-user-img
+  opacity: 0.06
+
+
+.form-show-title
+  width: 870px
+  font-size: 22px
+  padding-bottom: 5px
+  font-family: 'ProzaLibre'
+  border-bottom: 4px solid $color1
+
+.form-show-text
+  font-family: 'OpenSans'
+  width: 100%
+  overflow: hidden
+  font-size: 16px
+  padding: 5px 0
+  margin: 8px 0
+  text-align: left
+  border-bottom: 1px solid $color2
+
+.form-show-text input
+  border: none
+  outline: none
+  background: none
+  padding: 0px
+  overflow: hidden
+  font-size: 15px
+  width: 100%
+  float: left
+  margin: 0 10px
+
+.form-show-text select
+  border: none
+  outline: none
+  background: none
+  color: 	$color2
+  font-size: 17px
+  width: 100%
+  float: left
+  margin: 0 10px
+
+.form-show-box
+  position: relative
+  width: 100%
+  margin: 0px auto
+  padding: 20px
+  box-sizing: border-box
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  justify-content: center
+  align-items: center
+
+  .input-placeholder-green::placeholder
+    color: #006400
+

@@ -11,24 +11,12 @@ router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/queue', auth.isAuthenticated, (req, res) => {
-  res.render('queue', { title: 'Queue', layout: 'layout' });
-});
-
 router.get('/login', (req, res) => {
   res.render('login', { title: 'Login', layout: 'layout' });
 });
 
 router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
-});
-
-// router.get('/user', auth.isAuthenticated, (req, res) => {
-//   res.render('user', { title: 'User', layout: 'layoutDashboard_user' });
-// });
-
-router.get('/forgotPassword', (req, res) => {
-  res.render('forgotPassword', { title: 'forgotPassword' });
 });
 
 /**
@@ -77,6 +65,7 @@ router.get('/forgotPassword', (req, res) => {
 
    });
  });
+
 
 router.post('/signup', (req, res) => {
   const { user } = req.body;

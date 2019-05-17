@@ -18,13 +18,12 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const stockRouter = require('./routes/stock');
 const testRouter = require('./routes/test');
-
-const cardsadminRouter = require('./routes/cardsAdmin');
 const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const requisitionShowRouter = require('./routes/requisitionShow');
-
 const userRouter = require('./routes/requisition');
+const cardsAdminRouter = require('./routes/cardsAdmin');
+const homeAdminRouter = require('./routes/homeAdmin');
 
 const app = express();
 
@@ -119,11 +118,12 @@ app.use(flash());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/expandingDivs', expandingdivsRouter);
-app.use('/cardsAdmin', cardsadminRouter);
+app.use('/cardsAdmin', cardsAdminRouter);
 app.use('/queue', queueRouter);
 app.use('/requisition/show', requisitionShowRouter);
 app.use('/stock', stockRouter);
 app.use('/user', userRouter);
+app.use('/homeAdmin', homeAdminRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
