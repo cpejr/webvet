@@ -2,10 +2,10 @@ $(document).ready(function(){
  $(window).resize(function(){
    const screenwidth = $(window).width();
 
-   if (screenwidth < 770) {
-     $("#radio").removeClass("form-check-inline col-md-7");
+   if (screenwidth < 400) {
+     $("#box-radio").removeClass("ml-3");
    } else {
-     $("#radio").addClass("form-check-inline col-md-7");
+     $("#box-radio").addClass("ml-3");
    }
  });
 });
