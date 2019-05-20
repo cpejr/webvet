@@ -134,6 +134,20 @@ class Requisition {
       });
     });
   }
+
+  /**
+   * Sum all Requisitions from DB
+   * @returns {null}
+   */
+  static count() {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.countDocuments({}).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 module.exports = Requisition;
