@@ -19,7 +19,7 @@ class Sample {
    */
   static getAll() {
     return new Promise((resolve, reject) => {
-      SampleModel.find({}).populate('user').exec().then((results) => {
+      SampleModel.find({}).populate('sample').exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -34,7 +34,7 @@ class Sample {
    */
   static getById(id) {
     return new Promise((resolve, reject) => {
-      SampleModel.findById(id).populate('user').exec().then((result) => {
+      SampleModel.findById(id).populate('sample').exec().then((result) => {
         resolve(result.toObject());
       }).catch((err) => {
         reject(err);
@@ -49,7 +49,7 @@ class Sample {
    */
   static getBySampleNumber(samplenumber) {
     return new Promise((resolve, reject) => {
-      SampleModel.findById(samplenumber).populate('user').exec().then((result) => {
+      SampleModel.findById(samplenumber).populate('sample').exec().then((result) => {
         resolve(result.toObject());
       }).catch((err) => {
         reject(err);
@@ -64,7 +64,7 @@ class Sample {
    */
   static getByIdRequisition(idrequisition) {
     return new Promise((resolve, reject) => {
-      SampleModel.findById(idrequisition).populate('user').exec().then((result) => {
+      SampleModel.findById(idrequisition).populate('sample').exec().then((result) => {
         resolve(result.toObject());
       }).catch((err) => {
         reject(err);
@@ -124,6 +124,21 @@ class Sample {
     return new Promise((resolve, reject) => {
       SampleModel.deleteMany({}).then(() => {
         resolve();
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+
+  /**
+   * Sum all Samples from DB
+   * @returns {null}
+   */
+  static count() {
+    return new Promise((resolve, reject) => {
+      SampleModel.countDocuments({}).then((result) => {
+        resolve(result);
       }).catch((err) => {
         reject(err);
       });

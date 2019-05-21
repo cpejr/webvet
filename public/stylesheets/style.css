@@ -6433,7 +6433,7 @@ li {
   width: 0;
   height: 100%;
   margin-left: -250px;
-  overflow-y: auto;
+  overflow: hidden;
   background: #191919;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6471,7 +6471,8 @@ li {
   margin-top: 2px;
   font-family: "OpenSans";
   font-size: 15px;
-  text-align: left; }
+  text-align: left;
+  overflow: hidden; }
 
 .sidebar-nav li {
   text-indent: 15px;
@@ -6588,22 +6589,27 @@ li {
 
 .dashboard-counter {
   margin: 5px 5px 5px 5px;
-  background-color: #3DC95F;
+  background-color: #2B2B2B;
   height: 100px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  align-content: center; }
+  justify-content: center; }
 
 .dashboard-number {
   font-size: 40px;
   color: #F7FCF2;
-  height: 60px; }
+  text-align: center;
+  position: relative;
+  top: 20%;
+  margin-right: 5px; }
 
 .dashboard-label {
   font-size: 20px;
   color: #F7FCF2;
-  height: 30px; }
+  text-align: center;
+  position: relative;
+  top: 35%;
+  margin-left: 5px; }
 
 #samples {
   flex-grow: 2; }
@@ -6812,6 +6818,15 @@ li {
   margin: 8px 0;
   text-align: left;
   border-bottom: 1px solid #3DC95F; }
+
+.form-show-label {
+  font-family: 'OpenSans';
+  width: 100%;
+  overflow: hidden;
+  font-size: 16px;
+  padding: 5px 0;
+  margin: 8px 0;
+  text-align: left; }
 
 .form-show-text input {
   border: none;

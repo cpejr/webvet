@@ -227,6 +227,20 @@ class User {
     });
   }
 
+  /**
+   * Sum all Clients from DB
+   * @returns {null}
+   */
+  static count() {
+    return new Promise((resolve, reject) => {
+      UserModel.countDocuments({ $or: [ { type: 'Convenio' }, { type: 'Produtor' }, { type: 'Gerencia' } ] }).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
 }
 
 module.exports = User;
