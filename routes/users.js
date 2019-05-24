@@ -19,10 +19,10 @@ router.get('/', auth.isAdmin, function(req, res, next) {
 
 });
 
-router.get('/pending', auth.isAdmin, function(req, res, next) {
+router.get('/pending', function(req, res, next) {
 
   User.getAll().then((users) => {
-    console.log(users);
+    //console.log(users);
     res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', users, ...req.session });
 
     return;
@@ -104,14 +104,12 @@ router.get('/show/:id', function(req, res, next) {
   });
 });
 
-router.post('/approve/:id',  function(req, res, next) {
-  const id = req.session.id;
-
+router.put('/approve/:id',  function(req, res, next) {
   const user = {
     status: 'Ativo'
   };
-
-  User.update(id, user).then(() => {
+  console.log("ESTA NO APROVADO");
+  User.update(req.params.id, user).then(() => {
     req.flash('success', 'Usuário ativado com sucesso.');
     res.redirect('/users/pending');
   }).catch((error) => {
@@ -122,8 +120,18 @@ router.post('/approve/:id',  function(req, res, next) {
 
 });
 
-router.post('/reject/:id',  function(req, res, next) {
-
+router.put('/reject/:id',  function(req, res, next) {
+  const user = {
+    status: 'Bloqueado'
+  };
+  console.log("ESTA NO BLOQUEADO");
+  User.update(req.params.id, user).then(() => {
+    req.flash('success', 'Usuário rejeitado com sucesso.');
+    res.redirect('/users/pending');
+  }).catch((error) => {
+    res.redirect('/error');
+    return error;
+  });
 });
 
 router.put('/blocked', function(req, res, next) {
