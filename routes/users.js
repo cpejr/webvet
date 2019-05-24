@@ -1,10 +1,11 @@
 var express = require('express');
 var firebase = require('firebase');
 var router = express.Router();
+const auth = require('./middleware/auth');
 const User = require('../models/user');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth.isAdmin, function(req, res, next) {
   User.getAll().then((users) => {
     console.log(users);
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
@@ -18,7 +19,7 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.get('/pending', function(req, res, next) {
+router.get('/pending', auth.isAdmin, function(req, res, next) {
 
   User.getAll().then((users) => {
     console.log(users);

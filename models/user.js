@@ -221,7 +221,7 @@ class User {
   */
  static addCovenant(id, user) {
    return new Promise((resolve, reject) => {
-     UserModel.findByIdAndUpdate(id, { $push: { associatedCovenants: user } }).catch((err) => {
+     UserModel.findByIdAndUpdate(id, { $push: { associatedCovenant: user } }).catch((err) => {
        reject(err);
      });
    });
@@ -235,7 +235,7 @@ class User {
    */
   static removeCovenant(id, user) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $pull: { associatedCovenants: user } }).catch((err) => {
+      UserModel.findByIdAndUpdate(id, { $pull: { associatedCovenant: user } }).catch((err) => {
         reject(err);
       });
     });
@@ -284,6 +284,7 @@ static getAssociatedMaganersById(id) {
        reject(err);
      });
    });
+  }
 
   /**
    * Sum all Clients from DB

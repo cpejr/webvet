@@ -4,6 +4,7 @@ var mongoose = require('mongodb');
 const Sample = require('../models/sample');
 const Requisition = require('../models/requisition');
 const User = require('../models/user');
+const Kit = require('../models/kit');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
