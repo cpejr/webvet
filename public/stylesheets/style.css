@@ -6172,6 +6172,69 @@ header {
 .input-placeholder::placeholder {
   color: white; }
 
+.requisition {
+  width: 1000px;
+  position: absolute;
+  margin-top: 40em;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #006400;
+  padding: 10px; }
+
+.requisition h1 {
+  float: left;
+  font-size: 40px;
+  border-bottom: 4px solid #006400;
+  padding: 13px 0; }
+
+.requisition-text {
+  width: 100%;
+  overflow: hidden;
+  font-size: 14px;
+  padding: 6px 0;
+  margin: 6px 0;
+  border-bottom: 1px solid #006400; }
+
+.requisition-text input {
+  border: none;
+  outline: none;
+  background: none;
+  color: #006400;
+  font-size: 13px;
+  width: 100%;
+  float: left;
+  margin: 0 10px; }
+
+.requisition-text textarea {
+  border: none;
+  outline: none;
+  background: none;
+  color: #006400;
+  font-size: 16px;
+  width: 80%;
+  float: left;
+  margin: 0 10px; }
+
+.requisition-box {
+  width: 800px;
+  height: 800px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.5); }
+
+.requisition-btn {
+  width: 100%;
+  background: none;
+  border: 2px solid #006400;
+  color: #006400;
+  padding: 5px;
+  font-size: 18px;
+  margin: 12px 0;
+  cursor: pointer; }
+
 .user-box {
   width: 100%;
   margin: 0px auto;

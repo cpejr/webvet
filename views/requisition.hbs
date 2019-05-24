@@ -1,106 +1,115 @@
-<div class="requisition" >
-  <h1> Formulário de Novo Registro</h1>
-  <br>
-  <form action="" method="post">
-      <div class="requisition-text col-md-12">
-        <input type="text" name="requisitionSchema[deliver]" class="requisition-text" placeholder="Fornecedor">
-      </div>
-      <div class="form-row">
-        <div class="requisition-text col-md-6">
-          <input type="text" name="requisitionSchema[producer]" class="requisition-text" placeholder="Produtor">
-        </div>
-        <div class="requisition-text col-md-4">
-          <input type="text" name="requisitionSchema[farmcity]" class="requisition-text" placeholder="Municipio">
-        </div>
-        <div class="requisition-text col-md-2">
-          <input type="text" name="requisitionSchema[farmstate]" class="requisition-text" placeholder="Estado">
-        </div>
-        <div class="requisition-text col-md-12">
-          <input type="text" name="requisitionSchema[farmname]" class="requisition-text" placeholder="Nome da Fazenda">
-        </div>
-        <div class="requisition-text col-md-6">
-          <input type="text"  name="requisitionSchema[datecollection]" class="requisition-text" placeholder="Data de Coleta">
-        </div>
-        <div class="requisition-text col-md-6">
-          <input type="text"  name="requisitionSchema[arrivaldate]" class="requisition-text" placeholder="Data de Recebimento">
-        </div>
-        <div class="requisition-text col-md-12">
-          <input type="text" name="requisition-text" name="requisitionSchema[packagetype]" class="requisition-text" placeholder="Tipo de Embalagem">
-        </div>
-        <div class="requisition-text col-md-12">
-          <input type="text"  name="requisitionSchema[numapproval]" class="requisition-text" placeholder="Número de Autorização (controle interno do solicitante)">
-        </div>
-      </div>
-  <!--  </form>-->
+  <div class="requisition" >
+    <h1> Formulário de Novo Registro</h1>
     <br>
-    <h6> Qual é a destinação do alimento?</h6>
-    <div class="requisition-text col-md-12">
-      <input type="text" class="requisition-text" name="requisitionSchema[destination]" placeholder="Aves, Bovinos, Suínos, etc...">
-    </div>
-    <br>
-    <h4> Identificação da Amostra</h4>
-  <!--  <form>-->
-    <!--  <form>-->
+    <form action="" method="post">
+        <div class="requisition-text col-md-12">
+          <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Fornecedor">
+        </div>
         <div class="form-row">
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 1">
+          <div class="requisition-text col-md-4">
+            <input type="text" name="requisition[producer]" class="requisition-text" placeholder="Produtor">
+          </div>
+          <div class="requisition-text col-md-4">
+            <input type="text" name="requisition[address][cep]" class="requisition-text" placeholder="CEP">
+          </div>
+          <div class="requisition-text col-md-4">
+            <input type="text" name="requisition[address][street]" class="requisition-text" placeholder="Endereço">
+          </div>
+          <div class="requisition-text col-md-3">
+            <input type="text" name="requisition[address][number]" class="requisition-text" placeholder="Número">
+          </div>
+          <div class="requisition-text col-md-3">
+            <input type="text" name="requisition[address][complement]" class="requisition-text" placeholder="Complemento">
+          </div>
+          <div class="requisition-text col-md-4">
+            <input type="text" name="requisition[address][city]" class="requisition-text" placeholder="Municipio">
+          </div>
+          <div class="requisition-text col-md-2">
+            <input type="text" name="requisition[address][state]" class="requisition-text" placeholder="Estado">
           </div>
           <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 2">
+            <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Nome da Fazenda">
           </div>
           <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 3">
+            <input type="text"  name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
           </div>
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 4">
-          </div>
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 5">
-          </div>
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 6">
-          </div>
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 7">
-          </div>
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 8">
-          </div>
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 9">
-          </div>
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisitionSchema[sample]" class="requisition-text" placeholder="Amostra 10">
-          </div>
-        </div>
-        <div class="requisition-text">
-          <textarea class="requisition-text" name="requisitionSchema[comment]" placeholder="Observações"rows="4"></textarea>
         </div>
     <!--  </form>-->
       <br>
-      <h6> Análises Solicitadas</h6>
+      <h5> Qual é a destinação do alimento?</h5>
+      <div class="requisition-text col-md-12">
+        <input type="text" class="requisition-text" name="requisition[destination]" placeholder="Aves, Bovinos, Suínos, etc...">
+      </div>
       <br>
-    <!--  <form class="form-row">-->
-          <div class="form-check form-check-inline">
-            <p>
-              <input class="form-check-input position-static" type="radio" name="Aflatoxinas">
-              <label class="form-check-label" name="requisitionSchema[mycotoxin]">Aflatoxinas</label>
-              <input class="form-check-input position-static" type="radio" name="Ocratoxina A">
-              <label class="form-check-label" name="requisitionSchema[mycotoxin]">Ocratoxina A</label>
-              <input class="form-check-input position-static" type="radio" name="Deoxinivalenol*">
-              <label class="form-check-label" name="requisitionSchema[mycotoxin]">Deoxinivalenol*</label>
-              <input class="form-check-input position-static" type="radio" name="T-2 toxina">
-              <label class="form-check-label" name="requisitionSchema[mycotoxin]">T-2 toxina</label>
-              <input class="form-check-input position-static" type="radio" name="Fumonisinas">
-              <label class="form-check-label" name="requisitionSchema[mycotoxin]">Fumonisinas</label>
-              <input class="form-check-input position-static" type="radio" name="Zearalenona">
-              <label class="form-check-label" name="requisitionSchema[mycotoxin]">Zearalenona</label>
-            </p>
+      <h4> Identificação da Amostra</h4>
+    <!--  <form>-->
+      <!--  <form>-->
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não poupa cítrica na amostra
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+          <div class="form-row">
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 1">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 2">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 3">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 4">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 5">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 6">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 7">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 8">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 9">
+            </div>
+            <div class="requisition-text col-md-6">
+              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 10">
+            </div>
           </div>
-    <!--  </form>-->
-      <h6>*A Análise de Deoxinivalenol em polpa cítrica (ou dietas que tenham este ingrediente em sua composição requer purificação adicional) - Destacar esta informação na amostra enviada!</h6>
-      <br>
-      <button type="submit" class="btn btn-success">Enviar</button>
-    <!--</form>-->
-  </form>
-</div>
+          <div class="requisition-text">
+            <textarea class="requisition-text" name="requisition[comment]" placeholder="Observações"rows="4"></textarea>
+          </div>
+      <!--  </form>-->
+        <br>
+        <h6> Análises Solicitadas</h6>
+        <br>
+      <!--  <form class="form-row">-->
+            <div class="form-check form-check-inline">
+              <p>
+                <input class="form-check-input position-static" type="radio" name="toxin">
+                <label class="form-check-label" name="requisition[mycotoxin]">Aflatoxinas</label>
+                <input class="form-check-input position-static" type="radio" name="toxin">
+                <label class="form-check-label" name="requisition[mycotoxin]">Ocratoxina A</label>
+                <input class="form-check-input position-static" type="radio" name="toxin">
+                <label class="form-check-label" name="requisition[mycotoxin]">Deoxinivalenol*</label>
+                <input class="form-check-input position-static" type="radio" name="toxin">
+                <label class="form-check-label" name="requisition[mycotoxin]">T-2 toxina</label>
+                <input class="form-check-input position-static" type="radio" name="toxin">
+                <label class="form-check-label" name="requisition[mycotoxin]">Fumonisinas</label>
+                <input class="form-check-input position-static" type="radio" name="toxin">
+                <label class="form-check-label" name="requisition[mycotoxin]">Zearalenona</label>
+              </p>
+            </div>
+      <!--  </form>-->
+        <h6>*A Análise de Deoxinivalenol em polpa cítrica (ou dietas que tenham este ingrediente em sua composição requer purificação adicional) - Destacar esta informação na amostra enviada!</h6>
+        <br>
+        <button type="submit" class="btn btn-success">Enviar</button>
+      <!--</form>-->
+    </form>
+  </div>
