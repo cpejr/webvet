@@ -37,6 +37,14 @@ router.get('/signup', (req, res) => {
            status: currentLogged.status
          };
         req.session.user = userR;
+        if (userR.type == "Admin"){
+          console.log("ADMINNNNNNNN");
+          res.redirect('/homeAdmin');
+        }
+        if (userR.type == "Analista"){
+          console.log("ANALAISTAAAA");
+          res.redirect('/homeAdmin');
+        }
         res.redirect('/user');
        }
        // else

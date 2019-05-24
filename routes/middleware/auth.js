@@ -1,4 +1,5 @@
 const firebase = require('firebase');
+//const User = require('./models/user');
 
 module.exports = {
   isAuthenticated: (req, res, next) => {
