@@ -17,6 +17,14 @@ const requisitionSchema = new mongoose.Schema({
   farmname: String,
   farmcity: String,
   farmstate: String,
+  address: {
+    cep: Number,
+    street: String,
+    number: String,
+    complement: String,
+    city: String,
+    state: String
+  },
   client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
