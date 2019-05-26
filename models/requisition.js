@@ -8,15 +8,13 @@ const requisitionSchema = new mongoose.Schema({
   identification: Number,
   datecollection: Date,
   detectedConcetration: Number,
-  numapproval: Number,
-  packing: String,
   origin: String,
   comment: String,
   lab: String,
   destination: String,
   farmname: String,
-  farmcity: String,
-  farmstate: String,
+  //farmcity: String,
+  //farmstate: String,
   address: {
     cep: Number,
     street: String,
@@ -32,6 +30,14 @@ const requisitionSchema = new mongoose.Schema({
   mycotoxin: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Mycotoxin'
+  }],
+  address: [{
+    cep: Number,
+    street: String,
+    number: String,
+    complement: String,
+    city: String,
+    state: String
   }],
   sample: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -95,7 +101,7 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.create(requisition).then((result) => {
         resolve(result._id);
-
+        console.log('entrou no cliente');
       }).catch((err) => {
         reject(err);
       });
