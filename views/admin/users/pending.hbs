@@ -21,15 +21,18 @@
                 Bloquear
               </button>
             </form>-->
-            <form action="/users/approve/{{_id}}?_method=PUT" method="post">
-              <button type="submit" class="fa fa-thumbs-up btn btn-success"></button>
-            <form/>
+            <div>
+              <form action="/users/approve/{{_id}}?_method=PUT" method="post">
+                <button type="submit" class="fa fa-thumbs-up btn btn-success"></button>
+              </form>
+            </div>
 
             <br/>
-            
-            <form action="/users/reject/{{_id}}?_method=PUT" method="post">
-              <button type="submit" class="fa fa-thumbs-down btn btn-danger"></button>
-            <form/>
+            <div>
+              <form action="/users/reject/{{_id}}?_method=PUT" method="post">
+                <button type="submit" class="fa fa-thumbs-down btn btn-danger"></button>
+              </form>
+            </div>
             </th>
           </tr>
         {{/compare}}
