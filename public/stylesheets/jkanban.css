@@ -34,9 +34,21 @@
     padding-right: 50px;
 }
 
+@font-face {
+  font-family: 'ProzaLibre';
+  src: url('../fonts/ProzaLibre-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'ProzaLibre-Bold';
+  src: url("../fonts/ProzaLibre-Bold.ttf");
+  font-weight: bold;
+}
+
 .kanban-board header {
-    font-size: 16px;
+    font-size: 100px;
     padding: 15px;
+    font-family: 'ProzaLibre'
 }
 
 .kanban-board header .kanban-title-board {
@@ -44,6 +56,7 @@
     margin: 0;
     padding: 0;
     display: inline;
+    font-family: 'ProzaLibre'
 }
 
 .kanban-board header .kanban-title-button {

@@ -15,6 +15,14 @@ const requisitionSchema = new mongoose.Schema({
   farmname: String,
   //farmcity: String,
   //farmstate: String,
+  address: {
+    cep: Number,
+    street: String,
+    number: String,
+    complement: String,
+    city: String,
+    state: String
+  },
   client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -36,8 +44,6 @@ const requisitionSchema = new mongoose.Schema({
     ref: 'Sample'
   }]
 }, { timestamps: true, strict: false });
-
-//const Mycotoxin = mongoose.model('Mycotoxin', mycotoxinSchema);
 
 const RequisitionModel = mongoose.model('Requisition', requisitionSchema);
 
@@ -137,6 +143,20 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.deleteMany({}).then(() => {
         resolve();
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
+   * Sum all Requisitions from DB
+   * @returns {null}
+   */
+  static count() {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.countDocuments({}).then((result) => {
+        resolve(result);
       }).catch((err) => {
         reject(err);
       });

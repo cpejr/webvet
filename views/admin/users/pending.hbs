@@ -1,0 +1,32 @@
+<h4>Requisição de Usuário</h4>
+<p></p>
+<div class="table-responsive">
+  <table id="tb-user" class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th class = "th-name">Nome</th>
+        <th class = "th-action">Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        {{#compare status 'Aguardando aprovação'}}
+          <tr>
+            <th>{{fullname}}</th>
+            <th>
+              <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn"></button>
+              <!-- COLOCAR UM FORM PRA CADA BOTÃO - MÉTODO POST-->
+              <!--<form  method= "POST" action="/admin/{{id}}/requisitions/users">
+              <button type="submit" align="center" class="btn btn-outline-danger " name="status" value="Bloqueado">
+                Bloquear
+              </button>
+            </form>-->
+              <button onClick="location.href='approve/{{_id}}'" class="fa fa-thumbs-up btn btn-success"></button>
+              <button onClick="location.href='reject/{{_id}}'" class="fa fa-thumbs-down btn btn-danger"></button>
+            </th>
+          </tr>
+        {{/compare}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
