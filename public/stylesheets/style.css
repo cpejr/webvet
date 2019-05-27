@@ -6247,6 +6247,20 @@ header {
 .input-placeholder::placeholder {
   color: white; }
 
+.btn-signup {
+  background: none;
+  border: 2px solid #006400;
+  margin-bottom: 50px;
+  color: #006400;
+  width: 40%;
+  font-size: 14px;
+  height: 30px;
+  cursor: pointer; }
+
+.btn-signup:hover {
+  background-color: #006400;
+  color: white;
+  width: 40%; }
 
 .requisition {
   width: 1000px;
@@ -6291,16 +6305,6 @@ header {
   float: left;
   margin: 0 10px; }
 
-.requisition-box {
-  width: 800px;
-  height: 800px;
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.5); }
-
 .requisition-btn {
   width: 100%;
   background: none;
@@ -6310,21 +6314,6 @@ header {
   font-size: 18px;
   margin: 12px 0;
   cursor: pointer; }
-
-.btn-signup {
-  background: none;
-  border: 2px solid #006400;
-  margin-bottom: 50px;
-  color: #006400;
-  width: 40%;
-  font-size: 14px;
-  height: 30px;
-  cursor: pointer; }
-
-.btn-signup:hover {
-  background-color: #006400;
-  color: white;
-  width: 40%; }
 
 .user-box {
   width: 100%;
