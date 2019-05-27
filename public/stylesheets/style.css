@@ -6114,11 +6114,6 @@ header {
   margin: 8px 0;
   border-bottom: 2px solid #F0FFF0; }
 
-.textbox i {
-  width: 26px;
-  float: left;
-  text-align: center; }
-
 .textbox input {
   border: none;
   outline: none;
@@ -6142,16 +6137,55 @@ header {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  padding: 26em; }
+  padding: 26em;
+  width: 100%; }
 
-@media (max-width: 425px) {
-  .img {
-    background-color: #113619;
-    background-image: none; }
-  .login-box {
-    width: 500px;
-    height: 450px;
-    background: rgba(46, 139, 87, 0.2); } }
+.login-device {
+  background-color: #113619;
+  padding: 100em; }
+
+.login-box-device {
+  width: 700px;
+  height: 800px;
+  position: absolute;
+  top: 60%;
+  text-align: center;
+  left: 65%;
+  transform: translate(-50%, -50%);
+  color: #98FB98;
+  border-radius: 10%;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px; }
+
+.login-box-device h1 {
+  color: white;
+  font-size: 100px;
+  border-bottom: 7px solid #90EE90;
+  margin-bottom: 18px 0; }
+
+.textbox-device {
+  width: 100%;
+  overflow: hidden;
+  font-size: 80px;
+  padding: 30px;
+  margin: 8px 0;
+  border-bottom: 4px solid #F0FFF0; }
+
+.textbox-device input {
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 60px;
+  width: 100%;
+  margin: 0 10px; }
+
+.btn-login-device {
+  background: none;
+  border: 4px solid #90EE90;
+  margin-bottom: 80px;
+  color: #90EE90;
+  font-size: 40px;
+  width: 60%; }
 
 .signup {
   width: 700px;
@@ -6162,7 +6196,7 @@ header {
   color: #006400; }
 
 .signup h1 {
-  font-size: 20px;
+  font-size: 30px;
   border-bottom: 4px solid #006400;
   margin-bottom: 20px;
   margin-top: 90px;
@@ -6206,11 +6240,80 @@ header {
   transform: translate(-50%, -50%);
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.5); }
-  .signup-box .input-placeholder-green::placeholder {
-    color: #006400; }
+
+.input-placeholder-green::placeholder {
+  color: #006400; }
 
 .input-placeholder::placeholder {
   color: white; }
+
+.btn-signup {
+  background: none;
+  border: 2px solid #006400;
+  margin-bottom: 50px;
+  color: #006400;
+  width: 40%;
+  font-size: 14px;
+  height: 30px;
+  cursor: pointer; }
+
+.btn-signup:hover {
+  background-color: #006400;
+  color: white;
+  width: 40%; }
+
+.requisition {
+  width: 1000px;
+  position: absolute;
+  margin-top: 40em;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #006400;
+  padding: 10px; }
+
+.requisition h1 {
+  float: left;
+  font-size: 40px;
+  border-bottom: 4px solid #006400;
+  padding: 13px 0; }
+
+.requisition-text {
+  width: 100%;
+  overflow: hidden;
+  font-size: 14px;
+  padding: 6px 0;
+  margin: 6px 0;
+  border-bottom: 1px solid #006400; }
+
+.requisition-text input {
+  border: none;
+  outline: none;
+  background: none;
+  color: #006400;
+  font-size: 13px;
+  width: 100%;
+  float: left;
+  margin: 0 10px; }
+
+.requisition-text textarea {
+  border: none;
+  outline: none;
+  background: none;
+  color: #006400;
+  font-size: 16px;
+  width: 80%;
+  float: left;
+  margin: 0 10px; }
+
+.requisition-btn {
+  width: 100%;
+  background: none;
+  border: 2px solid #006400;
+  color: #006400;
+  padding: 5px;
+  font-size: 18px;
+  margin: 12px 0;
+  cursor: pointer; }
 
 .user-box {
   width: 100%;

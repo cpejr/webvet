@@ -18,14 +18,6 @@ const userSchema = new mongoose.Schema({
     default: 'Produtor'
 
   },
-  address: {
-    cep: Number,
-    street: String,
-    number: String,
-    complement: String,
-    city: String,
-    state: String
-  },
   email: {
     type: String,
 
