@@ -42,16 +42,34 @@ router.get('/requisition', (req, res) => {
            status: currentLogged.status
          };
         req.session.user = userR;
-        if (userR.type == "Admin"){
-          console.log("ADMINNNNNNNN");
-          res.redirect('/homeAdmin');
+        if (userR.status == "Aguardando aprovação") {
+          req.flash('danger', 'Aguardando a aprovação do Administrador');
+          res.redirect('/login')
+          console.log("AINDA NAO APROVADOOO");
         }
-        if (userR.type == "Analista"){
-          console.log("ANALAISTAAAA");
-          res.redirect('/homeAdmin');
+        if (userR.status == "Ativo") {
+          console.log("ATIVISTA");
+          if (userR.type == "Admin") {
+            console.log("ADMINNNNNNNN");
+            res.redirect('/homeAdmin');
+          }
+          else {
+            if (userR.type == "Analista") {
+              console.log("ANALAISTAAAA");
+              res.redirect('/homeAnalyst');
+            }
+            else {
+              console.log("CLIENT");
+              res.redirect('/user')
+            }
+          }
         }
-        res.redirect('/user');
-       }
+        if (userR.status == "Bloqueado") {
+          console.log("Esse esta bloqueado");
+            req.flash('danger', 'Essa conta foi bloqueada pelo Administrador');
+          res.redirect('/login');
+        }
+      }
        // else
      }).catch((error) => {
        // Handle Errors here.

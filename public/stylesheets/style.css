@@ -6965,5 +6965,10 @@ li {
   align-items: center; }
   .form-show-box .input-placeholder-green::placeholder {
     color: #006400; }
+  .form-show-box .pending-form form div {
+    display: inline; }
+  .form-show-box .pending-form button {
+    display: inline;
+    vertical-align: middle; }
 
 /*# sourceMappingURL=style.css.map */
