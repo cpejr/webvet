@@ -109,7 +109,7 @@ router.post('/requisition', (req,res) => {
       Requisition.create(newRequisition).then((userID)=>{
         console.log(`New requisition with user id: ${userID}`);
         req.flash('success', 'Nova requisição enviada')
-        res.redirect('/user');
+        res.redirect('/homeAdmin');
       }).catch((error) => {
         console.log(error);
         res.redirect('/error');
