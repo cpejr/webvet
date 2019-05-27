@@ -21,16 +21,16 @@
                 Bloquear
               </button>
             </form>-->
-            <div>
+            <div class="pending-form">
               <form action="/users/approve/{{_id}}?_method=PUT" method="post">
-                <button type="submit" class="fa fa-thumbs-up btn btn-success"></button>
+                <div>
+                  <button type="submit" class="fa fa-thumbs-up btn btn-success"></button>
+                </div>
               </form>
-            </div>
-
-            <br/>
-            <div>
               <form action="/users/reject/{{_id}}?_method=PUT" method="post">
-                <button type="submit" class="fa fa-thumbs-down btn btn-danger"></button>
+                <div>
+                  <button type="submit" class="fa fa-thumbs-down btn btn-danger"></button>
+                </div>
               </form>
             </div>
             </th>

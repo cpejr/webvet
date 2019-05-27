@@ -38,6 +38,7 @@ router.get('/signup', (req, res) => {
          };
         req.session.user = userR;
         if (userR.status == "Aguardando aprovação") {
+          req.flash('danger', 'Aguardando a aprovação do Administrador');
           res.redirect('/login')
           console.log("AINDA NAO APROVADOOO");
         }
@@ -50,7 +51,7 @@ router.get('/signup', (req, res) => {
           else {
             if (userR.type == "Analista") {
               console.log("ANALAISTAAAA");
-              res.redirect('/homeAdmin');
+              res.redirect('/homeAnalyst');
             }
             else {
               console.log("CLIENT");
@@ -60,6 +61,7 @@ router.get('/signup', (req, res) => {
         }
         if (userR.status == "Bloqueado") {
           console.log("Esse esta bloqueado");
+            req.flash('danger', 'Essa conta foi bloqueada pelo Administrador');
           res.redirect('/login');
         }
       }
