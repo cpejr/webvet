@@ -24,6 +24,10 @@ router.get('/requisition', (req, res) => {
   res.render('requisition', {title:'requisition',layout:'layout'});
 });
 
+router.get('/forgotPassword', (req, res) => {
+  res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
+});
+
 /**
  * POST LOGIN
  */
@@ -136,9 +140,11 @@ router.post('/requisition', (req,res) => {
 
 //POST password reset
 router.post('/forgotPassword', (req, res) => {
-  var emailAddress = req.user.email;
+  const emailAddress = req.body.user;
   console.log(emailAddress);
-  firebase.auth().sendPasswordResetEmail(emailAddress).then(function() {
+  firebase.auth().sendPasswordResetEmail(emailAddress.email).then(function() {
+    res.redirect('/login');
+    req.flash('success', 'Email enviado');
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
