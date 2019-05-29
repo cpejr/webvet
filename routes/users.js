@@ -143,4 +143,19 @@ router.put('/blocked', function(req, res, next) {
   })
 });
 
+router.get('/addManager', function(req, res, next) {
+
+  User.addManager().then(() => {
+    console.log("Adicionado");
+    res.render('admin/users', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
+
+    return;
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+    return error;
+  });
+
+});
+
 module.exports = router;
