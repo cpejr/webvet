@@ -64,6 +64,7 @@ router.get('/forgotPassword', (req, res) => {
             }
             else {
               console.log("CLIENT");
+              console.log("Teste");
               res.render('user', {title:'Usuário',layout:'layoutDashboard_user'});
             }
           }
