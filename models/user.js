@@ -127,7 +127,7 @@ class User {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
+      UserModel.deleteOne({_id: id}).then(() => {
         resolve();
      }).catch((err) => {
        reject(err);
