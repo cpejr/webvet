@@ -1,4 +1,5 @@
 @import ../bootstrap/scss/bootstrap.scss
+@import ../bootstrap/scss/typeaheadjs.scss
 
 $color1: #113619
 $color2 : #3DC95F
@@ -947,11 +948,10 @@ li
 .edit-user-img
   opacity: 0.06
 
-
 .form-show-title
   width: 870px
   font-size: 22px
-  padding-bottom: 5px
+  padding-bottom: 2px
   font-family: 'ProzaLibre'
   border-bottom: 4px solid $color1
 
@@ -964,6 +964,26 @@ li
   margin: 8px 0
   text-align: left
   border-bottom: 1px solid $color2
+
+.form-show-typeahead
+  font-family: 'OpenSans'
+  width: 100%
+  font-size: 16px
+  padding: 5px 0
+  margin: 8px 0
+  text-align: left
+  border-bottom: 1px solid $color2
+
+.form-show-typeahead input
+  border: none
+  outline: none
+  background: none
+  padding: 0px
+  font-size: 15px
+  width: 100%
+  float: left
+  margin: 0 10px
+
 
 .form-show-label
   font-family: 'OpenSans'
@@ -999,7 +1019,7 @@ li
   position: relative
   width: 100%
   margin: 0px auto
-  padding: 20px
+  padding: 5px
   box-sizing: border-box
   display: flex
   flex-direction: row
@@ -1009,3 +1029,18 @@ li
 
   .input-placeholder-green::placeholder
     color: #006400
+
+@media (max-width: 769px)
+  .form-show-box
+    position: relative
+    width: 100%
+    margin: 0px auto
+    padding: 10px
+    box-sizing: border-box
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: center
+    align-items: center
+
+  //typeahead
