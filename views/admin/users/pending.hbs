@@ -21,8 +21,18 @@
                 Bloquear
               </button>
             </form>-->
-              <button onClick="location.href='approve/{{_id}}'" class="fa fa-thumbs-up btn btn-success"></button>
-              <button onClick="location.href='reject/{{_id}}'" class="fa fa-thumbs-down btn btn-danger"></button>
+            <div class="pending-form">
+              <form action="/users/approve/{{_id}}?_method=PUT" method="post">
+                <div>
+                  <button type="submit" class="fa fa-thumbs-up btn btn-success"></button>
+                </div>
+              </form>
+              <form action="/users/reject/{{_id}}?_method=PUT" method="post">
+                <div>
+                  <button type="submit" class="fa fa-thumbs-down btn btn-danger"></button>
+                </div>
+              </form>
+            </div>
             </th>
           </tr>
         {{/compare}}

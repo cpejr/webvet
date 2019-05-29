@@ -2,6 +2,7 @@ var express = require('express');
 var firebase = require('firebase');
 var router = express.Router();
 const User = require('../models/user');
+const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
 const auth = require('./middleware/auth');
@@ -17,6 +18,14 @@ router.get('/login', (req, res) => {
 
 router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
+});
+
+router.get('/requisition', (req, res) => {
+  res.render('requisition', {title:'requisition',layout:'layout'});
+});
+
+router.get('/forgotPassword', (req, res) => {
+  res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
 });
 
 /**
@@ -37,8 +46,34 @@ router.get('/signup', (req, res) => {
            status: currentLogged.status
          };
         req.session.user = userR;
-        res.redirect('/user');
-       }
+        if (userR.status == "Aguardando aprovação") {
+          req.flash('danger', 'Aguardando a aprovação do Administrador');
+          res.redirect('/login')
+          console.log("AINDA NAO APROVADOOO");
+        }
+        if (userR.status == "Ativo") {
+          console.log("ATIVISTA");
+          if (userR.type == "Admin") {
+            console.log("ADMINNNNNNNN");
+            res.redirect('/homeAdmin');
+          }
+          else {
+            if (userR.type == "Analista") {
+              console.log("ANALAISTAAAA");
+              res.redirect('/homeAnalyst');
+            }
+            else {
+              console.log("CLIENT");
+              res.redirect('/user')
+            }
+          }
+        }
+        if (userR.status == "Bloqueado") {
+          console.log("Esse esta bloqueado");
+            req.flash('danger', 'Essa conta foi bloqueada pelo Administrador');
+          res.redirect('/login');
+        }
+      }
        // else
      }).catch((error) => {
        // Handle Errors here.
@@ -87,11 +122,29 @@ router.post('/signup', (req, res) => {
   });
 });
 
+//post / NovoRegistro
+router.post('/requisition', (req,res) => {
+
+  const newRequisition = req.body;
+
+      console.log(newRequisition);
+      Requisition.create(newRequisition).then((userID)=>{
+        console.log(`New requisition with user id: ${userID}`);
+        req.flash('success', 'Nova requisição enviada')
+        res.redirect('/homeAdmin');
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      });
+});
+
 //POST password reset
 router.post('/forgotPassword', (req, res) => {
-  var emailAddress = req.user.email;
+  const emailAddress = req.body.user;
   console.log(emailAddress);
-  firebase.auth().sendPasswordResetEmail(emailAddress).then(function() {
+  firebase.auth().sendPasswordResetEmail(emailAddress.email).then(function() {
+    res.redirect('/login');
+    req.flash('success', 'Email enviado');
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
