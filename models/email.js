@@ -19,7 +19,7 @@ class Email {
   static sendEmail(data) {
     const config = {
       from: '',
-      to: data.clientEmail,
+      to: "victornacle1@gmail.com",
       subject: data.subject,
       text: data.content,
       attachments: data.attachments
@@ -77,6 +77,22 @@ class Email {
     });
   }
 
+  static notificationEmail(data) {
+    console.log('Email enviado');
+    const content = `Prezada Kelly, novo cadastro a ser aprovado na plataforma`;
+    const subject = 'Novo cadastro';
+    const emailContent = {
+      clientEmail: data.email,
+      subject,
+      content
+    };
+    return new Promise((resolve) => {
+      Email.sendEmail(emailContent).then((info) => {
+        resolve(info);
+      });
+    });
+  }
+
   static userApprovedEmail(data) {
     console.log('Cadastro de usuário aprovado');
     const content = `Prezado(a) ${data.firstName},
@@ -93,6 +109,7 @@ class Email {
       });
     });
   }
+
 
   static userRejectedEmail(data) {
     console.log('Cadastro de usuário reprovado');

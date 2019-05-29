@@ -6,6 +6,7 @@ const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
 const auth = require('./middleware/auth');
+const Email = require('../models/email');
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -112,6 +113,15 @@ router.post('/signup', (req, res) => {
       console.log(`Created new user with id: ${id}`);
       req.flash('success', 'Cadastrado com sucesso. Aguarde aprovação');
       res.redirect('/login');
+      User.getAdmin().then((admin) => {
+        Email.notificationEmail(admin).catch((error) => {
+          res.redirect('/login');
+        });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+        return error;
+      });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');

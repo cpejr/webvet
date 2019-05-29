@@ -308,6 +308,19 @@ static getAssociatedMaganersById(id) {
      });
    }
 
+   /**
+    * Get all Users from database
+    * @returns {Array} Array of Users
+    */
+   static getAdmin() {
+     return new Promise((resolve, reject) => {
+       UserModel.findOne({type: "Admin"}).exec().then((result) => {
+         resolve(result);
+       }).catch((err) => {
+         reject(err);
+       });
+     });
+   }
 }
 
 module.exports = User;
