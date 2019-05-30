@@ -8,7 +8,7 @@ const User = require('../models/user');
 router.get('/', function(req, res, next) {
   User.getAll().then((users) => {
     console.log(users);
-    res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session.user });
+    res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
     return;
   }).catch((error) => {
@@ -23,7 +23,7 @@ router.get('/pending', function(req, res, next) {
 
   User.getAll().then((users) => {
     //console.log(users);
-    res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', users});
+    res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', users, ...req.session });
 
     return;
   }).catch((error) => {

@@ -1,19 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const User = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  User.getAll().then((users) => {
-    console.log(users);
-    res.render('admin/queue', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
-
-    return;
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-    return error;
-  });
+  res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
 });
 
 module.exports = router;
