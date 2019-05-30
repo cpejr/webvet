@@ -5,10 +5,10 @@ const auth = require('./middleware/auth');
 const User = require('../models/user');
 
 /* GET home page. */
-router.get('/', auth.isAdmin, function(req, res, next) {
+router.get('/', function(req, res, next) {
   User.getAll().then((users) => {
     console.log(users);
-    res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
+    res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session.user });
 
     return;
   }).catch((error) => {
@@ -23,7 +23,7 @@ router.get('/pending', function(req, res, next) {
 
   User.getAll().then((users) => {
     //console.log(users);
-    res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', users, ...req.session });
+    res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', users, });
 
     return;
   }).catch((error) => {
