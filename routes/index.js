@@ -1,11 +1,11 @@
 var express = require('express');
 var firebase = require('firebase');
 var router = express.Router();
+const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
-const auth = require('./middleware/auth');
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -20,12 +20,16 @@ router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
 });
 
+router.get('/user', (req, res) => {
+  res.render('user', { title: 'Usuário', layout: 'layoutDashboard_user' });
+});
+
 router.get('/requisition', (req, res) => {
   res.render('requisition', {title:'requisition',layout:'layout'});
 });
 
 router.get('/forgotPassword', (req, res) => {
-  res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
+  res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layoutDashboard_user'});
 });
 
 /**
@@ -60,11 +64,11 @@ router.get('/forgotPassword', (req, res) => {
           else {
             if (userR.type == "Analista") {
               console.log("ANALAISTAAAA");
-              res.redirect('/homeAnalyst');
+              res.redirect('/homeAdmin');
             }
             else {
               console.log("CLIENT");
-              res.redirect('/user')
+                res.redirect('/user');
             }
           }
         }

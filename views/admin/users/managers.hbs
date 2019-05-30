@@ -14,7 +14,7 @@
       {{#each users}}
           {{#compare type 'Gerencia'}}
             <tr>
-              <th>{{fullname}}</th>
+              <th onClick="location.href='/users/producers/{{_id}}'"> {{fullname}}</th>
               <th>{{cellphone}}</th>
               <th>{{email}}</th>
               <th>
