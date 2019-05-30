@@ -3,7 +3,16 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+  User.getAll().then((users) => {
+    console.log(users);
+    res.render('admin/queue', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
+
+    return;
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+    return error;
+  });
 });
 
 module.exports = router;
