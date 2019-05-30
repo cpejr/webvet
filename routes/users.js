@@ -79,6 +79,36 @@ router.get('/managers', function(req, res, next) {
 
 });
 
+router.get('/managers/:id', function(req, res, next) {
+
+  User.getAssociatedMaganersById(req.params.id).then((users) => {
+    console.log(users);
+    res.render('admin/users/managers', { title: 'Gerentes Associados', layout: 'layoutDashboard.hbs', users, ...req.session });
+
+    return;
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+    return error;
+  });
+
+});
+
+
+router.get('/producers/:id', function(req, res, next) {
+
+  User.getAssociatedProducersById(req.params.id).then((users) => {
+    console.log(users);
+    res.render('admin/users/producers', { title: 'Produtores Associados', layout: 'layoutDashboard.hbs', users, ...req.session });
+
+    return;
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+    return error;
+  });
+
+});
 
 router.post('/edit/:id',  function(req, res, next) {
   const { user } = req.body;
@@ -143,19 +173,15 @@ router.put('/blocked', function(req, res, next) {
   })
 });
 
-router.get('/addManager', function(req, res, next) {
-
-  User.addManager().then(() => {
-    console.log("Adicionado");
-    res.render('admin/users', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
-
-    return;
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-    return error;
+router.get('/addManager',  function(req, res, next) {
+  User.getById("5ce8401566fee16478f3f43a").then((manager) => {
+    // Adiciona o segundo id ao primeiro
+    User.addManager("5ce8401566fee16478f3f43a", "5ce83ed566fee16478f3f435").catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+    res.render('', { title: 'Usuários', layout: 'layoutDashboard.hbs' });
   });
-
 });
 
 module.exports = router;
