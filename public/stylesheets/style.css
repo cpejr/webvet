@@ -6095,6 +6095,11 @@ a {
 header {
   display: block; }
 
+.background-index {
+  background-color: #98FB98;
+  width: 105em;
+  height: 48.7em; }
+
 .login-box {
   width: 300px;
   height: 280px;
