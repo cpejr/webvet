@@ -9,12 +9,9 @@ router.get('/', function(req, res, next) {
   User.getAll().then((users) => {
     console.log(users);
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
-
-    return;
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 
 });
@@ -24,12 +21,9 @@ router.get('/pending', function(req, res, next) {
   User.getAll().then((users) => {
     //console.log(users);
     res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', users, ...req.session });
-
-    return;
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 
 });
@@ -39,12 +33,9 @@ router.get('/associated', function(req, res, next) {
   User.getAll().then((users) => {
     console.log(users);
     res.render('admin/users/associated', { title: 'Conveniados', layout: 'layoutDashboard.hbs', users, ...req.session });
-
-    return;
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 
 });
@@ -55,11 +46,9 @@ router.get('/producers', function(req, res, next) {
     console.log(users);
     res.render('admin/users/producers', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
 
-    return;
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 
 });
@@ -70,11 +59,9 @@ router.get('/managers', function(req, res, next) {
     console.log(users);
     res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session });
 
-    return;
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 
 });
@@ -85,11 +72,9 @@ router.get('/managers/:id', function(req, res, next) {
     console.log(users);
     res.render('admin/users/managers', { title: 'Gerentes Associados', layout: 'layoutDashboard.hbs', users, ...req.session });
 
-    return;
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 
 });
@@ -101,11 +86,9 @@ router.get('/producers/:id', function(req, res, next) {
     console.log(users);
     res.render('admin/users/producers', { title: 'Produtores Associados', layout: 'layoutDashboard.hbs', users, ...req.session });
 
-    return;
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 
 });
@@ -130,7 +113,6 @@ router.get('/show/:id', function(req, res, next) {
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 });
 
@@ -144,7 +126,6 @@ router.put('/approve/:id',  function(req, res, next) {
     res.redirect('/users/pending');
   }).catch((error) => {
     res.redirect('/error');
-    return error;
   });
 
 
@@ -160,7 +141,6 @@ router.put('/reject/:id',  function(req, res, next) {
     res.redirect('/users/pending');
   }).catch((error) => {
     res.redirect('/error');
-    return error;
   });
 });
 

@@ -51,37 +51,19 @@
           </button>
       </div>
           <div class="form-row">
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 1">
+            <div class="requisition-text col-md-8">
+              <input type="text" name="requisition[sample]" id="sample1" class="requisition-text" placeholder="Amostra 1">
             </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 2">
+            <div class="checkbox">
+              <input type="checkbox" id="poupa1" name="poupa" value="poupa"> Contém poupa cítrica</input>
             </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 3">
-            </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 4">
-            </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 5">
-            </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 6">
-            </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 7">
-            </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 8">
-            </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 9">
-            </div>
-            <div class="requisition-text col-md-6">
-              <input type="text" name="requisition[sample]" class="requisition-text" placeholder="Amostra 10">
+            <div>
+              <a id= "add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
             </div>
           </div>
+          <div id="samples">
+          </div>
+
           <div class="requisition-text">
             <textarea class="requisition-text" name="requisition[comment]" placeholder="Observações"rows="4"></textarea>
           </div>
@@ -113,3 +95,27 @@
       <!--</form>-->
     </form>
   </div>
+
+  <script type="text/javascript">
+
+  var num = 2;
+  function addInput(){
+  if(num<11){
+  var newInput = '<div class="form-row"><div class="requisition-text col-md-8"><input type="text" name="requisition[sample]" id="sample'+num+'" class="requisition-text" placeholder="Amostra '+num+'"/></div><div class="checkbox"><input type="checkbox" id="poupa'+num+'" name="poupa" value="poupa"> Contém poupa cítrica</input></div></div>';
+     document.getElementById('sample').innerHTML += newInput;
+     num++;
+  }
+  else{
+    req.flash('alert', 'Número máximo de requisições atingido');
+  }
+  }
+
+  var checados = document.getElementsByName('poupa');
+  var inputs = document.getElementsByName('requisition[sample]');
+  var poupaCitrica = " com poupa cítrica"
+  for (var i = 0; i < checados.lenght; i++) {
+    if(checados[i].checked){
+      inputs[i]=input[i].concat(poupaCitrica)
+    }
+  }
+  </script>
