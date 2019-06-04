@@ -127,11 +127,11 @@ class User {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
+      UserModel.findOneAndDelete({_id: id}).then(() => {
         resolve();
-     }).catch((err) => {
-       reject(err);
-     });
+      }).catch((err) => {
+        reject(err);
+      });
    });
  }
 
@@ -307,6 +307,21 @@ static getAssociatedMaganersById(id) {
        });
      });
    }
+
+   /**
+  * Get a User name that match the desired query
+  * @param {Object} query - Object that defines the filter
+  * @returns {Object} User Document Data
+  */
+ static getOneByQuery(query) {
+   return new Promise((resolve, reject) => {
+     UserModel.findOne(query).exec().then((results) => {
+       resolve(results);
+     }).catch((err) => {
+       reject(err);
+     });
+   });
+ }
 
 }
 
