@@ -32,6 +32,23 @@ router.get('/forgotPassword', (req, res) => {
   res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layoutDashboard_user'});
 });
 
+router.get('/forgotPassword', (req, res) => {
+  res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
+});
+
+router.get('/user', function(req, res, next) {
+  Requisition.getAll().then((requisitions) => {
+    console.log("oi");
+    res.render('user', { title: 'Cliente', layout: 'layoutDashboard_user.hbs'});
+    return;
+ }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+    return error;
+  });
+
+ });
+
 /**
  * POST LOGIN
  */
