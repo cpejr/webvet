@@ -14,7 +14,7 @@ var dragula = require('dragula');
 
     this.jKanban = function () {
         var self = this;
-        this._disallowedItemProperties = ['id', 'title', 'click', 'drag', 'dragend', 'drop', 'order'];
+        this._disallowedItemProperties = ['id', 'title','analyst', 'status', 'click', 'drag', 'dragend', 'drop', 'order'];
         this.element = '';
         this.container = '';
         this.boardContainer = [];
@@ -166,7 +166,7 @@ var dragula = require('dragula');
             if (typeof(element.id) !== 'undefined' && element.id !== '') {
               nodeItem.setAttribute('data-eid', element.id)
             }
-            nodeItem.innerHTML = element.title;
+            nodeItem.innerHTML = itemKanban.title + " "+ '<span  class="badge badge-secondary">' + itemKanban.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + itemKanban.analyst + '</span>';
             //add function
             nodeItem.clickfn = element.click;
             nodeItem.dragfn = element.drag;
@@ -178,7 +178,7 @@ var dragula = require('dragula');
             return self;
         };
 
-        this.addForm = function (boardID, formItem) {
+        this.addForm = function (boardID, itemID, formItem) {
             var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
             var _attribute = formItem.getAttribute("class");
             formItem.setAttribute("class", _attribute + " not-draggable");
@@ -268,7 +268,7 @@ var dragula = require('dragula');
                     if(itemKanban.id){
                         nodeItem.dataset.eid = itemKanban.id;
                     }
-                    nodeItem.innerHTML = itemKanban.title;
+                    nodeItem.innerHTML = itemKanban.title + " "+ '<span  class="badge badge-secondary">' + itemKanban.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + itemKanban.analyst + '</span>';
                     //add function
                     nodeItem.clickfn = itemKanban.click;
                     nodeItem.dragfn = itemKanban.drag;
