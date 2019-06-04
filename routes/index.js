@@ -29,10 +29,6 @@ router.get('/requisition', (req, res) => {
 });
 
 router.get('/forgotPassword', (req, res) => {
-  res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layoutDashboard_user'});
-});
-
-router.get('/forgotPassword', (req, res) => {
   res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
 });
 
