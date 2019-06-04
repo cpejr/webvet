@@ -19,7 +19,7 @@ class Email {
   static sendEmail(data) {
     const config = {
       from: '',
-      to: "victornacle1@gmail.com",
+      to: data.clientEmail,
       subject: data.subject,
       text: data.content,
       attachments: data.attachments
