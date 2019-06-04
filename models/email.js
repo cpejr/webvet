@@ -18,24 +18,24 @@ class Email {
 
   static sendEmail(data) {
     const config = {
-      from: '',
-      to: data.clientEmail,
-      subject: data.subject,
-      text: data.content,
-      attachments: data.attachments
-    };
-    return new Promise((resolve) => {
-      transporter.sendMail(config, (error, info) => {
-        if (error) {
-          console.log(error);
-          resolve(error);
-        }
-        else {
-          console.log(`Email enviado ${info.response}`);
-          resolve(info);
-        }
-      });
-    });
+     from: 'moreiramrafaela@gmail.com',
+     to: data.clientEmail,
+     subject: data.subject,
+     text: data.content,
+     attachments: data.attachments
+   };
+   return new Promise((resolve) => {
+     transporter.sendMail(config, (error, info) => {
+       if (error) {
+         console.log(error);
+         resolve(error);
+       }
+       else {
+         console.log(`Email enviado ${info.response}`);
+         resolve(info);
+       }
+     });
+   });
   }
 
   static contactEmail(data) {
@@ -79,7 +79,7 @@ class Email {
 
   static userApprovedEmail(data) {
     console.log('Cadastro de usuário aprovado');
-    const content = `Prezado(a) ${data.firstName},
+    const content = `Prezado(a) ${data.fullname},
     Seu cadastro foi realizado e aprovado com sucesso. Entre na plataforma com seu email e senha`;
     const subject = 'LAMICO: Cadastro ativado com sucesso';
     const emailContent = {
@@ -112,3 +112,6 @@ class Email {
   }
 
 }
+
+
+module.exports = Email;

@@ -1,4 +1,5 @@
 @import ../bootstrap/scss/bootstrap.scss
+@import ../bootstrap/scss/typeaheadjs.scss
 
 $color1: #113619
 $color2 : #3DC95F
@@ -989,11 +990,10 @@ li
 .edit-user-img
   opacity: 0.06
 
-
 .form-show-title
   width: 870px
   font-size: 22px
-  padding-bottom: 5px
+  padding-bottom: 2px
   font-family: 'ProzaLibre'
   border-bottom: 4px solid $color1
 
@@ -1006,6 +1006,28 @@ li
   margin: 8px 0
   text-align: left
   border-bottom: 1px solid $color2
+
+.form-show-typeahead
+  font-family: 'OpenSans'
+  width: 100%
+  font-size: 16px
+  padding: 5px 0
+  margin: 8px 0
+  text-align: left
+  border-bottom: 1px solid $color2
+
+.form-show-typeahead input
+  border: none
+  outline: none
+  background: none
+  padding: 0px
+  font-size: 15px
+  width: 100%
+  float: left
+  margin: 0 10px
+
+.form-select
+  font-size: 15px
 
 .form-show-label
   font-family: 'OpenSans'
@@ -1041,7 +1063,7 @@ li
   position: relative
   width: 100%
   margin: 0px auto
-  padding: 20px
+  padding: 5px
   box-sizing: border-box
   display: flex
   flex-direction: row
@@ -1051,3 +1073,72 @@ li
 
   .input-placeholder-green::placeholder
     color: #006400
+
+@media (max-width: 769px)
+  .form-show-box
+    position: relative
+    width: 100%
+    margin: 0px auto
+    padding: 10px
+    box-sizing: border-box
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: center
+    align-items: center
+
+
+//TYPEAHEAD
+.tt-query
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+
+.tt-hint
+  color: #999
+  max-width: 0
+
+.tt-menu     /* used to be tt-dropdown-menu in older versions */
+  width: 335px
+  margin-top: 4px
+  padding: 4px 0
+  background-color: #fff
+  border: 1px solid #ccc
+  border: 1px solid rgba(0, 0, 0, 0.2)
+  -webkit-border-radius: 4px
+     -moz-border-radius: 4px
+          border-radius: 4px
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2)
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2)
+          box-shadow: 0 5px 10px rgba(0,0,0,.2)
+
+.tt-suggestion
+  padding: 3px 20px
+  line-height: 20px
+
+.tt-suggestion.tt-cursor,.tt-suggestion:hover
+  color: #fff
+  background-color: #0097cf
+  cursor: pointer
+
+.tt-suggestion p
+  margin: 0
+
+#producer-list .tt-menu
+  max-height: 150px
+  overflow-y: auto
+  font-size: 0.9em
+
+#covenant-list .tt-menu
+  max-height: 150px
+  overflow-y: auto
+
+#manager-list .tt-menu
+  max-height: 150px
+  overflow-y: auto
+
+.empty-search
+  padding: 5px 10px
+  text-align: center
+
+//PENDINGS

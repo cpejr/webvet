@@ -4,10 +4,21 @@ const mongoose = require('mongoose');
 
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
+  status: {
+    type: String,
+    enum: ['Nova', 'Sem amostra', 'Produtor', 'Gerencia', 'Convenio'],
+    default: 'Produtor'
+
+  },
   requsition: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Requisition'
-  }
+  },
+  status: String,
+  mycotoxin: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Mycotoxin'
+  }]
 }, { timestamps: true, strict: false });
 
 const SampleModel = mongoose.model('Sample', sampleSchema);
