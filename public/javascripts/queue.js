@@ -14,6 +14,8 @@ const mycotoxin1 = new jKanban({
         {
           'id':'sample-1',
           'title':'Amostra 1',
+          'status': 'Nova',
+          'analyst':'Gabriela',
         }
       ]
     },
@@ -25,15 +27,23 @@ const mycotoxin1 = new jKanban({
         {
           'id':'sample-3',
           'title':'Amostra 3',
+          'status': 'Nova',
+          'analyst':'Gabriela',
         },
         {
           'id':'sample-4',
           'title':'Amostra 4',
+          'status': 'Sem amostra',
+          'analyst':'Gabriela',
         }
       ]
     }
   ]
 });
+
+
+
+
 
 const mycotoxin2 = new jKanban({
   element : '#mycotoxin2',
@@ -228,3 +238,10 @@ const mycotoxin6 = new jKanban({
     }
   ]
 });
+
+
+var formItem = document.createElement('span');
+formItem.setAttribute("class", "label label-default");
+formItem.innerHTML = "OLA";
+
+mycotoxin1.addForm('sample-4', formItem);
