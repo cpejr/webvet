@@ -1,5 +1,5 @@
-const mycotoxin1 = new jKanban({
-  element : '#mycotoxin1',
+var aflatoxina = new jKanban({
+  element : '#aflatoxina',
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
@@ -7,46 +7,23 @@ const mycotoxin1 = new jKanban({
   },
   boards  : [
     {
-      'id' : '_totest',
-      'title'  : 'Disponível',
-      'class' : 'info',
-      'item'  : [
-        {
-          'id':'sample-1',
-          'title':'Amostra 1',
-          'status': 'Nova',
-          'analyst':'Gabriela',
-        }
-      ]
+      id : '_totest',
+      title  : 'Espera',
+      class : 'info',
     },
     {
-      'id' : '_testing',
-      'title'  : 'Para teste',
-      'class' : 'success',
-      'item'  : [
-        {
-          'id':'sample-3',
-          'title':'Amostra 3',
-          'status': 'Nova',
-          'analyst':'Gabriela',
-        },
-        {
-          'id':'sample-4',
-          'title':'Amostra 4',
-          'status': 'Sem amostra',
-          'analyst':'Gabriela',
-        }
-      ]
+      id : '_testing',
+      title  : 'Em análise',
+      class : 'success',
     }
-  ]
+  ],
+  dropEl : function (el, target, source, sibling) {
+    alert(el.id);    
+  }
 });
 
-
-
-
-
-const mycotoxin2 = new jKanban({
-  element : '#mycotoxin2',
+const deoxinivalenol = new jKanban({
+  element : '#deoxinivalenol',
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
@@ -55,36 +32,20 @@ const mycotoxin2 = new jKanban({
   },
   boards  : [
     {
-      'id' : '_totest',
-      'title'  : 'Disponível',
-      'class' : 'info',
-      'item'  : [
-        {
-          'id':'sample-1',
-          'title':'Amostra 1',
-        },
-        {
-          'id':'sample-2',
-          'title':'Amostra 2',
-        }
-      ]
+      id : '_totest',
+      title  : 'Disponível',
+      class : 'info',
     },
     {
-      'id' : '_testing',
-      'title'  : 'Para teste',
-      'class' : 'success',
-      'item'  : [
-        {
-          'id':'sample-3',
-          'title':'Amostra 3',
-        }
-      ]
+      id : '_testing',
+      title  : 'Para teste',
+      class : 'success',
     }
   ]
 });
 
-const mycotoxin3 = new jKanban({
-  element : '#mycotoxin3',
+const ocratoxina = new jKanban({
+  element : '#ocratoxina',
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
@@ -93,40 +54,20 @@ const mycotoxin3 = new jKanban({
   },
   boards  : [
     {
-      'id' : '_totest',
-      'title'  : 'Disponível',
-      'class' : 'info',
-      'item'  : [
-        {
-          'id':'sample-1',
-          'title':'Amostra 1',
-        },
-        {
-          'id':'sample-2',
-          'title':'Amostra 2',
-        }
-      ]
+      id : '_totest',
+      title  : 'Disponível',
+      class : 'info',
     },
     {
-      'id' : '_testing',
-      'title'  : 'Para teste',
-      'class' : 'success',
-      'item'  : [
-        {
-          'id':'sample-3',
-          'title':'Amostra 3',
-        },
-        {
-          'id':'sample-4',
-          'title':'Amostra 4',
-        }
-      ]
+      id : '_testing',
+      title  : 'Para teste',
+      class : 'success',
     }
   ]
 });
 
-const mycotoxin4 = new jKanban({
-  element : '#mycotoxin4',
+const t2toxina = new jKanban({
+  element : '#t2toxina',
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
@@ -135,36 +76,20 @@ const mycotoxin4 = new jKanban({
   },
   boards  : [
     {
-      'id' : '_totest',
-      'title'  : 'Disponível',
-      'class' : 'info',
-      'item'  : [
-        {
-          'id':'sample-1',
-          'title':'Amostra 1',
-        },
-        {
-          'id':'sample-2',
-          'title':'Amostra 2',
-        }
-      ]
+      id : '_totest',
+      title  : 'Disponível',
+      class : 'info',
     },
     {
-      'id' : '_testing',
-      'title'  : 'Para teste',
-      'class' : 'success',
-      'item'  : [
-        {
-          'id':'sample-3',
-          'title':'Amostra 3',
-        }
-      ]
+      id : '_testing',
+      title  : 'Para teste',
+      class : 'success',
     }
   ]
 });
 
-const mycotoxin5 = new jKanban({
-  element : '#mycotoxin5',
+const fumonisina = new jKanban({
+  element : '#fumonisina',
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
@@ -173,36 +98,20 @@ const mycotoxin5 = new jKanban({
   },
   boards  : [
     {
-      'id' : '_totest',
-      'title'  : 'Disponível',
-      'class' : 'info',
-      'item'  : [
-        {
-          'id':'sample-1',
-          'title':'Amostra 1',
-        },
-        {
-          'id':'sample-2',
-          'title':'Amostra 2',
-        }
-      ]
+      id : '_totest',
+      title  : 'Disponível',
+      class : 'info',
     },
     {
-      'id' : '_testing',
-      'title'  : 'Para teste',
-      'class' : 'success',
-      'item'  : [
-        {
-          'id':'sample-3',
-          'title':'Amostra 3',
-        }
-      ]
+      id : '_testing',
+      title  : 'Para teste',
+      class : 'success',
     }
   ]
 });
 
-const mycotoxin6 = new jKanban({
-  element : '#mycotoxin6',
+const zearalenona = new jKanban({
+  element : '#zearalenona',
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
@@ -211,37 +120,131 @@ const mycotoxin6 = new jKanban({
   },
   boards  : [
     {
-      'id' : '_totest',
-      'title'  : 'Disponível',
-      'class' : 'info',
-      'item'  : [
-        {
-          'id':'sample-1',
-          'title':'Amostra 1',
-        },
-        {
-          'id':'sample-2',
-          'title':'Amostra 2',
-        }
-      ]
+      id : '_totest',
+      title  : 'Disponível',
+      class : 'info',
     },
     {
-      'id' : '_testing',
-      'title'  : 'Para teste',
-      'class' : 'success',
-      'item'  : [
-        {
-          'id':'sample-3',
-          'title':'Amostra 3',
-        }
-      ]
+      id : '_testing',
+      title  : 'Para teste',
+      class : 'success',
     }
   ]
 });
 
+$.get('/search/samples', (samples) => {
+  $(document).ready(function() {
+    samples.forEach((sample) => {
+      mycotoxins = sample.mycotoxin;
+      mycotoxins.forEach((m) => {
+        //AFLATOXINA
+        if(m == "Aflatoxina") {
+          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+            aflatoxina.addElement("_totest", {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Em análise") {
+            aflatoxina.addElement('_testing', {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+        }
 
-var formItem = document.createElement('span');
-formItem.setAttribute("class", "label label-default");
-formItem.innerHTML = "OLA";
+        //OCRATOXINA A
+        if(m == "Ocratoxina A") {
+          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+            ocratoxina.addElement("_totest", {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Em análise") {
+            ocratoxina.addElement('_testing', {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+        }
 
-mycotoxin1.addForm('sample-4', formItem);
+        //DEOXINIVALENOL
+        if(m == "Deoxinivalenol") {
+          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+            deoxinivalenol.addElement("_totest", {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Em análise") {
+            deoxinivalenol.addElement('_testing', {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+        }
+
+        //T-2 TOXINA
+        if(m == "T-2 toxina") {
+          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+            t2toxina.addElement("_totest", {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Em análise") {
+            t2toxina.addElement('_testing', {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+        }
+
+        //FUMONISINA
+        if(m == "Fumonisina") {
+          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+            fumonisina.addElement("_totest", {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Em análise") {
+            fumonisina.addElement('_testing', {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+        }
+
+        //ZEARALENONA
+        if(m == "Zearalenona") {
+          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+            zearalenona.addElement("_totest", {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Em análise") {
+            zearalenona.addElement('_testing', {
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+        }
+      });
+    });
+  });
+});

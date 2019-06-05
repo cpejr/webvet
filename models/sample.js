@@ -4,20 +4,20 @@ const mongoose = require('mongoose');
 
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
-  status: {
-    type: String,
-    enum: ['Nova', 'Sem amostra', 'Produtor', 'Gerencia', 'Convenio'],
-    default: 'Produtor'
-
-  },
+  name: String,
   requsition: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Requisition'
   },
-  status: String,
+  status: {
+    type: String,
+    enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir'],
+    default: 'Nova'
+  },
+  counter: Number,
+  responsible: String,
   mycotoxin: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Mycotoxin'
+    type: String
   }]
 }, { timestamps: true, strict: false });
 
