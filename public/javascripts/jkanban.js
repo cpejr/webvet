@@ -164,8 +164,9 @@ var dragula = require('dragula');
             nodeItem.classList.add('kanban-item');
             console.log(element);
             if (typeof(element.id) !== 'undefined' && element.id !== '') {
-              nodeItem.setAttribute('data-eid', element.id)
+              nodeItem.setAttribute('data-eid', element.id);
             }
+            nodeItem.dataset = element.id;
             nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>';
 
             //add function
@@ -269,6 +270,7 @@ var dragula = require('dragula');
                     if(itemKanban.id){
                         nodeItem.dataset.eid = itemKanban.id;
                     }
+
                     nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>';
 
                     //add function
