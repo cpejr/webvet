@@ -77,9 +77,25 @@ class Email {
     });
   }
 
+  static notificationEmail(data) {
+    console.log('Email enviado');
+    const content = `Prezada Kelly, novo cadastro a ser aprovado na plataforma`;
+    const subject = 'Novo cadastro';
+    const emailContent = {
+      clientEmail: data.email,
+      subject,
+      content
+    };
+    return new Promise((resolve) => {
+      Email.sendEmail(emailContent).then((info) => {
+        resolve(info);
+      });
+    });
+  }
+
   static userApprovedEmail(data) {
     console.log('Cadastro de usuário aprovado');
-    const content = `Prezado(a) ${data.fullname},
+    const content = `Prezado(a) ${data.firstName},
     Seu cadastro foi realizado e aprovado com sucesso. Entre na plataforma com seu email e senha`;
     const subject = 'LAMICO: Cadastro ativado com sucesso';
     const emailContent = {
@@ -112,6 +128,5 @@ class Email {
   }
 
 }
-
 
 module.exports = Email;
