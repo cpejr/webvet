@@ -17,9 +17,6 @@ var aflatoxina = new jKanban({
       class : 'success',
     }
   ],
-  dropEl : function (el, target, source, sibling) {
-    alert(el.id);    
-  }
 });
 
 const deoxinivalenol = new jKanban({
@@ -48,10 +45,6 @@ const ocratoxina = new jKanban({
   element : '#ocratoxina',
   gutter  : '10px',
   widthBoard  : '300px',
-  click : function(el) {
-    alert(el.innerHTML);
-    alert(el.dataset.eid)
-  },
   boards  : [
     {
       id : '_totest',
@@ -70,10 +63,6 @@ const t2toxina = new jKanban({
   element : '#t2toxina',
   gutter  : '10px',
   widthBoard  : '300px',
-  click : function(el) {
-    alert(el.innerHTML);
-    alert(el.dataset.eid)
-  },
   boards  : [
     {
       id : '_totest',
@@ -92,10 +81,6 @@ const fumonisina = new jKanban({
   element : '#fumonisina',
   gutter  : '10px',
   widthBoard  : '300px',
-  click : function(el) {
-    alert(el.innerHTML);
-    alert(el.dataset.eid)
-  },
   boards  : [
     {
       id : '_totest',
@@ -115,8 +100,7 @@ const zearalenona = new jKanban({
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
-    alert(el.innerHTML);
-    alert(el.dataset.eid)
+    alert(el.dataset.eid);
   },
   boards  : [
     {
