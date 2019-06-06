@@ -50,24 +50,46 @@
     <div id="wrapper">
       <div id="sidebar-wrapper">
          <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-            <li class="active">
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-home fa-stack-1x "></i></span>Principal</a>
+           {{#compare user.type "Produtor"}}
+              <li class="active">
+                <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span>Nova Requisição de Análise</a>
+              </li>
+           {{else}}
+              <li class="active">
+                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-home fa-stack-1x "></i></span>Principal</a>
+              </li>
+           {{/compare}}
+
+            <li>
+              {{#compare user.type "Produtor"}}
+                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Ver laudos disponíveis</a>
+              {{else}}
+                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-columns fa-stack-1x "></i></span>Mapa de Trabalho</a>
+              {{/compare}}
             </li>
 
             <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-columns fa-stack-1x "></i></span>Mapa de Trabalho</a>
+              {{#compare user.type "Produtor"}}
+                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Ver Histórico de Requisições</a>
+              {{else}}
+                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Clientes</a>
+              {{/compare}}
             </li>
 
             <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Clientes</a>
+              {{#compare user.type "Produtor"}}
+                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Ver Estatísticas</a>
+              {{else}}
+                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-user fa-stack-1x "></i></span>Analistas</a>
+              {{/compare}}
             </li>
 
             <li>
-               <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-user fa-stack-1x "></i></span>Analistas</a>
-            </li>
-
-            <li>
+              {{#compare user.type "Produtor"}}
+                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>Ver Equipe</a>
+              {{else}}
                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-area-chart fa-stack-1x "></i></span>Dados estatísticos</a>
+              {{/compare}}
             </li>
 
             <li>
@@ -97,6 +119,11 @@
      </div>
 
      <script src="/javascripts/layoutDashboard.js"></script>
+     <script src="/javascripts/producerSearch.js"></script>
+     <script src="/javascripts/covenantSearch.js"></script>
+     <script src="/javascripts/managerSearch.js"></script>
+     <script src="/javascripts/users.js"></script>
+
 
   </body>
 </html>
