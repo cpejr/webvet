@@ -14,7 +14,6 @@ const sampleSchema = new mongoose.Schema({
     enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir'],
     default: 'Nova'
   },
-  counter: Number,
   responsible: String,
   mycotoxin: [{
     type: String
@@ -90,8 +89,22 @@ class Sample {
    */
   static create(sample) {
     return new Promise((resolve, reject) => {
+
       SampleModel.create(sample).then((result) => {
-        resolve(result._id);
+        resolve();
+      }).catch((err) => {
+        reject(err);
+      });
+
+    });
+  }
+
+
+  static getMaxSampleNumber(){
+    return new Promise((resolve, reject) => {
+      SampleModel.find({}, {samplenumber:1, _id:0}).sort({samplenumber:-1}).limit(1).populate('sample').exec().then((result) => {
+
+        resolve(result);
       }).catch((err) => {
         reject(err);
       });
