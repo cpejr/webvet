@@ -23,7 +23,7 @@ router.get('/signup', (req, res) => {
 });
 
 router.get('/user', (req, res) => {
-  res.render('user', { title: 'Usuário', layout: 'layoutDashboard_user' });
+  res.render('user', { title: 'Usuário', layout: 'layoutDashboard' });
 });
 
 router.get('/requisition', (req, res) => {
@@ -37,7 +37,7 @@ router.get('/forgotPassword', (req, res) => {
 router.get('/user', function(req, res, next) {
   Requisition.getAll().then((requisitions) => {
     console.log("oi");
-    res.render('user', { title: 'Cliente', layout: 'layoutDashboard_user.hbs'});
+    res.render('user', { title: 'Cliente', layout: 'layoutDashboard.hbs'});
     return;
  }).catch((error) => {
     console.log(error);
