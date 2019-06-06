@@ -15,7 +15,7 @@ const sampleSchema = new mongoose.Schema({
     default: 'Nova'
   },
   counter: Number,
-  responsible: String,
+  responsable: String,
   mycotoxin: [{
     type: String
   }]

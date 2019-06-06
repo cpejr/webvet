@@ -18,7 +18,7 @@ router.post('/edit/:samplenumber',  function(req, res, next) {
       }
     }
     Sample.update(sample._id, sample).then(() => {
-      req.flash('success', 'Usuário editado com sucesso.');
+      req.flash('success', 'Amostra editada com sucesso.');
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -27,6 +27,29 @@ router.post('/edit/:samplenumber',  function(req, res, next) {
      console.log(error);
      res.redirect('/error');
    });
+});
+
+router.get('/edit/:id', (req, res) => {
+  Sample.getById(req.params.id).then((sample) => {
+    console.log(sample);
+    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sample});
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.put('/edit/:id', (req, res) => {
+  const { sampleX } = req.body;
+  console.log(sampleX);
+  Sample.update(req.params.id, sampleX).then(() => {
+    req.flash('success', 'Amostra alterada');
+    res.redirect('/sample/edit/'+req.params.id);
+  }).catch((error) => {
+    console.log("AMIGO ESTOU AQUI");
+    console.log(error);
+    res.redirect('/error');
+  });
 });
 
 
