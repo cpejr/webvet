@@ -18,7 +18,7 @@ class Email {
 
   static sendEmail(data) {
     const config = {
-     from: 'moreiramrafaela@gmail.com',
+     from: 'rafaelamoreira@cpejr.com.br',
      to: data.clientEmail,
      subject: data.subject,
      text: data.content,
@@ -96,8 +96,8 @@ class Email {
 
   static userRejectedEmail(data) {
     console.log('Cadastro de usuário reprovado');
-    const content = `Prezado(a) ${data.firstName},
-    Sua solicitação de cadastro foi reprovada e não será possível utilizar a plataforma da Lamico.`;
+    const content = `Prezado(a) ${data.fullname},
+    Seu cadastro foi reprovado. Entre em contato com o admin para maiores informações.`;
     const subject = 'LAMICO: Cadastro reprovado';
     const emailContent = {
       clientEmail: data.email,

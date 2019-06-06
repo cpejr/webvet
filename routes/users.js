@@ -156,13 +156,14 @@ router.put('/approve/:id',  function(req, res, next) {
 });
 
 
-
-
 router.put('/reject/:id',  function(req, res, next) {
-  User.delete(req.params.id).then(() => {
-    Email.userRejeedEmail(user).catch((error) => {
+  User.getById(req.params.id).then((user) => {
+    Email.userRejectedEmail(user).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
     });
+  });
+
+  User.delete(req.params.id).then(() => {
     req.flash('success', 'Usuário rejeitado com sucesso.');
     res.redirect('/users/pending');
   }).catch((error) => {
