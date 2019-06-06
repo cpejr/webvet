@@ -92,17 +92,33 @@
               {{/compare}}
             </li>
 
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
-            </li>
+            {{#compare user.type "Produtor"}}
+              <li>
+              </li>
+            {{else}}
+              <li>
+                 <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
+              </li>
+            {{/compare}}
 
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-truck fa-stack-1x "></i></span>Controle de estoque</a>
-            </li>
+            {{#compare user.type "Produtor"}}
+              <li>
+              </li>
+            {{else}}
+              <li>
+                 <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-truck fa-stack-1x "></i></span>Controle de estoque</a>
+              </li>
+            {{/compare}}
 
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user-plus fa-stack-1x "></i></span>Usuários pendentes</a>
-            </li>
+            {{#compare user.type "Produtor"}}
+              <li>
+              </li>
+            {{else}}
+              <li>
+                 <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user-plus fa-stack-1x "></i></span>Usuários pendentes</a>
+              </li>
+            {{/compare}}
+            
          </ul>
       </div>
 
