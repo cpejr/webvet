@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Sample = require('../models/sample');
 
 router.get('/producers', (req, res) => {
   const names = [];
@@ -50,6 +51,16 @@ router.get('/managers', (req, res) => {
     });
     console.log(names);
     res.send(names);
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.get('/samples', (req, res) => {
+  Sample.getAll().then((samples) => {
+    res.send(samples);
+    console.log(samples);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
