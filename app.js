@@ -132,7 +132,6 @@ app.use('/search', searchRouter);
 app.use('/analyst', analystRouter);
 app.use('/sample', sampleRouter);
 
-
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
