@@ -6,7 +6,6 @@ const User = require('../models/user');
 const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
-const auth = require('./middleware/auth');
 const Email = require('../models/email');
 
 
