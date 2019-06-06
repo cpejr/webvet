@@ -72,21 +72,37 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-show-typeahead col-md-4">
+        <div class="form-show-typeahead col-md-4" >
           <label>Produtor</label>
-          <div id="producer-list">
+          <div class="d-flex flex-row justify-content-space-between">
+            <div id="producer-list">
+              <input name="producer-selected" class="typeahead" type="text">
+            </div>
+            <button class="btn btn-sm" id="add-producer" type="button"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="form-show-typeahead col-md-4">
+          <label>Convênio</label>
+          <div id="covenant-list">
+            <input class="typeahead" type="text">
+          </div>
+        </div>
+        <div class="form-show-typeahead col-md-4">
+          <label>Manager</label>
+          <div id="manager-list">
             <input class="typeahead" type="text">
           </div>
         </div>
       </div>
-      <!-- <div class="form-show-text col-md-4">
-        <label>Convenio</label>
-        <input type="text" class="form-control typeahead-covenant">
-      </div>
-      <div class="form-show-text col-md-4">
-        <label>Produtor</label>
-        <input type="text" class="form-control typeahead-producer">
-      </div> -->
+
+    <div class="form-row">
+        <div class="col-md-4" id="select-producer" align="left">
+        </div>
+        <div class="col-md-4" id="select-covenant" align="left">
+        </div>
+        <div class="col-md-4" id="select-manager" align="left">
+        </div>
+    </div>
 
     <div class="form-row">
       <div id="box-radio" class="col-md-12 ml-3" align="left">
@@ -125,10 +141,7 @@
     </div>
 </form>
 
-
-
-
-<script src="/javascripts/typeahead.bundle.js"></script>
-
 <script src="/javascripts/producerSearch.js"></script>
+<script src="/javascripts/covenantSearch.js"></script>
+<script src="/javascripts/managerSearch.js"></script>
 <script src="/javascripts/users.js"></script>

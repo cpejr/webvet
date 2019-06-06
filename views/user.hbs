@@ -1,11 +1,11 @@
-<div class="user-box">
-  <div class= "user-card">
+<div class="user-box" id="user-box-device">
+  <div class= "user-card" id="requisition-user">
     <h1>Requisições em Progresso</h1>
     {{#each requisitions}}
         <li>{{lab}}</li>
     {{/each}}
   </div>
-  <div class= "user-card">
+  <div class= "user-card" id="laudo-user">
     <h1>Laudos disponíveis</h1>
       <li>Laudo 1</li>
       <li>Laudo 2</li>
@@ -16,12 +16,13 @@
       <li>Laudo 7</li>
   </div>
 </div>
-<<<<<<< Updated upstream
-=======
-<script type="text/javascript" src="../routes/userCards.js"></script>
 <div class="col-md-6 botao" >
   <a class="btn" href= '/logout' ></a>
 </div>
+
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
+
+<script src="/javascripts/user.js"></script>
 <!--<script type="text/javascript">
 
   function mostra(id){
@@ -33,4 +34,3 @@
   }
 
 </script>-->
->>>>>>> Stashed changes

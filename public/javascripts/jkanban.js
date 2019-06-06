@@ -14,7 +14,7 @@ var dragula = require('dragula');
 
     this.jKanban = function () {
         var self = this;
-        this._disallowedItemProperties = ['id', 'title', 'click', 'drag', 'dragend', 'drop', 'order'];
+        this._disallowedItemProperties = ['id', 'title', 'analyst', 'status', 'click', 'drag', 'dragend', 'drop', 'order'];
         this.element = '';
         this.container = '';
         this.boardContainer = [];
@@ -164,9 +164,11 @@ var dragula = require('dragula');
             nodeItem.classList.add('kanban-item');
             console.log(element);
             if (typeof(element.id) !== 'undefined' && element.id !== '') {
-              nodeItem.setAttribute('data-eid', element.id)
+              nodeItem.setAttribute('data-eid', element.id);
             }
-            nodeItem.innerHTML = element.title;
+            nodeItem.dataset = element.id;
+            nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>';
+
             //add function
             nodeItem.clickfn = element.click;
             nodeItem.dragfn = element.drag;
@@ -268,7 +270,9 @@ var dragula = require('dragula');
                     if(itemKanban.id){
                         nodeItem.dataset.eid = itemKanban.id;
                     }
-                    nodeItem.innerHTML = itemKanban.title;
+
+                    nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>';
+
                     //add function
                     nodeItem.clickfn = itemKanban.click;
                     nodeItem.dragfn = itemKanban.drag;

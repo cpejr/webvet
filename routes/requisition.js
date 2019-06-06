@@ -7,11 +7,9 @@ router.get('/user', function(req, res, next) {
   Requisition.getAll().then((requisitions) => {
     console.log("oi");
     res.render('user', { title: 'Cliente', layout: 'layoutDashboard_user.hbs'});
-    return;
  }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-    return error;
   });
 
  });

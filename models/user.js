@@ -127,11 +127,11 @@ class User {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
+      UserModel.findOneAndDelete({_id: id}).then(() => {
         resolve();
-     }).catch((err) => {
-       reject(err);
-     });
+      }).catch((err) => {
+        reject(err);
+      });
    });
  }
 
@@ -185,21 +185,21 @@ class User {
   */
  static addManager(id, user) {
    return new Promise((resolve, reject) => {
-     UserModel.findByIdAndUpdate(id, { $push: { associatedManagement: user } }).catch((err) => {
+     UserModel.findByIdAndUpdate(id, { $push: { associatedManagers: user } }).catch((err) => {
        reject(err);
      });
    });
  }
 
   /**
-   * Remove Manager from associatedProducers
+   * Remove Manager from associatedProducers, user is added to id
    * @param {string} id - User Id
    * @param {string} user - User Id
    * @returns {null}
    */
   static removeManager(id, user) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $pull: { associatedManagement: user } }).catch((err) => {
+      UserModel.findByIdAndUpdate(id, { $pull: { associatedManagers: user } }).catch((err) => {
         reject(err);
       });
     });
@@ -321,6 +321,21 @@ static getAssociatedMaganersById(id) {
        });
      });
    }
+  
+ /**
+  * Get a User name that match the desired query
+  * @param {Object} query - Object that defines the filter
+  * @returns {Object} User Document Data
+  */
+ static getOneByQuery(query) {
+   return new Promise((resolve, reject) => {
+     UserModel.findOne(query).exec().then((results) => {
+       resolve(results);
+     }).catch((err) => {
+       reject(err);
+     });
+   });
+ }
 }
 
 module.exports = User;

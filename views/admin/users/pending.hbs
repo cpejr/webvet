@@ -14,25 +14,15 @@
           <tr>
             <th>{{fullname}}</th>
             <th>
-              <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn"></button>
-              <!-- COLOCAR UM FORM PRA CADA BOTÃO - MÉTODO POST-->
-              <!--<form  method= "POST" action="/admin/{{id}}/requisitions/users">
-              <button type="submit" align="center" class="btn btn-outline-danger " name="status" value="Bloqueado">
-                Bloquear
-              </button>
-            </form>-->
-            <div class="pending-form">
-              <form action="/users/approve/{{_id}}?_method=PUT" method="post">
-                <div>
-                  <button type="submit" class="fa fa-thumbs-up btn btn-success"></button>
-                </div>
-              </form>
-              <form action="/users/reject/{{_id}}?_method=PUT" method="post">
-                <div>
-                  <button type="submit" class="fa fa-thumbs-down btn btn-danger"></button>
-                </div>
-              </form>
-            </div>
+              <div class="d-flex flex-row justify-content-center">
+                <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn m-1"></button>
+                <form action="/users/approve/{{_id}}?_method=PUT" method="post">
+                    <button type="submit" class="fa fa-thumbs-up btn btn-success m-1"></button>
+                </form>
+                <form action="/users/reject/{{_id}}?_method=PUT" method="post">
+                    <button type="submit" class="fa fa-thumbs-down btn btn-danger m-1"></button>
+                </form>
+              </div>
             </th>
           </tr>
         {{/compare}}
