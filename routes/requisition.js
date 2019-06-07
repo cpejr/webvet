@@ -1,17 +1,14 @@
 var express = require('express');
+var firebase = require('firebase');
 var router = express.Router();
-var mongoose = require('mongodb');
+const auth = require('./middleware/auth');
+const User = require('../models/user');
 const Requisition = require('../models/requisition');
 
-router.get('/user', function(req, res, next) {
-  Requisition.getAll().then((requisitions) => {
-    console.log("oi");
-    res.render('user', { title: 'Cliente', layout: 'layoutDashboard_user.hbs'});
- }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
 
- });
+/* GET home page. */
+router.get('/requisition', (req, res) => {
+  res.render('requisition', {title:'requisition',layout:'layout'});
+});
 
 module.exports = router;
