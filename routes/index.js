@@ -22,10 +22,6 @@ router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
 });
 
-router.get('/user', (req, res) => {
-  res.render('user', { title: 'Usuário', layout: 'layoutDashboard' });
-});
-
 router.get('/requisition', (req, res) => {
   res.render('requisition', {title:'requisition',layout:'layout'});
 });
@@ -33,19 +29,6 @@ router.get('/requisition', (req, res) => {
 router.get('/forgotPassword', (req, res) => {
   res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
 });
-
-router.get('/user', function(req, res, next) {
-  Requisition.getAll().then((requisitions) => {
-    console.log("oi");
-    res.render('user', { title: 'Cliente', layout: 'layoutDashboard.hbs'});
-    return;
- }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-    return error;
-  });
-
- });
 
 /**
  * POST LOGIN
