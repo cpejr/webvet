@@ -131,8 +131,13 @@ router.post('/edit/:id',  function(req, res, next) {
 router.get('/show/:id', function(req, res, next) {
   const id = req.session.id;
   User.getById(req.params.id).then((user) => {
-    console.log(user);
-    res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', user, ...req.session });
+    User.getAll().then((users) => {
+      console.log(users);
+      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', user, users, ...req.session });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
