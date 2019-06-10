@@ -17,6 +17,10 @@ var aflatoxina = new jKanban({
       class : 'success',
     }
   ],
+
+  dragEl: function (el, source) {
+    alert(el.dataset.eid);
+  },
 });
 
 const deoxinivalenol = new jKanban({

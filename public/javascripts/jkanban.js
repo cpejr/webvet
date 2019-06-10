@@ -166,7 +166,7 @@ var dragula = require('dragula');
             if (typeof(element.id) !== 'undefined' && element.id !== '') {
               nodeItem.setAttribute('data-eid', element.id);
             }
-            nodeItem.dataset = element.id;
+            nodeItem.dataset.eid = element.id;
             nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>';
 
             //add function

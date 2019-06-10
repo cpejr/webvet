@@ -1,21 +1,32 @@
 let producersAdded = [];
 let producers = [];
-$(document).ready(() => {
-  $('#add-producer').on('click', () => {
 
-    const nameProducer = $('input[name=producer-selected]').val();
-    var index = producersAdded.indexOf(nameProducer);
-    var indexValid = producers.indexOf(nameProducer);
 
-    if ((index == -1)&&(indexValid >= -1)) {
-      const badgeHtml = `<span class="badge badge-success form-select mr-1" onclick="removeMe(this)">
-                          ${ nameProducer  } <i class="fa fa-remove float-left">&nbsp;&nbsp;&nbsp;</i>
-                          <input class="" type="hidden" name="producer[]" value="${ nameProducer }">
-                        </span>`;
-      $('#select-producer').append(badgeHtml);
-      producersAdded.push(nameProducer);
-      alert(producersAdded);
-    }
+//const listUsers = [];
+
+$.get('/users', (listUsers) => {
+  $(document).ready(() => {
+    $('#add-producer').on('click', () => {
+      const nameProducer = $('input[name=producer-selected]').val();
+
+      var index = producersAdded.indexOf(nameProducer);
+      var indexValid = producers.indexOf(nameProducer);
+
+
+      const foi = 0;
+
+      if ((index == -1)&&(indexValid >= -1)) {
+        const badgeHtml = `<span class="badge badge-success form-select mr-1" onclick="removeMe(this)">
+                            ${ nameProducer  } <i class="fa fa-remove float-left">&nbsp;&nbsp;&nbsp;</i>
+                            <input class="" type="hidden" name="producer[]" value="${ nameProducer }">
+                          </span>`;
+        $('#select-producer').append(badgeHtml);
+
+        producersAdded.push(nameProducer);
+        alert(producersAdded);
+
+      }
+    });
   });
 });
 

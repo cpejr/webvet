@@ -8,6 +8,7 @@ const Email = require('../models/email');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   User.getAll().then((users) => {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     console.log(users);
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
