@@ -32,7 +32,17 @@ const userSchema = new mongoose.Schema({
     enum: ['Inativo', 'Bloqueado', 'Aguardando aprovação', 'Ativo'],
     default: 'Aguardando aprovação',
     required: true
+
   },
+  address: [{
+    cep: Number,
+    street: String,
+    number: String,
+    complement: String,
+    city: String,
+    state: String
+    
+  }],
 
   deleted: {
     type: Boolean, // 1 for deleted, 0 for not deleted
@@ -321,7 +331,7 @@ static getAssociatedMaganersById(id) {
        });
      });
    }
-  
+
  /**
   * Get a User name that match the desired query
   * @param {Object} query - Object that defines the filter
