@@ -2,68 +2,41 @@ let producersAdded = [];
 let producers = [];
 
 
-//const listUsers = [];
-
-$.get('/users', (listUsers) => {
   $(document).ready(() => {
-    $('#add-producer').on('click', () => {
-      const nameProducer = $('input[name=producer-selected]').val();
+    $('td #add-producer').on('click', () => {
+      $('#table-producer').find('tr').click( function(){
+        var name = $(this).find('td:eq(0)').text();
+        var register = $(this).find('td:eq(1)').text();
 
-      var index = producersAdded.indexOf(nameProducer);
-      var indexValid = producers.indexOf(nameProducer);
+        var index = producersAdded.indexOf(name);
+        var indexValid = producers.indexOf(name);
 
+        if ((index == -1)&&(indexValid >= -1)) {
+          const badgeHtml = `<span class="badge badge-success form-select mr-1" onclick="removeMe(this)">
+                              ${ name  } <i class="fa fa-remove float-left">&nbsp;&nbsp;&nbsp;</i>
+                              <input class="" type="hidden" name="producer[]" value="${ name }">
+                            </span>`;
+          $('#select-producer').append(badgeHtml);
 
-      const foi = 0;
-
-      if ((index == -1)&&(indexValid >= -1)) {
-        const badgeHtml = `<span class="badge badge-success form-select mr-1" onclick="removeMe(this)">
-                            ${ nameProducer  } <i class="fa fa-remove float-left">&nbsp;&nbsp;&nbsp;</i>
-                            <input class="" type="hidden" name="producer[]" value="${ nameProducer }">
-                          </span>`;
-        $('#select-producer').append(badgeHtml);
-
-        producersAdded.push(nameProducer);
-        alert(producersAdded);
-
-      }
+          producersAdded.push(name);
+        }
+      });
     });
   });
-});
+
 
 function removeMe(element) {
   $(element).remove();
-  const nameProducer = $(element).find('input').val();
-  var index = producersAdded.indexOf(nameProducer);
+  const name = $(element).find('input').val();
+  var index = producersAdded.indexOf(name);
   if (index > -1) {
     producersAdded.splice(index, 1);
   }
 }
 
-
-$.get('/search/producers', (producers) => {
-  $(document).ready(function() {
-    var producer = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.whitespace,
-      queryTokenizer: Bloodhound.tokenizers.whitespace,
-      local: producers
-    });
-
-    $('#producer-list .typeahead').typeahead(
-      {
-        hint: true,
-        highlight: true,
-        minLength: 1
-      },
-      {
-        name: 'Producer',
-        source: producer,
-        templates: {
-          empty: [
-            '<div class="empty-search">',
-            'Ops! Não encontramos resultados para essa busca.',
-            '</div>'
-          ].join('\n')
-        }
-      });
+$("#producer-search").on("keyup", function() {
+  var value = $(this).val().toLowerCase();
+  $("#table-producer tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
   });
 });
