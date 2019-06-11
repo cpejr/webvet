@@ -8,7 +8,7 @@ const Requisition = require('../models/requisition');
 
 /* GET home page. */
 router.get('/requisition', (req, res) => {
-  res.render('requisition', {title:'requisition',layout:'layout'});
+  res.render('requisition', {title:'Requisição',layout:'layoutDashboard.hbs'});
 });
 
 module.exports = router;

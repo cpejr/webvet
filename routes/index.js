@@ -23,7 +23,7 @@ router.get('/signup', (req, res) => {
 });
 
 router.get('/requisition', (req, res) => {
-  res.render('requisition', {title:'requisition',layout:'layout'});
+  res.render('requisition', {title:'requisition',layout:'layoutDashboard.hbs'});
 });
 
 router.get('/forgotPassword', (req, res) => {

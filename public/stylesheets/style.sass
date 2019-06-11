@@ -285,20 +285,15 @@ header
   color: white
   width: 40%
 
-   //REQUISITION PAGE
+  //REQUISITION PAGE
 
 .requisition
-  width: 1000px
-  position: absolute
-  margin-top: 40em
-  left: 50%
-  transform: translate(-50%,-50%)
-  color: #006400
-  padding: 10px
+  position: relative
+  margin-left: 8px
+  margin-right: 8px
 
-.requisition h1
-  float: left
-  font-size: 40px
+.requisition h4
+  float: center
   border-bottom: 4px solid #006400
   padding: 13px 0
 
@@ -645,6 +640,7 @@ li
 
 #wrapper
   padding-left: 0
+  position: absolute
   -webkit-transition: all 0.5s ease
   -moz-transition: all 0.5s ease
   -o-transition: all 0.5s ease
@@ -1142,6 +1138,9 @@ li
 
   .input-placeholder-green::placeholder
     color: #006400
+
+.form-disabled
+  display: none
 
 @media (max-width: 769px)
   .form-show-box

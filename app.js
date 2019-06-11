@@ -21,6 +21,7 @@ const testRouter = require('./routes/test');
 const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const requisitionShowRouter = require('./routes/requisitionShow');
+const requisitionRouter = require('./routes/requisition')
 const userRouter = require('./routes/user');
 const cardsAdminRouter = require('./routes/cardsAdmin');
 const homeAdminRouter = require('./routes/homeAdmin');
@@ -126,6 +127,7 @@ app.use('/expandingDivs', expandingdivsRouter);
 app.use('/cardsAdmin', cardsAdminRouter);
 app.use('/queue', queueRouter);
 app.use('/requisition/show', requisitionShowRouter);
+app.use('/requisition', requisitionRouter);
 app.use('/stock', stockRouter);
 app.use('/user', userRouter);
 app.use('/homeAdmin', homeAdminRouter);
