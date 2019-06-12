@@ -1,5 +1,6 @@
-const firebase = require('firebase');
-//const User = require('./models/user');
+var express = require('express');
+var firebase = require('firebase');
+var router = express.Router();
 
 module.exports = {
   isAuthenticated: (req, res, next) => {
@@ -12,8 +13,8 @@ module.exports = {
     }
   },
   isProducer: (req, res, next) => {
-    const {userType} = req.session;
-    if(user === 'Produtor'){
+    const type = req.session.user;
+    if(type === 'Produtor'){
       next();
     }
     else {
@@ -21,8 +22,8 @@ module.exports = {
     }
   },
   isManager: (req, res, next) => {
-    const {userType} = req.session;
-    if(user === 'Gerencia'){
+    const type = req.session.user;
+    if(type === 'Gerencia'){
       next();
     }
     else {
@@ -30,8 +31,8 @@ module.exports = {
     }
   },
   isConvenio: (req, res, next) => {
-    const {userType} = req.session;
-    if(user === 'Convenio'){
+    const type = req.session.user;
+    if(type === 'Convenio'){
       next();
     }
     else {
@@ -39,8 +40,8 @@ module.exports = {
     }
   },
   isAnalyst: (req, res, next) => {
-    const {userType} = req.session;
-    if(user === 'Analista'){
+    const type = req.session.user;
+    if(type === 'Analista'){
       next();
     }
     else {
@@ -48,8 +49,8 @@ module.exports = {
     }
   },
   isAdmin: (req, res, next) => {
-    const {userType} = req.session;
-    if(user === 'Admin'){
+    const type = req.session.user;
+    if(type === 'Admin'){
       next();
     }
     else {

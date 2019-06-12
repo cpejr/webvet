@@ -30,6 +30,10 @@ router.get('/forgotPassword', (req, res) => {
   res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
 });
 
+router.get('/show', (req, res) => {
+  res.render('record/show', {title:'show',layout:'layoutRecShow'});
+});
+
 /**
  * POST LOGIN
  */
