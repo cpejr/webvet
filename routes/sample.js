@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongodb');
+const auth = require('./middleware/auth');
 const Sample = require('../models/sample');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/',  auth.isAuthenticated, function(req, res, next) {
   res.render('test', { title: 'Usuários', layout: 'layoutDashboard.hbs', ...req.session });
 
 });

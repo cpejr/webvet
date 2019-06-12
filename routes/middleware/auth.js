@@ -9,7 +9,7 @@ module.exports = {
       next();
     }
     else {
-      res.redirect('login');
+      res.redirect('/login');
     }
   },
   isProducer: (req, res, next) => {
