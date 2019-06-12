@@ -43,6 +43,7 @@ router.get('/show', (req, res) => {
    firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
      User.getByUid(userID.user.uid).then((currentLogged) =>   {
        if (currentLogged) {
+        // console.log(currentLogged);
          const userR = {
            type: currentLogged.type,
            fullname: currentLogged.fullname,
@@ -51,7 +52,9 @@ router.get('/show', (req, res) => {
            email: currentLogged.email,
            status: currentLogged.status
          };
-        req.session.user = userR;
+        req.session.user = currentLogged;
+      //  console.log(req.session.user);
+        console.log(req.session.user.adress);
         if (userR.status == "Aguardando aprovação") {
           req.flash('danger', 'Aguardando a aprovação do Administrador');
           res.redirect('/login')
@@ -76,7 +79,7 @@ router.get('/show', (req, res) => {
         }
         if (userR.status == "Bloqueado") {
           console.log("Esse esta bloqueado");
-            req.flash('danger', 'Essa conta foi bloqueada pelo Administrador');
+          req.flash('danger', 'Essa conta foi bloqueada pelo Administrador');
           res.redirect('/login');
         }
       }

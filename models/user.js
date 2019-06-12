@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema({
     // unique: true
 
   },
+  adress: {
+    cep: Number,
+    street: String,
+    number: String,
+    complement: String,
+    city: String,
+    state: String
+  },
   phone: String,
   cellphone: String,
   status: {
@@ -41,7 +49,7 @@ const userSchema = new mongoose.Schema({
     complement: String,
     city: String,
     state: String
-    
+
   }],
 
   deleted: {
