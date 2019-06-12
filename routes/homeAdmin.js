@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongodb');
+const auth = require('./middleware/auth');
 const Sample = require('../models/sample');
 const Requisition = require('../models/requisition');
 const User = require('../models/user');
 const Kit = require('../models/kit');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth.isAuthenticated, function(req, res, next) {
 
   User.count().then((countClients) => {
       Sample.count().then((countSamples) => {
