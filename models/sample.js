@@ -11,7 +11,7 @@ const sampleSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir'],
+    enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Devendo'],
     default: 'Nova'
   },
   responsible: String,
