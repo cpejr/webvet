@@ -15,6 +15,11 @@ var aflatoxina = new jKanban({
       id : '_testing',
       title  : 'Em análise',
       class : 'success',
+    },
+    {
+      id : '_ownering,
+      title  : 'Devendo',
+      class : 'success',
     }
   ],
 
@@ -41,6 +46,11 @@ const deoxinivalenol = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
   ]
 });
@@ -58,6 +68,11 @@ const ocratoxina = new jKanban({
     {
       id : '_testing',
       title  : 'Para teste',
+      class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
       class : 'success',
     }
   ]
@@ -77,6 +92,11 @@ const t2toxina = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
   ]
 });
@@ -94,6 +114,11 @@ const fumonisina = new jKanban({
     {
       id : '_testing',
       title  : 'Para teste',
+      class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
       class : 'success',
     }
   ]
@@ -115,6 +140,11 @@ const zearalenona = new jKanban({
     {
       id : '_testing',
       title  : 'Para teste',
+      class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
       class : 'success',
     }
   ]
