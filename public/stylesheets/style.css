@@ -6651,7 +6651,7 @@ li {
 
 #wrapper {
   padding-left: 0;
-  position: absolute;
+  position: static;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;

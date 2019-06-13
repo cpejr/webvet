@@ -12,17 +12,17 @@ function addInput() {
 var checados = document.getElementsByName('poupa');
 var inputs = document.getElementsByName('requisition[sample]');
 var poupaCitrica = " com poupa cítrica"
+
 for (var i = 0; i < checados.lenght; i++) {
   if (checados[i].checked) {
     inputs[i]=input[i].concat(poupaCitrica)
   }
 }
 
-$("#new-address").change(function(){
-  alert("trouxa");
-  if($(this).is(":checked")) {
-      $("#form-address"").removeClass("form-disabled");
+$('#radio').change(function(){
+  if($('#new-address').is(':checked')) {
+      $('#form-address').removeClass('form-disabled');
   } else {
-      $("#form-address").addClass("form-disabled");
+      $('#form-address').addClass('form-disabled');
   }
 });
