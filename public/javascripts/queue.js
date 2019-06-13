@@ -18,10 +18,10 @@ var aflatoxina = new jKanban({
       class : 'success',
     },
     {
-      id : '_ownering,
+      id : '_testing',
       title  : 'Devendo',
       class : 'success',
-    }
+    },
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
