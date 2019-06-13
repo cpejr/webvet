@@ -15,7 +15,7 @@ const requisitionSchema = new mongoose.Schema({
   farmname: String,
   //farmcity: String,
   //farmstate: String,
-  address: {
+  adress: {
     cep: Number,
     street: String,
     number: String,

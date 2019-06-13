@@ -1,9 +1,10 @@
 const express = require('express');
 const firebase = require('firebase');
 const router = express.Router();
+const auth = require('./middleware/auth');
 const User = require('../models/user');
 
-router.get('/new', function(req, res, next) {
+router.get('/new', auth.isAuthenticated, function(req, res, next) {
   res.render('analyst/new', {title: 'Novo analista', layout: 'layoutDashboard.hbs' });
 
 });
@@ -11,7 +12,7 @@ router.get('/new', function(req, res, next) {
 router.post('/create', (req, res) => {
   const { user } = req.body;
   user.type = 'Analista';
-  user.status = 'Ativo'; 
+  user.status = 'Ativo';
   firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then((userF) => {
     user.uid = userF.user.uid;
     console.log(user);console.log(user);

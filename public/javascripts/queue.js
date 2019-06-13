@@ -17,6 +17,11 @@ var aflatoxina = new jKanban({
       title  : 'Em análise',
       class : 'success',
     },
+    {
+      id : '_ownering,
+      title  : 'Devendo',
+      class : 'success',
+    }
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
@@ -53,6 +58,11 @@ const deoxinivalenol = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
   ],
   dropEl : function (el, target, source, sibling) {
@@ -85,6 +95,11 @@ const ocratoxina = new jKanban({
     {
       id : '_testing',
       title  : 'Para teste',
+      class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
       class : 'success',
     }
   ],
@@ -119,6 +134,11 @@ const t2toxina = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
   ],
   dropEl : function (el, target, source, sibling) {
@@ -151,6 +171,11 @@ const fumonisina = new jKanban({
     {
       id : '_testing',
       title  : 'Para teste',
+      class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
       class : 'success',
     }
   ],
@@ -187,6 +212,11 @@ const zearalenona = new jKanban({
     {
       id : '_testing',
       title  : 'Para teste',
+      class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
       class : 'success',
     }
   ],
