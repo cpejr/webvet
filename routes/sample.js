@@ -1,10 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongodb');
+const express = require('express');
+const router = express.Router();
+const firebase = require('firebase');
+const mongoose = require('mongodb');
+const auth = require('./middleware/auth');
 const Sample = require('../models/sample');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+
+router.get('/',  auth.isAuthenticated, function(req, res, next) {
   res.render('test', { title: 'Usuários', layout: 'layoutDashboard.hbs', ...req.session });
 
 });
@@ -29,20 +32,18 @@ router.post('/create', (req, res) => {
 });
 
 router.post('/edit/:samplenumber',  function(req, res, next) {
+
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    if (sample.status == "Nova" || sample.status == "A corrigir" ) {
-      sample = {
-        status: "Em análise"
-      }
+    const sampleedit = sample[0];
+    if (sampleedit.status == "Nova" || sampleedit.status == "A corrigir" ) {
+      sampleedit.status = "Em análise";
     } else {
-      if (sample.status == "Em análise") {
-        sample = {
-          status: "A corrigir"
-        }
+      if (sampleedit.status == "Em análise") {
+        sampleedit.status = "A corrigir";
       }
     }
-    Sample.update(sample._id, sample).then(() => {
-      req.flash('success', 'Amostra editada com sucesso.');
+    Sample.update(sampleedit._id, sampleedit).then(() => {
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');

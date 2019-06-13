@@ -20,15 +20,15 @@ const stockRouter = require('./routes/stock');
 const testRouter = require('./routes/test');
 const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
-const requisitionShowRouter = require('./routes/requisitionShow');
+//const requisitionShowRouter = require('./routes/requisitionShow');
 const userRouter = require('./routes/user');
 const cardsAdminRouter = require('./routes/cardsAdmin');
 const homeAdminRouter = require('./routes/homeAdmin');
 const searchRouter = require('./routes/search');
 const analystRouter = require ('./routes/analyst');
 const recordRouter = require ('./routes/record');
-const sampleRouter = require('./routes/sample')
-
+const sampleRouter = require('./routes/sample');
+const requisitionRouter = require('./routes/requisition');
 
 const app = express();
 
@@ -125,7 +125,8 @@ app.use('/users', usersRouter);
 app.use('/expandingDivs', expandingdivsRouter);
 app.use('/cardsAdmin', cardsAdminRouter);
 app.use('/queue', queueRouter);
-app.use('/requisition/show', requisitionShowRouter);
+//app.use('/requisition/show', requisitionShowRouter);
+app.use('/requisition', requisitionRouter);
 app.use('/stock', stockRouter);
 app.use('/user', userRouter);
 app.use('/homeAdmin', homeAdminRouter);

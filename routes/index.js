@@ -22,9 +22,9 @@ router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
 });
 
-router.get('/requisition', (req, res) => {
-  res.render('requisition', {title:'requisition',layout:'layout'});
-});
+// router.get('/requisition', (req, res) => {
+//   res.render('requisition', {title:'requisition',layout:'layoutDashboard.hbs'});
+// });
 
 router.get('/forgotPassword', (req, res) => {
   res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
@@ -43,6 +43,7 @@ router.get('/show', (req, res) => {
    firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
      User.getByUid(userID.user.uid).then((currentLogged) =>   {
        if (currentLogged) {
+        // console.log(currentLogged);
          const userR = {
            type: currentLogged.type,
            fullname: currentLogged.fullname,
@@ -51,7 +52,9 @@ router.get('/show', (req, res) => {
            email: currentLogged.email,
            status: currentLogged.status
          };
-        req.session.user = userR;
+        req.session.user = currentLogged;
+      //  console.log(req.session.user);
+        //console.log(req.session.user.adress);
         if (userR.status == "Aguardando aprovação") {
           req.flash('danger', 'Aguardando a aprovação do Administrador');
           res.redirect('/login')
@@ -76,7 +79,7 @@ router.get('/show', (req, res) => {
         }
         if (userR.status == "Bloqueado") {
           console.log("Esse esta bloqueado");
-            req.flash('danger', 'Essa conta foi bloqueada pelo Administrador');
+          req.flash('danger', 'Essa conta foi bloqueada pelo Administrador');
           res.redirect('/login');
         }
       }
@@ -138,20 +141,20 @@ router.post('/signup', (req, res) => {
 });
 
 //post / NovoRegistro
-router.post('/requisition', (req,res) => {
-
-  const newRequisition = req.body;
-
-      console.log(newRequisition);
-      Requisition.create(newRequisition).then((userID)=>{
-        console.log(`New requisition with user id: ${userID}`);
-        req.flash('success', 'Nova requisição enviada')
-        res.redirect('/homeAdmin');
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
-      });
-});
+// router.post('/requisition', (req,res) => {
+//
+//   const newRequisition = req.body;
+//
+//       console.log(newRequisition);
+//       Requisition.create(newRequisition).then((userID)=>{
+//         console.log(`New requisition with user id: ${userID}`);
+//         req.flash('success', 'Nova requisição enviada')
+//         res.redirect('/homeAdmin');
+//       }).catch((error) => {
+//         console.log(error);
+//         res.redirect('/error');
+//       });
+// });
 
 //POST password reset
 router.post('/forgotPassword', (req, res) => {
@@ -169,7 +172,7 @@ router.post('/forgotPassword', (req, res) => {
 // GET /logout
 router.get('/logout', auth.isAuthenticated, (req, res, next) => {
   firebase.auth().signOut().then(() => {
-      delete req.session.fullName;
+      delete req.session.fullname;
       delete req.session.userId;
       delete req.session.email;
       res.redirect('/login');
