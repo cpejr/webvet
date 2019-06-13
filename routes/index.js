@@ -22,9 +22,9 @@ router.get('/signup', (req, res) => {
   res.render('form', { title: 'signup', layout: 'layout' });
 });
 
-router.get('/requisition', (req, res) => {
-  res.render('requisition', {title:'requisition',layout:'layout'});
-});
+// router.get('/requisition', (req, res) => {
+//   res.render('requisition', {title:'requisition',layout:'layoutDashboard.hbs'});
+// });
 
 router.get('/forgotPassword', (req, res) => {
   res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
@@ -141,20 +141,20 @@ router.post('/signup', (req, res) => {
 });
 
 //post / NovoRegistro
-router.post('/requisition', (req,res) => {
-
-  const newRequisition = req.body;
-
-      console.log(newRequisition);
-      Requisition.create(newRequisition).then((userID)=>{
-        console.log(`New requisition with user id: ${userID}`);
-        req.flash('success', 'Nova requisição enviada')
-        res.redirect('/homeAdmin');
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
-      });
-});
+// router.post('/requisition', (req,res) => {
+//
+//   const newRequisition = req.body;
+//
+//       console.log(newRequisition);
+//       Requisition.create(newRequisition).then((userID)=>{
+//         console.log(`New requisition with user id: ${userID}`);
+//         req.flash('success', 'Nova requisição enviada')
+//         res.redirect('/homeAdmin');
+//       }).catch((error) => {
+//         console.log(error);
+//         res.redirect('/error');
+//       });
+// });
 
 //POST password reset
 router.post('/forgotPassword', (req, res) => {

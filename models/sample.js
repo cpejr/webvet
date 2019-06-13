@@ -59,8 +59,8 @@ class Sample {
    */
   static getBySampleNumber(samplenumber) {
     return new Promise((resolve, reject) => {
-      SampleModel.findById(samplenumber).populate('sample').exec().then((result) => {
-        resolve(result.toObject());
+      SampleModel.find({samplenumber: samplenumber}).populate('sample').exec().then((result) => {
+        resolve(result);
       }).catch((err) => {
         reject(err);
       });
