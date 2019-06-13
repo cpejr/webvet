@@ -1,6 +1,7 @@
 const express = require('express');
 const firebase = require('firebase');
 const router = express.Router();
+const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const User = require('../models/user');
 
@@ -9,7 +10,7 @@ router.get('/new', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.post('/create', (req, res) => {
+router.post('/create', auth.isAuthenticated, function(req, res, next){
   const { user } = req.body;
   user.type = 'Analista';
   user.status = 'Ativo';
