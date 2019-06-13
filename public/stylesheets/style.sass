@@ -78,32 +78,50 @@ header
 
 //LOGIN PAGE
 
-.login-box
-  width: 320px
-  height: 300px
-  position: absolute
-  top: 40%
-  text-align: center
-  left: 50%
-  transform: translate(-50%,-50%)
-  color: #006400
-  border-radius: 10%
-  background: none
-  padding: 5px
+.boxes
+  width: 80%
+  margin: 10px auto
+  padding: 20px
+  padding-top: 140px
+  box-sizing: border-box
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  align-items: center
+  justify-content: center
 
-.login-box h1
+.login-box1
+  margin: 40px
+  width: 35%
+  height: 350px
+  transform-style: preserve-3d
+  box-shadow: 1px 1px 10px #f0f0f0
+  align-items: center
+  cursor: pointer
+  transition: all 0.3s cubic-bezier(1, 1, 1, 1)
+  background: white
+  border-radius: 12px
+
+.login-box1 p
+  font-size: 16px
+
+.login-box1 h1
   color: #006400
-  font-size: 50px
-  border-bottom: 4px solid #32CD32
-  margin-bottom: 13px 0
+  font-size: 20px
+  border-bottom: 3px solid #32CD32
+  margin-bottom: 20px 0
+  padding: 10px
 
 .textbox
-  width: 100%
+  width: 95%
   overflow: hidden
   font-size: 20px
-  padding: 8px 0
-  margin: 8px 0
-  border-bottom: 2px solid #32CD32
+  padding: 10px 0
+  margin: 8px 8px
+  align-items: center
+  border: 2px solid #32CD32
+  border-radius: 6px
+  justify-content: center
 
 .textbox input
   border: none
@@ -112,6 +130,7 @@ header
   font-size: 18px
   width: 100%
   margin: 0 10px
+  align-items: center
 
 .btn-login
   background: none
@@ -125,8 +144,8 @@ header
   border: 2px solid #32CD32
   margin-bottom: 50px
   color: 	#32CD32
-  font-size: 12px
-  width: 49%
+  font-size: 16px
+  width: 50%
 
 .box input[type = "submit"]:hover
   background: #006400
@@ -136,6 +155,13 @@ header
   background-repeat: no-repeat
   background-position: center
   padding: 28em
+  width: 100%
+
+.img-login
+  background-image: url('/images/fundo7.jpg')
+  background-repeat: no-repeat
+  background-position: center
+  padding: 5em
   width: 100%
 
 

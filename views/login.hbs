@@ -1,23 +1,27 @@
-<div class="img" id="login">
-  <div class="login-box" id="login-box">
+<div class="img-login" id="login">
+  <div class="boxes">
+    <div class="login-box1">
       <form action="/login" method="post">
-      <h1> Login </h1>
-      <br>
-        <div class="textbox" id="login-text-email">
-          <input type="email" class="input-placeholder" placeholder="email" name="user[email]">
-        </div>
-        <div class="textbox" id="login-text-password">
-          <input type="password" class="input-placeholder" placeholder="password" name="user[password]">
-        </div>
+        <h1>Já sou cadastrado</h1>
         <br>
-        <input class="btn btn-login mt-2" type="submit" value="Login" id="login-btn">
-        <form class="form-row">
-          <input class="btn btn-login2 mt-2" type="submit" value="Esqueci Minha Senha" id="login-btn">
-          <input class="btn btn-login2 mt-2" type="submit" value="Cadastro" id="login-btn">
+          <div class="textbox" id="login-text-email">
+            <input type="email" class="input-placeholder" placeholder="email" name="user[email]">
+          </div>
+          <div class="textbox" id="login-text-password">
+            <input type="password" class="input-placeholder" placeholder="password" name="user[password]">
+          </div>
+          <br>
+          <input class="btn btn-login2 mt-2" type="submit" value="Login" id="login-btn">
         </form>
-      </form>
-  </div>
+      </div>
+      <div class="login-box1">
+        <h1>Quero me cadastrar!</h1>
+        <br>
+        <p> Se você ainda não é cadastrado, clique no botão para se cadastrar!</p>
+        <input href:"/requisition" class="btn btn-login2 mt-2" type="submit" value="Cadastro" id="login-btn">
+      </div>
 </div>
+
 
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
 
