@@ -31,17 +31,56 @@ router.post('/create', (req, res) => {
   });
 });
 
-router.post('/edit/:samplenumber',  function(req, res, next) {
+router.post('/totest/edit/:samplenumber',  function(req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample[0];
-    if (sampleedit.status == "Nova" || sampleedit.status == "A corrigir" ) {
-      sampleedit.status = "Em análise";
+
+    console.log(sampleedit);
+    if (sampleedit.status == "Devendo") {
+      sampleedit.status = "Nova";
     } else {
-      if (sampleedit.status == "Em análise") {
-        sampleedit.status = "A corrigir";
-      }
+      sampleedit.status = "A corrigir";
     }
+
+    Sample.update(sampleedit._id, sampleedit).then(() => {
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+   }).catch((error) => {
+     console.log(error);
+     res.redirect('/error');
+   });
+});
+
+router.post('/testing/edit/:samplenumber',  function(req, res, next) {
+
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    const sampleedit = sample[0];
+    sampleedit.status = "Em análise";
+    console.log(sampleedit);
+
+    Sample.update(sampleedit._id, sampleedit).then(() => {
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+   }).catch((error) => {
+     console.log(error);
+     res.redirect('/error');
+   });
+});
+
+router.post('/ownering/edit/:samplenumber',  function(req, res, next) {
+
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    const sampleedit = sample[0];
+    sampleedit.status = "Devendo";
+    console.log(sampleedit);
+
     Sample.update(sampleedit._id, sampleedit).then(() => {
       res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
     }).catch((error) => {

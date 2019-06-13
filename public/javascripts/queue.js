@@ -18,24 +18,39 @@ var aflatoxina = new jKanban({
       class : 'success',
     },
     {
-      id : '_testing',
+      id : '_ownering',
       title  : 'Devendo',
       class : 'success',
     },
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
-    $.post('/sample/edit/' + samplenumber, () => {
 
-    });
     if (target == '_totest') {
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      $.post('/sample/totest/edit/' + samplenumber, () => {
 
-    } else {
-      if  (target == '_testing') {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      });
 
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
     }
   }
 });
@@ -67,17 +82,32 @@ const deoxinivalenol = new jKanban({
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
-    $.post('/sample/edit/' + samplenumber, () => {
 
-    });
     if (target == '_totest') {
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      $.post('/sample/totest/edit/' + samplenumber, () => {
 
-    } else {
-      if  (target == '_testing') {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      });
 
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
     }
   }
 });
@@ -105,18 +135,34 @@ const ocratoxina = new jKanban({
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
-    $.post('/sample/edit/' + samplenumber, () => {
 
-    });
     if (target == '_totest') {
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      $.post('/sample/totest/edit/' + samplenumber, () => {
 
-    } else {
-      if  (target == '_testing') {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      });
 
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
+
     }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
   }
 });
 
@@ -143,17 +189,32 @@ const t2toxina = new jKanban({
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
-    $.post('/sample/edit/' + samplenumber, () => {
 
-    });
     if (target == '_totest') {
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      $.post('/sample/totest/edit/' + samplenumber, () => {
 
-    } else {
-      if  (target == '_testing') {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      });
 
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
     }
   }
 });
@@ -181,17 +242,32 @@ const fumonisina = new jKanban({
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
-    $.post('/sample/edit/' + samplenumber, () => {
 
-    });
     if (target == '_totest') {
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      $.post('/sample/totest/edit/' + samplenumber, () => {
 
-    } else {
-      if  (target == '_testing') {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      });
 
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
     }
   }
 });
@@ -222,18 +298,34 @@ const zearalenona = new jKanban({
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
-    $.post('/sample/edit/' + samplenumber, () => {
 
-    });
     if (target == '_totest') {
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      $.post('/sample/totest/edit/' + samplenumber, () => {
 
-    } else {
-      if  (target == '_testing') {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      });
 
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
+
     }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
   }
 });
 
@@ -260,6 +352,14 @@ $.get('/search/samples', (samples) => {
               status: sample.status
             });
           }
+          if(sample.status=="Devendo") {
+            aflatoxina.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
         }
 
         //OCRATOXINA A
@@ -274,6 +374,14 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             ocratoxina.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            ocratoxina.addElement('_ownering', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -300,6 +408,14 @@ $.get('/search/samples', (samples) => {
               status: sample.status
             });
           }
+          if(sample.status=="Devendo") {
+            deoxinivalenol.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
         }
 
         //T-2 TOXINA
@@ -314,6 +430,14 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             t2toxina.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            t2toxina.addElement('_ownering', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -340,6 +464,14 @@ $.get('/search/samples', (samples) => {
               status: sample.status
             });
           }
+          if(sample.status=="Devendo") {
+            fumonisina.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
         }
 
         //ZEARALENONA
@@ -354,6 +486,14 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             zearalenona.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            zearalenona.addElement('_ownering', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
