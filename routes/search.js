@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const firebase = require('firebase');
+const mongoose = require('mongodb');
+const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Sample = require('../models/sample');
 
-router.get('/producers', (req, res) => {
+router.get('/producers',  auth.isAuthenticated, (req, res) => {
   const names = [];
   const query = { active: true };
   const sort = { name: 1 };
@@ -21,7 +24,7 @@ router.get('/producers', (req, res) => {
   });
 });
 
-router.get('/covenants', (req, res) => {
+router.get('/covenants',  auth.isAuthenticated, (req, res) => {
   const names = [];
   const query = { active: true };
   const sort = { name: 1 };
@@ -39,7 +42,7 @@ router.get('/covenants', (req, res) => {
   });
 });
 
-router.get('/managers', (req, res) => {
+router.get('/managers',  auth.isAuthenticated, (req, res) => {
   const names = [];
   const query = { active: true };
   const sort = { name: 1 };
@@ -57,7 +60,7 @@ router.get('/managers', (req, res) => {
   });
 });
 
-router.get('/samples', (req, res) => {
+router.get('/samples',  auth.isAuthenticated, (req, res) => {
   Sample.getAll().then((samples) => {
     res.send(samples);
     console.log(samples);

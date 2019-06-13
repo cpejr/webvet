@@ -1,6 +1,7 @@
-var express = require('express');
-var firebase = require('firebase');
-var router = express.Router();
+const express = require('express');
+const firebase = require('firebase');
+const router = express.Router();
+const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Email = require('../models/email');
@@ -175,7 +176,7 @@ router.put('/reject/:id', auth.isAuthenticated, function(req, res, next) {
   });
 });
 
-router.put('/blocked', function(req, res, next) {
+router.put('/blocked', auth.isAuthenticated, function(req, res, next) {
   const user = {
     status: 'Bloqueado'
   };
@@ -184,7 +185,7 @@ router.put('/blocked', function(req, res, next) {
   })
 });
 
-router.get('/addManager',  function(req, res, next) {
+router.get('/addManager', auth.isAuthenticated,  function(req, res, next) {
   User.getById("5ce8401566fee16478f3f43a").then((manager) => {
     // Adiciona o segundo id ao primeiro
     User.addManager("5ce8401566fee16478f3f43a", "5ce83ed566fee16478f3f435").catch((error) => {

@@ -1,7 +1,7 @@
-
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongodb');
+const express = require('express');
+const firebase = require('firebase');
+const router = express.Router();
+const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const Sample = require('../models/sample');
 const Requisition = require('../models/requisition');
