@@ -93,22 +93,23 @@ router.post('/ownering/edit/:samplenumber',  function(req, res, next) {
    });
 });
 
-router.get('/edit/:id', (req, res) => {
-  Sample.getById(req.params.id).then((sample) => {
-    console.log(sample);
-    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sample});
+router.get('/edit/:samplenumber', (req, res) => {
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    const sampleshow = sample[0];
+    console.log(sampleshow);
+    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sampleshow});
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
 });
 
-router.put('/edit/:id', (req, res) => {
+router.put('/edit/:samplenumber', (req, res) => {
   const { sampleX } = req.body;
   console.log(sampleX);
-  Sample.update(req.params.id, sampleX).then(() => {
+  Sample.update(req.params.samplenumber, sampleX).then(() => {
     req.flash('success', 'Amostra alterada');
-    res.redirect('/sample/edit/'+req.params.id);
+    res.redirect('/sample/edit/'+req.params.samplenumber);
   }).catch((error) => {
     console.log("AMIGO ESTOU AQUI");
     console.log(error);

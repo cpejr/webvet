@@ -1,22 +1,22 @@
-<form class="form-show-box" action="/sample/edit/{{sample._id}}?_method=PUT" method="post">
+<form class="form-show-box" action="/sample/edit/{{sample.samplenumber}}?_method=PUT" method="post">
     <h1 class="form-show-title"> Visualização da Amostra</h1>
     <div>
       <div class="form-show-text col-md-12">
         <label for="sample[name]">Nome</label>
-        <input disabled type="text" value="{{sample.name}}" name="sample[name]" class="input-placeholder-green" placeholder="Nome">
+        <input disabled type="text" value="{{sampleshow.name}}">
       </div>
       <div class="form-row">
         <div class="form-show-text col-md-6">
           <label for="sample[samplenumber]">Número da Amostra</label>
-          <input disabled type="text" value="{{sample.samplenumber}}" name="sample[samplenumber]" class="input-placeholder-green" placeholder="Identificação">
+          <input disabled type="text" value="{{sampleshow.samplenumber}}">
         </div>
         <div class="form-show-text col-md-3">
           <label for="sample[status]">Situação</label>
-          <input type="text" value="{{sample.status}}" name="sample[status]" class="input-placeholder-green">
+          <input type="text" value="{{sampleshow.status}}" class="input-placeholder-green">
         </div>
         <div class="form-show-text col-md-3">
           <label for="sample[responsable]">Responsável</label>
-          <input type="text" value="{{sample.responsable}}" name="sample[responsable]" class="input-placeholder-green" placeholder="Analista Responsável">
+          <input type="text" value="{{sampleshow.responsable}}" name="sample[responsable]">
         </div>
       </div>
     <div class="col-md-12 mt-3">
