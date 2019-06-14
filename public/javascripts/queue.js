@@ -4,7 +4,7 @@ var aflatoxina = new jKanban({
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
-    window.location.href = "requisition/show";
+    window.location.href = 'sample/edit/' + el.dataset.eid;
   },
   boards  : [
     {
