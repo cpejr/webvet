@@ -6,15 +6,14 @@ const Mycotoxin = require('./mycotoxin');
 
 const requisitionSchema = new mongoose.Schema({
   identification: Number,
-  datecollection: Date,
+  datecollection: String,
   detectedConcetration: Number,
   origin: String,
   comment: String,
   lab: String,
   destination: String,
   farmname: String,
-  //farmcity: String,
-  //farmstate: String,
+  sampleVector: [String],
   adress: {
     cep: Number,
     street: String,
@@ -39,7 +38,7 @@ const requisitionSchema = new mongoose.Schema({
     city: String,
     state: String
   }],
-  sample: [{
+  samples: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Sample'
   }]
@@ -101,7 +100,7 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.create(requisition).then((result) => {
         resolve(result._id);
-        console.log('entrou no cliente');
+        console.log('entrou na funcao create');
       }).catch((err) => {
         reject(err);
       });
@@ -162,6 +161,21 @@ class Requisition {
       });
     });
   }
+
+  /**
+  * Add sample to samples
+  * @param {string} id - requisition Id
+  * @param {string} sample - Sample Id
+  * @returns {null}
+  */
+ static addSample(id, sample) {
+   return new Promise((resolve, reject) => {
+     RequisitionModel.findByIdAndUpdate(id, { $push: { samples: sample } }).catch((err) => {
+       reject(err);
+     });
+   });
+ }
+
 }
 
 module.exports = Requisition;

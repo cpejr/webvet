@@ -89,9 +89,8 @@ class Sample {
    */
   static create(sample) {
     return new Promise((resolve, reject) => {
-
       SampleModel.create(sample).then((result) => {
-        resolve();
+        resolve(result._id);
       }).catch((err) => {
         reject(err);
       });
