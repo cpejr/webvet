@@ -8,14 +8,21 @@ const Requisition = require('../models/requisition');
 const Sample = require('../models/sample');
 
 
-router.get('/new', function(req, res) {
-  res.render('requisition', {title:'Requisição',layout:'layoutDashboard_user.hbs'});
+
+router.get('/',  function(req,res) {
+  res.render('requisition', {title:'Requisition',layout:'layoutDashboard.hbs'});
 });
 
 
 router.post('/new', function(req,res) {
+  const address = {};
   const { requisition }= req.body;
-  console.log("ABIGO ESTO AKIE");
+  if (requisition.address.street.length === 0) {
+    const address = req.session.address;
+  }
+
+  requisition.address = address;
+
   console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
     var size = requisition.sampleVector;
@@ -44,5 +51,6 @@ router.post('/new', function(req,res) {
     res.redirect('/error');
   });
 });
+
 
 module.exports = router;
