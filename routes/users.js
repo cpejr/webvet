@@ -127,7 +127,7 @@ router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
+router.get('/show/:id', function(req, res, next) {
   const id = req.session.id;
   User.getById(req.params.id).then((user) => {
     User.getAll().then((users) => {
