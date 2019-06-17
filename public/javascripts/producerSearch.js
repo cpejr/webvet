@@ -1,4 +1,4 @@
-let producersAdded = [];
+// let producersAdded = [];
 let producers = [];
 
 

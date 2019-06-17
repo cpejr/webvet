@@ -8,4 +8,33 @@ $(document).ready(function(){
      $("#box-radio").addClass("ml-3");
    }
  });
+
+
+ if($('#manager-radio').is(':checked')) {
+     $('#producer-form').removeClass('form-disabled');
+ } else {
+     $('#producer-form').addClass('form-disabled');
+ }
+
+ if($('#covenant-radio').is(':checked')) {
+     $('#manager-form').removeClass('form-disabled');
+ } else {
+     $('#manager-form').addClass('form-disabled');
+ }
+
+});
+
+
+$('#box-radio').change(function(){
+  if($('#manager-radio').is(':checked')) {
+      $('#producer-form').removeClass('form-disabled');
+  } else {
+      $('#producer-form').addClass('form-disabled');
+  }
+
+  if($('#covenant-radio').is(':checked')) {
+      $('#manager-form').removeClass('form-disabled');
+  } else {
+      $('#manager-form').addClass('form-disabled');
+  }
 });
