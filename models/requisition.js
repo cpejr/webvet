@@ -32,10 +32,7 @@ const requisitionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  mycotoxin: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Mycotoxin'
-  }],
+  mycotoxin: [String],
   samples: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Sample'
