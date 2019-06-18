@@ -7,7 +7,7 @@ const Requisition = require('../models/requisition');
 
 router.get('/', auth.isAuthenticated, (req, res, next) => {
   Requisition.getAll().then((requisitions) => {
-    console.log(requisitions);
+    console.log(requisitions.status);
     res.render('record/index', { title: 'Histórico', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
 
   }).catch((error) => {

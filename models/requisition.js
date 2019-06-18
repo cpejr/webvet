@@ -14,6 +14,12 @@ const requisitionSchema = new mongoose.Schema({
   destination: String,
   farmname: String,
   sampleVector: [String],
+  status: {
+    type: String,
+    enum: ['Aprovada', 'Em Progresso', 'Bloqueada'],
+    default: 'Em Progresso',
+    required: true
+  },
   adress: {
     cep: Number,
     street: String,
@@ -29,14 +35,6 @@ const requisitionSchema = new mongoose.Schema({
   mycotoxin: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Mycotoxin'
-  }],
-  address: [{
-    cep: Number,
-    street: String,
-    number: String,
-    complement: String,
-    city: String,
-    state: String
   }],
   samples: [{
     type: mongoose.Schema.Types.ObjectId,
