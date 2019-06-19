@@ -1,26 +1,58 @@
+
 var aflatoxina = new jKanban({
   element : '#aflatoxina',
   gutter  : '10px',
   widthBoard  : '300px',
   click : function(el) {
-    window.location.href = "requisition/show";
+    window.location.href = 'sample/edit/' + el.dataset.eid;
   },
   boards  : [
     {
       id : '_totest',
       title  : 'Espera',
-      class : 'info',
+      class : 'info'
     },
     {
       id : '_testing',
       title  : 'Em análise',
       class : 'success',
-    }
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
+    },
   ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
 
-  dragEl: function (el, source) {
-    alert(el.dataset.eid);
-  },
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+  }
 });
 
 const deoxinivalenol = new jKanban({
@@ -41,8 +73,43 @@ const deoxinivalenol = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
-  ]
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+  }
 });
 
 const ocratoxina = new jKanban({
@@ -59,8 +126,44 @@ const ocratoxina = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
-  ]
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
+  }
 });
 
 const t2toxina = new jKanban({
@@ -77,8 +180,43 @@ const t2toxina = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
-  ]
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+  }
 });
 
 const fumonisina = new jKanban({
@@ -95,8 +233,43 @@ const fumonisina = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
-  ]
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+  }
 });
 
 const zearalenona = new jKanban({
@@ -116,8 +289,44 @@ const zearalenona = new jKanban({
       id : '_testing',
       title  : 'Para teste',
       class : 'success',
+    },
+    {
+      id : '_ownering',
+      title  : 'Devendo',
+      class : 'success',
     }
-  ]
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Devendo") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
+  }
 });
 
 $.get('/search/samples', (samples) => {
@@ -129,6 +338,7 @@ $.get('/search/samples', (samples) => {
         if(m == "Aflatoxina") {
           if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
             aflatoxina.addElement("_totest", {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -136,6 +346,15 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             aflatoxina.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            aflatoxina.addElement('_ownering', {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -147,6 +366,7 @@ $.get('/search/samples', (samples) => {
         if(m == "Ocratoxina A") {
           if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
             ocratoxina.addElement("_totest", {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -154,6 +374,15 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             ocratoxina.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            ocratoxina.addElement('_ownering', {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -165,6 +394,7 @@ $.get('/search/samples', (samples) => {
         if(m == "Deoxinivalenol") {
           if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
             deoxinivalenol.addElement("_totest", {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -172,6 +402,15 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             deoxinivalenol.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            deoxinivalenol.addElement('_ownering', {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -183,6 +422,7 @@ $.get('/search/samples', (samples) => {
         if(m == "T-2 toxina") {
           if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
             t2toxina.addElement("_totest", {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -190,6 +430,15 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             t2toxina.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            t2toxina.addElement('_ownering', {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -201,6 +450,7 @@ $.get('/search/samples', (samples) => {
         if(m == "Fumonisina") {
           if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
             fumonisina.addElement("_totest", {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -208,6 +458,15 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             fumonisina.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            fumonisina.addElement('_ownering', {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -219,6 +478,7 @@ $.get('/search/samples', (samples) => {
         if(m == "Zearalenona") {
           if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
             zearalenona.addElement("_totest", {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status
@@ -226,6 +486,15 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.status=="Em análise") {
             zearalenona.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.status
+            });
+          }
+          if(sample.status=="Devendo") {
+            zearalenona.addElement('_ownering', {
+              id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.status

@@ -1,10 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongodb');
+const express = require('express');
+const router = express.Router();
+const firebase = require('firebase');
+const mongoose = require('mongodb');
+const auth = require('./middleware/auth');
 const Sample = require('../models/sample');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+
+router.get('/',  auth.isAuthenticated, function(req, res, next) {
   res.render('test', { title: 'Usuários', layout: 'layoutDashboard.hbs', ...req.session });
 
 });
@@ -28,21 +31,20 @@ router.post('/create', (req, res) => {
   });
 });
 
-router.post('/edit/:samplenumber',  function(req, res, next) {
+router.post('/totest/edit/:samplenumber',  function(req, res, next) {
+
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    if (sample.status == "Nova" || sample.status == "A corrigir" ) {
-      sample = {
-        status: "Em análise"
-      }
+    const sampleedit = sample[0];
+
+    console.log(sampleedit);
+    if (sampleedit.status == "Devendo") {
+      sampleedit.status = "Nova";
     } else {
-      if (sample.status == "Em análise") {
-        sample = {
-          status: "A corrigir"
-        }
-      }
+      sampleedit.status = "A corrigir";
     }
-    Sample.update(sample._id, sample).then(() => {
-      req.flash('success', 'Amostra editada com sucesso.');
+
+    Sample.update(sampleedit._id, sampleedit).then(() => {
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -53,22 +55,61 @@ router.post('/edit/:samplenumber',  function(req, res, next) {
    });
 });
 
-router.get('/edit/:id', (req, res) => {
-  Sample.getById(req.params.id).then((sample) => {
-    console.log(sample);
-    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sample});
+router.post('/testing/edit/:samplenumber',  function(req, res, next) {
+
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    const sampleedit = sample[0];
+    sampleedit.status = "Em análise";
+    console.log(sampleedit);
+
+    Sample.update(sampleedit._id, sampleedit).then(() => {
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+   }).catch((error) => {
+     console.log(error);
+     res.redirect('/error');
+   });
+});
+
+router.post('/ownering/edit/:samplenumber',  function(req, res, next) {
+
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    const sampleedit = sample[0];
+    sampleedit.status = "Devendo";
+    console.log(sampleedit);
+
+    Sample.update(sampleedit._id, sampleedit).then(() => {
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+   }).catch((error) => {
+     console.log(error);
+     res.redirect('/error');
+   });
+});
+
+router.get('/edit/:samplenumber', (req, res) => {
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    const sampleshow = sample[0];
+    console.log(sampleshow);
+    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sampleshow});
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
 });
 
-router.put('/edit/:id', (req, res) => {
+router.put('/edit/:samplenumber', (req, res) => {
   const { sampleX } = req.body;
   console.log(sampleX);
-  Sample.update(req.params.id, sampleX).then(() => {
+  Sample.update(req.params.samplenumber, sampleX).then(() => {
     req.flash('success', 'Amostra alterada');
-    res.redirect('/sample/edit/'+req.params.id);
+    res.redirect('/sample/edit/'+req.params.samplenumber);
   }).catch((error) => {
     console.log("AMIGO ESTOU AQUI");
     console.log(error);

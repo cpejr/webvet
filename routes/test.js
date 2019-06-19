@@ -1,8 +1,9 @@
-var express = require('express');
-var firebase = require('firebase');
+const express = require('express');
+const firebase = require('firebase');
+const router = express.Router();
+const mongoose = require('mongodb');
+const auth = require('./middleware/auth');
 const User = require('../models/user');
-
-var router = express.Router();
 
 router.get('/', (req, res) => {
   res.render('test', { title: 'Teste' });
