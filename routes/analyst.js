@@ -38,4 +38,15 @@ router.post('/create', auth.isAuthenticated, function(req, res, next){
   });
 });
 
+router.get('/show', auth.isAuthenticated, function(req, res, next) {
+  User.getAll().then((users) => {
+    console.log(users);
+    res.render('analyst/show', { title: 'Analistas', layout: 'layoutDashboard.hbs', users, ...req.session });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+
+});
+
 module.exports = router;
