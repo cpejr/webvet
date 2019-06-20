@@ -58,8 +58,9 @@ router.get('/producers', auth.isAuthenticated, function(req, res, next) {
 router.get('/managers', auth.isAuthenticated, function(req, res, next) {
 
   User.getAll().then((users) => {
-    console.log(users);
-    res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session });
+    const loggedID = req.session.user._id
+    console.log(loggedID);
+    res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session, loggedID });
 
   }).catch((error) => {
     console.log(error);
@@ -72,8 +73,13 @@ router.get('/managers/:id', auth.isAuthenticated, function(req, res, next) {
 
   User.getAssociatedMaganersById(req.params.id).then((users) => {
     console.log(users);
-    res.render('admin/users/managers', { title: 'Gerentes Associados', layout: 'layoutDashboard.hbs', users, ...req.session });
-
+    User.getById(req.params.id).then((user) => {
+      console.log(user);
+      res.render('admin/users/managers', { title: 'Gerentes Associados', layout: 'layoutDashboard.hbs', users, user, ...req.session });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -86,8 +92,13 @@ router.get('/producers/:id', auth.isAuthenticated, function(req, res, next) {
 
   User.getAssociatedProducersById(req.params.id).then((users) => {
     console.log(users);
-    res.render('admin/users/producers', { title: 'Produtores Associados', layout: 'layoutDashboard.hbs', users, ...req.session });
-
+    User.getById(req.params.id).then((user) => {
+      console.log(user);
+      res.render('admin/users/producers', { title: 'Produtores Associados', layout: 'layoutDashboard.hbs', users, user, ...req.session });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -128,11 +139,10 @@ router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 router.get('/show/:id', function(req, res, next) {
-  const id = req.session.id;
   User.getById(req.params.id).then((user) => {
     User.getAll().then((users) => {
-      console.log(users);
-      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', user, users, ...req.session });
+      console.log(user);
+      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', user, users, });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');

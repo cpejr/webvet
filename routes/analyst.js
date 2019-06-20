@@ -5,6 +5,12 @@ const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const User = require('../models/user');
 
+
+router.get('/', auth.isAuthenticated, function(req, res, next) {
+  res.render('analyst/homeAnalyst', {title: 'Home', layout: 'layoutDashboard.hbs' });
+
+});
+
 router.get('/new', auth.isAuthenticated, function(req, res, next) {
   res.render('analyst/new', {title: 'Novo analista', layout: 'layoutDashboard.hbs' });
 
