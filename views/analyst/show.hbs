@@ -1,0 +1,34 @@
+<h4>Lista de Analistas</h4>
+<p></p>
+<div class="table-responsive">
+  <table id="tb-user" class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        {{#compare status 'Ativo'}}
+          {{#compare type 'Analista'}}
+            <tr>
+              <th>{{fullname}}</th>
+              <th>{{cellphone}}</th>
+              <th>{{email}}</th>
+              <th>
+                <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn"></button>
+              </th>
+            </tr>
+          {{/compare}}
+        {{/compare}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<form class="user-edit-button" action='/analyst/new' method="GET">
+  <button class="btn ml-2" type="submit"> Adicionar </button>
+</form>
