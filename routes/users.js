@@ -177,23 +177,32 @@ router.put('/reject/:id', auth.isAuthenticated, function(req, res, next) {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
     });
   });
+  const user = {
+    status: 'Bloqueado'
+  };
+  User.update(req.params.id, user).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+  req.flash('success', 'Usuário bloqueado com sucesso.');
+  res.redirect('/users/pending');
+  });
+
+router.put('/block/:id', auth.isAuthenticated, function(req, res, next) {
+  User.getById(req.params.id).then((user) => {
+    Email.userRejectedEmail(user).catch((error) => {
+      req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
+    });
+  });
 
   User.delete(req.params.id).then(() => {
-    req.flash('success', 'Usuário rejeitado com sucesso.');
+    req.flash('success', 'Usuário deletado com sucesso.');
     res.redirect('/users/pending');
   }).catch((error) => {
     res.redirect('/error');
   });
 });
 
-router.put('/blocked', auth.isAuthenticated, function(req, res, next) {
-  const user = {
-    status: 'Bloqueado'
-  };
-  User.update(req.params.id, user).then(() => {
-    res.redirect(`/users`)
-  })
-});
 
 router.get('/addManager', auth.isAuthenticated,  function(req, res, next) {
   User.getById("5ce8401566fee16478f3f43a").then((manager) => {
