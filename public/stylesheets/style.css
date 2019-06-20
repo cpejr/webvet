@@ -6927,6 +6927,13 @@ li {
 .th-users {
   cursor: pointer; }
 
+.user-edit-button {
+  text-align: left;
+  padding-top: 230px;
+  padding-left: 72px; }
+  .user-edit-button button:hover {
+    background-color: #a0aa96; }
+
 .cards-container {
   position: relative;
   width: 100%;
