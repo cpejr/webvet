@@ -10,6 +10,7 @@ const Email = require('../models/email');
 
 
 router.get('/show', auth.isAuthenticated, function(req, res, next) {
+  const user = req.session;
   const id = req.session._id;
   User.getById(id).then((user) => {
     res.render('profile/show', { title: 'Perfil', layout: 'layoutDashboard.hbs', user, ...req.session });
@@ -21,26 +22,30 @@ router.get('/show', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/edit', auth.isAuthenticated, function(req, res, next) {
-  const id = req.session._id;
-    User.getById(id).then((user) => {
-    res.render('profile/edit', { title: 'Editar perfil', layout: 'layoutDashboard.hbs', user, ...req.session });
-
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-
+router.get('/edit/:_id', auth.isAuthenticated, function(req, res, next) {
+  res.render('profile/edit', { title: 'Editar perfil', layout: 'layoutDashboard.hbs', ...req.session });
 });
 
-router.put('/', auth.isAuthenticated, function(req, res, next) {
+router.put('/edit/:_id', auth.isAuthenticated, function(req, res, next) {
   const id = req.session._id;
   const user = req.session;
-  User.update(req.params.id,user).then(()=>{
-    console.log("update");
-    req.flash('success', 'Alterações no perfil realizadas');
-    res.redirect(`/show/${req.params.id}`)
-  })
-});
+    User.getById(id).then((user) => {
+      const useredit = user;
+      User.update(id, useredit).then(() => {
+        res.render('profile/edit', { title: 'Editar perfil', layout: 'layoutDashboard.hbs', ...req.session });
+        console.log("update");
+        console.log(user);
+        req.flash('success', 'Alterações no perfil realizadas');
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      });
+     }).catch((error) => {
+       console.log(error);
+       res.redirect('/error');
+     });
+  });
+
+
 
 module.exports = router;

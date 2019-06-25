@@ -1,4 +1,4 @@
-<form class="form-show-box"  action="/edit/{{user.id}}?_method=PUT" method="post">>
+<form class="form-show-box"  action="/profile/show" method="put">
     <h1 class="form-show-title">Editar Perfil</h1>
     <div>
       <div class="form-show-text col-md-12">
@@ -72,11 +72,6 @@
       </div>
     <div class="col-md-12 mt-3">
       <button class="btn mr-2" type="button" onclick="location.href='/user'"><i class="fa fa-reply"></i> Voltar</button>
-      <button class="btn mr-2" type="submit" onclick="location.href='/user'" ><i class="fa fa-pencil"></i> Salvar</button>
+      <button class="btn mr-2" type="submit"><i class="fa fa-pencil"></i> Salvar</button>
     </div>
 </form>
-
-<script src="/javascripts/producerSearch.js"></script>
-<script src="/javascripts/covenantSearch.js"></script>
-<script src="/javascripts/managerSearch.js"></script>
-<script src="/javascripts/users.js"></script>
