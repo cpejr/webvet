@@ -27,7 +27,7 @@ var aflatoxina = new jKanban({
     const samplenumber = el.dataset.eid;
 
     if (target == '_totest') {
-      $.post('/sample/totest/edit/' + samplenumber, () => {
+      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
 
       });
 
@@ -39,14 +39,14 @@ var aflatoxina = new jKanban({
 
     }
     if  (target == '_testing') {
-      $.post('/sample/testing/edit/' + samplenumber, () => {
+      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
     if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/' + samplenumber, () => {
+      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -84,7 +84,7 @@ const deoxinivalenol = new jKanban({
     const samplenumber = el.dataset.eid;
 
     if (target == '_totest') {
-      $.post('/sample/totest/edit/' + samplenumber, () => {
+      $.post('/sample/totest/edit/deoxinivalenol/' + samplenumber, () => {
 
       });
 
@@ -96,14 +96,14 @@ const deoxinivalenol = new jKanban({
 
     }
     if  (target == '_testing') {
-      $.post('/sample/testing/edit/' + samplenumber, () => {
+      $.post('/sample/testing/edit/deoxinivalenol/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
     if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/' + samplenumber, () => {
+      $.post('/sample/ownering/edit/deoxinivalenol/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -137,7 +137,7 @@ const ocratoxina = new jKanban({
     const samplenumber = el.dataset.eid;
 
     if (target == '_totest') {
-      $.post('/sample/totest/edit/' + samplenumber, () => {
+      $.post('/sample/totest/edit/ocratoxina/' + samplenumber, () => {
 
       });
 
@@ -149,14 +149,14 @@ const ocratoxina = new jKanban({
 
     }
     if  (target == '_testing') {
-      $.post('/sample/testing/edit/' + samplenumber, () => {
+      $.post('/sample/testing/edit/ocratoxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
     if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/' + samplenumber, () => {
+      $.post('/sample/ownering/edit/ocratoxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -191,7 +191,7 @@ const t2toxina = new jKanban({
     const samplenumber = el.dataset.eid;
 
     if (target == '_totest') {
-      $.post('/sample/totest/edit/' + samplenumber, () => {
+      $.post('/sample/totest/edit/t2toxina/' + samplenumber, () => {
 
       });
 
@@ -203,14 +203,14 @@ const t2toxina = new jKanban({
 
     }
     if  (target == '_testing') {
-      $.post('/sample/testing/edit/' + samplenumber, () => {
+      $.post('/sample/testing/edit/t2toxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
     if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/' + samplenumber, () => {
+      $.post('/sample/ownering/edit/t2toxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -244,7 +244,7 @@ const fumonisina = new jKanban({
     const samplenumber = el.dataset.eid;
 
     if (target == '_totest') {
-      $.post('/sample/totest/edit/' + samplenumber, () => {
+      $.post('/sample/totest/edit/fumonisina/' + samplenumber, () => {
 
       });
 
@@ -256,14 +256,14 @@ const fumonisina = new jKanban({
 
     }
     if  (target == '_testing') {
-      $.post('/sample/testing/edit/' + samplenumber, () => {
+      $.post('/sample/testing/edit/fumonisina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
     if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/' + samplenumber, () => {
+      $.post('/sample/ownering/edit/fumonisina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -300,7 +300,7 @@ const zearalenona = new jKanban({
     const samplenumber = el.dataset.eid;
 
     if (target == '_totest') {
-      $.post('/sample/totest/edit/' + samplenumber, () => {
+      $.post('/sample/totest/edit/zearalenona/' + samplenumber, () => {
 
       });
 
@@ -312,14 +312,14 @@ const zearalenona = new jKanban({
 
     }
     if  (target == '_testing') {
-      $.post('/sample/testing/edit/' + samplenumber, () => {
+      $.post('/sample/testing/edit/zearalenona/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
     if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/' + samplenumber, () => {
+      $.post('/sample/ownering/edit/zearalenona/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -331,177 +331,176 @@ const zearalenona = new jKanban({
 
 $.get('/search/samples', (samples) => {
   $(document).ready(function() {
+
     samples.forEach((sample) => {
-      mycotoxins = sample.mycotoxin;
-      mycotoxins.forEach((m) => {
         //AFLATOXINA
-        if(m == "Aflatoxina") {
-          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+        if(sample.aflatoxina.active == true) {
+          if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
             aflatoxina.addElement("_totest", {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.aflatoxina.status
             });
           }
-          if(sample.status=="Em análise") {
+          if(sample.aflatoxina.status=="Em análise") {
             aflatoxina.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.aflatoxina.status
             });
           }
-          if(sample.status=="Devendo") {
+          if(sample.aflatoxina.status=="Devendo") {
             aflatoxina.addElement('_ownering', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.aflatoxina.status
             });
           }
         }
 
         //OCRATOXINA A
-        if(m == "Ocratoxina A") {
-          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+        if(sample.ocratoxina.active == true) {
+          if(sample.ocratoxina.status=="Nova" || sample.ocratoxina.status=="Sem amostra" || sample.ocratoxina.status=="A corrigir") {
             ocratoxina.addElement("_totest", {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.ocratoxina.status
             });
           }
-          if(sample.status=="Em análise") {
+          if(sample.ocratoxina.status=="Em análise") {
             ocratoxina.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.ocratoxina.status
             });
           }
-          if(sample.status=="Devendo") {
+          if(sample.ocratoxina.status=="Devendo") {
             ocratoxina.addElement('_ownering', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.ocratoxina.status
             });
           }
         }
 
         //DEOXINIVALENOL
-        if(m == "Deoxinivalenol") {
-          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+        if(sample.deoxinivalenol.active == true) {
+          if(sample.deoxinivalenol.status=="Nova" || sample.deoxinivalenol.status=="Sem amostra" || sample.deoxinivalenol.status=="A corrigir") {
             deoxinivalenol.addElement("_totest", {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.deoxinivalenol.status
             });
           }
-          if(sample.status=="Em análise") {
+          if(sample.deoxinivalenol.status=="Em análise") {
             deoxinivalenol.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.deoxinivalenol.status
             });
           }
-          if(sample.status=="Devendo") {
+          if(sample.deoxinivalenol.status=="Devendo") {
             deoxinivalenol.addElement('_ownering', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
-            });
-          }
-        }
-
-        //T-2 TOXINA
-        if(m == "T-2 toxina") {
-          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
-            t2toxina.addElement("_totest", {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.status
-            });
-          }
-          if(sample.status=="Em análise") {
-            t2toxina.addElement('_testing', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.status
-            });
-          }
-          if(sample.status=="Devendo") {
-            t2toxina.addElement('_ownering', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.status
-            });
-          }
-        }
-
-        //FUMONISINA
-        if(m == "Fumonisina") {
-          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
-            fumonisina.addElement("_totest", {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.status
-            });
-          }
-          if(sample.status=="Em análise") {
-            fumonisina.addElement('_testing', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.status
-            });
-          }
-          if(sample.status=="Devendo") {
-            fumonisina.addElement('_ownering', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.status
+              status: sample.deoxinivalenol.status
             });
           }
         }
 
         //ZEARALENONA
-        if(m == "Zearalenona") {
-          if(sample.status=="Nova" || sample.status=="Sem amostra" || sample.status=="A corrigir") {
+        if(sample.zearalenona.active == true) {
+          if(sample.zearalenona.status=="Nova" || sample.zearalenona.status=="Sem amostra" || sample.zearalenona.status=="A corrigir") {
             zearalenona.addElement("_totest", {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.zearalenona.status
             });
           }
-          if(sample.status=="Em análise") {
+          if(sample.zearalenona.status=="Em análise") {
             zearalenona.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.zearalenona.status
             });
           }
-          if(sample.status=="Devendo") {
+          if(sample.zearalenona.status=="Devendo") {
             zearalenona.addElement('_ownering', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.status
+              status: sample.zearalenona.status
             });
           }
         }
-      });
+
+        //T-2 TOXINA
+        if(sample.t2toxina.active == true) {
+          if(sample.t2toxina.status=="Nova" || sample.t2toxina.status=="Sem amostra" || sample.t2toxina.status=="A corrigir") {
+            t2toxina.addElement("_totest", {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.t2toxina.status
+            });
+          }
+          if(sample.t2toxina.status=="Em análise") {
+            t2toxina.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.t2toxina.status
+            });
+          }
+          if(sample.t2toxina.status=="Devendo") {
+            t2toxina.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.t2toxina.status
+            });
+          }
+        }
+
+        //FUMOSININA
+        if(sample.fumonisina.active == true) {
+          if(sample.fumonisina.status=="Nova" || sample.fumonisina.status=="Sem amostra" || sample.fumonisina.status=="A corrigir") {
+            fumonisina.addElement("_totest", {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.fumonisina.status
+            });
+          }
+          if(sample.fumonisina.status=="Em análise") {
+            fumonisina.addElement('_testing', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.fumonisina.status
+            });
+          }
+          if(sample.fumonisina.status=="Devendo") {
+            fumonisina.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.fumonisina.status
+            });
+          }
+        }
+
     });
   });
 });

@@ -31,16 +31,102 @@ router.post('/create', (req, res) => {
   });
 });
 
-router.post('/totest/edit/:samplenumber',  function(req, res, next) {
+router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample[0];
 
     console.log(sampleedit);
-    if (sampleedit.status == "Devendo") {
-      sampleedit.status = "Nova";
-    } else {
-      sampleedit.status = "A corrigir";
+    if (req.params.mycotoxin == "aflatoxina") {
+      if (sampleedit.aflatoxina.status == "Devendo") {
+        sampleedit.aflatoxina.status = "Nova";
+      } else {
+        sampleedit.aflatoxina.status = "A corrigir";
+      }
+    }
+
+    if (req.params.mycotoxin == "ocratoxina") {
+      if (sampleedit.ocratoxina.status == "Devendo") {
+        sampleedit.ocratoxina.status = "Nova";
+      } else {
+        sampleedit.ocratoxina.status = "A corrigir";
+      }
+    }
+
+    if (req.params.mycotoxin == "deoxinivalenol") {
+      if (sampleedit.deoxinivalenol.status == "Devendo") {
+        sampleedit.deoxinivalenol.status = "Nova";
+      } else {
+        sampleedit.deoxinivalenol.status = "A corrigir";
+      }
+    }
+
+    if (req.params.mycotoxin == "t2toxina") {
+      if (sampleedit.t2toxina.status == "Devendo") {
+        sampleedit.t2toxina.status = "Nova";
+      } else {
+        sampleedit.t2toxina.status = "A corrigir";
+      }
+    }
+
+    if (req.params.mycotoxin == "fumonisina") {
+      if (sampleedit.fumonisina.status == "Devendo") {
+        sampleedit.fumonisina.status = "Nova";
+      } else {
+        sampleedit.fumonisina.status = "A corrigir";
+      }
+    }
+
+    if (req.params.mycotoxin == "zearalenona") {
+      if (sampleedit.zearalenona.status == "Devendo") {
+        sampleedit.zearalenona.status = "Nova";
+      } else {
+        sampleedit.zearalenona.status = "A corrigir";
+      }
+    }
+
+    Sample.update(sampleedit._id, sampleedit).then(() => {
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
+  }).catch((error) => {
+   console.log(error);
+   res.redirect('/error');
+  });
+});
+
+router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
+
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    const sampleedit = sample[0];
+    sampleedit.status = "Em análise";
+    console.log(sampleedit);
+
+    if (req.params.mycotoxin == "aflatoxina") {
+      sampleedit.aflatoxina.status = "Em análise";
+    }
+
+    if (req.params.mycotoxin == "ocratoxina") {
+      sampleedit.ocratoxina.status = "Em análise";
+    }
+
+    if (req.params.mycotoxin == "deoxinivalenol") {
+      sampleedit.deoxinivalenol.status = "Em análise";
+    }
+
+    if (req.params.mycotoxin == "t2toxina") {
+      sampleedit.t2toxina.status = "Em análise";
+    }
+
+    if (req.params.mycotoxin == "fumonisina") {
+      sampleedit.fumonisina.status = "Em análise";
+    }
+
+    if (req.params.mycotoxin == "zearalenona") {
+      sampleedit.zearalenona.status = "Em análise";
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
@@ -55,31 +141,36 @@ router.post('/totest/edit/:samplenumber',  function(req, res, next) {
    });
 });
 
-router.post('/testing/edit/:samplenumber',  function(req, res, next) {
-
-  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    const sampleedit = sample[0];
-    sampleedit.status = "Em análise";
-    console.log(sampleedit);
-
-    Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
-   }).catch((error) => {
-     console.log(error);
-     res.redirect('/error');
-   });
-});
-
-router.post('/ownering/edit/:samplenumber',  function(req, res, next) {
+router.post('/ownering/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample[0];
     sampleedit.status = "Devendo";
     console.log(sampleedit);
+
+    if (req.params.mycotoxin == "aflatoxina") {
+      sampleedit.aflatoxina.status = "Devendo";
+    }
+
+    if (req.params.mycotoxin == "ocratoxina") {
+      sampleedit.ocratoxina.status = "Devendo";
+    }
+
+    if (req.params.mycotoxin == "deoxinivalenol") {
+      sampleedit.deoxinivalenol.status = "Devendo";
+    }
+
+    if (req.params.mycotoxin == "t2toxina") {
+      sampleedit.t2toxina.status = "Devendo";
+    }
+
+    if (req.params.mycotoxin == "fumonisina") {
+      sampleedit.fumonisina.status = "Devendo";
+    }
+
+    if (req.params.mycotoxin == "zearalenona") {
+      sampleedit.zearalenona.status = "Devendo";
+    }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
       res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});

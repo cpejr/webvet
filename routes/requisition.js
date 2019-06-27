@@ -9,35 +9,42 @@ const Sample = require('../models/sample');
 
 
 
-router.get('/',  function(req,res) {
-  res.render('requisition', {title:'Requisition',layout:'layoutDashboard.hbs'});
+router.get('/', auth.isAuthenticated,  function(req,res) {
+  res.render('requisition', {title:'Requisition',layout:'layoutDashboard.hbs', ...req.session });
 });
 
 
 router.post('/new', function(req,res) {
-  const address = {};
-  const { requisition }= req.body;
-  if (requisition.address.street.length === 0) {
-    const address = req.session.address;
+  const { requisition } = req.body;
+  if (req.body.producerAddress == 0) {
+    console.log("thayan lindo");
+    const address = req.session.user.adress;
+    console.log(req.session.user.adress);
+    requisition.address = address;
   }
 
-  requisition.address = address;
 
   console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
     var size = requisition.sampleVector;
     var i;
-    for(i = 0; i<size.length; i++) {
-      const sample = {
-        name: requisition.sampleVector[i]
-      }
-      console.log(sample);
-      Sample.create(sample).then((sid) => {
-        console.log(`New Sample with id: ${sid}`);
-        Requisition.addSample(reqid, sid).catch((error) => {
+    for(i = 0; i< size.length; i++) {
+      Sample.getMaxSampleNumber().then((maxSample) => {
+        const sample = {
+          name: requisition.sampleVector[i],
+          samplenumber: maxSample[0].samplenumber + 1
+        }
+        console.log(sample);
+        Sample.create(sample).then((sid) => {
+          console.log(`New Sample with id: ${sid}`);
+          Requisition.addSample(reqid, sid).catch((error) => {
+            console.log(error);
+            res.redirect('/error');
+          })
+        }).catch((error) => {
           console.log(error);
           res.redirect('/error');
-        })
+        });
       }).catch((error) => {
         console.log(error);
         res.redirect('/error');
