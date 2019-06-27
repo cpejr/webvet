@@ -8,7 +8,7 @@ const Email = require('../models/email');
 
 /* GET home page. */
 
-
+//Rota GET da página show - Usa o GetById para mostrar as informações do usuário logado
 router.get('/show', auth.isAuthenticated, function(req, res, next) {
   const id = req.session.user._id;
   User.getById(id).then((user) => {
@@ -22,6 +22,7 @@ router.get('/show', auth.isAuthenticated, function(req, res, next) {
 
 });
 
+//Rota GET da página edit - Usa o GetById para mostrar as informações do usuário logado
 router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {
   User.getById(req.params.id).then((user) => {
     console.log(user);
@@ -32,15 +33,15 @@ router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {
   });
 });
 
+//Rota PUT da página edit - rota que atualiza os dados do usuário
 router.put('/edit/:id', auth.isAuthenticated, function(req, res, next) {
   const id = req.params.id;
   const { user } = req.body;
-  console.log("Q");
       User.update(id, user).then(() => {
+        //A função getById é colocada depois, pois ela pega o usuário atualizado como parâmetro
         User.getById(id).then((userF) => {
+          //O req.session.user tem que ser atualizado para as novas informações, caso contrario as alterações so seriam atualizadas quando o usuário iniciasse outra sessão
           req.session.user = userF;
-          console.log("update");
-          console.log(user);
           req.flash('success', 'Alterações no perfil realizadas');
           res.redirect('/profile/show');
           // console.log(useredit);
