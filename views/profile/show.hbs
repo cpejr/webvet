@@ -1,8 +1,9 @@
-<form class="form-show-box" action="/profile/show" method="put">
+<form class="form-show-box" action="/profile/show" method="put"> //O method="put" indica que as informações desse página passam pela função update
     <h1 class="form-show-title">Meu Perfil</h1>
     <div>
       <div class="form-show-text col-md-12">
         <label for="user[fullname]">Nome</label>
+        //Todos os inputs estão "disabled", pois nessa página o usuário não pode atualizar seus dados, apenas visualizados
         <input disabled type="text" value="{{user.fullname}}" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
       </div>
       <div class="form-row">
@@ -23,6 +24,7 @@
       <div class="form-row">
         <div class="col-md-3 mt-3">
           <div class="form-check form-check-inline">
+            // O #if indica que dependendo do "persontype" do usuário, CPE ou CNPJ, essa parte do formulário estará preenchida de forma diferente
               {{#if user.persontype}}
                 <input disabled class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
                 <label class="radio-text form-check-label mr-3">CPF</label>
@@ -71,7 +73,9 @@
         </div>
       </div>
     <div class="col-md-12 mt-3">
+      //a função "onclick="location.href='/users/pending'"" indica que ao clicar no botão, o usuário será redirecionado para '/users/pending'
       <button class="btn mr-2" type="button" onclick="location.href='/users/pending'"><i class="fa fa-reply"></i> Voltar</button>
+      //a função "onclick="location.href='/profile/edit/{{user._id}}'"indica que ao clicar no botão, o usuário será redirecionado para 'profile/edit/O id do usuário que está logado', isso indica que a pagina será redirecionada para a pagina edit especifica do usuario logado
       <button class="btn ml-2" type="button" onclick="location.href='/profile/edit/{{user._id}}'" ><i class="fa fa-pencil"></i> Alterar</button>
     </div>
 </form>
