@@ -1,4 +1,4 @@
-<h4>Lista de Gerentes</h4>
+<h4>Lista de Analistas</h4>
 <p></p>
 <div class="table-responsive">
   <table id="tb-user" class="table table-striped table-hover">
@@ -12,9 +12,10 @@
     </thead>
     <tbody>
       {{#each users}}
-          {{#compare type 'Gerencia'}}
+        {{#compare status 'Ativo'}}
+          {{#compare type 'Analista'}}
             <tr>
-              <th onClick="location.href='/users/producers/{{_id}}'" class="th-users"> {{fullname}}</th>
+              <th>{{fullname}}</th>
               <th>{{cellphone}}</th>
               <th>{{email}}</th>
               <th>
@@ -22,11 +23,12 @@
               </th>
             </tr>
           {{/compare}}
+        {{/compare}}
       {{/each}}
     </tbody>
   </table>
 </div>
 
-<form class="user-edit-button" action='/users/show/{{user._id}}' method="GET">
+<form class="user-edit-button" action='/analyst/new' method="GET">
   <button class="btn ml-2" type="submit"> Adicionar </button>
 </form>

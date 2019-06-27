@@ -5,6 +5,12 @@ const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const User = require('../models/user');
 
+
+router.get('/', auth.isAuthenticated, function(req, res, next) {
+  res.render('analyst/homeAnalyst', {title: 'Home', layout: 'layoutDashboard.hbs' });
+
+});
+
 router.get('/new', auth.isAuthenticated, function(req, res, next) {
   res.render('analyst/new', {title: 'Novo analista', layout: 'layoutDashboard.hbs' });
 
@@ -30,6 +36,17 @@ router.post('/create', auth.isAuthenticated, function(req, res, next){
     console.log(error);
     res.redirect('/error');
   });
+});
+
+router.get('/show', auth.isAuthenticated, function(req, res, next) {
+  User.getAll().then((users) => {
+    console.log(users);
+    res.render('analyst/show', { title: 'Analistas', layout: 'layoutDashboard.hbs', users, ...req.session });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+
 });
 
 module.exports = router;

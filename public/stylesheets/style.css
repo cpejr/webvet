@@ -6095,7 +6095,8 @@ header {
 
 .index-faixa {
   color: #98FB98;
-  background: rgba(255, 255, 255, 0.2); }
+  background-color: #98FB98;
+  height: 500px; }
 
 .index-branco {
   background-color: white;
@@ -6177,7 +6178,7 @@ header {
   border: 2px solid #32CD32;
   margin-bottom: 10px;
   color: #32CD32;
-  width: 100%; }
+  width: 85%; }
 
 .btn-login2 {
   background: none;
@@ -6252,24 +6253,29 @@ header {
   width: 60%; }
 
 .password-box {
-  width: 300px;
-  height: 280px;
+  width: 400px;
+  height: 340px;
   position: absolute;
-  top: 60%;
+  top: 65%;
   text-align: center;
-  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #98FB98;
-  border-radius: 10%;
-  background: rgba(255, 255, 255, 0.2);
+  background: #FFFFFF;
   padding: 10px; }
 
 .password-box h1 {
-  color: white;
+  color: #006400;
   font-size: 40px;
   border-bottom: 4px solid #90EE90;
   margin-bottom: 13px 0; }
+
+.wrapper {
+  background-image: url("/images/fundo7.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 28em;
+  width: 100%; }
 
 .signup {
   width: 700px;
@@ -6291,7 +6297,7 @@ header {
   overflow: hidden;
   font-size: 18px;
   padding: 8px 0;
-  margin: 8px 0;
+  margin: 8px 06;
   border-bottom: 1px solid 	#006400; }
 
 .signup-text input {
@@ -6906,18 +6912,31 @@ li {
   #tb-user {
     width: 90vw; }
   .th-action {
-    width: 40vw; } }
+    width: 40vw;
+    cursor: pointer; } }
 
 @media (max-width: 470px) {
   .th-action {
-    width: 50vw; } }
+    width: 50vw;
+    cursor: pointer; } }
 
 @media (max-width: 321px) {
   .th-action {
-    width: 10vw; } }
+    width: 10vw;
+    cursor: pointer; } }
 
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
   background-color: #F7FCF2; }
+
+.th-users {
+  cursor: pointer; }
+
+.user-edit-button {
+  text-align: left;
+  padding-top: 230px;
+  padding-left: 72px; }
+  .user-edit-button button:hover {
+    background-color: #a0aa96; }
 
 .cards-container {
   position: relative;
@@ -7256,6 +7275,56 @@ li {
       font-family-color: white;
       font-family-opacity: 1;
     font-weight: 300; }
+
+.container-fluid {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 80px 0;
+    padding-height: 400px;
+  text-align: center; }
+  .container-fluid h1 {
+    font-size: 40px;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-put;
+    font-weight: 200; }
+    .container-fluid h1 form {
+      padding: 20px 0;
+      position: relative;
+      z-index: 2; }
+  .container-fluid input {
+    display: block;
+    appearance: none;
+    outline: 0;
+    border: 1px solid fade(white, 40%);
+    background-color: fade(white, 20%);
+    width: 250px;
+    border-radius: 3px;
+    padding: 10px 15px;
+    margin: 0 auto 10px auto;
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    transition-duration: 0.25s;
+    font-weight: 300; }
+    .container-fluid input:hover {
+      background-color: fade(white, 40%); }
+    .container-fluid input:focus {
+      background-color: white;
+      width: 300px; }
+      .container-fluid input:focus button {
+        appearance: none;
+        outline: 0;
+        background-color: white;
+        border: 0;
+        padding: 10px 15px;
+        border-radius: 3px;
+        width: 250px;
+        cursor: pointer;
+        font-size: 18px;
+        transition-duration: 0.25s; }
+        .container-fluid input:focus button:hover {
+          background-color: #f5f7f9; }
 
 .bg-bubbles {
   position: absolute;

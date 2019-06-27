@@ -15,7 +15,7 @@
         {{#compare status 'Ativo'}}
           {{#compare type 'Convenio'}}
             <tr>
-              <th onClick="location.href='managers/{{_id}}'"> {{fullname}} </th>
+              <th onClick="location.href='managers/{{_id}}'" class="th-users"> {{fullname}} </th>
               <th>{{cellphone}}</th>
               <th>{{email}}</th>
               <th>
@@ -28,4 +28,3 @@
     </tbody>
   </table>
 </div>
-

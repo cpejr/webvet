@@ -58,8 +58,9 @@ router.get('/producers', auth.isAuthenticated, function(req, res, next) {
 router.get('/managers', auth.isAuthenticated, function(req, res, next) {
 
   User.getAll().then((users) => {
-    console.log(users);
-    res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session });
+    const loggedID = req.session.user._id
+    console.log(loggedID);
+    res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session, loggedID });
 
   }).catch((error) => {
     console.log(error);
@@ -72,8 +73,13 @@ router.get('/managers/:id', auth.isAuthenticated, function(req, res, next) {
 
   User.getAssociatedMaganersById(req.params.id).then((users) => {
     console.log(users);
-    res.render('admin/users/managers', { title: 'Gerentes Associados', layout: 'layoutDashboard.hbs', users, ...req.session });
-
+    User.getById(req.params.id).then((user) => {
+      console.log(user);
+      res.render('admin/users/managers', { title: 'Gerentes Associados', layout: 'layoutDashboard.hbs', users, user, ...req.session });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -86,8 +92,13 @@ router.get('/producers/:id', auth.isAuthenticated, function(req, res, next) {
 
   User.getAssociatedProducersById(req.params.id).then((users) => {
     console.log(users);
-    res.render('admin/users/producers', { title: 'Produtores Associados', layout: 'layoutDashboard.hbs', users, ...req.session });
-
+    User.getById(req.params.id).then((user) => {
+      console.log(user);
+      res.render('admin/users/producers', { title: 'Produtores Associados', layout: 'layoutDashboard.hbs', users, user, ...req.session });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -128,11 +139,10 @@ router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 router.get('/show/:id', function(req, res, next) {
-  const id = req.session.id;
   User.getById(req.params.id).then((user) => {
     User.getAll().then((users) => {
-      console.log(users);
-      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', user, users, ...req.session });
+      console.log(user);
+      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', user, users, });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -167,23 +177,32 @@ router.put('/reject/:id', auth.isAuthenticated, function(req, res, next) {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
     });
   });
+  const user = {
+    status: 'Bloqueado'
+  };
+  User.update(req.params.id, user).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+  req.flash('success', 'Usuário bloqueado com sucesso.');
+  res.redirect('/users/pending');
+  });
+
+router.put('/block/:id', auth.isAuthenticated, function(req, res, next) {
+  User.getById(req.params.id).then((user) => {
+    Email.userRejectedEmail(user).catch((error) => {
+      req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
+    });
+  });
 
   User.delete(req.params.id).then(() => {
-    req.flash('success', 'Usuário rejeitado com sucesso.');
+    req.flash('success', 'Usuário deletado com sucesso.');
     res.redirect('/users/pending');
   }).catch((error) => {
     res.redirect('/error');
   });
 });
 
-router.put('/blocked', auth.isAuthenticated, function(req, res, next) {
-  const user = {
-    status: 'Bloqueado'
-  };
-  User.update(req.params.id, user).then(() => {
-    res.redirect(`/users`)
-  })
-});
 
 router.get('/addManager', auth.isAuthenticated,  function(req, res, next) {
   User.getById("5ce8401566fee16478f3f43a").then((manager) => {
