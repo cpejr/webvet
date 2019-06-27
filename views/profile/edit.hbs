@@ -1,0 +1,77 @@
+<form class="form-show-box"  action="/profile/edit/{{user._id}}?_method=PUT" method="post">
+    <h1 class="form-show-title">Editar Perfil</h1>
+    <div>
+      <div class="form-show-text col-md-12">
+        <label for="user[fullname]">Nome</label>
+        <input type="text" value="{{user.fullname}}" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
+      </div>
+      <div class="form-row">
+        <div class="form-show-text col-md-6">
+          <label for="user[email]">Email</label>
+          <input type="email" value="{{user.email}}" name="user[email]" class="input-placeholder-green" placeholder="Email">
+        </div>
+        <div class="form-show-text col-md-3">
+          <label for="user[cellphone]">Celular</label>
+          <input type="text" value="{{user.cellphone}}" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular">
+        </div>
+        <div class="form-show-text col-md-3">
+          <label for="user[phone]">Telefone</label>
+          <input type="text" value="{{user.phone}}" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
+        </div>
+      </div>
+      <br>
+      <div class="form-row">
+        <div class="col-md-3 mt-3">
+          <div class="form-check form-check-inline">
+              {{#if user.persontype}}
+                <input class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
+                <label class="radio-text form-check-label mr-3">CPF</label>
+                <input class="form-check-input position-static" type="radio" name="user[persontype]" value="1" checked>
+                <label class="radio-text form-check-label mr-3">CNPJ</label>
+              {{else}}
+                <input class="form-check-input position-static" type="radio" name="user[persontype]" value="0" checked>
+                <label class="radio-text form-check-label mr-3">CPF</label>
+                <input class="form-check-input position-static" type="radio" name="user[persontype]" value="1">
+                <label class="radio-text form-check-label mr-3">CNPJ</label>
+              {{/if}}
+          </div>
+        </div>
+        <div class="form-show-text col-md-9">
+          <input type="text" value="{{user.register}}" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-show-text col-md-6">
+          <label for="user[address][street]">Rua</label>
+          <input type="text" value="{{user.address.street}}" name="user[address][street]" class="input-placeholder-green" placeholder="Endereço">
+        </div>
+        <div class="form-show-text col-md-3">
+          <label for="user[address][number]">Número</label>
+          <input type="text" value="{{user.address.number}}" name="user[address][number]" class="input-placeholder-green" placeholder="Número">
+        </div>
+        <div class="form-show-text col-md-3">
+          <label for="user[address][complement]">Complemento</label>
+          <input type="text" value="{{user.address.complement}}" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
+        </div>
+      </div>
+      <div>
+        <div class="form-row">
+          <div class="form-show-text col-md-6">
+            <label for="user[address][city]">Cidade</label>
+            <input type="text" value="{{user.address.city}}" name="user[address][city]">
+          </div>
+          <div class="form-show-text col-md-3">
+            <label for="user[address][state]">Estado</label>
+            <input type="text" value="{{user.address.state}}" name="user[address][state]">
+          </div>
+          <div class="form-show-text col-md-3">
+            <label for="user[address][cep]">CEP</label>
+            <input type="text" value="{{user.address.cep}}" class="form-show-text" name="user[address][cep]">
+          </div>
+        </div>
+      </div>
+    <div class="col-md-12 mt-3">
+      <button class="btn mr-2" type="button" onclick="location.href='/user'"><i class="fa fa-reply"></i> Voltar</button>
+      <button class="btn mr-2" type="submit"><i class="fa fa-pencil"></i> Salvar</button>
+    </div>
+</form>
