@@ -9,15 +9,61 @@ const sampleSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Requisition'
   },
-  status: {
-    type: String,
-    enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Devendo'],
-    default: 'Nova'
-  },
   responsible: String,
-  mycotoxin: [{
-    type: String
-  }]
+  ocratoxina: {
+    status: {
+      type: String,
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Devendo'],
+      default: 'Nova'
+    },
+    date: String,
+    active: Boolean
+  },
+  deoxinivalenol: {
+    status: {
+      type: String,
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Devendo'],
+      default: 'Nova'
+    },
+    date: String,
+    active: Boolean
+  },
+  t2toxina: {
+    status: {
+      type: String,
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Devendo'],
+      default: 'Nova'
+    },
+    date: String,
+    active: Boolean
+  },
+  fumonisina: {
+    status: {
+      type: String,
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Devendo'],
+      default: 'Nova'
+    },
+    date: String,
+    active: Boolean
+  },
+  zearalenona:  {
+    status: {
+      type: String,
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Devendo'],
+      default: 'Nova'
+    },
+    date: String,
+    active: Boolean
+  },
+  aflatoxina: {
+    status: {
+      type: String,
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Devendo'],
+      default: 'Nova'
+    },
+    date: String,
+    active: Boolean
+  }
 }, { timestamps: true, strict: false });
 
 const SampleModel = mongoose.model('Sample', sampleSchema);
