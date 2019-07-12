@@ -38,7 +38,7 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
 
     console.log(sampleedit);
     if (req.params.mycotoxin == "aflatoxina") {
-      if (sampleedit.aflatoxina.status == "Devendo") {
+      if (sampleedit.aflatoxina.status == "Aguardando pagamento") {
         sampleedit.aflatoxina.status = "Nova";
       } else {
         sampleedit.aflatoxina.status = "A corrigir";
@@ -46,7 +46,7 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
     }
 
     if (req.params.mycotoxin == "ocratoxina") {
-      if (sampleedit.ocratoxina.status == "Devendo") {
+      if (sampleedit.ocratoxina.status == "Aguardando pagamento") {
         sampleedit.ocratoxina.status = "Nova";
       } else {
         sampleedit.ocratoxina.status = "A corrigir";
@@ -54,7 +54,7 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
     }
 
     if (req.params.mycotoxin == "deoxinivalenol") {
-      if (sampleedit.deoxinivalenol.status == "Devendo") {
+      if (sampleedit.deoxinivalenol.status == "Aguardando pagamento") {
         sampleedit.deoxinivalenol.status = "Nova";
       } else {
         sampleedit.deoxinivalenol.status = "A corrigir";
@@ -62,7 +62,7 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
     }
 
     if (req.params.mycotoxin == "t2toxina") {
-      if (sampleedit.t2toxina.status == "Devendo") {
+      if (sampleedit.t2toxina.status == "Aguardando pagamento") {
         sampleedit.t2toxina.status = "Nova";
       } else {
         sampleedit.t2toxina.status = "A corrigir";
@@ -70,7 +70,7 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
     }
 
     if (req.params.mycotoxin == "fumonisina") {
-      if (sampleedit.fumonisina.status == "Devendo") {
+      if (sampleedit.fumonisina.status == "Aguardando pagamento") {
         sampleedit.fumonisina.status = "Nova";
       } else {
         sampleedit.fumonisina.status = "A corrigir";
@@ -78,7 +78,7 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
     }
 
     if (req.params.mycotoxin == "zearalenona") {
-      if (sampleedit.zearalenona.status == "Devendo") {
+      if (sampleedit.zearalenona.status == "Aguardando pagamento") {
         sampleedit.zearalenona.status = "Nova";
       } else {
         sampleedit.zearalenona.status = "A corrigir";
@@ -145,31 +145,31 @@ router.post('/ownering/edit/:mycotoxin/:samplenumber',  function(req, res, next)
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample[0];
-    sampleedit.status = "Devendo";
+    sampleedit.status = "Aguardando pagamento";
     console.log(sampleedit);
 
     if (req.params.mycotoxin == "aflatoxina") {
-      sampleedit.aflatoxina.status = "Devendo";
+      sampleedit.aflatoxina.status = "Aguardando pagamento";
     }
 
     if (req.params.mycotoxin == "ocratoxina") {
-      sampleedit.ocratoxina.status = "Devendo";
+      sampleedit.ocratoxina.status = "Aguardando pagamento";
     }
 
     if (req.params.mycotoxin == "deoxinivalenol") {
-      sampleedit.deoxinivalenol.status = "Devendo";
+      sampleedit.deoxinivalenol.status = "Aguardando pagamento";
     }
 
     if (req.params.mycotoxin == "t2toxina") {
-      sampleedit.t2toxina.status = "Devendo";
+      sampleedit.t2toxina.status = "Aguardando pagamento";
     }
 
     if (req.params.mycotoxin == "fumonisina") {
-      sampleedit.fumonisina.status = "Devendo";
+      sampleedit.fumonisina.status = "Aguardando pagamento";
     }
 
     if (req.params.mycotoxin == "zearalenona") {
-      sampleedit.zearalenona.status = "Devendo";
+      sampleedit.zearalenona.status = "Aguardando pagamento";
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {

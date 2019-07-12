@@ -76,7 +76,7 @@
 
 .kanban-item {
     background: #fff;
-    padding: 15px;
+    padding: 5px;
     margin-bottom: 20px;
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }

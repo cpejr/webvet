@@ -19,9 +19,14 @@ var aflatoxina = new jKanban({
     },
     {
       id : '_ownering',
-      title  : 'Devendo',
+      title  : 'Aguardando pagamento',
       class : 'success',
     },
+    {
+      id : '_waiting',
+      title  : 'Aguardando amostra',
+      class : 'info'
+    }
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
@@ -31,7 +36,7 @@ var aflatoxina = new jKanban({
 
       });
 
-      if (el.dataset.status == "Devendo") {
+      if (el.dataset.status == "Aguardando pagamento") {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       } else {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -49,7 +54,14 @@ var aflatoxina = new jKanban({
       $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
   }
@@ -76,7 +88,12 @@ const deoxinivalenol = new jKanban({
     },
     {
       id : '_ownering',
-      title  : 'Devendo',
+      title  : 'Aguardando pagamento',
+      class : 'success',
+    },
+    {
+      id : '_waiting',
+      title  : 'Aguardando amostra',
       class : 'success',
     }
   ],
@@ -88,7 +105,7 @@ const deoxinivalenol = new jKanban({
 
       });
 
-      if (el.dataset.status == "Devendo") {
+      if (el.dataset.status == "Aguardando pagamento") {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       } else {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -106,7 +123,14 @@ const deoxinivalenol = new jKanban({
       $.post('/sample/ownering/edit/deoxinivalenol/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/deoxinivalenol/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
   }
@@ -129,7 +153,12 @@ const ocratoxina = new jKanban({
     },
     {
       id : '_ownering',
-      title  : 'Devendo',
+      title  : 'Aguardando pagamento',
+      class : 'success',
+    },
+    {
+      id : '_waiting',
+      title  : 'Aguardando amostra',
       class : 'success',
     }
   ],
@@ -141,7 +170,7 @@ const ocratoxina = new jKanban({
 
       });
 
-      if (el.dataset.status == "Devendo") {
+      if (el.dataset.status == "Aguardando pagamento") {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       } else {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -159,7 +188,14 @@ const ocratoxina = new jKanban({
       $.post('/sample/ownering/edit/ocratoxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/ocratoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
 
@@ -183,7 +219,12 @@ const t2toxina = new jKanban({
     },
     {
       id : '_ownering',
-      title  : 'Devendo',
+      title  : 'Aguardando pagamento',
+      class : 'success',
+    },
+    {
+      id : '_waiting',
+      title  : 'Aguardando amostra',
       class : 'success',
     }
   ],
@@ -195,7 +236,7 @@ const t2toxina = new jKanban({
 
       });
 
-      if (el.dataset.status == "Devendo") {
+      if (el.dataset.status == "Aguardando pagamento") {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       } else {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -213,7 +254,14 @@ const t2toxina = new jKanban({
       $.post('/sample/ownering/edit/t2toxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/t2toxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
   }
@@ -236,7 +284,12 @@ const fumonisina = new jKanban({
     },
     {
       id : '_ownering',
-      title  : 'Devendo',
+      title  : 'Aguardando pagamento',
+      class : 'success',
+    },
+    {
+      id : '_waiting',
+      title  : 'Aguardando amostra',
       class : 'success',
     }
   ],
@@ -248,7 +301,7 @@ const fumonisina = new jKanban({
 
       });
 
-      if (el.dataset.status == "Devendo") {
+      if (el.dataset.status == "Aguardando pagamento") {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       } else {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -266,7 +319,14 @@ const fumonisina = new jKanban({
       $.post('/sample/ownering/edit/fumonisina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
   }
@@ -292,7 +352,12 @@ const zearalenona = new jKanban({
     },
     {
       id : '_ownering',
-      title  : 'Devendo',
+      title  : 'Aguardando pagamento',
+      class : 'success',
+    },
+    {
+      id : '_waiting',
+      title  : 'Aguardando amostra',
       class : 'success',
     }
   ],
@@ -304,7 +369,7 @@ const zearalenona = new jKanban({
 
       });
 
-      if (el.dataset.status == "Devendo") {
+      if (el.dataset.status == "Aguardando pagamento") {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       } else {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -322,7 +387,14 @@ const zearalenona = new jKanban({
       $.post('/sample/ownering/edit/zearalenona/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Devendo' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/zearalenona/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
 
@@ -351,8 +423,16 @@ $.get('/search/samples', (samples) => {
               status: sample.aflatoxina.status
             });
           }
-          if(sample.aflatoxina.status=="Devendo") {
+          if(sample.aflatoxina.status=="Aguardando pagamento") {
             aflatoxina.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.aflatoxina.status
+            });
+          }
+          if(sample.aflatoxina.status=="Aguardando amostra") {
+            aflatoxina.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -379,8 +459,16 @@ $.get('/search/samples', (samples) => {
               status: sample.ocratoxina.status
             });
           }
-          if(sample.ocratoxina.status=="Devendo") {
+          if(sample.ocratoxina.status=="Aguardando pagamento") {
             ocratoxina.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.ocratoxina.status
+            });
+          }
+          if(sample.ocratoxina.status=="Aguardando amostra") {
+            ocratoxina.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -407,8 +495,16 @@ $.get('/search/samples', (samples) => {
               status: sample.deoxinivalenol.status
             });
           }
-          if(sample.deoxinivalenol.status=="Devendo") {
+          if(sample.deoxinivalenol.status=="Aguardando pagamento") {
             deoxinivalenol.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.deoxinivalenol.status
+            });
+          }
+          if(sample.deoxinivalenol.status=="Aguardando amostra") {
+            deoxinivalenol.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -435,8 +531,16 @@ $.get('/search/samples', (samples) => {
               status: sample.zearalenona.status
             });
           }
-          if(sample.zearalenona.status=="Devendo") {
+          if(sample.zearalenona.status=="Aguardando pagamento") {
             zearalenona.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.zearalenona.status
+            });
+          }
+          if(sample.zearalenona.status=="Aguardando amostra") {
+            zearalenona.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -463,8 +567,16 @@ $.get('/search/samples', (samples) => {
               status: sample.t2toxina.status
             });
           }
-          if(sample.t2toxina.status=="Devendo") {
+          if(sample.t2toxina.status=="Aguardando pagamento") {
             t2toxina.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.t2toxina.status
+            });
+          }
+          if(sample.t2toxina.status=="Aguardando amostra") {
+            t2toxina.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -491,8 +603,16 @@ $.get('/search/samples', (samples) => {
               status: sample.fumonisina.status
             });
           }
-          if(sample.fumonisina.status=="Devendo") {
+          if(sample.fumonisina.status=="Aguardando pagamento") {
             fumonisina.addElement('_ownering', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.fumonisina.status
+            });
+          }
+          if(sample.fumonisina.status=="Aguardando amostra") {
+            fumonisina.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
