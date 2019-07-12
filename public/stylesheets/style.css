@@ -6191,15 +6191,8 @@ header {
 .box input[type="submit"]:hover {
   background: #006400; }
 
-.img {
-  background-image: url("/images/fundo1.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  padding: 28em;
-  width: 100%; }
-
 .img-login {
-  background-image: url("/images/fundo7.jpg");
+  background-image: url("/images/fundo9.jpg");
   background-repeat: no-repeat;
   background-position: center;
   padding: 5em;
