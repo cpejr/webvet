@@ -6407,6 +6407,9 @@ header {
 .fernando {
   margin-right: 0px;
   padding-top: 8px; }
+  .fernando .form-check-column p {
+    display: -webkit-inline-box;
+    margin-left: -400px; }
 
 .user-box {
   width: 100%;
