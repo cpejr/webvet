@@ -26,3 +26,12 @@ $('#radio').change(function(){
       $('#form-address').addClass('form-disabled');
   }
 });
+
+$('#radio-animal').change(function(){
+
+  if($('#Others').is(':checked')) {
+      $('#Other-destination').removeClass('form-disabled');
+  } else {
+      $('#Other-destination').addClass('form-disabled');
+  }
+});
