@@ -24,33 +24,50 @@
 
             <div id="radio-animal" class="form-check ">
               <div class="form-check">
-                <input checked class="form-check-input destination" type="radio" name="requisition[destination]" value="0">
-                <label class="radio-text form-check-label mr-0">Bovinos</label>
+                <input checked class="form-check-input destination" type="radio" name="requisition[destination]" value="Bovinos">
+                <label class="radio-text form-check-label mr-3">Bovinos</label>
               </div>
               <div class="form-check">
-                <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]" value="1" >
-                <label class="radio-text form-check-label  mr-3">Suinos</label>
+                <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]" value="Suínos" >
+                <label class="radio-text form-check-label  mr-3">Suínos</label>
               </div>
               <div class="form-check">
-                <input id="Horse" class="form-check-input destination" type="radio" name="requisition[destination]" value="2">
+                <input id="Horse" class="form-check-input destination" type="radio" name="requisition[destination]" value="Equinos">
                 <label class="radio-text form-check-label mr-3">Equinos</label>
               </div>
               <div class="form-check">
-                <input id="Goat" class="form-check-input destination" type="radio" name="requisition[destination]" value="3" >
+                <input id="Goat" class="form-check-input destination" type="radio" name="requisition[destination]" value="Caprinos" >
                 <label class="radio-text form-check-label mr-3">Caprinos</label>
               </div>
               <div class="form-check">
-                <input id="Bird" class="form-check-input destination" type="radio" name="requisition[destination]" value="4" >
-                <label class="radio-text form-check-label mr-3">Aves</label>
+                <input id="Sheep" class="form-check-input destination" type="radio" name="requisition[destination]" value="Ovinos" >
+                <label class="radio-text form-check-label mr-3">Ovinos</label>
+              </div>
+              <div class="form-check">
+                <input id="Fish" class="form-check-input destination" type="radio" name="requisition[destination]" value="Peixes" >
+                <label class="radio-text form-check-label mr-3">Peixes</label>
+              </div>
+
+              <div class="form-check">
+                <input id="Pet" class="form-check-input destination" type="radio" name="requisition[destination]" value="Pet" >
+                <label class="radio-text form-check-label mr-3">Pet</label>
+              </div>
+              <div class="form-check">
+                <input id="Raw-Material" class="form-check-input destination" type="radio" name="requisition[destination]" value="Matéria-Prima" >
+                <label class="radio-text form-check-label mr-3">Matéria-Prima (Fábrica da Ração)</label>
               </div>
               <div class="form-check">
                 <input id="Others" class="form-check-input destination" type="radio" name="requisition[destination]" value="5">
                 <label class="radio-text form-check-label mr-3">Outros</label>
               </div>
-
             </div>
-
         </div>
+
+        <div id="Other-destination" class="form-disabled form-row">
+           <input type="text" name="requisition[destination]" class="requisition-text col-md-2" placeholder="Outros">
+         </div>
+
+
   <!--  </div>-->
 
     <br>
