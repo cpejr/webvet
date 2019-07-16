@@ -1,3 +1,4 @@
+
 var num = 2;
 function addInput() {
   if(num<11) {
@@ -19,12 +20,15 @@ for (var i = 0; i < checados.lenght; i++) {
   }
 }
 
-$('#radio').change(function(){
-  if($('#new-address').is(':checked')) {
-      $('#form-address').removeClass('form-disabled');
+ $('#radio').change(function(){
+ if($('#now-address').is(':checked')) {
+        $('#keep-address').removeClass('form-disabled');
+        $('#Change-address').addClass('form-disabled');
   } else {
-      $('#form-address').addClass('form-disabled');
+    $('#keep-address').addClass('form-disabled');
+    $('#Change-address').removeClass('form-disabled');
   }
+
 });
 
 $('#radio-animal').change(function(){
