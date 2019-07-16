@@ -21,6 +21,7 @@ router.post('/new', function(req,res) {
     const address = req.session.user.adress;
     console.log(req.session.user.adress);
     requisition.address = address;
+    
   }
 
 

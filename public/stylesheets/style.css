@@ -6411,6 +6411,11 @@ header {
     display: -webkit-inline-box;
     margin-left: -400px; }
 
+.form-conf {
+  margin-left: 3px;
+  margin-right: 0px;
+  float: left; }
+
 .user-box {
   width: 100%;
   margin: 0px auto;
