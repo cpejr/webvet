@@ -2,17 +2,18 @@
   <h4 align="center"> Formulário de Novo Registro</h4>
   <br>
   <form action="/requisition/new" method="post">
+
       <div class="requisition-text col-md-12">
         <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Fornecedor">
       </div>
-      <div class="form-row">
+  <div class="form-row">
         <div class="requisition-text col-md-4">
           <input type="text" name="requisition[producer]" class="requisition-text" placeholder="Produtor">
         </div>
-        <div class="requisition-text col-md-6">
+        <div class="requisition-text col-md-4">
           <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Nome da Fazenda">
         </div>
-        <div class="requisition-text col-md-2">
+        <div class="requisition-text col-md-4">
           <input type="text"  name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
         </div>
       </div>
@@ -84,40 +85,40 @@
     </div>
 
     <div id="keep-address" class=" form-row">
-      <div class="requisition-text col-md-7">
-        <input id="street" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="{{user.adress.street}}">
+      <div class="requisition-text col-md-6">
+        <a class="requisition-text col-md-6">{{user.adress.street}}</a>
       </div>
       <div  class="requisition-text col-md-3">
-        <input id="cep" type="text" name="requisition[address][cep]" class="requisition-text" placeholder="{{user.adress.cep}}">
+        <a class="requisition-text">{{user.adress.cep}}</a>
       </div>
       <div class="requisition-text col-md-2">
-        <input id="number" type="text" name="requisition[address][number]" class="requisition-text" placeholder="{{user.adress.number}}">
+        <a class="requisition-text">{{user.adress.number}}</a>
+      </div>
+      <div class="requisition-text col-md-3">
+        <a class="requisition-text">{{user.adress.complement}}</a>
+      </div>
+      <div class="requisition-text col-md-6">
+        <a class="requisition-text">{{user.adress.city}}</a>
       </div>
       <div class="requisition-text col-md-2">
-        <input id="complement" type="text" name="requisition[address][complement]" class="requisition-text" placeholder="{{user.adress.complement}}">
-      </div>
-      <div class="requisition-text col-md-8">
-        <input id="city" type="text" name="requisition[address][city]" class="requisition-text" placeholder="{{user.adress.city}}">
-      </div>
-      <div class="requisition-text col-md-2">
-        <input id="state" type="text" name="requisition[address][state]" class="requisition-text" placeholder="{{user.adress.state}}">
+        <a class="requisition-text">{{user.adress.state}}</a>
       </div>
     </div>
 
     <div id="Change-address" class="form-disabled form-row">
-      <div class="requisition-text col-md-7">
+      <div class="requisition-text col-md-6">
         <input id="street" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="Rua">
       </div>
-      <div class="form-disabled requisition-text col-md-3">
+      <div class=" requisition-text col-md-3">
         <input id="cep" type="text" name="requisition[address][cep]" class="requisition-text" placeholder="CEP">
       </div>
       <div class="requisition-text col-md-2">
         <input id="number" type="text" name="requisition[address][number]" class="requisition-text" placeholder="Numero">
       </div>
-      <div class="requisition-text col-md-2">
+      <div class="requisition-text col-md-3">
         <input id="complement" type="text" name="requisition[address][complement]" class="requisition-text" placeholder="Complemento">
       </div>
-      <div class="requisition-text col-md-8">
+      <div class="requisition-text col-md-6">
         <input id="city" type="text" name="requisition[address][city]" class="requisition-text" placeholder="Município">
       </div>
       <div class="requisition-text col-md-2">
