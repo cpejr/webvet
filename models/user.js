@@ -50,12 +50,12 @@ const userSchema = new mongoose.Schema({
     default: 0
   },
 
-  associatedProducers:[{ //pode dar ruim
+  associatedProducers:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
 
-  associatedManagers: [{ //pode dar ruim
+  associatedManagers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
