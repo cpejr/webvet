@@ -55,7 +55,7 @@ router.get('/requisition/index', (req, res) => {
            uid: currentLogged.uid,
            email: currentLogged.email,
            status: currentLogged.status,
-           adress:  currentLogged.adress
+           address:  currentLogged.address
          };
         req.session.user = currentLogged;
 

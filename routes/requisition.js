@@ -10,6 +10,7 @@ const Sample = require('../models/sample');
 
 
 router.get('/', auth.isAuthenticated,  function(req,res) {
+  console.log(req.session.user);
   res.render('requisition', {title:'Requisition',layout:'layoutDashboard.hbs', ...req.session });
 });
 
@@ -17,14 +18,14 @@ router.get('/', auth.isAuthenticated,  function(req,res) {
 router.post('/new', function(req,res) {
   const { requisition } = req.body;
   if (req.body.producerAddress == 0) {
-    console.log("thayan lindo");
-    const address = req.session.user.adress;
-    console.log(req.session.user.adress);
+    console.log("MINI BOIIIII");
+    const address = req.session.user.address;
+    console.log(req.session.user.address);
     requisition.address = address;
 
   }
 
-  
+
 
 
   console.log(requisition);
