@@ -1,8 +1,70 @@
 <div class="requisition" >
   <h4 align="center"> Formulário de Novo Registro</h4>
   <br>
-  <form action="/requisition/new" method="post">
 
+  <h6 align="left"> Dados de Cobrança</h6>
+  <br>
+  <div class="form-row">
+    <div id="box-radio" class="col-md-12 ml-3" align="left">
+      <div id="radio" class="form-check form-check-inline">
+        <input id="now-address"  checked class="form-check-input producer-address" type="radio" name="producerAddress" value="0">
+        <label class="radio-text form-control-label mr-3">Endereço do Produtor</label>
+        <input id="new-address"  class="form-check-input" type="radio" name="producerAddress" value="1">
+        <label class="radio-text form-check-label mr-3">Cadastrar novo Responsável</label>
+      </div>
+    </div>
+  </div>
+
+  <div id="keep-address" class=" form-row">
+    <div class="requisition-text col-md-6">
+      <a class="requisition-text col-md-6">{{user.adress.street}}</a>
+    </div>
+    <div  class="requisition-text col-md-3">
+      <a class="requisition-text">{{user.adress.cep}}</a>
+    </div>
+    <div class="requisition-text col-md-2">
+      <a class="requisition-text">{{user.adress.number}}</a>
+    </div>
+    <div class="requisition-text col-md-3">
+      <a class="requisition-text">{{user.adress.complement}}</a>
+    </div>
+    <div class="requisition-text col-md-6">
+      <a class="requisition-text">{{user.adress.city}}</a>
+    </div>
+    <div class="requisition-text col-md-2">
+      <a class="requisition-text">{{user.adress.state}}</a>
+    </div>
+  </div>
+
+  <div id="Change-address" class="form-disabled form-row">
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="Razão Social/Nome:">
+    </div>
+
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="Rua">
+    </div>
+    <div class=" requisition-text col-md-3">
+      <input id="cep" type="text" name="requisition[address][cep]" class="requisition-text" placeholder="CEP">
+    </div>
+    <div class="requisition-text col-md-2">
+      <input id="number" type="text" name="requisition[address][number]" class="requisition-text" placeholder="Numero">
+    </div>
+    <div class="requisition-text col-md-3">
+      <input id="complement" type="text" name="requisition[address][complement]" class="requisition-text" placeholder="Complemento">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="city" type="text" name="requisition[address][city]" class="requisition-text" placeholder="Município">
+    </div>
+    <div class="requisition-text col-md-2">
+      <input id="state" type="text" name="requisition[address][state]" class="requisition-text" placeholder="Estado">
+    </div>
+  </div>
+  
+  <form action="/requisition/new" method="post">
+    <br>
+    <h6 align="left"> Requisição de Análise</h6>
+    <br>
       <div class="requisition-text col-md-12">
         <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Fornecedor">
       </div>
@@ -72,59 +134,6 @@
   <!--  </div>-->
 
     <br>
-    <h6 align="left"> Dados de Cobrança</h6>
-    <div class="form-row">
-      <div id="box-radio" class="col-md-12 ml-3" align="left">
-        <div id="radio" class="form-check form-check-inline">
-          <input id="now-address"  checked class="form-check-input producer-address" type="radio" name="producerAddress" value="0">
-          <label class="radio-text form-control-label mr-3">Endereço do Produtor</label>
-          <input id="new-address"  class="form-check-input" type="radio" name="producerAddress" value="1">
-          <label class="radio-text form-check-label mr-3">Cadastrar novo endereço</label>
-        </div>
-      </div>
-    </div>
-
-    <div id="keep-address" class=" form-row">
-      <div class="requisition-text col-md-6">
-        <a class="requisition-text col-md-6">{{user.adress.street}}</a>
-      </div>
-      <div  class="requisition-text col-md-3">
-        <a class="requisition-text">{{user.adress.cep}}</a>
-      </div>
-      <div class="requisition-text col-md-2">
-        <a class="requisition-text">{{user.adress.number}}</a>
-      </div>
-      <div class="requisition-text col-md-3">
-        <a class="requisition-text">{{user.adress.complement}}</a>
-      </div>
-      <div class="requisition-text col-md-6">
-        <a class="requisition-text">{{user.adress.city}}</a>
-      </div>
-      <div class="requisition-text col-md-2">
-        <a class="requisition-text">{{user.adress.state}}</a>
-      </div>
-    </div>
-
-    <div id="Change-address" class="form-disabled form-row">
-      <div class="requisition-text col-md-6">
-        <input id="street" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="Rua">
-      </div>
-      <div class=" requisition-text col-md-3">
-        <input id="cep" type="text" name="requisition[address][cep]" class="requisition-text" placeholder="CEP">
-      </div>
-      <div class="requisition-text col-md-2">
-        <input id="number" type="text" name="requisition[address][number]" class="requisition-text" placeholder="Numero">
-      </div>
-      <div class="requisition-text col-md-3">
-        <input id="complement" type="text" name="requisition[address][complement]" class="requisition-text" placeholder="Complemento">
-      </div>
-      <div class="requisition-text col-md-6">
-        <input id="city" type="text" name="requisition[address][city]" class="requisition-text" placeholder="Município">
-      </div>
-      <div class="requisition-text col-md-2">
-        <input id="state" type="text" name="requisition[address][state]" class="requisition-text" placeholder="Estado">
-      </div>
-   </div>
 
     <br>
     <h4> Identificação da Amostra</h4>
