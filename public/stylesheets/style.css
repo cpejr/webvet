@@ -6400,18 +6400,15 @@ header {
   margin: 12px 0;
   cursor: pointer; }
 
-.form-check-inline p {
-  display: -webkit-inline-box;
-  margin-left: -400px; }
+.micotoxina-options {
+  margin: 0px 0px 0px -74px;
+  padding: 0px 0px 0px 0px; }
 
-.fernando {
-  margin-right: 0px;
-  padding-top: 8px; }
+.micotoxina-options-child {
+  margin-left: -72px; }
 
-.form-conf {
-  margin-left: 3px;
-  margin-right: 0px;
-  float: left; }
+.btn-enviar {
+  padding-top: 20px; }
 
 .requisition-text a {
   border: none;
