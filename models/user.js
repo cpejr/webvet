@@ -25,14 +25,7 @@ const userSchema = new mongoose.Schema({
     // unique: true
 
   },
-  adress: {
-    cep: Number,
-    street: String,
-    number: String,
-    complement: String,
-    city: String,
-    state: String
-  },
+
   phone: String,
   cellphone: String,
   status: {
@@ -42,7 +35,7 @@ const userSchema = new mongoose.Schema({
     required: true
 
   },
-  address: [{
+  address: {
     cep: Number,
     street: String,
     number: String,
@@ -50,19 +43,19 @@ const userSchema = new mongoose.Schema({
     city: String,
     state: String
 
-  }],
+  },
 
   deleted: {
     type: Boolean, // 1 for deleted, 0 for not deleted
     default: 0
   },
 
-  associatedProducers:[{
+  associatedProducers:[{ //pode dar ruim
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
 
-  associatedManagers: [{
+  associatedManagers: [{ //pode dar ruim
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
