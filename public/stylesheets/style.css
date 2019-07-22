@@ -6410,6 +6410,7 @@ header {
 .btn-enviar {
   padding-top: 20px; }
 
+<<<<<<< Updated upstream
 .requisition-text a {
   border: none;
   outline: none;
@@ -6419,6 +6420,16 @@ header {
   width: 100%;
   float: left;
   margin: 0 10px; }
+=======
+.form-check-column p {
+  display: -webkit-inline-box;
+  margin-left: -400px; }
+
+.form-conf {
+  margin-left: 3px;
+  margin-right: 0px;
+  float: left; }
+>>>>>>> Stashed changes
 
 .user-box {
   width: 100%;
