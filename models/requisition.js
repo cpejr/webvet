@@ -20,7 +20,7 @@ const requisitionSchema = new mongoose.Schema({
     default: 'Em Progresso',
     required: true
   },
-  adress: {
+  address: {
     cep: Number,
     street: String,
     number: String,
