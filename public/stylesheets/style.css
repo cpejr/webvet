@@ -6410,6 +6410,11 @@ header {
 .btn-enviar {
   padding-top: 20px; }
 
+.form-conf {
+  margin-left: 3px;
+  margin-right: 0px;
+  float: left; }
+
 .requisition-text a {
   border: none;
   outline: none;
