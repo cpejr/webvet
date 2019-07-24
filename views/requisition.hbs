@@ -1,8 +1,9 @@
 <div class="requisition" >
   <h4 align="center"> Formulário de Novo Registro</h4>
   <br>
-
-  <h6 align="left"> Dados de Cobrança</h6>
+  <div class="requisition-titles">
+    <p> Dados de Cobrança</p>
+  </div>
   <br>
   <div class="form-row">
     <div id="box-radio" class="col-md-12 ml-3" align="left">
@@ -16,54 +17,105 @@
   </div>
 
   <div id="keep-address" class=" form-row">
+    <div class="requisition-text col-md-11">
+      <a class="requisition-text col-md-11">{{user.fullname}}</a>
+    </div>
     <div class="requisition-text col-md-6">
-      <a class="requisition-text col-md-6">{{user.adress.street}}</a>
+      <a class="requisition-text col-md-6">{{user.register}}</a>
     </div>
-    <div  class="requisition-text col-md-3">
-      <a class="requisition-text">{{user.adress.cep}}</a>
+    <div class="requisition-text col-md-5">
+      <a class="requisition-text col-md-5">I.E</a>
     </div>
-    <div class="requisition-text col-md-2">
-      <a class="requisition-text">{{user.adress.number}}</a>
+    <div class="requisition-text col-md-6">
+      <a class="requisition-text col-md-6">{{user.address.street}}</a>
+    </div>
+    <div class="requisition-text col-md-5">
+      <a class="requisition-text col-md-5">{{user.address.number}}</a>
+    </div>
+    <div class="requisition-text col-md-6">
+      <a class="requisition-text col-md-6">{{user.address.complement}}</a>
+    </div>
+    <div class="requisition-text col-md-5">
+      <a class="requisition-text col-md-5">Bairro</a>
+    </div>
+    <div class="requisition-text col-md-4">
+      <a class="requisition-text col-md-6">{{user.address.city}}</a>
+    </div>
+    <div class="requisition-text col-md-4">
+      <a class="requisition-text col-md-4">{{user.address.state}}</a>
     </div>
     <div class="requisition-text col-md-3">
-      <a class="requisition-text">{{user.adress.complement}}</a>
+      <a class="requisition-text col-md-3">{{user.address.cep}}</a>
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Responsável pela amostra:">
     </div>
     <div class="requisition-text col-md-6">
-      <a class="requisition-text">{{user.adress.city}}</a>
+      <input id="street" type="text" name="requisition[address][number]" class="requisition-text"  placeholder="Tel. com DDD:">
     </div>
-    <div class="requisition-text col-md-2">
-      <a class="requisition-text">{{user.adress.state}}</a>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="" class="requisition-text" placeholder="Cel. com DDD:">
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Email:">
     </div>
   </div>
 
-  <div id="Change-address" class="form-disabled form-row">
-    <div class="requisition-text col-md-11">
-      <input id="fullname" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="Razão Social/Nome:">
-    </div>
 
+
+
+
+  <div id="Change-address" class="form-disabled form-row">
+
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Razão Social/Nome:">
+    </div>
     <div class="requisition-text col-md-6">
-      <input id="street" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="Rua">
+      <input id="street" type="text" name="" class="requisition-text"  placeholder="CNPJ/CPF:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="" class="requisition-text" placeholder="I.E.:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="Endereço de Faturamento:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="requisition[address][number]" class="requisition-text" placeholder="Nº:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="requisition[address][complement]" class="requisition-text"  placeholder="Complemento:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="" class="requisition-text" placeholder="Bairro:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="" class="requisition-text"  placeholder="Cidade">
     </div>
     <div class=" requisition-text col-md-3">
-      <input id="cep" type="text" name="requisition[address][cep]" class="requisition-text" placeholder="CEP">
+      <input id="cep" type="text" name="requisition[address][state]" class="requisition-text" placeholder="Estado">
     </div>
     <div class="requisition-text col-md-2">
-      <input id="number" type="text" name="requisition[address][number]" class="requisition-text" placeholder="Numero">
+      <input id="number" type="text" name="requisition[address][cep]" class="requisition-text" placeholder="CEP">
     </div>
-    <div class="requisition-text col-md-3">
-      <input id="complement" type="text" name="requisition[address][complement]" class="requisition-text" placeholder="Complemento">
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Responsável pela amostra:">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="city" type="text" name="requisition[address][city]" class="requisition-text" placeholder="Município">
+      <input id="street" type="text" name="requisition[address][number]" class="requisition-text"  placeholder="Tel. com DDD:">
     </div>
-    <div class="requisition-text col-md-2">
-      <input id="state" type="text" name="requisition[address][state]" class="requisition-text" placeholder="Estado">
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="" class="requisition-text" placeholder="Cel. com DDD:">
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Email:">
     </div>
   </div>
 
   <form action="/requisition/new" method="post">
     <br>
-    <h6 align="left"> Requisição de Análise</h6>
+    <div class="requisition-titles">
+      <p> Requisição de Análise</p>
+    </div>
     <br>
       <div class="requisition-text col-md-12">
         <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Fornecedor">
@@ -136,7 +188,11 @@
     <br>
 
     <br>
-    <h4> Identificação da Amostra</h4>
+
+    <div class="requisition-titles">
+      <p> Identificação da Amostra</p>
+    </div>
+
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
       <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não polpa cítrica na amostra
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -162,7 +218,10 @@
         </div>
 
       <br>
-      <h6> Análises Solicitadas</h6>
+      <div class="requisition-titles">
+        <p> Análises Solicitadas</p>
+      </div>
+
       <br>
           <div class="form-check form-check-inline">
             <p>
