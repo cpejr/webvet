@@ -1,108 +1,255 @@
-  <div class="requisition" >
-    <h4 align="center"> Formulário de Novo Registro</h4>
-    <br>
-    <form action="/requisition/new" method="post">
-        <div class="requisition-text col-md-12">
-          <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Fornecedor">
-        </div>
-        <div class="form-row">
-          <div class="requisition-text col-md-4">
-            <input type="text" name="requisition[producer]" class="requisition-text" placeholder="Produtor">
-          </div>
-          <div class="requisition-text col-md-6">
-            <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Nome da Fazenda">
-          </div>
-          <div class="requisition-text col-md-2">
-            <input type="text"  name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
-          </div>
-        </div>
-      <br>
-      <h6 align="left"> Qual é a destinação do alimento?</h6>
-      <div class="requisition-text col-md-12">
-        <input type="text" class="requisition-text" name="requisition[destination]" placeholder="Aves, Bovinos, Suínos, etc...">
+<div class="requisition" >
+  <h4 align="center"> Formulário de Novo Registro</h4>
+  <br>
+  <div class="requisition-titles">
+    <p> Dados de Cobrança</p>
+  </div>
+  <br>
+  <div class="form-row">
+    <div id="box-radio" class="col-md-12 ml-3" align="left">
+      <div id="radio" class="form-check form-check-inline">
+        <input id="now-address"  checked class="form-check-input producer-address" type="radio" name="producerAddress" value="0">
+        <label class="radio-text form-control-label mr-3">Endereço do Produtor</label>
+        <input id="new-address"  class="form-check-input" type="radio" name="producerAddress" value="1">
+        <label class="radio-text form-check-label mr-3">Cadastrar novo Responsável</label>
       </div>
-
-      <br>
-      <h6 align="left"> Endereço</h6>
-      <div class="form-row">
-        <div id="box-radio" class="col-md-12 ml-3" align="left">
-          <div id="radio" class="form-check form-check-inline">
-            <input checked class="form-check-input producer-address" type="radio" name="producerAddress" value="0">
-            <label class="radio-text form-check-label mr-3">Endereço do Produtor</label>
-            <input id="new-address" class="form-check-input" type="radio" name="producerAddress" value="1">
-            <label class="radio-text form-check-label mr-3">Cadastrar novo endereço</label>
-          </div>
-        </div>
-      </div>
-      <div id="form-address" class="form-disabled form-row">
-        <div class="requisition-text col-md-7">
-          <input type="text" name="requisition[address][street]" class="requisition-text" placeholder="Endereço">
-        </div>
-        <div class="requisition-text col-md-3">
-          <input type="text" name="requisition[address][cep]" class="requisition-text" placeholder="CEP">
-        </div>
-        <div class="requisition-text col-md-2">
-          <input type="text" name="requisition[address][number]" class="requisition-text" placeholder="Número">
-        </div>
-        <div class="requisition-text col-md-2">
-          <input type="text" name="requisition[address][complement]" class="requisition-text" placeholder="Complemento">
-        </div>
-        <div class="requisition-text col-md-8">
-          <input type="text" name="requisition[address][city]" class="requisition-text" placeholder="Municipio">
-        </div>
-        <div class="requisition-text col-md-2">
-          <input type="text" name="requisition[address][state]" class="requisition-text" placeholder="Estado">
-        </div>
-      </div>
-
-      <br>
-      <h4> Identificação da Amostra</h4>
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não polpa cítrica na amostra
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-      </div>
-          <div class="form-row">
-            <div class="requisition-text col-md-8">
-              <input type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text" placeholder="Amostra 1">
-            </div>
-            <div class="checkbox">
-              <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input>
-            </div>
-            <div>
-              <a id= "add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
-            </div>
-          </div>
-          <div id="samples">
-          </div>
-
-          <div class="requisition-text">
-            <textarea class="requisition-text" name="requisition[comment]" placeholder="Observações"rows="4"></textarea>
-          </div>
-
-        <br>
-        <h6> Análises Solicitadas</h6>
-        <br>
-            <div class="form-check form-check-inline">
-              <p>
-                <input class="form-check-input position-static ml-3" type="checkbox" name="requisition[mycotoxin]" value="Aflatoxinas">Aflatoxina</input>
-
-                <input class="form-check-input position-static ml-3" type="checkbox" name="requisition[mycotoxin]" value="Ocratoxina A">Ocratoxina A</input>
-
-                <input class="form-check-input position-static ml-3" type="checkbox" name="requisition[mycotoxin]" value="Deoxinivalenol*">Deoxinivalenol*</input>
-
-                <input class="form-check-input position-static ml-3" type="checkbox" name="requisition[mycotoxin]" value="T-2 toxina">T-2 toxina</input>
-
-                <input class="form-check-input position-static ml-3" type="checkbox" name="requisition[mycotoxin]" value="Fumonisina">Fumonisina</input>
-
-                <input class="form-check-input position-static ml-3" type="checkbox" name="requisition[mycotoxin]" value="Zearalenona">Zearalenona</input>
-
-              </p>
-            </div>
-
-        <button type="submit" class="btn btn-success">Enviar</button>
-    </form>
+    </div>
   </div>
 
-  <script src="/javascripts/reqFunc.js"></script>
+  <div id="keep-address" class=" form-row">
+    <div class="requisition-text col-md-11">
+      <a class="requisition-text col-md-11">{{user.fullname}}</a>
+    </div>
+    <div class="requisition-text col-md-6">
+      <a class="requisition-text col-md-6">{{user.register}}</a>
+    </div>
+    <div class="requisition-text col-md-5">
+      <a class="requisition-text col-md-5">I.E</a>
+    </div>
+    <div class="requisition-text col-md-6">
+      <a class="requisition-text col-md-6">{{user.address.street}}</a>
+    </div>
+    <div class="requisition-text col-md-5">
+      <a class="requisition-text col-md-5">{{user.address.number}}</a>
+    </div>
+    <div class="requisition-text col-md-6">
+      <a class="requisition-text col-md-6">{{user.address.complement}}</a>
+    </div>
+    <div class="requisition-text col-md-5">
+      <a class="requisition-text col-md-5">Bairro</a>
+    </div>
+    <div class="requisition-text col-md-4">
+      <a class="requisition-text col-md-6">{{user.address.city}}</a>
+    </div>
+    <div class="requisition-text col-md-4">
+      <a class="requisition-text col-md-4">{{user.address.state}}</a>
+    </div>
+    <div class="requisition-text col-md-3">
+      <a class="requisition-text col-md-3">{{user.address.cep}}</a>
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Responsável pela amostra:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="requisition[address][number]" class="requisition-text"  placeholder="Tel. com DDD:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="" class="requisition-text" placeholder="Cel. com DDD:">
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Email:">
+    </div>
+  </div>
+
+
+
+
+
+  <div id="Change-address" class="form-disabled form-row">
+
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Razão Social/Nome:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="" class="requisition-text"  placeholder="CNPJ/CPF:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="" class="requisition-text" placeholder="I.E.:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="requisition[address][street]" class="requisition-text"  placeholder="Endereço de Faturamento:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="requisition[address][number]" class="requisition-text" placeholder="Nº:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="requisition[address][complement]" class="requisition-text"  placeholder="Complemento:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="" class="requisition-text" placeholder="Bairro:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="" class="requisition-text"  placeholder="Cidade">
+    </div>
+    <div class=" requisition-text col-md-3">
+      <input id="cep" type="text" name="requisition[address][state]" class="requisition-text" placeholder="Estado">
+    </div>
+    <div class="requisition-text col-md-2">
+      <input id="number" type="text" name="requisition[address][cep]" class="requisition-text" placeholder="CEP">
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Responsável pela amostra:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="requisition[address][number]" class="requisition-text"  placeholder="Tel. com DDD:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cep" type="text" name="" class="requisition-text" placeholder="Cel. com DDD:">
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Email:">
+    </div>
+  </div>
+
+  <form action="/requisition/new" method="post">
+    <br>
+    <div class="requisition-titles">
+      <p> Requisição de Análise</p>
+    </div>
+    <br>
+      <div class="requisition-text col-md-12">
+        <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Fornecedor">
+      </div>
+  <div class="form-row">
+        <div class="requisition-text col-md-4">
+          <input type="text" name="requisition[producer]" class="requisition-text" placeholder="Produtor">
+        </div>
+        <div class="requisition-text col-md-4">
+          <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Nome da Fazenda">
+        </div>
+        <div class="requisition-text col-md-4">
+          <input type="text"  name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
+        </div>
+      </div>
+    <br>
+    <h6 align="left"> Qual é a destinação do alimento?</h6>
+  <!--  <div class="requisition-text col-md-12"> -->
+    <!--  <input type="text" class="requisition-text" name="requisition[destination]" placeholder="Aves, Bovinos, Suínos, etc..."> -->
+        <div class="form-group">
+
+            <div id="radio-animal" class="form-check ">
+              <div class="form-check">
+                <input checked class="form-check-input destination" type="radio" name="requisition[destination]" value="Bovinos">
+                <label class="radio-text form-check-label mr-3">Bovinos</label>
+              </div>
+              <div class="form-check">
+                <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]" value="Suínos" >
+                <label class="radio-text form-check-label  mr-3">Suínos</label>
+              </div>
+              <div class="form-check">
+                <input id="Horse" class="form-check-input destination" type="radio" name="requisition[destination]" value="Equinos">
+                <label class="radio-text form-check-label mr-3">Equinos</label>
+              </div>
+              <div class="form-check">
+                <input id="Goat" class="form-check-input destination" type="radio" name="requisition[destination]" value="Caprinos" >
+                <label class="radio-text form-check-label mr-3">Caprinos</label>
+              </div>
+              <div class="form-check">
+                <input id="Sheep" class="form-check-input destination" type="radio" name="requisition[destination]" value="Ovinos" >
+                <label class="radio-text form-check-label mr-3">Ovinos</label>
+              </div>
+              <div class="form-check">
+                <input id="Fish" class="form-check-input destination" type="radio" name="requisition[destination]" value="Peixes" >
+                <label class="radio-text form-check-label mr-3">Peixes</label>
+              </div>
+
+              <div class="form-check">
+                <input id="Pet" class="form-check-input destination" type="radio" name="requisition[destination]" value="Pet" >
+                <label class="radio-text form-check-label mr-3">Pet</label>
+              </div>
+              <div class="form-check">
+                <input id="Raw-Material" class="form-check-input destination" type="radio" name="requisition[destination]" value="Matéria-Prima" >
+                <label class="radio-text form-check-label mr-3">Matéria-Prima (Fábrica da Ração)</label>
+              </div>
+              <div class="form-check">
+                <input id="Others" class="form-check-input destination" type="radio" name="requisition[destination]" value="">
+                <label class="radio-text form-check-label mr-3">Outros</label>
+              </div>
+            </div>
+        </div>
+
+        <div id="Other-destination" class="form-disabled form-row">
+           <input type="text" name="requisition[destination]" class="requisition-text col-md-2" placeholder="Outros">
+         </div>
+
+
+  <!--  </div>-->
+
+    <br>
+
+
+    <br>
+
+    <div class="requisition-titles">
+      <p> Identificação da Amostra</p>
+    </div>
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não polpa cítrica na amostra
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="form-row">
+          <div class="requisition-text col-md-8">
+            <input type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text" placeholder="Amostra 1">
+          </div>
+          <div class="checkbox">
+            <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input>
+          </div>
+          <div>
+            <a id= "add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
+          </div>
+        </div>
+        <div id="samples">
+        </div>
+
+        <div class="requisition-text">
+          <textarea class="requisition-text" name="requisition[comment]" placeholder="Observações"rows="4"></textarea>
+        </div>
+
+      <br>
+      <div class="requisition-titles">
+        <p> Análises Solicitadas</p>
+      </div>
+
+      <br>
+          <div class="form-check form-check-inline">
+            <p>
+              <div class="micotoxina-options-child">
+                <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="Aflatoxinas">Aflatoxina</input>
+              </div>
+              <div class="micotoxina-options">
+                <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="Ocratoxina A">Ocratoxina A</input>
+              </div>
+              <div class="micotoxina-options">
+                <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="Deoxinivalenol*">Deoxinivalenol*</input>
+              </div>
+              <div class="micotoxina-options">
+                <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="T-2 toxina">T-2 toxina</input>
+              </div>
+              <div class="micotoxina-options">
+                <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="Fumonisina">Fumonisina</input>
+              </div>
+              <div class="micotoxina-options">
+                <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="Zearalenona">Zearalenona</input>
+              </div>
+            </p>
+          </div>
+      <div class="btn-enviar">
+          <button type="submit" class="btn btn-success">Enviar</button>
+      </div>
+  </form>
+</div>
+
+<script src="/javascripts/reqFunc.js"></script>

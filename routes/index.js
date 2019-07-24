@@ -54,11 +54,11 @@ router.get('/requisition/index', (req, res) => {
            userId: currentLogged._id,
            uid: currentLogged.uid,
            email: currentLogged.email,
-           status: currentLogged.status
+           status: currentLogged.status,
+           address:  currentLogged.address
          };
         req.session.user = currentLogged;
-      //  console.log(req.session.user);
-        //console.log(req.session.user.adress);
+
         if (userR.status == "Aguardando aprovação") {
           req.flash('danger', 'Aguardando a aprovação do Administrador');
           res.redirect('/login')
