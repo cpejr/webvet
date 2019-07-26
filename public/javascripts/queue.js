@@ -2,7 +2,7 @@
 var aflatoxina = new jKanban({
   element : '#aflatoxina', //passa o id do element
   gutter  : '10px',
-  widthBoard  : '222px',
+  widthBoard  : '190px',
   click : function(el) {
     window.location.href = 'sample/edit/' + el.dataset.eid;
   },
@@ -83,7 +83,7 @@ var aflatoxina = new jKanban({
 const deoxinivalenol = new jKanban({
   element : '#deoxinivalenol',
   gutter  : '10px',
-  widthBoard  : '242px',
+  widthBoard  : '190px',
   click : function(el) {
     alert(el.innerHTML);
     alert(el.dataset.eid)
@@ -165,7 +165,7 @@ const deoxinivalenol = new jKanban({
 const ocratoxina = new jKanban({
   element : '#ocratoxina',
   gutter  : '10px',
-  widthBoard  : '242px',
+  widthBoard  : '190px',
   boards  : [
     {
       id : '_totest',
@@ -245,7 +245,7 @@ const ocratoxina = new jKanban({
 const t2toxina = new jKanban({
   element : '#t2toxina',
   gutter  : '10px',
-  widthBoard  : '242px',
+  widthBoard  : '190px',
   boards  : [
     {
       id : '_totest',
@@ -322,7 +322,7 @@ const t2toxina = new jKanban({
 const fumonisina = new jKanban({
   element : '#fumonisina',
   gutter  : '10px',
-  widthBoard  : '242px',
+  widthBoard  : '190px',
   boards  : [
     {
       id : '_totest',
@@ -399,7 +399,7 @@ const fumonisina = new jKanban({
 const zearalenona = new jKanban({
   element : '#zearalenona',
   gutter  : '10px',
-  widthBoard  : '242px',
+  widthBoard  : '190px',
   click : function(el) {
     alert(el.dataset.eid);
   },
