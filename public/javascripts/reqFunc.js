@@ -20,15 +20,47 @@ for (var i = 0; i < checados.lenght; i++) {
   }
 }
 
- $('#radio').change(function(){
- if($('#now-address').is(':checked')) {
-        $('#keep-address').removeClass('form-disabled');
-        $('#Change-address').addClass('form-disabled');
-  } else {
-    $('#keep-address').addClass('form-disabled');
-    $('#Change-address').removeClass('form-disabled');
-  }
+$('#btn-new-address').click(function(){
 
+   $('#fullname').each(function(){
+       $(this).val('');
+   });
+   $('#cpf').each(function(){
+       $(this).val('');
+   });
+   $('#I.E').each(function(){
+       $(this).val('');
+   });
+   $('#street').each(function(){
+       $(this).val('');
+   });
+   $('#number').each(function(){
+       $(this).val('');
+   });
+   $('#complement').each(function(){
+       $(this).val('');
+   });
+   $('#bairro').each(function(){
+       $(this).val('');
+   });
+   $('#city').each(function(){
+       $(this).val('');
+   });
+   $('#state').each(function(){
+       $(this).val('');
+   });
+   $('#cep').each(function(){
+       $(this).val('');
+   });
+   $('#phone').each(function(){
+       $(this).val('');
+   });
+   $('#cellphone').each(function(){
+       $(this).val('');
+   });
+   $('#email').each(function(){
+       $(this).val('');
+   });
 });
 
 $('#radio-animal').change(function(){
