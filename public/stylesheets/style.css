@@ -6136,11 +6136,12 @@ header {
   width: 35%;
   height: 350px;
   transform-style: preserve-3d;
-  box-shadow: 1px 1px 10px #f0f0f0;
   align-items: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(1, 1, 1, 1);
-  background: white; }
+  background: white;
+  border-style: solid;
+  border-color: #98fb98; }
 
 .login-box1 p {
   padding: 23px;
@@ -7308,7 +7309,6 @@ li {
     font-weight: 300; }
 
 .container-fluid {
-  max-width: 600px;
   margin: 0 auto;
   padding: 80px 0;
     padding-height: 400px;
@@ -7333,7 +7333,6 @@ li {
     padding: 10px 15px;
     margin: 0 auto 10px auto;
     display: block;
-    text-align: center;
     font-size: 18px;
     color: black;
     transition-duration: 0.25s;
