@@ -8,12 +8,13 @@
   <button id="btn-new-address" class="btn btn-success" type="button">Cadastrar outros dados de cobrança</button>
 </div>
 
+<form action="/requisition/new" method="post">
   <div id="keep-address" class="form-row">
     <div class="requisition-text col-md-11">
-      <input id="fullname" type="text" name="" value ="{{user.fullname}}" class="requisition-text"  placeholder="Responsável pela amostra:">
+      <input id="fullname" type="text" name="requisition[fullname]" value ="{{user.fullname}}" class="requisition-text"  placeholder="Razão Social/Nome Completo:">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="cpf" type="text" name="" value="{{user.register}}"class="requisition-text"  placeholder="CNPJ/CPF:">
+      <input id="cpf" type="text" name="requisition[register]" value="{{user.register}}"class="requisition-text"  placeholder="CNPJ/CPF:">
     </div>
     <div class="requisition-text col-md-5">
       <input id="I.E" type="text" name="" value="I.E" class="requisition-text" placeholder="I.E:">
@@ -49,7 +50,7 @@
       <input id="cellphone" type="text" name="requisition[cellphone]" value="{{user.cellphone}}" class="requisition-text" placeholder="Cel. com DDD:">
     </div>
     <div class="requisition-text col-md-11">
-      <input id="email" type="text" name="" value="{{user.email}}" class="requisition-text"  placeholder="Email:">
+      <input id="email" type="text" name="requisition[email]" value="{{user.email}}" class="requisition-text"  placeholder="Email:">
     </div>
   </div>
 
@@ -57,7 +58,7 @@
 
 
 
-  <form action="/requisition/new" method="post">
+
     <br>
     <div class="requisition-titles">
       <p> Requisição de Análise</p>
