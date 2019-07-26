@@ -16,48 +16,48 @@
     </div>
   </div>
 
-  <div id="keep-address" class=" form-row">
+  <div id="keep-address" class="form-row">
     <div class="requisition-text col-md-11">
-      <a class="requisition-text col-md-11">{{user.fullname}}</a>
+      <input id="fullname" type="text" name="" value ="{{user.fullname}}" class="requisition-text"  placeholder="Responsável pela amostra:">
     </div>
     <div class="requisition-text col-md-6">
-      <a class="requisition-text col-md-6">{{user.register}}</a>
+      <input id="street" type="text" name="" value="{{user.register}}"class="requisition-text"  placeholder="CNPJ/CPF:">
     </div>
     <div class="requisition-text col-md-5">
-      <a class="requisition-text col-md-5">I.E</a>
+      <input id="cep" type="text" name="" value="I.E" class="requisition-text" placeholder="I.E:">
     </div>
     <div class="requisition-text col-md-6">
-      <a class="requisition-text col-md-6">{{user.address.street}}</a>
+        <input id="street" type="text" name="requisition[address][street]" value="{{user.address.street}}" class="requisition-text"  placeholder="Endereço de Faturamento:">
     </div>
     <div class="requisition-text col-md-5">
-      <a class="requisition-text col-md-5">{{user.address.number}}</a>
+      <input id="cep" type="text" name="requisition[address][number]" value="{{user.address.number}}" class="requisition-text" placeholder="Nº:">
     </div>
     <div class="requisition-text col-md-6">
-      <a class="requisition-text col-md-6">{{user.address.complement}}</a>
+      <input id="street" type="text" name="requisition[address][complement]" value="{{user.address.complement}}" class="requisition-text"  placeholder="Complemento:">
     </div>
     <div class="requisition-text col-md-5">
-      <a class="requisition-text col-md-5">Bairro</a>
+      <input id="cep" type="text" name="" value="Bairro" class="requisition-text" placeholder="Bairro:">
     </div>
     <div class="requisition-text col-md-4">
-      <a class="requisition-text col-md-6">{{user.address.city}}</a>
+      <input id="street" type="text" name="requisition[address][city]" value="{{user.address.city}}" class="requisition-text"  placeholder="Cidade">
     </div>
     <div class="requisition-text col-md-4">
-      <a class="requisition-text col-md-4">{{user.address.state}}</a>
+      <input id="cep" type="text" name="requisition[address][state]" value="{{user.address.state}}" class="requisition-text" placeholder="Estado">
     </div>
     <div class="requisition-text col-md-3">
-      <a class="requisition-text col-md-3">{{user.address.cep}}</a>
+        <input id="number" type="text" name="requisition[address][cep]" value="{{user.address.cep}}" class="requisition-text" placeholder="CEP">
     </div>
     <div class="requisition-text col-md-11">
-      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Responsável pela amostra:">
+      <input id="fullname" type="text" name="requisition[resposible]" class="requisition-text"  placeholder="Responsável pela amostra:">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="street" type="text" name="requisition[address][number]" class="requisition-text"  placeholder="Tel. com DDD:">
+      <input id="street" type="text" name="requisition[phone]" value="{{user.phone}}" class="requisition-text"  placeholder="Tel. com DDD:">
     </div>
     <div class=" requisition-text col-md-5">
-      <input id="cep" type="text" name="" class="requisition-text" placeholder="Cel. com DDD:">
+      <input id="cep" type="text" name="requisition[cellphone]" value="{{user.cellphone}}" class="requisition-text" placeholder="Cel. com DDD:">
     </div>
     <div class="requisition-text col-md-11">
-      <input id="fullname" type="text" name="" class="requisition-text"  placeholder="Email:">
+      <input id="fullname" type="text" name="" value="{{user.email}}" class="requisition-text"  placeholder="Email:">
     </div>
   </div>
 

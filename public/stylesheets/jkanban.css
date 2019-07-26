@@ -2,6 +2,7 @@
     position: relative;
     box-sizing: border-box;
     width: auto;
+    display: flex;
 }
 
 .kanban-container * {
