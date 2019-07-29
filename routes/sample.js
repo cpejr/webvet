@@ -235,27 +235,27 @@ router.post('/waiting/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
     console.log(sampleedit);
 
     if (req.params.mycotoxin == "aflatoxina") {
-      sampleedit.aflatoxina.status = "Aguardando Amostra";
+      sampleedit.aflatoxina.status = "Aguardando amostra";
     }
 
     if (req.params.mycotoxin == "ocratoxina") {
-      sampleedit.ocratoxina.status = "Aguardando Amostra";
+      sampleedit.ocratoxina.status = "Aguardando amostra";
     }
 
     if (req.params.mycotoxin == "deoxinivalenol") {
-      sampleedit.deoxinivalenol.status = "Aguardando Amostra";
+      sampleedit.deoxinivalenol.status = "Aguardando amostra";
     }
 
     if (req.params.mycotoxin == "t2toxina") {
-      sampleedit.t2toxina.status = "Aguardando Amostra";
+      sampleedit.t2toxina.status = "Aguardando amostra";
     }
 
     if (req.params.mycotoxin == "fumonisina") {
-      sampleedit.fumonisina.status = "Aguardando Amostra";
+      sampleedit.fumonisina.status = "Aguardando amostra";
     }
 
     if (req.params.mycotoxin == "zearalenona") {
-      sampleedit.zearalenona.status = "Aguardando Amostra";
+      sampleedit.zearalenona.status = "Aguardando amostra";
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
