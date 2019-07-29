@@ -91,12 +91,12 @@ const deoxinivalenol = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -172,12 +172,12 @@ const ocratoxina = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -251,12 +251,12 @@ const t2toxina = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -328,12 +328,12 @@ const fumonisina = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -408,12 +408,12 @@ const zearalenona = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
