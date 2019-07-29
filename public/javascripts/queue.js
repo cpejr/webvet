@@ -27,7 +27,7 @@ var aflatoxina = new jKanban({
       class : 'info',
     },
     {
-      id: '_mapwork',
+      id: '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
     }
@@ -68,7 +68,7 @@ var aflatoxina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_mapwork') {
+    if  (target == '_workmap') {
       $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
 
       });
@@ -110,7 +110,7 @@ const deoxinivalenol = new jKanban({
       class : 'success',
     },
     {
-      id : '_mapwork',
+      id : '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
     }
@@ -152,8 +152,8 @@ const deoxinivalenol = new jKanban({
 
     }
 
-    if  (target == '_mapwork') {
-      $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber, () => {
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/deoxinivalenol/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -191,7 +191,7 @@ const ocratoxina = new jKanban({
       class : 'success',
     },
     {
-      id : '_mapwork',
+      id : '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
     }
@@ -233,8 +233,9 @@ const ocratoxina = new jKanban({
 
     }
 
-    if  (target == '_mapwork') {
-      $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber, () => {
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/ocratoxina/' + samplenumber, () => {
+
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -270,7 +271,7 @@ const t2toxina = new jKanban({
       class : 'success',
     },
     {
-      id : '_mapwork',
+      id : '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
     }
@@ -311,8 +312,9 @@ const t2toxina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_mapwork') {
-      $.post('/sample/mapwork/edit/t2toxina/' + samplenumber, () => {
+
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/t2toxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -347,7 +349,7 @@ const fumonisina = new jKanban({
       class : 'success',
     },
     {
-      id: '_mapwork',
+      id: '_workmap',
       title: 'Mapa de trabalho',
       class: 'success',
     }
@@ -388,8 +390,9 @@ const fumonisina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_mapwork') {
-      $.post('/sample/mapwork/edit/fumonisina/' + samplenumber, () => {
+
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -427,7 +430,7 @@ const zearalenona = new jKanban({
       class : 'success',
     },
     {
-      id: '_mapwork',
+      id: '_workmap',
       title: 'Mapa de trabalho',
       class: 'success',
     }
@@ -468,8 +471,9 @@ const zearalenona = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_mapwork') {
-      $.post('/sample/mapwork/edit/zearalenona/' + samplenumber, () => {
+
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/zearalenona/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho ' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
