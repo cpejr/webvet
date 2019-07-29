@@ -27,7 +27,7 @@ var aflatoxina = new jKanban({
       class : 'info',
     },
     {
-      id: '_mapwork',
+      id: '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
     }
@@ -68,7 +68,7 @@ var aflatoxina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_mapwork') {
+    if  (target == '_workmap') {
       $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
 
       });
@@ -110,7 +110,7 @@ const deoxinivalenol = new jKanban({
       class : 'success',
     },
     {
-      id : '_mapwork',
+      id : '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
     }
@@ -152,7 +152,7 @@ const deoxinivalenol = new jKanban({
 
     }
 
-    if  (target == '_mapwork') {
+    if  (target == '_workmap') {
       $.post('/sample/waiting/edit/deoxinivalenol/' + samplenumber, () => {
 
       });
@@ -191,7 +191,7 @@ const ocratoxina = new jKanban({
       class : 'success',
     },
     {
-      id : '_mapwork',
+      id : '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
     }
@@ -233,7 +233,7 @@ const ocratoxina = new jKanban({
 
     }
 
-    if  (target == '_mapwork') {
+    if  (target == '_workmap') {
       $.post('/sample/waiting/edit/ocratoxina/' + samplenumber, () => {
 
       });
@@ -270,7 +270,7 @@ const t2toxina = new jKanban({
       class : 'success',
     },
     {
-      id : '_mapwork',
+      id : '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
     }
@@ -311,7 +311,7 @@ const t2toxina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_mapwork') {
+    if  (target == '_workmap') {
       $.post('/sample/waiting/edit/t2toxina/' + samplenumber, () => {
 
       });
@@ -347,7 +347,7 @@ const fumonisina = new jKanban({
       class : 'success',
     },
     {
-      id: '_mapwork',
+      id: '_workmap',
       title: 'Mapa de trabalho',
       class: 'success',
     }
@@ -388,7 +388,7 @@ const fumonisina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_mapwork') {
+    if  (target == '_workmap') {
       $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
 
       });
@@ -427,7 +427,7 @@ const zearalenona = new jKanban({
       class : 'success',
     },
     {
-      id: '_mapwork',
+      id: '_workmap',
       title: 'Mapa de trabalho',
       class: 'success',
     }
@@ -468,7 +468,7 @@ const zearalenona = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_mapwork') {
+    if  (target == '_workmap') {
       $.post('/sample/waiting/edit/zearalenona/' + samplenumber, () => {
 
       });
