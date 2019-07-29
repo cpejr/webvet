@@ -91,12 +91,12 @@ const deoxinivalenol = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -172,12 +172,12 @@ const ocratoxina = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -236,6 +236,7 @@ const ocratoxina = new jKanban({
     if  (target == '_workmap') {
       $.post('/sample/waiting/edit/ocratoxina/' + samplenumber, () => {
 
+
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
@@ -251,12 +252,12 @@ const t2toxina = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -311,6 +312,7 @@ const t2toxina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
+
     if  (target == '_workmap') {
       $.post('/sample/waiting/edit/t2toxina/' + samplenumber, () => {
 
@@ -328,12 +330,12 @@ const fumonisina = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -388,6 +390,7 @@ const fumonisina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
+
     if  (target == '_workmap') {
       $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
 
@@ -408,12 +411,12 @@ const zearalenona = new jKanban({
   boards  : [
     {
       id : '_totest',
-      title  : 'Disponível',
+      title  : 'Espera',
       class : 'info',
     },
     {
       id : '_testing',
-      title  : 'Para teste',
+      title  : 'Em análise',
       class : 'success',
     },
     {
@@ -468,6 +471,7 @@ const zearalenona = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
+
     if  (target == '_workmap') {
       $.post('/sample/waiting/edit/zearalenona/' + samplenumber, () => {
 
@@ -479,6 +483,7 @@ const zearalenona = new jKanban({
   }
 });
 
+//cria cedulas kanban
 $.get('/search/samples', (samples) => {
   $(document).ready(function() {
 
@@ -553,6 +558,15 @@ $.get('/search/samples', (samples) => {
               status: sample.ocratoxina.status
             });
           }
+          if(sample.ocratoxina.status=="Mapa de Trabalho") {
+            ocratoxina.addElement('_mapwork', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.ocratoxina.status
+            });
+          }
+
         }
 
         //DEOXINIVALENOL
@@ -583,6 +597,14 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.deoxinivalenol.status=="Aguardando amostra") {
             deoxinivalenol.addElement('_waiting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.deoxinivalenol.status
+            });
+          }
+          if(sample.deoxinivalenol.status=="Mapa de Trabalho") {
+            deoxinivalenol.addElement('_mapwork', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -625,6 +647,14 @@ $.get('/search/samples', (samples) => {
               status: sample.zearalenona.status
             });
           }
+          if(sample.zearalenona.status=="Mapa de Trabalho") {
+            zearalenona.addElement('_mapwork', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.zearalenona.status
+            });
+          }
         }
 
         //T-2 TOXINA
@@ -655,6 +685,14 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.t2toxina.status=="Aguardando amostra") {
             t2toxina.addElement('_waiting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.t2toxina.status
+            });
+          }
+          if(sample.t2toxina.status=="Mapa de Trabalho") {
+            t2toxina.addElement('_mapwork', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -697,6 +735,15 @@ $.get('/search/samples', (samples) => {
               status: sample.fumonisina.status
             });
           }
+          if(sample.fumonisina.status=="Mapa de Trabalho") {
+            fumonisina.addElement('_mapwork', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.fumonisina.status
+            });
+          }
+
         }
 
     });
