@@ -227,6 +227,48 @@ router.post('/mapwork/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
    });
 });
 
+router.post('/waiting/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
+
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    const sampleedit = sample[0];
+    sampleedit.status = "Aguardando Amostra";
+    console.log(sampleedit);
+
+    if (req.params.mycotoxin == "aflatoxina") {
+      sampleedit.aflatoxina.status = "Aguardando Amostra";
+    }
+
+    if (req.params.mycotoxin == "ocratoxina") {
+      sampleedit.ocratoxina.status = "Aguardando Amostra";
+    }
+
+    if (req.params.mycotoxin == "deoxinivalenol") {
+      sampleedit.deoxinivalenol.status = "Aguardando Amostra";
+    }
+
+    if (req.params.mycotoxin == "t2toxina") {
+      sampleedit.t2toxina.status = "Aguardando Amostra";
+    }
+
+    if (req.params.mycotoxin == "fumonisina") {
+      sampleedit.fumonisina.status = "Aguardando Amostra";
+    }
+
+    if (req.params.mycotoxin == "zearalenona") {
+      sampleedit.zearalenona.status = "Aguardando Amostra";
+    }
+
+    Sample.update(sampleedit._id, sampleedit).then(() => {
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+   }).catch((error) => {
+     console.log(error);
+     res.redirect('/error');
+   });
+});
 
 router.get('/edit/:samplenumber', (req, res) => {
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
