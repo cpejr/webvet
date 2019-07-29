@@ -13,7 +13,7 @@ const sampleSchema = new mongoose.Schema({
   ocratoxina: {
     status: {
       type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra'],
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra',' Mapa de Trabalho'],
       default: 'Nova'
     },
     date: String,
@@ -22,7 +22,7 @@ const sampleSchema = new mongoose.Schema({
   deoxinivalenol: {
     status: {
       type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra'],
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra',' Mapa de Trabalho'],
       default: 'Nova'
     },
     date: String,
@@ -31,7 +31,7 @@ const sampleSchema = new mongoose.Schema({
   t2toxina: {
     status: {
       type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra'],
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra',' Mapa de Trabalho'],
       default: 'Nova'
     },
     date: String,
@@ -40,7 +40,7 @@ const sampleSchema = new mongoose.Schema({
   fumonisina: {
     status: {
       type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra'],
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra',' Mapa de Trabalho'],
       default: 'Nova'
     },
     date: String,
@@ -49,7 +49,7 @@ const sampleSchema = new mongoose.Schema({
   zearalenona:  {
     status: {
       type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra'],
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra',' Mapa de Trabalho'],
       default: 'Nova'
     },
     date: String,
@@ -58,7 +58,7 @@ const sampleSchema = new mongoose.Schema({
   aflatoxina: {
     status: {
       type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra'],
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento','Aguardando amostra',' Mapa de Trabalho'],
       default: 'Nova'
     },
     date: String,
