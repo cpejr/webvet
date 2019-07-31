@@ -123,7 +123,7 @@ router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
     });
 
     user.associatedProducers = producersId;
-
+    console.log (user.fullname);
     User.update(req.params.id, user).then(() => {
      req.flash('success', 'Usuário editado com sucesso.');
      res.redirect('/users/show/'+req.params.id);
@@ -214,5 +214,38 @@ router.get('/addManager', auth.isAuthenticated,  function(req, res, next) {
     res.render('', { title: 'Usuários', layout: 'layoutDashboard.hbs' });
   });
 });
+
+router.put('/approvepayment/:id', auth.isAuthenticated, function(req, res, next) {
+  User.getById(req.params.id).then((user) => {
+    if (user.debt) {
+      console.log("passou por aqui");
+      const user2 = {
+        debt: false
+      };
+      User.update(req.params.id, user2).then(()=>{
+        req.flash('success', 'Usuário aprovado com sucesso.');
+        res.redirect('/users');
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      });
+      } else {
+      const user2 = {
+        debt: true
+      };
+      User.update(req.params.id, user2).then(()=>{
+        req.flash('success', 'Usuário aprovado com sucesso.');
+        res.redirect('/users');
+      }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+      });
+    }
+  }).catch((error) => {
+    res.redirect('/error');
+    console.log(error);
+  });
+});
+
 
 module.exports = router;
