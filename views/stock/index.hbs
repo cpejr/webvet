@@ -1,18 +1,24 @@
-<div class="">
-    <div class="">
-      <br>
-      <p><font color="gray" size="5">Kit {{kit.kitId}}</p>
-      <hr color="lightgray">
-      <div class="showboxinfo">
-        <p><font size="4" color="black">Quantidade em Estoque: {{kit.amount}}</p>
-        <p><font size="4" color="black">Situação: {{kit.status}} </p>
-        <p><font size="4" color="black">Lod: {{kit.Lod}}</p>
-        <p><font size="4" color="black">LoQ: {{kit.LoQ}}</p>
-        <p><font size="4" color="black">Fornecedor: {{kit.provider}}</p>
-        <p><font size="4" color="black">Data de Expiração:{{kit.expirationDate}}</p>
-        <p><font size="4" color="black">Estoque Mínimo: {{kit.stockMin}}</p>
-        <a href="{{kit.id}}/edit" class="btn btn-outline-success">Editar</a>
-        <p><font size="4" color="red" name="kit[status]"></p>
-      </div>
-    </div>
-  </div>
+<h4>Kits Disponíveis</h4>
+<p></p>
+<div class="table-responsive">
+  <table id="tb-user" class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th class = "th-name">Kits</th>
+        <th class = "th-type">Quantidade</th>
+        <th class = "th-action"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each kits}}
+          <tr>
+            <th>{{kitId}}</th>
+            <th>{{amount}}</th>
+            <th>
+              <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
+            </th>
+          </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
