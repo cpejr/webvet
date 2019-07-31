@@ -218,21 +218,33 @@ router.get('/addManager', auth.isAuthenticated,  function(req, res, next) {
 router.put('/approvepayment/:id', auth.isAuthenticated, function(req, res, next) {
   User.getById(req.params.id).then((user) => {
     if (user.debt) {
-      const user = {
+      console.log("passou por aqui");
+      const user2 = {
         debt: false
       };
-    } else {
-      const user = {
+      User.update(req.params.id, user2).then(()=>{
+        req.flash('success', 'Usuário aprovado com sucesso.');
+        res.redirect('/users');
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      });
+      } else {
+      const user2 = {
         debt: true
       };
+      User.update(req.params.id, user2).then(()=>{
+        req.flash('success', 'Usuário aprovado com sucesso.');
+        res.redirect('/users');
+      }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+      });
     }
-  });
-  User.update(req.params.id, user).catch((error) => {
-    console.log(error);
+  }).catch((error) => {
     res.redirect('/error');
+    console.log(error);
   });
-  req.flash('success', 'Usuário aprovado com sucesso.');
-  res.redirect('/users');
 });
 
 
