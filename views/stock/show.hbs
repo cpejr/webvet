@@ -3,7 +3,7 @@
       <br>
       <p><font color="gray" size="5">Kit {{kit.kitId}}</p>
       <hr color="lightgray">
-      <div class="showboxinfo">
+      <form class="showboxinfo" action="/stock/edit/{{kit._id}}" method="get" >
         <p><font size="4" color="black">Quantidade em Estoque: {{kit.amount}}</p>
         <p><font size="4" color="black">Situação: {{kit.status}} </p>
         <p><font size="4" color="black">Lod: {{kit.Lod}}</p>
@@ -11,8 +11,8 @@
         <p><font size="4" color="black">Fornecedor: {{kit.provider}}</p>
         <p><font size="4" color="black">Data de Expiração:{{kit.expirationDate}}</p>
         <p><font size="4" color="black">Estoque Mínimo: {{kit.stockMin}}</p>
-        <a href="{{kit.id}}/edit" class="btn btn-outline-success">Editar</a>
+        <button type=submit class="btn btn-outline-success">Editar</button>
         <p><font size="4" color="red" name="kit[status]"></p>
-      </div>
+      </form>
     </div>
   </div>
