@@ -45,6 +45,11 @@ const userSchema = new mongoose.Schema({
 
   },
 
+  debt: {
+   type: Boolean, //1 for debtor, 0 for not debtor
+   default: 0
+  },
+
   deleted: {
     type: Boolean, // 1 for deleted, 0 for not deleted
     default: 0

@@ -6,6 +6,7 @@
       <tr>
         <th class = "th-name">Nome</th>
         <th class = "th-type">Tipo</th>
+        <th class = "th-dept">Pag</th>
         <th class = "th-action"></th>
       </tr>
     </thead>
@@ -16,7 +17,18 @@
             <th>{{fullname}}</th>
             <th>{{type}}</th>
             <th>
-              <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn m-1"></button>
+             {{#if debt}}
+                 <form action="/users/approvepayment/{{_id}}?_method=PUT" method="post">
+                     <button type="submit" class="btn btn-success"></button>
+                 </form>
+              {{else}}
+                <form action="/users/approvepayment/{{_id}}?_method=PUT" method="post">
+                    <button type="submit" class="btn btn-danger"></button>
+                </form>
+              {{/if}}
+            </th>
+            <th>
+              <button onClick="location.href='users/show/{{_id}}'" class="fa fa-info btn m-1"></button>
             </th>
           </tr>
         {{/compare}}
