@@ -80,6 +80,102 @@ var aflatoxina = new jKanban({
   }
 });
 
+
+
+
+var scndAflatoxina = new jKanban({
+  element : '#afla2toxina',
+  gutter  : '10px',
+  widthBoard  : '165px',
+  click : function(el) {
+    window.location.href = 'sample/edit/' + el.dataset.eid;
+  },
+  boards  : [
+    {
+      id : '_scndTesting',
+      title  : 'Em análise',
+      class : 'info'
+    },
+    {
+      id : '_calibrator',
+      title  : 'Calibradores',
+      class : 'success',
+    },
+    {
+      id : '_workmap1',
+      title  : 'Mapa de trabalho 1',
+      class : 'success',
+    },
+    {
+      id : '_workmap2',
+      title  : 'Mapa de trabalho 2',
+      class : 'info',
+    },
+    {
+      id: '_workmap3',
+      title : 'Mapa de trabalho 3',
+      class : 'success',
+    },
+    {
+      id: '_workmap4',
+      title : 'Mapa de trabalho 4',
+      class : 'success',
+    }
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Aguardando pagamento") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
+
+  }
+});
+
+
+
+
+
+
+
 const deoxinivalenol = new jKanban({
   element : '#deoxinivalenol',
   gutter  : '10px',

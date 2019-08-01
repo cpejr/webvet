@@ -1,9 +1,40 @@
+<div class="row">
+
 <div class="queue-tabs">
   <input type="radio" name="queue-tabs" id="tab1" checked="checked">
   <label for="tab1">Aflatoxina</label>
   <div class="queue-tab">
     <div id="aflatoxina">
     </div>
+    <div class="form-check form-check-inline">
+      <div class="lote">
+
+        <p>
+          <div class="btn-lote">
+            <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="Aflatoxinas">A</input>
+          </div>
+          <div class="btn-lote">
+            <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="Ocratoxina A">B</input>
+          </div>
+          <div class="btn-lote">
+            <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="Deoxinivalenol*">C</input>
+          </div>
+          <div class="btn-lote">
+            <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]" value="T-2 toxina">D</input>
+          </div>
+        </p>
+      </div>
+    </div>
+
+    <div id="afla2toxina">
+    </div>
+
+
+    <div class="btn-add-board">
+      <button class="btn btn-success" id="addDefault">Add Mapa de trabalho </button>
+    </div>
+
+
   </div>
 
   <input type="radio" name="queue-tabs" id="tab2">
@@ -13,11 +44,14 @@
     </div>
   </div>
 
+
   <input type="radio" name="queue-tabs" id="tab3">
   <label for="tab3">Deoxinivalenol</label>
   <div class="queue-tab">
+
     <div id="deoxinivalenol">
     </div>
+    <button type="button" name="button" class="btn btn-primary" stylesheet="z-index = 1"></button>
   </div>
 
   <input type="radio" name="queue-tabs" id="tab4">
@@ -40,6 +74,7 @@
     <div id="zearalenona">
     </div>
   </div>
-<div>
+</div>
+</div>
 
 <script src="/javascripts/queue.js"></script>
