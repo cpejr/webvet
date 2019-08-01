@@ -845,3 +845,23 @@ $.get('/search/samples', (samples) => {
     });
   });
 });
+
+var clicks = 0;
+    function plusButton() {
+        clicks += 1;
+        if(clicks>16) {
+          clicks-=1;
+        } else {
+        document.getElementById("countMap").innerHTML = clicks;
+      }
+    };
+
+    function minusButton() {
+        clicks -= 1;
+        if(clicks<0){
+          clicks+=1;
+        } else {
+          document.getElementById("countMap").innerHTML = clicks;
+        }
+
+    };
