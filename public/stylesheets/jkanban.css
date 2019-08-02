@@ -161,7 +161,8 @@
   float: left;
 }
 .lote{
-  margin-right: 740px;
+  margin-right: 781px;
+  margin-top: 14px;
 }
 
 .btn-add-board{
@@ -178,7 +179,17 @@ margin: -36px 669px 0px 4px;
   margin: -37px 493px 0px 0px;
 }
 
-.Msg-Class {
+.radio-queue {
+   display: inline-block !important;
+ }
 
-  margin: 6px 424px -5px 248px;
+
+.radio-queue label {
+  background: none !important;
+}
+
+.radioSub {
+
+  margin: 0px 59px 1px 4px;
+
 }

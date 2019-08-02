@@ -1419,3 +1419,13 @@ $.get('/search/samples', (samples) => {
     });
   });
 });
+
+
+$('#KitRadio').change(function(){
+
+  if($('#KitAflaB').is(':checked')) {
+      $('#hide').removeClass('form-disabled');
+  } else {
+      $('#hide').addClass('form-disabled');
+  }
+});
