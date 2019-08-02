@@ -851,8 +851,10 @@ var clicks = 0;
         clicks += 1;
         if(clicks>16) {
           clicks-=1;
+             $('#msg').removeClass("form-disabled");
         } else {
         document.getElementById("countMap").innerHTML = clicks;
+
       }
     };
 
@@ -861,6 +863,7 @@ var clicks = 0;
         if(clicks<0){
           clicks+=1;
         } else {
+           $('#msg').addClass("form-disabled");
           document.getElementById("countMap").innerHTML = clicks;
         }
 
