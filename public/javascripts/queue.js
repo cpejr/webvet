@@ -106,21 +106,7 @@ var scndAflatoxina = new jKanban({
       title  : 'Mapa de trabalho 1',
       class : 'success',
     },
-    {
-      id : '_workmap2',
-      title  : 'Mapa de trabalho 2',
-      class : 'info',
-    },
-    {
-      id: '_workmap3',
-      title : 'Mapa de trabalho 3',
-      class : 'success',
-    },
-    {
-      id: '_workmap4',
-      title : 'Mapa de trabalho 4',
-      class : 'success',
-    }
+
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
@@ -170,6 +156,42 @@ var scndAflatoxina = new jKanban({
   }
 });
 
+var aflaclicks = 1;
+    function AflaPlusButton() {
+        aflaclicks += 1;
+        if(aflaclicks>16) {
+          aflaclicks-=1;
+
+        } else {
+            scndAflatoxina.addBoards(
+                  [{
+                      'id' : '_workmap' + aflaclicks,
+                      'title'  : 'Mapa de trabalho' + ' '+ aflaclicks,
+                      'class' : 'info',
+
+                  }]
+              )
+
+
+        document.getElementById("countMapAfla").innerHTML = aflaclicks;
+
+      }
+    };
+
+    function AflaMinusButton() {
+
+        if(aflaclicks==1){
+        aflaclicks=1;
+          document.getElementById("countMapAfla").innerHTML = clicks;
+        } else {
+
+
+               scndAflatoxina.removeBoard('_workmap' + aflaclicks);
+                aflaclicks -= 1;
+                document.getElementById("countMapAfla").innerHTML = aflaclicks;
+        }
+
+    };
 
 
 
@@ -340,6 +362,117 @@ const ocratoxina = new jKanban({
 
   }
 });
+
+var scndOcratoxina = new jKanban({
+  element : '#ocra2toxina',
+  gutter  : '10px',
+  widthBoard  : '165px',
+  click : function(el) {
+    window.location.href = 'sample/edit/' + el.dataset.eid;
+  },
+  boards  : [
+    {
+      id : '_scndTesting',
+      title  : 'Em análise',
+      class : 'info'
+    },
+    {
+      id : '_calibrator',
+      title  : 'Calibradores',
+      class : 'success',
+    },
+    {
+      id : '_workmap1',
+      title  : 'Mapa de trabalho 1',
+      class : 'success',
+    },
+
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Aguardando pagamento") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
+
+  }
+});
+
+var ocraclicks = 1;
+function OcraPlusButton() {
+        ocraclicks += 1;
+        if(ocraclicks>16) {
+          ocraclicks-=1;
+
+        } else {
+            scndOcratoxina.addBoards(
+                  [{
+                      'id' : '_workmap' + ocraclicks,
+                      'title'  : 'Mapa de trabalho' + ' '+ ocraclicks,
+                      'class' : 'info',
+
+                  }]
+              )
+
+
+        document.getElementById("countMapOcra").innerHTML = ocraclicks;
+
+      }
+    };
+
+function OcraMinusButton() {
+
+        if(ocraclicks==1){
+        ocraclicks=1;
+          document.getElementById("countMapOcra").innerHTML = ocraclicks;
+        } else {
+
+
+               scndOcratoxina.removeBoard('_workmap' + ocraclicks);
+                ocraclicks -= 1;
+                document.getElementById("countMapOcra").innerHTML = ocraclicks;
+        }
+
+    };
+
 
 const t2toxina = new jKanban({
   element : '#t2toxina',
@@ -845,26 +978,3 @@ $.get('/search/samples', (samples) => {
     });
   });
 });
-
-var clicks = 0;
-    function plusButton() {
-        clicks += 1;
-        if(clicks>16) {
-          clicks-=1;
-             $('#msg').removeClass("form-disabled");
-        } else {
-        document.getElementById("countMap").innerHTML = clicks;
-
-      }
-    };
-
-    function minusButton() {
-        clicks -= 1;
-        if(clicks<0){
-          clicks+=1;
-        } else {
-           $('#msg').addClass("form-disabled");
-          document.getElementById("countMap").innerHTML = clicks;
-        }
-
-    };
