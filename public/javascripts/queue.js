@@ -1421,11 +1421,11 @@ $.get('/search/samples', (samples) => {
 });
 
 
-$('#KitRadio').change(function(){
+$('#KitRadioAfla').change(function(){
 
   if($('#KitAflaB').is(':checked')) {
-      $('#hide').removeClass('form-disabled');
+      $('#hideAfla').removeClass('form-disabled');
   } else {
-      $('#hide').addClass('form-disabled');
+      $('#hideAfla').addClass('form-disabled');
   }
 });
