@@ -283,6 +283,116 @@ const deoxinivalenol = new jKanban({
   }
 });
 
+var scndDeoxinivalenol = new jKanban({
+  element : '#deoxini2valenol',
+  gutter  : '10px',
+  widthBoard  : '165px',
+  click : function(el) {
+    window.location.href = 'sample/edit/' + el.dataset.eid;
+  },
+  boards  : [
+    {
+      id : '_scndTesting',
+      title  : 'Em análise',
+      class : 'info'
+    },
+    {
+      id : '_calibrator',
+      title  : 'Calibradores',
+      class : 'success',
+    },
+    {
+      id : '_workmap1',
+      title  : 'Mapa de trabalho 1',
+      class : 'success',
+    },
+
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Aguardando pagamento") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
+
+  }
+});
+var deoxclicks = 1;
+    function DeoxPlusButton() {
+        deoxclicks += 1;
+        if(deoxclicks>16) {
+          deoxclicks-=1;
+
+        } else {
+            scndDeoxinivalenol.addBoards(
+                  [{
+                      'id' : '_workmap' + deoxclicks,
+                      'title'  : 'Mapa de trabalho' + ' '+ deoxclicks,
+                      'class' : 'info',
+
+                  }]
+              )
+
+
+        document.getElementById("countMapDeox").innerHTML = deoxclicks;
+
+      }
+    };
+
+    function DeoxMinusButton() {
+
+        if(deoxclicks==1){
+        deoxclicks=1;
+          document.getElementById("countMapDeox").innerHTML = deoxclicks;
+        } else {
+
+
+               scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
+                deoxclicks -= 1;
+                document.getElementById("countMapDeox").innerHTML = deoxclicks;
+        }
+
+    };
+
+
 const ocratoxina = new jKanban({
   element : '#ocratoxina',
   gutter  : '10px',
@@ -552,6 +662,116 @@ const t2toxina = new jKanban({
   }
 });
 
+var scndT2toxina = new jKanban({
+  element : '#t22toxina',
+  gutter  : '10px',
+  widthBoard  : '165px',
+  click : function(el) {
+    window.location.href = 'sample/edit/' + el.dataset.eid;
+  },
+  boards  : [
+    {
+      id : '_scndTesting',
+      title  : 'Em análise',
+      class : 'info'
+    },
+    {
+      id : '_calibrator',
+      title  : 'Calibradores',
+      class : 'success',
+    },
+    {
+      id : '_workmap1',
+      title  : 'Mapa de trabalho 1',
+      class : 'success',
+    },
+
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Aguardando pagamento") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
+
+  }
+});
+
+var t2clicks = 1;
+function T2PlusButton() {
+        t2clicks += 1;
+        if(t2clicks>16) {
+          t2clicks-=1;
+
+        } else {
+            scndT2toxina.addBoards(
+                  [{
+                      'id' : '_workmap' + t2clicks,
+                      'title'  : 'Mapa de trabalho' + ' '+ t2clicks,
+                      'class' : 'info',
+
+                  }]
+              )
+
+
+        document.getElementById("countMapT2").innerHTML = t2clicks;
+
+      }
+    };
+
+function T2MinusButton() {
+
+        if(t2clicks==1){
+         t2clicks=1;
+          document.getElementById("countMapT2").innerHTML =t2clicks;
+        } else {
+
+
+               scndT2toxina.removeBoard('_workmap' + t2clicks);
+                t2clicks -= 1;
+                document.getElementById("countMapT2").innerHTML = t2clicks;
+        }
+
+    };
+
 const fumonisina = new jKanban({
   element : '#fumonisina',
   gutter  : '10px',
@@ -629,6 +849,117 @@ const fumonisina = new jKanban({
     }
   }
 });
+
+
+var scndFumonisina = new jKanban({
+  element : '#fumonisina2',
+  gutter  : '10px',
+  widthBoard  : '165px',
+  click : function(el) {
+    window.location.href = 'sample/edit/' + el.dataset.eid;
+  },
+  boards  : [
+    {
+      id : '_scndTesting',
+      title  : 'Em análise',
+      class : 'info'
+    },
+    {
+      id : '_calibrator',
+      title  : 'Calibradores',
+      class : 'success',
+    },
+    {
+      id : '_workmap1',
+      title  : 'Mapa de trabalho 1',
+      class : 'success',
+    },
+
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Aguardando pagamento") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
+
+  }
+});
+
+var fumoclicks = 1;
+function FumoPlusButton() {
+        fumoclicks += 1;
+        if(fumoclicks>16) {
+          fumoclicks-=1;
+
+        } else {
+            scndFumonisina.addBoards(
+                  [{
+                      'id' : '_workmap' + fumoclicks,
+                      'title'  : 'Mapa de trabalho' + ' '+ fumoclicks,
+                      'class' : 'info',
+
+                  }]
+              )
+
+
+        document.getElementById("countMapFumo").innerHTML = fumoclicks;
+
+      }
+    };
+
+function FumoMinusButton() {
+
+        if(fumoclicks==1){
+         fumoclicks=1;
+          document.getElementById("countMapFumo").innerHTML =fumoclicks;
+        } else {
+
+
+               scndFumonisina.removeBoard('_workmap' + fumoclicks);
+                fumoclicks -= 1;
+                document.getElementById("countMapFumo").innerHTML = fumoclicks;
+        }
+
+    };
 
 const zearalenona = new jKanban({
   element : '#zearalenona',
@@ -711,6 +1042,116 @@ const zearalenona = new jKanban({
 
   }
 });
+
+var scndZearalenona = new jKanban({
+  element : '#zearalenona2',
+  gutter  : '10px',
+  widthBoard  : '165px',
+  click : function(el) {
+    window.location.href = 'sample/edit/' + el.dataset.eid;
+  },
+  boards  : [
+    {
+      id : '_scndTesting',
+      title  : 'Em análise',
+      class : 'info'
+    },
+    {
+      id : '_calibrator',
+      title  : 'Calibradores',
+      class : 'success',
+    },
+    {
+      id : '_workmap1',
+      title  : 'Mapa de trabalho 1',
+      class : 'success',
+    },
+
+  ],
+  dropEl : function (el, target, source, sibling) {
+    const samplenumber = el.dataset.eid;
+
+    if (target == '_totest') {
+      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+
+      if (el.dataset.status == "Aguardando pagamento") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      } else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+
+    }
+    if  (target == '_testing') {
+      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_ownering') {
+      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_waiting') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+    if  (target == '_workmap') {
+      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+    }
+
+
+  }
+});
+
+var zclicks = 1;
+function ZPlusButton() {
+      zclicks += 1;
+        if(zclicks>16) {
+          zclicks-=1;
+
+        } else {
+            scndZearalenona.addBoards(
+                  [{
+                      'id' : '_workmap' + zclicks,
+                      'title'  : 'Mapa de trabalho' + ' '+ zclicks,
+                      'class' : 'info',
+
+                  }]
+              )
+
+
+        document.getElementById("countMapZ").innerHTML = zclicks;
+
+      }
+    };
+
+function ZMinusButton() {
+
+        if(zclicks==1){
+         zclicks=1;
+          document.getElementById("countMapZ").innerHTML =zclicks;
+        } else {
+
+
+               scndZearalenona.removeBoard('_workmap' + zclicks);
+                zclicks -= 1;
+                document.getElementById("countMapZ").innerHTML = zclicks;
+        }
+
+    };
 
 //cria cedulas kanban
 $.get('/search/samples', (samples) => {
