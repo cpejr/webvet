@@ -218,7 +218,6 @@ router.get('/addManager', auth.isAuthenticated,  function(req, res, next) {
 router.put('/approvepayment/:id', auth.isAuthenticated, function(req, res, next) {
   User.getById(req.params.id).then((user) => {
     if (user.debt) {
-      console.log("passou por aqui");
       const user2 = {
         debt: false
       };
