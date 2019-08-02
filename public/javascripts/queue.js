@@ -1423,9 +1423,13 @@ $.get('/search/samples', (samples) => {
 
 $('#KitRadioAfla').change(function(){
 
-  if($('#KitAflaB').is(':checked')) {
+  if($('#KitAflaA').is(':checked')) {
       $('#hideAfla').removeClass('form-disabled');
-  } else {
+  }
+   else if ($('#KitAflaB').is(':checked')) {
+       $('#hideAfla').removeClass('form-disabled');
+   }
+  else {
       $('#hideAfla').addClass('form-disabled');
   }
 });
