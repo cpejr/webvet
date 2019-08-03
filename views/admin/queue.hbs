@@ -55,42 +55,43 @@
     <div id="ocratoxina">
     </div>
     <div class="form-check form-check-inline">
-      <div class="lote">
+      <div class="lote" id="KitRadioOcra">
 
         <p>
           <a class="radioSub"> Selecione o Kit:</a>
 
 
           <div class="btn-lote">
-            <input checked class="radio-queue   " name="Kit" type="radio" >A</input>
+            <input checked class="radio-queue   " name="Kit" type="radio"  id="KitOcraA">A</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" >B</input>
+            <input class="radio-queue  " name="Kit" type="radio" id="KitOcraB">B</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" >C</input>
+            <input class="radio-queue " type="radio" name="Kit" id="KitOcraC" >C</input>
           </div>
 
         </p>
       </div>
     </div>
+      <div class="form-disabled" id="hideOcra">
+        <div id="ocra2toxina">
+        </div>
 
-    <div id="ocra2toxina">
+
+
+
+        <div class="btn-add-board">
+          <button class="btn btn-success" id="addDefaultOcra" onclick="OcraPlusButton()">Adicionar Mapa </button>
+        </div>
+        <div class="btn-minus">
+          <button class="btn btn-success" id="removeBoardOcra" onclick="OcraMinusButton()">Remover </button>
+        </div>
+        <div class="btn-show">
+          <button class="btn btn-success" id="countMapOcra"> 1 </button>
+        </div>
+      </div>
     </div>
-
-
-
-
-    <div class="btn-add-board">
-      <button class="btn btn-success" id="addDefaultOcra" onclick="OcraPlusButton()">Adicionar Mapa </button>
-    </div>
-    <div class="btn-minus">
-      <button class="btn btn-success" id="removeBoardOcra" onclick="OcraMinusButton()">Remover </button>
-    </div>
-    <div class="btn-show">
-      <button class="btn btn-success" id="countMapOcra"> 1 </button>
-    </div>
-  </div>
 
 
   <input type="radio" name="queue-tabs" id="tab3">
@@ -100,83 +101,84 @@
     <div id="deoxinivalenol">
     </div>
     <div class="form-check form-check-inline">
-      <div class="lote">
+      <div class="lote" id="KitRadioDeox">
 
         <p>
           <a class="radioSub"> Selecione o Kit:</a>
 
 
           <div class="btn-lote">
-            <input checked class="radio-queue   " name="Kit" type="radio" >A</input>
+            <input checked class="radio-queue   " name="Kit" type="radio" id="KitDeoxA">A</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" >B</input>
+            <input class="radio-queue  " name="Kit" type="radio" id="KitDeoxB" >B</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" >C</input>
+            <input class="radio-queue " type="radio" name="Kit" id="KitDeoxC"  >C</input>
           </div>
 
         </p>
       </div>
     </div>
-
-    <div id="deoxini2valenol">
-    </div>
-
-
+      <div class=" form-disabled" id="hideDeox">
+        <div id="deoxini2valenol">
+        </div>
 
 
-    <div class="btn-add-board">
-      <button class="btn btn-success" id="addDefaultDeox" onclick="DeoxPlusButton()">Adicionar Mapa </button>
-    </div>
-    <div class="btn-minus">
-      <button class="btn btn-success" id="removeBoardDeox" onclick="DeoxMinusButton()">Remover </button>
-    </div>
-    <div class="btn-show">
-      <button class="btn btn-success" id="countMapDeox"> 1 </button>
-    </div>
-  </div>
 
+
+        <div class="btn-add-board">
+          <button class="btn btn-success" id="addDefaultDeox" onclick="DeoxPlusButton()">Adicionar Mapa </button>
+        </div>
+        <div class="btn-minus">
+          <button class="btn btn-success" id="removeBoardDeox" onclick="DeoxMinusButton()">Remover </button>
+        </div>
+        <div class="btn-show">
+          <button class="btn btn-success" id="countMapDeox"> 1 </button>
+        </div>
+      </div>
+   </div>
   <input type="radio" name="queue-tabs" id="tab4">
   <label for="tab4">T-2 toxina</label>
   <div class="queue-tab">
     <div id="t2toxina">
     </div>
     <div class="form-check form-check-inline">
-      <div class="lote">
+      <div class="lote" id="KitRadioT">
 
         <p>
           <a class="radioSub"> Selecione o Kit:</a>
 
 
           <div class="btn-lote">
-            <input checked class="radio-queue   " name="Kit" type="radio" >A</input>
+            <input checked class="radio-queue   " name="Kit" type="radio" id="KitTA" >A</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" >B</input>
+            <input class="radio-queue  " name="Kit" type="radio" id="KitTB">B</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" >C</input>
+            <input class="radio-queue " type="radio" name="Kit" id="KitTC">C</input>
           </div>
 
         </p>
       </div>
     </div>
-
-    <div id="t22toxina">
-    </div>
-
-
+    <div id="hideT" class="form-disabled">
+      <div id="t22toxina">
+      </div>
 
 
-    <div class="btn-add-board">
-      <button class="btn btn-success" id="addDefaultT2" onclick="T2PlusButton()">Adicionar Mapa </button>
-    </div>
-    <div class="btn-minus">
-      <button class="btn btn-success" id="removeBoardT2" onclick="T2MinusButton()">Remover </button>
-    </div>
-    <div class="btn-show">
-      <button class="btn btn-success" id="countMapT2"> 1 </button>
+
+
+      <div class="btn-add-board">
+        <button class="btn btn-success" id="addDefaultT2" onclick="T2PlusButton()">Adicionar Mapa </button>
+      </div>
+      <div class="btn-minus">
+        <button class="btn btn-success" id="removeBoardT2" onclick="T2MinusButton()">Remover </button>
+      </div>
+      <div class="btn-show">
+        <button class="btn btn-success" id="countMapT2"> 1 </button>
+      </div>
     </div>
   </div>
 
@@ -186,40 +188,41 @@
     <div id="fumonisina">
     </div>
     <div class="form-check form-check-inline">
-      <div class="lote">
+      <div class="lote" id="KitRadioFum">
 
         <p>
           <a class="radioSub"> Selecione o Kit:</a>
 
 
           <div class="btn-lote">
-            <input checked class="radio-queue   " name="Kit" type="radio" >A</input>
+            <input checked class="radio-queue   " name="Kit" type="radio" id="KitFumA" >A</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" >B</input>
+            <input class="radio-queue  " name="Kit" type="radio" id="KitFumB" >B</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" >C</input>
+            <input class="radio-queue " type="radio" name="Kit" id="KitFumC"  >C</input>
           </div>
 
         </p>
       </div>
     </div>
-
-    <div id="fumonisina2">
-    </div>
-
-
+    <div class="form-disabled" id="hideFum">
+        <div id="fumonisina2">
+        </div>
 
 
-    <div class="btn-add-board">
-      <button class="btn btn-success" id="addDefaultFumo" onclick="FumoPlusButton()">Adicionar Mapa </button>
-    </div>
-    <div class="btn-minus">
-      <button class="btn btn-success" id="removeBoardFumo" onclick="FumoMinusButton()">Remover </button>
-    </div>
-    <div class="btn-show">
-      <button class="btn btn-success" id="countMapFumo"> 1 </button>
+
+
+        <div class="btn-add-board">
+          <button class="btn btn-success" id="addDefaultFumo" onclick="FumoPlusButton()">Adicionar Mapa </button>
+        </div>
+        <div class="btn-minus">
+          <button class="btn btn-success" id="removeBoardFumo" onclick="FumoMinusButton()">Remover </button>
+        </div>
+        <div class="btn-show">
+          <button class="btn btn-success" id="countMapFumo"> 1 </button>
+        </div>
     </div>
   </div>
 
@@ -229,40 +232,41 @@
     <div id="zearalenona">
     </div>
     <div class="form-check form-check-inline">
-      <div class="lote">
+      <div class="lote" id="KitRadioZ">
 
         <p>
           <a class="radioSub"> Selecione o Kit:</a>
 
 
           <div class="btn-lote">
-            <input checked class="radio-queue   " name="Kit" type="radio" >A</input>
+            <input class="radio-queue   " name="Kit" type="radio" id="KitZA">A</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" >B</input>
+            <input class="radio-queue  " name="Kit" type="radio" id="KitZB">B</input>
           </div>
           <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" >C</input>
+            <input class="radio-queue " type="radio" name="Kit" id="KitZC">C</input>
           </div>
 
         </p>
       </div>
     </div>
-
-    <div id="zearalenona2">
-    </div>
-
-
+    <div class="form-disabled" id="hideZ">
+      <div id="zearalenona2">
+      </div>
 
 
-    <div class="btn-add-board">
-      <button class="btn btn-success" id="addDefaultZ" onclick="ZPlusButton()">Adicionar Mapa </button>
-    </div>
-    <div class="btn-minus">
-      <button class="btn btn-success" id="removeBoardZ" onclick="ZMinusButton()">Remover </button>
-    </div>
-    <div class="btn-show">
-      <button class="btn btn-success" id="countMapZ"> 1 </button>
+
+
+      <div class="btn-add-board">
+        <button class="btn btn-success" id="addDefaultZ" onclick="ZPlusButton()">Adicionar Mapa </button>
+      </div>
+      <div class="btn-minus">
+        <button class="btn btn-success" id="removeBoardZ" onclick="ZMinusButton()">Remover </button>
+      </div>
+      <div class="btn-show">
+        <button class="btn btn-success" id="countMapZ"> 1 </button>
+      </div>
     </div>
   </div>
 </div>
