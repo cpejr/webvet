@@ -195,6 +195,32 @@ var dragula = require("dragula");
       return self;
     };
 
+    this.addElementStandart = function(boardID, element) {
+      var board = self.element.querySelector(
+        '[data-id="' + boardID + '"] .kanban-drag'
+      );
+      var nodeItem = document.createElement("div");
+      nodeItem.classList.add("kanban-item");
+      console.log(element);
+      if (typeof element.id !== "undefined" && element.id !== "") {
+        nodeItem.setAttribute("data-eid", element.id);
+        nodeItem.setAttribute("data-title", element.title);
+        nodeItem.setAttribute("data-analyst", element.analyst);
+        nodeItem.setAttribute("data-status", element.status);
+      }
+
+      nodeItem.innerHTML = element.title;
+      //add function
+      nodeItem.clickfn = element.click;
+      nodeItem.dragfn = element.drag;
+      nodeItem.dragendfn = element.dragend;
+      nodeItem.dropfn = element.drop;
+      __appendCustomProperties(nodeItem, element);
+      __onclickHandler(nodeItem);
+      board.appendChild(nodeItem);
+      return self;
+    };
+
     this.addBoards = function(boards, isInit) {
       if (self.options.responsivePercentage) {
         self.container.style.width = "100%";
@@ -375,7 +401,7 @@ var dragula = require("dragula");
       if (typeof board === "string")
         boardElement = self.element.querySelector('[data-id="' + board + '"]');
       if (boardElement !== null) {
-        board.remove();
+        boardElement.remove();
       }
 
       // remove thboard in options.boards

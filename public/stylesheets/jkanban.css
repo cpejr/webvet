@@ -117,3 +117,79 @@
     opacity: 0.2 !important;
     transform: rotate(0deg) !important;
 }
+
+
+[data-id="_scndTesting"]  {
+  margin-top:  20px !important;
+}
+
+[data-id="_calibrator"]  {
+  margin-top:  20px !important;
+  margin-left: 0px !important;
+}
+
+[data-id="_workmap1"]  {
+  margin-top:  20px !important;
+  margin-left: 0px !important;
+}
+
+[data-id="_workmap2"]  {
+  margin-top:  20px !important;
+  margin-left: 0px !important;
+}
+
+[data-id="_workmap3"]  {
+  margin-top:  20px !important;
+  margin-left: 0px !important;
+}
+
+
+[data-id="_workmap4"]  {
+  margin-top:  20px !important;
+  margin-left: 0px !important;
+}
+
+[data-id="_workmap5"]  {
+  margin-top:  20px !important;
+  margin-left: 0px !important;
+}
+
+
+
+.btn-lote{
+  margin: 0px 64px 0px 0px;
+  float: left;
+}
+.lote{
+  margin-right: 781px;
+  margin-top: 14px;
+}
+
+.btn-add-board{
+  margin: 11px 983px 0px 0px;
+}
+
+.btn-minus{
+
+margin: -36px 669px 0px 4px;
+}
+
+.btn-show{
+
+  margin: -37px 493px 0px 0px;
+}
+
+.radio-queue {
+   display: inline-block !important;
+ }
+
+
+.radio-queue label {
+  background: none !important;
+}
+
+.radioSub {
+
+  margin: 0px 59px 1px 4px;
+
+}
