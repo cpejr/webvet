@@ -547,6 +547,27 @@ var scndOcratoxina = new jKanban({
       id : '_calibrator',
       title  : 'Calibradores',
       class : 'success',
+      item: [
+          {
+            title:'P1',
+            id: 'P1'
+          },
+
+          {
+            title:'P2',
+            id: 'P2'
+          },
+
+          {
+            title:'P3',
+            id: 'P3'
+          },
+
+          {
+            title:'P4',
+            id: 'P4'
+          }
+      ]
     },
     {
       id : '_workmap1',
@@ -557,51 +578,57 @@ var scndOcratoxina = new jKanban({
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
+    var goTO=target;
+    console.log(goTO);
+    if(target =='_calibrator'){
+        var strId=el.dataset.eid; //id do card
+        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
+               return false
+         }
+         else if( strId.indexOf("child")!=-1){ //basicamente todo elemento que contenha child no id
+           var id=el.dataset.eid;
+           scndOcratoxina.removeElement(id);
+        } else {
+          return false // impede outros cards de entrarem no board dos calibradores
+        }
+    }
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
+    if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
-      });
+              var sonNumber=IdOcraCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
+              scndOcratoxina.addElementStandart( goTO,
+               {  id: el.dataset.eid +'child'+ sonNumber.toString(),
+                  title: el.dataset.eid,
 
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+               });
+
+           return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+
+        } else {
+        //futuramente o metodo post para as amostras deve ficar aqui!
       }
-
     }
-    if  (target == '_testing') {
-      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
 
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-    if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-    if  (target == '_waiting') {
-      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-    if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
+    if(target=='_scndTesting') {
+      if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
+             return false
+       }
     }
 
 
   }
 });
+
+//função de criação dos id dos Pchild para o scndOcratoxina
+var countOcra=0;
+
+function IdOcraCount ()
+{
+  console.log("count Ocra is: " + countOcra);
+    countOcra++;
+    return countOcra;
+}
 
 var ocraclicks = 1;
 function OcraPlusButton() {
@@ -736,6 +763,27 @@ var scndT2toxina = new jKanban({
       id : '_calibrator',
       title  : 'Calibradores',
       class : 'success',
+      item: [
+          {
+            title:'P1',
+            id: 'P1'
+          },
+
+          {
+            title:'P2',
+            id: 'P2'
+          },
+
+          {
+            title:'P3',
+            id: 'P3'
+          },
+
+          {
+            title:'P4',
+            id: 'P4'
+          }
+      ]
     },
     {
       id : '_workmap1',
@@ -746,51 +794,57 @@ var scndT2toxina = new jKanban({
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
+    var goTO=target;
+    console.log(goTO);
+    if(target =='_calibrator'){
+        var strId=el.dataset.eid; //id do card
+        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
+               return false
+         }
+         else if( strId.indexOf("child")!=-1){ //basicamente todo elemento que contenha child no id
+           var id=el.dataset.eid;
+           scndT2toxina.removeElement(id);
+        } else {
+          return false // impede outros cards de entrarem no board dos calibradores
+        }
+    }
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
+    if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
-      });
+              var sonNumber=IdT2Count(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
+              scndT2toxina.addElementStandart( goTO,
+               {  id: el.dataset.eid +'child'+ sonNumber.toString(),
+                  title: el.dataset.eid,
 
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+               });
+
+           return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+
+        } else {
+        //futuramente o metodo post para as amostras deve ficar aqui!
       }
-
     }
-    if  (target == '_testing') {
-      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
 
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-    if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-    if  (target == '_waiting') {
-      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-    if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
+    if(target=='_scndTesting') {
+      if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
+             return false
+       }
     }
 
 
   }
 });
+
+//função de criação dos id dos Pchild para o T2 toxina
+var countT2=0;
+
+function IdT2Count ()
+{
+  console.log("count T2 is: " + countT2);
+    countT2++;
+    return countT2;
+}
 
 var t2clicks = 1;
 function T2PlusButton() {
@@ -862,48 +916,45 @@ const fumonisina = new jKanban({
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
+    var goTO=target;
+    console.log(goTO);
+    if(target =='_calibrator'){
+        var strId=el.dataset.eid; //id do card
+        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
+               return false
+         }
+         else if( strId.indexOf("child")!=-1){ //basicamente todo elemento que contenha child no id
+           var id=el.dataset.eid;
+           scndFumonisina.removeElement(id);
+        } else {
+          return false // impede outros cards de entrarem no board dos calibradores
+        }
+    }
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/fumonisina/' + samplenumber, () => {
+    if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
-      });
+              var sonNumber=IdFumCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
+              scndFumonisina.addElementStandart( goTO,
+               {  id: el.dataset.eid +'child'+ sonNumber.toString(),
+                  title: el.dataset.eid,
 
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+               });
+
+           return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+
+        } else {
+        //futuramente o metodo post para as amostras deve ficar aqui!
       }
-
-    }
-    if  (target == '_testing') {
-      $.post('/sample/testing/edit/fumonisina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-    if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/fumonisina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-    if  (target == '_waiting') {
-      $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
     }
 
-    if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
+    if(target=='_scndTesting') {
+      if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
+             return false
+       }
     }
+
+
   }
 });
 
@@ -925,6 +976,27 @@ var scndFumonisina = new jKanban({
       id : '_calibrator',
       title  : 'Calibradores',
       class : 'success',
+      item: [
+          {
+            title:'P1',
+            id: 'P1'
+          },
+
+          {
+            title:'P2',
+            id: 'P2'
+          },
+
+          {
+            title:'P3',
+            id: 'P3'
+          },
+
+          {
+            title:'P4',
+            id: 'P4'
+          }
+      ]
     },
     {
       id : '_workmap1',
@@ -980,6 +1052,16 @@ var scndFumonisina = new jKanban({
 
   }
 });
+
+//função de criação dos id dos Pchild para a fumonisina
+var countFum=0;
+
+function IdFumCount ()
+{
+  console.log("count FUMOSININA is: " + countFum);
+    countFum++;
+    return countFum;
+}
 
 var fumoclicks = 1;
 function FumoPlusButton() {
