@@ -49,4 +49,24 @@ router.put('/:id', auth.isAuthenticated, function(req, res, next) {
     res.redirect('/error');
   });
 });
+
+
+router.get('/new', auth.isAuthenticated,  function(req,res) {
+  console.log(req.session.user);
+  res.render('stock/newkit', {title:'Novo Kit',layout:'layoutDashboard.hbs', ...req.session });
+});
+
+router.post('/new', auth.isAuthenticated,  function(req,res) {
+  console.log(req.session.user);
+  const { kit } = req.body;
+  console.log(kit);
+  Kit.create(kit).then((id) => {
+    req.flash('success', 'Kit adicionado com sucesso.');
+    res.redirect('/stock');
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
 module.exports = router;

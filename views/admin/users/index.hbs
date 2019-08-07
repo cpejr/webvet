@@ -19,11 +19,11 @@
             <th>
              {{#if debt}}
                  <form action="/users/approvepayment/{{_id}}?_method=PUT" method="post">
-                     <button type="submit" class="btn btn-success"></button>
+                    <button type="submit" class="btn btn-danger"></button>
                  </form>
               {{else}}
                 <form action="/users/approvepayment/{{_id}}?_method=PUT" method="post">
-                    <button type="submit" class="btn btn-danger"></button>
+                  <button type="submit" class="btn btn-success"></button>
                 </form>
               {{/if}}
             </th>

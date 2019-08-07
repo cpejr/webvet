@@ -1,6 +1,6 @@
 <h4>Kits Disponíveis</h4>
 <div class="text-right">
-  <form action="/stock/new" method="post">
+  <form action="/stock/new" method="get">
       <button type="submit" id="btn-new-sample-stock" class="btn btn-primary btn-sm">Novo Kit</button>
   </form>
 </div>
@@ -17,7 +17,7 @@
     <tbody>
       {{#each kits}}
           <tr>
-            <th>{{kitId}}</th>
+            <th>{{kitType}}</th>
             <th>{{amount}}</th>
             <th>
               <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
