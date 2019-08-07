@@ -7489,4 +7489,20 @@ li {
   border-style: none;
   background-color: #6BA05C; }
 
+.title-new-kit {
+  padding-bottom: 40px; }
+
+.Addkit-text {
+  border: 0;
+  float: left;
+  padding-bottom: 15px;
+  padding-left: 10px; }
+
+.addkit-input {
+  border: none;
+  border-bottom: 2px solid #6BA05C; }
+
+#btn-newkit {
+  padding-bottom: 40px; }
+
 /*# sourceMappingURL=style.css.map */
