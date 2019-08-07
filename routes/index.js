@@ -11,6 +11,7 @@ const Email = require('../models/email');
 
 /* GET home page. */
 router.get('/', (req, res) => {
+  res.redirect('/login');
   res.render('index', { title: 'Express' });
 });
 

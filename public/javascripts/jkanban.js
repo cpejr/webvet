@@ -336,10 +336,138 @@ var dragula = require("dragula");
       return self;
     };
 
+
+
+
+
+
+    this.addNewBoards = function(boards, isInit) {
+      if (self.options.responsivePercentage) {
+        self.container.style.width = "100%";
+        self.options.gutter = "1%";
+        if (window.innerWidth > self.options.responsive) {
+          var boardWidth = (100 - boards.length * 2) / boards.length;
+        } else {
+          var boardWidth = 100 - boards.length * 2;
+        }
+      } else {
+        var boardWidth = self.options.widthBoard;
+      }
+      var addButton = self.options.addItemButton;
+      var buttonContent = self.options.buttonContent;
+
+      //for on all the boards
+      for (var boardkey in boards) {
+        // single board
+        var board = boards[boardkey];
+        if (!isInit) {
+          self.options.boards.push(board);
+        }
+
+        if (!self.options.responsivePercentage) {
+          //add width to container
+          if (self.container.style.width === "") {
+            self.container.style.width =
+              parseInt(boardWidth) + parseInt(self.options.gutter) * 2 + "px";
+          } else {
+            self.container.style.width =
+              parseInt(self.container.style.width) +
+              parseInt(boardWidth) +
+              parseInt(self.options.gutter) * 2 +
+              "px";
+          }
+        }
+        //create node
+        var boardNode = document.createElement("div");
+        boardNode.dataset.id = board.id;
+        boardNode.dataset.order = self.container.childNodes.length + 1;
+        boardNode.classList.add("kanban-board-kit");
+        //set style
+        if (self.options.responsivePercentage) {
+          boardNode.style.width = boardWidth + "%";
+        } else {
+          boardNode.style.width = boardWidth;
+        }
+        boardNode.style.marginLeft = self.options.gutter;
+        boardNode.style.marginRight = self.options.gutter;
+        // header board
+        var headerBoard = document.createElement("header");
+        if (board.class !== "" && board.class !== undefined)
+          var allClasses = board.class.split(",");
+        else allClasses = [];
+        headerBoard.classList.add("kanban-board-header");
+        allClasses.map(function(value) {
+          headerBoard.classList.add(value);
+        });
+        headerBoard.innerHTML =
+          '<div class="kanban-title-board">' + board.title + "</div>";
+        // if add button is true, add button to the board
+        if (addButton) {
+          var btn = document.createElement("BUTTON");
+          var t = document.createTextNode(buttonContent);
+          btn.setAttribute(
+            "class",
+            "kanban-title-button btn btn-default btn-xs"
+          );
+          btn.appendChild(t);
+          //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
+          headerBoard.appendChild(btn);
+          __onButtonClickHandler(btn, board.id);
+        }
+        //content board
+        var contentBoard = document.createElement("main");
+        contentBoard.classList.add("kanban-drag");
+        if (board.bodyClass !== "" && board.bodyClass !== undefined)
+          var bodyClasses = board.bodyClass.split(",");
+        else bodyClasses = [];
+        bodyClasses.map(function(value) {
+          contentBoard.classList.add(value);
+        });
+        //add drag to array for dragula
+        self.boardContainer.push(contentBoard);
+        for (var itemkey in board.item) {
+          //create item
+          var itemKanban = board.item[itemkey];
+          var nodeItem = document.createElement("div");
+          nodeItem.classList.add("kanban-item");
+          if (itemKanban.id) {
+            nodeItem.dataset.eid = itemKanban.id;
+          }
+          nodeItem.innerHTML = itemKanban.title;
+          //add function
+          nodeItem.clickfn = itemKanban.click;
+          nodeItem.dragfn = itemKanban.drag;
+          nodeItem.dragendfn = itemKanban.dragend;
+          nodeItem.dropfn = itemKanban.drop;
+          __appendCustomProperties(nodeItem, itemKanban);
+          //add click handler of item
+          __onclickHandler(nodeItem);
+          contentBoard.appendChild(nodeItem);
+        }
+        //footer board
+        var footerBoard = document.createElement("footer");
+        //board assembly
+        boardNode.appendChild(headerBoard);
+        boardNode.appendChild(contentBoard);
+        boardNode.appendChild(footerBoard);
+        //board add
+        self.container.appendChild(boardNode);
+      }
+      return self;
+    };
+
+
+
+
+
+
+
+
     this.findBoard = function(id) {
       var el = self.element.querySelector('[data-id="' + id + '"]');
       return el;
     };
+
 
     this.getParentBoardID = function(el) {
       if (typeof el === "string") {
