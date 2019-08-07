@@ -3,26 +3,46 @@
 </div>
 <div class="new-kit">
       <form action="/stock/new" method="post">
-          <div class="Addkit-text col-md-5">
-            <p><font size="4" color="black"> Código Produto: <input class="addkit-input" type="text" name="kit[kitType]"></p>
+        <div class="row">
+          <div class="Addkit-text col-4">
+            <p><font size="3" color="black"> Código Produto: <input class="addkit-input" type="text" name="kit[productCode]"></p>
+            </div>
+            <p><font size="4" color="black"> Descrição do Produto: <input style="width: 50px" class="addkit-input" type="text" name="kit[productDescription]"></p>
           </div>
-          <div class="Addkit-text col-md-2">
-            <p><font size="4" color="black"> Quantidade: <input style="width: 27px" class="addkit-input" type="text" name="kit[amount]"></p>
+
+        <div class="row">
+          <div class="Addkit-text col-3">
+            <font size="4" color="black"> Quantidade: <input style="width: 27px" class="addkit-input" type="text" name="kit[amount]">
           </div>
-          <div class="Addkit-text col-md-2">
-            <p><font size="4" color="black"> Lod: <input style="width: 27px" class="addkit-input" type="text" name="kit[Lod]"></p>
+            <font size="4" color="black"> Lod: <input style="width: 27px" class="addkit-input" type="text" name="kit[Lod]">
+            <font size="4" color="black"> LoQ: <input style="width: 27px" class="addkit-input" type="text" name="kit[LoQ]">
+        </div>
+        <div class="row">
+          <div class="Addkit-text col-5">
+            <font size="4" color="black"> Fornecedor: <input  class="addkit-input" type="text" name="kit[provider]">
           </div>
-          <div class="Addkit-text col-md-2">
-            <p><font size="4" color="black"> LoQ: <input style="width: 27px" class="addkit-input" type="text" name="kit[LoQ]"></p>
+            <font size="4" color="black"> Validade: <input class="addkit-input" type="text" name="kit[expirationDate]">
           </div>
-          <div class="Addkit-text col-md-5">
-            <p><font size="4" color="black"> Fornecedor: <input  class="addkit-input" type="text" name="kit[provider]"></p>
-          </div>
-          <div class="Addkit-text col-md-6">
-            <p><font size="4" color="black"> Data de Expiração: <input  class="addkit-input" type="text" name="kit[expirationDate]"></p>
-          </div>
-          <div class="text-center">
-            <p><button type="submit" align="center" class="btn btn-outline-success">Criar novo kit</button><p>
-          </div>
+        </div>
+
+          <div id="radio-kit" class="form-check">
+              <div class="form-check">
+                <input checked class="form-check-input destination" type="radio" name="kit[kitType]" value="A">
+                <label class="radio-text form-check-label mr-0">A</label>
+              </div>
+              <div class="form-check">
+                <input checked class="form-check-input destination" type="radio" name="kit[kitType]" value="B">
+                <label class="radio-text form-check-label mr-0">B</label>
+              </div>
+              <div class="form-check">
+                <input checked class="form-check-input destination" type="radio" name="kit[kitType]" value="C">
+                <label class="radio-text form-check-label mr-0">C</label>
+              </div>
+           </div>
+
+           <div class="text-center">
+             <button type="submit" class="btn btn-outline-success">Criar novo kit</button>
+           </div>
+
       </form>
     </div>
