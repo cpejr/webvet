@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const kitSchema = new mongoose.Schema({
+  kitType: String,
   kitId: String,
   lot: String,
   moveDate: String,
