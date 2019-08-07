@@ -12,7 +12,7 @@ const Email = require('../models/email');
 /* GET home page. */
 router.get('/', (req, res) => {
   res.redirect('/login');
-  res.render('index', { title: 'Express' });
+  //res.render('index', { title: 'Express' });
 });
 
 router.get('/login', (req, res) => {
