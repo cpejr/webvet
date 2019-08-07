@@ -30,11 +30,6 @@ var aflatoxina = new jKanban({
       id: '_workmap',
       title : 'Mapa de trabalho',
       class : 'success',
-    },
-    {
-      id: '_teste1',
-      title : 'Mapa de trabalho',
-      class : 'success',
     }
   ],
   dropEl : function (el, target, source, sibling) {
