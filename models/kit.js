@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const kitSchema = new mongoose.Schema({
   kitType: String,
   kitId: String,
+  productCode: String,
+  productDescription: String,
   lot: String,
   moveDate: String,
   expirationDate: String,

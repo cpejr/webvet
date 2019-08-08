@@ -222,7 +222,7 @@ router.put('/approvepayment/:id', auth.isAuthenticated, function(req, res, next)
         debt: false
       };
       User.update(req.params.id, user2).then(()=>{
-        req.flash('success', 'Usuário aprovado com sucesso.');
+        req.flash('success', 'Pagamento aprovado com sucesso.');
         res.redirect('/users');
       }).catch((error) => {
         console.log(error);
@@ -233,7 +233,7 @@ router.put('/approvepayment/:id', auth.isAuthenticated, function(req, res, next)
         debt: true
       };
       User.update(req.params.id, user2).then(()=>{
-        req.flash('success', 'Usuário aprovado com sucesso.');
+        req.flash('success', 'Pagamento aprovado com sucesso.');
         res.redirect('/users');
       }).catch((error) => {
           console.log(error);
