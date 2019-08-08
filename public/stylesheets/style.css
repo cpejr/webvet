@@ -6729,7 +6729,7 @@ header {
     padding-bottom: 1em; } }
 
 .navbar {
-  background-color: #3DC95F;
+  background-color: #3DC95F !important;
   height: 65px; }
 
 li {
@@ -6809,9 +6809,10 @@ li {
 
 #sidebar-wrapper {
   z-index: 2;
-  position: absolute;
+  position: fixed;
   left: 250px;
   width: 0;
+  margin-top: 35px;
   height: 100%;
   margin-left: -250px;
   overflow: hidden;
@@ -7503,5 +7504,8 @@ li {
 #btn-addkit {
   padding-top: 40px;
   padding-left: 12px; }
+
+body {
+  padding-top: 30px; }
 
 /*# sourceMappingURL=style.css.map */

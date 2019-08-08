@@ -69,7 +69,7 @@ var aflatoxina = new jKanban({
 
     }
     if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
+      $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -159,7 +159,11 @@ var scndAflatoxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-        //futuramente o metodo post para as amostras deve ficar aqui!
+          $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber, () => {
+
+          });
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
       }
     }
 
@@ -300,7 +304,7 @@ const deoxinivalenol = new jKanban({
     }
 
     if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/deoxinivalenol/' + samplenumber, () => {
+      $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -388,7 +392,10 @@ var scndDeoxinivalenol = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-        //futuramente o metodo post para as amostras deve ficar aqui!
+          $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber, () => {
+
+          });
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
     }
 
@@ -519,7 +526,7 @@ const ocratoxina = new jKanban({
     }
 
     if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/ocratoxina/' + samplenumber, () => {
+      $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber, () => {
 
 
       });
@@ -606,7 +613,11 @@ var scndOcratoxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-        //futuramente o metodo post para as amostras deve ficar aqui!
+          $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber, () => {
+
+
+          });
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
     }
 
@@ -737,7 +748,7 @@ const t2toxina = new jKanban({
     }
 
     if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/t2toxina/' + samplenumber, () => {
+      $.post('/sample/mapwork/edit/t2toxina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -822,7 +833,11 @@ var scndT2toxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-        //futuramente o metodo post para as amostras deve ficar aqui!
+          $.post('/sample/mapwork/edit/t2toxina/' + samplenumber, () => {
+
+          });
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
       }
     }
 
@@ -952,7 +967,7 @@ const fumonisina = new jKanban({
     }
 
     if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
+      $.post('/sample/mapwork/edit/fumonisina/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1038,7 +1053,11 @@ var scndFumonisina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-        //futuramente o metodo post para as amostras deve ficar aqui!
+          $.post('/sample/mapwork/edit/fumonisina/' + samplenumber, () => {
+
+          });
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
       }
     }
 
@@ -1171,7 +1190,7 @@ const zearalenona = new jKanban({
     }
 
     if  (target == '_workmap') {
-      $.post('/sample/waiting/edit/zearalenona/' + samplenumber, () => {
+      $.post('/sample/mapwork/edit/zearalenona/' + samplenumber, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho ' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1257,7 +1276,11 @@ var scndZearalenona = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-        //futuramente o metodo post para as amostras deve ficar aqui!
+          $.post('/sample/mapwork/edit/zearalenona/' + samplenumber, () => {
+
+          });
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho ' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
       }
     }
 
@@ -1339,6 +1362,13 @@ $.get('/search/samples', (samples) => {
               analyst: sample.responsable,
               status: sample.aflatoxina.status
             });
+            scndAflatoxina.addElement('_scndTesting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.aflatoxina.status
+            });
+
           }
           if(sample.aflatoxina.status=="Aguardando pagamento") {
             aflatoxina.addElement('_ownering', {
@@ -1350,6 +1380,14 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.aflatoxina.status=="Aguardando amostra") {
             aflatoxina.addElement('_waiting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.aflatoxina.status
+            });
+          }
+          if(sample.aflatoxina.status=="Mapa de Trabalho") {
+            scndAflatoxina.addElement('_workmap1', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1375,6 +1413,12 @@ $.get('/search/samples', (samples) => {
               analyst: sample.responsable,
               status: sample.ocratoxina.status
             });
+            scndOcratoxina.addElement('_scndTesting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.ocratoxina.status
+            });
           }
           if(sample.ocratoxina.status=="Aguardando pagamento") {
             ocratoxina.addElement('_ownering', {
@@ -1393,7 +1437,7 @@ $.get('/search/samples', (samples) => {
             });
           }
           if(sample.ocratoxina.status=="Mapa de Trabalho") {
-            ocratoxina.addElement('_mapwork', {
+            scndOcratoxina.addElement('_workmap1', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1420,6 +1464,12 @@ $.get('/search/samples', (samples) => {
               analyst: sample.responsable,
               status: sample.deoxinivalenol.status
             });
+            scndDeoxinivalenol.addElement('_scndTesting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.deoxinivalenol.status
+            });
           }
           if(sample.deoxinivalenol.status=="Aguardando pagamento") {
             deoxinivalenol.addElement('_ownering', {
@@ -1438,7 +1488,7 @@ $.get('/search/samples', (samples) => {
             });
           }
           if(sample.deoxinivalenol.status=="Mapa de Trabalho") {
-            deoxinivalenol.addElement('_mapwork', {
+            scndDeoxinivalenol.addElement('_workmap1', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1464,6 +1514,12 @@ $.get('/search/samples', (samples) => {
               analyst: sample.responsable,
               status: sample.zearalenona.status
             });
+            scndZearalenona.addElement('_scndTesting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.zearalenona.status
+            });
           }
           if(sample.zearalenona.status=="Aguardando pagamento") {
             zearalenona.addElement('_ownering', {
@@ -1482,7 +1538,7 @@ $.get('/search/samples', (samples) => {
             });
           }
           if(sample.zearalenona.status=="Mapa de Trabalho") {
-            zearalenona.addElement('_mapwork', {
+            scndZearalenona.addElement('_workmap1', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1508,6 +1564,12 @@ $.get('/search/samples', (samples) => {
               analyst: sample.responsable,
               status: sample.t2toxina.status
             });
+            scndT2toxina.addElement('_scndTesting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.t2toxina.status
+            });
           }
           if(sample.t2toxina.status=="Aguardando pagamento") {
             t2toxina.addElement('_ownering', {
@@ -1526,7 +1588,7 @@ $.get('/search/samples', (samples) => {
             });
           }
           if(sample.t2toxina.status=="Mapa de Trabalho") {
-            t2toxina.addElement('_mapwork', {
+          scndT2toxina.addElement('_workmap1', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1552,6 +1614,12 @@ $.get('/search/samples', (samples) => {
               analyst: sample.responsable,
               status: sample.fumonisina.status
             });
+            scndFumonisina.addElement('_scndTesting', {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsable,
+              status: sample.fumonisina.status
+            });
           }
           if(sample.fumonisina.status=="Aguardando pagamento") {
             fumonisina.addElement('_ownering', {
@@ -1570,7 +1638,7 @@ $.get('/search/samples', (samples) => {
             });
           }
           if(sample.fumonisina.status=="Mapa de Trabalho") {
-            fumonisina.addElement('_mapwork', {
+            scndFumonisina.addElement('_workmap1', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,

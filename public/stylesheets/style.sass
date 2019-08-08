@@ -722,7 +722,7 @@ header
 //DASHBOARD-ADMIN
 
 .navbar
-  background-color: $color2
+  background-color: $color2 !important
   height: 65px
 
 li
@@ -803,9 +803,10 @@ li
 
 #sidebar-wrapper
   z-index: 2
-  position: absolute
+  position: fixed
   left: 250px
   width: 0
+  margin-top: 35px
   height: 100%
   margin-left: -250px
   overflow: hidden
@@ -1611,4 +1612,7 @@ li
 
 
 
+
+body
+ padding-top: 30px
 //PENDINGS
