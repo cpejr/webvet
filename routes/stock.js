@@ -12,7 +12,9 @@ const User = require('../models/user');
 router.get('/', auth.isAuthenticated, function(req, res, next) {
   Kit.getAll().then((kits) => {
     console.log(kits);
+    console.log("THE KIT IS HEEEREEE");
     console.log(req.session);
+
     res.render('stock/index', { title: 'Kits', layout: 'layoutDashboard.hbs', ...req.session, kits });
   })
 });
@@ -61,12 +63,13 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
   const { kit } = req.body;
   console.log(kit);
   Kit.create(kit).then((id) => {
-    req.flash('success', 'Kit adicionado com sucesso.');
-    res.redirect('/stock');
+  req.flash('success', 'Kit adicionado com sucesso.');
+  res.redirect('/stock');
   }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
+  console.log(error);
+  res.redirect('/error');
   });
+
 });
 
 module.exports = router;
