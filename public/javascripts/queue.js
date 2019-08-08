@@ -220,12 +220,22 @@ var aflaclicks = 1;
 
 
                scndAflatoxina.removeBoard('_workmap' + aflaclicks);
-                aflaclicks -= 1;
+
                 document.getElementById("countMapAfla").innerHTML = aflaclicks;
         }
 
     };
 
+    function AflaResetButton() {
+
+      for(i=aflaclicks;i>=aflaclicks;i--) {
+          if(aflaclicks!=1){
+            scndAflatoxina.removeBoard('_workmap' + aflaclicks);
+            aflaclicks -= 1;
+          }
+        }
+       document.getElementById("countMapAfla").innerHTML = aflaclicks;
+    };
 
 
 
