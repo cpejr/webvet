@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const kitSchema = new mongoose.Schema({
-  kitType: String,
   kitId: String,
   productCode: String,
   productDescription: String,
@@ -28,7 +27,12 @@ const kitSchema = new mongoose.Schema({
   mycotoxin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Mycotoxin'
-  }
+  },
+  kitType: {
+    type: String,
+    enum: ['A','B','C']
+  },
+  stripLenght: Number,
 });
 
 const KitModel = mongoose.model('Kit', kitSchema);
