@@ -26,11 +26,7 @@ var aflatoxina = new jKanban({
       title  : 'Aguardando amostra',
       class : 'info',
     },
-    {
-      id: '_workmap',
-      title : 'Mapa de trabalho',
-      class : 'success',
-    }
+
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
@@ -270,11 +266,7 @@ const deoxinivalenol = new jKanban({
       title  : 'Aguardando amostra',
       class : 'success',
     },
-    {
-      id : '_workmap',
-      title : 'Mapa de trabalho',
-      class : 'success',
-    }
+
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
@@ -504,11 +496,7 @@ const ocratoxina = new jKanban({
       title  : 'Aguardando amostra',
       class : 'success',
     },
-    {
-      id : '_workmap',
-      title : 'Mapa de trabalho',
-      class : 'success',
-    }
+
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
@@ -737,11 +725,7 @@ const t2toxina = new jKanban({
       title  : 'Aguardando amostra',
       class : 'success',
     },
-    {
-      id : '_workmap',
-      title : 'Mapa de trabalho',
-      class : 'success',
-    }
+
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
@@ -967,11 +951,7 @@ const fumonisina = new jKanban({
       title  : 'Aguardando amostra',
       class : 'success',
     },
-    {
-      id: '_workmap',
-      title: 'Mapa de trabalho',
-      class: 'success',
-    }
+
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
@@ -1202,11 +1182,7 @@ const zearalenona = new jKanban({
       title  : 'Aguardando amostra',
       class : 'success',
     },
-    {
-      id: '_workmap',
-      title: 'Mapa de trabalho',
-      class: 'success',
-    }
+
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
