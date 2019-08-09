@@ -7509,4 +7509,11 @@ li {
 body {
   padding-top: 30px; }
 
+body {
+  padding-top: 30px; }
+
+@media (max-width: 600px) {
+  body {
+    padding-top: 55px; } }
+
 /*# sourceMappingURL=style.css.map */
