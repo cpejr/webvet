@@ -20,47 +20,111 @@ for (var i = 0; i < checados.lenght; i++) {
   }
 }
 
+//fução preencher automático
+var fullname=document.getElementById("fullname").value;
+var cpf=document.getElementById("cpf").value;
+var ie=document.getElementById("I.E").value;
+var street=document.getElementById("street").value;
+var number=document.getElementById("number").value;
+var complement=document.getElementById("complement").value;
+var neighborhood=document.getElementById("neighborhood").value;
+var city=document.getElementById("city").value;
+var state=document.getElementById("state").value;
+var cep=document.getElementById("cep").value;
+var phone=document.getElementById("phone").value;
+var cellphone=document.getElementById("cellphone").value;
+var email=document.getElementById("email").value;
+
+
+var firstClick=1;
 $('#btn-new-address').click(function(){
 
-   $('#fullname').each(function(){
-       $(this).val('');
-   });
-   $('#cpf').each(function(){
-       $(this).val('');
-   });
-   $('#I.E').each(function(){
-       $(this).val('');
-   });
-   $('#street').each(function(){
-       $(this).val('');
-   });
-   $('#number').each(function(){
-       $(this).val('');
-   });
-   $('#complement').each(function(){
-       $(this).val('');
-   });
-   $('#bairro').each(function(){
-       $(this).val('');
-   });
-   $('#city').each(function(){
-       $(this).val('');
-   });
-   $('#state').each(function(){
-       $(this).val('');
-   });
-   $('#cep').each(function(){
-       $(this).val('');
-   });
-   $('#phone').each(function(){
-       $(this).val('');
-   });
-   $('#cellphone').each(function(){
-       $(this).val('');
-   });
-   $('#email').each(function(){
-       $(this).val('');
-   });
+    if(firstClick) {
+      $('#fullname').each(function(){
+          $(this).val('');
+      });
+      $('#cpf').each(function(){
+          $(this).val('');
+      });
+      $('#I.E').each(function(){
+          $(this).val('');
+      });
+      $('#street').each(function(){
+          $(this).val('');
+      });
+      $('#number').each(function(){
+          $(this).val('');
+      });
+      $('#complement').each(function(){
+          $(this).val('');
+      });
+      $('#neighborhood').each(function(){
+          $(this).val('');
+      });
+      $('#city').each(function(){
+          $(this).val('');
+      });
+      $('#state').each(function(){
+          $(this).val('');
+      });
+      $('#cep').each(function(){
+          $(this).val('');
+      });
+      $('#phone').each(function(){
+          $(this).val('');
+      });
+      $('#cellphone').each(function(){
+          $(this).val('');
+      });
+      $('#email').each(function(){
+          $(this).val('');
+      });
+      firstClick=!firstClick;
+   }
+   else {
+     $('#fullname').each(function(){
+         $(this).val(fullname);
+     });
+     $('#cpf').each(function(){
+         $(this).val(cpf);
+     });
+     $('#I.E').each(function(){
+         $(this).val(ie);
+     });
+     $('#street').each(function(){
+         $(this).val(street);
+     });
+     $('#number').each(function(){
+         $(this).val(number);
+     });
+     $('#complement').each(function(){
+         $(this).val(complement);
+     });
+     $('#neighborhood').each(function(){
+         $(this).val(neighborhood);
+     });
+     $('#city').each(function(){
+         $(this).val(city);
+     });
+     $('#state').each(function(){
+         $(this).val(state);
+     });
+     $('#cep').each(function(){
+         $(this).val(cep);
+     });
+     $('#phone').each(function(){
+         $(this).val(phone);
+     });
+     $('#cellphone').each(function(){
+         $(this).val(cellphone);
+     });
+     $('#email').each(function(){
+         $(this).val(email);
+     });
+     firstClick=!firstClick;
+
+   }
+
 });
 
 $('#radio-animal').change(function(){
