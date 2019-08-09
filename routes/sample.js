@@ -5,6 +5,7 @@ const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const Sample = require('../models/sample');
 
+
 /* GET home page. */
 
 router.get('/',  auth.isAuthenticated, function(req, res, next) {

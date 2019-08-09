@@ -220,12 +220,22 @@ var aflaclicks = 1;
 
 
                scndAflatoxina.removeBoard('_workmap' + aflaclicks);
-                aflaclicks -= 1;
+
                 document.getElementById("countMapAfla").innerHTML = aflaclicks;
         }
 
     };
 
+    function AflaResetButton() {
+
+      for(i=aflaclicks;i>=aflaclicks;i--) {
+          if(aflaclicks!=1){
+            scndAflatoxina.removeBoard('_workmap' + aflaclicks);
+            aflaclicks -= 1;
+          }
+        }
+       document.getElementById("countMapAfla").innerHTML = aflaclicks;
+    };
 
 
 
@@ -456,6 +466,18 @@ var deoxclicks = 1;
 
     };
 
+    function DeoxResetButton() {
+
+      for(i=deoxclicks;i>=deoxclicks;i--) {
+          if(deoxclicks!=1){
+            scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
+            deoxclicks -= 1;
+          }
+        }
+       document.getElementById("countMapDeox").innerHTML = deoxclicks;
+    };
+
+
 
 const ocratoxina = new jKanban({
   element : '#ocratoxina',
@@ -678,6 +700,17 @@ function OcraMinusButton() {
 
     };
 
+    function OcraResetButton() {
+
+      for(i=ocraclicks;i>=ocraclicks;i--) {
+          if(ocraclicks!=1){
+            scndOcratoxina.removeBoard('_workmap' + ocraclicks);
+            ocraclicks -= 1;
+          }
+        }
+       document.getElementById("countMapOcra").innerHTML = ocraclicks;
+    };
+
 
 const t2toxina = new jKanban({
   element : '#t2toxina',
@@ -896,6 +929,17 @@ function T2MinusButton() {
                 document.getElementById("countMapT2").innerHTML = t2clicks;
         }
 
+    };
+
+    function T2ResetButton() {
+
+      for(i=t2clicks;i>=t2clicks;i--) {
+          if(t2clicks!=1){
+            scndT2toxina.removeBoard('_workmap' + t2clicks);
+            t2clicks -= 1;
+          }
+        }
+       document.getElementById("countMapT2").innerHTML = t2clicks;
     };
 
 const fumonisina = new jKanban({
@@ -1118,6 +1162,18 @@ function FumoMinusButton() {
 
     };
 
+ function FumoResetButton() {
+
+      for(i=fumoclicks;i>=fumoclicks;i--) {
+          if(fumoclicks!=1){
+            scndFumonisina.removeBoard('_workmap' + fumoclicks);
+            fumoclicks -= 1;
+          }
+        }
+       document.getElementById("countMapFumo").innerHTML = fumoclicks;
+    };
+
+
 const zearalenona = new jKanban({
   element : '#zearalenona',
   gutter  : '10px',
@@ -1339,6 +1395,17 @@ function ZMinusButton() {
         }
 
     };
+
+    function ZResetButton() {
+
+         for(i=zclicks;i>=zclicks;i--) {
+             if(zclicks!=1){
+               scndZearalenona.removeBoard('_workmap' + zclicks);
+               zclicks -= 1;
+             }
+           }
+          document.getElementById("countMapZ").innerHTML = zclicks;
+       };
 
 //cria cedulas kanban
 $.get('/search/samples', (samples) => {
