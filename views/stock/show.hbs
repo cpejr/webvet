@@ -1,7 +1,14 @@
 <div class="">
     <div class="">
       <br>
-      <p><font color="gray" size="5">{{kit.productCode}} ({{kit.kitType}})</p>
+      <div class="row">
+        <form class="col-2" action="/stock" method="get">
+            <button type="submit" class="btn btn-outline-success">Voltar</button>
+        </form>
+        <div class="col-8">
+          <font color="gray" size="5">{{kit.productCode}} ({{kit.kitType}})
+        </div>
+      </div>
       <hr color="lightgray">
       <form class="showboxinfo" action="/stock/edit/{{kit._id}}" method="get" >
         <p><font size="4" color="black">Descrição do Produto: {{kit.productDescription}}</p>
