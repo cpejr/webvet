@@ -6186,7 +6186,7 @@ header {
 .boxes {
   width: 80%;
   margin: 10px auto;
-  padding-top: 10px;
+  padding-top: 9px;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
