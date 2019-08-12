@@ -115,6 +115,11 @@ var scndAflatoxina = new jKanban({
           {
             title:'P4',
             id: 'P4'
+          },
+
+          {
+            title:'P5',
+            id: 'P5'
           }
       ]
     },
