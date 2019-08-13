@@ -15,17 +15,12 @@ router.get('/',  auth.isAuthenticated, function(req, res, next) {
 
 router.post('/create', (req, res) => {
   const { sample } = req.body;
+  console.log("NA ROTA SAMPLE!");
   Sample.getMaxSampleNumber().then((maxSample) => {
-    if (maxSample.length==0) {
-      sample = {
-        samplenumber:  1
-      }//primeira amostra
-    }
-    else {
+
       sample = {
         samplenumber: maxSample[0].samplenumber + 1
       }
-    }
 
 
     Sample.create(sample).then(() => {
