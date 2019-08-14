@@ -7,9 +7,11 @@ const Sample = require('../models/sample');
 const Requisition = require('../models/requisition');
 const User = require('../models/user');
 
+// O IS isAuthenticated TA COMENTADO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', /*auth.isAuthenticated,*/ function(req, res, next) {
   res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs',...req.session});
 });
 
