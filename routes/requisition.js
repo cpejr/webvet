@@ -30,108 +30,84 @@ router.post('/new', function(req,res) {
 
   console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
-    var size = requisition.sampleVector;
     var i;
     var numDefault=1;
-    var numOfSamples;
-    console.log(Array.isArray(requisition.sampleVector))
-    Sample.count().then((countSample)=>{
-         numOfSamples=countSample;
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error'); });
+    const samplesV = [];
+    var size;
 
-    if(countSample=0) { //se o banco esta vazio
-       if(Array.isArray(requisition.sampleVector)==true){//se tiver varias amostras
-          for(i = 0; i< size.length; i++) {
-            const sample = {
-              name: requisition.sampleVector[i],
-              samplenumber: numDefault
-            }
-            Sample.create(sample).then((sid) => {
-              console.log(`New Sample with id: ${sid}`);
-              Requisition.addSample(reqid, sid).catch((error) => {
-                console.log(error);
-                res.redirect('/error');
-              });
-            }).catch((error) => {
-              console.log(error);
-              res.redirect('/error');
-            });
-            numDefault++;
-        }
-      }
-      else {//se tiver so uma amostra
-        const sample = {
-          name: requisition.sampleVector,
-          samplenumber: numDefault
-        }
-        Sample.create(sample).then((sid) => {
-          console.log(`New Sample with id: ${sid}`);
-          Requisition.addSample(reqid, sid).catch((error) => {
-            console.log(error);
-            res.redirect('/error');
-          })
-        }).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
-        });
-      }
+    if(Array.isArray(req.body.requisition.sampleVector)) {
+      req.body.requisition.sampleVector.forEach(function(sample)  {//monta o vetor de amostras
+            samplesV.push(sample);
+      });
+      size=samplesV.lenght;
+    }
+    else {
+      size=1;
     }
 
-    else{  //banco não esta vazio
-        if(Array.isArray(requisition.sampleVector)==true){//se tiver varias amostras
-             for(i = 0; i< size.length; i++) {
-               Sample.getMaxSampleNumber().then((maxSample) => {
-                   const sample = {
-                     name: requisition.sampleVector[i],
-                     samplenumber: maxSample[0].samplenumber+1
-                    }
-                   Sample.create(sample).then((sid) => {
-                     console.log(`New Sample with id: ${sid}`);
-                     Requisition.addSample(reqid, sid).catch((error) => {
-                       console.log(error);
-                       res.redirect('/error');
-                     })
-                   }).catch((error) => {
-                     console.log(error);
-                     res.redirect('/error');
+    console.log(samplesV);
+
+   Sample.getMaxSampleNumber().then((maxSample) => {//pega maior numero atribuido as amostras do banco
+      Sample.count().then((countSample)=>{
+        if(countSample==0) { //se o banco esta vazio
+          console.log("BANCO VAZIOOOO");
+             for(i = 0; i< size; i++) {
+                const sample = {
+                  name: samplesV[i],
+                  samplenumber: numDefault,
+                  responsible: req.body.responsible
+                }
+                Sample.create(sample).then((sid) => {
+                  console.log(`New Sample with id: ${sid}`);
+                   Requisition.addSample(reqid, sid).catch((error) => {
+                      console.log(error);
+                      res.redirect('/error');
                    });
-                 }).catch((error) => {
-                   console.log(error);
-                   res.redirect('/error');
-                 });
-             }
-        }
-      else { //somente uma amostra vindo do front
-          Sample.getMaxSampleNumber().then((maxSample) => {
-              const sample = {
-                name: requisition.sampleVector[i],
-                samplenumber: maxSample[0].samplenumber+1
-               }
-              Sample.create(sample).then((sid) => {
-                console.log(`New Sample with id: ${sid}`);
-                Requisition.addSample(reqid, sid).catch((error) => {
+                }).catch((error) => {
                   console.log(error);
                   res.redirect('/error');
                 });
-              }).catch((error) => {
-                console.log(error);
-                res.redirect('/error');
-              });
-            }).catch((error) => {
-              console.log(error);
-              res.redirect('/error');
-            });
-       }
-    }
+                numDefault++;
+            }
+          }
+        else{  //banco não esta vazio
+            console.log("BANCO COM AMOSTRAAAAASSSS")
+            numDefault=maxSample[0].samplenumber+1;
+            for(i = 0; i< size; i++) {
+               const sample = {
+                 name: samplesV[i],
+                 samplenumber: numDefault,
+                 responsible: req.body.responsible
+               }
+               Sample.create(sample).then((sid) => {
+                 console.log(`New Sample with id: ${sid}`);
+                  Requisition.addSample(reqid, sid).catch((error) => {
+                     console.log(error);
+                     res.redirect('/error');
+                  });
+               }).catch((error) => {
+                 console.log(error);
+                 res.redirect('/error');
+               });
+               numDefault++;
+            }
+          }
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error'); });
+   }).catch((error) => {
+      console.log(error);
+     res.redirect('/error'); });//catch do getMaxSampleNumber
+
+
 
     console.log(`New requisition with id: ${reqid}`);
     req.flash('success', 'Nova requisição enviada');
     res.redirect('/homeAdmin');
   }).catch((error) => {
     console.log(error);
-    res.redirect('/error');
+    res.redirect('/error');//catch do create
+ });
 });
 
 
