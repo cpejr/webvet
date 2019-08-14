@@ -359,6 +359,11 @@ var scndDeoxinivalenol = new jKanban({
           {
             title:'P4',
             id: 'P4'
+          },
+
+          {
+           title:'P4',
+           id: 'P4'
           }
       ]
     },
@@ -588,6 +593,10 @@ var scndOcratoxina = new jKanban({
           {
             title:'P4',
             id: 'P4'
+          },
+          {
+            title:'P5',
+            id: 'P5'
           }
       ]
     },
@@ -815,6 +824,10 @@ var scndT2toxina = new jKanban({
           {
             title:'P4',
             id: 'P4'
+          },
+          {
+            title:'P5',
+            id: 'P5'
           }
       ]
     },
@@ -1042,6 +1055,10 @@ var scndFumonisina = new jKanban({
           {
             title:'P4',
             id: 'P4'
+          },
+          {
+            title:'P5',
+            id: 'P5'
           }
       ]
     },
@@ -1273,6 +1290,10 @@ var scndZearalenona = new jKanban({
           {
             title:'P4',
             id: 'P4'
+          },
+          {
+            title:'P5',
+            id: 'P5'
           }
       ]
     },
@@ -1781,3 +1802,32 @@ $('#KitRadioZ').change(function(){
       $('#hideZ').addClass('form-disabled');
   }
 });
+
+
+  //
+  // // Use of Date.now() function
+  // var d = Date(Date.now());
+  //
+  // // Converting the number of millisecond in date string
+  // a = d.toString()
+  //
+  // // Printing the current date
+  //
+  //   // Use of Date.now() function
+  //   var d = Date(Date.now());
+  //
+  //   // Converting the number of millisecond in date string
+  //   a = d.toString()
+  //
+  //
+  //   var contando = 0;
+  //   var ano = new Array;
+  //   for(var cont = 0; cont < a.length; cont++){
+  //     if(a[cont] == 1||2||3||4||5||6||7||8||9||0){
+  //       ano2[contando] = a=[cont];
+  //       ano[contando] = a [cont] ;
+  //       contando++;
+  //     }
+  //   }
+  //   ano = ano.toString;
+  //   document.write(ano);

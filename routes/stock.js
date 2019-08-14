@@ -8,6 +8,9 @@ const Kit = require('../models/kit');
 const User = require('../models/user');
 
 
+
+
+
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function(req, res, next) {
   Kit.getAll().then((kits) => {
@@ -71,5 +74,11 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
   });
 
 });
+
+
+
+
+
+
 
 module.exports = router;

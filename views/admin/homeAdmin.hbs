@@ -1,9 +1,19 @@
-<div class="dashboard-container">
+
   <div id="kits" class="dashboard-item">
     <div class="dashboard-header"><h5 class="pt-2"> Notificações </h5> </div>
   </div>
-</div>
 
+
+  {{#each outofStockArray}}
+  <div class="alertaa">
+    <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+      O kit <strong>{{productCode}}</strong> tem o estoque mínimo de <strong>{{stockMin}}</strong> e a atual é a quantidade atual é <strong>{{amount}}</strong> .
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+  {{/each}}
 <div class="dashboard-container">
   <div id="samples" class="dashboard-counter">
     <div class="dashboard-number">{{countSamples}}</div>
@@ -19,4 +29,16 @@
     <div class="dashboard-number">{{countClients}}</div>
     <div class="dashboard-label">Clientes</div>
   </div>
+
+
 </div>
+
+
+<!-- <div class="stock-falta">
+  <div class="title-notification">
+    <h5>Alerta falta de estoque</h5>
+  </div>
+  {{#each outofStockArray}}
+  <p>O kit  {{productCode}} <br></p>
+  {{/each}}
+</div> -->
