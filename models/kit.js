@@ -37,6 +37,10 @@ const kitSchema = new mongoose.Schema({
     enum: ['A','B','C']
   },
   stripLenght: Number,
+  mapArray: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Workmap'
+  }],
 });
 
 const KitModel = mongoose.model('Kit', kitSchema);
