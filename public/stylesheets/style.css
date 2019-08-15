@@ -6881,7 +6881,7 @@ li {
   flex-wrap: wrap; }
 
 .dashboard-item {
-  margin: 5px 5px 5px 5px;
+  margin: 5px 5px -44px 5px;
   border-color: #6BA05C;
   background-color: #F7FCF2;
   height: 100px; }
@@ -7441,5 +7441,18 @@ body {
 @media (max-width: 600px) {
   body {
     padding-top: 55px; } }
+
+.stock-falta {
+  text-align: left;
+  background: #6BA05C;
+  border-radius: 7px;
+  margin-top: 10px;
+  color: white; }
+
+.title-notification {
+  text-align: center; }
+
+.alertaa {
+  margin-bottom: -11px; }
 
 /*# sourceMappingURL=style.css.map */

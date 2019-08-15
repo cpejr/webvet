@@ -24,6 +24,10 @@ const kitSchema = new mongoose.Schema({
     type: Boolean, //1 for deleted, 0 for not deleted
     default: 0
   },
+  semStock: {
+    type: Boolean, //1 for out of stock
+    default: 0
+  },
   mycotoxin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Mycotoxin'
@@ -140,5 +144,11 @@ class Kit {
    });
   }
 }
+
+
+
+
+
+
 
 module.exports = Kit;
