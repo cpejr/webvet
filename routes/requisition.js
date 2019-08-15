@@ -39,13 +39,12 @@ router.post('/new', function(req,res) {
       req.body.requisition.sampleVector.forEach(function(sample)  {//monta o vetor de amostras
             samplesV.push(sample);
       });
-      size=samplesV.lenght;
+      size=samplesV.length;
     }
     else {
       size=1;
     }
 
-    console.log(samplesV);
 
    Sample.getMaxSampleNumber().then((maxSample) => {//pega maior numero atribuido as amostras do banco
       Sample.count().then((countSample)=>{
@@ -57,6 +56,7 @@ router.post('/new', function(req,res) {
                   samplenumber: numDefault,
                   responsible: req.body.responsible
                 }
+                console.log(sample);
                 Sample.create(sample).then((sid) => {
                   console.log(`New Sample with id: ${sid}`);
                    Requisition.addSample(reqid, sid).catch((error) => {
@@ -79,6 +79,7 @@ router.post('/new', function(req,res) {
                  samplenumber: numDefault,
                  responsible: req.body.responsible
                }
+               console.log(sample);
                Sample.create(sample).then((sid) => {
                  console.log(`New Sample with id: ${sid}`);
                   Requisition.addSample(reqid, sid).catch((error) => {
