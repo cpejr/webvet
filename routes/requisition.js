@@ -30,37 +30,85 @@ router.post('/new', function(req,res) {
 
   console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
-    var size = requisition.sampleVector;
     var i;
-    for(i = 0; i< size.length; i++) {
-      Sample.getMaxSampleNumber().then((maxSample) => {
-        const sample = {
-          name: requisition.sampleVector[i],
-          samplenumber: maxSample[0].samplenumber + 1
-        }
-        console.log(sample);
-        Sample.create(sample).then((sid) => {
-          console.log(`New Sample with id: ${sid}`);
-          Requisition.addSample(reqid, sid).catch((error) => {
-            console.log(error);
-            res.redirect('/error');
-          })
-        }).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
-        });
+    var numDefault=1;
+    const samplesV = [];
+    var size;
+
+    if(Array.isArray(req.body.requisition.sampleVector)) {
+      req.body.requisition.sampleVector.forEach(function(sample)  {//monta o vetor de amostras
+            samplesV.push(sample);
+      });
+      size=samplesV.length;
+    }
+    else {
+      size=1;
+    }
+
+
+   Sample.getMaxSampleNumber().then((maxSample) => {//pega maior numero atribuido as amostras do banco
+      Sample.count().then((countSample)=>{
+        if(countSample==0) { //se o banco esta vazio
+          console.log("BANCO VAZIOOOO");
+             for(i = 0; i< size; i++) {
+                const sample = {
+                  name: samplesV[i],
+                  samplenumber: numDefault,
+                  responsible: req.body.responsible
+                }
+                console.log(sample);
+                Sample.create(sample).then((sid) => {
+                  console.log(`New Sample with id: ${sid}`);
+                   Requisition.addSample(reqid, sid).catch((error) => {
+                      console.log(error);
+                      res.redirect('/error');
+                   });
+                }).catch((error) => {
+                  console.log(error);
+                  res.redirect('/error');
+                });
+                numDefault++;
+            }
+          }
+        else{  //banco não esta vazio
+            console.log("BANCO COM AMOSTRAAAAASSSS")
+            numDefault=maxSample[0].samplenumber+1;
+            for(i = 0; i< size; i++) {
+               const sample = {
+                 name: samplesV[i],
+                 samplenumber: numDefault,
+                 responsible: req.body.responsible
+               }
+               console.log(sample);
+               Sample.create(sample).then((sid) => {
+                 console.log(`New Sample with id: ${sid}`);
+                  Requisition.addSample(reqid, sid).catch((error) => {
+                     console.log(error);
+                     res.redirect('/error');
+                  });
+               }).catch((error) => {
+                 console.log(error);
+                 res.redirect('/error');
+               });
+               numDefault++;
+            }
+          }
       }).catch((error) => {
         console.log(error);
-        res.redirect('/error');
-      });
-    }
+        res.redirect('/error'); });
+   }).catch((error) => {
+      console.log(error);
+     res.redirect('/error'); });//catch do getMaxSampleNumber
+
+
+
     console.log(`New requisition with id: ${reqid}`);
-    req.flash('success', 'Nova requisição enviada')
+    req.flash('success', 'Nova requisição enviada');
     res.redirect('/homeAdmin');
   }).catch((error) => {
     console.log(error);
-    res.redirect('/error');
-  });
+    res.redirect('/error');//catch do create
+ });
 });
 
 

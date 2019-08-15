@@ -17,7 +17,11 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
-    active: Boolean
+    active: {
+       type: Boolean,
+       default: true
+    },
+    mapReference: String
   },
   deoxinivalenol: {
     status: {
@@ -26,7 +30,11 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
-    active: Boolean
+    active: {
+       type: Boolean,
+       default: true
+    },
+    mapReference: String
   },
   t2toxina: {
     status: {
@@ -35,7 +43,11 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
-    active: Boolean
+    active: {
+       type: Boolean,
+       default: true
+    },
+    mapReference: String
   },
   fumonisina: {
     status: {
@@ -44,7 +56,11 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
-    active: Boolean
+    active: {
+       type: Boolean,
+       default: true
+    },
+    mapReference: String
   },
   zearalenona:  {
     status: {
@@ -53,7 +69,11 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
-    active: Boolean
+    active: {
+       type: Boolean,
+       default: true
+    },
+    mapReference: String
   },
   aflatoxina: {
     status: {
@@ -62,7 +82,11 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
-    active: Boolean
+    active: {
+       type: Boolean,
+       default: true
+    },
+    mapReference: String
   }
 }, { timestamps: true, strict: false });
 

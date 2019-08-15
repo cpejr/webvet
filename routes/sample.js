@@ -15,10 +15,13 @@ router.get('/',  auth.isAuthenticated, function(req, res, next) {
 
 router.post('/create', (req, res) => {
   const { sample } = req.body;
+  console.log("NA ROTA SAMPLE!");
   Sample.getMaxSampleNumber().then((maxSample) => {
-    sample = {
-      samplenumber: maxSample[0].samplenumber + 1
-    }
+
+      sample = {
+        samplenumber: maxSample[0].samplenumber + 1
+      }
+
 
     Sample.create(sample).then(() => {
       req.flash('success', 'Cadastrado com sucesso.');
