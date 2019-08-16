@@ -5,6 +5,7 @@ const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Sample = require('../models/sample');
+const Kit = require('../models/kit');
 
 router.get('/producers',  auth.isAuthenticated, (req, res) => {
   const names = [];
@@ -70,5 +71,13 @@ router.get('/samples',  auth.isAuthenticated, (req, res) => {
   });
 });
 
+router.get('/kits',  auth.isAuthenticated, (req, res) => {
+   Kit.getAll().then((kits) => {
+     res.send(kits);
+     console.log(kits);
+  }).catch((error) => {
+    res.redirect('/error');
+  });
+});
 
 module.exports = router;
