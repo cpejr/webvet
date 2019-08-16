@@ -36,7 +36,7 @@ const kitSchema = new mongoose.Schema({
     type: String,
     enum: ['A','B','C']
   },
-  stripLenght: Number,
+  stripLength: Number,
   mapArray: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Workmap'
