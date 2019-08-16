@@ -21,7 +21,10 @@ const sampleSchema = new mongoose.Schema({
        type: Boolean,
        default: true
     },
-    mapReference: String
+    mapReference:  {
+      type:String,
+      default: 'Sem mapa'
+    }
   },
   deoxinivalenol: {
     status: {
@@ -34,7 +37,10 @@ const sampleSchema = new mongoose.Schema({
        type: Boolean,
        default: true
     },
-    mapReference: String
+    mapReference:  {
+      type:String,
+      default: 'Sem mapa'
+    }
   },
   t2toxina: {
     status: {
@@ -47,7 +53,10 @@ const sampleSchema = new mongoose.Schema({
        type: Boolean,
        default: true
     },
-    mapReference: String
+    mapReference:  {
+      type:String,
+      default: 'Sem mapa'
+    }
   },
   fumonisina: {
     status: {
@@ -60,7 +69,10 @@ const sampleSchema = new mongoose.Schema({
        type: Boolean,
        default: true
     },
-    mapReference: String
+    mapReference:  {
+      type:String,
+      default: 'Sem mapa'
+    }
   },
   zearalenona:  {
     status: {
@@ -73,7 +85,10 @@ const sampleSchema = new mongoose.Schema({
        type: Boolean,
        default: true
     },
-    mapReference: String
+    mapReference:  {
+      type:String,
+      default: 'Sem mapa'
+    }
   },
   aflatoxina: {
     status: {
@@ -86,7 +101,10 @@ const sampleSchema = new mongoose.Schema({
        type: Boolean,
        default: true
     },
-    mapReference: String
+    mapReference:  {
+      type:String,
+      default: 'Sem mapa'
+    }
   }
 }, { timestamps: true, strict: false });
 

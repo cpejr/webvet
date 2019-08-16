@@ -160,7 +160,7 @@ var scndAflatoxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber, () => {
+          $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -171,6 +171,13 @@ var scndAflatoxina = new jKanban({
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
+       }
+       else {
+         $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
        }
     }
 
@@ -405,7 +412,7 @@ var scndDeoxinivalenol = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber, () => {
+        $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -415,6 +422,13 @@ var scndDeoxinivalenol = new jKanban({
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
+       }
+       else {
+      $.post('/sample/testing/edit/deoxinivalenol/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
        }
     }
 
@@ -639,8 +653,7 @@ var scndOcratoxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber, () => {
-
+         $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -651,6 +664,12 @@ var scndOcratoxina = new jKanban({
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
        }
+    } else {
+      $.post('/sample/testing/edit/ocratoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
     }
 
 
@@ -871,8 +890,7 @@ var scndT2toxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/t2toxina/' + samplenumber, () => {
-
+          $.post('/sample/mapwork/edit/t2toxina/' + samplenumber+'/'+goTO, () => {
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
@@ -882,6 +900,13 @@ var scndT2toxina = new jKanban({
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
+       }
+       else {
+         $.post('/sample/testing/edit/t2toxina/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
        }
     }
 
@@ -1103,7 +1128,7 @@ var scndFumonisina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/fumonisina/' + samplenumber, () => {
+          $.post('/sample/mapwork/edit/fumonisina/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1114,6 +1139,14 @@ var scndFumonisina = new jKanban({
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
+       }
+
+       else {
+         $.post('/sample/testing/edit/fumonisina/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
        }
     }
 
@@ -1339,7 +1372,7 @@ var scndZearalenona = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/zearalenona/' + samplenumber, () => {
+        $.post('/sample/mapwork/edit/zearalenona/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho ' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1350,6 +1383,13 @@ var scndZearalenona = new jKanban({
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
+       }
+       else {
+         $.post('/sample/testing/edit/zearalenona/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
        }
     }
 
