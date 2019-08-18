@@ -4,6 +4,7 @@
   </div>
 
 
+
   {{#each outofStockArray}}
   <div class="alertaa">
     <div class="alert  alert-danger alert-dismissible fade show" role="alert">
@@ -14,6 +15,26 @@
     </div>
   </div>
   {{/each}}
+
+
+
+  {{#each vencidos}}
+  <div class="alerta-validade">
+    <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+      O kit <strong>{{productCode}}</strong> venceu em <strong>{{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}</strong> .
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+  {{/each}}
+
+
+
+
+
+
+
 <div class="dashboard-container">
   <div id="samples" class="dashboard-counter">
     <div class="dashboard-number">{{countSamples}}</div>
@@ -32,13 +53,3 @@
 
 
 </div>
-
-
-<!-- <div class="stock-falta">
-  <div class="title-notification">
-    <h5>Alerta falta de estoque</h5>
-  </div>
-  {{#each outofStockArray}}
-  <p>O kit  {{productCode}} <br></p>
-  {{/each}}
-</div> -->
