@@ -1,7 +1,7 @@
 var aflatoxina = new jKanban({
   element : '#aflatoxina',
   gutter  : '10px',
-  widthBoard  : '170px',
+  widthBoard  : '190px',
   click : function(el) {
     window.location.href = 'sample/edit/' + el.dataset.eid;
   },
