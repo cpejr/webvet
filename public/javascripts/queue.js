@@ -160,7 +160,7 @@ var scndAflatoxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber, () => {
+          $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -171,6 +171,13 @@ var scndAflatoxina = new jKanban({
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
+       }
+       else {
+         $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
        }
     }
 
@@ -191,9 +198,10 @@ function IdAflaCount ()
 
 
 var aflaclicks = 1;
+var aflaLimit;
     function AflaPlusButton() {
         aflaclicks += 1;
-        if(aflaclicks>16) {
+        if(aflaclicks>aflaLimit) {
           aflaclicks-=1;
 
         } else {
@@ -404,7 +412,7 @@ var scndDeoxinivalenol = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber, () => {
+        $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -415,6 +423,13 @@ var scndDeoxinivalenol = new jKanban({
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
        }
+       else {
+      $.post('/sample/testing/edit/deoxinivalenol/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+       }
     }
 
 
@@ -423,6 +438,7 @@ var scndDeoxinivalenol = new jKanban({
 
 //função de criação dos id dos Pchild para o scndDeoxinivalenol
 var countDeox=0;
+var deoxLimit;
 
 function IdDeoxCount ()
 {
@@ -434,7 +450,7 @@ function IdDeoxCount ()
 var deoxclicks = 1;
     function DeoxPlusButton() {
         deoxclicks += 1;
-        if(deoxclicks>16) {
+        if(deoxclicks>deoxLimit) {
           deoxclicks-=1;
 
         } else {
@@ -637,8 +653,7 @@ var scndOcratoxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber, () => {
-
+         $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -649,6 +664,12 @@ var scndOcratoxina = new jKanban({
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
        }
+    } else {
+      $.post('/sample/testing/edit/ocratoxina/' + samplenumber, () => {
+
+      });
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
     }
 
 
@@ -657,6 +678,7 @@ var scndOcratoxina = new jKanban({
 
 //função de criação dos id dos Pchild para o scndOcratoxina
 var countOcra=0;
+var ocraLimit;
 
 function IdOcraCount ()
 {
@@ -668,7 +690,7 @@ function IdOcraCount ()
 var ocraclicks = 1;
 function OcraPlusButton() {
         ocraclicks += 1;
-        if(ocraclicks>16) {
+        if(ocraclicks>ocraLimit) {
           ocraclicks-=1;
 
         } else {
@@ -868,8 +890,7 @@ var scndT2toxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/t2toxina/' + samplenumber, () => {
-
+          $.post('/sample/mapwork/edit/t2toxina/' + samplenumber+'/'+goTO, () => {
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
@@ -879,6 +900,13 @@ var scndT2toxina = new jKanban({
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
+       }
+       else {
+         $.post('/sample/testing/edit/t2toxina/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
        }
     }
 
@@ -897,9 +925,10 @@ function IdT2Count ()
 }
 
 var t2clicks = 1;
+var t2Limit;
 function T2PlusButton() {
         t2clicks += 1;
-        if(t2clicks>16) {
+        if(t2clicks>t2Limit) {
           t2clicks-=1;
 
         } else {
@@ -1099,7 +1128,7 @@ var scndFumonisina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/fumonisina/' + samplenumber, () => {
+          $.post('/sample/mapwork/edit/fumonisina/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1111,6 +1140,14 @@ var scndFumonisina = new jKanban({
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
        }
+
+       else {
+         $.post('/sample/testing/edit/fumonisina/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+       }
     }
 
 
@@ -1119,6 +1156,7 @@ var scndFumonisina = new jKanban({
 
 //função de criação dos id dos Pchild para a fumonisina
 var countFum=0;
+var fumLimit;
 
 function IdFumCount ()
 {
@@ -1130,7 +1168,7 @@ function IdFumCount ()
 var fumoclicks = 1;
 function FumoPlusButton() {
         fumoclicks += 1;
-        if(fumoclicks>16) {
+        if(fumoclicks>fumLimit) {
           fumoclicks-=1;
 
         } else {
@@ -1334,7 +1372,7 @@ var scndZearalenona = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/zearalenona/' + samplenumber, () => {
+        $.post('/sample/mapwork/edit/zearalenona/' + samplenumber+'/'+goTO, () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho ' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1345,6 +1383,13 @@ var scndZearalenona = new jKanban({
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
+       }
+       else {
+         $.post('/sample/testing/edit/zearalenona/' + samplenumber, () => {
+
+         });
+         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
        }
     }
 
@@ -1723,84 +1768,230 @@ $.get('/search/samples', (samples) => {
 
 //Funções "hide" para puxar os kits desejados(A,B,C)
 $('#KitRadioAfla').change(function(){
+     console.log("DENTRO DA RADIOAFLA");
+    $.get('/search/kits', (kits) => {
+         console.log("BUSCANDO");
+      $(document).ready(function() {
+        console.log("LENDO");
+        kits.forEach((kit) => {
+          var kitToxin=kit.productDescription;
+          console.log(kitToxin);
+          if(kitToxin.includes("Afla")||kitToxin.includes("afla")) {
+            if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
+                $('#hideAfla').removeClass('form-disabled');
+                 console.log("É UM AFLA DO TIPO A!!!!!");
+                 aflaLimit=kit.stripLength;
+            }
+             else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
+                 $('#hideAfla').removeClass('form-disabled');
+                 console.log("É UM AFLA DO TIPO B!!!!!");
+                 aflaLimit=kit.stripLength;
+             }
+             else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
+                  console.log("É UM AFLA DO TIPO C!!!!!");
+                  $('#hideAfla').removeClass('form-disabled');
+                  aflaLimit=kit.stripLength;
+             }
+            else {
+                $('#hideAfla').addClass('form-disabled');
+            }
+            console.log(aflaLimit);
+          }
 
-  if($('#KitAflaA').is(':checked')) {
-      $('#hideAfla').removeClass('form-disabled'); //futuramente chamar o método get dentro dos if
-  }
-   else if ($('#KitAflaB').is(':checked')) {
-       $('#hideAfla').removeClass('form-disabled');
-   }
-  else {
-      $('#hideAfla').addClass('form-disabled');
-  }
+      })
+    })
+  })
+
 });
 
 
 $('#KitRadioOcra').change(function(){
+    console.log("DENTRO DA KitRadioOcra");
+   $.get('/search/kits', (kits) => {
+        console.log("BUSCANDO");
+     $(document).ready(function() {
+       console.log("LENDO");
+       kits.forEach((kit) => {
+         var kitToxin=kit.productDescription;
+         console.log(kitToxin);
+         if(kitToxin.includes("Ocra")||kitToxin.includes("ocra")) {
+           console.log("Ocra");
+           if($('#KitOcraA').is(':checked')&&kit.kitType=="A") {
+               $('#hideOcra').removeClass('form-disabled');
+                ocraLimit=kit.stripLength;
+                console.log(ocraLimit);
+           }
+            else if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
+                 $('#hideOcra').removeClass('form-disabled');
+                  ocraLimit=kit.stripLength;
+             }
+            else if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
+              $('#hideOcra').removeClass('form-disabled');
+               ocraLimit=kit.stripLength;
+               console.log("É CCCCCCC")
+            }
+           else {
+               $('#hideOcra').addClass('form-disabled');
+           }
+           console.log(ocraLimit);
+         }
 
-  if($('#KitOcraA').is(':checked')) {
-      $('#hideOcra').removeClass('form-disabled');
-  }
-   else if ($('#KitOcraB').is(':checked')) {
-       $('#hideOcra').removeClass('form-disabled');
-   }
-  else {
-      $('#hideOcra').addClass('form-disabled');
-  }
+     })
+   })
+  })
+
 });
 
 
 $('#KitRadioDeox').change(function(){
+    console.log("DENTRO DA KitRadioDeox");
+   $.get('/search/kits', (kits) => {
+        console.log("BUSCANDO");
+     $(document).ready(function() {
+       console.log("LENDO");
+       kits.forEach((kit) => {
+         var kitToxin=kit.productDescription;
+         console.log(kitToxin);
+         if(kitToxin.includes("Deox")||kitToxin.includes("deox")) {
+           console.log(kit.kitType);
+           if($('#KitDeoxA').is(':checked')&&kit.kitType=="A") {
+               $('#hideDeox').removeClass('form-disabled');
+                deoxLimit=kit.stripLength;
 
-  if($('#KitDeoxA').is(':checked')) {
-      $('#hideDeox').removeClass('form-disabled');
-  }
-   else if ($('#KitDeoxB').is(':checked')) {
-       $('#hideDeox').removeClass('form-disabled');
-   }
-  else {
-      $('#hideDeox').addClass('form-disabled');
-  }
-});
+           }
+            else if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
+              $('#hideDeox').removeClass('form-disabled');
+               deoxLimit=kit.stripLength;
 
-$('#KitRadioT').change(function(){
+             }
+            else if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
+              $('#hideDeox').removeClass('form-disabled');
+               deoxLimit=kit.stripLength;
 
-  if($('#KitTA').is(':checked')) {
-      $('#hideT').removeClass('form-disabled');
-  }
-   else if ($('#KitTB').is(':checked')) {
-       $('#hideT').removeClass('form-disabled');
-   }
-  else {
-      $('#hideT').addClass('form-disabled');
-  }
+            }
+           else {
+               $('#hideDeox').addClass('form-disabled');
+           }
+
+         }
+
+     })
+   })
+  })
 });
 
 
 $('#KitRadioFum').change(function(){
+    console.log("DENTRO DA KitRadioFum");
+   $.get('/search/kits', (kits) => {
+        console.log("BUSCANDO");
+     $(document).ready(function() {
+       console.log("LENDO");
+       kits.forEach((kit) => {
+         var kitToxin=kit.productDescription;
+         console.log(kitToxin);
+         if(kitToxin.includes("Fum")||kitToxin.includes("fum")) {
+           console.log(kit.kitType);
+           if($('#KitFumA').is(':checked')&&kit.kitType=="A") {
+               $('#hideFum').removeClass('form-disabled');
+                  fumLimit=kit.stripLength;
 
-  if($('#KitFumA').is(':checked')) {
-      $('#hideFum').removeClass('form-disabled');
-  }
-   else if ($('#KitFumB').is(':checked')) {
-       $('#hideFum').removeClass('form-disabled');
-   }
-  else {
-      $('#hideFum').addClass('form-disabled');
-  }
+           }
+            else if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
+              $('#hideFum').removeClass('form-disabled');
+                 fumLimit=kit.stripLength;
+
+             }
+            else if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
+              $('#hideFum').removeClass('form-disabled');
+                  fumLimit=kit.stripLength;
+
+            }
+           else {
+               $('#hideFum').addClass('form-disabled');
+           }
+
+         }
+
+     })
+   })
+  })
+});
+
+
+$('#KitRadioT').change(function(){
+    console.log("DENTRO DA KitRadioT");
+   $.get('/search/kits', (kits) => {
+        console.log("BUSCANDO");
+     $(document).ready(function() {
+       console.log("LENDO");
+       kits.forEach((kit) => {
+         var kitToxin=kit.productDescription;
+         console.log(kitToxin);
+         if(kitToxin.includes("T2")||kitToxin.includes("t2")) {
+           console.log(kit.kitType);
+           if($('#KitTA').is(':checked')&&kit.kitType=="A") {
+               $('#hideT').removeClass('form-disabled');
+                  t2Limit=kit.stripLength;
+
+           }
+            else if($('#KitTB').is(':checked')&&kit.kitType=="B") {
+              $('#hideT').removeClass('form-disabled');
+                   t2Limit=kit.stripLength;
+
+             }
+            else if (kit.kitType=="C"&&$('#KitTC').is(':checked')) {
+              $('#hideT').removeClass('form-disabled');
+                    t2Limit=kit.stripLength;
+            }
+           else {
+               $('#hideT').addClass('form-disabled');
+           }
+
+         }
+
+     })
+   })
+  })
 });
 
 $('#KitRadioZ').change(function(){
 
-  if($('#KitZA').is(':checked')) {
-      $('#hideZ').removeClass('form-disabled');
-  }
-   else if ($('#KitZB').is(':checked')) {
-       $('#hideZ').removeClass('form-disabled');
-   }
-  else {
-      $('#hideZ').addClass('form-disabled');
-  }
+    console.log("DENTRO DA KitRadioZ");
+   $.get('/search/kits', (kits) => {
+        console.log("BUSCANDO");
+     $(document).ready(function() {
+       console.log("LENDO");
+       kits.forEach((kit) => {
+         var kitToxin=kit.productDescription;
+         console.log(kitToxin);
+         if(kitToxin.includes("Zae")||kitToxin.includes("zae")) {
+           console.log(kit.kitType);
+           if($('#KitZA').is(':checked')&&kit.kitType=="A") {
+               $('#hideZ').removeClass('form-disabled');
+                  zLimit=kit.stripLength;
+
+           }
+            else if($('#KitZB').is(':checked')&&kit.kitType=="B") {
+              $('#hideZ').removeClass('form-disabled');
+                 zLimit=kit.stripLength;
+
+
+             }
+            else if (kit.kitType=="C"&&$('#KitZC').is(':checked')) {
+              $('#hideZ').removeClass('form-disabled');
+                 zLimit=kit.stripLength;
+
+            }
+           else {
+               $('#hideZ').addClass('form-disabled');
+           }
+
+         }
+
+     })
+   })
+  })
 });
 
 
