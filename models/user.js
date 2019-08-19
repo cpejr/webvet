@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema({
     cep: Number,
     street: String,
     number: String,
+    neighborhood: String,
     complement: String,
     city: String,
     state: String
