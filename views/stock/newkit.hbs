@@ -1,57 +1,61 @@
-<!-- <div class="title-new-kit">
-  <h5>Cadastro de Novo Kit<h5>
-</div> -->
+<div class="requisition" >
+  <h4 align="center"> Cadastro de Novo Kit</h4>
+</div>
+
 <form action="/stock/new" method="post">
   <div class="new-kit">
-    <div class="title-new-kit">
-      <h5>Cadastro de Novo Kit</h5>
-    </div>
       <div class="form-row">
-        <div class="Addkit-text col-5">
-          Código Produto:<input type="text" name="kit[productCode]" class="addkit-input">
+        <div class="Addkit-text col-md-5">
+          <input type="text" name="kit[productCode]" class="addkit-input" placeholder="Código do Produto:">
         </div>
-        <div class="Addkit-text col-2">
-          Quantidade:<input type="text" name="kit[amount]" class="addkit-input">
+        <div class="Addkit-text col-md-2">
+          <input type="text" name="kit[amount]" class="addkit-input" placeholder="Quantidade:">
         </div>
         <div class="Addkit-text col-5">
-          Descrição do Produto:<input type="text" name="kit[productDescription]" class="addkit-input">
+          <input type="text" name="kit[productDescription]" class="addkit-input" placeholder="Descrição do Produto:">
         </div>
       </div>
       <div class="form-row">
         <div class="Addkit-text col-3">
-          Estoque Minimo:<input type="text" name="kit[stockMin]" class="addkit-input">
+          <input type="text" name="kit[stockMin]" class="addkit-input" placeholder="Estoque Minimo:">
         </div>
         <div class="Addkit-text col-2">
-          Lod: <input class="addkit-input" type="text" name="kit[Lod]">
+          <input class="addkit-input" type="text" name="kit[Lod]" placeholder="Lod:">
         </div>
         <div class="Addkit-text col-2">
-          LoQ: <input class="addkit-input" type="text" name="kit[LoQ]">
+          <input class="addkit-input" type="text" name="kit[LoQ]" placeholder="LoQ:">
         </div>
-        <div class="Addkit-text col-5">
-          Validade: <input  class="addkit-input" type="text" name="kit[dayexpirationDate]">/ <input type="text" class="addkit-input" name="kit[monthexpirationDate]" > / <input type="text"  name="kit[yearexpirationDate]" class="addkit-input">
+        <div class="Addkit-text col-1">
+         <input placeholder="Validade:"  class="addkit-input" type="text" name="kit[dayexpirationDate]">
+        </div>
+        <div class="Addkit-text col-1">
+         <input placeholder="/" type="text" class="addkit-input" name="kit[monthexpirationDate]" >
+        </div>
+        <div class="Addkit-text col-1">
+         <input placeholder="/" type="text"  name="kit[yearexpirationDate]" class="addkit-input">
         </div>
       </div>
       <div class="form-row">
         <div class="Addkit-text col-3">
-          Fornecedor: <input class="addkit-input" type="text" name="kit[provider]">
+          <input class="addkit-input" type="text" name="kit[provider]" placeholder="Fornecedor:">
         </div>
         <div class="Addkit-text col-3">
-          Número de Tiras: <input class="addkit-input" type="text" name="kit[stripLenght]">
+          <input class="addkit-input" type="text" name="kit[stripLenght]" placeholder="Número de Tiras:">
         </div>
-        <div class="Addkit-text col-6">
-         P1: <input class="addkit-input" type="text" name="kit[calibrators][P1]">
-        <!-- </div>
-        <div class="Addkit-text col-1"> -->
-          P2: <input class="addkit-input" type="text" name="kit[calibrators][P2]">
-        <!-- </div>
-        <div class="Addkit-text col-1"> -->
-         P3: <input class="addkit-input" type="text" name="kit[calibrators][P3]">
-        <!-- </div>
-        <div class="Addkit-text col-1"> -->
-         P4: <input class="addkit-input" type="text" name="kit[calibrators][P4]">
-        <!-- </div>
-        <div class="Addkit-text col-1"> -->
-         P5: <input class="addkit-input" type="text" name="kit[calibrators][P5]">
+        <div class="Addkit-text col-1">
+          <input class="addkit-input" type="text" name="kit[calibrators][P1]" placeholder="P1:">
+        </div>
+        <div class="Addkit-text col-1">
+          <input class="addkit-input" type="text" name="kit[calibrators][P2]" placeholder="P2:">
+        </div>
+        <div class="Addkit-text col-1">
+         <input class="addkit-input" type="text" name="kit[calibrators][P3]" placeholder="P3:">
+        </div>
+        <div class="Addkit-text col-1">
+         <input class="addkit-input" type="text" name="kit[calibrators][P4]" placeholder="P4:">
+        </div>
+        <div class="Addkit-text col-1">
+         <input class="addkit-input" type="text" name="kit[calibrators][P5]" placeholder="P5:">
         </div>
       </div>
       <div id="radio-kit" class="form-check">
