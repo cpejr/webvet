@@ -34,7 +34,7 @@
         class="requisition-text" placeholder="Complemento:">
     </div>
     <div class="requisition-text col-md-5">
-      <input id="neighborhood" type="text" name="" value="Bairro" class="requisition-text" placeholder="Bairro:">
+      <input id="neighborhood" type="text" name="requisition[address][neighborhood]" value="{{user.address.neighborhood}}" class="requisition-text" placeholder="Bairro:">
     </div>
     <div class="requisition-text col-md-4">
       <input id="city" type="text" name="requisition[address][city]" value="{{user.address.city}}"
