@@ -13,6 +13,13 @@ const kitSchema = new mongoose.Schema({
   stdLevel: Number,
   Lod: Number,
   LoQ: Number,
+  calibrators: {
+    P1: Number,
+    P2: Number,
+    P3: Number,
+    P4: Number,
+    P5: Number,
+  },
   amount: Number,
   provider: String,
   stockMin: Number,

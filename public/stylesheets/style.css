@@ -7422,15 +7422,24 @@ li {
 
 .Addkit-text {
   padding-bottom: 20px;
-  padding-top: 0; }
+  padding-top: 0;
+  padding-right: 0px;
+  padding-left: 2px;
+  font-size: 15px black; }
 
 .addkit-input {
   border: none;
-  border-bottom: 2px solid #6BA05C; }
+  border-bottom: 2px solid #6BA05C;
+  width: 50px; }
 
 #btn-addkit {
   padding-top: 40px;
   padding-left: 12px; }
+
+.newkit {
+  width: 500px;
+  left: 20%;
+  transform: translate(-50%, -50%); }
 
 body {
   padding-top: 30px; }

@@ -1,57 +1,75 @@
-<div class="title-new-kit">
+<!-- <div class="title-new-kit">
   <h5>Cadastro de Novo Kit<h5>
-</div>
+</div> -->
+<form action="/stock/new" method="post">
   <div class="new-kit">
-      <form action="/stock/new" method="post">
-            <div class="row">
-              <div class="Addkit-text col-7">
-                <p><font size="4" color="black"> Código Produto: <input class="addkit-input" type="text" name="kit[productCode]"></p>
-              </div>
-              <p><font size="4" color="black"> Quantidade: <input style="width: 50px" class="addkit-input" type="text" name="kit[amount]"></p>
-            </div>
-
-            <div class="row">
-              <div class="Addkit-text col-7">
-                <font size="4" color="black"> Descrição do Produto: <input style="width: 155px" class="addkit-input" type="text" name="kit[productDescription]">
-              </div>
-              <font size="4" color="black"> Lod: <input style="width: 27px" class="addkit-input" type="text" name="kit[Lod]">
-              <font size="4" color="black"> LoQ: <input style="width: 27px" class="addkit-input" type="text" name="kit[LoQ]">
-            </div>
-
-            <div class="row">
-              <div class="Addkit-text col-7">
-                <font size="4" color="black"> Fornecedor: <input style="width: 240px" class="addkit-input" type="text" name="kit[provider]">
-              </div>
-
-              <font size="4" color="black"> Validade: <input style="width: 30px" class="addkit-input" type="text" name="kit[dayexpirationDate]">/ <input style="width: 30px" type="text" class="addkit-input" name="kit[monthexpirationDate]" > / <input type="text"  name="kit[yearexpirationDate]" class="addkit-input" style="width: 40px">
-              <font size="4" color="black"> Número de Tiras: <input style="width: 50px" class="addkit-input" type="text" name="kit[stripLenght]">
-
-            </div>
-
-            <div id="radio-kit" class="form-check">
-
-                <div class="form-check form-check-inline">
-                  <input checked class="form-check-input" type="radio" name="kit[kitType]" value="A">
-                  <label class="form-check-label">A</label>
-                 </div>
-
-
-                <div class="form-check form-check-inline">
-                  <input checked class="form-check-input" type="radio" name="kit[kitType]" value="B">
-                  <label class="form-check-label">B</label>
-                </div>
-
-
-                <div class="form-check form-check-inline">
-                  <input checked class="form-check-input" type="radio" name="kit[kitType]" value="C">
-                  <label class="form-check-label">C</label>
-                </div>
-
-             </div>
-
-             <div class="text-center" id="btn-addkit">
-               <button type="submit" class="btn btn-outline-success">Criar novo kit</button>
-             </div>
-
-      </form>
+    <div class="title-new-kit">
+      <h5>Cadastro de Novo Kit</h5>
     </div>
+      <div class="form-row">
+        <div class="Addkit-text col-5">
+          Código Produto:<input type="text" name="kit[productCode]" class="addkit-input">
+        </div>
+        <div class="Addkit-text col-2">
+          Quantidade:<input type="text" name="kit[amount]" class="addkit-input">
+        </div>
+        <div class="Addkit-text col-5">
+          Descrição do Produto:<input type="text" name="kit[productDescription]" class="addkit-input">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="Addkit-text col-3">
+          Estoque Minimo:<input type="text" name="kit[stockMin]" class="addkit-input">
+        </div>
+        <div class="Addkit-text col-2">
+          Lod: <input class="addkit-input" type="text" name="kit[Lod]">
+        </div>
+        <div class="Addkit-text col-2">
+          LoQ: <input class="addkit-input" type="text" name="kit[LoQ]">
+        </div>
+        <div class="Addkit-text col-5">
+          Validade: <input  class="addkit-input" type="text" name="kit[dayexpirationDate]">/ <input type="text" class="addkit-input" name="kit[monthexpirationDate]" > / <input type="text"  name="kit[yearexpirationDate]" class="addkit-input">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="Addkit-text col-3">
+          Fornecedor: <input class="addkit-input" type="text" name="kit[provider]">
+        </div>
+        <div class="Addkit-text col-3">
+          Número de Tiras: <input class="addkit-input" type="text" name="kit[stripLenght]">
+        </div>
+        <div class="Addkit-text col-6">
+         P1: <input class="addkit-input" type="text" name="kit[calibrators][P1]">
+        <!-- </div>
+        <div class="Addkit-text col-1"> -->
+          P2: <input class="addkit-input" type="text" name="kit[calibrators][P2]">
+        <!-- </div>
+        <div class="Addkit-text col-1"> -->
+         P3: <input class="addkit-input" type="text" name="kit[calibrators][P3]">
+        <!-- </div>
+        <div class="Addkit-text col-1"> -->
+         P4: <input class="addkit-input" type="text" name="kit[calibrators][P4]">
+        <!-- </div>
+        <div class="Addkit-text col-1"> -->
+         P5: <input class="addkit-input" type="text" name="kit[calibrators][P5]">
+        </div>
+      </div>
+      <div id="radio-kit" class="form-check">
+        <div class="form-check form-check-inline">
+          <input checked class="form-check-input" type="radio" name="kit[kitType]" value="A">
+          <label class="form-check-label">A</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input checked class="form-check-input" type="radio" name="kit[kitType]" value="B">
+          <label class="form-check-label">B</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input checked class="form-check-input" type="radio" name="kit[kitType]" value="C">
+          <label class="form-check-label">C</label>
+        </div>
+       </div>
+       <div class="text-center" id="btn-addkit">
+          <button type="submit" class="btn btn-outline-success">Criar novo kit</button>
+        </div>
+    </div>
+  </form>
