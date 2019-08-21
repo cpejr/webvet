@@ -7457,6 +7457,9 @@ li {
   left: 20%;
   transform: translate(-50%, -50%); }
 
+#radio-kit {
+  padding-top: 20px; }
+
 body {
   padding-top: 30px; }
 
