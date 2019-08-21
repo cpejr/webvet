@@ -30,6 +30,8 @@ const recordRouter = require ('./routes/record');
 const sampleRouter = require('./routes/sample');
 const requisitionRouter = require('./routes/requisition');
 const profileRouter = require('./routes/profile');
+const allkitsRouter = require ('./routes/allkits');
+
 
 const app = express();
 
@@ -136,6 +138,7 @@ app.use('/analyst', analystRouter);
 app.use('/sample', sampleRouter);
 app.use('/record', recordRouter);
 app.use('/profile', profileRouter);
+app.use('/allkits', allkitsRouter);
 
 
 // catch 404 and forward to error handler

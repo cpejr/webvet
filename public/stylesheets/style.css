@@ -7483,4 +7483,37 @@ body {
 .alertaa {
   margin-bottom: -11px; }
 
+.user-card-kits {
+  margin: 40px 40px 40px 40px;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  box-shadow: 1px 1px 10px #f0f0f0;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(1, 1, 1, 1); }
+
+.user-card-kits h1 {
+  font-size: 20px;
+  border-bottom: 4px solid 	#32CD32;
+  margin-bottom: -5px;
+  margin-top: 10px;
+  padding: 13px 0; }
+
+.user-card-kits li {
+  box-sizing: border-box;
+  color: #32CD32;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px 13px;
+  position: relative;
+  border-bottom: 1px solid	#32CD32;
+  margin-bottom: 0px;
+  margin-top: 0px; }
+
+.user-card-kits li:hover {
+  background-color: #DCDCDC;
+  color: #1C1C1C;
+  width: 100%; }
+
 /*# sourceMappingURL=style.css.map */
