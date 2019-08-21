@@ -7,6 +7,7 @@ const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
 const Email = require('../models/email');
+const Workmap=require('../models/Workmap');
 
 
 /* GET home page. */
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  res.render('login', { title: 'Login', layout: 'layout' });
+   res.render('login', { title: 'Login', layout: 'layout' });
 });
 
 router.get('/signup', (req, res) => {

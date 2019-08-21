@@ -26,7 +26,7 @@ class Workmap {
 
   static getAll() {
     return new Promise((resolve, reject) => {
-      SampleModel.find({}).populate('workmap').exec().then((results) => {
+      WorkmapModel.find({}).populate('workmap').exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -53,6 +53,17 @@ class Workmap {
       });
     });
   }
+
+  static delete(id) {
+    return new Promise((resolve, reject) => {
+      WorkmapModel.findOneAndDelete({_id: id}).then(() => {
+        resolve();
+      }).catch((err) => {
+        reject(err);
+      });
+   });
+ }
+
 
 
 }
