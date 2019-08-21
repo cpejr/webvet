@@ -4,6 +4,7 @@ const firebase = require('firebase');
 const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const Sample = require('../models/sample');
+const Kit = require('../models/kit');
 
 
 /* GET home page. */
@@ -147,6 +148,7 @@ router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
 
 router.post('/ownering/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
 
+
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample[0];
     sampleedit.status = "Aguardando pagamento";
@@ -281,6 +283,82 @@ router.post('/waiting/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
      console.log(error);
      res.redirect('/error');
    });
+});
+
+router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(req, res, next) {
+    console.log("IN");
+  Kit.getById(req.params.kitID).then((kit)=>{
+     var map = req.params.mapreference;
+     var map = map.replace("_workmap", "");
+     var map= Number(map);
+     Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+          const sampleedit = sample[0];
+         console.log(sampleedit);
+         console.log(req.params.mapreference);
+         console.log("AQUI EM BAIXO:");
+         console.log(sampleedit.aflatoxina);
+
+
+        if (req.params.mycotoxin == "aflatoxina") {
+          sampleedit.aflatoxina.status = "Mapa de Trabalho";
+          sampleedit.aflatoxina.mapReference=req.params.mapreference;
+           kit.mapArray[map].push(  sampleedit.aflatoxina);
+        }
+
+        if (req.params.mycotoxin == "ocratoxina") {
+          sampleedit.ocratoxina.status = "Mapa de Trabalho";
+          sampleedit.ocratoxina.mapReference=req.params.mapreference;
+           kit.mapArray[map].push(  sampleedit.ocratoxina);
+        }
+
+        if (req.params.mycotoxin == "deoxinivalenol") {
+          sampleedit.deoxinivalenol.status = "Mapa de Trabalho";
+          sampleedit.deoxinivalenol.mapReference=req.params.mapreference;
+             kit.mapArray[map].push(  sampleedit.deoxinivalenol);
+        }
+
+        if (req.params.mycotoxin == "t2toxina") {
+          sampleedit.t2toxina.status = "Mapa de Trabalho";
+          sampleedit.t2toxina.mapReference=req.params.mapreference;
+             kit.mapArray[map].push(  sampleedit.t2toxina);
+        }
+
+        if (req.params.mycotoxin == "fumonisina") {
+          sampleedit.fumonisina.status = "Mapa de Trabalho";
+          sampleedit.fumonisina.mapReference=req.params.mapreference;
+          kit.mapArray[map].push(  sampleedit.fumonisina);
+        }
+
+        if (req.params.mycotoxin == "zearalenona") {
+          sampleedit.zearalenona.status = "Mapa de Trabalho";
+          sampleedit.zearalenona.mapReference=req.params.mapreference;
+           kit.mapArray[map].push(  sampleedit.zearalenona);
+        }
+
+        Sample.update(sampleedit._id, sampleedit).then(() => {
+            Kit.update(kit._id, kit).then(() => {
+                res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+             }).catch((error) => {
+               console.log(error);
+               res.redirect('/error');
+             });
+
+        }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
+
+     }).catch((error) => {
+       console.log(error);
+       res.redirect('/error');
+     });
+
+
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+
 });
 
 router.get('/edit/:samplenumber', (req, res) => {

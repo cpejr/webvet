@@ -160,7 +160,13 @@ var scndAflatoxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber+'/'+goTO, () => {
+          // $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber+'/'+goTO, () => {
+          //
+          // });
+          var mapName=goTO.toString();
+          console.log(typeof nowAflaKit);
+
+          $.post('/sample/mapedit/aflatoxina/' + samplenumber+'/'+nowAflaKit+'/'+mapName,  () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1767,6 +1773,7 @@ $.get('/search/samples', (samples) => {
 });
 
 //Funções "hide" para puxar os kits desejados(A,B,C)
+var nowAflaKit;
 $('#KitRadioAfla').change(function(){
      console.log("DENTRO DA RADIOAFLA");
     $.get('/search/kits', (kits) => {
@@ -1781,21 +1788,27 @@ $('#KitRadioAfla').change(function(){
                 $('#hideAfla').removeClass('form-disabled');
                  console.log("É UM AFLA DO TIPO A!!!!!");
                  aflaLimit=kit.stripLength;
+                 nowAflaKit=kit._id;
+
             }
              else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
                  $('#hideAfla').removeClass('form-disabled');
                  console.log("É UM AFLA DO TIPO B!!!!!");
                  aflaLimit=kit.stripLength;
+                 nowAflaKit=kit._id;
+
              }
              else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
                   console.log("É UM AFLA DO TIPO C!!!!!");
                   $('#hideAfla').removeClass('form-disabled');
                   aflaLimit=kit.stripLength;
+                  nowAflaKit=kit._id;
              }
             else {
                 $('#hideAfla').addClass('form-disabled');
             }
             console.log(aflaLimit);
+            console.log(nowAflaKit);
           }
 
       })
@@ -1841,6 +1854,7 @@ $('#KitRadioOcra').change(function(){
   })
 
 });
+
 
 
 $('#KitRadioDeox').change(function(){
