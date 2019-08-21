@@ -7421,16 +7421,44 @@ li {
   padding-bottom: 40px; }
 
 .Addkit-text {
-  padding-bottom: 20px;
-  padding-top: 0; }
+  width: 100%;
+  overflow: hidden;
+  font-size: 14px;
+  padding: 6px 0;
+  margin: 6px 0;
+  border-bottom: 1px solid #006400; }
 
 .addkit-input {
   border: none;
-  border-bottom: 2px solid #6BA05C; }
+  outline: none;
+  background: none;
+  color: #006400;
+  font-size: 13px;
+  width: 100%;
+  float: left;
+  margin: 0 10px; }
+
+.addkit-input textarea {
+  border: none;
+  outline: none;
+  background: none;
+  color: #006400;
+  font-size: 16px;
+  width: 80%;
+  float: left;
+  margin: 0 10px; }
 
 #btn-addkit {
   padding-top: 40px;
   padding-left: 12px; }
+
+.newkit {
+  width: 500px;
+  left: 20%;
+  transform: translate(-50%, -50%); }
+
+#radio-kit {
+  padding-top: 20px; }
 
 body {
   padding-top: 30px; }
