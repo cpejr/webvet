@@ -19,10 +19,40 @@ const workmapSchema = new mongoose.Schema({
 
 });
 
-const WorkmapModel = mongoose.model('Workmap', sworkmapSchema);
+const WorkmapModel = mongoose.model('Workmap', workmapSchema);
 
 
 class Workmap {
+
+  static getAll() {
+    return new Promise((resolve, reject) => {
+      SampleModel.find({}).populate('workmap').exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+
+  static create(workmap) {
+    return new Promise((resolve, reject) => {
+      WorkmapModel.create(workmap).then((result) => {
+        resolve(result._id);
+      }).catch((err) => {
+        reject(err);
+      });
+
+    });
+  }
+
+  static addSample(id, sample) {
+    return new Promise((resolve, reject) => {
+    WorkmapModel.findByIdAndUpdate(id, { $push: { samplesArray: sample } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
 
 }

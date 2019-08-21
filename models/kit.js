@@ -157,6 +157,17 @@ class Kit {
      });
    });
   }
+
+  static addMap(id, mapwork) {
+    return new Promise((resolve, reject) => {
+    KitModel.findByIdAndUpdate(id, { $push: { mapArray: mapwork } }).catch((err) => {
+
+        reject(err);
+      });
+    });
+  }
+
+
 }
 
 

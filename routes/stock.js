@@ -6,6 +6,7 @@ const auth = require('./middleware/auth');
 const Mycotoxin = require('../models/mycotoxin');
 const Kit = require('../models/kit');
 const User = require('../models/user');
+const Workmap= require('../models/Workmap');
 
 
 
@@ -66,8 +67,24 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
   const { kit } = req.body;
   console.log(kit);
   Kit.create(kit).then((id) => {
-  req.flash('success', 'Kit adicionado com sucesso.');
-  res.redirect('/stock');
+    var size=req.body.kit.stripLength;
+    for(i=0;i<size;i++){
+      const workmap= {
+        mapID: "_workmap" + i.toString(),
+      }
+      console.log(workmap);
+      Workmap.create(workmap).then((mapid)=>{
+          console.log(`New Workmap with id: ${mapid}`);
+        Kit.addMap(id,mapid).catch((error) => {
+           console.log(error);
+           res.redirect('/error');
+        });
+
+      })
+
+    }
+    req.flash('success', 'Kit adicionado com sucesso.');
+    res.redirect('/stock');
   }).catch((error) => {
   console.log(error);
   res.redirect('/error');
