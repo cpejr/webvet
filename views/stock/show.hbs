@@ -9,6 +9,9 @@
           <font color="gray" size="5">{{kit.productCode}} ({{kit.kitType}})
         </div>
       </div>
+      <form class="col-2" action="/stock/delete/{{kit._id}}" method="post">
+          <button type="submit" class="btn btn-outline-danger">Apagar</button>
+      </form>
       <hr color="lightgray">
       <form class="showboxinfo" action="/stock/edit/{{kit._id}}" method="get" >
         <p><font size="4" color="black">Descrição do Produto: {{kit.productDescription}}</p>
