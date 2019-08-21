@@ -67,7 +67,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
   const { kit } = req.body;
   console.log(kit);
   Kit.create(kit).then((id) => {
-    var size=req.body.kit.stripLength;
+    var size=req.body.kit.amount;
     for(i=0;i<size;i++){
       const workmap= {
         mapID: "_workmap" + i.toString(),
