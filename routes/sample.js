@@ -301,37 +301,37 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(
            if (req.params.mycotoxin == "aflatoxina") {
              sampleedit.aflatoxina.status = "Mapa de Trabalho";
              sampleedit.aflatoxina.mapReference=req.params.mapreference;
-                mapArray[map].samplesArray.push(sampleedit._id);
+              mapArray[map].mapID=req.params.mapreference;
            }
 
            if (req.params.mycotoxin == "ocratoxina") {
              sampleedit.ocratoxina.status = "Mapa de Trabalho";
              sampleedit.ocratoxina.mapReference=req.params.mapreference;
-              mapArray[map].samplesArray.push(  sampleedit._id);
+             mapArray[map].mapID=req.params.mapreference;
            }
 
            if (req.params.mycotoxin == "deoxinivalenol") {
              sampleedit.deoxinivalenol.status = "Mapa de Trabalho";
              sampleedit.deoxinivalenol.mapReference=req.params.mapreference;
-                mapArray[map].samplesArray.push(  sampleedit._id);
+              mapArray[map].mapID=req.params.mapreference;
            }
 
            if (req.params.mycotoxin == "t2toxina") {
              sampleedit.t2toxina.status = "Mapa de Trabalho";
              sampleedit.t2toxina.mapReference=req.params.mapreference;
-             mapArray[map].samplesArray.push(  sampleedit._id);
+             mapArray[map].mapID=req.params.mapreference;
            }
 
            if (req.params.mycotoxin == "fumonisina") {
              sampleedit.fumonisina.status = "Mapa de Trabalho";
              sampleedit.fumonisina.mapReference=req.params.mapreference;
-              mapArray[map].samplesArray.push(  sampleedit._id);
+              mapArray[map].mapID=req.params.mapreference;
            }
 
            if (req.params.mycotoxin == "zearalenona") {
              sampleedit.zearalenona.status = "Mapa de Trabalho";
              sampleedit.zearalenona.mapReference=req.params.mapreference;
-                 mapArray[map].samplesArray.push(  sampleedit._id);
+              mapArray[map].mapID=req.params.mapreference;
            }
            console.log(map);
            console.log(mapArray[map].mapID);
