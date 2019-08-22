@@ -17,6 +17,7 @@
     </thead>
     <tbody>
       {{#each kits}}
+        {{#compare deleted '0'}}
           <tr>
             <th>{{productCode}}</th>
             <th>{{kitType}}</th>
@@ -25,6 +26,7 @@
               <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
             </th>
           </tr>
+        {{/compare}}
       {{/each}}
     </tbody>
   </table>
