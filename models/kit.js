@@ -108,9 +108,7 @@ class Kit {
    */
   static update(id, kit) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, kit).then(() => {
-        resolve();
-      }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, kit).catch((err) => {
         reject(err);
       });
     });
@@ -165,6 +163,16 @@ class Kit {
         reject(err);
       });
     });
+  }
+
+  static getWorkmapsById(id) {
+   return new Promise((resolve, reject) => {
+     KitModel.findById(id).populate({ path: 'mapArray' }).exec().then((result) => {
+       resolve(result.mapArray);
+     }).catch((err) => {
+       reject(err);
+     });
+   });
   }
 
 
