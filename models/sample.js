@@ -208,7 +208,9 @@ class Sample {
    */
   static update(id, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findByIdAndUpdate(id, sample).catch((err) => {
+      SampleModel.findByIdAndUpdate(id, sample).then(()=> {
+           resolve();
+      }).catch((err) => {
         reject(err);
       });
     });

@@ -1783,7 +1783,7 @@ $('#KitRadioAfla').change(function(){
         kits.forEach((kit) => {
           var kitToxin=kit.productDescription;
           console.log(kitToxin);
-          if(kitToxin.includes("Afla")||kitToxin.includes("afla")) {
+          if(kitToxin.includes("Afl")||kitToxin.includes("afl")) {
             if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
                 $('#hideAfla').removeClass('form-disabled');
                  console.log("É UM AFLA DO TIPO A!!!!!");

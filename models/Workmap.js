@@ -45,7 +45,12 @@ class Workmap {
 
     });
   }
-
+  /**
+   * add a Sample
+   * @param {string} id - map  Id
+   * @param {Object} Sample - id
+   * @returns {null}
+   */
   static addSample(id, sample) {
     return new Promise((resolve, reject) => {
     WorkmapModel.findByIdAndUpdate(id, { $push: { samplesArray: sample } }).catch((err) => {
