@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const workmapSchema = new mongoose.Schema({
   mapID: String,
+  productCode: String,
 
   samplesArray: [{
     type: mongoose.Schema.Types.ObjectId,

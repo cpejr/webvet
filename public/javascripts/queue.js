@@ -144,6 +144,7 @@ var scndAflatoxina = new jKanban({
            scndAflatoxina.removeElement(id);
         } else {
           return false // impede outros cards de entrarem no board dos calibradores
+
         }
     }
 
@@ -418,11 +419,14 @@ var scndDeoxinivalenol = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-        $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber+'/'+goTO, () => {
+          var mapName=goTO.toString();
+          console.log(typeof nowDeoxKit);
+
+          $.post('/sample/mapedit/deoxinivalenol/' + samplenumber+'/'+nowDeoxKit+'/'+mapName,  () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
+
     }
 
     if(target=='_scndTesting') {
@@ -659,10 +663,14 @@ var scndOcratoxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-         $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber+'/'+goTO, () => {
+          var mapName=goTO.toString();
+          console.log(typeof nowOcraKit);
+
+          $.post('/sample/mapedit/ocratoxina/' + samplenumber+'/'+nowOcraKit+'/'+mapName,  () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
       }
     }
 
@@ -896,7 +904,11 @@ var scndT2toxina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/t2toxina/' + samplenumber+'/'+goTO, () => {
+          var mapName=goTO.toString();
+          console.log(typeof nowT2Kit);
+
+          $.post('/sample/mapedit/t2toxina/' + samplenumber+'/'+nowT2Kit+'/'+mapName,  () => {
+
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
@@ -1134,7 +1146,10 @@ var scndFumonisina = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-          $.post('/sample/mapwork/edit/fumonisina/' + samplenumber+'/'+goTO, () => {
+          var mapName=goTO.toString();
+          console.log(typeof nowFumKit);
+
+          $.post('/sample/mapedit/fumonisina/' + samplenumber+'/'+nowFumKit+'/'+mapName,  () => {
 
           });
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1378,10 +1393,13 @@ var scndZearalenona = new jKanban({
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
         } else {
-        $.post('/sample/mapwork/edit/zearalenona/' + samplenumber+'/'+goTO, () => {
+          var mapName=goTO.toString();
+          console.log(typeof nowZKit);
+
+          $.post('/sample/mapedit/zearalenona/' + samplenumber+'/'+nowZKit+'/'+mapName,  () => {
 
           });
-          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho ' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
       }
     }
@@ -1817,7 +1835,7 @@ $('#KitRadioAfla').change(function(){
 
 });
 
-
+var nowOcraKit;
 $('#KitRadioOcra').change(function(){
     console.log("DENTRO DA KitRadioOcra");
    $.get('/search/kits', (kits) => {
@@ -1832,21 +1850,23 @@ $('#KitRadioOcra').change(function(){
            if($('#KitOcraA').is(':checked')&&kit.kitType=="A") {
                $('#hideOcra').removeClass('form-disabled');
                 ocraLimit=kit.stripLength;
-                console.log(ocraLimit);
+                nowOcraKit=kit._id;
+
            }
             else if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
                  $('#hideOcra').removeClass('form-disabled');
                   ocraLimit=kit.stripLength;
+                    nowOcraKit=kit._id;
              }
             else if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
-               console.log("É CCCCCCC")
+                nowOcraKit=kit._id;
             }
            else {
                $('#hideOcra').addClass('form-disabled');
            }
-           console.log(ocraLimit);
+
          }
 
      })
@@ -1856,7 +1876,7 @@ $('#KitRadioOcra').change(function(){
 });
 
 
-
+var nowDeoxKit;
 $('#KitRadioDeox').change(function(){
     console.log("DENTRO DA KitRadioDeox");
    $.get('/search/kits', (kits) => {
@@ -1871,17 +1891,18 @@ $('#KitRadioDeox').change(function(){
            if($('#KitDeoxA').is(':checked')&&kit.kitType=="A") {
                $('#hideDeox').removeClass('form-disabled');
                 deoxLimit=kit.stripLength;
+                nowDeoxKit=kit._id;
 
            }
             else if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
-
+               nowDeoxKit=kit._id;
              }
             else if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
-
+                 nowDeoxKit=kit._id;
             }
            else {
                $('#hideDeox').addClass('form-disabled');
@@ -1894,7 +1915,7 @@ $('#KitRadioDeox').change(function(){
   })
 });
 
-
+var nowFumKit;
 $('#KitRadioFum').change(function(){
     console.log("DENTRO DA KitRadioFum");
    $.get('/search/kits', (kits) => {
@@ -1909,17 +1930,19 @@ $('#KitRadioFum').change(function(){
            if($('#KitFumA').is(':checked')&&kit.kitType=="A") {
                $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
+                  nowFumKit=kit._id;
 
            }
             else if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
               $('#hideFum').removeClass('form-disabled');
                  fumLimit=kit.stripLength;
+                 nowFumKit=kit._id;
 
              }
             else if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
               $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
-
+                   nowFumKit=kit._id;
             }
            else {
                $('#hideFum').addClass('form-disabled');
@@ -1932,7 +1955,7 @@ $('#KitRadioFum').change(function(){
   })
 });
 
-
+var nowT2Kit;
 $('#KitRadioT').change(function(){
     console.log("DENTRO DA KitRadioT");
    $.get('/search/kits', (kits) => {
@@ -1947,16 +1970,19 @@ $('#KitRadioT').change(function(){
            if($('#KitTA').is(':checked')&&kit.kitType=="A") {
                $('#hideT').removeClass('form-disabled');
                   t2Limit=kit.stripLength;
+                  nowT2Kit=kit._id;
 
            }
             else if($('#KitTB').is(':checked')&&kit.kitType=="B") {
               $('#hideT').removeClass('form-disabled');
                    t2Limit=kit.stripLength;
+                   nowT2Kit=kit._id;
 
              }
             else if (kit.kitType=="C"&&$('#KitTC').is(':checked')) {
               $('#hideT').removeClass('form-disabled');
                     t2Limit=kit.stripLength;
+                    nowT2Kit=kit._id;
             }
            else {
                $('#hideT').addClass('form-disabled');
@@ -1969,6 +1995,7 @@ $('#KitRadioT').change(function(){
   })
 });
 
+var nowZKit;
 $('#KitRadioZ').change(function(){
 
     console.log("DENTRO DA KitRadioZ");
@@ -1984,18 +2011,19 @@ $('#KitRadioZ').change(function(){
            if($('#KitZA').is(':checked')&&kit.kitType=="A") {
                $('#hideZ').removeClass('form-disabled');
                   zLimit=kit.stripLength;
+                  nowZKit=kit._id;
 
            }
             else if($('#KitZB').is(':checked')&&kit.kitType=="B") {
               $('#hideZ').removeClass('form-disabled');
                  zLimit=kit.stripLength;
-
+                   nowZKit=kit._id;
 
              }
             else if (kit.kitType=="C"&&$('#KitZC').is(':checked')) {
               $('#hideZ').removeClass('form-disabled');
                  zLimit=kit.stripLength;
-
+                   nowZKit=kit._id;
             }
            else {
                $('#hideZ').addClass('form-disabled');
