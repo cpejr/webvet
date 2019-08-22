@@ -70,7 +70,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
     var size=req.body.kit.amount;
     for(i=0;i<size;i++){
       const workmap= {
-        productCode:req.kit.productCode;
+        productCode:req.body.kit.productCode,
       }
       console.log(workmap);
       Workmap.create(workmap).then((mapid)=>{
