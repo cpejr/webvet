@@ -431,7 +431,7 @@ var scndDeoxinivalenol = new jKanban({
 
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
-             return false
+             return false;
        }
        else {
       $.post('/sample/testing/edit/deoxinivalenol/' + samplenumber, () => {
@@ -443,7 +443,8 @@ var scndDeoxinivalenol = new jKanban({
     }
 
 
-  }
+   }
+ }
 });
 
 //função de criação dos id dos Pchild para o scndDeoxinivalenol
@@ -1493,19 +1494,22 @@ $.get('/search/samples', (samples) => {
               status: sample.aflatoxina.status
             });
           }
-          if(sample.aflatoxina.status=="Em análise") {
+          if(sample.aflatoxina.status=="Em análise"||sample.aflatoxina.status=="Mapa de Trabalho") {
             aflatoxina.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.aflatoxina.status
             });
-            scndAflatoxina.addElement('_scndTesting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.aflatoxina.status
-            });
+            if(sample.aflatoxina.status=="Em análise") {
+              scndAflatoxina.addElement('_scndTesting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.aflatoxina.status
+              });
+            }
+
 
           }
           if(sample.aflatoxina.status=="Aguardando pagamento") {
@@ -1544,19 +1548,22 @@ $.get('/search/samples', (samples) => {
               status: sample.ocratoxina.status
             });
           }
-          if(sample.ocratoxina.status=="Em análise") {
+          if(sample.ocratoxina.status=="Em análise"||sample.ocratoxina.status=="Mapa de Trabalho") {
             ocratoxina.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.ocratoxina.status
             });
-            scndOcratoxina.addElement('_scndTesting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.ocratoxina.status
-            });
+            if(sample.ocratoxina.status=="Em análise") {
+              scndOcratoxina.addElement('_scndTesting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.ocratoxina.status
+              });
+            }
+
           }
           if(sample.ocratoxina.status=="Aguardando pagamento") {
             ocratoxina.addElement('_ownering', {
@@ -1595,19 +1602,22 @@ $.get('/search/samples', (samples) => {
               status: sample.deoxinivalenol.status
             });
           }
-          if(sample.deoxinivalenol.status=="Em análise") {
+          if(sample.deoxinivalenol.status=="Em análise"||sample.deoxinivalenol.status=="Mapa de Trabalho") {
             deoxinivalenol.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.deoxinivalenol.status
             });
-            scndDeoxinivalenol.addElement('_scndTesting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.deoxinivalenol.status
-            });
+            if(sample.deoxinivalenol.status=="Em análise") {
+                scndDeoxinivalenol.addElement('_scndTesting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status
+                });
+            }
+
           }
           if(sample.deoxinivalenol.status=="Aguardando pagamento") {
             deoxinivalenol.addElement('_ownering', {
@@ -1645,7 +1655,7 @@ $.get('/search/samples', (samples) => {
               status: sample.zearalenona.status
             });
           }
-          if(sample.zearalenona.status=="Em análise") {
+          if(sample.zearalenona.status=="Em análise"||sample.zearalenona.status=="Mapa de Trabalho") {
             zearalenona.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
@@ -1695,19 +1705,22 @@ $.get('/search/samples', (samples) => {
               status: sample.t2toxina.status
             });
           }
-          if(sample.t2toxina.status=="Em análise") {
+          if(sample.t2toxina.status=="Em análise"||sample.t2toxina.status=="Mapa de Trabalho") {
             t2toxina.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.t2toxina.status
             });
-            scndT2toxina.addElement('_scndTesting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.t2toxina.status
-            });
+            if(sample.t2toxina.status=="Em análise") {
+              scndT2toxina.addElement('_scndTesting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.t2toxina.status
+              });
+            }
+
           }
           if(sample.t2toxina.status=="Aguardando pagamento") {
             t2toxina.addElement('_ownering', {
@@ -1745,19 +1758,22 @@ $.get('/search/samples', (samples) => {
               status: sample.fumonisina.status
             });
           }
-          if(sample.fumonisina.status=="Em análise") {
+          if(sample.fumonisina.status=="Em análise"||sample.fumonisina.status=="Mapa de Trabalho") {
             fumonisina.addElement('_testing', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
               status: sample.fumonisina.status
             });
-            scndFumonisina.addElement('_scndTesting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.fumonisina.status
-            });
+            if(sample.fumonisina.status=="Em análise") {
+              scndFumonisina.addElement('_scndTesting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.fumonisina.status
+              });
+            }
+
           }
           if(sample.fumonisina.status=="Aguardando pagamento") {
             fumonisina.addElement('_ownering', {
