@@ -52,9 +52,17 @@ class Workmap {
    * @param {Object} Sample - id
    * @returns {null}
    */
-  static addSample(id, sample) {
+  static addSample(id, sample,mapid) {
     return new Promise((resolve, reject) => {
-    WorkmapModel.findByIdAndUpdate(id, { $push: { samplesArray: sample } }).catch((err) => {
+    WorkmapModel.findByIdAndUpdate(id, { $push: { samplesArray: sample },$set: { mapID: mapid } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static setMapID(id, mapid) {
+    return new Promise((resolve, reject) => {
+    WorkmapModel.findByIdAndUpdate(id, { $set: { mapID: mapid } }).catch((err) => {
         reject(err);
       });
     });

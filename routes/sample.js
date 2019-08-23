@@ -252,12 +252,16 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(
              sampleedit.aflatoxina.status = "Mapa de Trabalho";
              sampleedit.aflatoxina.mapReference=req.params.mapreference;
               mapArray[map].mapID=req.params.mapreference;
+                  console.log("TUTEEEEE");
+                 console.log( mapArray[map].mapID);
            }
 
            if (req.params.mycotoxin == "ocratoxina") {
              sampleedit.ocratoxina.status = "Mapa de Trabalho";
              sampleedit.ocratoxina.mapReference=req.params.mapreference;
              mapArray[map].mapID=req.params.mapreference;
+
+
            }
 
            if (req.params.mycotoxin == "deoxinivalenol") {
@@ -287,7 +291,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(
            console.log(mapArray[map].mapID);
            Sample.update(sampleedit._id, sampleedit).then(() => {
 
-               Workmap.addSample(mapArray[map]._id, sampleedit._id).then(() => {
+               Workmap.addSample(mapArray[map]._id, sampleedit._id,mapArray[map].mapID).then(() => {
                    res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
                 }).catch((error) => {
                   console.log(error);
