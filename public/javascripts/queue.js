@@ -1487,7 +1487,7 @@ $.get('/search/samples', (samples) => {
         //AFLATOXINA
         if(sample.aflatoxina.active == true) {
           if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
-            aflatoxina.addElement("_totest", {
+            aflatoxina.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1541,7 +1541,7 @@ $.get('/search/samples', (samples) => {
         //OCRATOXINA A
         if(sample.ocratoxina.active == true) {
           if(sample.ocratoxina.status=="Nova" || sample.ocratoxina.status=="Sem amostra" || sample.ocratoxina.status=="A corrigir") {
-            ocratoxina.addElement("_totest", {
+            ocratoxina.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1595,7 +1595,7 @@ $.get('/search/samples', (samples) => {
         //DEOXINIVALENOL
         if(sample.deoxinivalenol.active == true) {
           if(sample.deoxinivalenol.status=="Nova" || sample.deoxinivalenol.status=="Sem amostra" || sample.deoxinivalenol.status=="A corrigir") {
-            deoxinivalenol.addElement("_totest", {
+            deoxinivalenol.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1648,7 +1648,7 @@ $.get('/search/samples', (samples) => {
         //ZEARALENONA
         if(sample.zearalenona.active == true) {
           if(sample.zearalenona.status=="Nova" || sample.zearalenona.status=="Sem amostra" || sample.zearalenona.status=="A corrigir") {
-            zearalenona.addElement("_totest", {
+            zearalenona.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1698,7 +1698,7 @@ $.get('/search/samples', (samples) => {
         //T-2 TOXINA
         if(sample.t2toxina.active == true) {
           if(sample.t2toxina.status=="Nova" || sample.t2toxina.status=="Sem amostra" || sample.t2toxina.status=="A corrigir") {
-            t2toxina.addElement("_totest", {
+            t2toxina.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
@@ -1751,7 +1751,7 @@ $.get('/search/samples', (samples) => {
         //FUMOSININA
         if(sample.fumonisina.active == true) {
           if(sample.fumonisina.status=="Nova" || sample.fumonisina.status=="Sem amostra" || sample.fumonisina.status=="A corrigir") {
-            fumonisina.addElement("_totest", {
+            fumonisina.addElement('_waiting', {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
