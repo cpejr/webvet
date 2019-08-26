@@ -31,6 +31,7 @@ const sampleRouter = require('./routes/sample');
 const requisitionRouter = require('./routes/requisition');
 const profileRouter = require('./routes/profile');
 const allkitsRouter = require ('./routes/allkits');
+const printtemplateRouter = require ('./routes/printtemplate');
 
 
 const app = express();
@@ -139,7 +140,7 @@ app.use('/sample', sampleRouter);
 app.use('/record', recordRouter);
 app.use('/profile', profileRouter);
 app.use('/allkits', allkitsRouter);
-
+app.use('/printtemplate', printtemplateRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
