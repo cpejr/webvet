@@ -7,11 +7,6 @@ var aflatoxina = new jKanban({
   },
   boards  : [
     {
-      id : '_totest',
-      title  : 'Espera',
-      class : 'info'
-    },
-    {
       id : '_testing',
       title  : 'Em análise',
       class : 'success',
@@ -31,18 +26,6 @@ var aflatoxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
     if  (target == '_testing') {
       $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
 
@@ -267,11 +250,6 @@ const deoxinivalenol = new jKanban({
   },
   boards  : [
     {
-      id : '_totest',
-      title  : 'Espera',
-      class : 'info',
-    },
-    {
       id : '_testing',
       title  : 'Em análise',
       class : 'success',
@@ -291,18 +269,6 @@ const deoxinivalenol = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/deoxinivalenol/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
     if  (target == '_testing') {
       $.post('/sample/testing/edit/deoxinivalenol/' + samplenumber, () => {
 
@@ -514,11 +480,6 @@ const ocratoxina = new jKanban({
   widthBoard  : '190px',
   boards  : [
     {
-      id : '_totest',
-      title  : 'Espera',
-      class : 'info',
-    },
-    {
       id : '_testing',
       title  : 'Em análise',
       class : 'success',
@@ -538,18 +499,6 @@ const ocratoxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/ocratoxina/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
     if  (target == '_testing') {
       $.post('/sample/testing/edit/ocratoxina/' + samplenumber, () => {
 
@@ -757,11 +706,6 @@ const t2toxina = new jKanban({
   widthBoard  : '190px',
   boards  : [
     {
-      id : '_totest',
-      title  : 'Espera',
-      class : 'info',
-    },
-    {
       id : '_testing',
       title  : 'Em análise',
       class : 'success',
@@ -781,18 +725,6 @@ const t2toxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/t2toxina/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
     if  (target == '_testing') {
       $.post('/sample/testing/edit/t2toxina/' + samplenumber, () => {
 
@@ -998,11 +930,6 @@ const fumonisina = new jKanban({
   widthBoard  : '190px',
   boards  : [
     {
-      id : '_totest',
-      title  : 'Espera',
-      class : 'info',
-    },
-    {
       id : '_testing',
       title  : 'Em análise',
       class : 'success',
@@ -1022,18 +949,6 @@ const fumonisina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/fumonisina/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
     if  (target == '_testing') {
       $.post('/sample/testing/edit/fumonisina/' + samplenumber, () => {
 
@@ -1245,11 +1160,6 @@ const zearalenona = new jKanban({
   },
   boards  : [
     {
-      id : '_totest',
-      title  : 'Espera',
-      class : 'info',
-    },
-    {
       id : '_testing',
       title  : 'Em análise',
       class : 'success',
@@ -1269,18 +1179,6 @@ const zearalenona = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
 
-    if (target == '_totest') {
-      $.post('/sample/totest/edit/zearalenona/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.status == "Aguardando pagamento") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Nova' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      } else {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'A corrigir' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
     if  (target == '_testing') {
       $.post('/sample/testing/edit/zearalenona/' + samplenumber, () => {
 
