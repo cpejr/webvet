@@ -6257,11 +6257,13 @@ header {
   background: #006400; }
 
 .img-login {
-  background-image: url("/images/fundo7.jpg");
+  background-image: url("/images/fundo8.jpg");
   background-repeat: no-repeat;
   background-position: center;
-  padding: 6em;
-  width: 100%; }
+  background-color: #6BA05C;
+  padding: 7em;
+  width: 100%;
+  padding-bottom: 13px; }
 
 .body-login {
   padding-top: 0px !important;
