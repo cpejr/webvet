@@ -12,7 +12,7 @@ const kitSchema = new mongoose.Schema({
   yearexpirationDate: Number,
   stdLevel: Number,
   Lod: Number,
-  LoQ: Number,
+  Loq: Number,
   calibrators: {
     P1: Number,
     P2: Number,
@@ -44,7 +44,7 @@ const kitSchema = new mongoose.Schema({
   },
   kitType: {
     type: String,
-    enum: ['A','B','C']
+    enum: ['A','B','C','D','E','F']
   },
   stripLength: Number,
   mapArray: [{
