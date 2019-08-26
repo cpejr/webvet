@@ -6,12 +6,19 @@ const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Requisition = require('../models/requisition');
 const Sample = require('../models/sample');
+const Kitstock = require('../models/kitstock');
 
 
 
 router.get('/', auth.isAuthenticated,  function(req,res) {
-  console.log(req.session.user);
-  res.render('requisition', {title:'Requisition',layout:'layoutDashboard.hbs', ...req.session });
+  Kitstock.getAll().then((kitstock) => {
+    console.log(kitstock);
+    res.render('requisition', {title:'Requisition',layout:'layoutDashboard.hbs', ...req.session });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
 });
 
 
