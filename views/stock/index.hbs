@@ -11,6 +11,8 @@
       <tr>
         <th class = "th-name">Código Produto</th>
         <th class = "th-type">Tipo</th>
+        <th class = "th-type">Descrição</th>
+        <th class = "th-type">Validade</th>
         <th class = "th-type">Quantidade</th>
         <th class = "th-action"></th>
       </tr>
@@ -21,7 +23,10 @@
           <tr>
             <th>{{productCode}}</th>
             <th>{{kitType}}</th>
+            <th>{{productDescription}}</th>
+            <th>{{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}</th>
             <th>{{amount}}</th>
+
             <th>
               <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
             </th>
