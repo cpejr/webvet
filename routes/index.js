@@ -37,6 +37,7 @@ router.get('/requisition/show', (req, res) => {
 });
 
 router.get('/requisition/index', (req, res) => {
+
   res.render('record/index', {title:'index',layout:'layoutDashboard'});
 });
 
