@@ -11,15 +11,54 @@ const Workmap= require('../models/Workmap');
 
 
 
-
+//É PARA MEXER NESSA
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function(req, res, next) {
+router.get('/', function(req, res, next) {
   Kit.getAll().then((kits) => {
-    // console.log(kits);
-    // console.log("THE KIT IS HEEEREEE");
-    // console.log(req.session);
+    var today = new Date();
+    var kit90 = new Array;
+    var kit60 = new Array;
+    var kit30 = new Array;
+    var cont90 = 0;
+    var cont60 = 0;
+    var cont30 = 0;
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var oneDay = 24*60*60*1000;
+    console.log(yyyy);
+    console.log(mm);
+    console.log(dd);
+    for (var i = 0; i < kits.length; i++) {
+      var firstDate = new Date(yyyy,mm,dd);
+      var secondDate = new Date(kits[i].yearexpirationDate,kits[i].monthexpirationDate,kits[i].dayexpirationDate);
+      var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
 
-    res.render('stock/index', { title: 'Kits', layout: 'layoutDashboard.hbs', ...req.session, kits });
+      if(diffDays > 90){
+        kit90[cont90] = kits[i];
+        cont90++;
+        console.log('os de 90 ~-----------------------------------------');
+        console.log(diffDays);
+
+      }
+      else if(diffDays <= 90 && diffDays >= 30){
+        kit60[cont60] = kits[i];
+        cont60++;
+        console.log('os de 60 ~-----------------------------------------');
+        console.log(diffDays);
+      }
+      else if (diffDays < 30) {
+        kit30[cont30] = kits[i];
+        cont30++;
+        console.log('os de 30 ~-----------------------------------------');
+        console.log(diffDays);
+
+      }
+    }
+
+
+
+    res.render('stock/index', { title: 'Kits', kit30,kit60,kit90,layout: 'layoutDashboard.hbs',...req.session, kits });
   })
 });
 

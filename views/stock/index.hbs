@@ -18,13 +18,20 @@
       </tr>
     </thead>
     <tbody>
-      {{#each kits}}
+      {{#each kit30}}
         {{#compare deleted '0'}}
           <tr>
             <th>{{productCode}}</th>
             <th>{{kitType}}</th>
             <th>{{productDescription}}</th>
-            <th>{{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}</th>
+            <th>
+              <div class="expirationDateRed">
+                {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
+              </div>
+
+
+
+
             <th>{{amount}}</th>
 
             <th>
@@ -33,6 +40,56 @@
           </tr>
         {{/compare}}
       {{/each}}
+
+      {{#each kit60}}
+        {{#compare deleted '0'}}
+          <tr>
+            <th>{{productCode}}</th>
+            <th>{{kitType}}</th>
+            <th>{{productDescription}}</th>
+            <th>
+              <div class="expirationDateYellow">
+
+              {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
+            </div>
+
+            <th>{{amount}}</th>
+
+            <th>
+              <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
+            </th>
+          </tr>
+        {{/compare}}
+      {{/each}}
+
+
+      {{#each kit90}}
+        {{#compare deleted '0'}}
+          <tr>
+            <th>{{productCode}}</th>
+            <th>{{kitType}}</th>
+            <th>{{productDescription}}</th>
+            <th>
+              <div class="expirationDateGreen">
+
+                {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
+
+            <th>{{amount}}</th>
+
+            <th>
+              <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
+            </th>
+          </tr>
+        {{/compare}}
+      {{/each}}
+
+
+
+
+
     </tbody>
   </table>
+
+
+
 </div>
