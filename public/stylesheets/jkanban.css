@@ -152,6 +152,12 @@
   display: flex;
 }
 
+.btn-print{
+  display: flex;
+  margin-left: auto;
+  height: fit-content;
+}
+
 .radio-queue {
    display: inline-block !important;
  }
