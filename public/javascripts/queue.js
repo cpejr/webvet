@@ -148,7 +148,7 @@ var scndAflatoxina = new jKanban({
           //
           // });
           var mapName=goTO.toString();
-          console.log(typeof nowAflaKit);
+          console.log("idof nowAflaKit");
 
           $.post('/sample/mapedit/aflatoxina/' + samplenumber+'/'+nowAflaKit+'/'+mapName,  () => {
 

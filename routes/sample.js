@@ -237,29 +237,28 @@ router.post('/waiting/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
 });
 
 router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(req, res, next) {
-    console.log("IN");
+
+
   Kit.getById(req.params.kitID).then((kit)=>{
      var map = req.params.mapreference;
      var map = map.replace("_workmap", "");
      var map= Number(map)-1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
+     console.log(kit);
      Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
          const sampleedit = sample[0]; //sample is a array with one content, to work with it just catch the first element
-         console.log(sampleedit);
-         console.log(req.params.mapreference);
-         console.log(sampleedit.aflatoxina);
-         Kit.getWorkmapsById(kit).then((mapArray)=>{//access the kit
-           if (req.params.mycotoxin == "aflatoxina") {
+          console.log("BEFORE EDIT");
+          console.log(sampleedit);
+         Kit.getWorkmapsById(kit._id).then((mapArray)=>{//access the kit and get the workmaps
+           if (req.params.mycotoxin == "aflatoxina") { //bellow the sample atributes are seted
              sampleedit.aflatoxina.status = "Mapa de Trabalho";
              sampleedit.aflatoxina.mapReference=req.params.mapreference;
-              mapArray[map].mapID=req.params.mapreference;
-                  console.log("TUTEEEEE");
-                 console.log( mapArray[map].mapID);
+
            }
 
            if (req.params.mycotoxin == "ocratoxina") {
              sampleedit.ocratoxina.status = "Mapa de Trabalho";
              sampleedit.ocratoxina.mapReference=req.params.mapreference;
-             mapArray[map].mapID=req.params.mapreference;
+
 
 
            }
@@ -267,13 +266,12 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(
            if (req.params.mycotoxin == "deoxinivalenol") {
              sampleedit.deoxinivalenol.status = "Mapa de Trabalho";
              sampleedit.deoxinivalenol.mapReference=req.params.mapreference;
-              mapArray[map].mapID=req.params.mapreference;
            }
 
            if (req.params.mycotoxin == "t2toxina") {
              sampleedit.t2toxina.status = "Mapa de Trabalho";
              sampleedit.t2toxina.mapReference=req.params.mapreference;
-             mapArray[map].mapID=req.params.mapreference;
+
            }
 
            if (req.params.mycotoxin == "fumonisina") {
@@ -285,18 +283,40 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(
            if (req.params.mycotoxin == "zearalenona") {
              sampleedit.zearalenona.status = "Mapa de Trabalho";
              sampleedit.zearalenona.mapReference=req.params.mapreference;
-              mapArray[map].mapID=req.params.mapreference;
-           }
-           console.log(map);
-           console.log(mapArray[map].mapID);
-           Sample.update(sampleedit._id, sampleedit).then(() => {
 
-               Workmap.addSample(mapArray[map]._id, sampleedit._id,mapArray[map].mapID).then(() => {
-                   res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
-                }).catch((error) => {
-                  console.log(error);
-                  res.redirect('/error');
-                });
+           }
+           console.log("AFTER EDIT");
+           console.log(sampleedit);
+
+
+           Sample.update(sampleedit._id, sampleedit).then(() => {
+             Workmap.getOneMap(mapArray[map]._id).then((targetMap)=>{//gets only the workmap where the sample will be added
+                 var isAdded=false;
+
+                for(i=0;i<targetMap.samplesArray.length;i++) {//check if the sample already exists in the workmap
+                   if(targetMap.samplesArray[i]._id.equals(sampleedit._id)){// a simple == doest work, for _id the function.equals() is necessary
+                       isAdded=true;
+                       i=targetMap.samplesArray.length; //breaks the for
+                   }
+                }
+
+                if(isAdded) {
+                  res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});//if alredy exists, dont add
+                }
+                else {
+                  Workmap.addSample(mapArray[map], sampleedit._id,req.params.mapreference).then(() => { //else, it will be add
+                      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+                   }).catch((error) => {
+                     console.log(error);
+                     res.redirect('/error');
+                   });
+                }
+
+
+             }).catch((error) => {
+                console.log(error);
+                res.redirect('/error');
+              });
             }).catch((error) => {
                console.log(error);
                res.redirect('/error');
