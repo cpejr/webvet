@@ -167,7 +167,7 @@ class Kit {
 
   static getWorkmapsById(id) {
    return new Promise((resolve, reject) => {
-     KitModel.findById(id).populate({ path: 'mapArray' }).exec().then((result) => {
+     KitModel.findById(id).then((result) => {
        resolve(result.mapArray);
      }).catch((err) => {
        reject(err);
