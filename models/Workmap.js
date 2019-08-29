@@ -69,7 +69,9 @@ class Workmap {
 
   static removeSample(id, sample) {
     return new Promise((resolve, reject) => {
-    WorkmapModel.findByIdAndUpdate(id, { $pull: { samplesArray: sample }}).catch((err) => {
+    WorkmapModel.findByIdAndUpdate(id, { $pull: { samplesArray: sample }}).then(()=>{
+      resolve();
+    }).catch((err) => {
         reject(err);
       });
     });
