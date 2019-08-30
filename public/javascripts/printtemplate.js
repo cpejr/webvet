@@ -4,7 +4,7 @@ function grid(el) {
     container.id = "main";
     container.className = "printcontainer";
 
-    for (i=0; i<16; i+=1) {
+    for (i=0; i<9; i+=1) {
         var row = document.createElement("div");
         row.className = "printrow";
         row.id = "printrow" + i;

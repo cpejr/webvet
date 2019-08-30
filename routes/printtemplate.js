@@ -22,8 +22,11 @@ router.get('/', (req, res) => {
         mapas++;
       }
     console.log(mapas);
-    res.render('printtemplate', { title: 'Mapa de Trabalho', });
     }
+    res.render('printtemplate', { title: 'Mapa de Trabalho' });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
   });
 });
 
