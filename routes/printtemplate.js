@@ -11,7 +11,24 @@ const Workmap=require('../models/Workmap');
 
 
 router.get('/', (req, res) => {
-   res.render('printtemplate', { title: 'Mapa de Trabalho', });
+  Workmap.getAll().then((workmaps)=>{
+    var mapas = 0;
+    console.log('hehehehe');
+    for(i = 0; i < workmaps.length; i++){
+      if (workmaps[i].deleted) {
+        mapas = mapas;
+      }
+      else {
+        mapas++;
+      }
+    console.log(mapas);
+    }
+    res.render('printtemplate', { title: 'Mapa de Trabalho' });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 });
+
 
 module.exports = router;
