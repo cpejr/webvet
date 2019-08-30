@@ -7,7 +7,7 @@ const Mycotoxin = require('../models/mycotoxin');
 const Kit = require('../models/kit');
 const User = require('../models/user');
 const Workmap= require('../models/Workmap');
-
+const Kitstock = require('../models/kitstock');
 
 
 
@@ -15,6 +15,7 @@ const Workmap= require('../models/Workmap');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   Kit.getAll().then((kits) => {
+    Kitstock.getAll().then((kitstocks) => {
     var today = new Date();
     var kit90 = new Array;
     var kit60 = new Array;
@@ -22,13 +23,18 @@ router.get('/', function(req, res, next) {
     var cont90 = 0;
     var cont60 = 0;
     var cont30 = 0;
+    var cont_afla = 0;
+    var cont_don = 0;
+    var cont_fumo = 0;
+    var cont_ota = 0;
+    var cont_t2 = 0;
+    var cont_zea = 0;
+    var cont = 0;
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
     var oneDay = 24*60*60*1000;
-    console.log(yyyy);
-    console.log(mm);
-    console.log(dd);
+    var stockMap = new Map();
     for (var i = 0; i < kits.length; i++) {
       var firstDate = new Date(yyyy,mm,dd);
       var secondDate = new Date(kits[i].yearexpirationDate,kits[i].monthexpirationDate,kits[i].dayexpirationDate);
@@ -37,30 +43,86 @@ router.get('/', function(req, res, next) {
       if(diffDays > 90){
         kit90[cont90] = kits[i];
         cont90++;
-        console.log('os de 90 ~-----------------------------------------');
-        console.log(diffDays);
-
       }
       else if(diffDays <= 90 && diffDays >= 30){
         kit60[cont60] = kits[i];
         cont60++;
-        console.log('os de 60 ~-----------------------------------------');
-        console.log(diffDays);
       }
       else if (diffDays < 30) {
         kit30[cont30] = kits[i];
         cont30++;
-        console.log('os de 30 ~-----------------------------------------');
-        console.log(diffDays);
+      }
+  }
 
+// var x = new Array;
+// x = stockMap.keys();
+// console.log(stockMap.keys());
+
+
+
+
+    for (var i = 0; i < kits.length; i++) {
+      if(kits[i].productCode == 'AFLA Romer'){
+        cont_afla+=kits[i].amount;
+      }
+      else if (kits[i].productCode == 'DON Romer'){
+        cont_don+=kits[i].amount;
+      }
+      else if (kits[i].productCode == 'FUMO Romer'){
+        cont_fumo+=kits[i].amount;
+      }
+      else if (kits[i].productCode == 'OTA Romer'){
+        cont_ota+=kits[i].amount;
+      }
+      else if (kits[i].productCode == 'T2 Romer'){
+        cont_t2+=kits[i].amount;
+      }
+      else if (kits[i].productCode == 'ZEA Romer'){
+        cont_zea+=kits[i].amount;
       }
     }
+    var stockMap = new Map();
+    for (var i = 0; i < kitstocks.length; i++) {
+      stockMap.set(kitstocks[i].productcode,0);
+    }
+    for (var i = 0; i < kits.length; i++) {
+      if(stockMap.has(kits[i].productCode) == true){
+        x = stockMap.get(kits[i].productCode);
+        stockMap.set(kits[i].productCode , kits[i].amount + x);
+      }
+
+    }
+    console.log(stockMap);
+
+    // res.send({stockMap: [...stockMap]});
 
 
 
-    res.render('stock/index', { title: 'Kits', kit30,kit60,kit90,layout: 'layoutDashboard.hbs',...req.session, kits });
+
+
+    res.render('stock/index', { title: 'Kits', kit30,stockMap: [...stockMap],kit60,kit90,kitstocks,layout: 'layoutDashboard.hbs',...req.session, kits });
+  })
   })
 });
+
+
+
+
+
+
+// var a2 = ["oi", "tchau"];
+  router.get('/stock', (req, res) => {
+    // console.log(a2);
+    // res.send( a2 );
+    Kit.getAll().then((kits) => {
+      Kitstock.getAll().then((kitstocks) => {
+
+  });
+  });
+  });
+
+
+
 
 router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
