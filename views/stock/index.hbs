@@ -28,12 +28,7 @@
               <div class="expirationDateRed">
                 {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
               </div>
-
-
-
-
             <th>{{amount}}</th>
-
             <th>
               <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
             </th>
@@ -50,8 +45,8 @@
             <th>
               <div class="expirationDateYellow">
 
-              {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
-            </div>
+                {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
+              </div>
 
             <th>{{amount}}</th>
 
@@ -70,26 +65,55 @@
             <th>{{kitType}}</th>
             <th>{{productDescription}}</th>
             <th>
-              <div class="expirationDateGreen">
+            <div class="expirationDateGreen">
+              {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
 
-                {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
+              <th>{{amount}}</th>
 
-            <th>{{amount}}</th>
-
-            <th>
-              <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
-            </th>
+              <th>
+                <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
+              </th>
+            </div>
           </tr>
         {{/compare}}
       {{/each}}
-
-
-
-
-
     </tbody>
   </table>
 
 
 
-</div>
+<!-- NEW TABLE -->
+
+
+
+
+
+
+
+
+
+<table id="tb-user" class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th class = "th-name">Código Produto</th>
+      <th class = "th-type">Quantidade</th>
+
+    </tr>
+  </thead>
+  <tbody>
+     {{#each stockMap}}
+      {{#each stockMap}}
+
+          <tr>
+            <th>{{stockMap}}</th>
+            <th>teste</th>
+          </tr>
+
+        {{/each}}
+     {{/each}}
+  </tbody>
+</table>
+{{stockMap}}
+
+
+<script src="/javascripts/stock.js"></script>

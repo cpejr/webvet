@@ -7533,6 +7533,10 @@ body {
   border-radius: 10px;
   color: white; }
 
+.nova-table {
+  margin-top: 30px;
+  width: 100%; }
+
 .printrow {
   border: 1px solid green;
   height: 1em;
@@ -7544,5 +7548,6 @@ body {
   height: 1em;
   box-sizing: border-box;
   border: 1px solid red; }
+
 
 /*# sourceMappingURL=style.css.map */
