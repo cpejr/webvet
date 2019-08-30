@@ -81,26 +81,12 @@ router.get('/', function(req, res, next) {
         cont_zea+=kits[i].amount;
       }
     }
-    var stockMap = new Map();
-    for (var i = 0; i < kitstocks.length; i++) {
-      stockMap.set(kitstocks[i].productcode,0);
-    }
-    for (var i = 0; i < kits.length; i++) {
-      if(stockMap.has(kits[i].productCode) == true){
-        x = stockMap.get(kits[i].productCode);
-        stockMap.set(kits[i].productCode , kits[i].amount + x);
-      }
-
-    }
-    console.log(stockMap);
-
-    // res.send({stockMap: [...stockMap]});
 
 
 
 
 
-    res.render('stock/index', { title: 'Kits', kit30,stockMap: [...stockMap],kit60,kit90,kitstocks,layout: 'layoutDashboard.hbs',...req.session, kits });
+    res.render('stock/index', { title: 'Kits', kit30,kit60,kit90,kitstocks,layout: 'layoutDashboard.hbs',...req.session, kits });
   })
   })
 });
@@ -110,12 +96,26 @@ router.get('/', function(req, res, next) {
 
 
 
-// var a2 = ["oi", "tchau"];
   router.get('/stock', (req, res) => {
     // console.log(a2);
     // res.send( a2 );
     Kit.getAll().then((kits) => {
       Kitstock.getAll().then((kitstocks) => {
+        var stockMap = new Map();
+        for (var i = 0; i < kitstocks.length; i++) {
+          stockMap.set(kitstocks[i].productcode,0);
+        }
+        for (var i = 0; i < kits.length; i++) {
+          if(stockMap.has(kits[i].productCode) == true){
+            x = stockMap.get(kits[i].productCode);
+            stockMap.set(kits[i].productCode , kits[i].amount + x);
+          }
+
+        }
+        console.log(stockMap);
+
+        res.send({stockMap: [...stockMap]});
+        // var a2 = ["oi", "tchau"];
 
   });
   });
