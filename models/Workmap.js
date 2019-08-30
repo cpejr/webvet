@@ -60,6 +60,24 @@ class Workmap {
     });
   }
 
+  /**
+   * remove a Sample
+   * @param {string} id - map  Id
+   * @param {Object} Sample - id
+   * @returns {null}
+   */
+
+  static removeSample(id, sample) {
+    return new Promise((resolve, reject) => {
+    WorkmapModel.findByIdAndUpdate(id, { $pull: { samplesArray: sample }}).then(()=>{
+      resolve();
+    }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+
   static setMapID(id, mapid) {
     return new Promise((resolve, reject) => {
     WorkmapModel.findByIdAndUpdate(id, { $set: { mapID: mapid } }).catch((err) => {
