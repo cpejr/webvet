@@ -236,6 +236,78 @@ router.post('/waiting/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
    });
 });
 
+
+router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID',  function(req, res, next) {//this function is for the second kanban
+
+  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+    var mapPosition;
+    const sampleedit = sample[0];
+    sampleedit.status = "Em análise";
+
+    if (req.params.mycotoxin == "aflatoxina") {
+      sampleedit.aflatoxina.status = "Em análise";
+      mapPosition=sampleedit.aflatoxina.mapReference;
+      sampleedit.aflatoxina.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "ocratoxina") {
+      sampleedit.ocratoxina.status = "Em análise";
+      mapPosition=sampleedit.ocratoxina.mapReference;
+      sampleedit.ocratoxina.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "deoxinivalenol") {
+      sampleedit.deoxinivalenol.status = "Em análise";
+       mapPosition=sampleedit.deoxinivalenol.mapReference;
+      sampleedit.deoxinivalenol.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "t2toxina") {
+      sampleedit.t2toxina.status = "Em análise";
+      mapPosition=sampleedit.t2toxina.mapReference;
+      sampleedit.t2toxina.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "fumonisina") {
+      sampleedit.fumonisina.status = "Em análise";
+      mapPosition=sampleedit.fumonisina.mapReference;
+      sampleedit.fumonisina.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "zearalenona") {
+      sampleedit.zearalenona.status = "Em análise";
+      mapPosition=sampleedit.zearalenona.mapReference;
+        sampleedit.zearalenona.mapReference="Sem mapa";
+    }
+    //in the next lines the mapReference is converted to number
+   var mapPosition = mapPosition.replace("_workmap", "");
+   var mapPosition= Number(mapPosition)-1;//is necessary to subtract one, since the array starts with 0 instead of 1
+
+    Kit.getWorkmapsById(req.params.kitID).then((mapArray)=>{//get workmap of the current kit
+       Workmap.removeSample(mapArray[mapPosition],sampleedit._id).then(()=>{
+           Sample.update(sampleedit._id, sampleedit).then(() => {
+             console.log(sampleedit);
+             res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+           }).catch((error) => {
+             console.log(error);
+             res.redirect('/error');
+           });
+       }).catch((error) => {
+         console.log(error);
+         res.redirect('/error');
+       });
+
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
+ }).catch((error) => {
+   console.log(error);
+   res.redirect('/error');
+ });
+});
+
 router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(req, res, next) {
 
 
