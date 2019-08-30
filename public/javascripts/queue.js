@@ -148,7 +148,6 @@ var scndAflatoxina = new jKanban({
           //
           // });
           var mapName=goTO.toString();
-          console.log(typeof nowAflaKit);
 
           $.post('/sample/mapedit/aflatoxina/' + samplenumber+'/'+nowAflaKit+'/'+mapName,  () => {
 
@@ -163,7 +162,7 @@ var scndAflatoxina = new jKanban({
              return false
        }
        else {
-         $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
+         $.post('/sample/scndTesting/edit/aflatoxina/' + samplenumber+'/'+nowAflaKit, () => {
 
          });
          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -386,7 +385,6 @@ var scndDeoxinivalenol = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowDeoxKit);
 
           $.post('/sample/mapedit/deoxinivalenol/' + samplenumber+'/'+nowDeoxKit+'/'+mapName,  () => {
 
@@ -400,7 +398,7 @@ var scndDeoxinivalenol = new jKanban({
              return false;
        }
        else {
-      $.post('/sample/testing/edit/deoxinivalenol/' + samplenumber, () => {
+      $.post('/sample/scndTesting/edit/deoxinivalenol/' + samplenumber+'/'+nowDeoxKit, () => {
 
          });
          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -614,7 +612,7 @@ var scndOcratoxina = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowOcraKit);
+
 
           $.post('/sample/mapedit/ocratoxina/' + samplenumber+'/'+nowOcraKit+'/'+mapName,  () => {
 
@@ -629,7 +627,7 @@ var scndOcratoxina = new jKanban({
              return false
        }
     } else {
-      $.post('/sample/testing/edit/ocratoxina/' + samplenumber, () => {
+       $.post('/sample/scndTesting/edit/ocratoxina/' +samplenumber+'/'+nowOcraKit, () => {
 
       });
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -838,7 +836,6 @@ var scndT2toxina = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowT2Kit);
 
           $.post('/sample/mapedit/t2toxina/' + samplenumber+'/'+nowT2Kit+'/'+mapName,  () => {
 
@@ -853,7 +850,7 @@ var scndT2toxina = new jKanban({
              return false
        }
        else {
-         $.post('/sample/testing/edit/t2toxina/' + samplenumber, () => {
+         $.post('/sample/scndTesting/edit/t2toxina/' + samplenumber+'/'+nowT2Kit, () => {
 
          });
          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1063,7 +1060,7 @@ var scndFumonisina = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowFumKit);
+
 
           $.post('/sample/mapedit/fumonisina/' + samplenumber+'/'+nowFumKit+'/'+mapName,  () => {
 
@@ -1079,7 +1076,7 @@ var scndFumonisina = new jKanban({
        }
 
        else {
-         $.post('/sample/testing/edit/fumonisina/' + samplenumber, () => {
+         $.post('/sample/scndTesting/edit/fumonisina/' + samplenumber+'/'+nowFumKit, () => {
 
          });
          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -1293,7 +1290,7 @@ var scndZearalenona = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowZKit);
+
 
           $.post('/sample/mapedit/zearalenona/' + samplenumber+'/'+nowZKit+'/'+mapName,  () => {
 
@@ -1308,7 +1305,7 @@ var scndZearalenona = new jKanban({
              return false
        }
        else {
-         $.post('/sample/testing/edit/zearalenona/' + samplenumber, () => {
+          $.post('/sample/scndTesting/edit/zearalenona/' + samplenumber+'/'+nowZKit, () => {
 
          });
          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';

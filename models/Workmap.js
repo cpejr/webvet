@@ -17,7 +17,6 @@ const workmapSchema = new mongoose.Schema({
     type: Boolean, //1 for deleted, 0 for not deleted
     default: 0
   },
-
 });
 
 const WorkmapModel = mongoose.model('Workmap', workmapSchema);
@@ -60,6 +59,24 @@ class Workmap {
     });
   }
 
+  /**
+   * remove a Sample
+   * @param {string} id - map  Id
+   * @param {Object} Sample - id
+   * @returns {null}
+   */
+
+  static removeSample(id, sample) {
+    return new Promise((resolve, reject) => {
+    WorkmapModel.findByIdAndUpdate(id, { $pull: { samplesArray: sample }}).then(()=>{
+      resolve();
+    }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+
   static setMapID(id, mapid) {
     return new Promise((resolve, reject) => {
     WorkmapModel.findByIdAndUpdate(id, { $set: { mapID: mapid } }).catch((err) => {
@@ -76,6 +93,17 @@ class Workmap {
         reject(err);
       });
    });
+ }
+
+
+ static getOneMap(id) {
+   return new Promise((resolve, reject) => {
+    WorkmapModel.findById(id).exec().then((map) => {
+       resolve(map);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
  }
 
 
