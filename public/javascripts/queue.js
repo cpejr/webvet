@@ -385,7 +385,6 @@ var scndDeoxinivalenol = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowDeoxKit);
 
           $.post('/sample/mapedit/deoxinivalenol/' + samplenumber+'/'+nowDeoxKit+'/'+mapName,  () => {
 
@@ -613,7 +612,7 @@ var scndOcratoxina = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowOcraKit);
+
 
           $.post('/sample/mapedit/ocratoxina/' + samplenumber+'/'+nowOcraKit+'/'+mapName,  () => {
 
@@ -837,7 +836,6 @@ var scndT2toxina = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowT2Kit);
 
           $.post('/sample/mapedit/t2toxina/' + samplenumber+'/'+nowT2Kit+'/'+mapName,  () => {
 
@@ -1062,7 +1060,7 @@ var scndFumonisina = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowFumKit);
+
 
           $.post('/sample/mapedit/fumonisina/' + samplenumber+'/'+nowFumKit+'/'+mapName,  () => {
 
@@ -1292,7 +1290,7 @@ var scndZearalenona = new jKanban({
 
         } else {
           var mapName=goTO.toString();
-          console.log(typeof nowZKit);
+
 
           $.post('/sample/mapedit/zearalenona/' + samplenumber+'/'+nowZKit+'/'+mapName,  () => {
 

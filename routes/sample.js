@@ -294,9 +294,10 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(
 
            console.log(originMapPosition);
 
-           if(originMapPosition!=null) { //if is null or undefined, it cant be manipulate and will be used bellow
+           if(originMapPosition!="Sem mapa") { //if is null or undefined, it cant be manipulate and will be used bellow
              originMapPosition = originMapPosition.replace("_workmap", "");//casts the old map reference of the sample to an number
              originMapPosition = Number(originMapPosition)-1;
+             console.log(originMapPosition);
            }
 
 
@@ -315,7 +316,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(
                     res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});//if alredy exists, dont add
                    }
                   else {
-                    if(originMapPosition==null){//the sample never was in a workmap before
+                    if(originMapPosition=="Sem mapa"){//the sample never was in a workmap before
                       Workmap.addSample(mapArray[mapPosition], sampleedit._id,req.params.mapreference).then(() => { //else, it will be add
                           res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
                        }).catch((error) => {
