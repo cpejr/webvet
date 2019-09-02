@@ -17,6 +17,11 @@ const workmapSchema = new mongoose.Schema({
     type: Boolean, //1 for deleted, 0 for not deleted
     default: 0
   },
+
+  active: {
+    type: Boolean, //1 for active, 0 for not active
+    default: 0
+  },
 });
 
 const WorkmapModel = mongoose.model('Workmap', workmapSchema);
