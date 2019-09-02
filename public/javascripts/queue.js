@@ -1710,7 +1710,7 @@ $('#KitRadioAfla').change(function(){
       $(document).ready(function() {
         console.log("LENDO");
         kits.forEach((kit) => {
-          var kitToxin=kit.productDescription;
+          var kitToxin=kit.productCode;
           console.log(kitToxin);
           if(kitToxin.includes("Afl")||kitToxin.includes("afl")) {
             if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
@@ -1754,7 +1754,7 @@ $('#KitRadioOcra').change(function(){
      $(document).ready(function() {
        console.log("LENDO");
        kits.forEach((kit) => {
-         var kitToxin=kit.productDescription;
+         var kitToxin=kit.productCode;
          console.log(kitToxin);
          if(kitToxin.includes("Ocra")||kitToxin.includes("ocra")) {
            console.log("Ocra");
@@ -1795,7 +1795,7 @@ $('#KitRadioDeox').change(function(){
      $(document).ready(function() {
        console.log("LENDO");
        kits.forEach((kit) => {
-         var kitToxin=kit.productDescription;
+         var kitToxin=kit.productCode;
          console.log(kitToxin);
          if(kitToxin.includes("Deox")||kitToxin.includes("deox")) {
            console.log(kit.kitType);
@@ -1834,7 +1834,7 @@ $('#KitRadioFum').change(function(){
      $(document).ready(function() {
        console.log("LENDO");
        kits.forEach((kit) => {
-         var kitToxin=kit.productDescription;
+         var kitToxin=kit.productCode;
          console.log(kitToxin);
          if(kitToxin.includes("Fum")||kitToxin.includes("fum")) {
            console.log(kit.kitType);
@@ -1874,7 +1874,7 @@ $('#KitRadioT').change(function(){
      $(document).ready(function() {
        console.log("LENDO");
        kits.forEach((kit) => {
-         var kitToxin=kit.productDescription;
+         var kitToxin=kit.productCode;
          console.log(kitToxin);
          if(kitToxin.includes("T2")||kitToxin.includes("t2")) {
            console.log(kit.kitType);
@@ -1915,7 +1915,7 @@ $('#KitRadioZ').change(function(){
      $(document).ready(function() {
        console.log("LENDO");
        kits.forEach((kit) => {
-         var kitToxin=kit.productDescription;
+         var kitToxin=kit.productCode;
          console.log(kitToxin);
          if(kitToxin.includes("Zae")||kitToxin.includes("zae")) {
            console.log(kit.kitType);
