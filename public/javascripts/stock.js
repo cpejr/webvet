@@ -1,26 +1,5 @@
 $.get('/stock/stock', (stockMap) => {
-  // console.log(stockMap.stockMap[0][0]);
-  // console.log(stockMap.stockMap[0][1]);
-  //
-  // console.log(stockMap[0][0]);
-  // for (a in stockMap.stockMap){
-  //   console.log ();
-  //   for (b in a){
-  //     console.log(b.get());
-  //   }
-  // }
-  // Find a <table> element with id="myTable":
 
-// Create an empty <tr> element and add it to the 1st position of the table:
-// var row = table.insertRow(0);
-
-// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-// var cell1 = row.insertCell(0);
-// var cell2 = row.insertCell(1);
-
-// Add some text to the new cells:
-// cell1.innerHTML =  stockMap.stockMap[0][0];
-//
 console.log(stockMap.stockMap[0][0]);
 
 // cell2.innerHTML =  stockMap.stockMap[0][1];

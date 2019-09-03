@@ -5,10 +5,11 @@
 
 
 
-  {{#each outofStockArray}}
+
+  {{#each todos}}
   <div class="alertaa">
     <div class="alert  alert-danger alert-dismissible fade show" role="alert">
-      O kit <strong>{{productcode}}</strong> esta com o estoque abaixo do mínimo.
+        O kit <strong>{{productCode}}</strong> está com o estoque de  <strong>{{amount}}</strong> , sendo o mínimo  <strong>{{stockmin}}</strong>.
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -54,3 +55,4 @@
 
 
 </div>
+<script src="/javascripts/homeAdmin.js"></script>

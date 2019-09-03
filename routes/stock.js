@@ -23,12 +23,6 @@ router.get('/', function(req, res, next) {
     var cont90 = 0;
     var cont60 = 0;
     var cont30 = 0;
-    var cont_afla = 0;
-    var cont_don = 0;
-    var cont_fumo = 0;
-    var cont_ota = 0;
-    var cont_t2 = 0;
-    var cont_zea = 0;
     var cont = 0;
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -53,39 +47,6 @@ router.get('/', function(req, res, next) {
         cont30++;
       }
   }
-
-// var x = new Array;
-// x = stockMap.keys();
-// console.log(stockMap.keys());
-
-
-
-
-    for (var i = 0; i < kits.length; i++) {
-      if(kits[i].productCode == 'AFLA Romer'){
-        cont_afla+=kits[i].amount;
-      }
-      else if (kits[i].productCode == 'DON Romer'){
-        cont_don+=kits[i].amount;
-      }
-      else if (kits[i].productCode == 'FUMO Romer'){
-        cont_fumo+=kits[i].amount;
-      }
-      else if (kits[i].productCode == 'OTA Romer'){
-        cont_ota+=kits[i].amount;
-      }
-      else if (kits[i].productCode == 'T2 Romer'){
-        cont_t2+=kits[i].amount;
-      }
-      else if (kits[i].productCode == 'ZEA Romer'){
-        cont_zea+=kits[i].amount;
-      }
-    }
-
-
-
-
-
     res.render('stock/index', { title: 'Kits', kit30,kit60,kit90,kitstocks,layout: 'layoutDashboard.hbs',...req.session, kits });
   })
   })
@@ -97,18 +58,17 @@ router.get('/', function(req, res, next) {
 
 
   router.get('/stock', (req, res) => {
-    // console.log(a2);
-    // res.send( a2 );
     Kit.getAll().then((kits) => {
       Kitstock.getAll().then((kitstocks) => {
         var stockMap = new Map();
-        for (var i = 0; i < kitstocks.length; i++) {
-          stockMap.set(kitstocks[i].productcode,0);
-        }
+
         for (var i = 0; i < kits.length; i++) {
           if(stockMap.has(kits[i].productCode) == true){
             x = stockMap.get(kits[i].productCode);
             stockMap.set(kits[i].productCode , kits[i].amount + x);
+          }
+          else {
+            stockMap.set(kits[i].productCode , kits[i].amount);
           }
 
         }
@@ -117,8 +77,8 @@ router.get('/', function(req, res, next) {
         res.send({stockMap: [...stockMap]});
         // var a2 = ["oi", "tchau"];
 
-  });
-  });
+      });
+    });
   });
 
 
