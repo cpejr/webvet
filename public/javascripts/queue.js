@@ -135,11 +135,20 @@ var scndAflatoxina = new jKanban({
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdAflaCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
+              var mapName=goTO.toString();
+              var calibrator=el.dataset.eid;
+              calibrator=calibrator.toString();
               scndAflatoxina.addElementStandart( goTO,
                {  id: el.dataset.eid +'child'+ sonNumber.toString(),
                   title: el.dataset.eid,
 
                });
+              
+
+          //     $.post('/sample/addPOnMap/aflatoxina/'+nowAflaKit+'/'+mapName+'/'+calibrator,  () => {
+
+            //   });
+
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
@@ -1712,7 +1721,7 @@ $('#KitRadioAfla').change(function(){
         kits.forEach((kit) => {
           var kitToxin=kit.productCode;
           console.log(kitToxin);
-          if(kitToxin.includes("Afl")||kitToxin.includes("afl")) {
+          if(kitToxin.includes("AFL")||kitToxin.includes("afl")) {
             if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
                 $('#hideAfla').removeClass('form-disabled');
                  console.log("É UM AFLA DO TIPO A!!!!!");
