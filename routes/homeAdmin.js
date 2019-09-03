@@ -17,8 +17,8 @@ router.get('/', function(req, res, next) {
             Requisition.count().then((countRequisitions) => {
               Kit.getAll().then((kits)=>{
                 Kitstock.getAll().then((kitstock)=>{
-                  console.log('Opaaaaa');
-                  console.log(kitstock);
+                  //console.log('Opaaaaa');
+                  //console.log(kitstock);
                   const outofStockArray = new Array;
                   var cont = 0;
                   var today = new Date();
@@ -32,12 +32,6 @@ router.get('/', function(req, res, next) {
                   var cont_dia_vence = 0;
                   var cont_possiveis = 0;
                   var cont_vencidos = 0;
-                  var cont_afla = 0;
-                  var cont_don = 0;
-                  var cont_fumo = 0;
-                  var cont_ota = 0;
-                  var cont_t2 = 0;
-                  var cont_zea = 0;
                   var vencidos = new Array;
 
                   for(i = 0; i < kits.length; i++){
@@ -51,24 +45,6 @@ router.get('/', function(req, res, next) {
 
                     }
 
-                    if(kits[i].productCode == 'AFLA Romer'){
-                      cont_afla+=kits[i].amount;
-                    }
-                    else if (kits[i].productCode == 'DON Romer'){
-                      cont_don+=kits[i].amount;
-                    }
-                    else if (kits[i].productCode == 'FUMO Romer'){
-                      cont_fumo+=kits[i].amount;
-                    }
-                    else if (kits[i].productCode == 'OTA Romer'){
-                      cont_ota+=kits[i].amount;
-                    }
-                    else if (kits[i].productCode == 'T2 Romer'){
-                      cont_t2+=kits[i].amount;
-                    }
-                    else if (kits[i].productCode == 'ZEA Romer'){
-                      cont_zea+=kits[i].amount;
-                    }
                   }
 
                   for(i = 0; i < possiveis.length; i++){
@@ -88,54 +64,46 @@ router.get('/', function(req, res, next) {
                     }
                   }
 
-                  var cont = 0;
-                  for(var i = 0; i < kitstock.length; i++){
-                    if(kitstock[i].productcode == 'AFLA Romer'){
-                      if(kitstock[i].stockmin > cont_afla){
-                        outofStockArray[cont] = kitstock[i];
-                        cont++;
-                      }
-                    }
-                    if(kitstock[i].productcode == 'DON Romer'){
-                      if(kitstock[i].stockmin > cont_don){
-                        outofStockArray[cont] = kitstock[i];
-                        cont++;
-                      }
-                    }
-
-                    if(kitstock[i].productcode == 'FUMO Romer'){
-                      if(kitstock[i].stockmin > cont_fumo){
-                        outofStockArray[cont] = kitstock[i];
-                        cont++;
-                      }
-                    }
 
 
-                    if(kitstock[i].productcode == 'OTA Romer'){
-                      if(kitstock[i].stockmin > cont_ota){
-                        outofStockArray[cont] = kitstock[i];
-                        cont++;
-                      }
-                    }
 
-                    if(kitstock[i].productcode == 'T2 Romer'){
-                      if(kitstock[i].stockmin > cont_t2){
-                        outofStockArray[cont] = kitstock[i];
-                        cont++;
-                      }
-                    }
-                    if(kitstock[i].productcode == 'ZEA Romer'){
-                      if(kitstock[i].stockmin > cont_zea){
-                        outofStockArray[cont] = kitstock[i];
-                        cont++;
-                      }
-                    }
+                  function outofStock(pname,amount, stockmin){
+                    this.productCode = pname;
+                    this.amount = amount;
+                    this.stockmin =stockmin;
                   }
 
 
+                  var stockMap = new Map();
 
+                  for (var i = 0; i < kits.length; i++) {
+                    if(stockMap.has(kits[i].productCode) == true){
+                      x = stockMap.get(kits[i].productCode);
+                      stockMap.set(kits[i].productCode , kits[i].amount + x);
+                      // console.log('qtde');
+                      // console.log(kits[i].amount);
+                      // console.log(x);
+                    }
+                    else {
+                      stockMap.set(kits[i].productCode , kits[i].amount);
+                    }
+                  }
+                  //aqui em cima somou, agora falta compara os maps
+                  //agora agnt compara com a quantidade minima e coloca num novo map
+                  var cont_todos = 0;
+                  var todos = new Object();
+                  for(var i = 0; i < kitstock.length; i++){
+                    stockMap.get(kitstock[i].productcode);// retorna a quantidade
+                     if(stockMap.get(kitstock[i].productcode) < kitstock[i].stockmin){ // sinal q ta faltando stock
+                      todos[cont_todos] = new outofStock(kitstock[i].productcode,stockMap.get(kitstock[i].productcode),kitstock[i].stockmin);
+                      cont_todos++;
+                      // console.log('teste');
+                      // console.log(stockMap.get(kitstock[i].productcode));
 
-                res.render('admin/homeAdmin',  { title: 'Home', layout: 'layoutDashboard.hbs', countClients,vencidos ,outofStockArray ,countSamples, countRequisitions, ...req.session });
+                     }
+                  }
+
+                res.render('admin/homeAdmin',  { title: 'Home', layout: 'layoutDashboard.hbs', countClients,outofStock,todos,vencidos ,countSamples, countRequisitions, ...req.session });
 
               }).catch((error) => {
                 console.log(error);
@@ -158,6 +126,7 @@ router.get('/', function(req, res, next) {
     res.redirect('/error');
   });
 });
+
 
 
 
