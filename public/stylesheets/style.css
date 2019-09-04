@@ -7537,16 +7537,11 @@ body {
   margin-top: 30px;
   width: 100%; }
 
-.printrow {
-  border: 1px solid green;
-  height: 1em;
-  line-height: 1em; }
+.table-printtemplate {
+  display: inline-table;
+  padding-bottom: 30px; }
 
-.printbox {
-  display: inline-flex;
-  width: 6%;
-  height: 1em;
-  box-sizing: border-box;
-  border: 1px solid red; }
+.printtemplate {
+  padding-bottom: 30px; }
 
 /*# sourceMappingURL=style.css.map */
