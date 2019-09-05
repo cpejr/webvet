@@ -149,18 +149,20 @@ router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
    });
 });
 router.post('/setActiveKit/:code/:kitActiveID',  function(req, res, next) {
-  console.log("CODE:")
-  console.log(req.params.code)
  Kit.getByProductCode(req.params.code).then((kits)=>{
      var size=kits.length;
-     var out="Kit  "
      for(i=0;i<size;i++) {
-          if(kits[i]._id=req.params.kitActiveID){
-            console.log("isActive");
-            console.log(kits[i].provider);
+          if(kits[i]._id==req.params.kitActiveID){
+            Kit.setActiveStatus(req.params.kitActiveID,true).catch((error) => {
+              console.log(error);
+              res.redirect('/error');
+            });
           }
           else{
-            console.log("isNot");
+            Kit.setActiveStatus(kits[i]._id,false).catch((error) => {
+              console.log(error);
+              res.redirect('/error');
+            });
           }
      }
 
