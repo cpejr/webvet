@@ -1727,6 +1727,9 @@ $('#KitRadioAfla').change(function(){
                  console.log("É UM AFLA DO TIPO A!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                 });
 
             }
              else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
@@ -1734,6 +1737,9 @@ $('#KitRadioAfla').change(function(){
                  console.log("É UM AFLA DO TIPO B!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                 });
 
              }
              else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
@@ -1741,6 +1747,9 @@ $('#KitRadioAfla').change(function(){
                   $('#hideAfla').removeClass('form-disabled');
                   aflaLimit=kit.stripLength;
                   nowAflaKit=kit._id;
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                  });
              }
             else {
                 $('#hideAfla').addClass('form-disabled');

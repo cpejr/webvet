@@ -104,6 +104,8 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
   });
 });
 
+
+
 router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
@@ -146,7 +148,33 @@ router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
      res.redirect('/error');
    });
 });
+router.post('/setActiveKit/:code/:kitActiveID',  function(req, res, next) {
+  console.log("CODE:")
+  console.log(req.params.code)
+ Kit.getByProductCode(req.params.code).then((kits)=>{
+     var size=kits.length;
+     var out="Kit  "
+     for(i=0;i<size;i++) {
+          if(kits[i]._id=req.params.kitActiveID){
+            console.log("isActive");
+            console.log(kits[i].provider);
+          }
+          else{
+            console.log("isNot");
+          }
+     }
 
+
+ }).catch((error) => {
+   console.log(error);
+   res.redirect('/error');
+ });
+
+
+
+
+
+});
 router.post('/ownering/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
 
 

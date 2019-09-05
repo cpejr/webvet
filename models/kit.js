@@ -30,6 +30,10 @@ const kitSchema = new mongoose.Schema({
     type: String,
     enum: ['Suficiente', 'Próximo ao Vencimento', 'Kit Vencido']
   },
+  active:{
+    type: Boolean, //1 for active, 0 for not
+    default: 0
+  },
   deleted: {
     type: Boolean, //1 for deleted, 0 for not deleted
     default: 0
@@ -78,6 +82,22 @@ class Kit {
   static getById(id) {
     return new Promise((resolve, reject) => {
       KitModel.findById(id).exec().then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+
+  /**
+   * Get all kits with same productCode
+   * @param {string} code - product code
+   * @returns {array} - Kit array
+   */
+  static getByProductCode(code) {
+    return new Promise((resolve, reject) => {
+      KitModel.find({productCode: code}).exec().then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -140,6 +160,20 @@ class Kit {
       });
     });
   }
+
+  /**
+   * Set a vector of mycotoxins
+   * @param {string} id - Kit Id
+   * @param {Boolean} isActive - state of the map
+   * @returns {null}
+   */
+  static setActiveStatus(id, status) {
+   return new Promise((resolve, reject) => {
+     KitModel.findByIdAndUpdate(id, { $set: { active: status } }).catch((err) => {
+       reject(err);
+       });
+     });
+   }
 
   /**
   * Delete a Kit
