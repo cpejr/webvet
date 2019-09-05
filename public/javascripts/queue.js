@@ -691,6 +691,9 @@ function OcraPlusButton() {
 
 
         document.getElementById("countMapOcra").innerHTML = ocraclicks;
+        $.post('/stock/decreaseAmount/'+nowOcraKit, () => {
+
+        });
 
       }
     };
@@ -719,6 +722,9 @@ function OcraMinusButton() {
           }
         }
        document.getElementById("countMapOcra").innerHTML = ocraclicks;
+       $.post('/stock/increaseAmount/'+nowOcraKit, () => {
+
+       });
     };
 
 
@@ -915,7 +921,9 @@ function T2PlusButton() {
 
 
         document.getElementById("countMapT2").innerHTML = t2clicks;
+        $.post('/stock/decreaseAmount/'+nowT2Kit, () => {
 
+        });
       }
     };
 
@@ -930,6 +938,9 @@ function T2MinusButton() {
                scndT2toxina.removeBoard('_workmap' + t2clicks);
                 t2clicks -= 1;
                 document.getElementById("countMapT2").innerHTML = t2clicks;
+                $.post('/stock/increaseAmount/'+nowT2Kit, () => {
+
+                });
         }
 
     };
@@ -1141,6 +1152,9 @@ function FumoPlusButton() {
 
 
         document.getElementById("countMapFumo").innerHTML = fumoclicks;
+        $.post('/stock/decreaseAmount/'+nowFumKit, () => {
+
+        });
 
       }
     };
@@ -1156,6 +1170,9 @@ function FumoMinusButton() {
                scndFumonisina.removeBoard('_workmap' + fumoclicks);
                 fumoclicks -= 1;
                 document.getElementById("countMapFumo").innerHTML = fumoclicks;
+                $.post('/stock/increaseAmount/'+nowFumKit, () => {
+
+                });
         }
 
     };
@@ -1383,6 +1400,9 @@ function ZMinusButton() {
                scndZearalenona.removeBoard('_workmap' + zclicks);
                 zclicks -= 1;
                 document.getElementById("countMapZ").innerHTML = zclicks;
+                $.post('/stock/decreaseAmount/'+nowZKit, () => {
+
+                });
         }
 
     };
@@ -1396,6 +1416,9 @@ function ZMinusButton() {
              }
            }
           document.getElementById("countMapZ").innerHTML = zclicks;
+          $.post('/stock/increaseAmount/'+nowZKit, () => {
+
+          });
        };
 
 //cria cedulas kanban
