@@ -164,6 +164,23 @@ router.post('/delete/:id',auth.isAuthenticated, function(req,res){
   });
 });
 
+router.post('/decreaseAmount/:kitid/',  function(req, res, next) {
+  Kit.decreaseAmount(req.params.kitid).catch((error) => {
+  console.log(error);
+  res.redirect('/error');
+  });
+});
+
+router.post('/increaseAmount/:kitid/',  function(req, res, next) {
+  Kit.increaseAmount(req.params.kitid).catch((error) => {
+  console.log(error);
+  res.redirect('/error');
+  });
+});
+
+
+
+
 
 
 
