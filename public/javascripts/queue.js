@@ -874,14 +874,14 @@ function IdT2Count ()
 
 var t2clicks = 1;
 var t2Limit;
-var t2count;
+var t2count = 9;
 function T2PlusButton() {
         t2clicks += 1;
         t2count -= 1;
+        t2count = t2Limit;
 
         if(t2clicks>t2Limit) {
           t2clicks-=1;
-          t2count=t2Limit;
           document.getElementById("countkits").innerHTML = t2count;
 
         } else {
