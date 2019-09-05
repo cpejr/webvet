@@ -308,6 +308,25 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID',  function(req, 
  });
 });
 
+// router.post('/addPOnMap/:mycotoxin/:kitID/:mapreference/:calibrator',  function(req, res, next) {
+//    Kit.getWorkmapsById(kit._id).then((mapArray)=>{//access the kit and get the workmaps
+//      var mapPosition = req.params.mapreference;
+//      var mapPosition = mapPosition.replace("_workmap", "");
+//      var mapPosition= Number(mapPosition)-1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
+//      var originMapPosition;
+//      const sample = {
+//        name: samplesV[i],
+//        samplenumber: numDefault,
+//        responsible: req.body.responsible
+//      }
+//
+
+
+
+
+
+//});
+
 router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(req, res, next) {
 
 
