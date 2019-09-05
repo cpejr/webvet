@@ -127,6 +127,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
   console.log(req.session.user);
   const { kit } = req.body;
   console.log(kit);
+  kit.stripLength=kit.amount;
   Kit.create(kit).then((id) => {
     var size=req.body.kit.amount;
     for(i=0;i<size;i++){
