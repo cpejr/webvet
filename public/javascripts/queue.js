@@ -1727,6 +1727,9 @@ $('#KitRadioAfla').change(function(){
                  console.log("É UM AFLA DO TIPO A!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                 });
 
             }
              else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
@@ -1734,6 +1737,9 @@ $('#KitRadioAfla').change(function(){
                  console.log("É UM AFLA DO TIPO B!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                 });
 
              }
              else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
@@ -1741,6 +1747,9 @@ $('#KitRadioAfla').change(function(){
                   $('#hideAfla').removeClass('form-disabled');
                   aflaLimit=kit.stripLength;
                   nowAflaKit=kit._id;
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                  });
              }
             else {
                 $('#hideAfla').addClass('form-disabled');
@@ -1771,17 +1780,26 @@ $('#KitRadioOcra').change(function(){
                $('#hideOcra').removeClass('form-disabled');
                 ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
+                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
+
+                });
 
            }
             else if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
                  $('#hideOcra').removeClass('form-disabled');
                   ocraLimit=kit.stripLength;
                     nowOcraKit=kit._id;
+                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
+
+                    });
              }
             else if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
+                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
+
+                });
             }
            else {
                $('#hideOcra').addClass('form-disabled');
@@ -1812,17 +1830,26 @@ $('#KitRadioDeox').change(function(){
                $('#hideDeox').removeClass('form-disabled');
                 deoxLimit=kit.stripLength;
                 nowDeoxKit=kit._id;
+                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
+
+                });
 
            }
             else if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                nowDeoxKit=kit._id;
+               $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
+
+               });
              }
             else if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                  nowDeoxKit=kit._id;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
+
+                 });
             }
            else {
                $('#hideDeox').addClass('form-disabled');
@@ -1851,18 +1878,26 @@ $('#KitRadioFum').change(function(){
                $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                   nowFumKit=kit._id;
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+
+                  });
 
            }
             else if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
               $('#hideFum').removeClass('form-disabled');
                  fumLimit=kit.stripLength;
                  nowFumKit=kit._id;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
+                 });
              }
             else if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
               $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                    nowFumKit=kit._id;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+
+                   });
             }
            else {
                $('#hideFum').addClass('form-disabled');
@@ -1932,18 +1967,27 @@ $('#KitRadioZ').change(function(){
                $('#hideZ').removeClass('form-disabled');
                   zLimit=kit.stripLength;
                   nowZKit=kit._id;
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
+
+                  });
 
            }
             else if($('#KitZB').is(':checked')&&kit.kitType=="B") {
               $('#hideZ').removeClass('form-disabled');
                  zLimit=kit.stripLength;
                    nowZKit=kit._id;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
+
+                   });
 
              }
             else if (kit.kitType=="C"&&$('#KitZC').is(':checked')) {
               $('#hideZ').removeClass('form-disabled');
                  zLimit=kit.stripLength;
                    nowZKit=kit._id;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
+
+                   });
             }
            else {
                $('#hideZ').addClass('form-disabled');
