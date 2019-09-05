@@ -1721,7 +1721,7 @@ $('#KitRadioAfla').change(function(){
         kits.forEach((kit) => {
           var kitToxin=kit.productCode;
           console.log(kitToxin);
-          if(kitToxin.includes("AFLA") ) {
+          if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
             if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
                 $('#hideAfla').removeClass('form-disabled');
                  console.log("É UM AFLA DO TIPO A!!!!!");
@@ -1765,7 +1765,7 @@ $('#KitRadioOcra').change(function(){
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
-         if(kitToxin.includes("OTA")) {
+         if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
            console.log("Ocra");
            if($('#KitOcraA').is(':checked')&&kit.kitType=="A") {
                $('#hideOcra').removeClass('form-disabled');
@@ -1845,7 +1845,7 @@ $('#KitRadioFum').change(function(){
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
-         if(kitToxin.includes("FUMO")) {
+         if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
            console.log(kit.kitType);
            if($('#KitFumA').is(':checked')&&kit.kitType=="A") {
                $('#hideFum').removeClass('form-disabled');
@@ -1926,7 +1926,7 @@ $('#KitRadioZ').change(function(){
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
-         if(kitToxin.includes("ZEA")) {
+         if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
            console.log(kit.kitType);
            if($('#KitZA').is(':checked')&&kit.kitType=="A") {
                $('#hideZ').removeClass('form-disabled');
