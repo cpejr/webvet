@@ -868,16 +868,21 @@ var countT2=0;
 function IdT2Count ()
 {
   console.log("count T2 is: " + countT2);
-    countT2++;
+    countT2++;0
     return countT2;
 }
 
 var t2clicks = 1;
 var t2Limit;
+var t2count;
 function T2PlusButton() {
         t2clicks += 1;
+        t2count -= 1;
+
         if(t2clicks>t2Limit) {
           t2clicks-=1;
+          t2count=t2Limit;
+          document.getElementById("countkits").innerHTML = t2count;
 
         } else {
             scndT2toxina.addBoards(
@@ -888,24 +893,26 @@ function T2PlusButton() {
 
                   }]
               )
-
-
+        document.getElementById("countkits").innerHTML = t2count;
         document.getElementById("countMapT2").innerHTML = t2clicks;
 
       }
     };
 
-function T2MinusButton() {
+    function T2MinusButton() {
 
         if(t2clicks==1){
          t2clicks=1;
+         t2count=t2Limit;
           document.getElementById("countMapT2").innerHTML =t2clicks;
-        } else {
-
-
+          document.getElementById("countkits").innerHTML = t2count;
+        } else
+        {
                scndT2toxina.removeBoard('_workmap' + t2clicks);
                 t2clicks -= 1;
+                t2count += 1;
                 document.getElementById("countMapT2").innerHTML = t2clicks;
+                document.getElementById("countkits").innerHTML = t2count;
         }
 
     };

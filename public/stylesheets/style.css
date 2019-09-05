@@ -7087,6 +7087,10 @@ li {
   padding: 20px 0;
   z-index: 1; }
 
+#countkits {
+  margin-top: 10px;
+  margin-left: 10px; }
+
 .info {
   background: #6BA05C;
   color: #fff; }
