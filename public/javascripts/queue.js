@@ -214,6 +214,10 @@ var aflaLimit;
 
 
         document.getElementById("countMapAfla").innerHTML = aflaclicks;
+        $.post('/stock/decreaseAmount/'+nowAflaKit, () => {
+
+        });
+
 
       }
     };
@@ -229,6 +233,12 @@ var aflaLimit;
                scndAflatoxina.removeBoard('_workmap' + aflaclicks);
 
                 document.getElementById("countMapAfla").innerHTML = aflaclicks;
+
+                aflaclicks -= 1;
+                $.post('/stock/increaseAmount/'+nowAflaKit, () => {
+
+                });
+
         }
 
     };
@@ -449,7 +459,9 @@ var deoxclicks = 1;
 
 
         document.getElementById("countMapDeox").innerHTML = deoxclicks;
+        $.post('/stock/increaseAmount/'+nowDeoxKit, () => {
 
+        });
       }
     };
 
@@ -464,6 +476,9 @@ var deoxclicks = 1;
                scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
                 deoxclicks -= 1;
                 document.getElementById("countMapDeox").innerHTML = deoxclicks;
+                $.post('/stock/decreaseAmount/'+nowDeoxKit, () => {
+
+                });
         }
 
     };

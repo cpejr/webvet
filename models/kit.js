@@ -175,6 +175,30 @@ class Kit {
      });
    }
 
+   /**
+    * Decreases  the amount in 1
+    * @param {string} id - Kit Id
+    */
+   static decreaseAmount(id,numDecrease) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $inc:{amount:-1} }).catch((err) => {
+        reject(err);
+        });
+      });
+    }
+
+    /**
+     * increases  the amount in 1
+     * @param {string} id - Kit Id
+     */
+    static increaseAmount(id,numDecrease) {
+     return new Promise((resolve, reject) => {
+       KitModel.findByIdAndUpdate(id, { $inc:{amount:1} }).catch((err) => {
+         reject(err);
+         });
+       });
+     }
+
   /**
   * Delete a Kit
   * @param {string} id - Kit Id
