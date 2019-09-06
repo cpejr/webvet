@@ -135,11 +135,20 @@ var scndAflatoxina = new jKanban({
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdAflaCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
+              var mapName=goTO.toString();
+              var calibrator=el.dataset.eid;
+              calibrator=calibrator.toString();
               scndAflatoxina.addElementStandart( goTO,
                {  id: el.dataset.eid +'child'+ sonNumber.toString(),
                   title: el.dataset.eid,
 
                });
+
+
+          //     $.post('/sample/addPOnMap/aflatoxina/'+nowAflaKit+'/'+mapName+'/'+calibrator,  () => {
+
+            //   });
+
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
@@ -208,6 +217,10 @@ var aflacount;
 
         document.getElementById("countkitsAfla").innerHTML = aflacount;
         document.getElementById("countMapAfla").innerHTML = aflaclicks;
+        $.post('/stock/decreaseAmount/'+nowAflaKit, () => {
+
+        });
+
 
       }
     };
@@ -219,12 +232,17 @@ var aflacount;
           aflaclicks=1;
           document.getElementById("countkitsAfla").innerHTML = aflacount;
           document.getElementById("countMapAfla").innerHTML = clicks;
+
         }
         else {
           aflacount += 1;
            scndAflatoxina.removeBoard('_workmap' + aflaclicks);
            document.getElementById("countkitsAfla").innerHTML = aflacount;
            document.getElementById("countMapAfla").innerHTML = aflaclicks;
+          aflaclicks -= 1;
+                $.post('/stock/increaseAmount/'+nowAflaKit, () => {
+
+                });
         }
 
     };
@@ -446,6 +464,9 @@ var deoxcount;
               )
           document.getElementById("countkitsDeox").innerHTML = deoxcount;
           document.getElementById("countMapDeox").innerHTML = deoxclicks;
+          $.post('/stock/increaseAmount/'+nowDeoxKit, () => {
+          
+          });
       }
     };
 
@@ -462,6 +483,11 @@ var deoxcount;
            deoxcount += 1;
            document.getElementById("countMapDeox").innerHTML = deoxclicks;
            document.getElementById("countkitsDeox").innerHTML = deoxcount;
+          $.post('/stock/decreaseAmount/'+nowDeoxKit, () => {
+           
+          });
+
+        
         }
 
     };
@@ -677,6 +703,10 @@ function OcraPlusButton() {
 
         document.getElementById("countMapOcra").innerHTML = ocraclicks;
         document.getElementById("countkits").innerHTML = ocracount;
+        $.post('/stock/decreaseAmount/'+nowOcraKit, () => {
+          
+        });
+
 
       }
     };
@@ -708,6 +738,9 @@ function OcraMinusButton() {
           }
         }
        document.getElementById("countMapOcra").innerHTML = ocraclicks;
+       $.post('/stock/increaseAmount/'+nowOcraKit, () => {
+
+       });
     };
 
 
@@ -908,7 +941,9 @@ function T2PlusButton() {
               )
         document.getElementById("countkits").innerHTML = t2count;
         document.getElementById("countMapT2").innerHTML = t2clicks;
+        $.post('/stock/decreaseAmount/'+nowT2Kit, () => {
 
+        });
       }
     };
 
@@ -926,6 +961,9 @@ function T2PlusButton() {
                 t2count += 1;
                 document.getElementById("countMapT2").innerHTML = t2clicks;
                 document.getElementById("countkits").innerHTML = t2count;
+                $.post('/stock/increaseAmount/'+nowT2Kit, () => {
+
+                });
         }
 
     };
@@ -1141,6 +1179,9 @@ function FumoPlusButton() {
 
         document.getElementById("countkits").innerHTML = fumcount;
         document.getElementById("countMapFumo").innerHTML = fumoclicks;
+        $.post('/stock/decreaseAmount/'+nowFumKit, () => {
+
+        });
 
       }
     };
@@ -1158,6 +1199,9 @@ function FumoMinusButton() {
                fumcount +=1;
                document.getElementById("countMapFumo").innerHTML = fumoclicks;
                document.getElementById("countkits").innerHTML = fumcount;
+                $.post('/stock/increaseAmount/'+nowFumKit, () => {
+
+                });
         }
 
     };
@@ -1385,6 +1429,9 @@ function ZMinusButton() {
                scndZearalenona.removeBoard('_workmap' + zclicks);
                 zclicks -= 1;
                 document.getElementById("countMapZ").innerHTML = zclicks;
+                $.post('/stock/decreaseAmount/'+nowZKit, () => {
+
+                });
         }
 
     };
@@ -1398,6 +1445,9 @@ function ZMinusButton() {
              }
            }
           document.getElementById("countMapZ").innerHTML = zclicks;
+          $.post('/stock/increaseAmount/'+nowZKit, () => {
+
+          });
        };
 
 //cria cedulas kanban
@@ -1738,13 +1788,16 @@ $('#KitRadioAfla').change(function(){
         kits.forEach((kit) => {
           var kitToxin=kit.productCode;
           console.log(kitToxin);
-          if(kitToxin.includes("Afl")||kitToxin.includes("afl")) {
+          if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
             if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
                 $('#hideAfla').removeClass('form-disabled');
                  console.log("É UM AFLA DO TIPO A!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
                  aflacount = aflaLimit;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                 });
 
             }
              else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
@@ -1753,6 +1806,9 @@ $('#KitRadioAfla').change(function(){
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
                  aflacount = aflaLimit;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                 });
 
              }
              else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
@@ -1761,6 +1817,9 @@ $('#KitRadioAfla').change(function(){
                   aflaLimit=kit.stripLength;
                   nowAflaKit=kit._id;
                   aflacount = aflaLimit;
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                  });
              }
             else {
                 $('#hideAfla').addClass('form-disabled');
@@ -1785,13 +1844,16 @@ $('#KitRadioOcra').change(function(){
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
-         if(kitToxin.includes("Ocra")||kitToxin.includes("ocra")) {
+         if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
            console.log("Ocra");
            if($('#KitOcraA').is(':checked')&&kit.kitType=="A") {
                $('#hideOcra').removeClass('form-disabled');
                 ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
+                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
+
+                });
 
            }
             else if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
@@ -1799,12 +1861,18 @@ $('#KitRadioOcra').change(function(){
                   ocraLimit=kit.stripLength;
                     nowOcraKit=kit._id;
                     ocracount = ocraLimit;
+                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
+
+                    });
              }
             else if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
+                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
+
+                });
             }
            else {
                $('#hideOcra').addClass('form-disabled');
@@ -1829,13 +1897,16 @@ $('#KitRadioDeox').change(function(){
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
-         if(kitToxin.includes("Deox")||kitToxin.includes("deox")) {
+         if(kitToxin.includes("DON")) {
            console.log(kit.kitType);
            if($('#KitDeoxA').is(':checked')&&kit.kitType=="A") {
                $('#hideDeox').removeClass('form-disabled');
                 deoxLimit=kit.stripLength;
                 nowDeoxKit=kit._id;
                 deoxcount = deoxLimit;
+                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
+
+                });
 
            }
             else if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
@@ -1843,12 +1914,18 @@ $('#KitRadioDeox').change(function(){
                deoxLimit=kit.stripLength;
                nowDeoxKit=kit._id;
                deoxcount = deoxLimit;
+               $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
+
+               });
              }
             else if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                  nowDeoxKit=kit._id;
                  deoxcount = deoxLimit;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
+
+                 });
             }
            else {
                $('#hideDeox').addClass('form-disabled');
@@ -1871,13 +1948,16 @@ $('#KitRadioFum').change(function(){
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
-         if(kitToxin.includes("Fum")||kitToxin.includes("fum")) {
+         if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
            console.log(kit.kitType);
            if($('#KitFumA').is(':checked')&&kit.kitType=="A") {
                $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                   nowFumKit=kit._id;
                   fumcount = fumLimit;
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+
+                  });
 
            }
             else if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
@@ -1885,13 +1965,18 @@ $('#KitRadioFum').change(function(){
                  fumLimit=kit.stripLength;
                  nowFumKit=kit._id;
                  fumcount = fumLimit;
+                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
+                 });
              }
             else if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
               $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                    nowFumKit=kit._id;
                    fumcount = fumLimit;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+
+                   });
             }
            else {
                $('#hideFum').addClass('form-disabled');
@@ -1914,7 +1999,7 @@ $('#KitRadioT').change(function(){
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
-         if(kitToxin.includes("T2")||kitToxin.includes("t2")) {
+         if(kitToxin.includes("T2")) {
            console.log(kit.kitType);
            if($('#KitTA').is(':checked')&&kit.kitType=="A") {
                $('#hideT').removeClass('form-disabled');
@@ -1958,24 +2043,33 @@ $('#KitRadioZ').change(function(){
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
-         if(kitToxin.includes("Zae")||kitToxin.includes("zae")) {
+         if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
            console.log(kit.kitType);
            if($('#KitZA').is(':checked')&&kit.kitType=="A") {
                $('#hideZ').removeClass('form-disabled');
                   zLimit=kit.stripLength;
                   nowZKit=kit._id;
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
+
+                  });
 
            }
             else if($('#KitZB').is(':checked')&&kit.kitType=="B") {
               $('#hideZ').removeClass('form-disabled');
                  zLimit=kit.stripLength;
                    nowZKit=kit._id;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
+
+                   });
 
              }
             else if (kit.kitType=="C"&&$('#KitZC').is(':checked')) {
               $('#hideZ').removeClass('form-disabled');
                  zLimit=kit.stripLength;
                    nowZKit=kit._id;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
+
+                   });
             }
            else {
                $('#hideZ').addClass('form-disabled');

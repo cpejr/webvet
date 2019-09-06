@@ -104,6 +104,8 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
   });
 });
 
+
+
 router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
@@ -146,7 +148,35 @@ router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
      res.redirect('/error');
    });
 });
+router.post('/setActiveKit/:code/:kitActiveID',  function(req, res, next) {
+ Kit.getByProductCode(req.params.code).then((kits)=>{
+     var size=kits.length;
+     for(i=0;i<size;i++) {
+          if(kits[i]._id==req.params.kitActiveID){
+            Kit.setActiveStatus(req.params.kitActiveID,true).catch((error) => {
+              console.log(error);
+              res.redirect('/error');
+            });
+          }
+          else{
+            Kit.setActiveStatus(kits[i]._id,false).catch((error) => {
+              console.log(error);
+              res.redirect('/error');
+            });
+          }
+     }
 
+
+ }).catch((error) => {
+   console.log(error);
+   res.redirect('/error');
+ });
+
+
+
+
+
+});
 router.post('/ownering/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
 
 
@@ -307,6 +337,25 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID',  function(req, 
    res.redirect('/error');
  });
 });
+
+// router.post('/addPOnMap/:mycotoxin/:kitID/:mapreference/:calibrator',  function(req, res, next) {
+//    Kit.getWorkmapsById(kit._id).then((mapArray)=>{//access the kit and get the workmaps
+//      var mapPosition = req.params.mapreference;
+//      var mapPosition = mapPosition.replace("_workmap", "");
+//      var mapPosition= Number(mapPosition)-1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
+//      var originMapPosition;
+//      const sample = {
+//        name: samplesV[i],
+//        samplenumber: numDefault,
+//        responsible: req.body.responsible
+//      }
+//
+
+
+
+
+
+//});
 
 router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(req, res, next) {
 
