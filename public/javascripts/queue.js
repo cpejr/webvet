@@ -188,13 +188,16 @@ function IdAflaCount ()
 
 var aflaclicks = 1;
 var aflaLimit;
+var aflacount;
     function AflaPlusButton() {
         aflaclicks += 1;
-        if(aflaclicks>aflaLimit) {
-          aflaclicks-=1;
-
-        } else {
-            scndAflatoxina.addBoards(
+        aflacount -= 1;
+        if (aflaclicks > aflaLimit) {
+          aflaclicks -= 1;
+          document.getElementById("countkitsAfla").innerHTML = aflacount;
+        }
+       else {
+           scndAflatoxina.addBoards(
                   [{
                       'id' : '_workmap' + aflaclicks,
                       'title'  : 'Mapa de trabalho' + ' '+ aflaclicks,
@@ -203,7 +206,7 @@ var aflaLimit;
                   }]
               )
 
-
+        document.getElementById("countkitsAfla").innerHTML = aflacount;
         document.getElementById("countMapAfla").innerHTML = aflaclicks;
 
       }
@@ -212,14 +215,16 @@ var aflaLimit;
     function AflaMinusButton() {
 
         if(aflaclicks==1){
-        aflaclicks=1;
+          aflacount = aflaLimit;
+          aflaclicks=1;
+          document.getElementById("countkitsAfla").innerHTML = aflacount;
           document.getElementById("countMapAfla").innerHTML = clicks;
-        } else {
-
-
-               scndAflatoxina.removeBoard('_workmap' + aflaclicks);
-
-                document.getElementById("countMapAfla").innerHTML = aflaclicks;
+        }
+        else {
+          aflacount += 1;
+           scndAflatoxina.removeBoard('_workmap' + aflaclicks);
+           document.getElementById("countkitsAfla").innerHTML = aflacount;
+           document.getElementById("countMapAfla").innerHTML = aflaclicks;
         }
 
     };
@@ -423,38 +428,40 @@ function IdDeoxCount ()
 }
 
 var deoxclicks = 1;
+var deoxcount;
     function DeoxPlusButton() {
         deoxclicks += 1;
-        if(deoxclicks>deoxLimit) {
-          deoxclicks-=1;
-
-        } else {
-            scndDeoxinivalenol.addBoards(
+        deoxcount -= 1;
+        if(deoxclicks > deoxLimit) {
+          deoxclicks -= 1;
+          document.getElementById("countkitsDeox").innerHTML = deoxcount;
+        }
+        else {
+          scndDeoxinivalenol.addBoards(
                   [{
                       'id' : '_workmap' + deoxclicks,
                       'title'  : 'Mapa de trabalho' + ' '+ deoxclicks,
                       'class' : 'info',
-
                   }]
               )
-
-
-        document.getElementById("countMapDeox").innerHTML = deoxclicks;
-
+          document.getElementById("countkitsDeox").innerHTML = deoxcount;
+          document.getElementById("countMapDeox").innerHTML = deoxclicks;
       }
     };
 
     function DeoxMinusButton() {
-
         if(deoxclicks==1){
-        deoxclicks=1;
+          deoxclicks=1;
+          deoxcount = deoxLimit;
+          document.getElementById("countkitsDeox").innerHTML = deoxcount;
           document.getElementById("countMapDeox").innerHTML = deoxclicks;
-        } else {
-
-
-               scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
-                deoxclicks -= 1;
-                document.getElementById("countMapDeox").innerHTML = deoxclicks;
+        }
+        else {
+           scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
+           deoxclicks -= 1;
+           deoxcount += 1;
+           document.getElementById("countMapDeox").innerHTML = deoxclicks;
+           document.getElementById("countkitsDeox").innerHTML = deoxcount;
         }
 
     };
@@ -639,23 +646,25 @@ var scndOcratoxina = new jKanban({
 });
 
 //função de criação dos id dos Pchild para o scndOcratoxina
-var countOcra=0;
-var ocraLimit;
+var countOcra = 0;
 
-function IdOcraCount ()
-{
+function IdOcraCount (){
   console.log("count Ocra is: " + countOcra);
     countOcra++;
     return countOcra;
 }
 
 var ocraclicks = 1;
+var ocraLimit;
+var ocracount;
 function OcraPlusButton() {
         ocraclicks += 1;
+        ocracount -=1;
         if(ocraclicks>ocraLimit) {
           ocraclicks-=1;
-
-        } else {
+          document.getElementById("countkits").innerHTML = ocracount;
+        }
+        else {
             scndOcratoxina.addBoards(
                   [{
                       'id' : '_workmap' + ocraclicks,
@@ -667,6 +676,7 @@ function OcraPlusButton() {
 
 
         document.getElementById("countMapOcra").innerHTML = ocraclicks;
+        document.getElementById("countkits").innerHTML = ocracount;
 
       }
     };
@@ -675,13 +685,16 @@ function OcraMinusButton() {
 
         if(ocraclicks==1){
         ocraclicks=1;
+        ocracount = ocraLimit;
           document.getElementById("countMapOcra").innerHTML = ocraclicks;
-        } else {
-
-
-               scndOcratoxina.removeBoard('_workmap' + ocraclicks);
-                ocraclicks -= 1;
-                document.getElementById("countMapOcra").innerHTML = ocraclicks;
+          document.getElementById("countkits").innerHTML = ocracount;
+        }
+        else {
+          ocraclicks -= 1;
+          ocracount == 1;
+          scndOcratoxina.removeBoard('_workmap' + ocraclicks);
+          document.getElementById("countMapOcra").innerHTML = ocraclicks;
+          document.getElementById("countkits").innerHTML = ocracount;
         }
 
     };
@@ -874,11 +887,11 @@ function IdT2Count ()
 
 var t2clicks = 1;
 var t2Limit;
-var t2count = 9;
+var t2count;
 function T2PlusButton() {
+        console.log(t2count);
         t2clicks += 1;
         t2count -= 1;
-        t2count = t2Limit;
 
         if(t2clicks>t2Limit) {
           t2clicks-=1;
@@ -1107,10 +1120,13 @@ function IdFumCount ()
 }
 
 var fumoclicks = 1;
+var fumcount;
 function FumoPlusButton() {
         fumoclicks += 1;
+        fumcount -= 1;
         if(fumoclicks>fumLimit) {
           fumoclicks-=1;
+          document.getElementById("countkits").innerHTML = fumcount;
 
         } else {
             scndFumonisina.addBoards(
@@ -1123,6 +1139,7 @@ function FumoPlusButton() {
               )
 
 
+        document.getElementById("countkits").innerHTML = fumcount;
         document.getElementById("countMapFumo").innerHTML = fumoclicks;
 
       }
@@ -1132,13 +1149,15 @@ function FumoMinusButton() {
 
         if(fumoclicks==1){
          fumoclicks=1;
-          document.getElementById("countMapFumo").innerHTML =fumoclicks;
+         fumcount = fumcount;
+         document.getElementById("countkits").innerHTML = fumcount;
+         document.getElementById("countMapFumo").innerHTML =fumoclicks;
         } else {
-
-
                scndFumonisina.removeBoard('_workmap' + fumoclicks);
-                fumoclicks -= 1;
-                document.getElementById("countMapFumo").innerHTML = fumoclicks;
+               fumoclicks -= 1;
+               fumcount +=1;
+               document.getElementById("countMapFumo").innerHTML = fumoclicks;
+               document.getElementById("countkits").innerHTML = fumcount;
         }
 
     };
@@ -1725,6 +1744,7 @@ $('#KitRadioAfla').change(function(){
                  console.log("É UM AFLA DO TIPO A!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
+                 aflacount = aflaLimit;
 
             }
              else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
@@ -1732,6 +1752,7 @@ $('#KitRadioAfla').change(function(){
                  console.log("É UM AFLA DO TIPO B!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
+                 aflacount = aflaLimit;
 
              }
              else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
@@ -1739,6 +1760,7 @@ $('#KitRadioAfla').change(function(){
                   $('#hideAfla').removeClass('form-disabled');
                   aflaLimit=kit.stripLength;
                   nowAflaKit=kit._id;
+                  aflacount = aflaLimit;
              }
             else {
                 $('#hideAfla').addClass('form-disabled');
@@ -1769,17 +1791,20 @@ $('#KitRadioOcra').change(function(){
                $('#hideOcra').removeClass('form-disabled');
                 ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
+                ocracount = ocraLimit;
 
            }
             else if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
                  $('#hideOcra').removeClass('form-disabled');
                   ocraLimit=kit.stripLength;
                     nowOcraKit=kit._id;
+                    ocracount = ocraLimit;
              }
             else if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
+                ocracount = ocraLimit;
             }
            else {
                $('#hideOcra').addClass('form-disabled');
@@ -1810,17 +1835,20 @@ $('#KitRadioDeox').change(function(){
                $('#hideDeox').removeClass('form-disabled');
                 deoxLimit=kit.stripLength;
                 nowDeoxKit=kit._id;
+                deoxcount = deoxLimit;
 
            }
             else if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                nowDeoxKit=kit._id;
+               deoxcount = deoxLimit;
              }
             else if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                  nowDeoxKit=kit._id;
+                 deoxcount = deoxLimit;
             }
            else {
                $('#hideDeox').addClass('form-disabled');
@@ -1849,18 +1877,21 @@ $('#KitRadioFum').change(function(){
                $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                   nowFumKit=kit._id;
+                  fumcount = fumLimit;
 
            }
             else if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
               $('#hideFum').removeClass('form-disabled');
                  fumLimit=kit.stripLength;
                  nowFumKit=kit._id;
+                 fumcount = fumLimit;
 
              }
             else if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
               $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                    nowFumKit=kit._id;
+                   fumcount = fumLimit;
             }
            else {
                $('#hideFum').addClass('form-disabled');
@@ -1889,18 +1920,21 @@ $('#KitRadioT').change(function(){
                $('#hideT').removeClass('form-disabled');
                   t2Limit=kit.stripLength;
                   nowT2Kit=kit._id;
+                  t2count = t2Limit;
 
            }
             else if($('#KitTB').is(':checked')&&kit.kitType=="B") {
               $('#hideT').removeClass('form-disabled');
                    t2Limit=kit.stripLength;
                    nowT2Kit=kit._id;
+                   t2count = t2Limit;
 
              }
             else if (kit.kitType=="C"&&$('#KitTC').is(':checked')) {
               $('#hideT').removeClass('form-disabled');
                     t2Limit=kit.stripLength;
                     nowT2Kit=kit._id;
+                    t2count = t2Limit;
             }
            else {
                $('#hideT').addClass('form-disabled');
