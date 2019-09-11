@@ -6790,11 +6790,11 @@ li {
 .sidebar-nav li a {
   display: block;
   text-decoration: none;
-  color: #708074; }
+  color: white; }
 
 .sidebar-nav li a:hover {
   text-decoration: none;
-  color: #F7FCF2;
+  color: #6BA05C;
   background: #2B2B2B;
   border-left: #113619; }
 
