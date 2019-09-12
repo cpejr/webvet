@@ -1376,6 +1376,7 @@ var scndZearalenona = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+      var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdZCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -1386,6 +1387,11 @@ var scndZearalenona = new jKanban({
                });
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+
+        }   else if (calibrator.indexOf("child")) {
+
+               return false;
+
 
         } else {
           var mapName=goTO.toString();
