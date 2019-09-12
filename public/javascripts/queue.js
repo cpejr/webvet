@@ -132,12 +132,13 @@ var scndAflatoxina = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdAflaCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
               var mapName=goTO.toString();
-              var calibrator=el.dataset.eid;
-              calibrator=calibrator.toString();
+
+
               scndAflatoxina.addElementStandart( goTO,
                {  id: el.dataset.eid +'child'+ sonNumber.toString(),
                   title: el.dataset.eid,
@@ -152,7 +153,12 @@ var scndAflatoxina = new jKanban({
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
-        } else {
+        } else if (calibrator.indexOf("child")) {
+
+              return false;
+        }
+
+        else {
           // $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber+'/'+goTO, () => {
           //
           // });
@@ -395,6 +401,7 @@ var scndDeoxinivalenol = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdDeoxCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -405,6 +412,10 @@ var scndDeoxinivalenol = new jKanban({
                });
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+         } else if (calibrator.indexOf("child")) {
+
+               return false;
+
 
         } else {
           var mapName=goTO.toString();
@@ -465,7 +476,7 @@ var deoxcount;
           document.getElementById("countkitsDeox").innerHTML = deoxcount;
           document.getElementById("countMapDeox").innerHTML = deoxclicks;
           $.post('/stock/increaseAmount/'+nowDeoxKit, () => {
-          
+
           });
       }
     };
@@ -484,10 +495,10 @@ var deoxcount;
            document.getElementById("countMapDeox").innerHTML = deoxclicks;
            document.getElementById("countkitsDeox").innerHTML = deoxcount;
           $.post('/stock/decreaseAmount/'+nowDeoxKit, () => {
-           
+
           });
 
-        
+
         }
 
     };
@@ -632,6 +643,7 @@ var scndOcratoxina = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+       var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdOcraCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -642,6 +654,11 @@ var scndOcratoxina = new jKanban({
                });
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+
+        }   else if (calibrator.indexOf("child")) {
+
+               return false;
+
 
         } else {
           var mapName=goTO.toString();
@@ -704,7 +721,7 @@ function OcraPlusButton() {
         document.getElementById("countMapOcra").innerHTML = ocraclicks;
         document.getElementById("countkits").innerHTML = ocracount;
         $.post('/stock/decreaseAmount/'+nowOcraKit, () => {
-          
+
         });
 
 
@@ -869,6 +886,7 @@ var scndT2toxina = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdT2Count(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -880,7 +898,12 @@ var scndT2toxina = new jKanban({
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
-        } else {
+         }   else if (calibrator.indexOf("child")) {
+
+                return false;
+
+
+         } else {
           var mapName=goTO.toString();
 
           $.post('/sample/mapedit/t2toxina/' + samplenumber+'/'+nowT2Kit+'/'+mapName,  () => {
@@ -1105,6 +1128,7 @@ var scndFumonisina = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        var calibrator=el.dataset.eid
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdFumCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -1116,7 +1140,12 @@ var scndFumonisina = new jKanban({
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
-        } else {
+         }   else if (calibrator.indexOf("child")) {
+
+                return false;
+
+
+         } else {
           var mapName=goTO.toString();
 
 
@@ -1372,7 +1401,7 @@ var scndZearalenona = new jKanban({
 
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
-             return false
+             return false;
        }
        else {
           $.post('/sample/scndTesting/edit/zearalenona/' + samplenumber+'/'+nowZKit, () => {
