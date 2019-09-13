@@ -7456,7 +7456,7 @@ li {
   background: none;
   color: #006400;
   font-size: 13px;
-  width: 100%;
+  width: 50%;
   float: left;
   margin: 0 10px; }
 
@@ -7478,6 +7478,23 @@ li {
   width: 500px;
   left: 20%;
   transform: translate(-50%, -50%); }
+
+#dropdownnewkit {
+  text-align: right;
+  display: inline-flex; }
+
+.drowdownoptions {
+  border: none;
+  outline: none;
+  background: none;
+  color: #696969;
+  font-size: 13px;
+  width: 50%;
+  float: left;
+  margin: 0 10px; }
+
+.addkitothers-input {
+  display: none; }
 
 #radio-kit {
   padding-top: 20px; }

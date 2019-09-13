@@ -5,22 +5,24 @@
 <form action="/stock/new" method="post">
   <div class="new-kit">
       <div class="form-row">
-        <div class="Addkit-text col-md-7">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-              </div>
-            </div>
-          </div>
-        <input type="text" name="kit[productCode]" class="addkit-input" placeholder="Código do Produto:">
+        <div class="Addkit-text col-md-6">
+          <select id="productCode" class="drowdownoptions" name="kit[productCode]">
+            <option value=" ">Código do Produto</option>
+            <option value="AFLA Romer">AFLA Romer</option>
+            <option value="DON Romer">DON Romer</option>
+            <option value="FUMO Romer"> FUMO Romer</option>
+            <option value="OTA Romer">OTA Romer</option>
+            <option value="T2 Romer">T2 Romer</option>
+            <option value="ZEA Romer"> ZEA Romer</option>
+            <option value="MycoSep Trich">MycoSep Trich</option>
+            <option value="MycoSep AflaZon">MycoSep AflaZon</option>
+            <option value="MycoSep Fum"> MycoSep Fum</option>
+            <option value="Metanol">Metanol</option>
+            <option value="Acetonitrila">Acetonitrila</option>
+            <option value="Outros">Outros</option>
+          </select>
         </div>
-        <div class="Addkit-text col-md-2">
+        <div class="Addkit-text col-md-3">
           <input type="text" name="kit[amount]" class="addkit-input" placeholder="Quantidade:">
         </div>
         <div class="Addkit-text col-3">
@@ -98,3 +100,4 @@
         </div>
     </div>
   </form>
+<script src="/javascripts/newkit.js"></script>
