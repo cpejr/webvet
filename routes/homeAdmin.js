@@ -17,8 +17,6 @@ router.get('/', function(req, res, next) {
             Requisition.count().then((countRequisitions) => {
               Kit.getAll().then((kits)=>{
                 Kitstock.getAll().then((kitstock)=>{
-                  //console.log('Opaaaaa');
-                  //console.log(kitstock);
                   const outofStockArray = new Array;
                   var cont = 0;
                   var today = new Date();
@@ -33,7 +31,6 @@ router.get('/', function(req, res, next) {
                   var cont_possiveis = 0;
                   var cont_vencidos = 0;
                   var vencidos = new Array;
-
                   for(i = 0; i < kits.length; i++){
                     if(kits[i].yearexpirationDate < yyyy){ // pelo o ano deu pra ver q venceu
                       vencidos[cont_vencidos] = kits[i];
@@ -97,8 +94,6 @@ router.get('/', function(req, res, next) {
                      if(stockMap.get(kitstock[i].productcode) < kitstock[i].stockmin){ // sinal q ta faltando stock
                       todos[cont_todos] = new outofStock(kitstock[i].productcode,stockMap.get(kitstock[i].productcode),kitstock[i].stockmin);
                       cont_todos++;
-                      // console.log('teste');
-                      // console.log(stockMap.get(kitstock[i].productcode));
 
                      }
                   }

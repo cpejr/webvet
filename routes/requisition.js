@@ -32,9 +32,6 @@ router.post('/new', function(req,res) {
 
   }
 
-
-
-
   console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
     var i;
