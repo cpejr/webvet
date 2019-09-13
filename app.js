@@ -33,7 +33,8 @@ const profileRouter = require('./routes/profile');
 const allkitsRouter = require ('./routes/allkits');
 const printtemplateRouter = require ('./routes/printtemplate');
 const calibrationcurvesRouter = require ('./routes/calibrationcurves');
-
+const allsamplesRouter = require ('./routes/allsamples');
+const setstockRouter = require ('./routes/setstock');
 const app = express();
 
 /**
@@ -142,6 +143,9 @@ app.use('/profile', profileRouter);
 app.use('/allkits', allkitsRouter);
 app.use('/printtemplate', printtemplateRouter);
 app.use('/calibrationcurves', calibrationcurvesRouter);
+app.use('/allsamples', allsamplesRouter);
+app.use('/setstock', setstockRouter);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

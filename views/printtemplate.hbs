@@ -6,17 +6,8 @@
       <thead>
         <tr><th>Mapa de Trabalho 1</th></tr>
       </thead>
-      {{#each sample}}
-            {{#compare mapReference '_workmap1'}}
-            <tr><td>{{name}}</td></tr>
-            <tr><td>{{name}}</td></tr>
-            <tr><td>{{name}}</td></tr>
-            <tr><td>{{name}}</td></tr>
-            <tr><td>{{name}}</td></tr>
-            <tr><td>{{name}}</td></tr>
-            <tr><td>{{name}}</td></tr>
-            <tr><td>{{name}}</td></tr>
-          {{/compare}}
+      {{#each workmaps}}
+        <tr><td>{{zearalenona.status}}</td></tr>
       {{/each}}
     </table>
     <table class="table-printtemplate col-2">
