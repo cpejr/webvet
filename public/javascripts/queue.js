@@ -132,12 +132,13 @@ var scndAflatoxina = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdAflaCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
               var mapName=goTO.toString();
-              var calibrator=el.dataset.eid;
-              calibrator=calibrator.toString();
+
+
               scndAflatoxina.addElementStandart( goTO,
                {  id: el.dataset.eid +'child'+ sonNumber.toString(),
                   title: el.dataset.eid,
@@ -152,7 +153,12 @@ var scndAflatoxina = new jKanban({
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
-        } else {
+        } else if (calibrator.indexOf("child")) {
+
+              return false;
+        }
+
+        else {
           // $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber+'/'+goTO, () => {
           //
           // });
@@ -197,13 +203,16 @@ function IdAflaCount ()
 
 var aflaclicks = 1;
 var aflaLimit;
+var aflacount;
     function AflaPlusButton() {
         aflaclicks += 1;
-        if(aflaclicks>aflaLimit) {
-          aflaclicks-=1;
-
-        } else {
-            scndAflatoxina.addBoards(
+        aflacount -= 1;
+        if (aflaclicks > aflaLimit) {
+          aflaclicks -= 1;
+          document.getElementById("countkitsAfla").innerHTML = aflacount;
+        }
+       else {
+           scndAflatoxina.addBoards(
                   [{
                       'id' : '_workmap' + aflaclicks,
                       'title'  : 'Mapa de trabalho' + ' '+ aflaclicks,
@@ -212,8 +221,12 @@ var aflaLimit;
                   }]
               )
 
-
+        document.getElementById("countkitsAfla").innerHTML = aflacount;
         document.getElementById("countMapAfla").innerHTML = aflaclicks;
+        $.post('/stock/decreaseAmount/'+nowAflaKit, () => {
+
+        });
+
 
       }
     };
@@ -221,14 +234,21 @@ var aflaLimit;
     function AflaMinusButton() {
 
         if(aflaclicks==1){
-        aflaclicks=1;
+          aflacount = aflaLimit;
+          aflaclicks=1;
+          document.getElementById("countkitsAfla").innerHTML = aflacount;
           document.getElementById("countMapAfla").innerHTML = clicks;
-        } else {
 
+        }
+        else {
+          aflacount += 1;
+           scndAflatoxina.removeBoard('_workmap' + aflaclicks);
+           document.getElementById("countkitsAfla").innerHTML = aflacount;
+           document.getElementById("countMapAfla").innerHTML = aflaclicks;
+          aflaclicks -= 1;
+                $.post('/stock/increaseAmount/'+nowAflaKit, () => {
 
-               scndAflatoxina.removeBoard('_workmap' + aflaclicks);
-
-                document.getElementById("countMapAfla").innerHTML = aflaclicks;
+                });
         }
 
     };
@@ -381,6 +401,7 @@ var scndDeoxinivalenol = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdDeoxCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -391,6 +412,10 @@ var scndDeoxinivalenol = new jKanban({
                });
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+         } else if (calibrator.indexOf("child")) {
+
+               return false;
+
 
         } else {
           var mapName=goTO.toString();
@@ -432,38 +457,48 @@ function IdDeoxCount ()
 }
 
 var deoxclicks = 1;
+var deoxcount;
     function DeoxPlusButton() {
         deoxclicks += 1;
-        if(deoxclicks>deoxLimit) {
-          deoxclicks-=1;
-
-        } else {
-            scndDeoxinivalenol.addBoards(
+        deoxcount -= 1;
+        if(deoxclicks > deoxLimit) {
+          deoxclicks -= 1;
+          document.getElementById("countkitsDeox").innerHTML = deoxcount;
+        }
+        else {
+          scndDeoxinivalenol.addBoards(
                   [{
                       'id' : '_workmap' + deoxclicks,
                       'title'  : 'Mapa de trabalho' + ' '+ deoxclicks,
                       'class' : 'info',
-
                   }]
               )
+          document.getElementById("countkitsDeox").innerHTML = deoxcount;
+          document.getElementById("countMapDeox").innerHTML = deoxclicks;
+          $.post('/stock/increaseAmount/'+nowDeoxKit, () => {
 
-
-        document.getElementById("countMapDeox").innerHTML = deoxclicks;
-
+          });
       }
     };
 
     function DeoxMinusButton() {
-
         if(deoxclicks==1){
-        deoxclicks=1;
+          deoxclicks=1;
+          deoxcount = deoxLimit;
+          document.getElementById("countkitsDeox").innerHTML = deoxcount;
           document.getElementById("countMapDeox").innerHTML = deoxclicks;
-        } else {
+        }
+        else {
+           scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
+           deoxclicks -= 1;
+           deoxcount += 1;
+           document.getElementById("countMapDeox").innerHTML = deoxclicks;
+           document.getElementById("countkitsDeox").innerHTML = deoxcount;
+          $.post('/stock/decreaseAmount/'+nowDeoxKit, () => {
+
+          });
 
 
-               scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
-                deoxclicks -= 1;
-                document.getElementById("countMapDeox").innerHTML = deoxclicks;
         }
 
     };
@@ -608,6 +643,7 @@ var scndOcratoxina = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+       var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdOcraCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -618,6 +654,11 @@ var scndOcratoxina = new jKanban({
                });
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+
+        }   else if (calibrator.indexOf("child")) {
+
+               return false;
+
 
         } else {
           var mapName=goTO.toString();
@@ -648,23 +689,25 @@ var scndOcratoxina = new jKanban({
 });
 
 //função de criação dos id dos Pchild para o scndOcratoxina
-var countOcra=0;
-var ocraLimit;
+var countOcra = 0;
 
-function IdOcraCount ()
-{
+function IdOcraCount (){
   console.log("count Ocra is: " + countOcra);
     countOcra++;
     return countOcra;
 }
 
 var ocraclicks = 1;
+var ocraLimit;
+var ocracount;
 function OcraPlusButton() {
         ocraclicks += 1;
+        ocracount -=1;
         if(ocraclicks>ocraLimit) {
           ocraclicks-=1;
-
-        } else {
+          document.getElementById("countkits").innerHTML = ocracount;
+        }
+        else {
             scndOcratoxina.addBoards(
                   [{
                       'id' : '_workmap' + ocraclicks,
@@ -676,6 +719,11 @@ function OcraPlusButton() {
 
 
         document.getElementById("countMapOcra").innerHTML = ocraclicks;
+        document.getElementById("countkits").innerHTML = ocracount;
+        $.post('/stock/decreaseAmount/'+nowOcraKit, () => {
+
+        });
+
 
       }
     };
@@ -684,13 +732,16 @@ function OcraMinusButton() {
 
         if(ocraclicks==1){
         ocraclicks=1;
+        ocracount = ocraLimit;
           document.getElementById("countMapOcra").innerHTML = ocraclicks;
-        } else {
-
-
-               scndOcratoxina.removeBoard('_workmap' + ocraclicks);
-                ocraclicks -= 1;
-                document.getElementById("countMapOcra").innerHTML = ocraclicks;
+          document.getElementById("countkits").innerHTML = ocracount;
+        }
+        else {
+          ocraclicks -= 1;
+          ocracount == 1;
+          scndOcratoxina.removeBoard('_workmap' + ocraclicks);
+          document.getElementById("countMapOcra").innerHTML = ocraclicks;
+          document.getElementById("countkits").innerHTML = ocracount;
         }
 
     };
@@ -704,6 +755,9 @@ function OcraMinusButton() {
           }
         }
        document.getElementById("countMapOcra").innerHTML = ocraclicks;
+       $.post('/stock/increaseAmount/'+nowOcraKit, () => {
+
+       });
     };
 
 
@@ -832,6 +886,7 @@ var scndT2toxina = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdT2Count(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -843,7 +898,12 @@ var scndT2toxina = new jKanban({
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
-        } else {
+         }   else if (calibrator.indexOf("child")) {
+
+                return false;
+
+
+         } else {
           var mapName=goTO.toString();
 
           $.post('/sample/mapedit/t2toxina/' + samplenumber+'/'+nowT2Kit+'/'+mapName,  () => {
@@ -877,16 +937,21 @@ var countT2=0;
 function IdT2Count ()
 {
   console.log("count T2 is: " + countT2);
-    countT2++;
+    countT2++;0
     return countT2;
 }
 
 var t2clicks = 1;
 var t2Limit;
+var t2count;
 function T2PlusButton() {
+        console.log(t2count);
         t2clicks += 1;
+        t2count -= 1;
+
         if(t2clicks>t2Limit) {
           t2clicks-=1;
+          document.getElementById("countkits").innerHTML = t2count;
 
         } else {
             scndT2toxina.addBoards(
@@ -897,24 +962,31 @@ function T2PlusButton() {
 
                   }]
               )
-
-
+        document.getElementById("countkits").innerHTML = t2count;
         document.getElementById("countMapT2").innerHTML = t2clicks;
+        $.post('/stock/decreaseAmount/'+nowT2Kit, () => {
 
+        });
       }
     };
 
-function T2MinusButton() {
+    function T2MinusButton() {
 
         if(t2clicks==1){
          t2clicks=1;
+         t2count=t2Limit;
           document.getElementById("countMapT2").innerHTML =t2clicks;
-        } else {
-
-
+          document.getElementById("countkits").innerHTML = t2count;
+        } else
+        {
                scndT2toxina.removeBoard('_workmap' + t2clicks);
                 t2clicks -= 1;
+                t2count += 1;
                 document.getElementById("countMapT2").innerHTML = t2clicks;
+                document.getElementById("countkits").innerHTML = t2count;
+                $.post('/stock/increaseAmount/'+nowT2Kit, () => {
+
+                });
         }
 
     };
@@ -1056,6 +1128,7 @@ var scndFumonisina = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+        var calibrator=el.dataset.eid
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdFumCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -1067,7 +1140,12 @@ var scndFumonisina = new jKanban({
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
 
-        } else {
+         }   else if (calibrator.indexOf("child")) {
+
+                return false;
+
+
+         } else {
           var mapName=goTO.toString();
 
 
@@ -1109,10 +1187,13 @@ function IdFumCount ()
 }
 
 var fumoclicks = 1;
+var fumcount;
 function FumoPlusButton() {
         fumoclicks += 1;
+        fumcount -= 1;
         if(fumoclicks>fumLimit) {
           fumoclicks-=1;
+          document.getElementById("countkits").innerHTML = fumcount;
 
         } else {
             scndFumonisina.addBoards(
@@ -1125,7 +1206,11 @@ function FumoPlusButton() {
               )
 
 
+        document.getElementById("countkits").innerHTML = fumcount;
         document.getElementById("countMapFumo").innerHTML = fumoclicks;
+        $.post('/stock/decreaseAmount/'+nowFumKit, () => {
+
+        });
 
       }
     };
@@ -1134,13 +1219,18 @@ function FumoMinusButton() {
 
         if(fumoclicks==1){
          fumoclicks=1;
-          document.getElementById("countMapFumo").innerHTML =fumoclicks;
+         fumcount = fumcount;
+         document.getElementById("countkits").innerHTML = fumcount;
+         document.getElementById("countMapFumo").innerHTML =fumoclicks;
         } else {
-
-
                scndFumonisina.removeBoard('_workmap' + fumoclicks);
-                fumoclicks -= 1;
-                document.getElementById("countMapFumo").innerHTML = fumoclicks;
+               fumoclicks -= 1;
+               fumcount +=1;
+               document.getElementById("countMapFumo").innerHTML = fumoclicks;
+               document.getElementById("countkits").innerHTML = fumcount;
+                $.post('/stock/increaseAmount/'+nowFumKit, () => {
+
+                });
         }
 
     };
@@ -1286,6 +1376,7 @@ var scndZearalenona = new jKanban({
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
+      var calibrator=el.dataset.eid;
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
 
               var sonNumber=IdZCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
@@ -1296,6 +1387,11 @@ var scndZearalenona = new jKanban({
                });
 
            return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
+
+        }   else if (calibrator.indexOf("child")) {
+
+               return false;
+
 
         } else {
           var mapName=goTO.toString();
@@ -1311,7 +1407,7 @@ var scndZearalenona = new jKanban({
 
     if(target=='_scndTesting') {
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
-             return false
+             return false;
        }
        else {
           $.post('/sample/scndTesting/edit/zearalenona/' + samplenumber+'/'+nowZKit, () => {
@@ -1368,6 +1464,9 @@ function ZMinusButton() {
                scndZearalenona.removeBoard('_workmap' + zclicks);
                 zclicks -= 1;
                 document.getElementById("countMapZ").innerHTML = zclicks;
+                $.post('/stock/decreaseAmount/'+nowZKit, () => {
+
+                });
         }
 
     };
@@ -1381,6 +1480,9 @@ function ZMinusButton() {
              }
            }
           document.getElementById("countMapZ").innerHTML = zclicks;
+          $.post('/stock/increaseAmount/'+nowZKit, () => {
+
+          });
        };
 
 //cria cedulas kanban
@@ -1727,6 +1829,7 @@ $('#KitRadioAfla').change(function(){
                  console.log("É UM AFLA DO TIPO A!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
+                 aflacount = aflaLimit;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                  });
@@ -1737,6 +1840,7 @@ $('#KitRadioAfla').change(function(){
                  console.log("É UM AFLA DO TIPO B!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
+                 aflacount = aflaLimit;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                  });
@@ -1747,6 +1851,7 @@ $('#KitRadioAfla').change(function(){
                   $('#hideAfla').removeClass('form-disabled');
                   aflaLimit=kit.stripLength;
                   nowAflaKit=kit._id;
+                  aflacount = aflaLimit;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                   });
@@ -1780,6 +1885,7 @@ $('#KitRadioOcra').change(function(){
                $('#hideOcra').removeClass('form-disabled');
                 ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
+                ocracount = ocraLimit;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
@@ -1789,6 +1895,7 @@ $('#KitRadioOcra').change(function(){
                  $('#hideOcra').removeClass('form-disabled');
                   ocraLimit=kit.stripLength;
                     nowOcraKit=kit._id;
+                    ocracount = ocraLimit;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                     });
@@ -1797,6 +1904,7 @@ $('#KitRadioOcra').change(function(){
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
+                ocracount = ocraLimit;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
@@ -1830,6 +1938,7 @@ $('#KitRadioDeox').change(function(){
                $('#hideDeox').removeClass('form-disabled');
                 deoxLimit=kit.stripLength;
                 nowDeoxKit=kit._id;
+                deoxcount = deoxLimit;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                 });
@@ -1839,6 +1948,7 @@ $('#KitRadioDeox').change(function(){
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                nowDeoxKit=kit._id;
+               deoxcount = deoxLimit;
                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                });
@@ -1847,6 +1957,7 @@ $('#KitRadioDeox').change(function(){
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                  nowDeoxKit=kit._id;
+                 deoxcount = deoxLimit;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                  });
@@ -1878,6 +1989,7 @@ $('#KitRadioFum').change(function(){
                $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                   nowFumKit=kit._id;
+                  fumcount = fumLimit;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                   });
@@ -1887,6 +1999,7 @@ $('#KitRadioFum').change(function(){
               $('#hideFum').removeClass('form-disabled');
                  fumLimit=kit.stripLength;
                  nowFumKit=kit._id;
+                 fumcount = fumLimit;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                  });
@@ -1895,6 +2008,7 @@ $('#KitRadioFum').change(function(){
               $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                    nowFumKit=kit._id;
+                   fumcount = fumLimit;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                    });
@@ -1926,18 +2040,21 @@ $('#KitRadioT').change(function(){
                $('#hideT').removeClass('form-disabled');
                   t2Limit=kit.stripLength;
                   nowT2Kit=kit._id;
+                  t2count = t2Limit;
 
            }
             else if($('#KitTB').is(':checked')&&kit.kitType=="B") {
               $('#hideT').removeClass('form-disabled');
                    t2Limit=kit.stripLength;
                    nowT2Kit=kit._id;
+                   t2count = t2Limit;
 
              }
             else if (kit.kitType=="C"&&$('#KitTC').is(':checked')) {
               $('#hideT').removeClass('form-disabled');
                     t2Limit=kit.stripLength;
                     nowT2Kit=kit._id;
+                    t2count = t2Limit;
             }
            else {
                $('#hideT').addClass('form-disabled');
