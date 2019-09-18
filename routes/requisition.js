@@ -22,7 +22,7 @@ router.get('/', auth.isAuthenticated,  function(req,res) {
 });
 
 
-router.post('/new', function(req,res) {
+router.post('/new', auth.isAuthenticated, function(req,res) {
   const { requisition } = req.body;
   if (req.body.producerAddress == 0) {
     console.log("MINI BOIIIII");

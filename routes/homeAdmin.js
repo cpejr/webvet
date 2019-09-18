@@ -10,7 +10,7 @@ const Kit = require('../models/kit');
 const Kitstock = require('../models/kitstock')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth.isAuthenticated, function(req, res, next) {
 
   User.count().then((countClients) => {
       Sample.count().then((countSamples) => {

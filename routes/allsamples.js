@@ -6,7 +6,7 @@ const auth = require('./middleware/auth');
 const Kit = require('../models/kit');
 
 
-router.get('/', function(req, res, next) {
-    res.render('allsamples',{title: 'Amostras'}); 
+router.get('/', auth.isAuthenticated, function(req, res, next) {
+    res.render('allsamples',{title: 'Amostras'});
 });
 module.exports = router;

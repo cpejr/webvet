@@ -1,18 +1,18 @@
-var express = require('express');
-var firebase = require('firebase');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const firebase = require('firebase');
+const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
-const User = require('../models/user');
+const Mycotoxin = require('../models/mycotoxin');
 const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
-const Mycotoxin = require('../models/mycotoxin');
-const Email = require('../models/email');
-const Workmap=require('../models/Workmap');
-const Sample=require('../models/sample');
+const User = require('../models/user');
+const Workmap= require('../models/Workmap');
+const Kitstock = require('../models/kitstock');
 
 
 
-router.get('/', auth.isAuthenticated, (req, res) => {
+router.get('/', (req, res) => {
   Sample.getAll().then((workmaps)=>{
     var mapas = 0;
     console.log('hehehehe');
@@ -35,6 +35,5 @@ router.get('/', auth.isAuthenticated, (req, res) => {
     res.redirect('/error');
   });
 });
-
 
 module.exports = router;
