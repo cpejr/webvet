@@ -1,5 +1,5 @@
 <div class="requisition" >
-  <h4 align="center"> Cadastro de Novo Kit</h4>
+  <h4 align="center"> Cadastro de Novo Kit </h4>
 </div>
 
 <form action="/stock/new" method="post">
@@ -19,8 +19,9 @@
             <option value="MycoSep Fum"> MycoSep Fum</option>
             <option value="Metanol">Metanol</option>
             <option value="Acetonitrila">Acetonitrila</option>
-            <option value="Outros">Outros</option>
+            <option>Outros</option>
           </select>
+          <input type="text" name="kit[productCode]" id="otherCity" style="display:none"></input>
         </div>
         <div class="Addkit-text col-md-3">
           <input type="text" name="kit[amount]" class="addkit-input" placeholder="Quantidade:">
