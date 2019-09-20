@@ -124,6 +124,15 @@
               </li>
             {{/compare}}
 
+            {{#compare user.type "Produtor"}}
+              <li>
+              </li>
+            {{else}}
+              <li>
+                 <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope fa-stack-1x" ></i></span>Resquisições Disponíveis</a>
+              </li>
+            {{/compare}}
+
          </ul>
       </div>
 
