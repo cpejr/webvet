@@ -5,7 +5,7 @@ const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const Kit = require('../models/kit');
 
-router.get('/', function(req, res, next) {
+router.get('/', auth.isAuthenticated, function(req, res, next) {
   res.render('calibrationcurves', { title: 'Curvas de Calibração', layout: 'layoutDashboard.hbs'});
 });
 

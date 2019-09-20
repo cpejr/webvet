@@ -12,7 +12,7 @@ const Kitstock = require('../models/kitstock');
 
 
 
-router.get('/', function(req, res, next) {
+router.get('/', auth.isAuthenticated, function(req, res, next) {
   res.render('setstock', { title: 'Queue', layout: 'layoutDashboard.hbs',...req.session});
 });
 module.exports = router;

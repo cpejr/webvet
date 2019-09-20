@@ -6,7 +6,7 @@ const auth = require('./middleware/auth');
 const Kit = require('../models/kit');
 
 
-router.get('/', function(req, res, next) {
+router.get('/', auth.isAuthenticated, function(req, res, next) {
   Kit.getAll().then((kits) => {
     res.render('allkits', { title: 'Histórico dos kits', layout: 'layoutDashboard.hbs',kits });
   })

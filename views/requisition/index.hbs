@@ -1,0 +1,26 @@
+<h4>Requisições Disponíveis</h4>
+<p></p>
+<div class="table-responsive">
+  <table id="tb-user" class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th class = "th-name">Identificação</th>
+        <th class = "th-type">Fazenda</th>
+        <th class = "th-type">Destino</th>
+        <th class = "th-action"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each requisitions}}
+        <tr>
+          <th>{{identification}}</th>
+          <th>{{farmname}}</th>
+          <th>{{destination}}</th>
+          <th>
+            <button onClick="location.href='requisition/show/{{_id}}'" class="fa fa-info btn m-1"></button>
+          </th>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

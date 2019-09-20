@@ -12,7 +12,7 @@ const Sample=require('../models/sample');
 
 
 
-router.get('/', (req, res) => {
+router.get('/', auth.isAuthenticated, (req, res) => {
   Sample.getAll().then((workmaps)=>{
     var mapas = 0;
     console.log('hehehehe');

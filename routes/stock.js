@@ -13,7 +13,7 @@ const Kitstock = require('../models/kitstock');
 
 //É PARA MEXER NESSA
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth.isAuthenticated, function(req, res, next) {
   Kit.getAll().then((kits) => {
     Kitstock.getAll().then((kitstocks) => {
     var today = new Date();
@@ -57,7 +57,7 @@ router.get('/', function(req, res, next) {
 
 
 
-  router.get('/stock', (req, res) => {
+  router.get('/stock', auth.isAuthenticated, (req, res) => {
     Kit.getAll().then((kits) => {
       Kitstock.getAll().then((kitstocks) => {
         var stockMap = new Map();
@@ -96,7 +96,7 @@ router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/edit/:id', function(req, res, next) {
+router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
     console.log(kit);
     res.render('stock/edit', { title: 'Edit Kit', layout: 'layoutDashboard.hbs', kit });
