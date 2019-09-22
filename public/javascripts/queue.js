@@ -30,7 +30,14 @@ var aflatoxina = new jKanban({
       $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-primary">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+      }
 
     }
     if  (target == '_ownering') {
@@ -47,13 +54,7 @@ var aflatoxina = new jKanban({
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
     }
-    if  (target == '_workmap') {
-      $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber, () => {
 
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
 
 
   }
@@ -1548,10 +1549,11 @@ $.get('/search/samples', (samples) => {
           }
           if(sample.aflatoxina.status=="Aguardando pagamento") {
             aflatoxina.addElement('_ownering', {
-              id: sample.samplenumber,
+              id: "owner",
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsable,
-              status: sample.aflatoxina.status
+              status: sample.aflatoxina.status,
+              owner: "Devedor"
             });
           }
           if(sample.aflatoxina.status=="Aguardando amostra") {

@@ -1,4 +1,4 @@
-(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+badge-tertiary(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /**
  * jKanban
  * Vanilla Javascript plugin for manage kanban boards
@@ -13,7 +13,7 @@ var dragula = require("dragula");
 (function() {
   this.jKanban = function() {
     var self = this;
-    this._disallowedItemProperties = ['id', 'title', 'analyst', 'status', 'click', 'drag', 'dragend', 'drop', 'order'];
+    this._disallowedItemProperties = ['id', 'title', 'analyst', 'status','owner', 'click', 'drag', 'dragend', 'drop', 'order'];
     this.element = "";
     this.container = "";
     this.boardContainer = [];
@@ -167,13 +167,22 @@ var dragula = require("dragula");
       var nodeItem = document.createElement("div");
       nodeItem.classList.add("kanban-item");
       console.log(element);
-      if (typeof element.id !== "undefined" && element.id !== "") {
+      if (typeof element.id !== "undefined" && element.id !== ""&&element.id!=="owner") {
         nodeItem.setAttribute("data-eid", element.id);
         nodeItem.setAttribute("data-title", element.title);
         nodeItem.setAttribute("data-analyst", element.analyst);
         nodeItem.setAttribute("data-status", element.status);
+        nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>';
       }
-      nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>';
+      else if (element.id=="owner") {
+        nodeItem.setAttribute("data-eid", element.id);
+        nodeItem.setAttribute("data-title", element.title);
+        nodeItem.setAttribute("data-analyst", element.analyst);
+        nodeItem.setAttribute("data-owner", element.owner);
+        nodeItem.setAttribute("data-status", element.status);
+        nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>'+" "+'<span  class="badge badge-tertiary">' + element.owner + '</span>';
+      }
+
       //add function
       nodeItem.clickfn = element.click;
       nodeItem.dragfn = element.drag;
@@ -208,6 +217,13 @@ var dragula = require("dragula");
         nodeItem.setAttribute("data-analyst", element.analyst);
         nodeItem.setAttribute("data-status", element.status);
       }
+
+      else if (element.id=="owner") {
+        nodeItem.setAttribute("data-eid", element.id);
+        nodeItem.setAttribute("data-title", element.title);
+        nodeItem.setAttribute("data-analyst", element.analyst);
+        nodeItem.setAttribute("data-owner", element.owner);
+        nodeItem.setAttribute("data-status", element.status); }
 
       nodeItem.innerHTML = element.title;
       //add function
