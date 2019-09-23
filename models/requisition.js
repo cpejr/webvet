@@ -5,6 +5,7 @@ const User = require('./user');
 const Mycotoxin = require('./mycotoxin');
 
 const requisitionSchema = new mongoose.Schema({
+  register: String,
   identification: Number,
   datecollection: String,
   detectedConcetration: Number,
@@ -31,6 +32,10 @@ const requisitionSchema = new mongoose.Schema({
   client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  },
+  report: {
+   type: Boolean, //1 for available, 0 for not available
+   default: 0
   },
   mycotoxin: [String],
   samples: [{
