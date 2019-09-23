@@ -29,9 +29,7 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
     const address = req.session.user.address;
     console.log(req.session.user.address);
     requisition.address = address;
-
   }
-
   console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
     var i;
