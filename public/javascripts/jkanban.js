@@ -180,7 +180,7 @@ var dragula = require("dragula");
         nodeItem.setAttribute("data-analyst", element.analyst);
         nodeItem.setAttribute("data-owner", element.owner);
         nodeItem.setAttribute("data-status", element.status);
-        nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>'+" "+'<span  class="badge badge-tertiary">' + element.owner + '</span>';
+        nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>'+" "+'<span  class="badge badge-danger">' + element.owner + '</span>';
       }
 
       //add function

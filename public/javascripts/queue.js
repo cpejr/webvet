@@ -32,7 +32,7 @@ var aflatoxina = new jKanban({
       });
 
       if(el.dataset.eid=="owner") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-tertiary">' + el.dataset.owner + '</span>';
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
       }
       else {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -44,15 +44,27 @@ var aflatoxina = new jKanban({
       $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+
+      }
 
     }
     if  (target == '_waiting') {
       $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else{
+      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+       }
     }
 
 
@@ -1519,6 +1531,9 @@ $.get('/search/samples', (samples) => {
   $(document).ready(function() {
 
     samples.forEach((sample) => {
+        //var resp= $.get('/search/userFromRequisition/'+sample.requisition);
+        console.log("REQSITION")
+        console.log(sample.requisition);
         //AFLATOXINA
         if(sample.aflatoxina.active == true) {
           if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
