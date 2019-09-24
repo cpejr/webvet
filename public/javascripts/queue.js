@@ -1529,85 +1529,161 @@ function ZMinusButton() {
 //cria cedulas kanban
 $.get('/search/samples', (samples) => {
   $(document).ready(function() {
-
     samples.forEach((sample) => {
-        //var resp= $.get('/search/userFromRequisition/'+sample.requisition);
-        console.log("REQSITION")
-        console.log(sample.requisition);
-        //AFLATOXINA
-        if(sample.aflatoxina.active == true) {
-          if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
-            aflatoxina.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.aflatoxina.status
-            });
-          }
-          if(sample.aflatoxina.status=="Em análise"||sample.aflatoxina.status=="Mapa de Trabalho") {
-            aflatoxina.addElement('_testing', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.aflatoxina.status
-            });
-            if(sample.aflatoxina.status=="Em análise") {
-              scndAflatoxina.addElement('_scndTesting', {
+      $.get('/search/userFromSample/'+sample._id,(user) =>{
+          //AFLATOXINA
+          console.log(user);
+          console.log(user.debt);
+          if(sample.aflatoxina.active == true) {
+            if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
+              if(user.debt) {
+                aflatoxina.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status,
+                  owner: "Devedor"
+                });
+              }
+              else{
+                aflatoxina.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status
+                });
+
+              }
+
+            }
+            if(sample.aflatoxina.status=="Em análise"||sample.aflatoxina.status=="Mapa de Trabalho") {
+              if(user.debt) {
+                aflatoxina.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status,
+                  owner: "Devedor"
+                });
+                scndAflatoxina.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status,
+                  owner: "Devedor"
+                });
+              }
+              else{
+              aflatoxina.addElement('_testing', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.aflatoxina.status
+              });
+              if(sample.aflatoxina.status=="Em análise") {
+                scndAflatoxina.addElement('_scndTesting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status
+                });
+               }
+             }
+
+            }
+            if(sample.aflatoxina.status=="Aguardando pagamento") {
+              if(user.debt){
+                aflatoxina.addElement('_ownering', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status,
+                  owner: "Devedor"
+                });
+              }
+              else {
+                aflatoxina.addElement('_ownering', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status,
+                });
+              }
+            }
+            if(sample.aflatoxina.status=="Aguardando amostra") {
+              if(user.debt){
+                aflatoxina.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status,
+                  owner: "Devedor"
+                });
+              }
+              else {
+                aflatoxina.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status
+                });
+              }
+            }
+            if(sample.aflatoxina.status=="Mapa de Trabalho") {
+              scndAflatoxina.addElement('_workmap1', {
                 id: sample.samplenumber,
                 title: "Amostra " + sample.samplenumber,
                 analyst: sample.responsable,
                 status: sample.aflatoxina.status
               });
             }
+          }
 
+          //OCRATOXINA A
+          if(sample.ocratoxina.active == true) {
+            if(sample.ocratoxina.status=="Nova" || sample.ocratoxina.status=="Sem amostra" || sample.ocratoxina.status=="A corrigir") {
+              ocratoxina.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.ocratoxina.status
+              });
+            }
+            if(sample.ocratoxina.status=="Em análise"||sample.ocratoxina.status=="Mapa de Trabalho") {
+              ocratoxina.addElement('_testing', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.ocratoxina.status
+              });
+              if(sample.ocratoxina.status=="Em análise") {
+                scndOcratoxina.addElement('_scndTesting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status
+                });
+              }
 
-          }
-          if(sample.aflatoxina.status=="Aguardando pagamento") {
-            aflatoxina.addElement('_ownering', {
-              id: "owner",
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.aflatoxina.status,
-              owner: "Devedor"
-            });
-          }
-          if(sample.aflatoxina.status=="Aguardando amostra") {
-            aflatoxina.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.aflatoxina.status
-            });
-          }
-          if(sample.aflatoxina.status=="Mapa de Trabalho") {
-            scndAflatoxina.addElement('_workmap1', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.aflatoxina.status
-            });
-          }
-        }
-
-        //OCRATOXINA A
-        if(sample.ocratoxina.active == true) {
-          if(sample.ocratoxina.status=="Nova" || sample.ocratoxina.status=="Sem amostra" || sample.ocratoxina.status=="A corrigir") {
-            ocratoxina.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.ocratoxina.status
-            });
-          }
-          if(sample.ocratoxina.status=="Em análise"||sample.ocratoxina.status=="Mapa de Trabalho") {
-            ocratoxina.addElement('_testing', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.ocratoxina.status
-            });
-            if(sample.ocratoxina.status=="Em análise") {
-              scndOcratoxina.addElement('_scndTesting', {
+            }
+            if(sample.ocratoxina.status=="Aguardando pagamento") {
+              ocratoxina.addElement('_ownering', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.ocratoxina.status
+              });
+            }
+            if(sample.ocratoxina.status=="Aguardando amostra") {
+              ocratoxina.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.ocratoxina.status
+              });
+            }
+            if(sample.ocratoxina.status=="Mapa de Trabalho") {
+              scndOcratoxina.addElement('_workmap1', {
                 id: sample.samplenumber,
                 title: "Amostra " + sample.samplenumber,
                 analyst: sample.responsable,
@@ -1616,208 +1692,208 @@ $.get('/search/samples', (samples) => {
             }
 
           }
-          if(sample.ocratoxina.status=="Aguardando pagamento") {
-            ocratoxina.addElement('_ownering', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.ocratoxina.status
-            });
-          }
-          if(sample.ocratoxina.status=="Aguardando amostra") {
-            ocratoxina.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.ocratoxina.status
-            });
-          }
-          if(sample.ocratoxina.status=="Mapa de Trabalho") {
-            scndOcratoxina.addElement('_workmap1', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.ocratoxina.status
-            });
-          }
 
-        }
-
-        //DEOXINIVALENOL
-        if(sample.deoxinivalenol.active == true) {
-          if(sample.deoxinivalenol.status=="Nova" || sample.deoxinivalenol.status=="Sem amostra" || sample.deoxinivalenol.status=="A corrigir") {
-            deoxinivalenol.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.deoxinivalenol.status
-            });
-          }
-          if(sample.deoxinivalenol.status=="Em análise"||sample.deoxinivalenol.status=="Mapa de Trabalho") {
-            deoxinivalenol.addElement('_testing', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.deoxinivalenol.status
-            });
-            if(sample.deoxinivalenol.status=="Em análise") {
-                scndDeoxinivalenol.addElement('_scndTesting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status
-                });
+          //DEOXINIVALENOL
+          if(sample.deoxinivalenol.active == true) {
+            if(sample.deoxinivalenol.status=="Nova" || sample.deoxinivalenol.status=="Sem amostra" || sample.deoxinivalenol.status=="A corrigir") {
+              deoxinivalenol.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.deoxinivalenol.status
+              });
             }
+            if(sample.deoxinivalenol.status=="Em análise"||sample.deoxinivalenol.status=="Mapa de Trabalho") {
+              deoxinivalenol.addElement('_testing', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.deoxinivalenol.status
+              });
+              if(sample.deoxinivalenol.status=="Em análise") {
+                  scndDeoxinivalenol.addElement('_scndTesting', {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.deoxinivalenol.status
+                  });
+              }
 
+            }
+            if(sample.deoxinivalenol.status=="Aguardando pagamento") {
+              deoxinivalenol.addElement('_ownering', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.deoxinivalenol.status
+              });
+            }
+            if(sample.deoxinivalenol.status=="Aguardando amostra") {
+              deoxinivalenol.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.deoxinivalenol.status
+              });
+            }
+            if(sample.deoxinivalenol.status=="Mapa de Trabalho") {
+              scndDeoxinivalenol.addElement('_workmap1', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.deoxinivalenol.status
+              });
+            }
           }
-          if(sample.deoxinivalenol.status=="Aguardando pagamento") {
-            deoxinivalenol.addElement('_ownering', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.deoxinivalenol.status
-            });
-          }
-          if(sample.deoxinivalenol.status=="Aguardando amostra") {
-            deoxinivalenol.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.deoxinivalenol.status
-            });
-          }
-          if(sample.deoxinivalenol.status=="Mapa de Trabalho") {
-            scndDeoxinivalenol.addElement('_workmap1', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.deoxinivalenol.status
-            });
-          }
-        }
 
-        //ZEARALENONA
-        if(sample.zearalenona.active == true) {
-          if(sample.zearalenona.status=="Nova" || sample.zearalenona.status=="Sem amostra" || sample.zearalenona.status=="A corrigir") {
-            zearalenona.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.zearalenona.status
-            });
+          //ZEARALENONA
+          if(sample.zearalenona.active == true) {
+            if(sample.zearalenona.status=="Nova" || sample.zearalenona.status=="Sem amostra" || sample.zearalenona.status=="A corrigir") {
+              zearalenona.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.zearalenona.status
+              });
+            }
+            if(sample.zearalenona.status=="Em análise"||sample.zearalenona.status=="Mapa de Trabalho") {
+              zearalenona.addElement('_testing', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.zearalenona.status
+              });
+              scndZearalenona.addElement('_scndTesting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.zearalenona.status
+              });
+            }
+            if(sample.zearalenona.status=="Aguardando pagamento") {
+              zearalenona.addElement('_ownering', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.zearalenona.status
+              });
+            }
+            if(sample.zearalenona.status=="Aguardando amostra") {
+              zearalenona.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.zearalenona.status
+              });
+            }
+            if(sample.zearalenona.status=="Mapa de Trabalho") {
+              scndZearalenona.addElement('_workmap1', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.zearalenona.status
+              });
+            }
           }
-          if(sample.zearalenona.status=="Em análise"||sample.zearalenona.status=="Mapa de Trabalho") {
-            zearalenona.addElement('_testing', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.zearalenona.status
-            });
-            scndZearalenona.addElement('_scndTesting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.zearalenona.status
-            });
-          }
-          if(sample.zearalenona.status=="Aguardando pagamento") {
-            zearalenona.addElement('_ownering', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.zearalenona.status
-            });
-          }
-          if(sample.zearalenona.status=="Aguardando amostra") {
-            zearalenona.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.zearalenona.status
-            });
-          }
-          if(sample.zearalenona.status=="Mapa de Trabalho") {
-            scndZearalenona.addElement('_workmap1', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.zearalenona.status
-            });
-          }
-        }
 
-        //T-2 TOXINA
-        if(sample.t2toxina.active == true) {
-          if(sample.t2toxina.status=="Nova" || sample.t2toxina.status=="Sem amostra" || sample.t2toxina.status=="A corrigir") {
-            t2toxina.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.t2toxina.status
-            });
-          }
-          if(sample.t2toxina.status=="Em análise"||sample.t2toxina.status=="Mapa de Trabalho") {
-            t2toxina.addElement('_testing', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.t2toxina.status
-            });
-            if(sample.t2toxina.status=="Em análise") {
-              scndT2toxina.addElement('_scndTesting', {
+          //T-2 TOXINA
+          if(sample.t2toxina.active == true) {
+            if(sample.t2toxina.status=="Nova" || sample.t2toxina.status=="Sem amostra" || sample.t2toxina.status=="A corrigir") {
+              t2toxina.addElement('_waiting', {
                 id: sample.samplenumber,
                 title: "Amostra " + sample.samplenumber,
                 analyst: sample.responsable,
                 status: sample.t2toxina.status
               });
             }
+            if(sample.t2toxina.status=="Em análise"||sample.t2toxina.status=="Mapa de Trabalho") {
+              t2toxina.addElement('_testing', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.t2toxina.status
+              });
+              if(sample.t2toxina.status=="Em análise") {
+                scndT2toxina.addElement('_scndTesting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.t2toxina.status
+                });
+              }
 
+            }
+            if(sample.t2toxina.status=="Aguardando pagamento") {
+              t2toxina.addElement('_ownering', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.t2toxina.status
+              });
+            }
+            if(sample.t2toxina.status=="Aguardando amostra") {
+              t2toxina.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.t2toxina.status
+              });
+            }
+            if(sample.t2toxina.status=="Mapa de Trabalho") {
+            scndT2toxina.addElement('_workmap1', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.t2toxina.status
+              });
+            }
           }
-          if(sample.t2toxina.status=="Aguardando pagamento") {
-            t2toxina.addElement('_ownering', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.t2toxina.status
-            });
-          }
-          if(sample.t2toxina.status=="Aguardando amostra") {
-            t2toxina.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.t2toxina.status
-            });
-          }
-          if(sample.t2toxina.status=="Mapa de Trabalho") {
-          scndT2toxina.addElement('_workmap1', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.t2toxina.status
-            });
-          }
-        }
 
-        //FUMOSININA
-        if(sample.fumonisina.active == true) {
-          if(sample.fumonisina.status=="Nova" || sample.fumonisina.status=="Sem amostra" || sample.fumonisina.status=="A corrigir") {
-            fumonisina.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.fumonisina.status
-            });
-          }
-          if(sample.fumonisina.status=="Em análise"||sample.fumonisina.status=="Mapa de Trabalho") {
-            fumonisina.addElement('_testing', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.fumonisina.status
-            });
-            if(sample.fumonisina.status=="Em análise") {
-              scndFumonisina.addElement('_scndTesting', {
+          //FUMOSININA
+          if(sample.fumonisina.active == true) {
+            if(sample.fumonisina.status=="Nova" || sample.fumonisina.status=="Sem amostra" || sample.fumonisina.status=="A corrigir") {
+              fumonisina.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.fumonisina.status
+              });
+            }
+            if(sample.fumonisina.status=="Em análise"||sample.fumonisina.status=="Mapa de Trabalho") {
+              fumonisina.addElement('_testing', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.fumonisina.status
+              });
+              if(sample.fumonisina.status=="Em análise") {
+                scndFumonisina.addElement('_scndTesting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.fumonisina.status
+                });
+              }
+
+            }
+            if(sample.fumonisina.status=="Aguardando pagamento") {
+              fumonisina.addElement('_ownering', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.fumonisina.status
+              });
+            }
+            if(sample.fumonisina.status=="Aguardando amostra") {
+              fumonisina.addElement('_waiting', {
+                id: sample.samplenumber,
+                title: "Amostra " + sample.samplenumber,
+                analyst: sample.responsable,
+                status: sample.fumonisina.status
+              });
+            }
+            if(sample.fumonisina.status=="Mapa de Trabalho") {
+              scndFumonisina.addElement('_workmap1', {
                 id: sample.samplenumber,
                 title: "Amostra " + sample.samplenumber,
                 analyst: sample.responsable,
@@ -1826,34 +1902,12 @@ $.get('/search/samples', (samples) => {
             }
 
           }
-          if(sample.fumonisina.status=="Aguardando pagamento") {
-            fumonisina.addElement('_ownering', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.fumonisina.status
-            });
-          }
-          if(sample.fumonisina.status=="Aguardando amostra") {
-            fumonisina.addElement('_waiting', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.fumonisina.status
-            });
-          }
-          if(sample.fumonisina.status=="Mapa de Trabalho") {
-            scndFumonisina.addElement('_workmap1', {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsable,
-              status: sample.fumonisina.status
-            });
-          }
+        });
 
-        }
+
 
     });
+
   });
 });
 

@@ -72,10 +72,15 @@ router.get('/samples',  auth.isAuthenticated, (req, res) => {
   });
 });
 
-router.get('/userFromRequisition/:reqID',  auth.isAuthenticated, (req, res) => {
-  Requisition.getById(reqID).then((resp) => {
-    res.send(resp);
-    console.log(resp);
+router.get('/userFromSample/:sampleID',  auth.isAuthenticated, (req, res) => {
+  Requisition.getBySampleID(req.params.sampleID).then((requisition) => {
+    User.getById(requisition.user).then((user)=>{
+      res.send(user);
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');

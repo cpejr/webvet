@@ -24,6 +24,7 @@ router.get('/new', auth.isAuthenticated,  function(req,res) {
 
 router.post('/new', auth.isAuthenticated, function(req,res) {
   const { requisition } = req.body;
+  requisition.user=req.session.user;
   if (req.body.producerAddress == 0) {
     console.log("MINI BOIIIII");
     const address = req.session.user.address;
