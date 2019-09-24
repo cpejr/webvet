@@ -6,6 +6,10 @@ const Mycotoxin = require('./mycotoxin');
 
 const requisitionSchema = new mongoose.Schema({
   register: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   identification: Number,
   datecollection: String,
   detectedConcetration: Number,
@@ -30,8 +34,12 @@ const requisitionSchema = new mongoose.Schema({
     state: String
   },
   client: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    cep: Number,
+    fullname: String,
+    phone: String,
+    cellphone: String,
+    email: String
+
   },
   report: {
    type: Boolean, //1 for available, 0 for not available
@@ -55,6 +63,21 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.find({}).populate('user').exec().then((results) => {
         resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+
+  /**
+   * Get a Requisitions by sample
+   * @returns one Requisitions
+   */
+  static getBySampleID(sampleid) {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.find( { samples: {$in:sampleid } }).then((req) => {
+        resolve(req[0]);
       }).catch((err) => {
         reject(err);
       });

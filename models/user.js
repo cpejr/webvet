@@ -82,7 +82,7 @@ class User {
    */
   static getAll() {
     return new Promise((resolve, reject) => {
-      UserModel.find({}).exec().then((results) => {
+      UserModel.find({}).sort( { fullname: 1 } ).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);

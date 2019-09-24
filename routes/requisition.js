@@ -24,6 +24,7 @@ router.get('/new', auth.isAuthenticated,  function(req,res) {
 
 router.post('/new', auth.isAuthenticated, function(req,res) {
   const { requisition } = req.body;
+  requisition.user=req.session.user;
   if (req.body.producerAddress == 0) {
     console.log("MINI BOIIIII");
     const address = req.session.user.address;
@@ -106,7 +107,7 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
 
     console.log(`New requisition with id: ${reqid}`);
     req.flash('success', 'Nova requisição enviada');
-    res.redirect('/homeAdmin');
+    res.redirect('/user');
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');//catch do create

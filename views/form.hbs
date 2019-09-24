@@ -4,21 +4,21 @@
     <h1> Formulário de Cadastro</h1>
     <div>
         <div class="signup-text col-md-12">
-          <input type="text" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
+          <input type="text" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo" required = "required">
         </div>
         <div class="form-row">
           <div class="signup-text col-md-6">
-            <input type="email" name="user[email]" class="input-placeholder-green" placeholder="Email">
+            <input type="email" name="user[email]" class="input-placeholder-green" placeholder="Email" required = "required">
           </div>
           <div class="signup-text col-md-3">
-            <input type="text" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular">
+            <input type="text" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular" required = "required">
           </div>
           <div class="signup-text col-md-3">
             <input type="text" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
           </div>
         </div>
         <div class="signup-text col-md-12">
-          <input type="password" name="user[password]" class="input-placeholder-green" placeholder="Senha">
+          <input type="password" name="user[password]" class="input-placeholder-green" placeholder="Senha" required = "required">
         </div>
         <br>
         <div class="form-row">
@@ -31,34 +31,35 @@
             </p>
           </div>
           <div class="signup-text col-md-10">
-            <input type="text" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ">
+            <input type="text" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ" required = "required">
           </div>
         </div>
         <div class="form-row">
           <div class="signup-text col-md-6">
-            <input type="text" name="user[address][city]" class="input-placeholder-green" placeholder="Municipio">
+            <input type="text" name="user[address][city]" class="input-placeholder-green" placeholder="Municipio" required = "required">
           </div>
           <div class="signup-text col-md-2">
-            <input type="text" name="user[address][state]" class="input-placeholder-green" placeholder="Estado">
+            <input type="text" name="user[address][state]" class="input-placeholder-green" placeholder="Estado" required = "required">
           </div>
           <div class="signup-text col-md-4">
-            <input type="text" name="user[address][cep]" class="input-placeholder-green" placeholder="CEP">
+            <input type="text" name="user[address][cep]" class="input-placeholder-green" placeholder="CEP" required = "required">
           </div>
           <div class="signup-text col-md-4">
-            <input type="text" name="user[address][street]" class="input-placeholder-green" placeholder="Rua">
+            <input type="text" name="user[address][street]" class="input-placeholder-green" placeholder="Rua" required = "required">
           </div>
           <div class="signup-text col-md-3">
-            <input type="text" name="user[address][number]" class="input-placeholder-green" placeholder="Número">
+            <input type="text" name="user[address][number]" class="input-placeholder-green" placeholder="Número" required = "required">
           </div>
           <div class="signup-text col-md-3">
             <input type="text" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
           </div>
           <div class="signup-text col-md-2">
-            <input type="text" name="user[address][neighborhood]" class="input-placeholder-green" placeholder="Bairro">
+            <input type="text" name="user[address][neighborhood]" class="input-placeholder-green" placeholder="Bairro" required = "required">
           </div>
         </div>
       </div>
     <br>
+    <div style = "text-align: center;"> {{error}} </div>
     <button type="submit" class="btn-signup">Cadastrar</button>
   </div>
 </form>

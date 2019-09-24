@@ -11,11 +11,11 @@
 <form action="/requisition/new" method="post">
   <div id="keep-address" class="form-row">
     <div class="requisition-text col-md-11">
-      <input id="fullname" type="text" name="requisition[fullname]" value="{{user.fullname}}" class="requisition-text"
+      <input id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}" class="requisition-text"
         placeholder="Razão Social/Nome Completo:">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="cpf" type="text" name="requisition[register]" value="{{user.register}}" class="requisition-text"
+      <input id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}" class="requisition-text"
         placeholder="CNPJ/CPF:">
     </div>
     <div class="requisition-text col-md-5">
@@ -53,15 +53,15 @@
         placeholder="Responsável pela amostra:">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="phone" type="text" name="requisition[phone]" value="{{user.phone}}" class="requisition-text"
+      <input id="phone" type="text" name="requisition[client][phone]" value="{{user.phone}}" class="requisition-text"
         placeholder="Tel. com DDD:">
     </div>
     <div class=" requisition-text col-md-5">
-      <input id="cellphone" type="text" name="requisition[cellphone]" value="{{user.cellphone}}"
+      <input id="cellphone" type="text" name="requisition[client][cellphone]" value="{{user.cellphone}}"
         class="requisition-text" placeholder="Cel. com DDD:">
     </div>
     <div class="requisition-text col-md-11">
-      <input id="email" type="text" name="requisition[email]" value="{{user.email}}" class="requisition-text"
+      <input id="email" type="text" name="requisition[client][email]" value="{{user.email}}" class="requisition-text"
         placeholder="Email:">
     </div>
   </div>
@@ -71,14 +71,14 @@
   </div>
   <br>
   <div class="requisition-text col-md-12">
-    <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Fornecedor">
+    <input type="text" name="requisition[producer]" class="requisition-text" placeholder="Nome do cliente | Fazenda | Produtor">
   </div>
   <div class="form-row">
     <div class="requisition-text col-md-4">
-      <input type="text" name="requisition[producer]" class="requisition-text" placeholder="Produtor">
+      <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Município">
     </div>
     <div class="requisition-text col-md-4">
-      <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Nome da Fazenda">
+      <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Estado">
     </div>
     <div class="requisition-text col-md-4">
       <input type="text" name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">

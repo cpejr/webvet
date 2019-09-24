@@ -6,6 +6,7 @@ const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Sample = require('../models/sample');
 const Kit = require('../models/kit');
+const Requisition= require('../models/requisition');
 
 router.get('/producers',  auth.isAuthenticated, (req, res) => {
   const names = [];
@@ -65,6 +66,21 @@ router.get('/samples',  auth.isAuthenticated, (req, res) => {
   Sample.getAll().then((samples) => {
     res.send(samples);
     console.log(samples);
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.get('/userFromSample/:sampleID',  auth.isAuthenticated, (req, res) => {
+  Requisition.getBySampleID(req.params.sampleID).then((requisition) => {
+    User.getById(requisition.user).then((user)=>{
+      res.send(user);
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
