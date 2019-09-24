@@ -109,7 +109,7 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
 
     console.log(`New requisition with id: ${reqid}`);
     req.flash('success', 'Nova requisição enviada');
-    res.redirect('/homeAdmin');
+    res.redirect('/user');
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');//catch do create
