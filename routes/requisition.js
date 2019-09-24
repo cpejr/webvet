@@ -129,8 +129,6 @@ router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
     console.log(error);
     res.redirect('/error');
 });
-
-
 });
 
 router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {

@@ -29,4 +29,14 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
   });
 });
 
+router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
+  Requisition.getById(req.params.id).then((requisitions) => {
+    res.render('report/show', { title: 'Show ', requisitions });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+
 module.exports = router;
