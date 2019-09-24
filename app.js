@@ -35,6 +35,7 @@ const printtemplateRouter = require ('./routes/printtemplate');
 const calibrationcurvesRouter = require ('./routes/calibrationcurves');
 const allsamplesRouter = require ('./routes/allsamples');
 const setstockRouter = require ('./routes/setstock');
+const reportRouter = require ('./routes/report');
 const app = express();
 
 /**
@@ -145,6 +146,7 @@ app.use('/printtemplate', printtemplateRouter);
 app.use('/calibrationcurves', calibrationcurvesRouter);
 app.use('/allsamples', allsamplesRouter);
 app.use('/setstock', setstockRouter);
+app.use('/report', reportRouter);
 
 
 // catch 404 and forward to error handler
