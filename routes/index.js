@@ -139,11 +139,11 @@ router.post('/signup', (req, res) => {
       });
     }).catch((error) => {
       console.log(error);
-      res.redirect('/error');
+      res.render('form', { title: 'signup', layout: 'layout', error });
     });
   }).catch((error) => {
     console.log(error);
-    res.redirect('/error');
+    res.render('form', { title: 'signup', layout: 'layout', error });
   });
 });
 
