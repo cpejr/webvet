@@ -68,7 +68,9 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
             stockMap.set(kits[i].productCode , kits[i].amount + x);
           }
           else {
-            stockMap.set(kits[i].productCode , kits[i].amount);
+            if(!(kits[i].deleted)){
+              stockMap.set(kits[i].productCode , kits[i].amount);
+            }
           }
 
         }
@@ -126,6 +128,11 @@ router.get('/new', auth.isAuthenticated,  function(req,res) {
 router.post('/new', auth.isAuthenticated,  function(req,res) {
   console.log(req.session.user);
   const { kit } = req.body;
+  if(kit.productCode[0] == "Outros"){
+    kit.productCode = kit.productCode[1];
+  }else {
+    kit.productCode = kit.productCode[0];
+  }
   console.log(kit);
   kit.stripLength=kit.amount;
   Kit.create(kit).then((id) => {
