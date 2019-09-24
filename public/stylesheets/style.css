@@ -7614,8 +7614,29 @@ body {
   background-color: white !important; }
 
 .title-laudo {
-  margin-top: 10px;
-  font-size: 15px;
-  font-style: underline; }
+  margin-top: 30px;
+  font-size: 15px; }
+
+.laudo-text {
+  text-align: left;
+  margin-left: 30px; }
+
+.info-laudo {
+  margin-top: 0px !important;
+  margin-left: 35px;
+  margin-right: 45px; }
+
+.laudo-linha {
+  margin-left: 0px; }
+
+.laudo-footer {
+  text-align: center; }
+
+.laudo-assinatura {
+  margin-top: 40px; }
+
+.laudo-assinatura p {
+  text-align: center;
+  margin-top: -15px; }
 
 /*# sourceMappingURL=style.css.map */
