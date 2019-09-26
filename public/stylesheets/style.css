@@ -6203,9 +6203,7 @@ header {
   align-items: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(1, 1, 1, 1);
-  background: white;
-  border-style: solid;
-  border-color: #98fb98; }
+  background: white; }
 
 .login-box1 p {
   padding: 23px;
