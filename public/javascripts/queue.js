@@ -186,6 +186,7 @@ var scndAflatoxina = new jKanban({
     }
 
     if(target=='_scndTesting') {
+      var calibrator=el.dataset.eid;
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
 
@@ -447,6 +448,7 @@ var scndDeoxinivalenol = new jKanban({
    }
 
     if(target=='_scndTesting') {
+        var calibrator=el.dataset.eid;
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false;
        }
@@ -943,6 +945,7 @@ var scndT2toxina = new jKanban({
     }
 
     if(target=='_scndTesting') {
+        var calibrator=el.dataset.eid;
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
        }
@@ -1190,6 +1193,7 @@ var scndFumonisina = new jKanban({
     }
 
     if(target=='_scndTesting') {
+        var calibrator=el.dataset.eid;
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false
        }
@@ -1443,6 +1447,7 @@ var scndZearalenona = new jKanban({
     }
 
     if(target=='_scndTesting') {
+        var calibrator=el.dataset.eid;
       if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
              return false;
        }
