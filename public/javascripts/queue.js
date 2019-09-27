@@ -207,7 +207,6 @@ var scndAflatoxina = new jKanban({
   }
 });
 
-//função de criação dos id dos Pchild para o scndAflatoxina
 var countAfla=0;
 
 function IdAflaCount ()
@@ -216,14 +215,6 @@ function IdAflaCount ()
     countAfla++;
     return countAfla;
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -413,7 +404,6 @@ var scndDeoxinivalenol = new jKanban({
 
 //função de criação dos id dos Pchild para o scndDeoxinivalenol
 var countDeox=0;
-var deoxLimit;
 
 function IdDeoxCount ()
 {
@@ -422,63 +412,6 @@ function IdDeoxCount ()
     return countDeox;
 }
 
-var deoxclicks = 1;
-var deoxcount;
-    function DeoxPlusButton() {
-        deoxclicks += 1;
-        deoxcount -= 1;
-        if(deoxclicks > deoxLimit) {
-          deoxclicks -= 1;
-          document.getElementById("countkitsDeox").innerHTML = deoxcount;
-        }
-        else {
-          scndDeoxinivalenol.addBoards(
-                  [{
-                      'id' : '_workmap' + deoxclicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ deoxclicks,
-                      'class' : 'info',
-                  }]
-              )
-          document.getElementById("countkitsDeox").innerHTML = deoxcount;
-          document.getElementById("countMapDeox").innerHTML = deoxclicks;
-          $.post('/stock/increaseAmount/'+nowDeoxKit, () => {
-
-          });
-      }
-    };
-
-    function DeoxMinusButton() {
-        if(deoxclicks==1){
-          deoxclicks=1;
-          deoxcount = deoxLimit;
-          document.getElementById("countkitsDeox").innerHTML = deoxcount;
-          document.getElementById("countMapDeox").innerHTML = deoxclicks;
-        }
-        else {
-           scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
-           deoxclicks -= 1;
-           deoxcount += 1;
-           document.getElementById("countMapDeox").innerHTML = deoxclicks;
-           document.getElementById("countkitsDeox").innerHTML = deoxcount;
-          $.post('/stock/decreaseAmount/'+nowDeoxKit, () => {
-
-          });
-
-
-        }
-
-    };
-
-    function DeoxResetButton() {
-
-      for(i=deoxclicks;i>=deoxclicks;i--) {
-          if(deoxclicks!=1){
-            scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
-            deoxclicks -= 1;
-          }
-        }
-       document.getElementById("countMapDeox").innerHTML = deoxclicks;
-    };
 
 
 
@@ -1982,6 +1915,8 @@ $('#KitRadioOcra').change(function(){
 
 var nowDeoxKit;
 $('#KitRadioDeox').change(function(){
+  var deoxLimit;
+
     console.log("DENTRO DA KitRadioDeox");
    $.get('/search/kits', (kits) => {
         console.log("BUSCANDO");
@@ -2022,6 +1957,16 @@ $('#KitRadioDeox').change(function(){
             }
            else {
                $('#hideDeox').addClass('form-disabled');
+           }
+
+           for(i=1;i<deoxLimit;i++){//the map 0 was defined before
+             scndDeoxinivalenol.addBoards(
+                     [{
+                         'id' : '_workmap' + (i+1),
+                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                         'class' : 'info',
+                     }]
+                 )
            }
 
          }
