@@ -219,68 +219,9 @@ function IdAflaCount ()
 
 
 
-var aflaclicks = 1;
-var aflaLimit;
-var aflacount;
-    function AflaPlusButton() {
-        aflaclicks += 1;
-        aflacount -= 1;
-        if (aflaclicks > aflaLimit) {
-          aflaclicks -= 1;
-          document.getElementById("countkitsAfla").innerHTML = aflacount;
-        }
-       else {
-           scndAflatoxina.addBoards(
-                  [{
-                      'id' : '_workmap' + aflaclicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ aflaclicks,
-                      'class' : 'info',
-
-                  }]
-              )
-
-        document.getElementById("countkitsAfla").innerHTML = aflacount;
-        document.getElementById("countMapAfla").innerHTML = aflaclicks;
-        $.post('/stock/decreaseAmount/'+nowAflaKit, () => {
-
-        });
 
 
-      }
-    };
 
-    function AflaMinusButton() {
-
-        if(aflaclicks==1){
-          aflacount = aflaLimit;
-          aflaclicks=1;
-          document.getElementById("countkitsAfla").innerHTML = aflacount;
-          document.getElementById("countMapAfla").innerHTML = clicks;
-
-        }
-        else {
-          aflacount += 1;
-           scndAflatoxina.removeBoard('_workmap' + aflaclicks);
-           document.getElementById("countkitsAfla").innerHTML = aflacount;
-           document.getElementById("countMapAfla").innerHTML = aflaclicks;
-          aflaclicks -= 1;
-                $.post('/stock/increaseAmount/'+nowAflaKit, () => {
-
-                });
-        }
-
-    };
-
-    function AflaResetButton() {
-
-      for(i=aflaclicks;i>=aflaclicks;i--) {
-          if(aflaclicks!=1){
-            scndAflatoxina.removeBoard('_workmap' + aflaclicks);
-            aflaclicks -= 1;
-          }
-        }
-       document.getElementById("countMapAfla").innerHTML = aflaclicks;
-    };
 
 
 
@@ -1917,9 +1858,13 @@ $.get('/search/samples', (samples) => {
 });
 
 //Funções "hide" para puxar os kits desejados(A,B,C)
+
+
+
 var nowAflaKit;
 $('#KitRadioAfla').change(function(){
      console.log("DENTRO DA RADIOAFLA");
+     var aflaLimit=0;
     $.get('/search/kits', (kits) => {
          console.log("BUSCANDO");
       $(document).ready(function() {
@@ -1962,6 +1907,15 @@ $('#KitRadioAfla').change(function(){
              }
             else {
                 $('#hideAfla').addClass('form-disabled');
+            }
+            for(i=1;i<aflaLimit;i++){//the map 0 was defined before
+              scndAflatoxina.addBoards(
+                      [{
+                          'id' : '_workmap' + (i+1),
+                          'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                          'class' : 'info',
+                      }]
+                  )
             }
             console.log(aflaLimit);
             console.log(nowAflaKit);
