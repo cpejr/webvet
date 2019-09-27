@@ -207,7 +207,6 @@ var scndAflatoxina = new jKanban({
   }
 });
 
-//função de criação dos id dos Pchild para o scndAflatoxina
 var countAfla=0;
 
 function IdAflaCount ()
@@ -216,73 +215,6 @@ function IdAflaCount ()
     countAfla++;
     return countAfla;
 }
-
-
-
-var aflaclicks = 1;
-var aflaLimit;
-var aflacount;
-    function AflaPlusButton() {
-        aflaclicks += 1;
-        aflacount -= 1;
-        if (aflaclicks > aflaLimit) {
-          aflaclicks -= 1;
-          document.getElementById("countkitsAfla").innerHTML = aflacount;
-        }
-       else {
-           scndAflatoxina.addBoards(
-                  [{
-                      'id' : '_workmap' + aflaclicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ aflaclicks,
-                      'class' : 'info',
-
-                  }]
-              )
-
-        document.getElementById("countkitsAfla").innerHTML = aflacount;
-        document.getElementById("countMapAfla").innerHTML = aflaclicks;
-        $.post('/stock/decreaseAmount/'+nowAflaKit, () => {
-
-        });
-
-
-      }
-    };
-
-    function AflaMinusButton() {
-
-        if(aflaclicks==1){
-          aflacount = aflaLimit;
-          aflaclicks=1;
-          document.getElementById("countkitsAfla").innerHTML = aflacount;
-          document.getElementById("countMapAfla").innerHTML = clicks;
-
-        }
-        else {
-          aflacount += 1;
-           scndAflatoxina.removeBoard('_workmap' + aflaclicks);
-           document.getElementById("countkitsAfla").innerHTML = aflacount;
-           document.getElementById("countMapAfla").innerHTML = aflaclicks;
-          aflaclicks -= 1;
-                $.post('/stock/increaseAmount/'+nowAflaKit, () => {
-
-                });
-        }
-
-    };
-
-    function AflaResetButton() {
-
-      for(i=aflaclicks;i>=aflaclicks;i--) {
-          if(aflaclicks!=1){
-            scndAflatoxina.removeBoard('_workmap' + aflaclicks);
-            aflaclicks -= 1;
-          }
-        }
-       document.getElementById("countMapAfla").innerHTML = aflaclicks;
-    };
-
-
 
 
 
@@ -472,7 +404,6 @@ var scndDeoxinivalenol = new jKanban({
 
 //função de criação dos id dos Pchild para o scndDeoxinivalenol
 var countDeox=0;
-var deoxLimit;
 
 function IdDeoxCount ()
 {
@@ -481,63 +412,6 @@ function IdDeoxCount ()
     return countDeox;
 }
 
-var deoxclicks = 1;
-var deoxcount;
-    function DeoxPlusButton() {
-        deoxclicks += 1;
-        deoxcount -= 1;
-        if(deoxclicks > deoxLimit) {
-          deoxclicks -= 1;
-          document.getElementById("countkitsDeox").innerHTML = deoxcount;
-        }
-        else {
-          scndDeoxinivalenol.addBoards(
-                  [{
-                      'id' : '_workmap' + deoxclicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ deoxclicks,
-                      'class' : 'info',
-                  }]
-              )
-          document.getElementById("countkitsDeox").innerHTML = deoxcount;
-          document.getElementById("countMapDeox").innerHTML = deoxclicks;
-          $.post('/stock/increaseAmount/'+nowDeoxKit, () => {
-
-          });
-      }
-    };
-
-    function DeoxMinusButton() {
-        if(deoxclicks==1){
-          deoxclicks=1;
-          deoxcount = deoxLimit;
-          document.getElementById("countkitsDeox").innerHTML = deoxcount;
-          document.getElementById("countMapDeox").innerHTML = deoxclicks;
-        }
-        else {
-           scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
-           deoxclicks -= 1;
-           deoxcount += 1;
-           document.getElementById("countMapDeox").innerHTML = deoxclicks;
-           document.getElementById("countkitsDeox").innerHTML = deoxcount;
-          $.post('/stock/decreaseAmount/'+nowDeoxKit, () => {
-
-          });
-
-
-        }
-
-    };
-
-    function DeoxResetButton() {
-
-      for(i=deoxclicks;i>=deoxclicks;i--) {
-          if(deoxclicks!=1){
-            scndDeoxinivalenol.removeBoard('_workmap' + deoxclicks);
-            deoxclicks -= 1;
-          }
-        }
-       document.getElementById("countMapDeox").innerHTML = deoxclicks;
-    };
 
 
 
@@ -727,68 +601,7 @@ function IdOcraCount (){
     return countOcra;
 }
 
-var ocraclicks = 1;
-var ocraLimit;
-var ocracount;
-function OcraPlusButton() {
-        ocraclicks += 1;
-        ocracount -=1;
-        if(ocraclicks>ocraLimit) {
-          ocraclicks-=1;
-          document.getElementById("countkits").innerHTML = ocracount;
-        }
-        else {
-            scndOcratoxina.addBoards(
-                  [{
-                      'id' : '_workmap' + ocraclicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ ocraclicks,
-                      'class' : 'info',
 
-                  }]
-              )
-
-
-        document.getElementById("countMapOcra").innerHTML = ocraclicks;
-        document.getElementById("countkits").innerHTML = ocracount;
-        $.post('/stock/decreaseAmount/'+nowOcraKit, () => {
-
-        });
-
-
-      }
-    };
-
-function OcraMinusButton() {
-
-        if(ocraclicks==1){
-        ocraclicks=1;
-        ocracount = ocraLimit;
-          document.getElementById("countMapOcra").innerHTML = ocraclicks;
-          document.getElementById("countkits").innerHTML = ocracount;
-        }
-        else {
-          ocraclicks -= 1;
-          ocracount == 1;
-          scndOcratoxina.removeBoard('_workmap' + ocraclicks);
-          document.getElementById("countMapOcra").innerHTML = ocraclicks;
-          document.getElementById("countkits").innerHTML = ocracount;
-        }
-
-    };
-
-    function OcraResetButton() {
-
-      for(i=ocraclicks;i>=ocraclicks;i--) {
-          if(ocraclicks!=1){
-            scndOcratoxina.removeBoard('_workmap' + ocraclicks);
-            ocraclicks -= 1;
-          }
-        }
-       document.getElementById("countMapOcra").innerHTML = ocraclicks;
-       $.post('/stock/increaseAmount/'+nowOcraKit, () => {
-
-       });
-    };
 
 
 const t2toxina = new jKanban({
@@ -1917,9 +1730,13 @@ $.get('/search/samples', (samples) => {
 });
 
 //Funções "hide" para puxar os kits desejados(A,B,C)
+
+
+
 var nowAflaKit;
 $('#KitRadioAfla').change(function(){
      console.log("DENTRO DA RADIOAFLA");
+     var aflaLimit=0;
     $.get('/search/kits', (kits) => {
          console.log("BUSCANDO");
       $(document).ready(function() {
@@ -1963,6 +1780,15 @@ $('#KitRadioAfla').change(function(){
             else {
                 $('#hideAfla').addClass('form-disabled');
             }
+            for(i=1;i<aflaLimit;i++){//the map 0 was defined before
+              scndAflatoxina.addBoards(
+                      [{
+                          'id' : '_workmap' + (i+1),
+                          'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                          'class' : 'info',
+                      }]
+                  )
+            }
             console.log(aflaLimit);
             console.log(nowAflaKit);
           }
@@ -1975,6 +1801,7 @@ $('#KitRadioAfla').change(function(){
 
 var nowOcraKit;
 $('#KitRadioOcra').change(function(){
+  var ocraLimit;
     console.log("DENTRO DA KitRadioOcra");
    $.get('/search/kits', (kits) => {
         console.log("BUSCANDO");
@@ -2017,6 +1844,16 @@ $('#KitRadioOcra').change(function(){
                $('#hideOcra').addClass('form-disabled');
            }
 
+           for(i=1;i<aflaLimit;i++){//the map 0 was defined before
+             scndOcratoxina.addBoards(
+                     [{
+                         'id' : '_workmap' + (i+1),
+                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                         'class' : 'info',
+                     }]
+                 )
+           }
+
          }
 
      })
@@ -2028,6 +1865,8 @@ $('#KitRadioOcra').change(function(){
 
 var nowDeoxKit;
 $('#KitRadioDeox').change(function(){
+  var deoxLimit;
+
     console.log("DENTRO DA KitRadioDeox");
    $.get('/search/kits', (kits) => {
         console.log("BUSCANDO");
@@ -2068,6 +1907,16 @@ $('#KitRadioDeox').change(function(){
             }
            else {
                $('#hideDeox').addClass('form-disabled');
+           }
+
+           for(i=1;i<deoxLimit;i++){//the map 0 was defined before
+             scndDeoxinivalenol.addBoards(
+                     [{
+                         'id' : '_workmap' + (i+1),
+                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                         'class' : 'info',
+                     }]
+                 )
            }
 
          }
