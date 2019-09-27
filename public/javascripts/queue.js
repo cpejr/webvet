@@ -789,66 +789,10 @@ function IdT2Count ()
     return countT2;
 }
 
-var t2clicks = 1;
+
 var t2Limit;
-var t2count;
-function T2PlusButton() {
-        console.log(t2count);
-        t2clicks += 1;
-        t2count -= 1;
 
-        if(t2clicks>t2Limit) {
-          t2clicks-=1;
-          document.getElementById("countkits").innerHTML = t2count;
 
-        } else {
-            scndT2toxina.addBoards(
-                  [{
-                      'id' : '_workmap' + t2clicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ t2clicks,
-                      'class' : 'info',
-
-                  }]
-              )
-        document.getElementById("countkits").innerHTML = t2count;
-        document.getElementById("countMapT2").innerHTML = t2clicks;
-        $.post('/stock/decreaseAmount/'+nowT2Kit, () => {
-
-        });
-      }
-    };
-
-    function T2MinusButton() {
-
-        if(t2clicks==1){
-         t2clicks=1;
-         t2count=t2Limit;
-          document.getElementById("countMapT2").innerHTML =t2clicks;
-          document.getElementById("countkits").innerHTML = t2count;
-        } else
-        {
-               scndT2toxina.removeBoard('_workmap' + t2clicks);
-                t2clicks -= 1;
-                t2count += 1;
-                document.getElementById("countMapT2").innerHTML = t2clicks;
-                document.getElementById("countkits").innerHTML = t2count;
-                $.post('/stock/increaseAmount/'+nowT2Kit, () => {
-
-                });
-        }
-
-    };
-
-    function T2ResetButton() {
-
-      for(i=t2clicks;i>=t2clicks;i--) {
-          if(t2clicks!=1){
-            scndT2toxina.removeBoard('_workmap' + t2clicks);
-            t2clicks -= 1;
-          }
-        }
-       document.getElementById("countMapT2").innerHTML = t2clicks;
-    };
 
 const fumonisina = new jKanban({
   element : '#fumonisina',
@@ -1031,7 +975,7 @@ var scndFumonisina = new jKanban({
 
 //função de criação dos id dos Pchild para a fumonisina
 var countFum=0;
-var fumLimit;
+
 
 function IdFumCount ()
 {
@@ -1040,65 +984,6 @@ function IdFumCount ()
     return countFum;
 }
 
-var fumoclicks = 1;
-var fumcount;
-function FumoPlusButton() {
-        fumoclicks += 1;
-        fumcount -= 1;
-        if(fumoclicks>fumLimit) {
-          fumoclicks-=1;
-          document.getElementById("countkits").innerHTML = fumcount;
-
-        } else {
-            scndFumonisina.addBoards(
-                  [{
-                      'id' : '_workmap' + fumoclicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ fumoclicks,
-                      'class' : 'info',
-
-                  }]
-              )
-
-
-        document.getElementById("countkits").innerHTML = fumcount;
-        document.getElementById("countMapFumo").innerHTML = fumoclicks;
-        $.post('/stock/decreaseAmount/'+nowFumKit, () => {
-
-        });
-
-      }
-    };
-
-function FumoMinusButton() {
-
-        if(fumoclicks==1){
-         fumoclicks=1;
-         fumcount = fumcount;
-         document.getElementById("countkits").innerHTML = fumcount;
-         document.getElementById("countMapFumo").innerHTML =fumoclicks;
-        } else {
-               scndFumonisina.removeBoard('_workmap' + fumoclicks);
-               fumoclicks -= 1;
-               fumcount +=1;
-               document.getElementById("countMapFumo").innerHTML = fumoclicks;
-               document.getElementById("countkits").innerHTML = fumcount;
-                $.post('/stock/increaseAmount/'+nowFumKit, () => {
-
-                });
-        }
-
-    };
-
- function FumoResetButton() {
-
-      for(i=fumoclicks;i>=fumoclicks;i--) {
-          if(fumoclicks!=1){
-            scndFumonisina.removeBoard('_workmap' + fumoclicks);
-            fumoclicks -= 1;
-          }
-        }
-       document.getElementById("countMapFumo").innerHTML = fumoclicks;
-    };
 
 
 const zearalenona = new jKanban({
@@ -1290,59 +1175,6 @@ function IdZCount ()
     return countZ;
 }
 
-var zclicks = 1;
-function ZPlusButton() {
-      zclicks += 1;
-        if(zclicks>16) {
-          zclicks-=1;
-
-        } else {
-            scndZearalenona.addBoards(
-                  [{
-                      'id' : '_workmap' + zclicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ zclicks,
-                      'class' : 'info',
-
-                  }]
-              )
-
-
-        document.getElementById("countMapZ").innerHTML = zclicks;
-
-      }
-    };
-
-function ZMinusButton() {
-
-        if(zclicks==1){
-         zclicks=1;
-          document.getElementById("countMapZ").innerHTML =zclicks;
-        } else {
-
-
-               scndZearalenona.removeBoard('_workmap' + zclicks);
-                zclicks -= 1;
-                document.getElementById("countMapZ").innerHTML = zclicks;
-                $.post('/stock/decreaseAmount/'+nowZKit, () => {
-
-                });
-        }
-
-    };
-
-    function ZResetButton() {
-
-         for(i=zclicks;i>=zclicks;i--) {
-             if(zclicks!=1){
-               scndZearalenona.removeBoard('_workmap' + zclicks);
-               zclicks -= 1;
-             }
-           }
-          document.getElementById("countMapZ").innerHTML = zclicks;
-          $.post('/stock/increaseAmount/'+nowZKit, () => {
-
-          });
-       };
 
 //cria cedulas kanban
 $.get('/search/samples', (samples) => {
@@ -1844,7 +1676,7 @@ $('#KitRadioOcra').change(function(){
                $('#hideOcra').addClass('form-disabled');
            }
 
-           for(i=1;i<aflaLimit;i++){//the map 0 was defined before
+           for(i=1;i<ocraLimit;i++){//the map 0 was defined before
              scndOcratoxina.addBoards(
                      [{
                          'id' : '_workmap' + (i+1),
@@ -1929,6 +1761,7 @@ $('#KitRadioDeox').change(function(){
 var nowFumKit;
 $('#KitRadioFum').change(function(){
     console.log("DENTRO DA KitRadioFum");
+     var fumLimit;
    $.get('/search/kits', (kits) => {
         console.log("BUSCANDO");
      $(document).ready(function() {
@@ -1970,6 +1803,17 @@ $('#KitRadioFum').change(function(){
                $('#hideFum').addClass('form-disabled');
            }
 
+           for(i=1;i<fumLimit;i++){//the map 0 was defined before
+             scndFumonisina.addBoards(
+                     [{
+                         'id' : '_workmap' + (i+1),
+                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                         'class' : 'info',
+                     }]
+                 )
+           }
+
+
          }
 
      })
@@ -1978,7 +1822,9 @@ $('#KitRadioFum').change(function(){
 });
 
 var nowT2Kit;
+
 $('#KitRadioT').change(function(){
+  var t2Limit;
     console.log("DENTRO DA KitRadioT");
    $.get('/search/kits', (kits) => {
         console.log("BUSCANDO");
@@ -2013,6 +1859,16 @@ $('#KitRadioT').change(function(){
                $('#hideT').addClass('form-disabled');
            }
 
+           for(i=1;i<t2Limit;i++){//the map 0 was defined before
+             scndT2toxina.addBoards(
+                     [{
+                         'id' : '_workmap' + (i+1),
+                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                         'class' : 'info',
+                     }]
+                 )
+           }
+
          }
 
      })
@@ -2022,7 +1878,7 @@ $('#KitRadioT').change(function(){
 
 var nowZKit;
 $('#KitRadioZ').change(function(){
-
+    var zLimit;
     console.log("DENTRO DA KitRadioZ");
    $.get('/search/kits', (kits) => {
         console.log("BUSCANDO");
@@ -2061,6 +1917,16 @@ $('#KitRadioZ').change(function(){
             }
            else {
                $('#hideZ').addClass('form-disabled');
+           }
+
+           for(i=1;i<zLimit;i++){//the map 0 was defined before
+             scndZearalenona.addBoards(
+                     [{
+                         'id' : '_workmap' + (i+1),
+                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                         'class' : 'info',
+                     }]
+                 )
            }
 
          }
