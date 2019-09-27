@@ -601,68 +601,7 @@ function IdOcraCount (){
     return countOcra;
 }
 
-var ocraclicks = 1;
-var ocraLimit;
-var ocracount;
-function OcraPlusButton() {
-        ocraclicks += 1;
-        ocracount -=1;
-        if(ocraclicks>ocraLimit) {
-          ocraclicks-=1;
-          document.getElementById("countkits").innerHTML = ocracount;
-        }
-        else {
-            scndOcratoxina.addBoards(
-                  [{
-                      'id' : '_workmap' + ocraclicks,
-                      'title'  : 'Mapa de trabalho' + ' '+ ocraclicks,
-                      'class' : 'info',
 
-                  }]
-              )
-
-
-        document.getElementById("countMapOcra").innerHTML = ocraclicks;
-        document.getElementById("countkits").innerHTML = ocracount;
-        $.post('/stock/decreaseAmount/'+nowOcraKit, () => {
-
-        });
-
-
-      }
-    };
-
-function OcraMinusButton() {
-
-        if(ocraclicks==1){
-        ocraclicks=1;
-        ocracount = ocraLimit;
-          document.getElementById("countMapOcra").innerHTML = ocraclicks;
-          document.getElementById("countkits").innerHTML = ocracount;
-        }
-        else {
-          ocraclicks -= 1;
-          ocracount == 1;
-          scndOcratoxina.removeBoard('_workmap' + ocraclicks);
-          document.getElementById("countMapOcra").innerHTML = ocraclicks;
-          document.getElementById("countkits").innerHTML = ocracount;
-        }
-
-    };
-
-    function OcraResetButton() {
-
-      for(i=ocraclicks;i>=ocraclicks;i--) {
-          if(ocraclicks!=1){
-            scndOcratoxina.removeBoard('_workmap' + ocraclicks);
-            ocraclicks -= 1;
-          }
-        }
-       document.getElementById("countMapOcra").innerHTML = ocraclicks;
-       $.post('/stock/increaseAmount/'+nowOcraKit, () => {
-
-       });
-    };
 
 
 const t2toxina = new jKanban({
@@ -1862,6 +1801,7 @@ $('#KitRadioAfla').change(function(){
 
 var nowOcraKit;
 $('#KitRadioOcra').change(function(){
+  var ocraLimit;
     console.log("DENTRO DA KitRadioOcra");
    $.get('/search/kits', (kits) => {
         console.log("BUSCANDO");
@@ -1902,6 +1842,16 @@ $('#KitRadioOcra').change(function(){
             }
            else {
                $('#hideOcra').addClass('form-disabled');
+           }
+
+           for(i=1;i<aflaLimit;i++){//the map 0 was defined before
+             scndOcratoxina.addBoards(
+                     [{
+                         'id' : '_workmap' + (i+1),
+                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                         'class' : 'info',
+                     }]
+                 )
            }
 
          }
