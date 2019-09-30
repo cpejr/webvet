@@ -14,17 +14,22 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
   Requisition.getAll().then((requisitions) => {
     var user = req.session.user.register;
     var logados = new Array;
+    var usuarios = new Array;
     var countlogados = 0;
     console.log(user);
     for (var i = 0; i < requisitions.length; i++) {
-      if (requisitions[i].register == user) {
-        logados[countlogados] = requisitions[i];
-        countlogados++;
-      } else {
-        console.log("nadinha");
-      }
+      console.log(requisitions[i].user);
+      // User.getById(requisitions[i].user).then((usuario) => {
+
+        // if (requisitions[i].user.register == user) {
+        //   logados[countlogados] = requisitions[i];
+        //   countlogados++;
+        // } else {
+        //   console.log("nadinha");
+        // }
+      // });
     }
-    console.log(logados);
+    // console.log(logados);
     res.render('report/index', {title: 'Requisições Disponíveis', layout: 'layoutDashboard.hbs',...req.session, logados});
   });
 });
