@@ -24,7 +24,7 @@ var aflatoxina = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    const samplenumber = el.dataset.title.replace("Amostra","");
 
     if  (target == '_testing') {
       $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
@@ -45,7 +45,7 @@ var aflatoxina = new jKanban({
 
       });
       if(el.dataset.eid=="owner") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento'  + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
       }
       else {
         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -60,7 +60,7 @@ var aflatoxina = new jKanban({
       });
 
       if(el.dataset.eid=="owner") {
-        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
       }
       else{
       el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
@@ -119,15 +119,11 @@ var scndAflatoxina = new jKanban({
           }
       ]
     },
-    {
-      id : '_workmap1',
-      title  : 'Mapa de trabalho 1',
-      class : 'success',
-    },
+
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    const samplenumber = el.dataset.title.replace("Amostra","");
     var goTO=target;
     console.log(goTO);
     if(target =='_calibrator'){
@@ -180,8 +176,13 @@ var scndAflatoxina = new jKanban({
           $.post('/sample/mapedit/aflatoxina/' + samplenumber+'/'+nowAflaKit+'/'+mapName,  () => {
 
           });
-          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
+          if(el.dataset.eid=="owner") {
+            el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+          }
+          else {
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+        }
       }
     }
 
@@ -198,9 +199,15 @@ var scndAflatoxina = new jKanban({
          $.post('/sample/scndTesting/edit/aflatoxina/' + samplenumber+'/'+nowAflaKit, () => {
 
          });
-         el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
-       }
+         if(el.dataset.eid=="owner") {
+           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+         }
+
+         else{
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+        }
+      }
     }
 
 
@@ -1182,8 +1189,7 @@ $.get('/search/samples', (samples) => {
     samples.forEach((sample) => {
       $.get('/search/userFromSample/'+sample._id,(user) =>{
           //AFLATOXINA
-          console.log(user);
-          console.log(user.debt);
+
           if(sample.aflatoxina.active == true) {
             if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
               if(user.debt) {
@@ -1215,13 +1221,16 @@ $.get('/search/samples', (samples) => {
                   status: sample.aflatoxina.status,
                   owner: "Devedor"
                 });
-                scndAflatoxina.addElement('_testing', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status,
-                  owner: "Devedor"
-                });
+                if(sample.aflatoxina.status=="Em análise") {
+                    scndAflatoxina.addElement('_scndTesting', {
+                      id: "owner",
+                      title: "Amostra " + sample.samplenumber,
+                      analyst: sample.responsable,
+                      status: sample.aflatoxina.status,
+                      owner: "Devedor"
+                    });
+                }
+
               }
               else{
               aflatoxina.addElement('_testing', {
@@ -1279,14 +1288,7 @@ $.get('/search/samples', (samples) => {
                 });
               }
             }
-            if(sample.aflatoxina.status=="Mapa de Trabalho") {
-              scndAflatoxina.addElement('_workmap1', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.aflatoxina.status
-              });
-            }
+
           }
 
           //OCRATOXINA A
@@ -1566,66 +1568,98 @@ $.get('/search/samples', (samples) => {
 
 
 var nowAflaKit;
+var aflaLimit=0;
 $('#KitRadioAfla').change(function(){
-     console.log("DENTRO DA RADIOAFLA");
-     var aflaLimit=0;
+  for(i=aflaLimit;i>0;i--){//delete previus workmap;
+    console.log("removed:")
+    var board= "_workmap"+i;
+    console.log(board)
+    scndAflatoxina.removeBoard(board)
+  }
     $.get('/search/kits', (kits) => {
-         console.log("BUSCANDO");
       $(document).ready(function() {
-        console.log("LENDO");
         kits.forEach((kit) => {
           var kitToxin=kit.productCode;
-          console.log(kitToxin);
           if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-            if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
-                $('#hideAfla').removeClass('form-disabled');
-                 console.log("É UM AFLA DO TIPO A!!!!!");
-                 aflaLimit=kit.stripLength;
-                 nowAflaKit=kit._id;
-                 aflacount = aflaLimit;
-                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
-
-                 });
-
-            }
-             else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
-                 $('#hideAfla').removeClass('form-disabled');
-                 console.log("É UM AFLA DO TIPO B!!!!!");
-                 aflaLimit=kit.stripLength;
-                 nowAflaKit=kit._id;
-                 aflacount = aflaLimit;
-                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
-
-                 });
-
-             }
-             else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
-                  console.log("É UM AFLA DO TIPO C!!!!!");
+              if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
                   $('#hideAfla').removeClass('form-disabled');
-                  aflaLimit=kit.stripLength;
-                  nowAflaKit=kit._id;
-                  aflacount = aflaLimit;
-                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+                   aflaLimit=kit.stripLength;
+                   nowAflaKit=kit._id;
+                   aflacount = aflaLimit;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
-                  });
-             }
-            else {
-                $('#hideAfla').addClass('form-disabled');
-            }
-            for(i=1;i<aflaLimit;i++){//the map 0 was defined before
-              scndAflatoxina.addBoards(
-                      [{
-                          'id' : '_workmap' + (i+1),
-                          'title'  : 'Mapa de trabalho' + ' '+ (i+1),
-                          'class' : 'info',
-                      }]
-                  )
-            }
-            console.log(aflaLimit);
-            console.log(nowAflaKit);
-          }
+                   });
 
-      })
+              }
+               else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
+                   console.log("FORM NOW!!!!")
+                   $('#hideAfla').removeClass('form-disabled');
+                   console.log("stripB");
+                   console.log(kit.stripLength)
+                   aflaLimit=kit.stripLength;
+                   nowAflaKit=kit._id;
+                   aflacount = aflaLimit;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                   });
+
+               }
+               else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
+                    $('#hideAfla').removeClass('form-disabled');
+                    aflaLimit=kit.stripLength;
+                    nowAflaKit=kit._id;
+                    aflacount = aflaLimit;
+                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+
+                    });
+               }
+              else {
+                  $('#hideAfla').addClass('form-disabled');
+              }
+              for(i=1;i<=aflaLimit;i++){//the map 0 was defined before
+                scndAflatoxina.addBoards(
+                        [{
+                            'id' : '_workmap' + (i),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i),
+                            'class' : 'info',
+                        }]
+                    )
+              }
+
+        }
+      })//for each kit
+      $.get('/search/samples', (samples) => {
+            $(document).ready(function() {
+              samples.forEach((sample) => {
+              $.get('/search/userFromSample/'+sample._id,(user)=>{
+                if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
+                      if(user.debt){
+                        scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                          id: "owner",
+                          title: "Amostra " + sample.samplenumber,
+                          analyst: sample.responsable,
+                          status: sample.aflatoxina.status,
+                          owner: "Devedor"
+                        });
+                      }
+
+                      else {
+                       scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                          id: sample.samplenumber,
+                          title: "Amostra " + sample.samplenumber,
+                          analyst: sample.responsable,
+                          status: sample.fumonisina.status
+                       });
+                    }
+
+               }
+               })
+              });
+            });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      });
     })
   })
 
@@ -1676,7 +1710,7 @@ $('#KitRadioOcra').change(function(){
                $('#hideOcra').addClass('form-disabled');
            }
 
-           for(i=1;i<ocraLimit;i++){//the map 0 was defined before
+           for(i=0;i<ocraLimit;i++){//the map 0 was defined before
              scndOcratoxina.addBoards(
                      [{
                          'id' : '_workmap' + (i+1),
