@@ -8,7 +8,7 @@ const Kit = require('../models/kit');
 const Mycotoxin = require('../models/mycotoxin');
 const Email = require('../models/email');
 const Workmap=require('../models/Workmap');
-const Sample=require('../models/sample');
+const Sample = require('../models/sample');
 
 router.get('/', auth.isAuthenticated, function(req, res, next) {
   Requisition.getAll().then((requisitions) => {
@@ -16,20 +16,14 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
     var logados = new Array;
     var usuarios = new Array;
     var countlogados = 0;
-    console.log(user);
     for (var i = 0; i < requisitions.length; i++) {
-      console.log(requisitions[i].user);
-      // User.getById(requisitions[i].user).then((usuario) => {
-
-        // if (requisitions[i].user.register == user) {
-        //   logados[countlogados] = requisitions[i];
-        //   countlogados++;
-        // } else {
-        //   console.log("nadinha");
-        // }
-      // });
+      if (requisitions[i].user.register == user) {
+        logados[countlogados] = requisitions[i];
+        countlogados++;
+      } else {
+        console.log("nadinha");
+      }
     }
-    // console.log(logados);
     res.render('report/index', {title: 'Requisições Disponíveis', layout: 'layoutDashboard.hbs',...req.session, logados});
   });
 });
@@ -42,6 +36,23 @@ router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
     res.redirect('/error');
   });
 });
+
+router.get('/samples', auth.isAuthenticated, function(req, res, next) {
+  var amostras = new Array;
+  var user = req.session.user.register;
+  Requisition.getAll().then((requisitions) => {
+    for (var i = 0; i < requisitions.length; i++) {
+      console.log(requisitions[i].samples);
+      if (requisitions[i].user.register == user) {
+        requisitions[i].samples = amostras[i];
+
+      } else {
+        console.log("nadinha");
+      }
+    }
+  });
+  res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs',...req.session, amostras});
+  });
 
 
 module.exports = router;

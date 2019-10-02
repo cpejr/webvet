@@ -7641,4 +7641,9 @@ body {
   margin-left: 10px;
   margin-top: 10px; }
 
+#btn-new-requisition {
+  border-style: none;
+  background-color: #6BA05C;
+  margin-top: -63px; }
+
 /*# sourceMappingURL=style.css.map */

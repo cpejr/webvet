@@ -5,7 +5,6 @@ const User = require('./user');
 const Mycotoxin = require('./mycotoxin');
 
 const requisitionSchema = new mongoose.Schema({
-  register: String,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

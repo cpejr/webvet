@@ -1,0 +1,24 @@
+<h4> Amostras </h4>
+<p></p>
+<div class="table-responsive">
+  <table id="tb-user" class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th class = "th-name">Identificação</th>
+        <th class = "th-action">Laudos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <th>{{samplenumber}}</th>
+      <th>
+        {{#if report}}
+          <button onClick="location.href='report/show/{{_id}}'" class="btn btn-success">Disponível</button>
+        {{else}}
+          <button class="btn btn-danger">Não Disponível</button>
+        {{/if}}
+      </th>
+    </tr>
+    </tbody>
+  </table>
+</div>
