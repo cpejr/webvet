@@ -38,21 +38,21 @@ router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 router.get('/samples', auth.isAuthenticated, function(req, res, next) {
-  var amostras = new Array;
+  var amostras;
   var user = req.session.user.register;
   Requisition.getAll().then((requisitions) => {
     for (var i = 0; i < requisitions.length; i++) {
-      console.log(requisitions[i].samples);
       if (requisitions[i].user.register == user) {
-        requisitions[i].samples = amostras[i];
-
+        amostras = requisitions[i].samples;
       } else {
         console.log("nadinha");
       }
     }
+    console.log(amostras);
+    res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs',...req.session, amostras});
   });
-  res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs',...req.session, amostras});
-  });
+
+});
 
 
 module.exports = router;

@@ -40,10 +40,6 @@ const requisitionSchema = new mongoose.Schema({
     email: String
 
   },
-  report: {
-   type: Boolean, //1 for available, 0 for not available
-   default: 0
-  },
   mycotoxin: [String],
   samples: [{
     type: mongoose.Schema.Types.ObjectId,

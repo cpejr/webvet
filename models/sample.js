@@ -5,6 +5,10 @@ const mongoose = require('mongoose');
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
   name: String,
+  report: {
+   type: Boolean, //1 for available, 0 for not available
+   default: 0
+  },
   requsition: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Requisition'
