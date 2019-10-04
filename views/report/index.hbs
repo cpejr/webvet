@@ -1,4 +1,9 @@
 <h4>Requisições</h4>
+<div class="text-right">
+  <form action="/requisition/new" method="get">
+      <button type="submit" id="btn-new-requisition" class="btn btn-primary btn-sm">Nova Requisição</button>
+  </form>
+</div>
 <p></p>
 <div class="table-responsive">
   <table id="tb-user" class="table table-striped table-hover">
@@ -8,7 +13,7 @@
         <th class = "th-type">Fazenda</th>
         <th class = "th-type">Destino</th>
         <th class = "th-action"></th>
-        <th class = "th-type">Laudos</th>
+        <th class = "th-type">Amostras</th>
       </tr>
     </thead>
     <tbody>
@@ -21,11 +26,7 @@
               <button onClick="location.href='requisition/show/{{_id}}'" class="fa fa-info btn m-1"></button>
             </th>
             <th>
-             {{#if report}}
-                <button onClick="location.href='report/show/{{_id}}'" class="btn btn-success"></button>
-              {{else}}
-                <button class="btn btn-danger"></button>
-              {{/if}}
+              <button onClick="location.href='report/samples/{{_id}}'"></button>
             </th>
           </tr>
       {{/each}}

@@ -5,7 +5,11 @@ const mongoose = require('mongoose');
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
   name: String,
-  requsition: {
+  report: {
+   type: Boolean, //1 for available, 0 for not available
+   default: 0
+  },
+  requisition: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Requisition'
   },
