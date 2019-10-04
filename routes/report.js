@@ -30,7 +30,8 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
 
 router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
   Sample.getById(req.params.id).then((samples) => {
-    res.render('report/show', { title: 'Show '});
+    res.render('report/show', { title: 'Show ', samples});
+    console.log (samples);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
