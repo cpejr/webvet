@@ -20,7 +20,7 @@ const requisitionSchema = new mongoose.Schema({
   sampleVector: [String],
   status: {
     type: String,
-    enum: ['Aprovada', 'Em Progresso', 'Bloqueada'],
+    enum: ['Aprovada', 'Em Progresso', 'Cancelada'],
     default: 'Em Progresso',
     required: true
   },
