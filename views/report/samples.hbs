@@ -14,7 +14,7 @@
       <th>{{responsible}}</th>
       <th>
         {{#if report}}
-          <button onClick="location.href='report/show/{{_id}}'" class="btn btn-success">Disponível</button>
+          <a href="../../report/show/{{_id}}"><button class="btn btn-success">Disponível</button></a>
         {{else}}
           <button class="btn btn-danger">Não Disponível</button>
         {{/if}}
