@@ -9,8 +9,9 @@
       </tr>
     </thead>
     <tbody>
+    {{#each teste1}}
       <tr>
-      <th>{{samplenumber}}</th>
+      <th>{{responsible}}</th>
       <th>
         {{#if report}}
           <button onClick="location.href='report/show/{{_id}}'" class="btn btn-success">Disponível</button>
@@ -19,6 +20,7 @@
         {{/if}}
       </th>
     </tr>
+    {{/each}}
     </tbody>
   </table>
 </div>

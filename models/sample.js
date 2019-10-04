@@ -9,7 +9,7 @@ const sampleSchema = new mongoose.Schema({
    type: Boolean, //1 for available, 0 for not available
    default: 0
   },
-  requsition: {
+  requisition: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Requisition'
   },

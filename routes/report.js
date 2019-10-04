@@ -29,29 +29,29 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
 });
 
 router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
-  Requisition.getById(req.params.id).then((requisitions) => {
-    res.render('report/show', { title: 'Show ', requisitions });
+  Sample.getById(req.params.id).then((samples) => {
+    res.render('report/show', { title: 'Show '});
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
 });
 
-router.get('/samples', auth.isAuthenticated, function(req, res, next) {
-  var amostras;
-  var user = req.session.user.register;
-  Requisition.getAll().then((requisitions) => {
-    for (var i = 0; i < requisitions.length; i++) {
-      if (requisitions[i].user.register == user) {
-        amostras = requisitions[i].samples;
-      } else {
-        console.log("nadinha");
-      }
-    }
-    console.log(amostras);
-    res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs',...req.session, amostras});
+router.get('/samples/:id', auth.isAuthenticated, function(req, res, next) {
+  var amostras = new Array;
+  var teste1 = new Array;
+  Requisition.getById(req.params.id).then((requisitions) => {
+    amostras = requisitions.samples;
+    Sample.getById(amostras).then((tututu) => {
+      teste1[0] = tututu;
+      console.log ("DEEEEEEEEEEEEEU");
+      console.log (teste1[0]);
+      res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs', teste1});
+    })
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
   });
-
 });
 
 
