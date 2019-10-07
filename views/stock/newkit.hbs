@@ -6,8 +6,8 @@
   <div class="new-kit">
       <div class="form-row">
         <div class="Addkit-text col-md-6">
-          <select id="productCode" class="drowdownoptions" name="kit[productCode]">
-            <option value=" ">Código do Produto</option>
+          <select id="productCode" class="drowdownoptions" name="kit[productCode]" required = "required">
+            <option value disabled selected> Código do Produto</option>
             <option value="AFLA Romer">AFLA Romer</option>
             <option value="DON Romer">DON Romer</option>
             <option value="FUMO Romer"> FUMO Romer</option>
@@ -24,7 +24,7 @@
           <input type="text" name="kit[productCode]" id="otherCity" style="display:none"></input>
         </div>
         <div class="Addkit-text col-md-3">
-          <input type="text" name="kit[amount]" class="addkit-input" placeholder="Quantidade:">
+          <input type="text" name="kit[amount]" class="addkit-input" placeholder="Quantidade:" required>
         </div>
         <div class="Addkit-text col-3">
           <input type="text" name="kit[stockMin]" class="addkit-input" placeholder="Estoque Minimo:">
@@ -41,13 +41,13 @@
           <input class="addkit-input" type="text" name="kit[Loq]" placeholder="LoQ:">
         </div>
         <div class="Addkit-text col-1">
-         <input placeholder="Validade:" style = "min-width: 100px; "  class="addkit-input" type="text" name="kit[dayexpirationDate]">
+         <input placeholder="Validade:" style = "min-width: 100px; "  class="addkit-input" type="text" name="kit[dayexpirationDate]" required>
         </div>
         <div class="Addkit-text col-1">
-         <input placeholder="/" type="text" class="addkit-input" name="kit[monthexpirationDate]" >
+         <input placeholder="/" type="text" class="addkit-input" name="kit[monthexpirationDate]" required>
         </div>
         <div class="Addkit-text col-1">
-         <input placeholder="/" type="text"  name="kit[yearexpirationDate]" class="addkit-input">
+         <input placeholder="/" type="text"  name="kit[yearexpirationDate]" class="addkit-input" required>
         </div>
       </div>
       <div class="form-row">

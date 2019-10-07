@@ -136,30 +136,47 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
   }
   console.log(kit);
   kit.stripLength=kit.amount;
-  Kit.create(kit).then((id) => {
-    var size=req.body.kit.amount;
-    for(i=0;i<size;i++){
-      const workmap= {
-        productCode:req.body.kit.productCode,
+
+  Kit.getAll().then((kitsB) => {
+    let alreadyExists = false;
+    for (let i = 0; i < kitsB.length; i++){
+      if (kitsB[i].productCode == kit.productCode && kitsB[i].kitType == kit.kitType && !(kitsB[i].deleted) ){
+        //if it gets in this, it means there's already a kit with this code and not yet deleted
+        alreadyExists = true;
       }
-      console.log(workmap);
-      Workmap.create(workmap).then((mapid)=>{
-          console.log(`New Workmap with id: ${mapid}`);
-        Kit.addMap(id,mapid).catch((error) => {
-           console.log(error);
-           res.redirect('/error');
-        });
-
-      })
-
     }
-    req.flash('success', 'Kit adicionado com sucesso.');
-    res.redirect('/stock');
-  }).catch((error) => {
-  console.log(error);
-  res.redirect('/error');
+    if(!alreadyExists){
+      Kit.create(kit).then((id) => {
+        var size=req.body.kit.amount;
+        for(i=0;i<size;i++){
+          const workmap= {
+            productCode:req.body.kit.productCode,
+          }
+          console.log(workmap);
+          Workmap.create(workmap).then((mapid)=>{
+              console.log(`New Workmap with id: ${mapid}`);
+            Kit.addMap(id,mapid).catch((error) => {
+                console.log(error);
+                res.redirect('/error');
+            });
+    
+          })
+    
+        }
+        req.flash('success', 'Kit adicionado com sucesso.');
+        res.redirect('/stock');
+      }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+      });
+    }
+    else{
+      req.flash('danger', 'Já existe um kit com esse código e mesmo tipo cadastrado');
+      res.redirect('/stock');
+    }
+  }).catch(err => {
+    res.redirect('/error');
   });
-
 });
 
 router.post('/delete/:id',auth.isAuthenticated, function(req,res){

@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const kitSchema = new mongoose.Schema({
   kitId: String,
-  productCode: String,
+  productCode: {
+    type: String,
+    required: true
+  },
   productDescription: String,
   lot: String,
   moveDate: String,
@@ -48,7 +51,8 @@ const kitSchema = new mongoose.Schema({
   },
   kitType: {
     type: String,
-    enum: ['A','B','C','D','E','F']
+    enum: ['A','B','C','D','E','F'],
+    required: true
   },
   stripLength: Number,
   mapArray: [{
