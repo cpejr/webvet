@@ -64,15 +64,16 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
 
         for (var i = 0; i < kits.length; i++) {
           if(stockMap.has(kits[i].productCode) == true){
-            x = stockMap.get(kits[i].productCode);
-            stockMap.set(kits[i].productCode , kits[i].amount + x);
+            if(!(kits[i].deleted)){
+              x = stockMap.get(kits[i].productCode);
+              stockMap.set(kits[i].productCode , kits[i].amount + x);
+            }
           }
           else {
             if(!(kits[i].deleted)){
               stockMap.set(kits[i].productCode , kits[i].amount);
             }
           }
-
         }
         console.log(stockMap);
 
