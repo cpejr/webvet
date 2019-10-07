@@ -55,5 +55,19 @@ router.get('/samples/:id', auth.isAuthenticated, function(req, res, next) {
   });
 });
 
+router.get('/admreport', auth.isAuthenticated, function(req, res, next) {
+  var laudos = new Array;
+  Sample.getAll().then((amostras) => {
+    for (var i = 0; i < amostras.length; i++) {
+      if (amostras[i].report == true) {
+        laudos[i] = amostras[i];
+      } else {
+        console.log("nadinha");
+      }
+    }
+  res.render('report/admreport', {title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs',...req.session, laudos });
+  });
+});
+
 
 module.exports = router;
