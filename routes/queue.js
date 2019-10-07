@@ -41,22 +41,18 @@ router.post('/',function(req,res,next){
     
     for (var i = 0; i < sample.length; i++) {
       if(sample[i].ocratoxina.mapReference != 'Sem mapa'){
-        console.log(sample[i]._id);
         ativa.ocratoxina.status = sample[i].ocratoxina.status;
         ativa.ocratoxina.mapReference = sample[i].ocratoxina.mapReference;
         Sample.update(sample[i]._id,ativa).then(()=>{
-          console.log(sample[i]._id);
         }).catch((error)=>{
          console.log(error);
          });
       }
 
       if(sample[i].aflatoxina.mapReference != 'Sem mapa'){
-        console.log(sample[i]._id);
         afla_ativa.aflatoxina.status = sample[i].aflatoxina.status;
         afla_ativa.aflatoxina.mapReference = sample[i].aflatoxina.mapReference;
         Sample.update(sample[i]._id,afla_ativa).then(()=>{
-          console.log(sample[i]._id);
         }).catch((error)=>{
          console.log(error);
          });
@@ -64,22 +60,18 @@ router.post('/',function(req,res,next){
     
       
       if(sample[i].t2toxina.mapReference != 'Sem mapa'){
-        console.log(sample[i]._id);
         t2toxina_ativa.t2toxina.status = sample[i].t2toxina.status;
         t2toxina_ativa.t2toxina.mapReference = sample[i].t2toxina.mapReference;
         Sample.update(sample[i]._id,t2toxina_ativa).then(()=>{
-          console.log(sample[i]._id);
         }).catch((error)=>{
          console.log(error);
          });
       }
 
       if(sample[i].fumonisina.mapReference != 'Sem mapa'){
-        console.log(sample[i]._id);
         fumonisina_ativa.fumonisina.status = sample[i].fumonisina.status;
         fumonisina_ativa.fumonisina.mapReference = sample[i].fumonisina.mapReference;
         Sample.update(sample[i]._id,fumonisina_ativa).then(()=>{
-          console.log(sample[i]._id);
         }).catch((error)=>{
          console.log(error);
          });
@@ -87,22 +79,18 @@ router.post('/',function(req,res,next){
 
       
       if(sample[i].zearalenona.mapReference != 'Sem mapa'){
-        console.log(sample[i]._id);
         zearalenona_ativa.zearalenona.status = sample[i].zearalenona.status;
         zearalenona_ativa.zearalenona.mapReference = sample[i].zearalenona.mapReference;
         Sample.update(sample[i]._id,zearalenona_ativa).then(()=>{
-          console.log(sample[i]._id);
         }).catch((error)=>{
          console.log(error);
          });
       }
      
       if(sample[i].deoxinivalenol.mapReference != 'Sem mapa'){
-        console.log(sample[i]._id);
         deoxinivalenol_ativa.deoxinivalenol.status = sample[i].deoxinivalenol.status;
         deoxinivalenol_ativa.deoxinivalenol.mapReference = sample[i].deoxinivalenol.mapReference;
         Sample.update(sample[i]._id,deoxinivalenol_ativa).then(()=>{
-          console.log(sample[i]._id);
         }).catch((error)=>{
          console.log(error);
          });
