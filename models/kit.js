@@ -17,11 +17,26 @@ const kitSchema = new mongoose.Schema({
   Lod: Number,
   Loq: Number,
   calibrators: {
-    P1: Number,
-    P2: Number,
-    P3: Number,
-    P4: Number,
-    P5: Number,
+      P1: {
+          sampleID: String,
+          concentration: Number
+      },
+      P2: {
+          sampleID: String,
+          concentration: Number
+      },
+      P3: {
+          sampleID: String,
+          concentration: Number
+      },
+      P4: {
+          sampleID: String,
+          concentration: Number
+      },
+      P5: {
+          sampleID: String,
+          concentration: Number
+      },
   },
   amount: Number,
   provider: String,

@@ -135,7 +135,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
     kit.productCode = kit.productCode[0];
   }
   console.log(kit);
-  kit.stripLength=kit.amount;
+    kit.stripLength = kit.amount;
 
   Kit.getAll().then((kitsB) => {
     let alreadyExists = false;
@@ -145,30 +145,88 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
         alreadyExists = true;
       }
     }
-    if(!alreadyExists){
-      Kit.create(kit).then((id) => {
-        var size=req.body.kit.amount;
-        for(i=0;i<size;i++){
-          const workmap= {
-            productCode:req.body.kit.productCode,
+      if (!alreadyExists) {
+          for (let j = 1; j <= 5; j++) {
+
+            var calibrator= {
+                  name:"P" + j;
+                  isCalibrator: true;
+              }
+              if (j == 1) {
+                  Sample.create(calibrator).then((sampleP) => {
+                      kit.calibrator.P1.sampleID = sampleP;
+                  }).catch((error) => {
+                      console.log(error);
+                      res.redirect('/error');
+                  });
+                  
+              }
+              else if (j == 2) {
+                  Sample.create(calibrator).then((sampleP) => {
+                     kit.calibrator.P2.sampleID = sampleP;
+                  }).catch((error) => {
+                      console.log(error);
+                      res.redirect('/error');
+                  });
+                  
+              }
+              else if (j == 3) {
+                  Sample.create(calibrator).then((sampleP) => {
+                      kit.calibrator.P3.sampleID = sampleP;
+                  }).catch((error) => {
+                      console.log(error);
+                      res.redirect('/error');
+                  });
+
+              }
+              else if (j == 4) {
+                  Sample.create(calibrator).then((sampleP) => {
+                     kit.calibrator.P4.sampleID = sampleP;
+
+                  }).catch((error) => {
+                      console.log(error);
+                      res.redirect('/error');
+                  });
+
+              }
+              else if (j == 5) {
+                  Sample.create(calibrator).then((sampleP) => {
+
+                    kit.calibrator.P5.sampleID = sampleP;
+
+                  }).catch((error) => {
+                      console.log(error);
+                      res.redirect('/error');
+                  });
+
+              }
+              
+
+
           }
-          console.log(workmap);
-          Workmap.create(workmap).then((mapid)=>{
-              console.log(`New Workmap with id: ${mapid}`);
-            Kit.addMap(id,mapid).catch((error) => {
-                console.log(error);
-                res.redirect('/error');
-            });
+          Kit.create(kit).then((id) => {
+            var size=req.body.kit.amount;
+            for(i=0;i<size;i++){
+              const workmap= {
+                productCode:req.body.kit.productCode,
+              }
+              console.log(workmap);
+              Workmap.create(workmap).then((mapid)=>{
+                  console.log(`New Workmap with id: ${mapid}`);
+                Kit.addMap(id,mapid).catch((error) => {
+                    console.log(error);
+                    res.redirect('/error');
+                });
     
-          })
+              })
     
-        }
-        req.flash('success', 'Kit adicionado com sucesso.');
-        res.redirect('/stock');
-      }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-      });
+            }
+            req.flash('success', 'Kit adicionado com sucesso.');
+            res.redirect('/stock');
+          }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+          });
     }
     else{
       req.flash('danger', 'Já existe um kit com esse código e mesmo tipo cadastrado');
