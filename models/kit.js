@@ -17,26 +17,26 @@ const kitSchema = new mongoose.Schema({
   Lod: Number,
   Loq: Number,
   calibrators: {
-      P1: {
-          sampleID: String,
-          concentration: Number
-      },
-      P2: {
-          sampleID: String,
-          concentration: Number
-      },
-      P3: {
-          sampleID: String,
-          concentration: Number
-      },
-      P4: {
-          sampleID: String,
-          concentration: Number
-      },
-      P5: {
-          sampleID: String,
-          concentration: Number
-      },
+    P1: {
+      sampleID: String,
+      concentration: Number
+    },
+    P2: {
+      sampleID: String,
+      concentration: Number
+    },
+    P3: {
+      sampleID: String,
+      concentration: Number
+    },
+    P4: {
+      sampleID: String,
+      concentration: Number
+    },
+    P5: {
+      sampleID: String,
+      concentration: Number
+    }
   },
   amount: Number,
   provider: String,
@@ -48,16 +48,16 @@ const kitSchema = new mongoose.Schema({
     type: String,
     enum: ['Suficiente', 'Próximo ao Vencimento', 'Kit Vencido']
   },
-  active:{
-    type: Boolean, //1 for active, 0 for not
+  active: {
+    type: Boolean, // 1 for active, 0 for not
     default: 0
   },
   deleted: {
-    type: Boolean, //1 for deleted, 0 for not deleted
+    type: Boolean, // 1 for deleted, 0 for not deleted
     default: 0
   },
   semStock: {
-    type: Boolean, //1 for out of stock
+    type: Boolean, // 1 for out of stock
     default: 0
   },
   mycotoxin: {
@@ -66,14 +66,14 @@ const kitSchema = new mongoose.Schema({
   },
   kitType: {
     type: String,
-    enum: ['A','B','C','D','E','F'],
+    enum: ['A', 'B', 'C', 'D', 'E', 'F'],
     required: true
   },
   stripLength: Number,
   mapArray: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Workmap'
-  }],
+  }]
 });
 
 const KitModel = mongoose.model('Kit', kitSchema);
@@ -116,7 +116,7 @@ class Kit {
    */
   static getByProductCode(code) {
     return new Promise((resolve, reject) => {
-      KitModel.find({productCode: code}).exec().then((result) => {
+      KitModel.find({ productCode: code }).exec().then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -160,22 +160,23 @@ class Kit {
    * @returns {null}
    */
   static addMycotoxin(id, mycotoxin) {
-   return new Promise((resolve, reject) => {
-     KitModel.findByIdAndUpdate(id, { $push: { mycotoxins: mycotoxin } }).catch((err) => {
-       reject(err);
-     });
-   });
- }
- /**
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $push: { mycotoxins: mycotoxin } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
   * Set a vector of mycotoxins
   * @param {string} id - Kit Id
   * @param {string} mycotoxins - Mycotoxins Id
   * @returns {null}
   */
- static setMycotoxin(id, mycotoxins) {
-  return new Promise((resolve, reject) => {
-    KitModel.findByIdAndUpdate(id, { $set: { mycotoxins: mycotoxins } }).catch((err) => {
-      reject(err);
+  static setMycotoxin(id, mycotoxins) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $set: { mycotoxins } }).catch((err) => {
+        reject(err);
       });
     });
   }
@@ -187,36 +188,36 @@ class Kit {
    * @returns {null}
    */
   static setActiveStatus(id, status) {
-   return new Promise((resolve, reject) => {
-     KitModel.findByIdAndUpdate(id, { $set: { active: status } }).catch((err) => {
-       reject(err);
-       });
-     });
-   }
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $set: { active: status } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
-   /**
+  /**
     * Decreases  the amount in 1
     * @param {string} id - Kit Id
     */
-   static decreaseAmount(id,numDecrease) {
+  static decreaseAmount(id, numDecrease) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $inc:{amount:-1} }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $inc: { amount: -1 } }).catch((err) => {
         reject(err);
-        });
       });
-    }
+    });
+  }
 
-    /**
+  /**
      * increases  the amount in 1
      * @param {string} id - Kit Id
      */
-    static increaseAmount(id,numDecrease) {
-     return new Promise((resolve, reject) => {
-       KitModel.findByIdAndUpdate(id, { $inc:{amount:1} }).catch((err) => {
-         reject(err);
-         });
-       });
-     }
+  static increaseAmount(id, numDecrease) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $inc: { amount: 1 } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
   /**
   * Delete a Kit
@@ -224,41 +225,80 @@ class Kit {
   * @returns {null}
   */
   static delete(id) {
-   return new Promise((resolve, reject) => {
-     KitModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
-       resolve();
-     }).catch((err) => {
-       reject(err);
-     });
-   });
-  }
-
-  static addMap(id, mapwork) {
     return new Promise((resolve, reject) => {
-    KitModel.findByIdAndUpdate(id, { $push: { mapArray: mapwork } }).catch((err) => {
-
+      KitModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
+        resolve();
+      }).catch((err) => {
         reject(err);
       });
     });
   }
 
-  static getWorkmapsById(id) {
-   return new Promise((resolve, reject) => {
-     KitModel.findById(id).then((result) => {
-       resolve(result.mapArray);
-     }).catch((err) => {
-       reject(err);
-     });
-   });
+  static addMap(id, mapwork) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $push: { mapArray: mapwork } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
+
+  * @param {string} id - Kit Id
+  * @param {string} p1 - sample/calibrator Id
+  */
+
+  static addP1(id, p1) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P1.sampleID': p1 } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static addP2(id, p2) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P2.sampleID': p2 } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static addP3(id, p3) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P3.sampleID': p3 } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static addP4(id, p4) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P4.sampleID': p4 } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static addP5(id, p5) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P5.sampleID': p5 } }).catch((err) => {
+        reject(err);
+      });
+    });
   }
 
 
+  static getWorkmapsById(id) {
+    return new Promise((resolve, reject) => {
+      KitModel.findById(id).then((result) => {
+        resolve(result.mapArray);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
-
-
-
-
-
 
 
 module.exports = Kit;
