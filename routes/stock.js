@@ -8,6 +8,7 @@ const Kit = require('../models/kit');
 const User = require('../models/user');
 const Workmap= require('../models/Workmap');
 const Kitstock = require('../models/kitstock');
+const Sample= require('../models/sample');
 
 
 
@@ -127,15 +128,14 @@ router.get('/new', auth.isAuthenticated,  function(req,res) {
 });
 
 router.post('/new', auth.isAuthenticated,  function(req,res) {
-  console.log(req.session.user);
   const { kit } = req.body;
   if(kit.productCode[0] == "Outros"){
     kit.productCode = kit.productCode[1];
   }else {
     kit.productCode = kit.productCode[0];
   }
-  console.log(kit);
-  kit.stripLength=kit.amount;
+ 
+  kit.stripLength = kit.amount;
 
   Kit.getAll().then((kitsB) => {
     let alreadyExists = false;
@@ -145,30 +145,100 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
         alreadyExists = true;
       }
     }
-    if(!alreadyExists){
-      Kit.create(kit).then((id) => {
-        var size=req.body.kit.amount;
-        for(i=0;i<size;i++){
-          const workmap= {
-            productCode:req.body.kit.productCode,
-          }
-          console.log(workmap);
-          Workmap.create(workmap).then((mapid)=>{
-              console.log(`New Workmap with id: ${mapid}`);
-            Kit.addMap(id,mapid).catch((error) => {
-                console.log(error);
-                res.redirect('/error');
-            });
+      if (!alreadyExists) {
+          Kit.create(kit).then((id) => {
+            console.log(kit);
+            var size=req.body.kit.amount;
+            for(i=0;i<size;i++){
+              const workmap= {
+                productCode:req.body.kit.productCode,
+              }
+              Workmap.create(workmap).then((mapid)=>{
+                Kit.addMap(id,mapid).catch((error) => {
+                    console.log(error);
+                    res.redirect('/error');
+                });
     
-          })
+              })
     
-        }
-        req.flash('success', 'Kit adicionado com sucesso.');
-        res.redirect('/stock');
-      }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-      });
+            }
+            for (let j = 1; j <= 5; j++) {
+              const calibrator= {
+                    name:"P" + j,
+                    isCalibrator: true
+                }
+                
+                if (j == 1) {
+                     Sample.create(calibrator).then((sampleP) => {
+                        Kit.addP1(id,sampleP).catch((error) => {
+                          console.log(error);
+                          res.redirect('/error');
+                      });
+                       
+                    }).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+                    
+                }
+                else if (j == 2) {
+                    Sample.create(calibrator).then((sampleP) => {
+                      Kit.addP2(id,sampleP).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+                    }).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+                    
+                }
+                else if (j == 3) {
+                    Sample.create(calibrator).then((sampleP) => {
+                      Kit.addP3(id,sampleP).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+                    }).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+  
+                }
+                else if (j == 4) {
+                    Sample.create(calibrator).then((sampleP) => {
+                      Kit.addP4(id,sampleP).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+                    }).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+  
+                }
+                else if (j == 5) {
+                    Sample.create(calibrator).then((sampleP) => {
+  
+                      Kit.addP5(id,sampleP).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+  
+                    }).catch((error) => {
+                        console.log(error);
+                        res.redirect('/error');
+                    });
+                }
+            }
+      
+           
+          }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+          });
+          req.flash('success', 'Kit adicionado com sucesso.');
+          res.redirect('/stock');
     }
     else{
       req.flash('danger', 'Já existe um kit com esse código e mesmo tipo cadastrado');
