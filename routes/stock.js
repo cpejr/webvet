@@ -8,6 +8,7 @@ const Kit = require('../models/kit');
 const User = require('../models/user');
 const Workmap= require('../models/Workmap');
 const Kitstock = require('../models/kitstock');
+const Sample= require('../models/sample');
 
 
 
@@ -127,15 +128,14 @@ router.get('/new', auth.isAuthenticated,  function(req,res) {
 });
 
 router.post('/new', auth.isAuthenticated,  function(req,res) {
-  console.log(req.session.user);
   const { kit } = req.body;
   if(kit.productCode[0] == "Outros"){
     kit.productCode = kit.productCode[1];
   }else {
     kit.productCode = kit.productCode[0];
   }
-  console.log(kit);
-    kit.stripLength = kit.amount;
+ 
+  kit.stripLength = kit.amount;
 
   Kit.getAll().then((kitsB) => {
     let alreadyExists = false;
@@ -144,17 +144,21 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
         //if it gets in this, it means there's already a kit with this code and not yet deleted
         alreadyExists = true;
       }
+      console.log(alreadyExists);
     }
       if (!alreadyExists) {
           for (let j = 1; j <= 5; j++) {
-
-            var calibrator= {
-                  name:"P" + j;
-                  isCalibrator: true;
+            console.log("atual j");
+            const calibrator= {
+                  name:"P" + j,
+                  isCalibrator: true
               }
+              
               if (j == 1) {
-                  Sample.create(calibrator).then((sampleP) => {
-                      kit.calibrator.P1.sampleID = sampleP;
+                console.log(j);
+                  Sample.create(calibrator).then((sampleP) => {//erro aqui
+                    console.log(sampleP);
+                      kit.calibrators.P1.sampleID = sampleP;
                   }).catch((error) => {
                       console.log(error);
                       res.redirect('/error');
@@ -163,7 +167,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
               }
               else if (j == 2) {
                   Sample.create(calibrator).then((sampleP) => {
-                     kit.calibrator.P2.sampleID = sampleP;
+                     kit.calibrators.P2.sampleID = sampleP;
                   }).catch((error) => {
                       console.log(error);
                       res.redirect('/error');
@@ -172,7 +176,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
               }
               else if (j == 3) {
                   Sample.create(calibrator).then((sampleP) => {
-                      kit.calibrator.P3.sampleID = sampleP;
+                      kit.calibrators.P3.sampleID = sampleP;
                   }).catch((error) => {
                       console.log(error);
                       res.redirect('/error');
@@ -181,7 +185,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
               }
               else if (j == 4) {
                   Sample.create(calibrator).then((sampleP) => {
-                     kit.calibrator.P4.sampleID = sampleP;
+                     kit.calibrators.P4.sampleID = sampleP;
 
                   }).catch((error) => {
                       console.log(error);
@@ -192,7 +196,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
               else if (j == 5) {
                   Sample.create(calibrator).then((sampleP) => {
 
-                    kit.calibrator.P5.sampleID = sampleP;
+                    kit.calibrators.P5.sampleID = sampleP;
 
                   }).catch((error) => {
                       console.log(error);
@@ -205,6 +209,7 @@ router.post('/new', auth.isAuthenticated,  function(req,res) {
 
           }
           Kit.create(kit).then((id) => {
+            console.log("IN KIT")
             var size=req.body.kit.amount;
             for(i=0;i<size;i++){
               const workmap= {

@@ -112,7 +112,7 @@ const sampleSchema = new mongoose.Schema({
     },
     isCalibrator: {
         type: Boolean,
-        default: false;
+        default: false
     }
 }, { timestamps: true, strict: false });
 
