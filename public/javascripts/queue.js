@@ -1610,10 +1610,15 @@ $('#KitRadioAfla').change(function(){
             $(document).ready(function() {
               samples.forEach((sample) => {
                 if(sample.isCalibrator) {
-                  scndAflatoxina.addElement("_calibrator", {
-                    id: sample.name,
-                    title:  sample.name,
-                  });
+                  $.get('/search/getKit/'+nowAflaKit,(kit)=>{
+                    if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                      scndAflatoxina.addElement("_calibrator", {
+                        id: sample.name,
+                        title:  sample.name,
+                      });
+                    }
+                  })
+                 
 
                 }
               $.get('/search/userFromSample/'+sample._id,(user)=>{
