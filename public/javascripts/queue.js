@@ -92,32 +92,7 @@ var scndAflatoxina = new jKanban({
       id : '_calibrator',
       title  : 'Calibradores',
       class : 'success',
-      item: [
-          {
-            title:'P1',
-            id: 'P1'
-          },
-
-          {
-            title:'P2',
-            id: 'P2'
-          },
-
-          {
-            title:'P3',
-            id: 'P3'
-          },
-
-          {
-            title:'P4',
-            id: 'P4'
-          },
-
-          {
-            title:'P5',
-            id: 'P5'
-          }
-      ]
+     
     },
 
 
@@ -1189,8 +1164,10 @@ $.get('/search/samples', (samples) => {
     samples.forEach((sample) => {
        if(!sample.isCalibrator){
         $.get('/search/userFromSample/'+sample._id,(user) =>{
+          console.log(user)
           //AFLATOXINA
           if(sample.aflatoxina.active == true) {
+             console.log(sample)
             if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
               if(user.debt) {
                 aflatoxina.addElement('_waiting', {
@@ -1632,6 +1609,13 @@ $('#KitRadioAfla').change(function(){
       $.get('/search/samples', (samples) => {
             $(document).ready(function() {
               samples.forEach((sample) => {
+                if(sample.isCalibrator) {
+                  scndAflatoxina.addElement("_calibrator", {
+                    id: sample.name,
+                    title:  sample.name,
+                  });
+
+                }
               $.get('/search/userFromSample/'+sample._id,(user)=>{
                 if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
                       if(user.debt){
