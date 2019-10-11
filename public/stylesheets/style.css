@@ -7577,7 +7577,8 @@ body {
   padding-bottom: 30px; }
 
 .printtemplate {
-  padding-bottom: 30px; }
+  padding-bottom: 30px;
+  display: -webkit-inline-box; }
 
 .input-absorbance {
   height: 20px;
@@ -7645,5 +7646,14 @@ body {
   border-style: none;
   background-color: #6BA05C;
   margin-top: -63px; }
+
+.data-atual {
+  margin-left: auto; }
+
+.title-print {
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bold;
+  font-size: 17px; }
 
 /*# sourceMappingURL=style.css.map */

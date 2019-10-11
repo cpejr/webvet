@@ -14,6 +14,22 @@ const Sample=require('../models/sample');
 
 router.get('/', (req, res) => {
   Sample.getAll().then((amostras)=>{
+    var today = new Date();
+    var hours = today.getHours();
+    var minutes = today.getMinutes(); 
+    var scnds = today.getSeconds();
+    
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    console.log(yyyy);
+    console.log(mm);
+    console.log(dd);
+    
+    console.log('-------------------------------------------');
+    console.log(hours); 
+    console.log(minutes);
+    console.log(scnds);
     var afla1 = new Array;
     var don1 = new Array;
     var ota1 = new Array;
@@ -32,7 +48,7 @@ router.get('/', (req, res) => {
     var cont_t2 = 0;
     var cont_zea = 0;
     var cont_fbs = 0;
-
+    
 
     
 
@@ -580,7 +596,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'printtemplate',{amostras,afla1,fbs,don1,ota1,t2,...req.session });
+    res.render( 'printtemplate',{amostras,afla1,fbs,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');

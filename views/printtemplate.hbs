@@ -1,12 +1,24 @@
 <div class="printtemplate">
-  <h4>Mapas de Trabalho</h4>
+  <div class="title-print">
+    Mapas de Trabalho
+  </div>
+  
+  
+  <div class="data-atual col-1">
+    Data:{{dd}}/{{mm}}/{{yyyy}}
+  </div>
+
+
 </div>
+
+
 
   <div class="templateprint row">
       <table class="table-afla col-2">
         <thead>
           <tr><th>AFLA</th></tr>
         </thead>
+        
         {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap1'}}
             <tr><tr><td>{{samplenumber}}</td></tr></tr>
