@@ -109,7 +109,11 @@ const sampleSchema = new mongoose.Schema({
       type:String,
       default: 'Sem mapa'
     }
-  }
+    },
+    isCalibrator: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true, strict: false });
 
 const SampleModel = mongoose.model('Sample', sampleSchema);
