@@ -258,7 +258,7 @@ class Sample {
    */
   static count() {
     return new Promise((resolve, reject) => {
-      SampleModel.countDocuments({}).then((result) => {
+      SampleModel.countDocuments({isCalibrator:false}).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);

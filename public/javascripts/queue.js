@@ -1180,10 +1180,9 @@ function IdZCount ()
 $.get('/search/samples', (samples) => {
   $(document).ready(function() {
     samples.forEach((sample) => {
-      $.get('/search/userFromSample/'+sample._id,(user) =>{
+       if(!sample.isCalibrator){
+        $.get('/search/userFromSample/'+sample._id,(user) =>{
           //AFLATOXINA
-          console.log(user);
-          console.log(user.debt);
           if(sample.aflatoxina.active == true) {
             if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
               if(user.debt) {
@@ -1553,6 +1552,7 @@ $.get('/search/samples', (samples) => {
 
           }
         });
+      }
 
 
 
