@@ -1792,65 +1792,73 @@ $.get('/search/samples', (samples) => {
 
 var nowAflaKit;
 var aflaLimit=0;
-$('#KitRadioAfla').change(function(){
+$('#KitRadioAfla').click(function(){//não repete
+ 
   for(i=aflaLimit;i>0;i--){//delete previus workmap;
-    console.log("removed:")
     var board= "_workmap"+i;
-    console.log(board)
-    scndAflatoxina.removeBoard(board)
-  }
+    scndAflatoxina.removeBoard(board);
+  } 
+  var isSelected=false;
+  var   kitToxin;
     $.get('/search/kits', (kits) => {
-      $(document).ready(function() {
         kits.forEach((kit) => {
+          var isSelected=false;
           var kitToxin=kit.productCode;
           if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-              if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
-                  $('#hideAfla').removeClass('form-disabled');
-                   aflaLimit=kit.stripLength;
-                   nowAflaKit=kit._id;
-                   aflacount = aflaLimit;
-                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
-
-                   });
-
-              }
-               else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
-                   console.log("FORM NOW!!!!")
+            console.log("Afla limit:"+aflaLimit);
+         
+               if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
                    $('#hideAfla').removeClass('form-disabled');
-                   console.log("stripB");
-                   console.log(kit.stripLength)
                    aflaLimit=kit.stripLength;
                    nowAflaKit=kit._id;
                    aflacount = aflaLimit;
+                   isSelected=true;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                    });
 
                }
-               else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
+             
+                if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
+  
+                    $('#hideAfla').removeClass('form-disabled');
+                     aflaLimit=kit.stripLength;
+                     nowAflaKit=kit._id;
+                     aflacount = aflaLimit;
+                     isSelected=true;
+                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
+  
+                     });
+  
+                }
+              if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
                     $('#hideAfla').removeClass('form-disabled');
                     aflaLimit=kit.stripLength;
                     nowAflaKit=kit._id;
                     aflacount = aflaLimit;
+                    isSelected=true;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                     });
                }
-              else {
-                  $('#hideAfla').addClass('form-disabled');
-              }
-              for(i=1;i<=aflaLimit;i++){//the map 0 was defined before
-                scndAflatoxina.addBoards(
-                        [{
-                            'id' : '_workmap' + (i),
-                            'title'  : 'Mapa de trabalho' + ' '+ (i),
-                            'class' : 'info',
-                        }]
-                    )
-              }
+
+               if(isSelected) {
+                for(i=1;i<=aflaLimit;i++){//the map 0 was defined before
+                  console.log(i);
+                  scndAflatoxina.addBoards(
+                          [{
+                              'id' : '_workmap' + (i),
+                              'title'  : 'Mapa de trabalho' + ' '+ (i),
+                              'class' : 'info',
+                          }]
+                      )
+                }
+               }
+             
+              
 
         }
-      })//for each kit
+      });//for each kit
       $.get('/search/samples', (samples) => {
             $(document).ready(function() {
               samples.forEach((sample) => {
@@ -1895,7 +1903,7 @@ $('#KitRadioAfla').change(function(){
         console.log(error);
         res.redirect('/error');
       });
-    })
+    
   })
 
 });
