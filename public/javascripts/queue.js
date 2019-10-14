@@ -1270,54 +1270,112 @@ $.get('/search/samples', (samples) => {
           //OCRATOXINA A
           if(sample.ocratoxina.active == true) {
             if(sample.ocratoxina.status=="Nova" || sample.ocratoxina.status=="Sem amostra" || sample.ocratoxina.status=="A corrigir") {
-              ocratoxina.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.ocratoxina.status
-              });
+              if(user.debt) {
+                ocratoxina.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status,
+                  owner: "Devedor"
+                });
+              }
+              else {
+                ocratoxina.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status
+                });
+
+              }
+              
             }
             if(sample.ocratoxina.status=="Em análise"||sample.ocratoxina.status=="Mapa de Trabalho") {
-              ocratoxina.addElement('_testing', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.ocratoxina.status
-              });
-              if(sample.ocratoxina.status=="Em análise") {
-                scndOcratoxina.addElement('_scndTesting', {
+              if(user.debt) {
+                ocratoxina.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status,
+                  owner: "Devedor"
+                });
+                
+                if(sample.ocratoxina.status=="Em análise") {
+                  scndOcratoxina.addElement('_scndTesting', {
+                   id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status,
+                  owner: "Devedor"
+                  });
+                }
+
+              } 
+
+              else {
+                ocratoxina.addElement('_testing', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status
+                });
+
+                if(sample.ocratoxina.status=="Em análise") {
+                  scndOcratoxina.addElement('_scndTesting', {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.ocratoxina.status
+                  });
+                }
+
+              }
+             
+              
+
+            }
+            if(sample.ocratoxina.status=="Aguardando pagamento") {
+              if(user.debt){
+                ocratoxina.addElement('_ownering', {
                   id: sample.samplenumber,
                   title: "Amostra " + sample.samplenumber,
                   analyst: sample.responsable,
                   status: sample.ocratoxina.status
                 });
               }
+              else{
+                ocratoxina.addElement('_ownering', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status,
+                  owner: "Devedor"
+                });
 
-            }
-            if(sample.ocratoxina.status=="Aguardando pagamento") {
-              ocratoxina.addElement('_ownering', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.ocratoxina.status
-              });
+              }
+              
             }
             if(sample.ocratoxina.status=="Aguardando amostra") {
-              ocratoxina.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.ocratoxina.status
-              });
+              if(user.debt) {
+                ocratoxina.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status,
+                  owner: "Devedor"
+                });
+
+              }
+              else {
+                ocratoxina.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.ocratoxina.status
+                });
+              }
             }
-            if(sample.ocratoxina.status=="Mapa de Trabalho") {
-              scndOcratoxina.addElement('_workmap1', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.ocratoxina.status
-              });
-            }
+          
 
           }
 
