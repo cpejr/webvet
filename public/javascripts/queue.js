@@ -1443,7 +1443,7 @@ $.get('/search/samples', (samples) => {
              
 
             }
-            if(sample.deoxinivalenol.status=="Aguardando pagamento") {
+            if(sample.deoxinivalenol.status=="Aguardando pagamento") { //continuar aqui
               deoxinivalenol.addElement('_ownering', {
                 id: sample.samplenumber,
                 title: "Amostra " + sample.samplenumber,
