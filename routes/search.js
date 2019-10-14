@@ -96,4 +96,12 @@ router.get('/kits',  auth.isAuthenticated, (req, res) => {
   });
 });
 
+router.get('/getKit/:kitid',  auth.isAuthenticated, (req, res) => {
+  Kit.getById(req.params.kitid).then((kit) => {
+    res.send(kit);
+ }).catch((error) => {
+   res.redirect('/error');
+ });
+});
+
 module.exports = router;
