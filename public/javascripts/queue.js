@@ -2085,7 +2085,8 @@ $('#KitRadioZ').change(function(){
 
          }
 
-     })
+     }) //foreach 
+     
    })
   })
 });
