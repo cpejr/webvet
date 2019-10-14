@@ -1802,10 +1802,10 @@ $('#KitRadioAfla').click(function(){//não repete
   var   kitToxin;
     $.get('/search/kits', (kits) => {
         kits.forEach((kit) => {
-          var isSelected=false;
-          var kitToxin=kit.productCode;
+              isSelected=false;
+              kitToxin=kit.productCode;
           if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-            console.log("Afla limit:"+aflaLimit);
+            
          
                if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
                    $('#hideAfla').removeClass('form-disabled');
@@ -1860,7 +1860,6 @@ $('#KitRadioAfla').click(function(){//não repete
         }
       });//for each kit
       $.get('/search/samples', (samples) => {
-            $(document).ready(function() {
               samples.forEach((sample) => {
                 if(sample.isCalibrator) {
                   $.get('/search/getKit/'+nowAflaKit,(kit)=>{
@@ -1898,7 +1897,6 @@ $('#KitRadioAfla').click(function(){//não repete
                }
                })
               });
-            });
       }).catch((error) => {
         console.log(error);
         res.redirect('/error');
@@ -1909,59 +1907,65 @@ $('#KitRadioAfla').click(function(){//não repete
 });
 
 var nowOcraKit;
+var ocraLimit=0;
 $('#KitRadioOcra').change(function(){
-  var ocraLimit;
-    console.log("DENTRO DA KitRadioOcra");
+  for(i=ocraLimit;i>0;i--){//delete previus workmap;
+    var board= "_workmap"+i;
+    scndAflatoxina.removeBoard(board);
+  } 
+  var isSelected=false;
+  var   kitToxin;
+  
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
-     $(document).ready(function() {
-       console.log("LENDO");
+       
        kits.forEach((kit) => {
-         var kitToxin=kit.productCode;
-         console.log(kitToxin);
+             kitToxin=kit.productCode;
+             isSelected=false;
          if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
-           console.log("Ocra");
            if($('#KitOcraA').is(':checked')&&kit.kitType=="A") {
                $('#hideOcra').removeClass('form-disabled');
                 ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
+                isSelected=true;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
 
            }
-            else if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
+            if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
                  $('#hideOcra').removeClass('form-disabled');
                   ocraLimit=kit.stripLength;
                     nowOcraKit=kit._id;
                     ocracount = ocraLimit;
+                    isSelected=true;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                     });
              }
-            else if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
+             if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
+                isSelected=true;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
             }
-           else {
-               $('#hideOcra').addClass('form-disabled');
-           }
-
-           for(i=0;i<ocraLimit;i++){//the map 0 was defined before
-             scndOcratoxina.addBoards(
-                     [{
-                         'id' : '_workmap' + (i+1),
-                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
-                         'class' : 'info',
-                     }]
-                 )
-           }
+           
+            if(isSelected){
+              for(i=0;i<ocraLimit;i++){//the map 0 was defined before
+                scndOcratoxina.addBoards(
+                        [{
+                            'id' : '_workmap' + (i+1),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'class' : 'info',
+                        }]
+                    )
+              }
+            }
+          
 
          }
 
@@ -2010,8 +2014,8 @@ $('#KitRadioOcra').change(function(){
       console.log(error);
       res.redirect('/error');
     });
-   })
-  })
+ 
+  });
 
 });
 
