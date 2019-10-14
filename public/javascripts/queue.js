@@ -1881,7 +1881,51 @@ $('#KitRadioFum').change(function(){
 
          }
 
-     })
+     })//kit foreacj
+     $.get('/search/samples', (samples) => {
+      $(document).ready(function() {
+        samples.forEach((sample) => {
+          if(sample.isCalibrator) {
+            $.get('/search/getKit/'+nowFumKit,(kit)=>{
+              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                scndAflatoxina.addElement("_calibrator", {
+                  id: sample.name,
+                  title:  sample.name,
+                });
+              }
+            })
+           
+
+          }
+        $.get('/search/userFromSample/'+sample._id,(user)=>{
+          if(sample.fumonisina.active == true && sample.fumonisina.status=="Mapa de Trabalho" ) {
+                if(user.debt){
+                  scndFumonisina.addElement(sample.fumonisina.mapReference, {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.fumonisina.status,
+                    owner: "Devedor"
+                  });
+                }
+
+                else {
+                 scndFumonisina.addElement(sample.fumonisina.mapReference, {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.fumonisina.status
+                 });
+              }
+
+         }
+         })
+        });
+      });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
    })
   })
 });
@@ -1936,7 +1980,52 @@ $('#KitRadioT').change(function(){
 
          }
 
-     })
+     }) //kit 
+     $.get('/search/samples', (samples) => {
+      $(document).ready(function() {
+        samples.forEach((sample) => {
+          if(sample.isCalibrator) {
+            $.get('/search/getKit/'+nowT2Kit,(kit)=>{
+              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                scndT2toxina.addElement("_calibrator", {
+                  id: sample.name,
+                  title:  sample.name,
+                });
+              }
+            })
+           
+
+          }
+        $.get('/search/userFromSample/'+sample._id,(user)=>{
+          if(sample.t2toxina.active == true && sample.t2toxina.status=="Mapa de Trabalho" ) {
+                if(user.debt){
+                  scndT2toxina.addElement(sample.t2toxina.mapReference, {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.t2toxina.status,
+                    owner: "Devedor"
+                  });
+                }
+
+                else {
+                 scndT2toxina.addElement(sample.t2toxina.mapReference, {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.t2toxina.status
+                 });
+              }
+
+         }
+         })
+        });
+      });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
    })
   })
 });
@@ -1996,7 +2085,8 @@ $('#KitRadioZ').change(function(){
 
          }
 
-     })
+     }) //foreach 
+     
    })
   })
 });
