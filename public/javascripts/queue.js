@@ -2086,7 +2086,51 @@ $('#KitRadioZ').change(function(){
          }
 
      }) //foreach 
-     
+     $.get('/search/samples', (samples) => {
+      $(document).ready(function() {
+        samples.forEach((sample) => {
+          if(sample.isCalibrator) {
+            $.get('/search/getKit/'+nowT2Kit,(kit)=>{
+              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                scndT2toxina.addElement("_calibrator", {
+                  id: sample.name,
+                  title:  sample.name,
+                });
+              }
+            })
+           
+
+          }
+        $.get('/search/userFromSample/'+sample._id,(user)=>{
+          if(sample.zearalenona.active == true && sample.zearalenona.status=="Mapa de Trabalho" ) {
+                if(user.debt){
+                  scndZearalenona.addElement(sample.zearalenona.mapReference, {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.zearalenona.status,
+                    owner: "Devedor"
+                  });
+                }
+
+                else {
+                 scndZearalenona.addElement(sample.zearalenona.mapReference, {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.zearalenona.status
+                 });
+              }
+
+         }
+         })
+        });
+      });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
    })
   })
 });
