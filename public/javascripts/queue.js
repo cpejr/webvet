@@ -1382,28 +1382,65 @@ $.get('/search/samples', (samples) => {
           //DEOXINIVALENOL
           if(sample.deoxinivalenol.active == true) {
             if(sample.deoxinivalenol.status=="Nova" || sample.deoxinivalenol.status=="Sem amostra" || sample.deoxinivalenol.status=="A corrigir") {
+              if(user.debt) {
+                deoxinivalenol.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status,
+                  owner:"Devedor"
+                });
+              }
+             else {
               deoxinivalenol.addElement('_waiting', {
                 id: sample.samplenumber,
                 title: "Amostra " + sample.samplenumber,
                 analyst: sample.responsable,
                 status: sample.deoxinivalenol.status
               });
+
+              }
+             
             }
             if(sample.deoxinivalenol.status=="Em análise"||sample.deoxinivalenol.status=="Mapa de Trabalho") {
-              deoxinivalenol.addElement('_testing', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.deoxinivalenol.status
-              });
-              if(sample.deoxinivalenol.status=="Em análise") {
-                  scndDeoxinivalenol.addElement('_scndTesting', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.deoxinivalenol.status
-                  });
+              if(user.debt) {
+                deoxinivalenol.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status,
+                  owner: "Devedor"
+                });
+                if(sample.deoxinivalenol.status=="Em análise") {
+                    scndDeoxinivalenol.addElement('_scndTesting', {
+                      id: "owner",
+                      title: "Amostra " + sample.samplenumber,
+                      analyst: sample.responsable,
+                      status: sample.deoxinivalenol.status,
+                      owner: "Devedor"
+                    });
+                }
               }
+              
+              else {
+                deoxinivalenol.addElement('_testing', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status
+                });
+                if(sample.deoxinivalenol.status=="Em análise") {
+                    scndDeoxinivalenol.addElement('_scndTesting', {
+                      id: sample.samplenumber,
+                      title: "Amostra " + sample.samplenumber,
+                      analyst: sample.responsable,
+                      status: sample.deoxinivalenol.status
+                    });
+                }
+
+              }
+              
+             
 
             }
             if(sample.deoxinivalenol.status=="Aguardando pagamento") {
