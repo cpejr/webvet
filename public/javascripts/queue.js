@@ -1382,157 +1382,308 @@ $.get('/search/samples', (samples) => {
           //DEOXINIVALENOL
           if(sample.deoxinivalenol.active == true) {
             if(sample.deoxinivalenol.status=="Nova" || sample.deoxinivalenol.status=="Sem amostra" || sample.deoxinivalenol.status=="A corrigir") {
+              if(user.debt) {
+                deoxinivalenol.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status,
+                  owner:"Devedor"
+                });
+              }
+             else {
               deoxinivalenol.addElement('_waiting', {
                 id: sample.samplenumber,
                 title: "Amostra " + sample.samplenumber,
                 analyst: sample.responsable,
                 status: sample.deoxinivalenol.status
               });
+
+              }
+             
             }
             if(sample.deoxinivalenol.status=="Em análise"||sample.deoxinivalenol.status=="Mapa de Trabalho") {
-              deoxinivalenol.addElement('_testing', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.deoxinivalenol.status
-              });
-              if(sample.deoxinivalenol.status=="Em análise") {
-                  scndDeoxinivalenol.addElement('_scndTesting', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.deoxinivalenol.status
-                  });
+              if(user.debt) {
+                deoxinivalenol.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status,
+                  owner: "Devedor"
+                });
+                if(sample.deoxinivalenol.status=="Em análise") {
+                    scndDeoxinivalenol.addElement('_scndTesting', {
+                      id: "owner",
+                      title: "Amostra " + sample.samplenumber,
+                      analyst: sample.responsable,
+                      status: sample.deoxinivalenol.status,
+                      owner: "Devedor"
+                    });
+                }
               }
+              
+              else {
+                deoxinivalenol.addElement('_testing', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status
+                });
+                if(sample.deoxinivalenol.status=="Em análise") {
+                    scndDeoxinivalenol.addElement('_scndTesting', {
+                      id: sample.samplenumber,
+                      title: "Amostra " + sample.samplenumber,
+                      analyst: sample.responsable,
+                      status: sample.deoxinivalenol.status
+                    });
+                }
+
+              }
+              
+             
 
             }
-            if(sample.deoxinivalenol.status=="Aguardando pagamento") {
-              deoxinivalenol.addElement('_ownering', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.deoxinivalenol.status
-              });
+            if(sample.deoxinivalenol.status=="Aguardando pagamento") { //continuar aqui
+               if(user.debt) {
+                deoxinivalenol.addElement('_ownering', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status,
+                  owner: "Devendo"
+                });
+               }
+               else {
+                deoxinivalenol.addElement('_ownering', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status
+                });
+               }
+            
             }
             if(sample.deoxinivalenol.status=="Aguardando amostra") {
-              deoxinivalenol.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.deoxinivalenol.status
-              });
-            }
-            if(sample.deoxinivalenol.status=="Mapa de Trabalho") {
-              scndDeoxinivalenol.addElement('_workmap1', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.deoxinivalenol.status
-              });
+              if(user.debt) {
+                deoxinivalenol.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status,
+                  owner: "Devendo"
+                });
+              }
+              else {
+                deoxinivalenol.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.deoxinivalenol.status
+                });
+              }
+             
             }
           }
 
           //ZEARALENONA
           if(sample.zearalenona.active == true) {
             if(sample.zearalenona.status=="Nova" || sample.zearalenona.status=="Sem amostra" || sample.zearalenona.status=="A corrigir") {
-              zearalenona.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.zearalenona.status
-              });
+               if(user.debt) {
+                zearalenona.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status,
+                  owner: "Devedor"
+                });
+               }
+               else {
+                zearalenona.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status
+                });
+
+               }
+             
             }
             if(sample.zearalenona.status=="Em análise"||sample.zearalenona.status=="Mapa de Trabalho") {
-              zearalenona.addElement('_testing', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.zearalenona.status
-              });
-              scndZearalenona.addElement('_scndTesting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.zearalenona.status
-              });
+              if(user.debt){
+                zearalenona.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status,
+                  owner: "Devedor"
+                });
+                scndZearalenona.addElement('_scndTesting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status
+                });
+              }
+              else {
+                zearalenona.addElement('_testing', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status
+                });
+                scndZearalenona.addElement('_scndTesting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status
+                });
+              }
+              
             }
             if(sample.zearalenona.status=="Aguardando pagamento") {
-              zearalenona.addElement('_ownering', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.zearalenona.status
-              });
+              if(user.debt) {
+                zearalenona.addElement('_ownering', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status,
+                  owner:"Devedor"
+                });
+              }
+              else{
+                zearalenona.addElement('_ownering', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status
+                });
+              }
+             
             }
             if(sample.zearalenona.status=="Aguardando amostra") {
-              zearalenona.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.zearalenona.status
-              });
+              if(user.debt) {
+                zearalenona.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status,
+                  owner:"Devedor"
+                });
+              }
+              else{
+                zearalenona.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.zearalenona.status
+                });
+              }
+             
             }
-            if(sample.zearalenona.status=="Mapa de Trabalho") {
-              scndZearalenona.addElement('_workmap1', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.zearalenona.status
-              });
-            }
+          
           }
 
           //T-2 TOXINA
           if(sample.t2toxina.active == true) {
             if(sample.t2toxina.status=="Nova" || sample.t2toxina.status=="Sem amostra" || sample.t2toxina.status=="A corrigir") {
-              t2toxina.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.t2toxina.status
-              });
+               if(user.debt) {
+                t2toxina.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.t2toxina.status,
+                  owner: "Devedor"
+                });
+               }
+               else{
+                t2toxina.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.t2toxina.status
+                });
+               }
+              
             }
             if(sample.t2toxina.status=="Em análise"||sample.t2toxina.status=="Mapa de Trabalho") {
-              t2toxina.addElement('_testing', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.t2toxina.status
-              });
-              if(sample.t2toxina.status=="Em análise") {
-                scndT2toxina.addElement('_scndTesting', {
+              if(user.debt) {
+                t2toxina.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.t2toxina.status,
+                  owner:"Devedor"
+                });
+                if(sample.t2toxina.status=="Em análise") {
+                  scndT2toxina.addElement('_scndTesting', {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.t2toxina.status,
+                    owner:"Devedor"
+                  });
+                }
+              }
+              else {
+                t2toxina.addElement('_testing', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.t2toxina.status
+                });
+                if(sample.t2toxina.status=="Em análise") {
+                  scndT2toxina.addElement('_scndTesting', {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.t2toxina.status
+                  });
+                }
+              }
+              
+
+            }
+            if(sample.t2toxina.status=="Aguardando pagamento") {
+              if(user.debt){
+                t2toxina.addElement('_ownering', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.t2toxina.status,
+                  owner: "Devedor"
+                });
+              }
+              else {
+                t2toxina.addElement('_ownering', {
                   id: sample.samplenumber,
                   title: "Amostra " + sample.samplenumber,
                   analyst: sample.responsable,
                   status: sample.t2toxina.status
                 });
               }
-
-            }
-            if(sample.t2toxina.status=="Aguardando pagamento") {
-              t2toxina.addElement('_ownering', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.t2toxina.status
-              });
+             
             }
             if(sample.t2toxina.status=="Aguardando amostra") {
-              t2toxina.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.t2toxina.status
-              });
+              if(user.debt){
+                t2toxina.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.t2toxina.status,
+                  owner:"Devedor"
+                });
+              }
+              else{
+                t2toxina.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.t2toxina.status
+                });
+              }
+             
             }
-            if(sample.t2toxina.status=="Mapa de Trabalho") {
-            scndT2toxina.addElement('_workmap1', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.t2toxina.status
-              });
-            }
+            
           }
 
           //FUMOSININA
