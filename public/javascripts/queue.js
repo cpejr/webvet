@@ -1689,28 +1689,61 @@ $.get('/search/samples', (samples) => {
           //FUMOSININA
           if(sample.fumonisina.active == true) {
             if(sample.fumonisina.status=="Nova" || sample.fumonisina.status=="Sem amostra" || sample.fumonisina.status=="A corrigir") {
-              fumonisina.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.fumonisina.status
-              });
-            }
-            if(sample.fumonisina.status=="Em análise"||sample.fumonisina.status=="Mapa de Trabalho") {
-              fumonisina.addElement('_testing', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.fumonisina.status
-              });
-              if(sample.fumonisina.status=="Em análise") {
-                scndFumonisina.addElement('_scndTesting', {
+              if(user.debt) {
+                fumonisina.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.fumonisina.status,
+                  owner:"Devedor"
+                });
+              }
+              else {
+                fumonisina.addElement('_waiting', {
                   id: sample.samplenumber,
                   title: "Amostra " + sample.samplenumber,
                   analyst: sample.responsable,
                   status: sample.fumonisina.status
                 });
               }
+             
+            }
+            if(sample.fumonisina.status=="Em análise"||sample.fumonisina.status=="Mapa de Trabalho") {
+              if(user.debt){
+                fumonisina.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.fumonisina.status,
+                  owner: "Devedor"
+                });
+                if(sample.fumonisina.status=="Em análise") {
+                  scndFumonisina.addElement('_scndTesting', {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.fumonisina.status,
+                    owner: "Devedor"
+                  });
+                }
+              }
+              else {
+                fumonisina.addElement('_testing', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.fumonisina.status
+                });
+                if(sample.fumonisina.status=="Em análise") {
+                  scndFumonisina.addElement('_scndTesting', {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.fumonisina.status
+                  });
+                }
+              }
+              
 
             }
             if(sample.fumonisina.status=="Aguardando pagamento") {
@@ -1722,20 +1755,24 @@ $.get('/search/samples', (samples) => {
               });
             }
             if(sample.fumonisina.status=="Aguardando amostra") {
-              fumonisina.addElement('_waiting', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.fumonisina.status
-              });
-            }
-            if(sample.fumonisina.status=="Mapa de Trabalho") {
-              scndFumonisina.addElement('_workmap1', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.fumonisina.status
-              });
+              if(user.debt) {
+                fumonisina.addElement('_waiting', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.fumonisina.status,
+                  owner:"Devedor"
+                });
+              }
+              else {
+                fumonisina.addElement('_waiting', {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.fumonisina.status
+                });
+              }
+              
             }
 
           }
