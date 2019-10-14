@@ -1164,7 +1164,6 @@ $.get('/search/samples', (samples) => {
     samples.forEach((sample) => {
        if(!sample.isCalibrator){
         $.get('/search/userFromSample/'+sample._id,(user) =>{
-          console.log(user)
           //AFLATOXINA
           if(sample.aflatoxina.active == true) {
              console.log(sample)
@@ -1638,7 +1637,7 @@ $('#KitRadioAfla').change(function(){
                           id: sample.samplenumber,
                           title: "Amostra " + sample.samplenumber,
                           analyst: sample.responsable,
-                          status: sample.fumonisina.status
+                          status: sample.aflatoxina.status
                        });
                     }
 
@@ -1712,7 +1711,51 @@ $('#KitRadioOcra').change(function(){
 
          }
 
-     })
+     })//for each
+     $.get('/search/samples', (samples) => {
+      $(document).ready(function() {
+        samples.forEach((sample) => {
+          if(sample.isCalibrator) {
+            $.get('/search/getKit/'+nowOcraKit,(kit)=>{
+              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                scndAflatoxina.addElement("_calibrator", {
+                  id: sample.name,
+                  title:  sample.name,
+                });
+              }
+            })
+           
+
+          }
+        $.get('/search/userFromSample/'+sample._id,(user)=>{
+          if(sample.ocratoxina.active == true && sample.ocratoxina.status=="Mapa de Trabalho" ) {
+                if(user.debt){
+                  scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.ocratoxina.status,
+                    owner: "Devedor"
+                  });
+                }
+
+                else {
+                 scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.ocratoxina.status
+                 });
+              }
+
+         }
+         })
+        });
+      });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
    })
   })
 
@@ -1725,9 +1768,7 @@ $('#KitRadioDeox').change(function(){
 
     console.log("DENTRO DA KitRadioDeox");
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
      $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
          console.log(kitToxin);
