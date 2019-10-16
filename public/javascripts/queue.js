@@ -1802,10 +1802,10 @@ $('#KitRadioAfla').click(function(){//não repete
   var   kitToxin;
     $.get('/search/kits', (kits) => {
         kits.forEach((kit) => {
-          var isSelected=false;
-          var kitToxin=kit.productCode;
+              isSelected=false;
+              kitToxin=kit.productCode;
           if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-            console.log("Afla limit:"+aflaLimit);
+            
          
                if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
                    $('#hideAfla').removeClass('form-disabled');
@@ -1860,7 +1860,6 @@ $('#KitRadioAfla').click(function(){//não repete
         }
       });//for each kit
       $.get('/search/samples', (samples) => {
-            $(document).ready(function() {
               samples.forEach((sample) => {
                 if(sample.isCalibrator) {
                   $.get('/search/getKit/'+nowAflaKit,(kit)=>{
@@ -1898,7 +1897,6 @@ $('#KitRadioAfla').click(function(){//não repete
                }
                })
               });
-            });
       }).catch((error) => {
         console.log(error);
         res.redirect('/error');
@@ -1909,59 +1907,65 @@ $('#KitRadioAfla').click(function(){//não repete
 });
 
 var nowOcraKit;
+var ocraLimit=0;
 $('#KitRadioOcra').change(function(){
-  var ocraLimit;
-    console.log("DENTRO DA KitRadioOcra");
+  for(i=ocraLimit;i>0;i--){//delete previus workmap;
+    var board= "_workmap"+i;
+    scndAflatoxina.removeBoard(board);
+  } 
+  var isSelected=false;
+  var   kitToxin;
+  
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
-     $(document).ready(function() {
-       console.log("LENDO");
+       
        kits.forEach((kit) => {
-         var kitToxin=kit.productCode;
-         console.log(kitToxin);
+             kitToxin=kit.productCode;
+             isSelected=false;
          if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
-           console.log("Ocra");
            if($('#KitOcraA').is(':checked')&&kit.kitType=="A") {
                $('#hideOcra').removeClass('form-disabled');
                 ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
+                isSelected=true;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
 
            }
-            else if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
+            if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
                  $('#hideOcra').removeClass('form-disabled');
                   ocraLimit=kit.stripLength;
                     nowOcraKit=kit._id;
                     ocracount = ocraLimit;
+                    isSelected=true;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                     });
              }
-            else if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
+             if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
+                isSelected=true;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
             }
-           else {
-               $('#hideOcra').addClass('form-disabled');
-           }
-
-           for(i=0;i<ocraLimit;i++){//the map 0 was defined before
-             scndOcratoxina.addBoards(
-                     [{
-                         'id' : '_workmap' + (i+1),
-                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
-                         'class' : 'info',
-                     }]
-                 )
-           }
+           
+            if(isSelected){
+              for(i=0;i<ocraLimit;i++){//the map 0 was defined before
+                scndOcratoxina.addBoards(
+                        [{
+                            'id' : '_workmap' + (i+1),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'class' : 'info',
+                        }]
+                    )
+              }
+            }
+          
 
          }
 
@@ -2010,134 +2014,191 @@ $('#KitRadioOcra').change(function(){
       console.log(error);
       res.redirect('/error');
     });
-   })
-  })
+ 
+  });
 
 });
 
 
 var nowDeoxKit;
+var deoxLimit=0;
 $('#KitRadioDeox').change(function(){
-  var deoxLimit;
+  for(i=deoxLimit;i>0;i--){//delete previus workmap;
+    var board= "_workmap"+i;
+    scndDeoxinivalenol.removeBoard(board);
+  } 
+  var isSelected=false;
+  var   kitToxin;
 
-    console.log("DENTRO DA KitRadioDeox");
+    
    $.get('/search/kits', (kits) => {
-     $(document).ready(function() {
        kits.forEach((kit) => {
-         var kitToxin=kit.productCode;
-         console.log(kitToxin);
+        kitToxin=kit.productCode;
+        isSelected=false;
          if(kitToxin.includes("DON")) {
-           console.log(kit.kitType);
+
            if($('#KitDeoxA').is(':checked')&&kit.kitType=="A") {
                $('#hideDeox').removeClass('form-disabled');
                 deoxLimit=kit.stripLength;
                 nowDeoxKit=kit._id;
                 deoxcount = deoxLimit;
+                isSelected=true;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                 });
 
            }
-            else if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
+           if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                nowDeoxKit=kit._id;
                deoxcount = deoxLimit;
+               isSelected=true;
                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                });
              }
-            else if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
+             if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
                  nowDeoxKit=kit._id;
                  deoxcount = deoxLimit;
+                 isSelected=true;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                  });
             }
-           else {
-               $('#hideDeox').addClass('form-disabled');
-           }
-
-           for(i=1;i<deoxLimit;i++){//the map 0 was defined before
-             scndDeoxinivalenol.addBoards(
-                     [{
-                         'id' : '_workmap' + (i+1),
-                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
-                         'class' : 'info',
-                     }]
-                 )
-           }
+          
+            if(isSelected){
+              for(i=1;i<deoxLimit;i++){//the map 0 was defined before
+                scndDeoxinivalenol.addBoards(
+                        [{
+                            'id' : '_workmap' + (i+1),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'class' : 'info',
+                        }]
+                    )
+              }
+            }
 
          }
 
-     })
-   })
-  })
+     });//kit foreach
+     $.get('/search/samples', (samples) => {
+      $(document).ready(function() {
+        samples.forEach((sample) => {
+          if(sample.isCalibrator) {
+            $.get('/search/getKit/'+nowOcraKit,(kit)=>{
+              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                scndAflatoxina.addElement("_calibrator", {
+                  id: sample.name,
+                  title:  sample.name,
+                });
+              }
+            })
+           
+
+          }
+        $.get('/search/userFromSample/'+sample._id,(user)=>{
+          if(sample.deoxinivalenol.active == true && sample.deoxinivalenol.status=="Mapa de Trabalho" ) {
+                if(user.debt){
+                  scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.deoxinivalenol.status,
+                    owner: "Devedor"
+                  });
+                }
+
+                else {
+                 scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.deoxinivalenol.status
+                 });
+              }
+
+         }
+         })
+        });
+      });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
+
+  });
 });
 
 var nowFumKit;
+var fumLimit=0;
 $('#KitRadioFum').change(function(){
-    console.log("DENTRO DA KitRadioFum");
-     var fumLimit;
+  for(i=fumLimit;i>0;i--){//delete previus workmap;
+    var board= "_workmap"+i;
+    scndFumonisina.removeBoard(board);
+  } 
+  var isSelected=false;
+  var   kitToxin;
+     
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
-     $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
-         var kitToxin=kit.productCode;
-         console.log(kitToxin);
+        kitToxin=kit.productCode;
+        isSelected=false;
+        
          if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
-           console.log(kit.kitType);
            if($('#KitFumA').is(':checked')&&kit.kitType=="A") {
                $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                   nowFumKit=kit._id;
                   fumcount = fumLimit;
+                  isSelected=true;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                   });
 
            }
-            else if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
+           if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
               $('#hideFum').removeClass('form-disabled');
                  fumLimit=kit.stripLength;
                  nowFumKit=kit._id;
                  fumcount = fumLimit;
+                 isSelected=true;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                  });
              }
-            else if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
+            if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
               $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
                    nowFumKit=kit._id;
                    fumcount = fumLimit;
+                   isSelected=true;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                    });
             }
-           else {
-               $('#hideFum').addClass('form-disabled');
+          
+           if(isSelected) {
+            for(i=1;i<fumLimit;i++){//the map 0 was defined before
+              scndFumonisina.addBoards(
+                      [{
+                          'id' : '_workmap' + (i+1),
+                          'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                          'class' : 'info',
+                      }]
+                  )
+            }
            }
-
-           for(i=1;i<fumLimit;i++){//the map 0 was defined before
-             scndFumonisina.addBoards(
-                     [{
-                         'id' : '_workmap' + (i+1),
-                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
-                         'class' : 'info',
-                     }]
-                 )
-           }
+          
 
 
          }
 
      })//kit foreacj
      $.get('/search/samples', (samples) => {
-      $(document).ready(function() {
         samples.forEach((sample) => {
           if(sample.isCalibrator) {
             $.get('/search/getKit/'+nowFumKit,(kit)=>{
@@ -2175,14 +2236,14 @@ $('#KitRadioFum').change(function(){
          }
          })
         });
-      });
+     
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
-   })
+
   })
-});
+});//falta ajustar a partir de T2
 
 var nowT2Kit;
 
