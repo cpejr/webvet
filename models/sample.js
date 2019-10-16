@@ -117,7 +117,6 @@ const sampleSchema = new mongoose.Schema({
        default: true
     },
     contador: Number,
-    absorbance: Number,
     mapReference:  {
       type:String,
       default: 'Sem mapa'
@@ -278,6 +277,20 @@ class Sample {
       });
     });
   }
+
+  static updateAflaAbsorbance(id, absorbance){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
 }
+
 
 module.exports = Sample;

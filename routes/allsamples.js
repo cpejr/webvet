@@ -739,10 +739,10 @@ router.post('/',function(req,res,next){
          });
       }
     }
-    var item = {
-      absorb: req.body.sample.aflatoxina.absorbance,
-    }
-    Sample.update(req.params.id,item).then(()=>{
+    // var item = {
+    //   absorb: req.body.sample.aflatoxina.absorbance,
+    // }
+    Sample.updateAflaAbsorbance('5d9f642852f48c2acc5a27e3', '19').then(()=>{
       res.render('previousmap', { title: 'Queue'});
     }).catch((error) => {
     console.log(error);
