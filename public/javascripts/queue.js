@@ -1867,6 +1867,8 @@ $('#KitRadioAfla').click(function(){//não repete
                       scndAflatoxina.addElement("_calibrator", {
                         id: sample.name,
                         title:  sample.name,
+                        calibrator: true,
+                        calID:sample._id
                       });
                     }
                   })
