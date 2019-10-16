@@ -2093,8 +2093,10 @@ $('#KitRadioDeox').change(function(){
             $.get('/search/getKit/'+nowOcraKit,(kit)=>{
               if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
                 scndAflatoxina.addElement("_calibrator", {
-                  id: sample.name,
-                  title:  sample.name,
+                        id: sample.name,
+                        title:  sample.name,
+                        calibrator: true,
+                        calID:sample._id
                 });
               }
             })
@@ -2208,6 +2210,8 @@ $('#KitRadioFum').change(function(){
                 scndAflatoxina.addElement("_calibrator", {
                   id: sample.name,
                   title:  sample.name,
+                  calibrator: true,
+                  calID:sample._id
                 });
               }
             })
@@ -2317,6 +2321,8 @@ $('#KitRadioT').change(function(){
                 scndT2toxina.addElement("_calibrator", {
                   id: sample.name,
                   title:  sample.name,
+                  calibrator: true,
+                  calID:sample._id
                 });
               }
             })
@@ -2429,6 +2435,8 @@ $('#KitRadioZ').change(function(){
                 scndT2toxina.addElement("_calibrator", {
                   id: sample.name,
                   title:  sample.name,
+                  calibrator: true,
+                  calID:sample._id
                 });
               }
             })
