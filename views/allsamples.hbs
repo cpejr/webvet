@@ -1,357 +1,1857 @@
 <div class="printtemplate">
   <h4>Mapas de Trabalho</h4>
 </div>
+
+
 <div class="templateprint row">
-    <table class="table-printtemplate col-2">
+    <table class="table-afla-child ">
       <thead>
-        <tr><th>Mapa de Trabalho 1</th></tr>
+        <tr>
+          
+          <th>AFLA</th>
+          <th>Absorvancia</th>
+        </tr>
       </thead>
-        <tr><td>Amostra 1</td></tr>
-        <tr><td>Amostra 2</td></tr>
-        <tr><td>Amostra 3</td></tr>
-        <tr><td>Amostra 4</td></tr>
-        <tr><td>Amostra 5</td></tr>
-        <tr><td>Amostra 6</td></tr>
-        <tr><td>Amostra 7</td></tr>
-        <tr><td>Amostra 8</td></tr>
-    </table>
+      <tbody>
 
-    <table>
+        {{#each amostras}}
+          {{#compare aflatoxina.mapReference '_workmap1'}}
+            {{#compare aflatoxina.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <th><input type="submit" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}    
+          {{/compare}}
+        {{/each}}        
+
+      {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap1'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap2'}}
+          {{#compare aflatoxina.active true}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+            {{/compare}}    
+        {{/compare}}
+        {{/each}}
+         
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap2'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+        {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap3'}}
+          {{#compare aflatoxina.active true}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+          {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap3'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+        {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap4'}}
+         {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+          {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap4'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+      
+
+
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap5'}}
+          {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap5'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap6'}}
+           {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap6'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+  
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap7'}}
+          {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap7'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap8'}}
+           {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap8'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap9'}}
+          {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap9'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap10'}}
+            {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap10'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap11'}}
+            {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap11'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+     
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap12'}}
+            {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap12'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap13'}}
+          {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap13'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap14'}}
+           {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap14'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap15'}}
+          {{#compare aflatoxina.active true}}
+
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap15'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare aflatoxina.mapReference '_workmap16'}}
+          {{#compare aflatoxina.active true}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="submit" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
+            </tr>
+           {{/compare}}
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each afla1}}
+        {{#compare aflatoxina.mapReference '_workmap16'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        </tbody>  
+      </table>
+
+
+
+
+
+
+    <table class="table-afla">
       <thead>
-        <tr><th>Absorvância</th></tr>
+        <tr>
+          
+          <th>DON</th>
+          <th>Absorvancia</th>
+        </tr>
       </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
+      <tbody>
+
+        {{#each amostras}}
+          {{#compare deoxinivalenol.mapReference '_workmap1'}}
+            {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <th><input type="text" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}    
+          {{/compare}}
+        {{/each}}        
+
+      {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap1'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap2'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+         
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap2'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
 
 
-    <table class="table-printtemplate col-2">
+
+        {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap3'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap3'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+        {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap4'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap4'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+      
+
+
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap5'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap5'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap6'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap6'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+  
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap7'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap7'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap8'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap8'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap9'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap9'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap10'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap10'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap11'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap11'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+     
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap12'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap12'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap13'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap13'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap14'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap14'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap15'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap15'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare deoxinivalenol.mapReference '_workmap16'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each don1}}
+        {{#compare deoxinivalenol.mapReference '_workmap16'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        </tbody>  
+      </table>
+
+
+
+
+
+    <table class="table-afla">
       <thead>
-        <tr><th>Mapa de Trabalho 2</th></tr>
+        <tr>
+          
+          <th>OTA</th>
+          <th>Absorvancia</th>
+        </tr>
       </thead>
-        <tr><td>Amostra 1</td></tr>
-        <tr><td>Amostra 2</td></tr>
-        <tr><td>Amostra 3</td></tr>
-        <tr><td>Amostra 4</td></tr>
-        <tr><td>Amostra 5</td></tr>
-        <tr><td>Amostra 6</td></tr>
-        <tr><td>Amostra 7</td></tr>
-        <tr><td>Amostra 8</td></tr>
-    </table>
+      <tbody>
 
-    <table>
+        {{#each amostras}}
+          {{#compare ocratoxina.mapReference '_workmap1'}}
+            {{#compare ocratoxina.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <th><input type="text" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}    
+          {{/compare}}
+        {{/each}}        
+
+      {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap1'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap2'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+         
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap2'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+        {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap3'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap3'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+        {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap4'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap4'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+      
+
+
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap5'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap5'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap6'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap6'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+  
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap7'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap7'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap8'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap8'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap9'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap9'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap10'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap10'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap11'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap11'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+     
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap12'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap12'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap13'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap13'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap14'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap14'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap15'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap15'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare ocratoxina.mapReference '_workmap16'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each ota1}}
+        {{#compare ocratoxina.mapReference '_workmap16'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        </tbody>  
+      </table>
+
+
+
+
+    <table class="table-afla ">
       <thead>
-        <tr><th>Absorvância</th></tr>
+        <tr>
+          
+          <th>T2</th>
+          <th>Absorvancia</th>
+        </tr>
       </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
+      <tbody>
+
+        {{#each amostras}}
+          {{#compare t2toxina.mapReference '_workmap1'}}
+            {{#compare t2toxina.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <th><input type="text" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}    
+          {{/compare}}
+        {{/each}}        
+
+      {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap1'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap2'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+         
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap2'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
 
 
-    <table class="table-printtemplate col-2">
+
+        {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap3'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap3'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+        {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap4'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap4'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+      
+
+
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap5'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap5'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap6'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap6'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+  
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap7'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap7'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap8'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap8'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap9'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+        {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap9'}} 
+         <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap10'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap10'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap11'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap11'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+     
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap12'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap12'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap13'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap13'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap14'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap14'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap15'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap15'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare t2toxina.mapReference '_workmap16'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each t2}}
+        {{#compare t2toxina.mapReference '_workmap16'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        </tbody>  
+      </table>
+
+
+      
+    <table class="table-afla ">
       <thead>
-        <tr><th>Mapa de Trabalho 3</th></tr>
+        <tr>
+          
+          <th>ZEA</th>
+          <th>Absorvancia</th>
+        </tr>
       </thead>
-        <tr><td>Amostra 1</td></tr>
-        <tr><td>Amostra 2</td></tr>
-        <tr><td>Amostra 3</td></tr>
-        <tr><td>Amostra 4</td></tr>
-        <tr><td>Amostra 5</td></tr>
-        <tr><td>Amostra 6</td></tr>
-        <tr><td>Amostra 7</td></tr>
-        <tr><td>Amostra 8</td></tr>
-    </table>
+      <tbody>
 
-    <table>
+        {{#each amostras}}
+          {{#compare zearalenona.mapReference '_workmap1'}}
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <th><input type="text" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}    
+          {{/compare}}
+        {{/each}}        
+
+      {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap1'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap2'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+         
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap2'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+        {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap3'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap3'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+        {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap4'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap4'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+      
+
+
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap5'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap5'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap6'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap6'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+  
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap7'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap7'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap8'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap8'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap9'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+        {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap9'}} 
+         <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap10'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap10'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap11'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap11'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+     
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap12'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap12'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap13'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap13'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap14'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap14'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap15'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap15'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare zearalenona.mapReference '_workmap16'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each zea}}
+        {{#compare zearalenona.mapReference '_workmap16'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        </tbody>  
+      </table>
+
+
+
+<table class="table-afla ">
       <thead>
-        <tr><th>Absorvância</th></tr>
+        <tr>
+          
+          <th>FBs</th>
+          <th>Absorvancia</th>
+        </tr>
       </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
+      <tbody>
 
+        {{#each amostras}}
+          {{#compare fumonisina.mapReference '_workmap1'}}
+            {{#compare fumonisina.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <th><input type="text" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}    
+          {{/compare}}
+        {{/each}}        
 
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th>Mapa de Trabalho 4</th></tr>
-      </thead>
-        <tr><td>Amostra 1</td></tr>
-        <tr><td>Amostra 2</td></tr>
-        <tr><td>Amostra 3</td></tr>
-        <tr><td>Amostra 4</td></tr>
-        <tr><td>Amostra 5</td></tr>
-        <tr><td>Amostra 6</td></tr>
-        <tr><td>Amostra 7</td></tr>
-        <tr><td>Amostra 8</td></tr>
-    </table>
+      {{#each zea}}
+        {{#compare fumonisina.mapReference '_workmap1'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
 
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
-
-
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th>Mapa de Trabalho 5</th></tr>
-      </thead>
-        <tr><td>Amostra 1</td></tr>
-        <tr><td>Amostra 2</td></tr>
-        <tr><td>Amostra 3</td></tr>
-        <tr><td>Amostra 4</td></tr>
-        <tr><td>Amostra 5</td></tr>
-        <tr><td>Amostra 6</td></tr>
-        <tr><td>Amostra 7</td></tr>
-        <tr><td>Amostra 8</td></tr>
-    </table>
-
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
-
-
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th>Mapa de Trabalho 6</th></tr>
-      </thead>
-        <tr><td>Amostra 1</td></tr>
-        <tr><td>Amostra 2</td></tr>
-        <tr><td>Amostra 3</td></tr>
-        <tr><td>Amostra 4</td></tr>
-        <tr><td>Amostra 5</td></tr>
-        <tr><td>Amostra 6</td></tr>
-        <tr><td>Amostra 7</td></tr>
-        <tr><td>Amostra 8</td></tr>
-    </table>
-    
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
-
-
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th class="pt-2">Mapa de Trabalho 7</th></tr>
-      </thead>
-      <tr><td>Amostra 1</td></tr>
-      <tr><td>Amostra 2</td></tr>
-      <tr><td>Amostra 3</td></tr>
-      <tr><td>Amostra 4</td></tr>
-      <tr><td>Amostra 5</td></tr>
-      <tr><td>Amostra 6</td></tr>
-      <tr><td>Amostra 7</td></tr>
-      <tr><td>Amostra 8</td></tr>
-    </table>
-
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
-
-
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th class="pt-2">Mapa de Trabalho 8</th></tr>
-      </thead>
-      <tr><td>Amostra 1</td></tr>
-      <tr><td>Amostra 2</td></tr>
-      <tr><td>Amostra 3</td></tr>
-      <tr><td>Amostra 4</td></tr>
-      <tr><td>Amostra 5</td></tr>
-      <tr><td>Amostra 6</td></tr>
-      <tr><td>Amostra 7</td></tr>
-      <tr><td>Amostra 8</td></tr>
-    </table>
-
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
-
-
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th class="pt-2">Mapa de Trabalho 9</th></tr>
-      </thead>
-      <tr><td>Amostra 1</td></tr>
-      <tr><td>Amostra 2</td></tr>
-      <tr><td>Amostra 3</td></tr>
-      <tr><td>Amostra 4</td></tr>
-      <tr><td>Amostra 5</td></tr>
-      <tr><td>Amostra 6</td></tr>
-      <tr><td>Amostra 7</td></tr>
-      <tr><td>Amostra 8</td></tr>
-    </table>
-
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
-
-
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th class="pt-2">Mapa de Trabalho 10</th></tr>
-      </thead>
-      <tr><td>Amostra 1</td></tr>
-      <tr><td>Amostra 2</td></tr>
-      <tr><td>Amostra 3</td></tr>
-      <tr><td>Amostra 4</td></tr>
-      <tr><td>Amostra 5</td></tr>
-      <tr><td>Amostra 6</td></tr>
-      <tr><td>Amostra 7</td></tr>
-      <tr><td>Amostra 8</td></tr>
-    </table>
-
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
-
-
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th class="pt-2">Mapa de Trabalho 11</th></tr>
-      </thead>
-      <tr><td>Amostra 1</td></tr>
-      <tr><td>Amostra 2</td></tr>
-      <tr><td>Amostra 3</td></tr>
-      <tr><td>Amostra 4</td></tr>
-      <tr><td>Amostra 5</td></tr>
-      <tr><td>Amostra 6</td></tr>
-      <tr><td>Amostra 7</td></tr>
-      <tr><td>Amostra 8</td></tr>
-    </table>
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
+        {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap2'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+         
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap2'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
 
 
 
-
-    <table class="table-printtemplate col-2">
-      <thead>
-        <tr><th class="pt-2">Mapa de Trabalho 12</th></tr>
-      </thead>
-      <tr><td>Amostra 1</td></tr>
-      <tr><td>Amostra 2</td></tr>
-      <tr><td>Amostra 3</td></tr>
-      <tr><td>Amostra 4</td></tr>
-      <tr><td>Amostra 5</td></tr>
-      <tr><td>Amostra 6</td></tr>
-      <tr><td>Amostra 7</td></tr>
-      <tr><td>Amostra 8</td></tr>
-    </table>
-    <table>
-      <thead>
-        <tr><th>Absorvância</th></tr>
-      </thead>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-        <tr><td><input type="text" class="input-absorbance"></td></tr>
-    </table>
+        {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap3'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
 
 
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap3'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+        {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap4'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
 
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap4'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+      
+      
+
+
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap5'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap5'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap6'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap6'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+  
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap7'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap7'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap8'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap8'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap9'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+        {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap9'}} 
+         <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap10'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap10'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap11'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap11'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+     
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap12'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap12'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+     
+     
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap13'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap13'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+     
+
+
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap14'}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap14'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap15'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap15'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+
+      {{#each amostras}}
+        {{#compare fumonisina.mapReference '_workmap16'}}
+           <tr>
+              <th>{{samplenumber}}</th>
+              <th><input type="text" class="input-absorbance"></th>
+            </tr>
+        {{/compare}}
+        {{/each}}
+
+
+         {{#each fbs}}
+        {{#compare fumonisina.mapReference '_workmap16'}} 
+          <tr><td><br></td></tr>
+        {{/compare}}
+        {{/each}}
+
+        </tbody>  
+      </table>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<form action="/allsamples" method="post">
+
+  <div class="btn-abs">
+    <button class="btn btn-success"  >Finalizar </button>
   </div>
+</form>
 
 
 <script src="/javascripts/printtemplate.js"></script>

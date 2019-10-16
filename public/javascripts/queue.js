@@ -129,7 +129,6 @@ var scndAflatoxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    console.log(goTO);
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
@@ -211,7 +210,6 @@ var countAfla=0;
 
 function IdAflaCount ()
 {
-  console.log("count Afla is: " + countAfla);
     countAfla++;
     return countAfla;
 }
@@ -336,7 +334,6 @@ var scndDeoxinivalenol = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    console.log(goTO);
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
@@ -407,7 +404,6 @@ var countDeox=0;
 
 function IdDeoxCount ()
 {
-  console.log("count Deox is: " + countDeox);
     countDeox++;
     return countDeox;
 }
@@ -527,7 +523,6 @@ var scndOcratoxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    console.log(goTO);
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
@@ -596,7 +591,6 @@ var scndOcratoxina = new jKanban({
 var countOcra = 0;
 
 function IdOcraCount (){
-  console.log("count Ocra is: " + countOcra);
     countOcra++;
     return countOcra;
 }
@@ -714,7 +708,6 @@ var scndT2toxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    console.log(goTO);
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
@@ -784,7 +777,6 @@ var countT2=0;
 
 function IdT2Count ()
 {
-  console.log("count T2 is: " + countT2);
     countT2++;0
     return countT2;
 }
@@ -905,7 +897,6 @@ var scndFumonisina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    console.log(goTO);
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
@@ -979,7 +970,6 @@ var countFum=0;
 
 function IdFumCount ()
 {
-  console.log("count FUMOSININA is: " + countFum);
     countFum++;
     return countFum;
 }
@@ -1100,7 +1090,6 @@ var scndZearalenona = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    console.log(goTO);
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
         if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
@@ -1170,7 +1159,6 @@ var countZ=0;
 
 function IdZCount ()
 {
-  console.log("count FUMOSININA is: " + countZ);
      countZ++;
     return countZ;
 }
@@ -1182,8 +1170,6 @@ $.get('/search/samples', (samples) => {
     samples.forEach((sample) => {
       $.get('/search/userFromSample/'+sample._id,(user) =>{
           //AFLATOXINA
-          console.log(user);
-          console.log(user.debt);
           if(sample.aflatoxina.active == true) {
             if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
               if(user.debt) {
@@ -1567,19 +1553,14 @@ $.get('/search/samples', (samples) => {
 
 var nowAflaKit;
 $('#KitRadioAfla').change(function(){
-     console.log("DENTRO DA RADIOAFLA");
      var aflaLimit=0;
     $.get('/search/kits', (kits) => {
-         console.log("BUSCANDO");
       $(document).ready(function() {
-        console.log("LENDO");
         kits.forEach((kit) => {
           var kitToxin=kit.productCode;
-          console.log(kitToxin);
           if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
             if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
                 $('#hideAfla').removeClass('form-disabled');
-                 console.log("É UM AFLA DO TIPO A!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
                  aflacount = aflaLimit;
@@ -1590,7 +1571,6 @@ $('#KitRadioAfla').change(function(){
             }
              else if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
                  $('#hideAfla').removeClass('form-disabled');
-                 console.log("É UM AFLA DO TIPO B!!!!!");
                  aflaLimit=kit.stripLength;
                  nowAflaKit=kit._id;
                  aflacount = aflaLimit;
@@ -1600,7 +1580,6 @@ $('#KitRadioAfla').change(function(){
 
              }
              else if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
-                  console.log("É UM AFLA DO TIPO C!!!!!");
                   $('#hideAfla').removeClass('form-disabled');
                   aflaLimit=kit.stripLength;
                   nowAflaKit=kit._id;
@@ -1621,8 +1600,6 @@ $('#KitRadioAfla').change(function(){
                       }]
                   )
             }
-            console.log(aflaLimit);
-            console.log(nowAflaKit);
           }
 
       })
@@ -1634,16 +1611,11 @@ $('#KitRadioAfla').change(function(){
 var nowOcraKit;
 $('#KitRadioOcra').change(function(){
   var ocraLimit;
-    console.log("DENTRO DA KitRadioOcra");
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
      $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
-         console.log(kitToxin);
          if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
-           console.log("Ocra");
            if($('#KitOcraA').is(':checked')&&kit.kitType=="A") {
                $('#hideOcra').removeClass('form-disabled');
                 ocraLimit=kit.stripLength;
@@ -1699,16 +1671,11 @@ var nowDeoxKit;
 $('#KitRadioDeox').change(function(){
   var deoxLimit;
 
-    console.log("DENTRO DA KitRadioDeox");
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
      $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
-         console.log(kitToxin);
          if(kitToxin.includes("DON")) {
-           console.log(kit.kitType);
            if($('#KitDeoxA').is(':checked')&&kit.kitType=="A") {
                $('#hideDeox').removeClass('form-disabled');
                 deoxLimit=kit.stripLength;
@@ -1760,17 +1727,12 @@ $('#KitRadioDeox').change(function(){
 
 var nowFumKit;
 $('#KitRadioFum').change(function(){
-    console.log("DENTRO DA KitRadioFum");
      var fumLimit;
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
      $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
-         console.log(kitToxin);
          if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
-           console.log(kit.kitType);
            if($('#KitFumA').is(':checked')&&kit.kitType=="A") {
                $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
@@ -1825,16 +1787,11 @@ var nowT2Kit;
 
 $('#KitRadioT').change(function(){
   var t2Limit;
-    console.log("DENTRO DA KitRadioT");
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
      $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
-         console.log(kitToxin);
          if(kitToxin.includes("T2")) {
-           console.log(kit.kitType);
            if($('#KitTA').is(':checked')&&kit.kitType=="A") {
                $('#hideT').removeClass('form-disabled');
                   t2Limit=kit.stripLength;
@@ -1879,16 +1836,11 @@ $('#KitRadioT').change(function(){
 var nowZKit;
 $('#KitRadioZ').change(function(){
     var zLimit;
-    console.log("DENTRO DA KitRadioZ");
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
      $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
          var kitToxin=kit.productCode;
-         console.log(kitToxin);
          if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
-           console.log(kit.kitType);
            if($('#KitZA').is(':checked')&&kit.kitType=="A") {
                $('#hideZ').removeClass('form-disabled');
                   zLimit=kit.stripLength;

@@ -21,10 +21,12 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
+    absorbance: Number,
     active: {
        type: Boolean,
        default: true
     },
+    contador: Number,
     mapReference:  {
       type:String,
       default: 'Sem mapa'
@@ -37,10 +39,12 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
+    absorbance: Number,
     active: {
        type: Boolean,
        default: true
     },
+    contador: Number,
     mapReference:  {
       type:String,
       default: 'Sem mapa'
@@ -53,10 +57,12 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
+    absorbance: Number,
     active: {
        type: Boolean,
        default: true
     },
+    contador: Number,
     mapReference:  {
       type:String,
       default: 'Sem mapa'
@@ -69,10 +75,12 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
+    absorbance: Number,
     active: {
        type: Boolean,
        default: true
     },
+    contador: Number,
     mapReference:  {
       type:String,
       default: 'Sem mapa'
@@ -85,10 +93,12 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
+    absorbance: Number,
     active: {
        type: Boolean,
        default: true
     },
+    contador: Number,
     mapReference:  {
       type:String,
       default: 'Sem mapa'
@@ -101,10 +111,13 @@ const sampleSchema = new mongoose.Schema({
       default: 'Nova'
     },
     date: String,
+    absorbance: Number,
     active: {
        type: Boolean,
        default: true
     },
+    contador: Number,
+    absorbance: Number,
     mapReference:  {
       type:String,
       default: 'Sem mapa'

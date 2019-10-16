@@ -35,6 +35,7 @@ const printtemplateRouter = require ('./routes/printtemplate');
 const calibrationcurvesRouter = require ('./routes/calibrationcurves');
 const allsamplesRouter = require ('./routes/allsamples');
 const setstockRouter = require ('./routes/setstock');
+const previousmapRouter = require ('./routes/previousmap');
 const reportRouter = require ('./routes/report');
 const app = express();
 
@@ -147,6 +148,7 @@ app.use('/calibrationcurves', calibrationcurvesRouter);
 app.use('/allsamples', allsamplesRouter);
 app.use('/setstock', setstockRouter);
 app.use('/report', reportRouter);
+app.use('/previousmap',previousmapRouter);
 
 
 // catch 404 and forward to error handler
