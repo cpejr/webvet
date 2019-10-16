@@ -2243,61 +2243,71 @@ $('#KitRadioFum').change(function(){
     });
 
   })
-});//falta ajustar a partir de T2
+});
 
 var nowT2Kit;
+var t2Limit=0;
 
 $('#KitRadioT').change(function(){
-  var t2Limit;
-    console.log("DENTRO DA KitRadioT");
+  for(i=t2Limit;i>0;i--){//delete previus workmap;
+    var board= "_workmap"+i;
+    scndT2toxina.removeBoard(board);
+  } 
+  var isSelected=false;
+  var   kitToxin;
+  
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
-     $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
-         var kitToxin=kit.productCode;
-         console.log(kitToxin);
+        kitToxin=kit.productCode;
+        isSelected=false;
          if(kitToxin.includes("T2")) {
-           console.log(kit.kitType);
+           
            if($('#KitTA').is(':checked')&&kit.kitType=="A") {
                $('#hideT').removeClass('form-disabled');
                   t2Limit=kit.stripLength;
                   nowT2Kit=kit._id;
                   t2count = t2Limit;
+                  isSelected=true;
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+
+                  });
 
            }
-            else if($('#KitTB').is(':checked')&&kit.kitType=="B") {
+           if($('#KitTB').is(':checked')&&kit.kitType=="B") {
               $('#hideT').removeClass('form-disabled');
                    t2Limit=kit.stripLength;
                    nowT2Kit=kit._id;
                    t2count = t2Limit;
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+
+                  });
 
              }
-            else if (kit.kitType=="C"&&$('#KitTC').is(':checked')) {
+             if (kit.kitType=="C"&&$('#KitTC').is(':checked')) {
               $('#hideT').removeClass('form-disabled');
                     t2Limit=kit.stripLength;
                     nowT2Kit=kit._id;
                     t2count = t2Limit;
+                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+
+                    });
             }
-           else {
-               $('#hideT').addClass('form-disabled');
-           }
-
-           for(i=1;i<t2Limit;i++){//the map 0 was defined before
-             scndT2toxina.addBoards(
-                     [{
-                         'id' : '_workmap' + (i+1),
-                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
-                         'class' : 'info',
-                     }]
-                 )
-           }
-
+           
+            if(isSelected) {
+              for(i=1;i<t2Limit;i++){//the map 0 was defined before
+                scndT2toxina.addBoards(
+                        [{
+                            'id' : '_workmap' + (i+1),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'class' : 'info',
+                        }]
+                    );
+              }
+            }
          }
 
      }) //kit 
      $.get('/search/samples', (samples) => {
-      $(document).ready(function() {
         samples.forEach((sample) => {
           if(sample.isCalibrator) {
             $.get('/search/getKit/'+nowT2Kit,(kit)=>{
@@ -2333,70 +2343,77 @@ $('#KitRadioT').change(function(){
               }
 
          }
-         })
+         });
         });
-      });
+      
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
 
-   })
-  })
+  
+  });
 });
 
 var nowZKit;
+var zLimit=0;
 $('#KitRadioZ').change(function(){
-    var zLimit;
-    console.log("DENTRO DA KitRadioZ");
+  for(i=zLimit;i>0;i--){//delete previus workmap;
+    var board= "_workmap"+i;
+    scndT2toxina.removeBoard(board);
+  } 
+  var isSelected=false;
+  var   kitToxin;
+   
    $.get('/search/kits', (kits) => {
-        console.log("BUSCANDO");
-     $(document).ready(function() {
-       console.log("LENDO");
        kits.forEach((kit) => {
-         var kitToxin=kit.productCode;
-         console.log(kitToxin);
+          kitToxin=kit.productCode;
+          isSelected=false;
+         
          if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
-           console.log(kit.kitType);
+           
            if($('#KitZA').is(':checked')&&kit.kitType=="A") {
                $('#hideZ').removeClass('form-disabled');
                   zLimit=kit.stripLength;
                   nowZKit=kit._id;
+                  isSelected=true;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                   });
 
            }
-            else if($('#KitZB').is(':checked')&&kit.kitType=="B") {
+             if($('#KitZB').is(':checked')&&kit.kitType=="B") {
               $('#hideZ').removeClass('form-disabled');
                  zLimit=kit.stripLength;
                    nowZKit=kit._id;
+                   isSelected=true;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                    });
 
              }
-            else if (kit.kitType=="C"&&$('#KitZC').is(':checked')) {
+             if (kit.kitType=="C"&&$('#KitZC').is(':checked')) {
               $('#hideZ').removeClass('form-disabled');
                  zLimit=kit.stripLength;
                    nowZKit=kit._id;
+                   isSelected=true;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                    });
             }
-           else {
-               $('#hideZ').addClass('form-disabled');
-           }
-
-           for(i=1;i<zLimit;i++){//the map 0 was defined before
-             scndZearalenona.addBoards(
-                     [{
-                         'id' : '_workmap' + (i+1),
-                         'title'  : 'Mapa de trabalho' + ' '+ (i+1),
-                         'class' : 'info',
-                     }]
-                 )
-           }
+          
+            if(isSelected) {
+              for(i=1;i<zLimit;i++){//the map 0 was defined before
+                scndZearalenona.addBoards(
+                        [{
+                            'id' : '_workmap' + (i+1),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'class' : 'info',
+                        }]
+                    )
+              }
+            }
+          
 
          }
 
@@ -2446,7 +2463,7 @@ $('#KitRadioZ').change(function(){
       res.redirect('/error');
     });
 
-   })
+   
   })
 });
 
