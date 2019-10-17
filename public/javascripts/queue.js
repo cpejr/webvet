@@ -1949,6 +1949,14 @@ $('#KitRadioOcra').change(function(){
     var board= "_workmap"+i;
     scndOcratoxina.removeBoard(board);
   } 
+  if(ocraLimit!=0) {
+    var elementId;
+     for(j=0;j<5;j++){
+         
+      elementId= "P"+(j+1);
+       scndOcratoxina.removeElement(elementId);
+     }
+  }
   var isSelected=false;
   var   kitToxin;
   
@@ -2092,6 +2100,14 @@ $('#KitRadioDeox').change(function(){
     var board= "_workmap"+i;
     scndDeoxinivalenol.removeBoard(board);
   } 
+  if(deoxLimit!=0) {
+    var elementId;
+     for(j=0;j<5;j++){
+         
+      elementId= "P"+(j+1);
+       scndDeoxinivalenol.removeElement(elementId);
+     }
+  }
   var isSelected=false;
   var   kitToxin;
 
@@ -2347,6 +2363,15 @@ $('#KitRadioT').change(function(){
     var board= "_workmap"+i;
     scndT2toxina.removeBoard(board);
   } 
+
+  if(t2Limit!=0) {
+    var elementId;
+     for(j=0;j<5;j++){
+         
+      elementId= "P"+(j+1);
+       scndT2toxina.removeElement(elementId);
+     }
+  }
   var isSelected=false;
   var   kitToxin;
   
@@ -2458,6 +2483,14 @@ $('#KitRadioZ').change(function(){
     var board= "_workmap"+i;
     scndZearalenona.removeBoard(board);
   } 
+  if(zLimit!=0) {
+    var elementId;
+     for(j=0;j<5;j++){
+         
+      elementId= "P"+(j+1);
+       scndZearalenona.removeElement(elementId);
+     }
+  }
   var isSelected=false;
   var   kitToxin;
    
