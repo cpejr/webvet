@@ -1798,6 +1798,14 @@ $('#KitRadioAfla').click(function(){//não repete
     var board= "_workmap"+i;
     scndAflatoxina.removeBoard(board);
   } 
+  if(aflaLimit!=0) {
+    var elementId;
+     for(j=0;j<5;j++){
+         
+      elementId= "P"+(j+1);
+       scndAflatoxina.removeElement(elementId);
+     }
+  }
   var isSelected=false;
   var   kitToxin;
     $.get('/search/kits', (kits) => {
@@ -1871,7 +1879,7 @@ $('#KitRadioAfla').click(function(){//não repete
                         calibrator: true,
                         calID:sample._id
                       });
-                      console.log(sample.name)
+                   
                     
                     }
                 }
@@ -1939,7 +1947,7 @@ var ocraLimit=0;
 $('#KitRadioOcra').change(function(){
   for(i=ocraLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
-    scndAflatoxina.removeBoard(board);
+    scndOcratoxina.removeBoard(board);
   } 
   var isSelected=false;
   var   kitToxin;
@@ -2448,7 +2456,7 @@ var zLimit=0;
 $('#KitRadioZ').change(function(){
   for(i=zLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
-    scndT2toxina.removeBoard(board);
+    scndZearalenona.removeBoard(board);
   } 
   var isSelected=false;
   var   kitToxin;
