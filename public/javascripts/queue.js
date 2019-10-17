@@ -2280,13 +2280,13 @@ $('#KitRadioFum').change(function(){
       console.log(error);
       res.redirect('/error');
     }); 
-   $.get('/search/getKit/'+nowAflaKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
+   $.get('/search/getKit/'+nowFumKitt,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
           workmap.samplesArray.forEach((sampleID)=>{
             $.get('/search/getOneSample/'+sampleID,(sample)=>{
               if(sample.isCalibrator) {
-                  scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                  scndFumonisina.addElement(sample.fumonisina.mapReference, {
                     id: sample.name,
                       title:  sample.name,
                       calibrator: true,
@@ -2295,23 +2295,23 @@ $('#KitRadioFum').change(function(){
             }
             else {
               $.get('/search/userFromSample/'+sample._id,(user)=>{
-                if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
+                if(sample.fumonisina.active == true && sample.fumonisina.status=="Mapa de Trabalho" ) {
                       if(user.debt){
-                        scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                        scndFumonisina.addElement(sample.fumonisina.mapReference, {
                           id: "owner",
                           title: "Amostra " + sample.samplenumber,
                           analyst: sample.responsable,
-                          status: sample.aflatoxina.status,
+                          status: sample.fumonisina.status,
                           owner: "Devedor"
                         });
                       }
       
                       else {
-                       scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                       scndFumonisina.addElement(sample.fumonisina.mapReference, {
                           id: sample.samplenumber,
                           title: "Amostra " + sample.samplenumber,
                           analyst: sample.responsable,
-                          status: sample.aflatoxina.status
+                          status: sample.fumonisina.status
                        });
                     }
       
@@ -2330,7 +2330,7 @@ $('#KitRadioFum').change(function(){
 
   })
 });
-
+//alterar daqui pra frente
 var nowT2Kit;
 var t2Limit=0;
 
