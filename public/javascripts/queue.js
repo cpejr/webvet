@@ -1859,10 +1859,11 @@ $('#KitRadioAfla').click(function(){//não repete
 
         }
       });//for each kit
-      $.get('/search/samples', (samples) => {
-              samples.forEach((sample) => {
-                if(sample.isCalibrator) {
-                  $.get('/search/getKit/'+nowAflaKit,(kit)=>{
+      $.get('/search/getKit/'+nowAflaKit,(kit)=>{
+          $.get('/search/samples', (samples) => {
+            samples.forEach((sample) => {
+              if(sample.isCalibrator) {
+                if(sample.aflatoxina.mapReference=='Sem mapa') {
                     if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
                       scndAflatoxina.addElement("_calibrator", {
                         id: sample.name,
@@ -1870,39 +1871,64 @@ $('#KitRadioAfla').click(function(){//não repete
                         calibrator: true,
                         calID:sample._id
                       });
+                      console.log(sample.name)
+                    
                     }
-                  })
-                 
-
                 }
-              $.get('/search/userFromSample/'+sample._id,(user)=>{
-                if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
-                      if(user.debt){
-                        scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-                          id: "owner",
-                          title: "Amostra " + sample.samplenumber,
-                          analyst: sample.responsable,
-                          status: sample.aflatoxina.status,
-                          owner: "Devedor"
-                        });
-                      }
-
-                      else {
-                       scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-                          id: sample.samplenumber,
-                          title: "Amostra " + sample.samplenumber,
-                          analyst: sample.responsable,
-                          status: sample.aflatoxina.status
-                       });
-                    }
-
+              }
+            });
+          });
+        }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        }); 
+       $.get('/search/getKit/'+nowAflaKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
+          kit.mapArray.forEach((mapID) => {
+            $.get('/search/getWorkmap/'+mapID,(workmap)=>{
+              workmap.samplesArray.forEach((sampleID)=>{
+                $.get('/search/getOneSample/'+sampleID,(sample)=>{
+                  if(sample.isCalibrator) {
+                      scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                        id: sample.name,
+                          title:  sample.name,
+                          calibrator: true,
+                          calID:sample._id
+                      });
+                }
+                else {
+                  $.get('/search/userFromSample/'+sample._id,(user)=>{
+                    if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
+                          if(user.debt){
+                            scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                              id: "owner",
+                              title: "Amostra " + sample.samplenumber,
+                              analyst: sample.responsable,
+                              status: sample.aflatoxina.status,
+                              owner: "Devedor"
+                            });
+                          }
+          
+                          else {
+                           scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                              id: sample.samplenumber,
+                              title: "Amostra " + sample.samplenumber,
+                              analyst: sample.responsable,
+                              status: sample.aflatoxina.status
+                           });
+                        }
+          
+                   }
+      
+                 });
                }
-               })
+                });
               });
+           });
+          });
       }).catch((error) => {
         console.log(error);
         res.redirect('/error');
-      });
+      }); //end of the allocation of workmaps
     
   })
 
@@ -1972,22 +1998,38 @@ $('#KitRadioOcra').change(function(){
          }
 
      })//for each
-     $.get('/search/getKit/'+nowOcraKit,(kit)=>{
+     $.get('/search/samples', (samples) => {
+      samples.forEach((sample) => {
+        if(sample.isCalibrator) {
+           if(sample.ocratoxina.mapReference=='Sem mapa') {
+              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                scndAflatoxina.addElement("_calibrator", {
+                  id: sample.name,
+                  title:  sample.name,
+                  calibrator: true,
+                  calID:sample._id
+                });
+              
+              }
+           }
+        }
+      });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    }); 
+     $.get('/search/getKit/'+nowOcraKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
         kit.mapArray.forEach((mapID) => {
           $.get('/search/getWorkmap/'+mapID,(workmap)=>{
             workmap.samplesArray.forEach((sampleID)=>{
               $.get('/search/getOneSample/'+sampleID,(sample)=>{
                 if(sample.isCalibrator) {
-            
-                  if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                    scndAflatoxina.addElement(sample.ocratoxina.mapReference,, {
+                    scndAflatoxina.addElement(sample.ocratoxina.mapReference, {
                       id: sample.name,
-                      title:  sample.name,
+                        title:  sample.name,
+                        calibrator: true,
+                        calID:sample._id
                     });
-                  }
-                
-               
-    
               }
               else {
                 $.get('/search/userFromSample/'+sample._id,(user)=>{
@@ -2028,7 +2070,7 @@ $('#KitRadioOcra').change(function(){
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
-    });
+    }); //end of the allocation of workmaps
  
   });
 
@@ -2215,51 +2257,76 @@ $('#KitRadioFum').change(function(){
          }
 
      })//kit foreacj
-     $.get('/search/samples', (samples) => {
+     $.get('/search/getKit/'+nowFumKit,(kit)=>{
+      $.get('/search/samples', (samples) => {
         samples.forEach((sample) => {
           if(sample.isCalibrator) {
-            $.get('/search/getKit/'+nowFumKit,(kit)=>{
-              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                scndAflatoxina.addElement("_calibrator", {
-                  id: sample.name,
-                  title:  sample.name,
-                  calibrator: true,
-                  calID:sample._id
-                });
-              }
-            })
-           
-
-          }
-        $.get('/search/userFromSample/'+sample._id,(user)=>{
-          if(sample.fumonisina.active == true && sample.fumonisina.status=="Mapa de Trabalho" ) {
-                if(user.debt){
-                  scndFumonisina.addElement(sample.fumonisina.mapReference, {
-                    id: "owner",
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.fumonisina.status,
-                    owner: "Devedor"
+            if(sample.fumonisina.mapReference=='Sem mapa') {
+                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                  scndFumonisina.addElement("_calibrator", {//mjudar daqui pra frente
+                    id: sample.name,
+                    title:  sample.name,
+                    calibrator: true,
+                    calID:sample._id
                   });
+                  console.log(sample.name)
+                
                 }
-
-                else {
-                 scndFumonisina.addElement(sample.fumonisina.mapReference, {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.fumonisina.status
-                 });
-              }
-
-         }
-         })
+            }
+          }
         });
-     
+      });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
-    });
+    }); 
+   $.get('/search/getKit/'+nowAflaKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
+      kit.mapArray.forEach((mapID) => {
+        $.get('/search/getWorkmap/'+mapID,(workmap)=>{
+          workmap.samplesArray.forEach((sampleID)=>{
+            $.get('/search/getOneSample/'+sampleID,(sample)=>{
+              if(sample.isCalibrator) {
+                  scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                    id: sample.name,
+                      title:  sample.name,
+                      calibrator: true,
+                      calID:sample._id
+                  });
+            }
+            else {
+              $.get('/search/userFromSample/'+sample._id,(user)=>{
+                if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
+                      if(user.debt){
+                        scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                          id: "owner",
+                          title: "Amostra " + sample.samplenumber,
+                          analyst: sample.responsable,
+                          status: sample.aflatoxina.status,
+                          owner: "Devedor"
+                        });
+                      }
+      
+                      else {
+                       scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                          id: sample.samplenumber,
+                          title: "Amostra " + sample.samplenumber,
+                          analyst: sample.responsable,
+                          status: sample.aflatoxina.status
+                       });
+                    }
+      
+               }
+  
+             });
+           }
+            });
+          });
+       });
+      });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  }); //end of the allocation of workmaps
 
   })
 });
