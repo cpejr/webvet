@@ -2,12 +2,12 @@
   <h4>Mapas de Trabalho</h4>
 </div>
 
+<form action="/allsamples" method="post">
 
 <div class="templateprint row">
     <table class="table-afla-child ">
       <thead>
         <tr>
-          
           <th>AFLA</th>
           <th>Absorvancia</th>
         </tr>
@@ -19,14 +19,18 @@
             {{#compare aflatoxina.active true}}
               <tr>
                 <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[aflatoxina][_id]" type="text" value="{{_id}}">
+                </div>
+
                 <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
               </tr>
-            {{/compare}}    
+            {{/compare}}
           {{/compare}}
-        {{/each}}        
+        {{/each}}
 
       {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap1'}} 
+        {{#compare aflatoxina.mapReference '_workmap1'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -38,12 +42,12 @@
               <th>{{samplenumber}}</th>
               <th><input type="text" name = "sample[aflatoxina][absorbance]" class="input-absorbance"></th>
             </tr>
-            {{/compare}}    
+            {{/compare}}
         {{/compare}}
         {{/each}}
-         
+
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap2'}} 
+        {{#compare aflatoxina.mapReference '_workmap2'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -63,11 +67,11 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap3'}} 
+        {{#compare aflatoxina.mapReference '_workmap3'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
+
         {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap4'}}
          {{#compare aflatoxina.active true}}
@@ -82,12 +86,12 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap4'}} 
+        {{#compare aflatoxina.mapReference '_workmap4'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
-      
+
+
 
 
       {{#each amostras}}
@@ -104,7 +108,7 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap5'}} 
+        {{#compare aflatoxina.mapReference '_workmap5'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -125,13 +129,13 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap6'}} 
+        {{#compare aflatoxina.mapReference '_workmap6'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
-  
+
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap7'}}
           {{#compare aflatoxina.active true}}
@@ -146,7 +150,7 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap7'}} 
+        {{#compare aflatoxina.mapReference '_workmap7'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -167,7 +171,7 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap8'}} 
+        {{#compare aflatoxina.mapReference '_workmap8'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -187,13 +191,13 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap9'}} 
+        {{#compare aflatoxina.mapReference '_workmap9'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap10'}}
             {{#compare aflatoxina.active true}}
@@ -208,11 +212,11 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap10'}} 
+        {{#compare aflatoxina.mapReference '_workmap10'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -229,14 +233,14 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap11'}} 
+        {{#compare aflatoxina.mapReference '_workmap11'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
 
-     
+
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap12'}}
             {{#compare aflatoxina.active true}}
@@ -251,13 +255,13 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap12'}} 
+        {{#compare aflatoxina.mapReference '_workmap12'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap13'}}
           {{#compare aflatoxina.active true}}
@@ -272,11 +276,11 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap13'}} 
+        {{#compare aflatoxina.mapReference '_workmap13'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -293,7 +297,7 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap14'}} 
+        {{#compare aflatoxina.mapReference '_workmap14'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -314,7 +318,7 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap15'}} 
+        {{#compare aflatoxina.mapReference '_workmap15'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -333,12 +337,12 @@
 
 
          {{#each afla1}}
-        {{#compare aflatoxina.mapReference '_workmap16'}} 
+        {{#compare aflatoxina.mapReference '_workmap16'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
-        </tbody>  
+        </tbody>
       </table>
 
 
@@ -349,7 +353,7 @@
     <table class="table-afla">
       <thead>
         <tr>
-          
+
           <th>DON</th>
           <th>Absorvancia</th>
         </tr>
@@ -363,12 +367,12 @@
                 <th>{{samplenumber}}</th>
                 <th><input type="text" class="input-absorbance"></th>
               </tr>
-            {{/compare}}    
+            {{/compare}}
           {{/compare}}
-        {{/each}}        
+        {{/each}}
 
       {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap1'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap1'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -381,9 +385,9 @@
             </tr>
         {{/compare}}
         {{/each}}
-         
+
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap2'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap2'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -401,11 +405,11 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap3'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap3'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
+
         {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap4'}}
             <tr>
@@ -417,12 +421,12 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap4'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap4'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
-      
+
+
 
 
       {{#each amostras}}
@@ -436,7 +440,7 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap5'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap5'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -454,13 +458,13 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap6'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap6'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
-  
+
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap7'}}
             <tr>
@@ -472,7 +476,7 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap7'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap7'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -490,7 +494,7 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap8'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap8'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -507,13 +511,13 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap9'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap9'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap10'}}
             <tr>
@@ -525,11 +529,11 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap10'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap10'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -543,14 +547,14 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap11'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap11'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
 
-     
+
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap12'}}
             <tr>
@@ -562,13 +566,13 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap12'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap12'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap13'}}
             <tr>
@@ -580,11 +584,11 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap13'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap13'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -598,7 +602,7 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap14'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap14'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -616,7 +620,7 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap15'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap15'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -633,12 +637,12 @@
 
 
          {{#each don1}}
-        {{#compare deoxinivalenol.mapReference '_workmap16'}} 
+        {{#compare deoxinivalenol.mapReference '_workmap16'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
-        </tbody>  
+        </tbody>
       </table>
 
 
@@ -648,7 +652,7 @@
     <table class="table-afla">
       <thead>
         <tr>
-          
+
           <th>OTA</th>
           <th>Absorvancia</th>
         </tr>
@@ -662,12 +666,12 @@
                 <th>{{samplenumber}}</th>
                 <th><input type="text" class="input-absorbance"></th>
               </tr>
-            {{/compare}}    
+            {{/compare}}
           {{/compare}}
-        {{/each}}        
+        {{/each}}
 
       {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap1'}} 
+        {{#compare ocratoxina.mapReference '_workmap1'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -680,9 +684,9 @@
             </tr>
         {{/compare}}
         {{/each}}
-         
+
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap2'}} 
+        {{#compare ocratoxina.mapReference '_workmap2'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -700,11 +704,11 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap3'}} 
+        {{#compare ocratoxina.mapReference '_workmap3'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
+
         {{#each amostras}}
         {{#compare ocratoxina.mapReference '_workmap4'}}
             <tr>
@@ -716,12 +720,12 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap4'}} 
+        {{#compare ocratoxina.mapReference '_workmap4'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
-      
+
+
 
 
       {{#each amostras}}
@@ -735,7 +739,7 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap5'}} 
+        {{#compare ocratoxina.mapReference '_workmap5'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -753,13 +757,13 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap6'}} 
+        {{#compare ocratoxina.mapReference '_workmap6'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
-  
+
       {{#each amostras}}
         {{#compare ocratoxina.mapReference '_workmap7'}}
             <tr>
@@ -771,7 +775,7 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap7'}} 
+        {{#compare ocratoxina.mapReference '_workmap7'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -789,7 +793,7 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap8'}} 
+        {{#compare ocratoxina.mapReference '_workmap8'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -806,13 +810,13 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap9'}} 
+        {{#compare ocratoxina.mapReference '_workmap9'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare ocratoxina.mapReference '_workmap10'}}
             <tr>
@@ -824,11 +828,11 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap10'}} 
+        {{#compare ocratoxina.mapReference '_workmap10'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -842,14 +846,14 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap11'}} 
+        {{#compare ocratoxina.mapReference '_workmap11'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
 
-     
+
       {{#each amostras}}
         {{#compare ocratoxina.mapReference '_workmap12'}}
             <tr>
@@ -861,13 +865,13 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap12'}} 
+        {{#compare ocratoxina.mapReference '_workmap12'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare ocratoxina.mapReference '_workmap13'}}
             <tr>
@@ -879,11 +883,11 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap13'}} 
+        {{#compare ocratoxina.mapReference '_workmap13'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -897,7 +901,7 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap14'}} 
+        {{#compare ocratoxina.mapReference '_workmap14'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -915,7 +919,7 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap15'}} 
+        {{#compare ocratoxina.mapReference '_workmap15'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -932,12 +936,12 @@
 
 
          {{#each ota1}}
-        {{#compare ocratoxina.mapReference '_workmap16'}} 
+        {{#compare ocratoxina.mapReference '_workmap16'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
-        </tbody>  
+        </tbody>
       </table>
 
 
@@ -946,7 +950,7 @@
     <table class="table-afla ">
       <thead>
         <tr>
-          
+
           <th>T2</th>
           <th>Absorvancia</th>
         </tr>
@@ -960,12 +964,12 @@
                 <th>{{samplenumber}}</th>
                 <th><input type="text" class="input-absorbance"></th>
               </tr>
-            {{/compare}}    
+            {{/compare}}
           {{/compare}}
-        {{/each}}        
+        {{/each}}
 
       {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap1'}} 
+        {{#compare t2toxina.mapReference '_workmap1'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -978,9 +982,9 @@
             </tr>
         {{/compare}}
         {{/each}}
-         
+
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap2'}} 
+        {{#compare t2toxina.mapReference '_workmap2'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -998,11 +1002,11 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap3'}} 
+        {{#compare t2toxina.mapReference '_workmap3'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
+
         {{#each amostras}}
         {{#compare t2toxina.mapReference '_workmap4'}}
             <tr>
@@ -1014,12 +1018,12 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap4'}} 
+        {{#compare t2toxina.mapReference '_workmap4'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
-      
+
+
 
 
       {{#each amostras}}
@@ -1033,7 +1037,7 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap5'}} 
+        {{#compare t2toxina.mapReference '_workmap5'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1051,13 +1055,13 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap6'}} 
+        {{#compare t2toxina.mapReference '_workmap6'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
-  
+
       {{#each amostras}}
         {{#compare t2toxina.mapReference '_workmap7'}}
             <tr>
@@ -1069,7 +1073,7 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap7'}} 
+        {{#compare t2toxina.mapReference '_workmap7'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1087,7 +1091,7 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap8'}} 
+        {{#compare t2toxina.mapReference '_workmap8'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1104,13 +1108,13 @@
 
 
         {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap9'}} 
+        {{#compare t2toxina.mapReference '_workmap9'}}
          <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare t2toxina.mapReference '_workmap10'}}
             <tr>
@@ -1122,11 +1126,11 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap10'}} 
+        {{#compare t2toxina.mapReference '_workmap10'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -1140,14 +1144,14 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap11'}} 
+        {{#compare t2toxina.mapReference '_workmap11'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
 
-     
+
       {{#each amostras}}
         {{#compare t2toxina.mapReference '_workmap12'}}
             <tr>
@@ -1159,13 +1163,13 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap12'}} 
+        {{#compare t2toxina.mapReference '_workmap12'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare t2toxina.mapReference '_workmap13'}}
             <tr>
@@ -1177,11 +1181,11 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap13'}} 
+        {{#compare t2toxina.mapReference '_workmap13'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -1195,7 +1199,7 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap14'}} 
+        {{#compare t2toxina.mapReference '_workmap14'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1213,7 +1217,7 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap15'}} 
+        {{#compare t2toxina.mapReference '_workmap15'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1230,20 +1234,20 @@
 
 
          {{#each t2}}
-        {{#compare t2toxina.mapReference '_workmap16'}} 
+        {{#compare t2toxina.mapReference '_workmap16'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
-        </tbody>  
+        </tbody>
       </table>
 
 
-      
+
     <table class="table-afla ">
       <thead>
         <tr>
-          
+
           <th>ZEA</th>
           <th>Absorvancia</th>
         </tr>
@@ -1257,12 +1261,12 @@
                 <th>{{samplenumber}}</th>
                 <th><input type="text" class="input-absorbance"></th>
               </tr>
-            {{/compare}}    
+            {{/compare}}
           {{/compare}}
-        {{/each}}        
+        {{/each}}
 
       {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap1'}} 
+        {{#compare zearalenona.mapReference '_workmap1'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1275,9 +1279,9 @@
             </tr>
         {{/compare}}
         {{/each}}
-         
+
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap2'}} 
+        {{#compare zearalenona.mapReference '_workmap2'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1295,11 +1299,11 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap3'}} 
+        {{#compare zearalenona.mapReference '_workmap3'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
+
         {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap4'}}
             <tr>
@@ -1311,12 +1315,12 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap4'}} 
+        {{#compare zearalenona.mapReference '_workmap4'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
-      
+
+
 
 
       {{#each amostras}}
@@ -1330,7 +1334,7 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap5'}} 
+        {{#compare zearalenona.mapReference '_workmap5'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1348,13 +1352,13 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap6'}} 
+        {{#compare zearalenona.mapReference '_workmap6'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
-  
+
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap7'}}
             <tr>
@@ -1366,7 +1370,7 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap7'}} 
+        {{#compare zearalenona.mapReference '_workmap7'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1384,7 +1388,7 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap8'}} 
+        {{#compare zearalenona.mapReference '_workmap8'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1401,13 +1405,13 @@
 
 
         {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap9'}} 
+        {{#compare zearalenona.mapReference '_workmap9'}}
          <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap10'}}
             <tr>
@@ -1419,11 +1423,11 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap10'}} 
+        {{#compare zearalenona.mapReference '_workmap10'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -1437,14 +1441,14 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap11'}} 
+        {{#compare zearalenona.mapReference '_workmap11'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
 
-     
+
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap12'}}
             <tr>
@@ -1456,13 +1460,13 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap12'}} 
+        {{#compare zearalenona.mapReference '_workmap12'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap13'}}
             <tr>
@@ -1474,11 +1478,11 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap13'}} 
+        {{#compare zearalenona.mapReference '_workmap13'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -1492,7 +1496,7 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap14'}} 
+        {{#compare zearalenona.mapReference '_workmap14'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1510,7 +1514,7 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap15'}} 
+        {{#compare zearalenona.mapReference '_workmap15'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1527,12 +1531,12 @@
 
 
          {{#each zea}}
-        {{#compare zearalenona.mapReference '_workmap16'}} 
+        {{#compare zearalenona.mapReference '_workmap16'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
-        </tbody>  
+        </tbody>
       </table>
 
 
@@ -1540,7 +1544,7 @@
 <table class="table-afla ">
       <thead>
         <tr>
-          
+
           <th>FBs</th>
           <th>Absorvancia</th>
         </tr>
@@ -1554,12 +1558,12 @@
                 <th>{{samplenumber}}</th>
                 <th><input type="text" class="input-absorbance"></th>
               </tr>
-            {{/compare}}    
+            {{/compare}}
           {{/compare}}
-        {{/each}}        
+        {{/each}}
 
       {{#each zea}}
-        {{#compare fumonisina.mapReference '_workmap1'}} 
+        {{#compare fumonisina.mapReference '_workmap1'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1572,9 +1576,9 @@
             </tr>
         {{/compare}}
         {{/each}}
-         
+
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap2'}} 
+        {{#compare fumonisina.mapReference '_workmap2'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1592,11 +1596,11 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap3'}} 
+        {{#compare fumonisina.mapReference '_workmap3'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
+
         {{#each amostras}}
         {{#compare fumonisina.mapReference '_workmap4'}}
             <tr>
@@ -1608,12 +1612,12 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap4'}} 
+        {{#compare fumonisina.mapReference '_workmap4'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-      
-      
+
+
 
 
       {{#each amostras}}
@@ -1627,7 +1631,7 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap5'}} 
+        {{#compare fumonisina.mapReference '_workmap5'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1645,13 +1649,13 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap6'}} 
+        {{#compare fumonisina.mapReference '_workmap6'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
-  
+
       {{#each amostras}}
         {{#compare fumonisina.mapReference '_workmap7'}}
             <tr>
@@ -1663,7 +1667,7 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap7'}} 
+        {{#compare fumonisina.mapReference '_workmap7'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1681,7 +1685,7 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap8'}} 
+        {{#compare fumonisina.mapReference '_workmap8'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1698,13 +1702,13 @@
 
 
         {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap9'}} 
+        {{#compare fumonisina.mapReference '_workmap9'}}
          <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare fumonisina.mapReference '_workmap10'}}
             <tr>
@@ -1716,11 +1720,11 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap10'}} 
+        {{#compare fumonisina.mapReference '_workmap10'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -1734,14 +1738,14 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap11'}} 
+        {{#compare fumonisina.mapReference '_workmap11'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
 
 
-     
+
       {{#each amostras}}
         {{#compare fumonisina.mapReference '_workmap12'}}
             <tr>
@@ -1753,13 +1757,13 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap12'}} 
+        {{#compare fumonisina.mapReference '_workmap12'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
-     
-     
+
+
+
       {{#each amostras}}
         {{#compare fumonisina.mapReference '_workmap13'}}
             <tr>
@@ -1771,11 +1775,11 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap13'}} 
+        {{#compare fumonisina.mapReference '_workmap13'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-     
+
 
 
       {{#each amostras}}
@@ -1789,7 +1793,7 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap14'}} 
+        {{#compare fumonisina.mapReference '_workmap14'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1807,7 +1811,7 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap15'}} 
+        {{#compare fumonisina.mapReference '_workmap15'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
@@ -1824,12 +1828,12 @@
 
 
          {{#each fbs}}
-        {{#compare fumonisina.mapReference '_workmap16'}} 
+        {{#compare fumonisina.mapReference '_workmap16'}}
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
 
-        </tbody>  
+        </tbody>
       </table>
 
 
@@ -1846,7 +1850,6 @@
 </div>
 
 
-<form action="/allsamples" method="post">
 
   <div class="btn-abs">
     <button class="btn btn-success"  >Finalizar </button>

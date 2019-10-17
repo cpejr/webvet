@@ -16,18 +16,18 @@ router.get('/', (req, res) => {
   Sample.getAll().then((amostras)=>{
     var today = new Date();
     var hours = today.getHours();
-    var minutes = today.getMinutes(); 
+    var minutes = today.getMinutes();
     var scnds = today.getSeconds();
-    
+
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
     console.log(yyyy);
     console.log(mm);
     console.log(dd);
-    
+
     console.log('-------------------------------------------');
-    console.log(hours); 
+    console.log(hours);
     console.log(minutes);
     console.log(scnds);
     var afla1 = new Array;
@@ -51,16 +51,16 @@ router.get('/', (req, res) => {
 
 
     //so para salvar os espaços
-    
+
 
     for (let i = 0; i < amostras.length; i++) {
       if(amostras[i].aflatoxina.active == true){
-          
+
         if(amostras[i].aflatoxina.mapReference == '_workmap1' && aflamap[0] == 0){
           afla1[cont_afla] = amostras[i];
           cont_afla++;
           aflamap[0] = 1;
-        }  
+        }
         else if(amostras[i].aflatoxina.mapReference == '_workmap2'&& aflamap[1] == 0){
           afla1[cont_afla] = amostras[i];
           cont_afla++;
@@ -100,7 +100,7 @@ router.get('/', (req, res) => {
           afla1[cont_afla] = amostras[i];
           cont_afla++;
           aflamap[8] = 1;
-        }            
+        }
         else if(amostras[i].aflatoxina.mapReference == '_workmap9'&& aflamap[8] == 0){
           afla1[cont_afla] = amostras[i];
           cont_afla++;
@@ -142,10 +142,10 @@ router.get('/', (req, res) => {
           aflamap[15] = 1;
         }
       }
-    } 
+    }
 
 
-      
+
 
       //salvas os espaços
       for (let i = 0; i < amostras.length; i++) {
@@ -156,7 +156,7 @@ router.get('/', (req, res) => {
             don1[cont_don] = amostras[i];
             cont_don++;
             donmap[0] = 1;
-          }  
+          }
           else if(amostras[i].deoxinivalenol.mapReference == '_workmap2'&& donmap[1] == 0){
             don1[cont_don] = amostras[i];
             cont_don++;
@@ -196,7 +196,7 @@ router.get('/', (req, res) => {
             don1[cont_don] = amostras[i];
             cont_don++;
             donmap[8] = 1;
-          }            
+          }
           else if(amostras[i].deoxinivalenol.mapReference == '_workmap9'&& donmap[8] == 0){
             don1[cont_don] = amostras[i];
             cont_don++;
@@ -250,7 +250,7 @@ router.get('/', (req, res) => {
             ota1[cont_ota] = amostras[i];
             cont_ota++;
             otamap[0] = 1;
-          }  
+          }
           else if(amostras[i].ocratoxina.mapReference == '_workmap2'&& otamap[1] == 0){
             ota1[cont_ota] = amostras[i];
             cont_ota++;
@@ -290,7 +290,7 @@ router.get('/', (req, res) => {
             ota1[cont_ota] = amostras[i];
             cont_ota++;
             otamap[8] = 1;
-          }            
+          }
           else if(amostras[i].ocratoxina.mapReference == '_workmap9'&& otamap[8] == 0){
             ota1[cont_ota] = amostras[i];
             cont_ota++;
@@ -333,7 +333,7 @@ router.get('/', (req, res) => {
           }
         }
       }
-      
+
       //salvas os espaços
       for (let i = 0; i < amostras.length; i++) {
         if(amostras[i].t2toxina.active == true){
@@ -341,7 +341,7 @@ router.get('/', (req, res) => {
             t2[cont_t2] = amostras[i];
             cont_t2++;
             t2map[0] = 1;
-          }  
+          }
           else if(amostras[i].t2toxina.mapReference == '_workmap2'&& t2map[1] == 0){
             t2[cont_t2] = amostras[i];
             cont_t2++;
@@ -381,7 +381,7 @@ router.get('/', (req, res) => {
             t2[cont_t2] = amostras[i];
             cont_t2++;
             t2map[8] = 1;
-          }            
+          }
           else if(amostras[i].t2toxina.mapReference == '_workmap9'&& t2map[8] == 0){
             t2[cont_t2] = amostras[i];
             cont_t2++;
@@ -425,18 +425,18 @@ router.get('/', (req, res) => {
         }
       }
 
-      
+
 
 //salvas os espaços
       for (let i = 0; i < amostras.length; i++) {
-        
+
         if(amostras[i].zearalenona.active == true){
 
           if(amostras[i].zearalenona.mapReference == '_workmap1' && zeamap[0] == 0){
             zea[cont_zea] = amostras[i];
             cont_zea++;
             zeamap[0] = 1;
-          }  
+          }
           else if(amostras[i].zearalenona.mapReference == '_workmap2'&& zeamap[1] == 0){
             zea[cont_zea] = amostras[i];
             cont_zea++;
@@ -476,7 +476,7 @@ router.get('/', (req, res) => {
             zea[cont_zea] = amostras[i];
             cont_zea++;
             zeamap[8] = 1;
-          }            
+          }
           else if(amostras[i].zearalenona.mapReference == '_workmap9'&& zeamap[8] == 0){
             zea[cont_zea] = amostras[i];
             cont_zea++;
@@ -528,7 +528,7 @@ router.get('/', (req, res) => {
             fbs[cont_fbs] = amostras[i];
             cont_fbs++;
             fbsmap[0] = 1;
-          }  
+          }
           else if(amostras[i].fumonisina.mapReference == '_workmap2'&& fbsmap[1] == 0){
             fbs[cont_fbs] = amostras[i];
             cont_fbs++;
@@ -568,7 +568,7 @@ router.get('/', (req, res) => {
             fbs[cont_fbs] = amostras[i];
             cont_fbs++;
             fbsmap[8] = 1;
-          }            
+          }
           else if(amostras[i].fumonisina.mapReference == '_workmap9'&& fbsmap[8] == 0){
             fbs[cont_fbs] = amostras[i];
             cont_fbs++;
@@ -652,7 +652,7 @@ router.post('/',function(req,res,next){
       return b-a;
     }
     var cont = 0;
-    
+
     for (var i = 0; i < sample.length; i++) {
      if(cont < sample[i].ocratoxina.contador){
         cont = sample[i].ocratoxina.contador;
@@ -674,12 +674,12 @@ router.post('/',function(req,res,next){
       }
     }
 
-    
-//    cont.sort(sortNumber); // cont[0] = maior
-   
 
-   
-    
+//    cont.sort(sortNumber); // cont[0] = maior
+
+
+
+
     for (var i = 0; i < sample.length; i++) {
 
       if(sample[i].ocratoxina.mapReference != 'Sem mapa' && sample[i].ocratoxina.active == true){
@@ -691,7 +691,7 @@ router.post('/',function(req,res,next){
          console.log(error);
          });
       }
-      
+
       if(sample[i].aflatoxina.mapReference != 'Sem mapa'){
         afla_ativa.aflatoxina.status = sample[i].aflatoxina.status;
         afla_ativa.aflatoxina.mapReference = sample[i].aflatoxina.mapReference;
@@ -700,8 +700,8 @@ router.post('/',function(req,res,next){
          console.log(error);
          });
       }
-    
-      
+
+
       if(sample[i].t2toxina.mapReference != 'Sem mapa'){
         t2toxina_ativa.t2toxina.status = sample[i].t2toxina.status;
         t2toxina_ativa.t2toxina.mapReference = sample[i].t2toxina.mapReference;
@@ -720,7 +720,7 @@ router.post('/',function(req,res,next){
          });
       }
 
-      
+
       if(sample[i].zearalenona.mapReference != 'Sem mapa'){
         zearalenona_ativa.zearalenona.status = sample[i].zearalenona.status;
         zearalenona_ativa.zearalenona.mapReference = sample[i].zearalenona.mapReference;
@@ -729,7 +729,7 @@ router.post('/',function(req,res,next){
          console.log(error);
          });
       }
-     
+
       if(sample[i].deoxinivalenol.mapReference != 'Sem mapa'){
         deoxinivalenol_ativa.deoxinivalenol.status = sample[i].deoxinivalenol.status;
         deoxinivalenol_ativa.deoxinivalenol.mapReference = sample[i].deoxinivalenol.mapReference;
@@ -739,15 +739,35 @@ router.post('/',function(req,res,next){
          });
       }
     }
-    // var item = {
-    //   absorb: req.body.sample.aflatoxina.absorbance,
-    // }
-    Sample.updateAflaAbsorbance('5d9f642852f48c2acc5a27e3', '19').then(()=>{
-      res.render('previousmap', { title: 'Queue'});
+
+    const{id_a} = req.body.sample.aflatoxina;
+    var id_afla = req.body.sample.aflatoxina._id;
+    var abs_afla = req.body.sample.aflatoxina.absorbance;
+
+    for (let i = 0; i < abs_afla.length; i++) {
+      Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
+        console.log('--------------S-----------');
+        console.log(id_a);
+        
+  
+      }).catch((error)=>{
+        console.log(error);
+        res.redirect('/error');
+      });
+    }
+    
+
+
+
+    Sample.updatereport(sample[0]._id, 1).then(()=>{
+
     }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
+
+
+
   }).catch((error)=>{
     console.log(error);
   });

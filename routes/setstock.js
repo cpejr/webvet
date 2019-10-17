@@ -68,6 +68,6 @@ router.post('/', auth.isAuthenticated,  function(req,res) {
   console.log(error);
   res.redirect('/error');
    });
-
+   
 })
 });

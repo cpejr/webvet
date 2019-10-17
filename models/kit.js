@@ -194,7 +194,7 @@ class Kit {
       });
     });
   }
-
+  
   /**
     * Decreases  the amount in 1
     * @param {string} id - Kit Id

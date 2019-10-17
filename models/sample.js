@@ -145,6 +145,7 @@ class Sample {
     });
   }
 
+
   /**
    * Get a Sample by it's id
    * @param {string} id - Sample Id
@@ -278,6 +279,19 @@ class Sample {
     });
   }
 
+
+
+
+  static updatereport(id, report){
+    return new Promise((resolve,reject)=>{
+      SampleModel.update({_id:id},{$set:{report:report}}).then((result)=>{
+        resolve(result);
+      }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
+
   static updateAflaAbsorbance(id, absorbance){
     return new Promise((resolve, reject) => {
       SampleModel.update(
@@ -290,6 +304,76 @@ class Sample {
 
     });
   }
+
+  static updateOcraAbsorbance(id, absorbance){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
+
+
+  static updateDeoxAbsorbance(id, absorbance){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
+
+  static updateT2Absorbance(id, absorbance){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
+
+
+  static updateFumAbsorbance(id, absorbance){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
+
+
+  static updateZeaAbsorbance(id, absorbance){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
+
+
 }
 
 
