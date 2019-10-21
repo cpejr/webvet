@@ -13,7 +13,7 @@ var dragula = require("dragula");
 (function() {
   this.jKanban = function() {
     var self = this;
-    this._disallowedItemProperties = ['id', 'title', 'analyst', 'status','owner','calibrator','calID', 'click', 'drag', 'dragend', 'drop', 'order'];
+    this._disallowedItemProperties = ['id', 'title', 'analyst', 'status','owner','calibrator','calid', 'click', 'drag', 'dragend', 'drop', 'order'];
     this.element = "";
     this.container = "";
     this.boardContainer = [];
@@ -186,7 +186,7 @@ var dragula = require("dragula");
         nodeItem.setAttribute("data-eid", element.id);
         nodeItem.setAttribute("data-title", element.title);
         nodeItem.setAttribute("data-calibrator", element.calibrator);
-        nodeItem.setAttribute("data-calID", element.calID);
+        nodeItem.setAttribute("data-calid", element.calid);
         nodeItem.innerHTML = element.title;
       }
 
@@ -236,7 +236,7 @@ var dragula = require("dragula");
           nodeItem.setAttribute("data-eid", element.id);
           nodeItem.setAttribute("data-title", element.title);
           nodeItem.setAttribute("data-calibrator", element.calibrator);
-          nodeItem.setAttribute("data-calID", element.calID); }
+          nodeItem.setAttribute("data-calid", element.calid); }
 
       nodeItem.innerHTML = element.title;
       //add function
