@@ -43,12 +43,14 @@ router.get('/samples/:id', auth.isAuthenticated, function(req, res, next) {
   var teste1 = new Array;
   Requisition.getById(req.params.id).then((requisitions) => {
     amostras = requisitions.samples;
-    Sample.getById(amostras).then((tututu) => {
-      teste1[0] = tututu;
-      console.log ("DEEEEEEEEEEEEEU");
-      console.log (teste1[0]);
+      Sample.getById(amostras).then((tututu) => {
+        for (var i = 0; i < amostras.length; i++) {
+        teste1[i] = tututu[i];
+        console.log ("DEEEEEEEEEEEEEU");
+        console.log (teste1[i]);
+      }
       res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs', teste1});
-    })
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
