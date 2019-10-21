@@ -150,6 +150,7 @@ var scndAflatoxina = new jKanban({
       var calibrator=el.dataset.eid;
       if( el.dataset.calibrator) {//cards P não se movem para em analise
              return false
+      }
        else {
          $.post('/sample/scndTesting/edit/aflatoxina/' + samplenumber+'/'+nowAflaKit, () => {
 

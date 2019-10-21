@@ -342,40 +342,39 @@ router.post('/calibrator/edit/:mycotoxin/:calid/:kitID',  function(req, res, nex
 
   Sample.getById(req.params.calid).then((sampleedit) => {
     var mapPosition;
-    sampleedit.status = "Em análise";
 
     if (req.params.mycotoxin == "aflatoxina") {
-      sampleedit.aflatoxina.status = "Em análise";
+      sampleedit.aflatoxina.status = "Nova";
       mapPosition=sampleedit.aflatoxina.mapReference;
       sampleedit.aflatoxina.mapReference="Sem mapa";
     }
 
     if (req.params.mycotoxin == "ocratoxina") {
-      sampleedit.ocratoxina.status = "Em análise";
+      sampleedit.ocratoxina.status = "Nova";
       mapPosition=sampleedit.ocratoxina.mapReference;
       sampleedit.ocratoxina.mapReference="Sem mapa";
     }
 
     if (req.params.mycotoxin == "deoxinivalenol") {
-      sampleedit.deoxinivalenol.status = "Em análise";
+      sampleedit.deoxinivalenol.status = "Nova";
        mapPosition=sampleedit.deoxinivalenol.mapReference;
       sampleedit.deoxinivalenol.mapReference="Sem mapa";
     }
 
     if (req.params.mycotoxin == "t2toxina") {
-      sampleedit.t2toxina.status = "Em análise";
+      sampleedit.t2toxina.status = "Nova";
       mapPosition=sampleedit.t2toxina.mapReference;
       sampleedit.t2toxina.mapReference="Sem mapa";
     }
 
     if (req.params.mycotoxin == "fumonisina") {
-      sampleedit.fumonisina.status = "Em análise";
+      sampleedit.fumonisina.status = "Nova";
       mapPosition=sampleedit.fumonisina.mapReference;
       sampleedit.fumonisina.mapReference="Sem mapa";
     }
 
     if (req.params.mycotoxin == "zearalenona") {
-      sampleedit.zearalenona.status = "Em análise";
+      sampleedit.zearalenona.status = "Nova";
       mapPosition=sampleedit.zearalenona.mapReference;
         sampleedit.zearalenona.mapReference="Sem mapa";
     }
