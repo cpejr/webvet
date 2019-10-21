@@ -100,47 +100,32 @@ var scndAflatoxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.title.replace("Amostra","");
     var goTO=target;
-    console.log(goTO);
     if(target =='_calibrator'){
-        var strId=el.dataset.eid; //id do card
-        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
-               return false
-         }
-         else if( strId.indexOf("child")!=-1){ //basicamente todo elemento que contenha child no id
-           var id=el.dataset.eid;
-           scndAflatoxina.removeElement(id);
-        } else {
+        if( el.dataset.calibrator) {//soemente cards P  se movem
+
+          $.post('/sample/calibrator/edit/aflatoxina/'+el.dataset.calid+'/'+nowAflaKit,  () => {
+
+          });
+        }
+
+        else{
+               
           return false // impede outros cards de entrarem no board dos calibradores
 
         }
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
-        var calibrator=el.dataset.eid;
-        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
-
-              var sonNumber=IdAflaCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
+        if( el.dataset.calibrator) {//cards originais
+              
               var mapName=goTO.toString();
+              $.post('/sample/addponmap/aflatoxina/'+nowAflaKit+'/'+mapName+'/'+el.dataset.calid,  () => {
 
+              });
 
-              scndAflatoxina.addElementStandart( goTO,
-               {  id: el.dataset.eid +'child'+ sonNumber.toString(),
-                  title: el.dataset.eid,
+           
 
-               });
-
-
-          //     $.post('/sample/addPOnMap/aflatoxina/'+nowAflaKit+'/'+mapName+'/'+calibrator,  () => {
-
-            //   });
-
-
-           return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
-
-        } else if (calibrator.indexOf("child")!=-1) {
-
-              return false;
-        }
+        } 
 
         else {
           // $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber+'/'+goTO, () => {
@@ -163,13 +148,8 @@ var scndAflatoxina = new jKanban({
 
     if(target=='_scndTesting') {
       var calibrator=el.dataset.eid;
-      if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
+      if( el.dataset.calibrator) {//cards P não se movem para em analise
              return false
-
-       } else if (calibrator.indexOf("child")!=-1) {
-
-             return false;
-       }
        else {
          $.post('/sample/scndTesting/edit/aflatoxina/' + samplenumber+'/'+nowAflaKit, () => {
 
@@ -1877,10 +1857,10 @@ $('#KitRadioAfla').click(function(){//não repete
                         id: sample.name,
                         title:  sample.name,
                         calibrator: true,
-                        calID:sample._id
+                        calid:sample._id
                       });
                    
-                    
+                     
                     }
                 }
               }
@@ -1900,7 +1880,7 @@ $('#KitRadioAfla').click(function(){//não repete
                         id: sample.name,
                           title:  sample.name,
                           calibrator: true,
-                          calID:sample._id
+                          calid:sample._id
                       });
                 }
                 else {
@@ -2019,11 +1999,11 @@ $('#KitRadioOcra').change(function(){
         if(sample.isCalibrator) {
            if(sample.ocratoxina.mapReference=='Sem mapa') {
               if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                scndAflatoxina.addElement("_calibrator", {
+                scndOcratoxina.addElement("_calibrator", {
                   id: sample.name,
                   title:  sample.name,
                   calibrator: true,
-                  calID:sample._id
+                  calid:sample._id
                 });
               
               }
@@ -2040,11 +2020,11 @@ $('#KitRadioOcra').change(function(){
             workmap.samplesArray.forEach((sampleID)=>{
               $.get('/search/getOneSample/'+sampleID,(sample)=>{
                 if(sample.isCalibrator) {
-                    scndAflatoxina.addElement(sample.ocratoxina.mapReference, {
+                    scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
                       id: sample.name,
                         title:  sample.name,
                         calibrator: true,
-                        calID:sample._id
+                        calid:sample._id
                     });
               }
               else {
@@ -2175,7 +2155,7 @@ $('#KitRadioDeox').change(function(){
                         id: sample.name,
                         title:  sample.name,
                         calibrator: true,
-                        calID:sample._id
+                        calid:sample._id
                 });
               }
             })
@@ -2291,7 +2271,7 @@ $('#KitRadioFum').change(function(){
                     id: sample.name,
                     title:  sample.name,
                     calibrator: true,
-                    calID:sample._id
+                    calid:sample._id
                   });
                   console.log(sample.name)
                 
@@ -2314,7 +2294,7 @@ $('#KitRadioFum').change(function(){
                     id: sample.name,
                       title:  sample.name,
                       calibrator: true,
-                      calID:sample._id
+                      calid:sample._id
                   });
             }
             else {
@@ -2435,7 +2415,7 @@ $('#KitRadioT').change(function(){
                   id: sample.name,
                   title:  sample.name,
                   calibrator: true,
-                  calID:sample._id
+                  calid:sample._id
                 });
               }
             })
@@ -2557,7 +2537,7 @@ $('#KitRadioZ').change(function(){
                     id: sample.name,
                     title:  sample.name,
                     calibrator: true,
-                    calID:sample._id
+                    calid:sample._id
                   });
              
                 
@@ -2580,7 +2560,7 @@ $('#KitRadioZ').change(function(){
                     id: sample.name,
                       title:  sample.name,
                       calibrator: true,
-                      calID:sample._id
+                      calid:sample._id
                   });
             }
             else {

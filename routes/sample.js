@@ -338,13 +338,84 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID',  function(req, 
  });
 });
 
-router.post('/addPOnMap/:mycotoxin/:kitID/:mapreference/:calibrator',  function(req, res, next) {
-   Kit.getWorkmapsById(kit._id).then((mapArray)=>{//access the kit and get the workmaps
+router.post('/calibrator/edit/:mycotoxin/:calid/:kitID',  function(req, res, next) {//this function is for the second kanban
+
+  Sample.getById(req.params.calid).then((sampleedit) => {
+    var mapPosition;
+    sampleedit.status = "Em análise";
+
+    if (req.params.mycotoxin == "aflatoxina") {
+      sampleedit.aflatoxina.status = "Em análise";
+      mapPosition=sampleedit.aflatoxina.mapReference;
+      sampleedit.aflatoxina.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "ocratoxina") {
+      sampleedit.ocratoxina.status = "Em análise";
+      mapPosition=sampleedit.ocratoxina.mapReference;
+      sampleedit.ocratoxina.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "deoxinivalenol") {
+      sampleedit.deoxinivalenol.status = "Em análise";
+       mapPosition=sampleedit.deoxinivalenol.mapReference;
+      sampleedit.deoxinivalenol.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "t2toxina") {
+      sampleedit.t2toxina.status = "Em análise";
+      mapPosition=sampleedit.t2toxina.mapReference;
+      sampleedit.t2toxina.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "fumonisina") {
+      sampleedit.fumonisina.status = "Em análise";
+      mapPosition=sampleedit.fumonisina.mapReference;
+      sampleedit.fumonisina.mapReference="Sem mapa";
+    }
+
+    if (req.params.mycotoxin == "zearalenona") {
+      sampleedit.zearalenona.status = "Em análise";
+      mapPosition=sampleedit.zearalenona.mapReference;
+        sampleedit.zearalenona.mapReference="Sem mapa";
+    }
+    //in the next lines the mapReference is converted to number
+   var mapPosition = mapPosition.replace("_workmap", "");
+   mapPosition= Number(mapPosition)-1;//is necessary to subtract one, since the array starts with 0 instead of 1
+
+    Kit.getWorkmapsById(req.params.kitID).then((mapArray)=>{//get workmap of the current kit
+       Workmap.removeSample(mapArray[mapPosition],sampleedit._id).then(()=>{
+           Sample.update(sampleedit._id, sampleedit).then(() => {
+             console.log(sampleedit);
+             res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+           }).catch((error) => {
+             console.log(error);
+             res.redirect('/error');
+           });
+       }).catch((error) => {
+         console.log(error);
+         res.redirect('/error');
+       });
+
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
+ }).catch((error) => {
+   console.log(error);
+   res.redirect('/error');
+ });
+});
+
+router.post('/addponmap/:mycotoxin/:kitID/:mapreference/:calibrator',  function(req, res, next) {
+   Kit.getWorkmapsById(req.params.kitID).then((mapArray)=>{//access the kit and get the workmaps
     var mapPosition = req.params.mapreference;
-    var mapPosition = mapPosition.replace("_workmap", "");
-    var mapPosition= Number(mapPosition)-1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
+    mapPosition = mapPosition.replace("_workmap", "");
+     mapPosition= Number(mapPosition)-1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
     var originMapPosition;
     Sample.getById(req.params.calibrator).then((sampleC)=>{
+      console.log(sampleC)
       if (req.params.mycotoxin == "aflatoxina") { //bellow the sample atributes are seted
         sampleC.aflatoxina.status = "Mapa de Trabalho";
         originMapPosition=sampleC.aflatoxina.mapReference;
@@ -448,15 +519,14 @@ router.post('/addPOnMap/:mycotoxin/:kitID/:mapreference/:calibrator',  function(
 
 
 
-    })
-   });
-    
-
-
-
-
-
-
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+   }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 });
 
 router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(req, res, next) {
