@@ -92,7 +92,7 @@ var scndAflatoxina = new jKanban({
       id : '_calibrator',
       title  : 'Calibradores',
       class : 'success',
-     
+
     },
 
 
@@ -1288,7 +1288,7 @@ $.get('/search/samples', (samples) => {
                 });
 
               }
-              
+
             }
             if(sample.ocratoxina.status=="Em análise"||sample.ocratoxina.status=="Mapa de Trabalho") {
               if(user.debt) {
@@ -1299,7 +1299,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.ocratoxina.status,
                   owner: "Devedor"
                 });
-                
+
                 if(sample.ocratoxina.status=="Em análise") {
                   scndOcratoxina.addElement('_scndTesting', {
                    id: "owner",
@@ -1310,7 +1310,7 @@ $.get('/search/samples', (samples) => {
                   });
                 }
 
-              } 
+              }
 
               else {
                 ocratoxina.addElement('_testing', {
@@ -1330,8 +1330,8 @@ $.get('/search/samples', (samples) => {
                 }
 
               }
-             
-              
+
+
 
             }
             if(sample.ocratoxina.status=="Aguardando pagamento") {
@@ -1353,7 +1353,7 @@ $.get('/search/samples', (samples) => {
                 });
 
               }
-              
+
             }
             if(sample.ocratoxina.status=="Aguardando amostra") {
               if(user.debt) {
@@ -1375,7 +1375,7 @@ $.get('/search/samples', (samples) => {
                 });
               }
             }
-          
+
 
           }
 
@@ -1400,7 +1400,7 @@ $.get('/search/samples', (samples) => {
               });
 
               }
-             
+
             }
             if(sample.deoxinivalenol.status=="Em análise"||sample.deoxinivalenol.status=="Mapa de Trabalho") {
               if(user.debt) {
@@ -1421,7 +1421,7 @@ $.get('/search/samples', (samples) => {
                     });
                 }
               }
-              
+
               else {
                 deoxinivalenol.addElement('_testing', {
                   id: sample.samplenumber,
@@ -1439,8 +1439,8 @@ $.get('/search/samples', (samples) => {
                 }
 
               }
-              
-             
+
+
 
             }
             if(sample.deoxinivalenol.status=="Aguardando pagamento") { //continuar aqui
@@ -1461,7 +1461,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.deoxinivalenol.status
                 });
                }
-            
+
             }
             if(sample.deoxinivalenol.status=="Aguardando amostra") {
               if(user.debt) {
@@ -1481,7 +1481,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.deoxinivalenol.status
                 });
               }
-             
+
             }
           }
 
@@ -1506,7 +1506,7 @@ $.get('/search/samples', (samples) => {
                 });
 
                }
-             
+
             }
             if(sample.zearalenona.status=="Em análise"||sample.zearalenona.status=="Mapa de Trabalho") {
               if(user.debt){
@@ -1538,7 +1538,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.zearalenona.status
                 });
               }
-              
+
             }
             if(sample.zearalenona.status=="Aguardando pagamento") {
               if(user.debt) {
@@ -1558,7 +1558,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.zearalenona.status
                 });
               }
-             
+
             }
             if(sample.zearalenona.status=="Aguardando amostra") {
               if(user.debt) {
@@ -1578,9 +1578,9 @@ $.get('/search/samples', (samples) => {
                   status: sample.zearalenona.status
                 });
               }
-             
+
             }
-          
+
           }
 
           //T-2 TOXINA
@@ -1603,7 +1603,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.t2toxina.status
                 });
                }
-              
+
             }
             if(sample.t2toxina.status=="Em análise"||sample.t2toxina.status=="Mapa de Trabalho") {
               if(user.debt) {
@@ -1640,7 +1640,7 @@ $.get('/search/samples', (samples) => {
                   });
                 }
               }
-              
+
 
             }
             if(sample.t2toxina.status=="Aguardando pagamento") {
@@ -1661,7 +1661,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.t2toxina.status
                 });
               }
-             
+
             }
             if(sample.t2toxina.status=="Aguardando amostra") {
               if(user.debt){
@@ -1681,9 +1681,9 @@ $.get('/search/samples', (samples) => {
                   status: sample.t2toxina.status
                 });
               }
-             
+
             }
-            
+
           }
 
           //FUMOSININA
@@ -1706,7 +1706,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.fumonisina.status
                 });
               }
-             
+
             }
             if(sample.fumonisina.status=="Em análise"||sample.fumonisina.status=="Mapa de Trabalho") {
               if(user.debt){
@@ -1743,7 +1743,7 @@ $.get('/search/samples', (samples) => {
                   });
                 }
               }
-              
+
 
             }
             if(sample.fumonisina.status=="Aguardando pagamento") {
@@ -1772,7 +1772,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.fumonisina.status
                 });
               }
-              
+
             }
 
           }
@@ -1793,15 +1793,15 @@ $.get('/search/samples', (samples) => {
 var nowAflaKit;
 var aflaLimit=0;
 $('#KitRadioAfla').click(function(){//não repete
- 
+
   for(i=aflaLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndAflatoxina.removeBoard(board);
-  } 
+  }
   if(aflaLimit!=0) {
     var elementId;
      for(j=0;j<5;j++){
-         
+
       elementId= "P"+(j+1);
        scndAflatoxina.removeElement(elementId);
      }
@@ -1813,31 +1813,33 @@ $('#KitRadioAfla').click(function(){//não repete
               isSelected=false;
               kitToxin=kit.productCode;
           if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-            
-         
+
+
                if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
                    $('#hideAfla').removeClass('form-disabled');
                    aflaLimit=kit.stripLength;
                    nowAflaKit=kit._id;
                    aflacount = aflaLimit;
                    isSelected=true;
+                   document.getElementById("countkitsAfla").innerHTML = aflacount;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                    });
 
                }
-             
+
                 if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
-  
+
                     $('#hideAfla').removeClass('form-disabled');
                      aflaLimit=kit.stripLength;
                      nowAflaKit=kit._id;
                      aflacount = aflaLimit;
                      isSelected=true;
+                     document.getElementById("countkitsAfla").innerHTML = aflacount;
                      $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
-  
+
                      });
-  
+
                 }
               if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
                     $('#hideAfla').removeClass('form-disabled');
@@ -1845,6 +1847,7 @@ $('#KitRadioAfla').click(function(){//não repete
                     nowAflaKit=kit._id;
                     aflacount = aflaLimit;
                     isSelected=true;
+                    document.getElementById("countkitsAfla").innerHTML = aflacount;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                     });
@@ -1862,8 +1865,8 @@ $('#KitRadioAfla').click(function(){//não repete
                       )
                 }
                }
-             
-              
+
+
 
         }
       });//for each kit
@@ -1879,8 +1882,8 @@ $('#KitRadioAfla').click(function(){//não repete
                         calibrator: true,
                         calID:sample._id
                       });
-                   
-                    
+
+
                     }
                 }
               }
@@ -1889,7 +1892,7 @@ $('#KitRadioAfla').click(function(){//não repete
         }).catch((error) => {
           console.log(error);
           res.redirect('/error');
-        }); 
+        });
        $.get('/search/getKit/'+nowAflaKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
           kit.mapArray.forEach((mapID) => {
             $.get('/search/getWorkmap/'+mapID,(workmap)=>{
@@ -1915,7 +1918,7 @@ $('#KitRadioAfla').click(function(){//não repete
                               owner: "Devedor"
                             });
                           }
-          
+
                           else {
                            scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
                               id: sample.samplenumber,
@@ -1924,9 +1927,9 @@ $('#KitRadioAfla').click(function(){//não repete
                               status: sample.aflatoxina.status
                            });
                         }
-          
+
                    }
-      
+
                  });
                }
                 });
@@ -1937,7 +1940,7 @@ $('#KitRadioAfla').click(function(){//não repete
         console.log(error);
         res.redirect('/error');
       }); //end of the allocation of workmaps
-    
+
   })
 
 });
@@ -1948,20 +1951,20 @@ $('#KitRadioOcra').change(function(){
   for(i=ocraLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndOcratoxina.removeBoard(board);
-  } 
+  }
   if(ocraLimit!=0) {
     var elementId;
      for(j=0;j<5;j++){
-         
+
       elementId= "P"+(j+1);
        scndOcratoxina.removeElement(elementId);
      }
   }
   var isSelected=false;
   var   kitToxin;
-  
+
    $.get('/search/kits', (kits) => {
-       
+
        kits.forEach((kit) => {
              kitToxin=kit.productCode;
              isSelected=false;
@@ -1972,6 +1975,7 @@ $('#KitRadioOcra').change(function(){
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
                 isSelected=true;
+                document.getElementById("countkitsOcra").innerHTML = ocracount;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
@@ -1983,6 +1987,7 @@ $('#KitRadioOcra').change(function(){
                     nowOcraKit=kit._id;
                     ocracount = ocraLimit;
                     isSelected=true;
+                    document.getElementById("countkitsOcra").innerHTML = ocracount;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                     });
@@ -1993,11 +1998,12 @@ $('#KitRadioOcra').change(function(){
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
                 isSelected=true;
+                document.getElementById("countkitsOcra").innerHTML = ocracount;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
             }
-           
+
             if(isSelected){
               for(i=0;i<ocraLimit;i++){//the map 0 was defined before
                 scndOcratoxina.addBoards(
@@ -2009,7 +2015,7 @@ $('#KitRadioOcra').change(function(){
                     )
               }
             }
-          
+
 
          }
 
@@ -2025,7 +2031,7 @@ $('#KitRadioOcra').change(function(){
                   calibrator: true,
                   calID:sample._id
                 });
-              
+
               }
            }
         }
@@ -2033,7 +2039,7 @@ $('#KitRadioOcra').change(function(){
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
-    }); 
+    });
      $.get('/search/getKit/'+nowOcraKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
         kit.mapArray.forEach((mapID) => {
           $.get('/search/getWorkmap/'+mapID,(workmap)=>{
@@ -2059,7 +2065,7 @@ $('#KitRadioOcra').change(function(){
                             owner: "Devedor"
                           });
                         }
-        
+
                         else {
                          scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
                             id: sample.samplenumber,
@@ -2068,26 +2074,26 @@ $('#KitRadioOcra').change(function(){
                             status: sample.ocratoxina.status
                          });
                       }
-        
+
                  }
-    
+
                });
              }
               });
             });
-           
 
-         
+
+
          });
 
-          
-       
+
+
         });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     }); //end of the allocation of workmaps
- 
+
   });
 
 });
@@ -2099,11 +2105,11 @@ $('#KitRadioDeox').change(function(){
   for(i=deoxLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndDeoxinivalenol.removeBoard(board);
-  } 
+  }
   if(deoxLimit!=0) {
     var elementId;
      for(j=0;j<5;j++){
-         
+
       elementId= "P"+(j+1);
        scndDeoxinivalenol.removeElement(elementId);
      }
@@ -2111,7 +2117,7 @@ $('#KitRadioDeox').change(function(){
   var isSelected=false;
   var   kitToxin;
 
-    
+
    $.get('/search/kits', (kits) => {
        kits.forEach((kit) => {
         kitToxin=kit.productCode;
@@ -2124,6 +2130,7 @@ $('#KitRadioDeox').change(function(){
                 nowDeoxKit=kit._id;
                 deoxcount = deoxLimit;
                 isSelected=true;
+                document.getElementById("countkitsDeox").innerHTML = deoxcount;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                 });
@@ -2135,6 +2142,7 @@ $('#KitRadioDeox').change(function(){
                nowDeoxKit=kit._id;
                deoxcount = deoxLimit;
                isSelected=true;
+               document.getElementById("countkitsDeox").innerHTML = deoxcount;
                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                });
@@ -2145,11 +2153,12 @@ $('#KitRadioDeox').change(function(){
                  nowDeoxKit=kit._id;
                  deoxcount = deoxLimit;
                  isSelected=true;
+                 document.getElementById("countkitsDeox").innerHTML = deoxcount;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                  });
             }
-          
+
             if(isSelected){
               for(i=1;i<deoxLimit;i++){//the map 0 was defined before
                 scndDeoxinivalenol.addBoards(
@@ -2179,7 +2188,7 @@ $('#KitRadioDeox').change(function(){
                 });
               }
             })
-           
+
 
           }
         $.get('/search/userFromSample/'+sample._id,(user)=>{
@@ -2222,15 +2231,15 @@ $('#KitRadioFum').change(function(){
   for(i=fumLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndFumonisina.removeBoard(board);
-  } 
+  }
   var isSelected=false;
   var   kitToxin;
-     
+
    $.get('/search/kits', (kits) => {
        kits.forEach((kit) => {
         kitToxin=kit.productCode;
         isSelected=false;
-        
+
          if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
            if($('#KitFumA').is(':checked')&&kit.kitType=="A") {
                $('#hideFum').removeClass('form-disabled');
@@ -2238,6 +2247,7 @@ $('#KitRadioFum').change(function(){
                   nowFumKit=kit._id;
                   fumcount = fumLimit;
                   isSelected=true;
+                  document.getElementById("countkitsFumo").innerHTML = fumcount;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                   });
@@ -2249,6 +2259,7 @@ $('#KitRadioFum').change(function(){
                  nowFumKit=kit._id;
                  fumcount = fumLimit;
                  isSelected=true;
+                 document.getElementById("countkitsFumo").innerHTML = fumcount;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                  });
@@ -2259,11 +2270,12 @@ $('#KitRadioFum').change(function(){
                    nowFumKit=kit._id;
                    fumcount = fumLimit;
                    isSelected=true;
+                   document.getElementById("countkitsFumo").innerHTML = fumcount;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                    });
             }
-          
+
            if(isSelected) {
             for(i=1;i<fumLimit;i++){//the map 0 was defined before
               scndFumonisina.addBoards(
@@ -2275,7 +2287,7 @@ $('#KitRadioFum').change(function(){
                   )
             }
            }
-          
+
 
 
          }
@@ -2294,7 +2306,7 @@ $('#KitRadioFum').change(function(){
                     calID:sample._id
                   });
                   console.log(sample.name)
-                
+
                 }
             }
           }
@@ -2303,7 +2315,7 @@ $('#KitRadioFum').change(function(){
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
-    }); 
+    });
    $.get('/search/getKit/'+nowFumKitt,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
@@ -2329,7 +2341,7 @@ $('#KitRadioFum').change(function(){
                           owner: "Devedor"
                         });
                       }
-      
+
                       else {
                        scndFumonisina.addElement(sample.fumonisina.mapReference, {
                           id: sample.samplenumber,
@@ -2338,9 +2350,9 @@ $('#KitRadioFum').change(function(){
                           status: sample.fumonisina.status
                        });
                     }
-      
+
                }
-  
+
              });
            }
             });
@@ -2362,31 +2374,32 @@ $('#KitRadioT').change(function(){
   for(i=t2Limit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndT2toxina.removeBoard(board);
-  } 
+  }
 
   if(t2Limit!=0) {
     var elementId;
      for(j=0;j<5;j++){
-         
+
       elementId= "P"+(j+1);
        scndT2toxina.removeElement(elementId);
      }
   }
   var isSelected=false;
   var   kitToxin;
-  
+
    $.get('/search/kits', (kits) => {
        kits.forEach((kit) => {
         kitToxin=kit.productCode;
         isSelected=false;
          if(kitToxin.includes("T2")) {
-           
+
            if($('#KitTA').is(':checked')&&kit.kitType=="A") {
                $('#hideT').removeClass('form-disabled');
                   t2Limit=kit.stripLength;
                   nowT2Kit=kit._id;
                   t2count = t2Limit;
                   isSelected=true;
+                  document.getElementById("countkits").innerHTML = t2count;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                   });
@@ -2397,6 +2410,7 @@ $('#KitRadioT').change(function(){
                    t2Limit=kit.stripLength;
                    nowT2Kit=kit._id;
                    t2count = t2Limit;
+                   document.getElementById("countkits").innerHTML = t2count;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                   });
@@ -2407,11 +2421,12 @@ $('#KitRadioT').change(function(){
                     t2Limit=kit.stripLength;
                     nowT2Kit=kit._id;
                     t2count = t2Limit;
+                    document.getElementById("countkits").innerHTML = t2count;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                     });
             }
-           
+
             if(isSelected) {
               for(i=1;i<t2Limit;i++){//the map 0 was defined before
                 scndT2toxina.addBoards(
@@ -2425,7 +2440,7 @@ $('#KitRadioT').change(function(){
             }
          }
 
-     }) //kit 
+     }) //kit
      $.get('/search/samples', (samples) => {
         samples.forEach((sample) => {
           if(sample.isCalibrator) {
@@ -2439,7 +2454,7 @@ $('#KitRadioT').change(function(){
                 });
               }
             })
-           
+
 
           }
         $.get('/search/userFromSample/'+sample._id,(user)=>{
@@ -2466,13 +2481,13 @@ $('#KitRadioT').change(function(){
          }
          });
         });
-      
+
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
 
-  
+
   });
 });
 
@@ -2482,25 +2497,25 @@ $('#KitRadioZ').change(function(){
   for(i=zLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndZearalenona.removeBoard(board);
-  } 
+  }
   if(zLimit!=0) {
     var elementId;
      for(j=0;j<5;j++){
-         
+
       elementId= "P"+(j+1);
        scndZearalenona.removeElement(elementId);
      }
   }
   var isSelected=false;
   var   kitToxin;
-   
+
    $.get('/search/kits', (kits) => {
        kits.forEach((kit) => {
           kitToxin=kit.productCode;
           isSelected=false;
-         
+
          if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
-           
+
            if($('#KitZA').is(':checked')&&kit.kitType=="A") {
                $('#hideZ').removeClass('form-disabled');
                   zLimit=kit.stripLength;
@@ -2530,7 +2545,7 @@ $('#KitRadioZ').change(function(){
 
                    });
             }
-          
+
             if(isSelected) {
               for(i=1;i<zLimit;i++){//the map 0 was defined before
                 scndZearalenona.addBoards(
@@ -2542,11 +2557,11 @@ $('#KitRadioZ').change(function(){
                     )
               }
             }
-          
+
 
          }
 
-     }) //foreach 
+     }) //foreach
      $.get('/search/getKit/'+nowZKit,(kit)=>{
       $.get('/search/samples', (samples) => {
         samples.forEach((sample) => {
@@ -2559,8 +2574,8 @@ $('#KitRadioZ').change(function(){
                     calibrator: true,
                     calID:sample._id
                   });
-             
-                
+
+
                 }
             }
           }
@@ -2569,7 +2584,7 @@ $('#KitRadioZ').change(function(){
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
-    }); 
+    });
    $.get('/search/getKit/'+nowZKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
@@ -2595,7 +2610,7 @@ $('#KitRadioZ').change(function(){
                           owner: "Devedor"
                         });
                       }
-      
+
                       else {
                        scndFumonisina.addElement(sample.zearalenona.mapReference, {
                           id: sample.samplenumber,
@@ -2604,9 +2619,9 @@ $('#KitRadioZ').change(function(){
                           status: sample.zearalenona.status
                        });
                     }
-      
+
                }
-  
+
              });
            }
             });
@@ -2618,7 +2633,7 @@ $('#KitRadioZ').change(function(){
     res.redirect('/error');
   });
 
-   
+
   })
 });
 
