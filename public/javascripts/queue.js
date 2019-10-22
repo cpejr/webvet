@@ -454,7 +454,7 @@ var scndOcratoxina = new jKanban({
     }
 
     if(target=='_scndTesting') {
-      var calibrator=el.dataset.eid;
+    
       if( el.dataset.calibrator) {//cards P não se movem para em analise
              return false
        }
@@ -557,31 +557,7 @@ var scndT2toxina = new jKanban({
       id : '_calibrator',
       title  : 'Calibradores',
       class : 'success',
-      item: [
-          {
-            title:'P1',
-            id: 'P1'
-          },
-
-          {
-            title:'P2',
-            id: 'P2'
-          },
-
-          {
-            title:'P3',
-            id: 'P3'
-          },
-
-          {
-            title:'P4',
-            id: 'P4'
-          },
-          {
-            title:'P5',
-            id: 'P5'
-          }
-      ]
+      
     },
     {
       id : '_workmap1',
@@ -593,40 +569,27 @@ var scndT2toxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    console.log(goTO);
+  
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
-        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
-               return false
+        if( el.dataset.calibrator) {//cards P 
+          $.post('/sample/calibrator/edit/t2toxina/'+el.dataset.calid+'/'+nowT2Kit,  () => {
+
+          });
          }
-         else if( strId.indexOf("child")!=-1){ //basicamente todo elemento que contenha child no id
-           var id=el.dataset.eid;
-           scndT2toxina.removeElement(id);
-        } else {
+         else {
           return false // impede outros cards de entrarem no board dos calibradores
         }
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
-        var calibrator=el.dataset.eid;
-        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
-
-              var sonNumber=IdT2Count(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
-              scndT2toxina.addElementStandart( goTO,
-               {  id: el.dataset.eid +'child'+ sonNumber.toString(),
-                  title: el.dataset.eid,
-
-               });
-
-           return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
-
-         }   else if (calibrator.indexOf("child")) {
-
-                return false;
-
-
-         } else {
+        if( el.dataset.calibrator) {//cards P
           var mapName=goTO.toString();
+           $.post('/sample/addponmap/t2toxina/'+nowT2Kit+'/'+mapName+'/'+el.dataset.calid,  () => {
+
+              })
+         } else {
+           var mapName=goTO.toString();
 
           $.post('/sample/mapedit/t2toxina/' + samplenumber+'/'+nowT2Kit+'/'+mapName,  () => {
 
@@ -637,14 +600,11 @@ var scndT2toxina = new jKanban({
     }
 
     if(target=='_scndTesting') {
-        var calibrator=el.dataset.eid;
-      if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
+        
+      if( el.dataset.calibrator) {//cards P não se movem para em analise
              return false
        }
-       else if (calibrator.indexOf("child")!=-1) {
-
-             return false;
-       }
+      
        else {
          $.post('/sample/scndTesting/edit/t2toxina/' + samplenumber+'/'+nowT2Kit, () => {
 
