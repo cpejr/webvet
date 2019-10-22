@@ -559,11 +559,7 @@ var scndT2toxina = new jKanban({
       class : 'success',
       
     },
-    {
-      id : '_workmap1',
-      title  : 'Mapa de trabalho 1',
-      class : 'success',
-    },
+  
 
   ],
   dropEl : function (el, target, source, sibling) {
@@ -587,7 +583,7 @@ var scndT2toxina = new jKanban({
           var mapName=goTO.toString();
            $.post('/sample/addponmap/t2toxina/'+nowT2Kit+'/'+mapName+'/'+el.dataset.calid,  () => {
 
-              })
+              });
          } else {
            var mapName=goTO.toString();
 
@@ -708,73 +704,32 @@ var scndFumonisina = new jKanban({
       id : '_calibrator',
       title  : 'Calibradores',
       class : 'success',
-      item: [
-          {
-            title:'P1',
-            id: 'P1'
-          },
-
-          {
-            title:'P2',
-            id: 'P2'
-          },
-
-          {
-            title:'P3',
-            id: 'P3'
-          },
-
-          {
-            title:'P4',
-            id: 'P4'
-          },
-          {
-            title:'P5',
-            id: 'P5'
-          }
-      ]
     },
-    {
-      id : '_workmap1',
-      title  : 'Mapa de trabalho 1',
-      class : 'success',
-    },
+    
 
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    console.log(goTO);
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
-        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem
-               return false
+        if( el.dataset.calibrator) {//cards P 
+            $.post('/sample/calibrator/edit/fumonisina/'+el.dataset.calid+'/'+nowFumKit,  () => {
+
+            });        
          }
-         else if( strId.indexOf("child")!=-1){ //basicamente todo elemento que contenha child no id
-           var id=el.dataset.eid;
-           scndFumonisina.removeElement(id);
-        } else {
+         else {
           return false // impede outros cards de entrarem no board dos calibradores
         }
     }
 
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
-        var calibrator=el.dataset.eid
-        if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards originais
+    
+        if( el.dataset.calibrator) {//cards originais
+           var mapName=goTO.toString();
+           $.post('/sample/addponmap/fumonisina/'+nowFumKit+'/'+mapName+'/'+el.dataset.calid,  () => {
 
-              var sonNumber=IdFumCount(); //essa função gera os id dos childs dos cards, para que estes naa tenham msm id
-              scndFumonisina.addElementStandart( goTO,
-               {  id: el.dataset.eid +'child'+ sonNumber.toString(),
-                  title: el.dataset.eid,
-
-               });
-
-           return false; // um card chil é criado no board alvo, mas o original retorna aos calibradores
-
-         }   else if (calibrator.indexOf("child")!=-1) {
-
-                return false;
-
+          })
 
          } else {
           var mapName=goTO.toString();
@@ -789,14 +744,9 @@ var scndFumonisina = new jKanban({
     }
 
     if(target=='_scndTesting') {
-        var calibrator=el.dataset.eid;
-      if( el.dataset.eid=='P1'||el.dataset.eid=='P2'||el.dataset.eid=='P3'||el.dataset.eid=='P4'||el.dataset.eid=='P5') {//cards P não se movem para em analise
+       
+      if( el.dataset.calibrator) {//cards P não se movem para em analise
              return false
-       }
-
-       else if (calibrator.indexOf("child")!=-1) {
-
-             return false;
        }
 
        else {
