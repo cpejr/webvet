@@ -626,31 +626,18 @@ router.get('/', (req, res) => {
 
 router.post('/',function(req,res,next){
   Sample.getAll().then((sample)=>{
-    const ativa = {
-        ocratoxina:{active:0,status:"xxx", mapReference:"sess",contador: 10},
-    };
-    const afla_ativa = {
-      aflatoxina:{active: 0,status:"xxx",mapReference:"sess",contador: 10},
-    };
-    const t2toxina_ativa = {
-      t2toxina:{active: 0 , status:"xxx", mapReference:"sess",contador:10}
-    };
+    var id_afla = req.body.sample.aflatoxina._id;
+    var abs_afla = req.body.sample.aflatoxina.absorbance;
 
-    const fumonisina_ativa = {
-      fumonisina:{active: 0, status:"xxx", mapReference:"sess",contador:10}
-    };
+     for (let i = 0; i < abs_afla.length; i++) {
+        Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }
 
-    const zearalenona_ativa = {
-      zearalenona:{active:0 ,status:"xxx",mapReference:"sess",contador:10}
-    };
-
-    const deoxinivalenol_ativa = {
-      deoxinivalenol:{active: 0,status:"xxx",mapReference:"sess",contador:10}
-    };
-
-    function sortNumber(a, b) {
-      return b-a;
-    }
+     
+    
     var cont = 0;
 
     for (var i = 0; i < sample.length; i++) {
@@ -675,98 +662,89 @@ router.post('/',function(req,res,next){
     }
 
 
-//    cont.sort(sortNumber); // cont[0] = maior
 
-
-
-
+    
     for (var i = 0; i < sample.length; i++) {
 
       if(sample[i].ocratoxina.mapReference != 'Sem mapa' && sample[i].ocratoxina.active == true){
-        ativa.ocratoxina.status = sample[i].ocratoxina.status;
-        ativa.ocratoxina.mapReference = sample[i].ocratoxina.mapReference;
-        ativa.ocratoxina.contador = cont +1;
-        Sample.update(sample[i]._id,ativa).then(()=>{
+        Sample.updateOcraWorkmap(sample[i]._id,cont+1).then(()=>{
         }).catch((error)=>{
          console.log(error);
          });
+         Sample.updateOcraActive(sample[i]._id,false).then(()=>{
+        }).catch((error)=>{
+       console.log(error);
+       });
+         
+         
       }
 
-      if(sample[i].aflatoxina.mapReference != 'Sem mapa'){
-        afla_ativa.aflatoxina.status = sample[i].aflatoxina.status;
-        afla_ativa.aflatoxina.mapReference = sample[i].aflatoxina.mapReference;
-        Sample.update(sample[i]._id,afla_ativa).then(()=>{
+      if(sample[i].aflatoxina.mapReference != 'Sem mapa' &&sample[i].aflatoxina.active == true ){
+        Sample.updateAflaWorkmap(sample[i]._id,cont+1).then(()=>{
         }).catch((error)=>{
          console.log(error);
          });
-      }
-
-
-      if(sample[i].t2toxina.mapReference != 'Sem mapa'){
-        t2toxina_ativa.t2toxina.status = sample[i].t2toxina.status;
-        t2toxina_ativa.t2toxina.mapReference = sample[i].t2toxina.mapReference;
-        Sample.update(sample[i]._id,t2toxina_ativa).then(()=>{
-        }).catch((error)=>{
+         Sample.updateAflaActive(sample[i]._id,false).then(()=>{
+          }).catch((error)=>{
          console.log(error);
-         });
-      }
-
-      if(sample[i].fumonisina.mapReference != 'Sem mapa'){
-        fumonisina_ativa.fumonisina.status = sample[i].fumonisina.status;
-        fumonisina_ativa.fumonisina.mapReference = sample[i].fumonisina.mapReference;
-        Sample.update(sample[i]._id,fumonisina_ativa).then(()=>{
-        }).catch((error)=>{
-         console.log(error);
-         });
-      }
-
-
-      if(sample[i].zearalenona.mapReference != 'Sem mapa'){
-        zearalenona_ativa.zearalenona.status = sample[i].zearalenona.status;
-        zearalenona_ativa.zearalenona.mapReference = sample[i].zearalenona.mapReference;
-        Sample.update(sample[i]._id,zearalenona_ativa).then(()=>{
-        }).catch((error)=>{
-         console.log(error);
-         });
-      }
-
-      if(sample[i].deoxinivalenol.mapReference != 'Sem mapa'){
-        deoxinivalenol_ativa.deoxinivalenol.status = sample[i].deoxinivalenol.status;
-        deoxinivalenol_ativa.deoxinivalenol.mapReference = sample[i].deoxinivalenol.mapReference;
-        Sample.update(sample[i]._id,deoxinivalenol_ativa).then(()=>{
-        }).catch((error)=>{
-         console.log(error);
-         });
-      }
-    }
-
-    const{id_a} = req.body.sample.aflatoxina;
-    var id_afla = req.body.sample.aflatoxina._id;
-    var abs_afla = req.body.sample.aflatoxina.absorbance;
-
-    for (let i = 0; i < abs_afla.length; i++) {
-      Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
-        console.log('--------------S-----------');
-        console.log(id_a);
+         });  
+         
         
-  
-      }).catch((error)=>{
+      }
+      
+      if(sample[i].deoxinivalenol.mapReference != 'Sem mapa' && sample[i].deoxinivalenol.active == true ){
+        Sample.updateDeoxWorkmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+         Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
+          }).catch((error)=>{
         console.log(error);
-        res.redirect('/error');
-      });
+        });
+      }
+
+      if(sample[i].t2toxina.mapReference != 'Sem mapa' && sample[i].t2toxina.active == true ){
+        Sample.updateT2Workmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+         Sample.updateT2Active(sample[i]._id,false).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }
+      
+      if(sample[i].fumonisina.mapReference != 'Sem mapa' && sample[i].fumonisina.active == true ){
+        Sample.updatefumWorkmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+         Sample.updateFumActive(sample[i]._id,false).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+
+      }
+
+      if(sample[i].zearalenona.mapReference != 'Sem mapa' && sample[i].zearalenona.active == true ){
+        Sample.updateZeaWorkmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+         Sample.updateZeaActive(sample[i]._id,false).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+        
+
+      }
     }
-    
 
 
 
-    Sample.updatereport(sample[0]._id, 1).then(()=>{
-
-    }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
 
 
+    res.redirect('/allsamples');
 
   }).catch((error)=>{
     console.log(error);

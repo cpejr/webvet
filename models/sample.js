@@ -292,11 +292,11 @@ class Sample {
     });
   }
 
-  static updateAflaAbsorbance(id, absorbance){
+  static updateAflaAbsorbance(id, abs){
     return new Promise((resolve, reject) => {
       SampleModel.update(
         {_id: id},
-        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        {$set: {'aflatoxina.absorbance': abs}}).then((result) =>{
         resolve(result);
       }).catch(err =>{
         reject(err);
@@ -305,11 +305,11 @@ class Sample {
     });
   }
 
-  static updateOcraAbsorbance(id, absorbance){
+  static updateAflaWorkmap(id, cont){
     return new Promise((resolve, reject) => {
       SampleModel.update(
         {_id: id},
-        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        {$set: {'aflatoxina.contador': cont}}).then((result) =>{
         resolve(result);
       }).catch(err =>{
         reject(err);
@@ -318,12 +318,11 @@ class Sample {
     });
   }
 
-
-  static updateDeoxAbsorbance(id, absorbance){
+  static updateOcraWorkmap(id, cont){
     return new Promise((resolve, reject) => {
       SampleModel.update(
         {_id: id},
-        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        {$set: {'ocratoxina.contador': cont}}).then((result) =>{
         resolve(result);
       }).catch(err =>{
         reject(err);
@@ -332,11 +331,11 @@ class Sample {
     });
   }
 
-  static updateT2Absorbance(id, absorbance){
+  static updateDeoxWorkmap(id, cont){
     return new Promise((resolve, reject) => {
       SampleModel.update(
         {_id: id},
-        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        {$set: {'deoxinivalenol.contador': cont}}).then((result) =>{
         resolve(result);
       }).catch(err =>{
         reject(err);
@@ -345,12 +344,11 @@ class Sample {
     });
   }
 
-
-  static updateFumAbsorbance(id, absorbance){
+  static updateT2Workmap(id, cont){
     return new Promise((resolve, reject) => {
       SampleModel.update(
         {_id: id},
-        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        {$set: {'t2toxina.contador': cont}}).then((result) =>{
         resolve(result);
       }).catch(err =>{
         reject(err);
@@ -359,12 +357,11 @@ class Sample {
     });
   }
 
-
-  static updateZeaAbsorbance(id, absorbance){
+  static updatefumWorkmap(id, cont){
     return new Promise((resolve, reject) => {
       SampleModel.update(
         {_id: id},
-        {$set: {'aflatoxina.absorbance': absorbance}}).then((result) =>{
+        {$set: {'fumonisina.contador': cont}}).then((result) =>{
         resolve(result);
       }).catch(err =>{
         reject(err);
@@ -373,7 +370,79 @@ class Sample {
     });
   }
 
+  static updateZeaWorkmap(id, cont){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'zearalenona.contador': cont}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
 
+    });
+  }
+
+  static updateAflaActive(id,ativo){
+    return new Promise((resolve,reject)=>{
+      SampleModel.update({_id:id},{$set:{'aflatoxina.active': ativo}}).then((result)=>{
+        resolve(result);
+      }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
+
+
+  static updateOcraActive(id,ativo){
+    return new Promise((resolve,reject)=>{
+      SampleModel.update({_id:id},{$set:{'ocratoxina.active': ativo}}).then((result)=>{
+        resolve(result);
+      }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
+
+  static updateDeoxActive(id,ativo){
+    return new Promise((resolve,reject)=>{
+      SampleModel.update({_id:id},{$set:{'deoxinivalenol.active': ativo}}).then((result)=>{
+        resolve(result);
+      }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
+
+  static updateT2Active(id,ativo){
+    return new Promise((resolve,reject)=>{
+      SampleModel.update({_id:id},{$set:{'t2toxina.active': ativo}}).then((result)=>{
+        resolve(result);
+      }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
+
+  static updateFumActive(id,ativo){
+    return new Promise((resolve,reject)=>{
+      SampleModel.update({_id:id},{$set:{'fumonisina.active': ativo}}).then((result)=>{
+        resolve(result);
+      }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
+
+  static updateZeaActive(id,ativo){
+    return new Promise((resolve,reject)=>{
+      SampleModel.update({_id:id},{$set:{'zearalenona.active': ativo}}).then((result)=>{
+        resolve(result);
+      }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
 }
 
 
