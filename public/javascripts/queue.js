@@ -174,7 +174,6 @@ var countAfla=0;
 
 function IdAflaCount ()
 {
-  console.log("count Afla is: " + countAfla);
     countAfla++;
     return countAfla;
 }
@@ -329,7 +328,6 @@ var countDeox=0;
 
 function IdDeoxCount ()
 {
-  console.log("count Deox is: " + countDeox);
     countDeox++;
     return countDeox;
 }
@@ -475,7 +473,6 @@ var scndOcratoxina = new jKanban({
 var countOcra = 0;
 
 function IdOcraCount (){
-  console.log("count Ocra is: " + countOcra);
     countOcra++;
     return countOcra;
 }
@@ -565,7 +562,6 @@ var scndT2toxina = new jKanban({
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-  
     if(target =='_calibrator'){
         var strId=el.dataset.eid; //id do card
         if( el.dataset.calibrator) {//cards P 
@@ -619,7 +615,6 @@ var countT2=0;
 
 function IdT2Count ()
 {
-  console.log("count T2 is: " + countT2);
     countT2++;0
     return countT2;
 }
@@ -768,7 +763,6 @@ var countFum=0;
 
 function IdFumCount ()
 {
-  console.log("count FUMOSININA is: " + countFum);
     countFum++;
     return countFum;
 }
@@ -914,7 +908,6 @@ var countZ=0;
 
 function IdZCount ()
 {
-  console.log("count FUMOSININA is: " + countZ);
      countZ++;
     return countZ;
 }
@@ -1575,8 +1568,6 @@ $('#KitRadioAfla').click(function(){//não repete
               isSelected=false;
               kitToxin=kit.productCode;
           if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-
-
                if ($('#KitAflaB').is(':checked')&&kit.kitType=="B") {
                    $('#hideAfla').removeClass('form-disabled');
                    aflaLimit=kit.stripLength;
@@ -1587,7 +1578,6 @@ $('#KitRadioAfla').click(function(){//não repete
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                    });
-
                }
 
                 if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
@@ -1885,7 +1875,6 @@ $('#KitRadioDeox').change(function(){
         kitToxin=kit.productCode;
         isSelected=false;
          if(kitToxin.includes("DON")) {
-
            if($('#KitDeoxA').is(':checked')&&kit.kitType=="A") {
                $('#hideDeox').removeClass('form-disabled');
                 deoxLimit=kit.stripLength;
@@ -2154,7 +2143,6 @@ $('#KitRadioT').change(function(){
         kitToxin=kit.productCode;
         isSelected=false;
          if(kitToxin.includes("T2")) {
-
            if($('#KitTA').is(':checked')&&kit.kitType=="A") {
                $('#hideT').removeClass('form-disabled');
                   t2Limit=kit.stripLength;
@@ -2277,7 +2265,6 @@ $('#KitRadioZ').change(function(){
           isSelected=false;
 
          if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
-
            if($('#KitZA').is(':checked')&&kit.kitType=="A") {
                $('#hideZ').removeClass('form-disabled');
                   zLimit=kit.stripLength;

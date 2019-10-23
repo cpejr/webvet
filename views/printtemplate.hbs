@@ -20,9 +20,11 @@
         </thead>
         
         {{#each amostras}}
-        {{#compare aflatoxina.mapReference '_workmap1'}}
-            <tr><tr><td>{{samplenumber}}</td></tr></tr>
-        {{/compare}}
+          {{#compare aflatoxina.mapReference '_workmap1'}}
+            {{#compare aflatoxina.active true}}
+              <tr><tr><td>{{samplenumber}}</td></tr></tr>
+            {{/compare}}    
+          {{/compare}}
         {{/each}}        
 
       {{#each afla1}}
@@ -283,18 +285,6 @@
 
 
       </table>
-
-
-    
-
-
-
-
-
-
-
-
-
 
 
     <table class="table-don col-2">
