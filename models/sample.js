@@ -23,7 +23,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     mapReference:  {
       type:String,
@@ -39,7 +39,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     mapReference:  {
       type:String,
@@ -55,7 +55,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     mapReference:  {
       type:String,
@@ -71,7 +71,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     mapReference:  {
       type:String,
@@ -87,7 +87,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     mapReference:  {
       type:String,
@@ -103,7 +103,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     mapReference:  {
       type:String,

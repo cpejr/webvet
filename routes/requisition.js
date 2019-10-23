@@ -82,9 +82,34 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
                  samplenumber: numDefault,
                  responsible: req.body.responsible
                }
-               console.log(sample);
+               if(req.body.mycotoxin.includes("Aflatoxinas")) {
+                 sample.aflatoxina.active=true;
+               }
+               if(req.body.mycotoxin.includes("Ocratoxina A")) {
+                sample.ocratoxina.active=true;
+              }
+
+              if(req.body.mycotoxin.includes("Deoxinivalenol*")) {
+                sample.deoxinivalenol.active=true;
+              }
+
+              
+              if(req.body.mycotoxin.includes("T-2 toxina")) {
+                sample.t2toxina.active=true;
+              }
+
+              if(req.body.mycotoxin.includes("T-2 Fumonisina")) {
+                sample.fumonisina.active=true;
+              }
+
+              if(req.body.mycotoxin.includes("Zearalenona")) {
+                sample.zearalenona.active=true;
+              }
+
+
+
+         
                Sample.create(sample).then((sid) => {
-                 console.log(`New Sample with id: ${sid}`);
                   Requisition.addSample(reqid, sid).catch((error) => {
                      console.log(error);
                      res.redirect('/error');
