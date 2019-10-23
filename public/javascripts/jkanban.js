@@ -13,7 +13,7 @@ var dragula = require("dragula");
 (function() {
   this.jKanban = function() {
     var self = this;
-    this._disallowedItemProperties = ['id', 'title', 'analyst', 'status','owner', 'click', 'drag', 'dragend', 'drop', 'order'];
+    this._disallowedItemProperties = ['id', 'title', 'analyst', 'status','owner','calibrator','calid', 'click', 'drag', 'dragend', 'drop', 'order'];
     this.element = "";
     this.container = "";
     this.boardContainer = [];
@@ -166,7 +166,8 @@ var dragula = require("dragula");
       );
       var nodeItem = document.createElement("div");
       nodeItem.classList.add("kanban-item");
-      if (typeof element.id !== "undefined" && element.id !== ""&&element.id!=="owner") {
+      console.log(element);
+      if (typeof element.id !== "undefined" && element.id !== ""&&element.id!=="owner"&&element.calibrator!=true) {
         nodeItem.setAttribute("data-eid", element.id);
         nodeItem.setAttribute("data-title", element.title);
         nodeItem.setAttribute("data-analyst", element.analyst);
@@ -180,6 +181,13 @@ var dragula = require("dragula");
         nodeItem.setAttribute("data-owner", element.owner);
         nodeItem.setAttribute("data-status", element.status);
         nodeItem.innerHTML = element.title + " "+ '<br><span  class="badge badge-secondary">' + element.status + '</span>'+ " "+ '<span  class="badge badge-primary">' + element.analyst + '</span>'+" "+'<span  class="badge badge-danger">' + element.owner + '</span>';
+      }
+      else if(element.calibrator==true) {
+        nodeItem.setAttribute("data-eid", element.id);
+        nodeItem.setAttribute("data-title", element.title);
+        nodeItem.setAttribute("data-calibrator", element.calibrator);
+        nodeItem.setAttribute("data-calid", element.calid);
+        nodeItem.innerHTML = element.title;
       }
 
       //add function
@@ -209,7 +217,8 @@ var dragula = require("dragula");
       );
       var nodeItem = document.createElement("div");
       nodeItem.classList.add("kanban-item");
-      if (typeof element.id !== "undefined" && element.id !== "") {
+      console.log(element);
+      if (typeof element.id !== "undefined" && element.id !== ""&&element.calibrator!=true) {
         nodeItem.setAttribute("data-eid", element.id);
         nodeItem.setAttribute("data-title", element.title);
         nodeItem.setAttribute("data-analyst", element.analyst);
@@ -222,6 +231,12 @@ var dragula = require("dragula");
         nodeItem.setAttribute("data-analyst", element.analyst);
         nodeItem.setAttribute("data-owner", element.owner);
         nodeItem.setAttribute("data-status", element.status); }
+
+        else if (element.calibrator==true) {
+          nodeItem.setAttribute("data-eid", element.id);
+          nodeItem.setAttribute("data-title", element.title);
+          nodeItem.setAttribute("data-calibrator", element.calibrator);
+          nodeItem.setAttribute("data-calid", element.calid); }
 
       nodeItem.innerHTML = element.title;
       //add function

@@ -7658,6 +7658,7 @@ body {
   font-weight: bold;
   font-size: 17px; }
 
+
 .table-afla {
   width: 10px;
   margin-right: 57px; }
@@ -7672,5 +7673,11 @@ body {
 
 .some {
   display: none; }
+
+.btn-count {
+  margin-left: -258px;
+  margin-right: 31px;
+  margin-bottom: 10px; }
+
 
 /*# sourceMappingURL=style.css.map */

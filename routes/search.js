@@ -7,6 +7,7 @@ const User = require('../models/user');
 const Sample = require('../models/sample');
 const Kit = require('../models/kit');
 const Requisition= require('../models/requisition');
+const Workmap= require('../models/Workmap');
 
 router.get('/producers',  auth.isAuthenticated, (req, res) => {
   const names = [];
@@ -94,6 +95,32 @@ router.get('/kits',  auth.isAuthenticated, (req, res) => {
   }).catch((error) => {
     res.redirect('/error');
   });
+});
+
+router.get('/getKit/:kitid',  auth.isAuthenticated, (req, res) => {
+  Kit.getById(req.params.kitid).then((kit) => {
+    res.send(kit);
+ }).catch((error) => {
+   res.redirect('/error');
+ });
+});
+
+router.get('/getWorkmap/:workmapid',  auth.isAuthenticated, (req, res) => {
+  Workmap.getOneMap(req.params.workmapid).then((workmap) => {
+    res.send(workmap);
+ }).catch((error) => {
+   res.redirect('/error');
+ });
+});
+
+router.get('/getOneSample/:sampleID',auth.isAuthenticated,(req,res)=>{
+  Sample.getById(req.params.sampleID).then((sample)=>{
+    res.send(sample);
+  }).catch((error)=>{
+     res.redirect('/error');
+  });
+
+
 });
 
 module.exports = router;
