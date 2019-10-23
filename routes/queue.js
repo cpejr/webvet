@@ -43,7 +43,7 @@ router.post('/',function(req,res,next){
       return b-a;
     }
     var cont = 0;
-    
+
     for (var i = 0; i < sample.length; i++) {
      if(cont < sample[i].ocratoxina.contador){
         cont = sample[i].ocratoxina.contador;
@@ -65,12 +65,12 @@ router.post('/',function(req,res,next){
       }
     }
 
-    
-//    cont.sort(sortNumber); // cont[0] = maior
-   
 
-   
-    
+//    cont.sort(sortNumber); // cont[0] = maior
+
+
+
+
     for (var i = 0; i < sample.length; i++) {
 
       if(sample[i].ocratoxina.mapReference != 'Sem mapa' && sample[i].ocratoxina.active == true){
@@ -82,7 +82,7 @@ router.post('/',function(req,res,next){
          console.log(error);
          });
       }
-      
+
       if(sample[i].aflatoxina.mapReference != 'Sem mapa'){
         afla_ativa.aflatoxina.status = sample[i].aflatoxina.status;
         afla_ativa.aflatoxina.mapReference = sample[i].aflatoxina.mapReference;
@@ -91,8 +91,8 @@ router.post('/',function(req,res,next){
          console.log(error);
          });
       }
-    
-      
+
+
       if(sample[i].t2toxina.mapReference != 'Sem mapa'){
         t2toxina_ativa.t2toxina.status = sample[i].t2toxina.status;
         t2toxina_ativa.t2toxina.mapReference = sample[i].t2toxina.mapReference;
@@ -111,7 +111,7 @@ router.post('/',function(req,res,next){
          });
       }
 
-      
+
       if(sample[i].zearalenona.mapReference != 'Sem mapa'){
         zearalenona_ativa.zearalenona.status = sample[i].zearalenona.status;
         zearalenona_ativa.zearalenona.mapReference = sample[i].zearalenona.mapReference;
@@ -120,7 +120,7 @@ router.post('/',function(req,res,next){
          console.log(error);
          });
       }
-     
+
       if(sample[i].deoxinivalenol.mapReference != 'Sem mapa'){
         deoxinivalenol_ativa.deoxinivalenol.status = sample[i].deoxinivalenol.status;
         deoxinivalenol_ativa.deoxinivalenol.mapReference = sample[i].deoxinivalenol.mapReference;
@@ -130,10 +130,10 @@ router.post('/',function(req,res,next){
          });
       }
     }
- 
-    
 
-    res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+
+
+    res.render('allsamples');
   }).catch((error)=>{
     console.log(error);
   });
