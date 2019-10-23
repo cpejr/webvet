@@ -24,7 +24,7 @@ const sampleSchema = new mongoose.Schema({
     absorbance: Number,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     contador: Number,
     mapReference:  {
@@ -42,7 +42,7 @@ const sampleSchema = new mongoose.Schema({
     absorbance: Number,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     contador: Number,
     mapReference:  {
@@ -60,7 +60,7 @@ const sampleSchema = new mongoose.Schema({
     absorbance: Number,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     contador: Number,
     mapReference:  {
@@ -78,7 +78,7 @@ const sampleSchema = new mongoose.Schema({
     absorbance: Number,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     contador: Number,
     mapReference:  {
@@ -96,7 +96,7 @@ const sampleSchema = new mongoose.Schema({
     absorbance: Number,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     contador: Number,
     mapReference:  {
@@ -114,7 +114,7 @@ const sampleSchema = new mongoose.Schema({
     absorbance: Number,
     active: {
        type: Boolean,
-       default: true
+       default: false
     },
     contador: Number,
     mapReference:  {

@@ -52,14 +52,52 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
    Sample.getMaxSampleNumber().then((maxSample) => {//pega maior numero atribuido as amostras do banco
       Sample.count().then((countSample)=>{
         if(countSample==0) { //se o banco esta vazio
-          console.log("BANCO VAZIOOOO");
              for(i = 0; i< size; i++) {
                 const sample = {
                   name: samplesV[i],
                   samplenumber: numDefault,
-                  responsible: req.body.responsible
+                  responsible: req.body.responsible,
+                  aflatoxina: {
+                    active: false,
+                  },
+                  ocratoxina: {
+                    active: false,
+                  },
+                  deoxinivalenol: {
+                    active: false,
+                  },
+                  t2toxina: {
+                    active: false,
+                  },
+                  zearalenona: {
+                    active: false,
+                  }
                 }
-                console.log(sample);
+
+                if(req.body.requisition.mycotoxin.includes("Aflatoxinas")) {
+                  sample.aflatoxina.active=true;
+                }
+                if(req.body.requisition.mycotoxin.includes("Ocratoxina A")) {
+                 sample.ocratoxina.active=true;
+               }
+ 
+               if(req.body.requisition.mycotoxin.includes("Deoxinivalenol*")) {
+                 sample.deoxinivalenol.active=true;
+               }
+ 
+               
+               if(req.body.requisition.mycotoxin.includes("T-2 toxina")) {
+                 sample.t2toxina.active=true;
+               }
+ 
+               if(req.body.requisition.mycotoxin.includes("T-2 Fumonisina")) {
+                 sample.fumonisina.active=true;
+               }
+ 
+               if(req.body.requisition.mycotoxin.includes("Zearalenona")) {
+                 sample.zearalenona.active=true;
+               }
+                
                 Sample.create(sample).then((sid) => {
                   console.log(`New Sample with id: ${sid}`);
                    Requisition.addSample(reqid, sid).catch((error) => {
@@ -74,17 +112,58 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
             }
           }
         else{  //banco não esta vazio
-            console.log("BANCO COM AMOSTRAAAAASSSS")
+          // console.log("AQUI\I/")
+          // console.log(req.body.mycotoxin)
             numDefault=maxSample[0].samplenumber+1;
             for(i = 0; i< size; i++) {
                const sample = {
                  name: samplesV[i],
                  samplenumber: numDefault,
-                 responsible: req.body.responsible
+                 responsible: req.body.responsible,
+                 aflatoxina: {
+                      active: false,
+                 },
+                 ocratoxina: {
+                  active: false,
+                 },
+                 deoxinivalenol: {
+                  active: false,
+                 },
+                 t2toxina: {
+                  active: false,
+                 },
+                 zearalenona: {
+                  active: false,
+                 }
                }
-               console.log(sample);
+               if(req.body.requisition.mycotoxin.includes("Aflatoxinas")) {
+                 sample.aflatoxina.active=true;
+               }
+               if(req.body.requisition.mycotoxin.includes("Ocratoxina A")) {
+                sample.ocratoxina.active=true;
+              }
+
+              if(req.body.requisition.mycotoxin.includes("Deoxinivalenol*")) {
+                sample.deoxinivalenol.active=true;
+              }
+
+              
+              if(req.body.requisition.mycotoxin.includes("T-2 toxina")) {
+                sample.t2toxina.active=true;
+              }
+
+              if(req.body.requisition.mycotoxin.includes("T-2 Fumonisina")) {
+                sample.fumonisina.active=true;
+              }
+
+              if(req.body.requisition.mycotoxin.includes("Zearalenona")) {
+                sample.zearalenona.active=true;
+              }
+
+
+
+         
                Sample.create(sample).then((sid) => {
-                 console.log(`New Sample with id: ${sid}`);
                   Requisition.addSample(reqid, sid).catch((error) => {
                      console.log(error);
                      res.redirect('/error');
