@@ -1547,16 +1547,16 @@ $.get('/search/samples', (samples) => {
 
 var nowAflaKit;
 var aflaLimit=0;
-var throughtIf;
+var AflaFilter; //this variable will hide the second kanban if the selected radio hasn't a corresponding kit in mongo
 $('#KitRadioAfla').click(function(){//não repete
    
-  throughtIf=0;
+  AflaFilter=0;
 
   for(i=aflaLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndAflatoxina.removeBoard(board);
   }
-  if(aflaLimit!=0||throughtIf==3) {
+  if(aflaLimit!=0||AflaFilter==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -1577,14 +1577,13 @@ $('#KitRadioAfla').click(function(){//não repete
                    nowAflaKit=kit._id;
                    aflacount = aflaLimit;
                    isSelected=true;
-                   throughtIf=false;
                    document.getElementById("countkitsAfla").innerHTML = aflacount;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                    });
                }
                else{
-                throughtIf++;
+                AflaFilter++;
                }
 
                 if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
@@ -1594,7 +1593,6 @@ $('#KitRadioAfla').click(function(){//não repete
                      nowAflaKit=kit._id;
                      aflacount = aflaLimit;
                      isSelected=true;
-                     throughtIf=false;
                      document.getElementById("countkitsAfla").innerHTML = aflacount;
                      $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
@@ -1602,7 +1600,7 @@ $('#KitRadioAfla').click(function(){//não repete
 
                 }
                 else{
-                  throughtIf++;
+                  AflaFilter++;
                  }
               if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
                     $('#hideAfla').removeClass('form-disabled');
@@ -1617,11 +1615,10 @@ $('#KitRadioAfla').click(function(){//não repete
 
                }
                else{
-                throughtIf++;
+                AflaFilter++;
                }
-               console.log(throughtIf);
                
-               if(throughtIf==3) {
+               if(AflaFilter==3) {
                  $('#hideAfla').addClass('form-disabled');
                 }
 
@@ -1719,12 +1716,14 @@ $('#KitRadioAfla').click(function(){//não repete
 
 var nowOcraKit;
 var ocraLimit=0;
+var ocraFilter;
 $('#KitRadioOcra').change(function(){
+   ocraFilter=0;
   for(i=ocraLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndOcratoxina.removeBoard(board);
   }
-  if(ocraLimit!=0) {
+  if(ocraLimit!=0||ocraFilter==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -1752,8 +1751,11 @@ $('#KitRadioOcra').change(function(){
 
                 });
 
+           } else {
+             ocraFilter++;
            }
-            if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
+            
+            if($('#KitOcraB').is(':checked')&&kit.kitType=="B") {
                  $('#hideOcra').removeClass('form-disabled');
                   ocraLimit=kit.stripLength;
                     nowOcraKit=kit._id;
@@ -1763,7 +1765,9 @@ $('#KitRadioOcra').change(function(){
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                     });
-             }
+             } else {
+              ocraFilter++;
+            }
              if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
@@ -1774,7 +1778,14 @@ $('#KitRadioOcra').change(function(){
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
+            } else {
+              ocraFilter++;
             }
+
+
+            if(ocraFilter==3) {
+              $('#hideOcra').addClass('form-disabled');
+             }
 
             if(isSelected){
               for(i=0;i<ocraLimit;i++){//the map 0 was defined before
