@@ -70,6 +70,7 @@ const kitSchema = new mongoose.Schema({
     required: true
   },
   stripLength: Number,
+  toxinaStart: Number,
   mapArray: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Workmap'
