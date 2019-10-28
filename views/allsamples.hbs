@@ -14,6 +14,20 @@
       </thead>
       <tbody>
 
+        {{#each aflas_p}}
+          {{#compare isCalibrator true}}
+            {{#compare aflatoxina.mapReference '_workmap1'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[aflatoxina][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[aflatoxina][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
+
         {{#each amostras}}
           {{#compare aflatoxina.mapReference '_workmap1'}}
             {{#compare aflatoxina.active true}}
