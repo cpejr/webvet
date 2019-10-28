@@ -13,7 +13,42 @@ const Sample=require('../models/sample');
 
 
 router.get('/', (req, res) => {
+  var calib_afla_id = new Array;
+  var aflas_p = new Array;
+  var name = new Array;
+  var aflas_p = new Array;
   Sample.getAll().then((amostras)=>{
+  Kit.getAll().then((kit)=>{
+    for (let i = 0; i < kit.length; i++){
+      kitToxin=kit[i].productCode;
+      if(kit[i].active){
+        if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) { 
+          calib_afla_id[0] = kit[i].calibrators.P1.sampleID; 
+          calib_afla_id[1] = kit[i].calibrators.P2.sampleID;
+          calib_afla_id[2] = kit[i].calibrators.P3.sampleID;
+          calib_afla_id[3] = kit[i].calibrators.P4.sampleID;
+          calib_afla_id[4] = kit[i].calibrators.P5.sampleID;
+          //console.log(calib_afla_id);
+        }
+      }
+    }
+      Sample.getById(calib_afla_id[0]).then((p1)=>{
+        aflas_p[0]=p1;
+        Sample.getById(calib_afla_id[1]).then((p2)=>{
+          aflas_p[1]=p2;
+          Sample.getById(calib_afla_id[2]).then((p3)=>{ 
+            aflas_p[2]=p3;
+              Sample.getById(calib_afla_id[3]).then((p4)=>{
+                aflas_p[3] = p4;
+                Sample.getById(calib_afla_id[4]).then((p5)=>{
+                    aflas_p[4]=p5;
+                    console.log(aflas_p);
+                    
+    
+     
+  
+
+ 
     var today = new Date();
     var hours = today.getHours();
     var minutes = today.getMinutes();
@@ -22,14 +57,7 @@ router.get('/', (req, res) => {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
-    console.log(yyyy);
-    console.log(mm);
-    console.log(dd);
-
-    console.log('-------------------------------------------');
-    console.log(hours);
-    console.log(minutes);
-    console.log(scnds);
+ 
     var afla1 = new Array;
     var don1 = new Array;
     var ota1 = new Array;
@@ -612,25 +640,54 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,aflas_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
+
+}).catch((error) => {
+  console.log(error);
+    });
+   }).catch((error) => {
+    console.log(error);
+   });
+  }).catch((error) => {
+   console.log(error);
+  });
+  }).catch((error) => {
+   console.log(error);
+  });
+}).catch((error) => {
+ console.log(error);
+});
+}).catch((error)=>{
+  console.log(error);
+});
 });
 
 
 
 
 
-
 router.post('/',function(req,res,next){
+ 
+  
+  
   Sample.getAll().then((sample)=>{
     var id_afla = req.body.sample.aflatoxina._id;
     var abs_afla = req.body.sample.aflatoxina.absorbance;
+    var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
+    var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
 
      for (let i = 0; i < abs_afla.length; i++) {
-        Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
+        Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }
+      for (let i = 0; i < abs_calibritor_afla.length; i++) {
+        Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });

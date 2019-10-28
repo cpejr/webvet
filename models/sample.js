@@ -154,7 +154,7 @@ class Sample {
   static getById(id) {
     return new Promise((resolve, reject) => {
       SampleModel.findById(id).populate('sample').exec().then((result) => {
-        resolve(result.toObject());
+        resolve(result);
       }).catch((err) => {
         reject(err);
       });
@@ -304,6 +304,20 @@ class Sample {
 
     });
   }
+
+  static updateAflaCalibrator(id, abs){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'aflatoxina.absorbance': abs}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
+
 
   static updateAflaWorkmap(id, cont){
     return new Promise((resolve, reject) => {
