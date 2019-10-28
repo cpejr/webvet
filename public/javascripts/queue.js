@@ -1950,54 +1950,77 @@ $('#KitRadioDeox').change(function(){
          }
 
      });//kit foreach
-     $.get('/search/samples', (samples) => {
-      $(document).ready(function() {
+     $.get('/search/getKit/'+nowDeoxKit,(kit)=>{
+      $.get('/search/samples', (samples) => {
         samples.forEach((sample) => {
           if(sample.isCalibrator) {
-            $.get('/search/getKit/'+nowOcraKit,(kit)=>{
-              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                scndAflatoxina.addElement("_calibrator", {
-                        id: sample.name,
-                        title:  sample.name,
-                        calibrator: true,
-                        calid:sample._id
-                });
-              }
-            })
-
-
-          }
-        $.get('/search/userFromSample/'+sample._id,(user)=>{
-          if(sample.deoxinivalenol.active == true && sample.deoxinivalenol.status=="Mapa de Trabalho" ) {
-                if(user.debt){
-                  scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
-                    id: "owner",
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.deoxinivalenol.status,
-                    owner: "Devedor"
+            if(sample.deoxinivalenol.mapReference=='Sem mapa') {
+                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                  scndDeoxinivalenol.addElement("_calibrator", {
+                    id: sample.name,
+                    title:  sample.name,
+                    calibrator: true,
+                    calid:sample._id
                   });
+
                 }
-
-                else {
-                 scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.deoxinivalenol.status
-                 });
-              }
-
-         }
-         })
+            }
+          }
         });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
       });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
+   $.get('/search/getKit/'+nowDeoxKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
+      kit.mapArray.forEach((mapID) => {
+        $.get('/search/getWorkmap/'+mapID,(workmap)=>{
+          workmap.samplesArray.forEach((sampleID)=>{
+            $.get('/search/getOneSample/'+sampleID,(sample)=>{
+              if(sample.isCalibrator) {
+                  scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
+                      id: sample.name,
+                      title:  sample.name,
+                      calibrator: true,
+                      calid:sample._id
+                  });
+              } 
+              else {
+                $.get('/search/userFromSample/'+sample._id,(user)=>{
+                  if(sample.deoxinivalenol.active == true && sample.deoxinivalenol.status=="Mapa de Trabalho" ) {
+                        if(user.debt){
+                          scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
+                            id: "owner",
+                            title: "Amostra " + sample.samplenumber,
+                            analyst: sample.responsable,
+                            status: sample.deoxinivalenol.status,
+                            owner: "Devedor"
+                          });
+                        }
 
+                        else {
+                          scndOcratoxina.addElement(sample.deoxinivalenol.mapReference, {
+                              id: sample.samplenumber,
+                              title: "Amostra " + sample.samplenumber,
+                              analyst: sample.responsable,
+                              status: sample.deoxinivalenol.status
+                          });
+                         }
 
+                   }
+                 });
+               }
+             });
+           });
+         });
+       });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      }); //end of the allocation of workmaps
   });
 });
 
