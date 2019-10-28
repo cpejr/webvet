@@ -1547,13 +1547,16 @@ $.get('/search/samples', (samples) => {
 
 var nowAflaKit;
 var aflaLimit=0;
+var throughtIf;
 $('#KitRadioAfla').click(function(){//não repete
+   
+  throughtIf=0;
 
   for(i=aflaLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndAflatoxina.removeBoard(board);
   }
-  if(aflaLimit!=0) {
+  if(aflaLimit!=0||throughtIf==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -1574,10 +1577,14 @@ $('#KitRadioAfla').click(function(){//não repete
                    nowAflaKit=kit._id;
                    aflacount = aflaLimit;
                    isSelected=true;
+                   throughtIf=false;
                    document.getElementById("countkitsAfla").innerHTML = aflacount;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                    });
+               }
+               else{
+                throughtIf++;
                }
 
                 if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
@@ -1587,12 +1594,16 @@ $('#KitRadioAfla').click(function(){//não repete
                      nowAflaKit=kit._id;
                      aflacount = aflaLimit;
                      isSelected=true;
+                     throughtIf=false;
                      document.getElementById("countkitsAfla").innerHTML = aflacount;
                      $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                      });
 
                 }
+                else{
+                  throughtIf++;
+                 }
               if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
                     $('#hideAfla').removeClass('form-disabled');
                     aflaLimit=kit.stripLength;
@@ -1603,7 +1614,16 @@ $('#KitRadioAfla').click(function(){//não repete
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                     });
+
                }
+               else{
+                throughtIf++;
+               }
+               console.log(throughtIf);
+               
+               if(throughtIf==3) {
+                 $('#hideAfla').addClass('form-disabled');
+                }
 
                if(isSelected) {
                 for(i=1;i<=aflaLimit;i++){//the map 0 was defined before
