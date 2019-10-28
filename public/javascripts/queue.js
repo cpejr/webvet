@@ -1792,26 +1792,31 @@ $('#KitRadioOcra').change(function(){
          }
 
      })//for each
-     $.get('/search/samples', (samples) => {
-      samples.forEach((sample) => {
-        if(sample.isCalibrator) {
-           if(sample.ocratoxina.mapReference=='Sem mapa') {
-              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                scndOcratoxina.addElement("_calibrator", {
-                  id: sample.name,
-                  title:  sample.name,
-                  calibrator: true,
-                  calid:sample._id
-                });
+     $.get('/search/getKit/'+nowOcraKit,(kit)=>{
+        $.get('/search/samples', (samples) => {
+          samples.forEach((sample) => {
+            if(sample.isCalibrator) {
+              if(sample.ocratoxina.mapReference=='Sem mapa') {
+                  if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                    scndOcratoxina.addElement("_calibrator", {
+                      id: sample.name,
+                      title:  sample.name,
+                      calibrator: true,
+                      calid:sample._id
+                    });
 
+                  }
               }
-           }
-        }
+            }
+          });
+        }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
       });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
      $.get('/search/getKit/'+nowOcraKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
         kit.mapArray.forEach((mapID) => {
           $.get('/search/getWorkmap/'+mapID,(workmap)=>{
