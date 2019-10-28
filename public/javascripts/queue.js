@@ -1547,13 +1547,16 @@ $.get('/search/samples', (samples) => {
 
 var nowAflaKit;
 var aflaLimit=0;
+var throughtIf;
 $('#KitRadioAfla').click(function(){//não repete
+   
+  throughtIf=0;
 
   for(i=aflaLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndAflatoxina.removeBoard(board);
   }
-  if(aflaLimit!=0) {
+  if(aflaLimit!=0||throughtIf==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -1574,10 +1577,14 @@ $('#KitRadioAfla').click(function(){//não repete
                    nowAflaKit=kit._id;
                    aflacount = aflaLimit;
                    isSelected=true;
+                   throughtIf=false;
                    document.getElementById("countkitsAfla").innerHTML = aflacount;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                    });
+               }
+               else{
+                throughtIf++;
                }
 
                 if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
@@ -1587,12 +1594,16 @@ $('#KitRadioAfla').click(function(){//não repete
                      nowAflaKit=kit._id;
                      aflacount = aflaLimit;
                      isSelected=true;
+                     throughtIf=false;
                      document.getElementById("countkitsAfla").innerHTML = aflacount;
                      $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                      });
 
                 }
+                else{
+                  throughtIf++;
+                 }
               if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
                     $('#hideAfla').removeClass('form-disabled');
                     aflaLimit=kit.stripLength;
@@ -1603,7 +1614,16 @@ $('#KitRadioAfla').click(function(){//não repete
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                     });
+
                }
+               else{
+                throughtIf++;
+               }
+               console.log(throughtIf);
+               
+               if(throughtIf==3) {
+                 $('#hideAfla').addClass('form-disabled');
+                }
 
                if(isSelected) {
                 for(i=1;i<=aflaLimit;i++){//the map 0 was defined before
@@ -1772,26 +1792,31 @@ $('#KitRadioOcra').change(function(){
          }
 
      })//for each
-     $.get('/search/samples', (samples) => {
-      samples.forEach((sample) => {
-        if(sample.isCalibrator) {
-           if(sample.ocratoxina.mapReference=='Sem mapa') {
-              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                scndOcratoxina.addElement("_calibrator", {
-                  id: sample.name,
-                  title:  sample.name,
-                  calibrator: true,
-                  calid:sample._id
-                });
+     $.get('/search/getKit/'+nowOcraKit,(kit)=>{
+        $.get('/search/samples', (samples) => {
+          samples.forEach((sample) => {
+            if(sample.isCalibrator) {
+              if(sample.ocratoxina.mapReference=='Sem mapa') {
+                  if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                    scndOcratoxina.addElement("_calibrator", {
+                      id: sample.name,
+                      title:  sample.name,
+                      calibrator: true,
+                      calid:sample._id
+                    });
 
+                  }
               }
-           }
-        }
+            }
+          });
+        }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
       });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
      $.get('/search/getKit/'+nowOcraKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
         kit.mapArray.forEach((mapID) => {
           $.get('/search/getWorkmap/'+mapID,(workmap)=>{
@@ -1925,54 +1950,77 @@ $('#KitRadioDeox').change(function(){
          }
 
      });//kit foreach
-     $.get('/search/samples', (samples) => {
-      $(document).ready(function() {
+     $.get('/search/getKit/'+nowDeoxKit,(kit)=>{
+      $.get('/search/samples', (samples) => {
         samples.forEach((sample) => {
           if(sample.isCalibrator) {
-            $.get('/search/getKit/'+nowOcraKit,(kit)=>{
-              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                scndAflatoxina.addElement("_calibrator", {
-                        id: sample.name,
-                        title:  sample.name,
-                        calibrator: true,
-                        calid:sample._id
-                });
-              }
-            })
-
-
-          }
-        $.get('/search/userFromSample/'+sample._id,(user)=>{
-          if(sample.deoxinivalenol.active == true && sample.deoxinivalenol.status=="Mapa de Trabalho" ) {
-                if(user.debt){
-                  scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
-                    id: "owner",
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.deoxinivalenol.status,
-                    owner: "Devedor"
+            if(sample.deoxinivalenol.mapReference=='Sem mapa') {
+                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                  scndDeoxinivalenol.addElement("_calibrator", {
+                    id: sample.name,
+                    title:  sample.name,
+                    calibrator: true,
+                    calid:sample._id
                   });
+
                 }
-
-                else {
-                 scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.deoxinivalenol.status
-                 });
-              }
-
-         }
-         })
+            }
+          }
         });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
       });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
+   $.get('/search/getKit/'+nowDeoxKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
+      kit.mapArray.forEach((mapID) => {
+        $.get('/search/getWorkmap/'+mapID,(workmap)=>{
+          workmap.samplesArray.forEach((sampleID)=>{
+            $.get('/search/getOneSample/'+sampleID,(sample)=>{
+              if(sample.isCalibrator) {
+                  scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
+                      id: sample.name,
+                      title:  sample.name,
+                      calibrator: true,
+                      calid:sample._id
+                  });
+              } 
+              else {
+                $.get('/search/userFromSample/'+sample._id,(user)=>{
+                  if(sample.deoxinivalenol.active == true && sample.deoxinivalenol.status=="Mapa de Trabalho" ) {
+                        if(user.debt){
+                          scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
+                            id: "owner",
+                            title: "Amostra " + sample.samplenumber,
+                            analyst: sample.responsable,
+                            status: sample.deoxinivalenol.status,
+                            owner: "Devedor"
+                          });
+                        }
 
+                        else {
+                          scndOcratoxina.addElement(sample.deoxinivalenol.mapReference, {
+                              id: sample.samplenumber,
+                              title: "Amostra " + sample.samplenumber,
+                              analyst: sample.responsable,
+                              status: sample.deoxinivalenol.status
+                          });
+                         }
 
+                   }
+                 });
+               }
+             });
+           });
+         });
+       });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      }); //end of the allocation of workmaps
   });
 });
 
@@ -2056,7 +2104,6 @@ $('#KitRadioFum').change(function(){
                     calibrator: true,
                     calid:sample._id
                   });
-                  console.log(sample.name)
 
                 }
             }
@@ -2067,7 +2114,7 @@ $('#KitRadioFum').change(function(){
       console.log(error);
       res.redirect('/error');
     });
-   $.get('/search/getKit/'+nowFumKitt,(kit)=>{//allocate the samples/calibrators that are in an workmap
+   $.get('/search/getKit/'+nowFumKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
           workmap.samplesArray.forEach((sampleID)=>{
@@ -2117,10 +2164,10 @@ $('#KitRadioFum').change(function(){
 
   })
 });
-//alterar daqui pra frente
+
 var nowT2Kit;
 var t2Limit=0;
-
+//corrigir
 $('#KitRadioT').change(function(){
   for(i=t2Limit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
@@ -2191,51 +2238,75 @@ $('#KitRadioT').change(function(){
          }
 
      }) //kit
-     $.get('/search/samples', (samples) => {
+     $.get('/search/getKit/'+nowT2Kit,(kit)=>{
+      $.get('/search/samples', (samples) => {
         samples.forEach((sample) => {
           if(sample.isCalibrator) {
-            $.get('/search/getKit/'+nowT2Kit,(kit)=>{
-              if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                scndT2toxina.addElement("_calibrator", {
-                  id: sample.name,
-                  title:  sample.name,
-                  calibrator: true,
-                  calid:sample._id
-                });
-              }
-            })
-
-
-          }
-        $.get('/search/userFromSample/'+sample._id,(user)=>{
-          if(sample.t2toxina.active == true && sample.t2toxina.status=="Mapa de Trabalho" ) {
-                if(user.debt){
-                  scndT2toxina.addElement(sample.t2toxina.mapReference, {
-                    id: "owner",
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.t2toxina.status,
-                    owner: "Devedor"
+            if(sample.t2toxina.mapReference=='Sem mapa') {
+                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                  scndT2toxina.addElement("_calibrator", {
+                    id: sample.name,
+                    title:  sample.name,
+                    calibrator: true,
+                    calid:sample._id
                   });
+
                 }
-
-                else {
-                 scndT2toxina.addElement(sample.t2toxina.mapReference, {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.t2toxina.status
-                 });
-              }
-
-         }
-         });
+            }
+          }
         });
-
+      });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
+   $.get('/search/getKit/'+nowT2Kit,(kit)=>{//allocate the samples/calibrators that are in an workmap
+      kit.mapArray.forEach((mapID) => {
+        $.get('/search/getWorkmap/'+mapID,(workmap)=>{
+          workmap.samplesArray.forEach((sampleID)=>{
+            $.get('/search/getOneSample/'+sampleID,(sample)=>{
+              if(sample.isCalibrator) {
+                  scndT2toxina.addElement(sample.t2toxina.mapReference, {
+                      id: sample.name,
+                      title:  sample.name,
+                      calibrator: true,
+                      calid:sample._id
+                  });
+            }
+            else {
+              $.get('/search/userFromSample/'+sample._id,(user)=>{
+                if(sample.t2toxina.active == true && sample.t2toxina.status=="Mapa de Trabalho" ) {
+                      if(user.debt){
+                        scndT2toxina.addElement(sample.t2toxina.mapReference, {
+                          id: "owner",
+                          title: "Amostra " + sample.samplenumber,
+                          analyst: sample.responsable,
+                          status: sample.fumonisina.status,
+                          owner: "Devedor"
+                        });
+                      }
+
+                      else {
+                       scndT2toxina.addElement(sample.t2toxina.mapReference, {
+                          id: sample.samplenumber,
+                          title: "Amostra " + sample.samplenumber,
+                          analyst: sample.responsable,
+                          status: sample.t2toxina.status
+                       });
+                    }
+
+               }
+
+             });
+           }
+            });
+          });
+       });
+      });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  }); //end of the allocation of workmaps
 
 
   });
