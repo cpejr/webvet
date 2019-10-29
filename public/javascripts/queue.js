@@ -2211,14 +2211,16 @@ $('#KitRadioFum').change(function(){
 
 var nowT2Kit;
 var t2Limit=0;
+var t2Filter;
 //corrigir
 $('#KitRadioT').change(function(){
+   t2Filter=0;
   for(i=t2Limit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndT2toxina.removeBoard(board);
   }
 
-  if(t2Limit!=0) {
+  if(t2Limit!=0||t2Filter==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -2245,6 +2247,8 @@ $('#KitRadioT').change(function(){
 
                   });
 
+           } else {
+             t2Filter++;
            }
            if($('#KitTB').is(':checked')&&kit.kitType=="B") {
               $('#hideT').removeClass('form-disabled');
@@ -2256,6 +2260,8 @@ $('#KitRadioT').change(function(){
 
                   });
 
+             }else {
+               t2Filter++;
              }
              if (kit.kitType=="C"&&$('#KitTC').is(':checked')) {
               $('#hideT').removeClass('form-disabled');
@@ -2266,6 +2272,12 @@ $('#KitRadioT').change(function(){
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                     });
+            } else {
+              t2Filter++;
+            }
+
+            if(t2Filter==3) {
+              $('#hideT').addClass('form-disabled');
             }
 
             if(isSelected) {
@@ -2358,7 +2370,9 @@ $('#KitRadioT').change(function(){
 
 var nowZKit;
 var zLimit=0;
+var zFilter;
 $('#KitRadioZ').change(function(){
+  zFilter=0;
   for(i=zLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndZearalenona.removeBoard(board);
@@ -2389,6 +2403,8 @@ $('#KitRadioZ').change(function(){
 
                   });
 
+           } else {
+             zFilter++;
            }
              if($('#KitZB').is(':checked')&&kit.kitType=="B") {
               $('#hideZ').removeClass('form-disabled');
@@ -2399,6 +2415,8 @@ $('#KitRadioZ').change(function(){
 
                    });
 
+             } else {
+               zFilter++;
              }
              if (kit.kitType=="C"&&$('#KitZC').is(':checked')) {
               $('#hideZ').removeClass('form-disabled');
@@ -2408,8 +2426,13 @@ $('#KitRadioZ').change(function(){
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                    });
+            } else {
+              zFilter++;
             }
 
+            if(zFilter==3) {
+              $('#hideZ').addClass('form-disabled');
+            }
             if(isSelected) {
               for(i=1;i<zLimit;i++){//the map 0 was defined before
                 scndZearalenona.addBoards(
