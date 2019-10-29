@@ -1889,12 +1889,14 @@ $('#KitRadioOcra').change(function(){
 
 var nowDeoxKit;
 var deoxLimit=0;
+var deoxFilter;
 $('#KitRadioDeox').change(function(){
+   deoxFilter=0;
   for(i=deoxLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndDeoxinivalenol.removeBoard(board);
   }
-  if(deoxLimit!=0) {
+  if(deoxLimit!=0||deoxFilter==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -1922,7 +1924,10 @@ $('#KitRadioDeox').change(function(){
 
                 });
 
+           } else {
+             deoxFilter++;
            }
+            
            if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
@@ -1933,7 +1938,9 @@ $('#KitRadioDeox').change(function(){
                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                });
-             }
+             } else {
+              deoxFilter++;
+            }
              if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
@@ -1944,6 +1951,12 @@ $('#KitRadioDeox').change(function(){
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                  });
+            } else {
+              deoxFilter++;
+            }
+            
+            if(deoxFilter==3) {
+              $('#hideDeox').addClass('form-disabled');
             }
 
             if(isSelected){
@@ -2037,10 +2050,20 @@ $('#KitRadioDeox').change(function(){
 
 var nowFumKit;
 var fumLimit=0;
+var fumFilter;
 $('#KitRadioFum').change(function(){
+  fumFilter=0;
   for(i=fumLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndFumonisina.removeBoard(board);
+  } 
+  if(fumLimit!=0||fumFilter==3) {
+    var elementId;
+     for(j=0;j<5;j++){
+
+      elementId= "P"+(j+1);
+       scndFumonisina.removeElement(elementId);
+     }
   }
   var isSelected=false;
   var   kitToxin;
@@ -2062,6 +2085,8 @@ $('#KitRadioFum').change(function(){
 
                   });
 
+           } else {
+             fumFilter++;
            }
            if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
               $('#hideFum').removeClass('form-disabled');
@@ -2073,7 +2098,9 @@ $('#KitRadioFum').change(function(){
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                  });
-             }
+             } else {
+              fumFilter++;
+            }
             if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
               $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
@@ -2084,6 +2111,12 @@ $('#KitRadioFum').change(function(){
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                    });
+            } else {
+              fumFilter++;
+            }
+
+            if(fumFilter==3){
+              $('#hideFum').addClass('form-disabled');
             }
 
            if(isSelected) {
