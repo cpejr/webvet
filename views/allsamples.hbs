@@ -674,10 +674,11 @@
                 <div class="some">
                   <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
                 </div>
-
+                                                                                                                  
                 <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+            
               </tr>
-              {{/compare}}  
+            {{/compare}}
             {{/compare}}
           {{/compare}}
         {{/each}}
@@ -688,12 +689,35 @@
         {{/compare}}
         {{/each}}
 
+
+        
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap2'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
+
         {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap2'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+             {{#compare deoxinivalenol.active true}}
+
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -701,16 +725,36 @@
         {{#compare deoxinivalenol.mapReference '_workmap2'}}
           <tr><td><br></td></tr>
         {{/compare}}
+        {{/each}}
+        
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap3'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
         {{/each}}
 
 
 
         {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap3'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -720,13 +764,33 @@
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
+        
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap4'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
 
         {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap4'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -739,13 +803,32 @@
 
 
 
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap5'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap5'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -756,14 +839,34 @@
         {{/compare}}
         {{/each}}
 
+
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap6'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
 
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap6'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+          {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -774,14 +877,34 @@
         {{/compare}}
         {{/each}}
 
+  
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap7'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
 
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap7'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -793,13 +916,33 @@
         {{/each}}
 
 
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap8'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
+
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap8'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -808,15 +951,36 @@
         {{#compare deoxinivalenol.mapReference '_workmap8'}}
           <tr><td><br></td></tr>
         {{/compare}}
+        {{/each}}
+
+        
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap9'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
         {{/each}}
 
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap9'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -825,16 +989,37 @@
         {{#compare deoxinivalenol.mapReference '_workmap9'}}
           <tr><td><br></td></tr>
         {{/compare}}
+        {{/each}}
+
+        
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap10'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
         {{/each}}
 
 
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap10'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+          {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -846,13 +1031,33 @@
         {{/each}}
 
 
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap11'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
+
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap11'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -864,14 +1069,33 @@
         {{/each}}
 
 
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap12'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
 
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap12'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -882,14 +1106,33 @@
         {{/compare}}
         {{/each}}
 
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap13'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
 
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap13'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -901,13 +1144,32 @@
         {{/each}}
 
 
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap14'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap14'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -916,16 +1178,38 @@
         {{#compare deoxinivalenol.mapReference '_workmap14'}}
           <tr><td><br></td></tr>
         {{/compare}}
+        {{/each}}
+
+
+        
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap15'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
         {{/each}}
 
 
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap15'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -934,15 +1218,37 @@
         {{#compare deoxinivalenol.mapReference '_workmap15'}}
           <tr><td><br></td></tr>
         {{/compare}}
+        {{/each}}
+
+
+        
+        {{#each don_p}}
+          {{#compare isCalibrator true}}
+            {{#compare deoxinivalenol.mapReference '_workmap16'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
         {{/each}}
 
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap16'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare deoxinivalenol.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}} 
         {{/compare}}
         {{/each}}
 

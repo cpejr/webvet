@@ -716,13 +716,14 @@ router.post('/',function(req,res,next){
     var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
     var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
 
-    //calibradores deox
-    var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
-    var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
+      //calibradores deox
+      var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
+      var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
 
-    //amostras deox
-    var id_deox = req.body.sample.deoxinivalenol._id;
-    var abs_deox = req.body.sample.deoxinivalenol.absorbance;
+      //amostras deox
+      var id_deox = req.body.sample.deoxinivalenol._id;
+      var abs_deox = req.body.sample.deoxinivalenol.absorbance;
+
     
 
 
@@ -734,7 +735,7 @@ router.post('/',function(req,res,next){
       }
       for (let i = 0; i < abs_calibritor_afla.length; i++) {
         Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
-        }).catch((error)=>{
+        }).catch((error)=>{ 
         console.log(error);
         });
       }
@@ -744,12 +745,13 @@ router.post('/',function(req,res,next){
         console.log(error);
         });
       }
-      for (let i = 0; i < abs_deox.length; i++) {
+      for(let i = 0; i <abs_deox; i++){
         Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
       }
+      
       
 
      
@@ -855,10 +857,6 @@ router.post('/',function(req,res,next){
 
       }
     }
-
-
-
-
 
     res.redirect('/allsamples');
 
