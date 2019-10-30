@@ -14,9 +14,9 @@ const Sample=require('../models/sample');
 
 router.get('/', (req, res) => {
   var calib_afla_id = new Array;
+  var calib_don_id = new Array;
   var aflas_p = new Array;
-  var name = new Array;
-  var aflas_p = new Array;
+  var don_p = new Array;
   Sample.getAll().then((amostras)=>{
   Kit.getAll().then((kit)=>{
     for (let i = 0; i < kit.length; i++){
@@ -28,8 +28,14 @@ router.get('/', (req, res) => {
           calib_afla_id[2] = kit[i].calibrators.P3.sampleID;
           calib_afla_id[3] = kit[i].calibrators.P4.sampleID;
           calib_afla_id[4] = kit[i].calibrators.P5.sampleID;
-          //console.log(calib_afla_id);
         }
+      }
+      if(kitToxin.includes("DON")) {
+        calib_don_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_don_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_don_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_don_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_don_id[4] = kit[i].calibrators.P5.sampleID;
       }
     }
       Sample.getById(calib_afla_id[0]).then((p1)=>{
@@ -42,8 +48,19 @@ router.get('/', (req, res) => {
                 aflas_p[3] = p4;
                 Sample.getById(calib_afla_id[4]).then((p5)=>{
                     aflas_p[4]=p5;
-                    console.log(aflas_p);
                     
+              Sample.getById(calib_don_id[0]).then((p1_d)=>{
+                don_p[0]=p1_d;
+                Sample.getById(calib_don_id[1]).then((p2_d)=>{
+                  don_p[1]=p2_d;
+                  Sample.getById(calib_don_id[2]).then((p3_d)=>{ 
+                    don_p[2]=p3_d;
+                      Sample.getById(calib_don_id[3]).then((p4_d)=>{
+                        don_p[3] = p4_d;
+                        Sample.getById(calib_don_id[4]).then((p5_d)=>{
+                          don_p[4]=p5_d;
+                          console.log(don_p);
+                          
     
      
   
@@ -640,7 +657,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,aflas_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,aflas_p,don_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -664,6 +681,22 @@ router.get('/', (req, res) => {
 }).catch((error)=>{
   console.log(error);
 });
+
+}).catch((error) => {
+  console.log(error);
+ });
+}).catch((error) => {
+ console.log(error);
+});
+}).catch((error) => {
+ console.log(error);
+});
+}).catch((error) => {
+console.log(error);
+});
+}).catch((error)=>{
+console.log(error);
+});
 });
 
 
@@ -675,10 +708,23 @@ router.post('/',function(req,res,next){
   
   
   Sample.getAll().then((sample)=>{
+    //amostras afla
     var id_afla = req.body.sample.aflatoxina._id;
     var abs_afla = req.body.sample.aflatoxina.absorbance;
+    
+    //calibradores afla
     var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
     var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
+
+    //calibradores deox
+    var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
+    var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
+
+    //amostras deox
+    var id_deox = req.body.sample.deoxinivalenol._id;
+    var abs_deox = req.body.sample.deoxinivalenol.absorbance;
+    
+
 
      for (let i = 0; i < abs_afla.length; i++) {
         Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
@@ -692,6 +738,19 @@ router.post('/',function(req,res,next){
         console.log(error);
         });
       }
+      for(let i = 0; i< abs_calibritor_deox.length; i++){
+        Sample.updateDeoxAbsorbance(id_calibrators_deox[i],abs_calibritor_deox[i]).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }
+      for (let i = 0; i < abs_deox.length; i++) {
+        Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }
+      
 
      
     
@@ -741,10 +800,10 @@ router.post('/',function(req,res,next){
         }).catch((error)=>{
          console.log(error);
          });
-         Sample.updateAflaActive(sample[i]._id,false).then(()=>{
-          }).catch((error)=>{
-         console.log(error);
-         });  
+        //  Sample.updateAflaActive(sample[i]._id,false).then(()=>{
+        //   }).catch((error)=>{
+        //  console.log(error);
+        //  });  
          
         
       }
@@ -754,10 +813,10 @@ router.post('/',function(req,res,next){
         }).catch((error)=>{
          console.log(error);
          });
-         Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
-          }).catch((error)=>{
-        console.log(error);
-        });
+        //  Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
+        //   }).catch((error)=>{
+        // console.log(error);
+        // });
       }
 
       if(sample[i].t2toxina.mapReference != 'Sem mapa' && sample[i].t2toxina.active == true ){
