@@ -1547,16 +1547,16 @@ $.get('/search/samples', (samples) => {
 
 var nowAflaKit;
 var aflaLimit=0;
-var throughtIf;
+var AflaFilter=0; //this variable will hide the second kanban if the selected radio hasn't a corresponding kit in mongo
 $('#KitRadioAfla').click(function(){//não repete
    
-  throughtIf=0;
+  AflaFilter=0;
 
   for(i=aflaLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndAflatoxina.removeBoard(board);
   }
-  if(aflaLimit!=0||throughtIf==3) {
+  if(aflaLimit!=0||AflaFilter==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -1577,14 +1577,13 @@ $('#KitRadioAfla').click(function(){//não repete
                    nowAflaKit=kit._id;
                    aflacount = aflaLimit;
                    isSelected=true;
-                   throughtIf=false;
                    document.getElementById("countkitsAfla").innerHTML = aflacount;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
                    });
                }
                else{
-                throughtIf++;
+                AflaFilter++;
                }
 
                 if($('#KitAflaA').is(':checked')&&kit.kitType=="A") {
@@ -1594,7 +1593,6 @@ $('#KitRadioAfla').click(function(){//não repete
                      nowAflaKit=kit._id;
                      aflacount = aflaLimit;
                      isSelected=true;
-                     throughtIf=false;
                      document.getElementById("countkitsAfla").innerHTML = aflacount;
                      $.post('/sample/setActiveKit/'+kitToxin+'/' + nowAflaKit, () => {
 
@@ -1602,7 +1600,7 @@ $('#KitRadioAfla').click(function(){//não repete
 
                 }
                 else{
-                  throughtIf++;
+                  AflaFilter++;
                  }
               if ($('#KitAflaC').is(':checked')&&kit.kitType=="C") {
                     $('#hideAfla').removeClass('form-disabled');
@@ -1617,17 +1615,16 @@ $('#KitRadioAfla').click(function(){//não repete
 
                }
                else{
-                throughtIf++;
+                AflaFilter++;
                }
-               console.log(throughtIf);
                
-               if(throughtIf==3) {
+               if(AflaFilter==3) {
                  $('#hideAfla').addClass('form-disabled');
                 }
 
                if(isSelected) {
                 for(i=1;i<=aflaLimit;i++){//the map 0 was defined before
-                  console.log(i);
+               
                   scndAflatoxina.addBoards(
                           [{
                               'id' : '_workmap' + (i),
@@ -1648,6 +1645,7 @@ $('#KitRadioAfla').click(function(){//não repete
               if(sample.isCalibrator) {
                 if(sample.aflatoxina.mapReference=='Sem mapa') {
                     if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                   
                       scndAflatoxina.addElement("_calibrator", {
                         id: sample.name,
                         title:  sample.name,
@@ -1672,7 +1670,7 @@ $('#KitRadioAfla').click(function(){//não repete
                 $.get('/search/getOneSample/'+sampleID,(sample)=>{
                   if(sample.isCalibrator) {
                       scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-                        id: sample.name,
+                          id: sample.name,
                           title:  sample.name,
                           calibrator: true,
                           calid:sample._id
@@ -1719,12 +1717,14 @@ $('#KitRadioAfla').click(function(){//não repete
 
 var nowOcraKit;
 var ocraLimit=0;
+var ocraFilter;
 $('#KitRadioOcra').change(function(){
+   ocraFilter=0;
   for(i=ocraLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndOcratoxina.removeBoard(board);
   }
-  if(ocraLimit!=0) {
+  if(ocraLimit!=0||ocraFilter==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -1752,8 +1752,11 @@ $('#KitRadioOcra').change(function(){
 
                 });
 
+           } else {
+             ocraFilter++;
            }
-            if($('#KitOcraB').is(':checked')&&kit.kitType=="A") {
+            
+            if($('#KitOcraB').is(':checked')&&kit.kitType=="B") {
                  $('#hideOcra').removeClass('form-disabled');
                   ocraLimit=kit.stripLength;
                     nowOcraKit=kit._id;
@@ -1763,7 +1766,9 @@ $('#KitRadioOcra').change(function(){
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                     });
-             }
+             } else {
+              ocraFilter++;
+            }
              if ($('#KitOcraC').is(':checked')&&kit.kitType=="C") {
               $('#hideOcra').removeClass('form-disabled');
                ocraLimit=kit.stripLength;
@@ -1774,7 +1779,14 @@ $('#KitRadioOcra').change(function(){
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
                 });
+            } else {
+              ocraFilter++;
             }
+
+
+            if(ocraFilter==3) {
+              $('#hideOcra').addClass('form-disabled');
+             }
 
             if(isSelected){
               for(i=0;i<ocraLimit;i++){//the map 0 was defined before
@@ -1878,12 +1890,14 @@ $('#KitRadioOcra').change(function(){
 
 var nowDeoxKit;
 var deoxLimit=0;
+var deoxFilter;
 $('#KitRadioDeox').change(function(){
+   deoxFilter=0;
   for(i=deoxLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndDeoxinivalenol.removeBoard(board);
   }
-  if(deoxLimit!=0) {
+  if(deoxLimit!=0||deoxFilter==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -1911,7 +1925,10 @@ $('#KitRadioDeox').change(function(){
 
                 });
 
+           } else {
+             deoxFilter++;
            }
+            
            if($('#KitDeoxB').is(':checked')&&kit.kitType=="B") {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
@@ -1922,7 +1939,9 @@ $('#KitRadioDeox').change(function(){
                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                });
-             }
+             } else {
+              deoxFilter++;
+            }
              if (kit.kitType=="C"&&$('#KitDeoxC').is(':checked')) {
               $('#hideDeox').removeClass('form-disabled');
                deoxLimit=kit.stripLength;
@@ -1933,6 +1952,12 @@ $('#KitRadioDeox').change(function(){
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
                  });
+            } else {
+              deoxFilter++;
+            }
+            
+            if(deoxFilter==3) {
+              $('#hideDeox').addClass('form-disabled');
             }
 
             if(isSelected){
@@ -2026,10 +2051,20 @@ $('#KitRadioDeox').change(function(){
 
 var nowFumKit;
 var fumLimit=0;
+var fumFilter;
 $('#KitRadioFum').change(function(){
+  fumFilter=0;
   for(i=fumLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndFumonisina.removeBoard(board);
+  } 
+  if(fumLimit!=0||fumFilter==3) {
+    var elementId;
+     for(j=0;j<5;j++){
+
+      elementId= "P"+(j+1);
+       scndFumonisina.removeElement(elementId);
+     }
   }
   var isSelected=false;
   var   kitToxin;
@@ -2051,6 +2086,8 @@ $('#KitRadioFum').change(function(){
 
                   });
 
+           } else {
+             fumFilter++;
            }
            if($('#KitFumB').is(':checked')&&kit.kitType=="B") {
               $('#hideFum').removeClass('form-disabled');
@@ -2062,7 +2099,9 @@ $('#KitRadioFum').change(function(){
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                  });
-             }
+             } else {
+              fumFilter++;
+            }
             if (kit.kitType=="C"&&$('#KitFumC').is(':checked')) {
               $('#hideFum').removeClass('form-disabled');
                   fumLimit=kit.stripLength;
@@ -2073,6 +2112,12 @@ $('#KitRadioFum').change(function(){
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                    });
+            } else {
+              fumFilter++;
+            }
+
+            if(fumFilter==3){
+              $('#hideFum').addClass('form-disabled');
             }
 
            if(isSelected) {
@@ -2167,14 +2212,16 @@ $('#KitRadioFum').change(function(){
 
 var nowT2Kit;
 var t2Limit=0;
+var t2Filter;
 //corrigir
 $('#KitRadioT').change(function(){
+   t2Filter=0;
   for(i=t2Limit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndT2toxina.removeBoard(board);
   }
 
-  if(t2Limit!=0) {
+  if(t2Limit!=0||t2Filter==3) {
     var elementId;
      for(j=0;j<5;j++){
 
@@ -2201,6 +2248,8 @@ $('#KitRadioT').change(function(){
 
                   });
 
+           } else {
+             t2Filter++;
            }
            if($('#KitTB').is(':checked')&&kit.kitType=="B") {
               $('#hideT').removeClass('form-disabled');
@@ -2212,6 +2261,8 @@ $('#KitRadioT').change(function(){
 
                   });
 
+             }else {
+               t2Filter++;
              }
              if (kit.kitType=="C"&&$('#KitTC').is(':checked')) {
               $('#hideT').removeClass('form-disabled');
@@ -2222,6 +2273,12 @@ $('#KitRadioT').change(function(){
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
                     });
+            } else {
+              t2Filter++;
+            }
+
+            if(t2Filter==3) {
+              $('#hideT').addClass('form-disabled');
             }
 
             if(isSelected) {
@@ -2314,7 +2371,9 @@ $('#KitRadioT').change(function(){
 
 var nowZKit;
 var zLimit=0;
+var zFilter;
 $('#KitRadioZ').change(function(){
+  zFilter=0;
   for(i=zLimit;i>0;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndZearalenona.removeBoard(board);
@@ -2345,6 +2404,8 @@ $('#KitRadioZ').change(function(){
 
                   });
 
+           } else {
+             zFilter++;
            }
              if($('#KitZB').is(':checked')&&kit.kitType=="B") {
               $('#hideZ').removeClass('form-disabled');
@@ -2355,6 +2416,8 @@ $('#KitRadioZ').change(function(){
 
                    });
 
+             } else {
+               zFilter++;
              }
              if (kit.kitType=="C"&&$('#KitZC').is(':checked')) {
               $('#hideZ').removeClass('form-disabled');
@@ -2364,8 +2427,13 @@ $('#KitRadioZ').change(function(){
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                    });
+            } else {
+              zFilter++;
             }
 
+            if(zFilter==3) {
+              $('#hideZ').addClass('form-disabled');
+            }
             if(isSelected) {
               for(i=1;i<zLimit;i++){//the map 0 was defined before
                 scndZearalenona.addBoards(
