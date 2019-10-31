@@ -655,7 +655,7 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
 
 
 
-  res.render('previousmap', { title: 'Mapa de trabalho anterior', layout: 'layoutDashboard.hbs',previousafla,previousdeox,previousfum,previousocra,previoust2,previouszea,afla1,fbs,don1,ota1,t2});
+  res.render('previousmap', { title: 'Mapa de trabalho anterior',previousafla,previousdeox,previousfum,previousocra,previoust2,previouszea,afla1,fbs,don1,ota1,t2});
   }).catch((error)=>{
     console.log(error);
   });

@@ -13,7 +13,36 @@ const Sample=require('../models/sample');
 
 
 router.get('/', (req, res) => {
+  var calib_afla_id = new Array;
+  var aflas_p  = new Array;
   Sample.getAll().then((amostras)=>{
+    Kit.getAll().then((kit)=>{
+      for (let i = 0; i < kit.length; i++){
+        kitToxin=kit[i].productCode;
+        if(kit[i].active){
+          if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) { 
+            calib_afla_id[0] = kit[i].calibrators.P1.sampleID; 
+            calib_afla_id[1] = kit[i].calibrators.P2.sampleID;
+            calib_afla_id[2] = kit[i].calibrators.P3.sampleID;
+            calib_afla_id[3] = kit[i].calibrators.P4.sampleID;
+            calib_afla_id[4] = kit[i].calibrators.P5.sampleID;
+            //console.log(calib_afla_id);
+          }
+        }
+      }
+      Sample.getById(calib_afla_id[0]).then((p1)=>{
+        aflas_p[0]=p1;
+        Sample.getById(calib_afla_id[1]).then((p2)=>{
+          aflas_p[1]=p2;
+          Sample.getById(calib_afla_id[2]).then((p3)=>{ 
+            aflas_p[2]=p3;
+              Sample.getById(calib_afla_id[3]).then((p4)=>{
+                aflas_p[3] = p4;
+                Sample.getById(calib_afla_id[4]).then((p5)=>{
+                    aflas_p[4]=p5;
+                    console.log(aflas_p);
+                    
+    
     var today = new Date();
     var hours = today.getHours();
     var minutes = today.getMinutes(); 
@@ -612,11 +641,32 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'printtemplate',{amostras,afla1,fbs,don1,zea,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'printtemplate',{amostras,afla1,aflas_p,fbs,don1,zea,ota1,dd,mm,yyyy,today,t2,...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
+  
+}).catch((error) => {
+  console.log(error);
+    });
+   }).catch((error) => {
+    console.log(error);
+   });
+  }).catch((error) => {
+   console.log(error);
+  });
+  }).catch((error) => {
+   console.log(error);
+  });
+}).catch((error) => {
+ console.log(error);
+});
+}).catch((error)=>{
+  console.log(error);
+});
+
+
 });
 
 
