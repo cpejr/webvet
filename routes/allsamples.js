@@ -709,53 +709,50 @@ router.post('/',function(req,res,next){
   
   Sample.getAll().then((sample)=>{
     //amostras afla
-    var id_afla = req.body.sample.aflatoxina._id;
-    var abs_afla = req.body.sample.aflatoxina.absorbance;
-    
-    //calibradores afla
-    var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
-    var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
-
-      //calibradores deox
-      var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
-      var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
-
-      //amostras deox
-      var id_deox = req.body.sample.deoxinivalenol._id;
-      var abs_deox = req.body.sample.deoxinivalenol.absorbance;
-
-    
-
-
-     for (let i = 0; i < abs_afla.length; i++) {
+    if(req.body.aflatoxina){
+      var id_afla = req.body.sample.aflatoxina._id;
+      var abs_afla = req.body.sample.aflatoxina.absorbance;
+      for (let i = 0; i < abs_afla.length; i++) {
         Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
       }
+    }
+    if(req.body.calibrator.aflatoxina){
+      //calibradores afla
+      var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
+      var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
       for (let i = 0; i < abs_calibritor_afla.length; i++) {
         Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
         }).catch((error)=>{ 
         console.log(error);
         });
       }
+    }
+    if(req.body.calibrator.deoxinivalenol){
+      //calibradores deox
+      var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
+      var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
       for(let i = 0; i< abs_calibritor_deox.length; i++){
         Sample.updateDeoxAbsorbance(id_calibrators_deox[i],abs_calibritor_deox[i]).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
       }
-      for(let i = 0; i <abs_deox; i++){
+    }
+    if(req.body.sample.deoxinivalenol){
+      //amostras deox
+      var id_deox = req.body.sample.deoxinivalenol._id;
+      var abs_deox = req.body.sample.deoxinivalenol.absorbance;
+      for(let i = 0; i <abs_deox.length; i++){
         Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
       }
-      
-      
+    }
 
-     
-    
     var cont = 0;
 
     for (var i = 0; i < sample.length; i++) {
