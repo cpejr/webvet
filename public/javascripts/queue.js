@@ -1547,7 +1547,7 @@ $.get('/search/samples', (samples) => {
 
 var nowAflaKit;
 var aflaLimit=0;
-var AflaFilter; //this variable will hide the second kanban if the selected radio hasn't a corresponding kit in mongo
+var AflaFilter=0; //this variable will hide the second kanban if the selected radio hasn't a corresponding kit in mongo
 $('#KitRadioAfla').click(function(){//não repete
    
   AflaFilter=0;
@@ -1624,7 +1624,7 @@ $('#KitRadioAfla').click(function(){//não repete
 
                if(isSelected) {
                 for(i=1;i<=aflaLimit;i++){//the map 0 was defined before
-                  console.log(i);
+               
                   scndAflatoxina.addBoards(
                           [{
                               'id' : '_workmap' + (i),
@@ -1645,6 +1645,7 @@ $('#KitRadioAfla').click(function(){//não repete
               if(sample.isCalibrator) {
                 if(sample.aflatoxina.mapReference=='Sem mapa') {
                     if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
+                   
                       scndAflatoxina.addElement("_calibrator", {
                         id: sample.name,
                         title:  sample.name,
@@ -1669,7 +1670,7 @@ $('#KitRadioAfla').click(function(){//não repete
                 $.get('/search/getOneSample/'+sampleID,(sample)=>{
                   if(sample.isCalibrator) {
                       scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-                        id: sample.name,
+                          id: sample.name,
                           title:  sample.name,
                           calibrator: true,
                           calid:sample._id
