@@ -1644,8 +1644,9 @@ $('#KitRadioAfla').click(function(){//não repete
             samples.forEach((sample) => {
               if(sample.isCalibrator) {
                 if(sample.aflatoxina.mapReference=='Sem mapa') {
+                
                     if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                   
+
                       scndAflatoxina.addElement("_calibrator", {
                         id: sample.name,
                         title:  sample.name,
@@ -1668,7 +1669,6 @@ $('#KitRadioAfla').click(function(){//não repete
             $.get('/search/getWorkmap/'+mapID,(workmap)=>{
               workmap.samplesArray.forEach((sampleID)=>{
                 $.get('/search/getOneSample/'+sampleID,(sample)=>{
-                  console.log(sample._id)
                   if(sample.isCalibrator) {
                      
                       scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
@@ -1678,32 +1678,32 @@ $('#KitRadioAfla').click(function(){//não repete
                           calid:sample._id
                       });
                 }
-                else {
-                  $.get('/search/userFromSample/'+sample._id,(user)=>{
-                    if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
-                          if(user.debt){
-                            scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-                              id: "owner",
-                              title: "Amostra " + sample.samplenumber,
-                              analyst: sample.responsable,
-                              status: sample.aflatoxina.status,
-                              owner: "Devedor"
-                            });
-                          }
+              //   else {
+              //     $.get('/search/userFromSample/'+sample._id,(user)=>{
+              //       if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
+              //             if(user.debt){
+              //               scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+              //                 id: "owner",
+              //                 title: "Amostra " + sample.samplenumber,
+              //                 analyst: sample.responsable,
+              //                 status: sample.aflatoxina.status,
+              //                 owner: "Devedor"
+              //               });
+              //             }
 
-                          else {
-                           scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-                              id: sample.samplenumber,
-                              title: "Amostra " + sample.samplenumber,
-                              analyst: sample.responsable,
-                              status: sample.aflatoxina.status
-                           });
-                        }
+              //             else {
+              //              scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+              //                 id: sample.samplenumber,
+              //                 title: "Amostra " + sample.samplenumber,
+              //                 analyst: sample.responsable,
+              //                 status: sample.aflatoxina.status
+              //              });
+              //           }
 
-                   }
+              //      }
 
-                 });
-               }
+              //    });
+              //  }
                 });
               });
            });
@@ -1844,32 +1844,32 @@ $('#KitRadioOcra').change(function(){
                         calid:sample._id
                     });
               }
-            //   else {
-            //     $.get('/search/userFromSample/'+sample._id,(user)=>{
-            //       if(sample.ocratoxina.active == true && sample.ocratoxina.status=="Mapa de Trabalho" ) {
-            //             if(user.debt){
-            //               scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
-            //                 id: "owner",
-            //                 title: "Amostra " + sample.samplenumber,
-            //                 analyst: sample.responsable,
-            //                 status: sample.ocratoxina.status,
-            //                 owner: "Devedor"
-            //               });
-            //             }
+              else {
+                $.get('/search/userFromSample/'+sample._id,(user)=>{
+                  if(sample.ocratoxina.active == true && sample.ocratoxina.status=="Mapa de Trabalho" ) {
+                        if(user.debt){
+                          scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
+                            id: "owner",
+                            title: "Amostra " + sample.samplenumber,
+                            analyst: sample.responsable,
+                            status: sample.ocratoxina.status,
+                            owner: "Devedor"
+                          });
+                        }
 
-            //             else {
-            //              scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
-            //                 id: sample.samplenumber,
-            //                 title: "Amostra " + sample.samplenumber,
-            //                 analyst: sample.responsable,
-            //                 status: sample.ocratoxina.status
-            //              });
-            //           }
+                        else {
+                         scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
+                            id: sample.samplenumber,
+                            title: "Amostra " + sample.samplenumber,
+                            analyst: sample.responsable,
+                            status: sample.ocratoxina.status
+                         });
+                      }
 
-            //      }
+                 }
 
-            //    });
-            //  }
+               });
+             }
               });
             });
 
@@ -1963,7 +1963,7 @@ $('#KitRadioDeox').change(function(){
             }
 
             if(isSelected){
-              for(i=1;i<deoxLimit;i++){//the map 0 was defined before
+              for(i=0;i<deoxLimit;i++){//the map 0 was defined before
                 scndDeoxinivalenol.addBoards(
                         [{
                             'id' : '_workmap' + (i+1),
@@ -2029,7 +2029,7 @@ $('#KitRadioDeox').change(function(){
                         }
 
                         else {
-                          scndOcratoxina.addElement(sample.deoxinivalenol.mapReference, {
+                          scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
                               id: sample.samplenumber,
                               title: "Amostra " + sample.samplenumber,
                               analyst: sample.responsable,
