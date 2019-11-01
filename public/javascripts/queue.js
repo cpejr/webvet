@@ -1668,7 +1668,9 @@ $('#KitRadioAfla').click(function(){//não repete
             $.get('/search/getWorkmap/'+mapID,(workmap)=>{
               workmap.samplesArray.forEach((sampleID)=>{
                 $.get('/search/getOneSample/'+sampleID,(sample)=>{
+                  console.log(sample._id)
                   if(sample.isCalibrator) {
+                     
                       scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
                           id: sample.name,
                           title:  sample.name,
@@ -1842,32 +1844,32 @@ $('#KitRadioOcra').change(function(){
                         calid:sample._id
                     });
               }
-              else {
-                $.get('/search/userFromSample/'+sample._id,(user)=>{
-                  if(sample.ocratoxina.active == true && sample.ocratoxina.status=="Mapa de Trabalho" ) {
-                        if(user.debt){
-                          scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
-                            id: "owner",
-                            title: "Amostra " + sample.samplenumber,
-                            analyst: sample.responsable,
-                            status: sample.ocratoxina.status,
-                            owner: "Devedor"
-                          });
-                        }
+            //   else {
+            //     $.get('/search/userFromSample/'+sample._id,(user)=>{
+            //       if(sample.ocratoxina.active == true && sample.ocratoxina.status=="Mapa de Trabalho" ) {
+            //             if(user.debt){
+            //               scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
+            //                 id: "owner",
+            //                 title: "Amostra " + sample.samplenumber,
+            //                 analyst: sample.responsable,
+            //                 status: sample.ocratoxina.status,
+            //                 owner: "Devedor"
+            //               });
+            //             }
 
-                        else {
-                         scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
-                            id: sample.samplenumber,
-                            title: "Amostra " + sample.samplenumber,
-                            analyst: sample.responsable,
-                            status: sample.ocratoxina.status
-                         });
-                      }
+            //             else {
+            //              scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
+            //                 id: sample.samplenumber,
+            //                 title: "Amostra " + sample.samplenumber,
+            //                 analyst: sample.responsable,
+            //                 status: sample.ocratoxina.status
+            //              });
+            //           }
 
-                 }
+            //      }
 
-               });
-             }
+            //    });
+            //  }
               });
             });
 
