@@ -15,8 +15,12 @@ const Sample=require('../models/sample');
 router.get('/', (req, res) => {
   var calib_afla_id = new Array;
   var calib_don_id = new Array;
+  var calib_ocra_id = new Array;
+  var calib_t2_id = new Array;
   var aflas_p = new Array;
   var don_p = new Array;
+  var ocra_p = new Array;
+  var t2_p = new Array;
   Sample.getAll().then((amostras)=>{
   Kit.getAll().then((kit)=>{
     for (let i = 0; i < kit.length; i++){
@@ -37,6 +41,21 @@ router.get('/', (req, res) => {
         calib_don_id[3] = kit[i].calibrators.P4.sampleID;
         calib_don_id[4] = kit[i].calibrators.P5.sampleID;
       }
+      if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
+        calib_ocra_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_ocra_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_ocra_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_ocra_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_ocra_id[4] = kit[i].calibrators.P5.sampleID;
+      }
+      if(kitToxin.includes("T2")) {
+        calib_t2_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_t2_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_t2_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_t2_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_t2_id[4] = kit[i].calibrators.P5.sampleID;
+      }
+
     }
       Sample.getById(calib_afla_id[0]).then((p1)=>{
         aflas_p[0]=p1;
@@ -59,9 +78,28 @@ router.get('/', (req, res) => {
                         don_p[3] = p4_d;
                         Sample.getById(calib_don_id[4]).then((p5_d)=>{
                           don_p[4]=p5_d;
-                          console.log(don_p);
                           
-    
+                          Sample.getById(calib_ocra_id[0]).then((p1_o)=>{
+                            ocra_p[0]=p1_o;
+                            Sample.getById(calib_ocra_id[1]).then((p2_o)=>{
+                              ocra_p[1]=p2_o;
+                              Sample.getById(calib_ocra_id[2]).then((p3_o)=>{ 
+                                ocra_p[2]=p3_o;
+                                  Sample.getById(calib_ocra_id[3]).then((p4_o)=>{
+                                    ocra_p[3] = p4_o;
+                                    Sample.getById(calib_ocra_id[4]).then((p5_o)=>{
+                                      ocra_p[4]=p5_o;
+                                      
+                                      Sample.getById(calib_t2_id[0]).then((p1_t)=>{
+                                        t2_p[0]=p1_t;
+                                        Sample.getById(calib_t2_id[1]).then((p2_t)=>{
+                                          t2_p[1]=p2_t;
+                                          Sample.getById(calib_t2_id[2]).then((p3_t)=>{ 
+                                            t2_p[2]=p3_t;
+                                              Sample.getById(calib_t2_id[3]).then((p4_t)=>{
+                                                t2_p[3] = p4_t;
+                                                Sample.getById(calib_t2_id[4]).then((p5_t)=>{
+                                                  t2_p[4]=p5_t;   
      
   
 
@@ -657,7 +695,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,aflas_p,don_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,aflas_p,ocra_p,don_p,t2_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -697,6 +735,37 @@ console.log(error);
 }).catch((error)=>{
 console.log(error);
 });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
 });
 
 
@@ -709,7 +778,7 @@ router.post('/',function(req,res,next){
   
   Sample.getAll().then((sample)=>{
     //amostras afla
-    if(req.body.aflatoxina){
+    if(req.body.sample.aflatoxina){
       var id_afla = req.body.sample.aflatoxina._id;
       var abs_afla = req.body.sample.aflatoxina.absorbance;
       if(abs_afla.length == 1){
@@ -780,6 +849,10 @@ router.post('/',function(req,res,next){
         }
       }
     }
+
+    
+
+    
 
     var cont = 0;
 
