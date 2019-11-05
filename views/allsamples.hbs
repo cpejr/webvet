@@ -1702,13 +1702,15 @@
 
         {{#each amostras}}
           {{#compare zearalenona.mapReference '_workmap1'}}
-            {{#compare zearalenona.active true}}
-              {{#compare isCalibrator false}}
+             {{#compare isCalibrator false}}
               <tr>
                 <th>{{samplenumber}}</th>
-                <th><input type="text" class="input-absorbance"></th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
               </tr>
-              {{/compare}}
             {{/compare}}
           {{/compare}}
         {{/each}}
@@ -1721,10 +1723,16 @@
 
         {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap2'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+             {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1738,10 +1746,16 @@
 
         {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap3'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1754,10 +1768,16 @@
 
         {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap4'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1773,10 +1793,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap5'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1791,10 +1817,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap6'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1809,10 +1841,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap7'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1827,10 +1865,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap8'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1844,10 +1888,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap9'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1862,10 +1912,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap10'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1880,10 +1936,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap11'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1899,10 +1961,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap12'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1917,10 +1985,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap13'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1935,10 +2009,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap14'}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+            {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1953,10 +2033,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap15'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+           {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -1970,10 +2056,16 @@
 
       {{#each amostras}}
         {{#compare zearalenona.mapReference '_workmap16'}}
-           <tr>
-              <th>{{samplenumber}}</th>
-              <th><input type="text" class="input-absorbance"></th>
-            </tr>
+          {{#compare zearalenona.active true}}
+              <tr>
+                <th>{{samplenumber}}</th>
+                <div class="some">
+                  <input name = "sample[zearalenona][_id]" type="text" value="{{_id}}">
+                </div>
+
+                <th><input type="text" name = "sample[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
         {{/compare}}
         {{/each}}
 

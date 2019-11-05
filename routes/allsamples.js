@@ -1001,6 +1001,25 @@ router.post('/',function(req,res,next){
     }
 
 
+    if(req.body.sample.zearalenona){
+      //amostras zea
+      var id_zea = req.body.sample.zearalenona._id;
+      var abs_zea = req.body.sample.zearalenona.absorbance;
+      if(abs_zea.length == 1){
+        Sample.updateZeaAbsorbance(id_zea,abs_zea).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_zea.length; i++){
+          Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
 
     if(req.body.calibrator.zearalenona){
       //calibradores zea
@@ -1020,6 +1039,26 @@ router.post('/',function(req,res,next){
         }
       }
     }
+
+    if(req.body.sample.zearalenona){
+      //amostras zea
+      var id_zea = req.body.sample.zearalenona._id;
+      var abs_zea = req.body.sample.zearalenona.absorbance;
+      if(abs_zea.length == 1){
+        Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_zea.length; i++){
+          Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
 
     if(req.body.calibrator.fumonisina){
       //calibradores fbs
