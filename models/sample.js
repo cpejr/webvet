@@ -318,6 +318,19 @@ class Sample {
     });
   }
 
+  static updateOcraAbsorbance(id, abs){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'ocratoxina.absorbance': abs}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
+
 
   static updateAflaWorkmap(id, cont){
     return new Promise((resolve, reject) => {

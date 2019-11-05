@@ -923,6 +923,26 @@ router.post('/',function(req,res,next){
         }
       }
     }
+    if(req.body.calibrator.ocratoxina){
+      //calibradores ocra
+      var id_calibrators_ocra = req.body.calibrator.ocratoxina._id;
+      var abs_calibritor_ocra = req.body.calibrator.ocratoxina.absorbance;
+      if(abs_calibritor_ocra.length == 1){
+        Sample.updateOcraAbsorbance(id_calibrators_ocra,abs_calibritor_ocra).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_ocra.length; i++){
+          Sample.updateOcraAbsorbance(id_calibrators_ocra[i],abs_calibritor_ocra[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+    
 
     
 
