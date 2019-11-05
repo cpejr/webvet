@@ -923,6 +923,82 @@ router.post('/',function(req,res,next){
         }
       }
     }
+    if(req.body.calibrator.ocratoxina){
+      //calibradores ocra
+      var id_calibrators_ocra = req.body.calibrator.ocratoxina._id;
+      var abs_calibritor_ocra = req.body.calibrator.ocratoxina.absorbance;
+      if(abs_calibritor_ocra.length == 1){
+        Sample.updateOcraAbsorbance(id_calibrators_ocra,abs_calibritor_ocra).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_ocra.length; i++){
+          Sample.updateOcraAbsorbance(id_calibrators_ocra[i],abs_calibritor_ocra[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+    if(req.body.calibrator.t2toxina){
+      //calibradores t2
+      var id_calibrators_t2 = req.body.calibrator.t2toxina._id;
+      var abs_calibritor_t2 = req.body.calibrator.t2toxina.absorbance;
+      if(abs_calibritor_t2.length == 1){
+        Sample.updateT2Absorbance(id_calibrators_t2,abs_calibritor_t2).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_t2.length; i++){
+          Sample.updateT2Absorbance(id_calibrators_t2[i],abs_calibritor_t2[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+    if(req.body.calibrator.zearalenona){
+      //calibradores zea
+      var id_calibrators_zea = req.body.calibrator.zearalenona._id;
+      var abs_calibritor_zea = req.body.calibrator.zearalenona.absorbance;
+      if(abs_calibritor_zea.length == 1){
+        Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_zea.length; i++){
+          Sample.updateZeaAbsorbance(id_calibrators_zea[i],abs_calibritor_zea[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+    if(req.body.calibrator.fumonisina){
+      //calibradores fbs
+      var id_calibrators_fbs = req.body.calibrator.fumonisina._id;
+      var abs_calibritor_fbs = req.body.calibrator.fumonisina.absorbance;
+      if(abs_calibritor_fbs.length == 1){
+        Sample.updateFbsAbsorbance(id_calibrators_fbs,abs_calibritor_fbs).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_fbs.length; i++){
+          Sample.updateFbsAbsorbance(id_calibrators_fbs[i],abs_calibritor_fbs[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+      
+    }
 
     
 
