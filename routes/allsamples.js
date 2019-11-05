@@ -1080,6 +1080,25 @@ router.post('/',function(req,res,next){
       
     }
 
+    if(req.body.sample.fumonisina){
+      //amostras fbs
+      var id_fbs = req.body.sample.fumonisina._id;
+      var abs_fbs = req.body.sample.fumonisina.absorbance;
+      if(abs_fbs.length == 1){
+        Sample.updateFbsAbsorbance(id_fbs,abs_fbs).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_fbs.length; i++){
+          Sample.updateFbsAbsorbance(id_fbs[i],abs_fbs[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+    
     
 
     
