@@ -344,6 +344,19 @@ class Sample {
     });
   }
 
+  static updateZeaAbsorbance(id, abs){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'zearalenona.absorbance': abs}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
+
   static updateAflaWorkmap(id, cont){
     return new Promise((resolve, reject) => {
       SampleModel.update(
