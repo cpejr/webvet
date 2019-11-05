@@ -942,7 +942,24 @@ router.post('/',function(req,res,next){
       }
     }
 
-    
+    if(req.body.calibrator.t2toxina){
+      //calibradores ocra
+      var id_calibrators_t2 = req.body.calibrator.t2toxina._id;
+      var abs_calibritor_t2 = req.body.calibrator.t2toxina.absorbance;
+      if(abs_calibritor_t2.length == 1){
+        Sample.updateT2Absorbance(id_calibrators_t2,abs_calibritor_t2).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_t2.length; i++){
+          Sample.updateT2Absorbance(id_calibrators_t2[i],abs_calibritor_t2[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
 
     
 

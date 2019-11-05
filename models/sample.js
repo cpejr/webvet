@@ -331,6 +331,18 @@ class Sample {
     });
   }
 
+  static updateT2Absorbance(id, abs){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'t2toxina.absorbance': abs}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
 
   static updateAflaWorkmap(id, cont){
     return new Promise((resolve, reject) => {
