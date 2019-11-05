@@ -17,10 +17,12 @@ router.get('/', (req, res) => {
   var calib_don_id = new Array;
   var calib_ocra_id = new Array;
   var calib_t2_id = new Array;
+  var calib_zea_id = new Array;
   var aflas_p = new Array;
   var don_p = new Array;
   var ocra_p = new Array;
   var t2_p = new Array;
+  var zea_p = new Array;
   Sample.getAll().then((amostras)=>{
   Kit.getAll().then((kit)=>{
     for (let i = 0; i < kit.length; i++){
@@ -56,6 +58,13 @@ router.get('/', (req, res) => {
         calib_t2_id[4] = kit[i].calibrators.P5.sampleID;
       }
 
+      if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
+        calib_zea_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_zea_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_zea_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_zea_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_zea_id[4] = kit[i].calibrators.P5.sampleID;
+      }
     }
       Sample.getById(calib_afla_id[0]).then((p1)=>{
         aflas_p[0]=p1;
@@ -101,6 +110,16 @@ router.get('/', (req, res) => {
                                                 Sample.getById(calib_t2_id[4]).then((p5_t)=>{
                                                   t2_p[4]=p5_t;   
      
+                                                  Sample.getById(calib_zea_id[0]).then((p1_z)=>{
+                                                    zea_p[0]=p1_z;
+                                                    Sample.getById(calib_zea_id[1]).then((p2_z)=>{
+                                                      zea_p[1]=p2_z;
+                                                      Sample.getById(calib_zea_id[2]).then((p3_z)=>{ 
+                                                        zea_p[2]=p3_z;
+                                                          Sample.getById(calib_zea_id[3]).then((p4_z)=>{
+                                                            zea_p[3] = p4_z;
+                                                            Sample.getById(calib_zea_id[4]).then((p5_z)=>{
+                                                              zea_p[4]=p5_z;   
   
 
  
@@ -695,7 +714,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,aflas_p,ocra_p,don_p,t2_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,zea_p,aflas_p,ocra_p,don_p,t2_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -735,6 +754,22 @@ console.log(error);
 }).catch((error)=>{
 console.log(error);
 });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+
 }).catch((error)=>{
   console.log(error);
   });

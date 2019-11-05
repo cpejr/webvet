@@ -1498,13 +1498,29 @@
       </thead>
       <tbody>
 
+        {{#each zea_p}}
+          {{#compare isCalibrator true}}
+            {{#compare zearalenona.mapReference '_workmap1'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[zearalenona][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[zearalenona][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
+
         {{#each amostras}}
           {{#compare zearalenona.mapReference '_workmap1'}}
             {{#compare zearalenona.active true}}
+              {{#compare isCalibrator false}}
               <tr>
                 <th>{{samplenumber}}</th>
                 <th><input type="text" class="input-absorbance"></th>
               </tr>
+              {{/compare}}
             {{/compare}}
           {{/compare}}
         {{/each}}
