@@ -981,6 +981,27 @@ router.post('/',function(req,res,next){
       }
     }
 
+    if(req.body.sample.t2toxina){
+      //amostra t2
+      var id_t2 = req.body.sample.t2toxina._id;
+      var abs_t2 = req.body.sample.t2toxina.absorbance;
+      if(abs_t2.length == 1){
+        Sample.updateT2Absorbance(id_t2,abs_t2).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_t2.length; i++){
+          Sample.updateT2Absorbance(id_t2[i],abs_t2[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+
+
     if(req.body.calibrator.zearalenona){
       //calibradores zea
       var id_calibrators_zea = req.body.calibrator.zearalenona._id;
