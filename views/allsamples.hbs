@@ -1811,13 +1811,31 @@
       </thead>
       <tbody>
 
+        
+        {{#each fbs_p}}
+          {{#compare isCalibrator true}}
+            {{#compare fumonisina.mapReference '_workmap1'}}
+              <tr>
+                <th>{{name}}</th>
+                <div class="some">
+                  <input name = "calibrator[fumonisina][_id]" type="text" value="{{_id}}">
+                 </div>
+                  <th><input type="text" name = "calibrator[fumonisina][absorbance]" class="input-absorbance"></th>
+              </tr>
+            {{/compare}}
+          {{/compare}}  
+        {{/each}}
+
+
         {{#each amostras}}
           {{#compare fumonisina.mapReference '_workmap1'}}
             {{#compare fumonisina.active true}}
+            {{#compare isCalibrator false}}
               <tr>
                 <th>{{samplenumber}}</th>
                 <th><input type="text" class="input-absorbance"></th>
               </tr>
+              {{/compare}}
             {{/compare}}
           {{/compare}}
         {{/each}}

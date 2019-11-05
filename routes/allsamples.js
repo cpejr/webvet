@@ -18,11 +18,13 @@ router.get('/', (req, res) => {
   var calib_ocra_id = new Array;
   var calib_t2_id = new Array;
   var calib_zea_id = new Array;
+  var calib_fbs_id = new Array;
   var aflas_p = new Array;
   var don_p = new Array;
   var ocra_p = new Array;
   var t2_p = new Array;
   var zea_p = new Array;
+  var fbs_p = new Array;
   Sample.getAll().then((amostras)=>{
   Kit.getAll().then((kit)=>{
     for (let i = 0; i < kit.length; i++){
@@ -64,6 +66,14 @@ router.get('/', (req, res) => {
         calib_zea_id[2] = kit[i].calibrators.P3.sampleID;
         calib_zea_id[3] = kit[i].calibrators.P4.sampleID;
         calib_zea_id[4] = kit[i].calibrators.P5.sampleID;
+      }
+
+      if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
+        calib_fbs_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_fbs_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_fbs_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_fbs_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_fbs_id[4] = kit[i].calibrators.P5.sampleID;
       }
     }
       Sample.getById(calib_afla_id[0]).then((p1)=>{
@@ -120,7 +130,19 @@ router.get('/', (req, res) => {
                                                             zea_p[3] = p4_z;
                                                             Sample.getById(calib_zea_id[4]).then((p5_z)=>{
                                                               zea_p[4]=p5_z;   
-  
+                                                              
+                                                              
+                                                                Sample.getById(calib_fbs_id[0]).then((p1_f)=>{
+                                                                  fbs_p[0]=p1_f;
+                                                                  Sample.getById(calib_fbs_id[1]).then((p2_f)=>{
+                                                                    fbs_p[1]=p2_f;
+                                                                    Sample.getById(calib_fbs_id[2]).then((p3_f)=>{ 
+                                                                      fbs_p[2]=p3_f;
+                                                                        Sample.getById(calib_fbs_id[3]).then((p4_f)=>{
+                                                                          fbs_p[3] = p4_f;
+                                                                          Sample.getById(calib_fbs_id[4]).then((p5_f)=>{
+                                                                            fbs_p[4]=p5_f;   
+    
 
  
     var today = new Date();
@@ -714,7 +736,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,zea_p,aflas_p,ocra_p,don_p,t2_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,zea_p,aflas_p,ocra_p,don_p,t2_p,fbs_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -785,6 +807,23 @@ console.log(error);
 }).catch((error)=>{
   console.log(error);
   });
+
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+
 
 }).catch((error)=>{
   console.log(error);
