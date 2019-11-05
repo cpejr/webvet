@@ -356,6 +356,18 @@ class Sample {
 
     });
   }
+  static updateFbsAbsorbance(id, abs){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'fumonisina.absorbance': abs}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+
+    });
+  }
 
   static updateAflaWorkmap(id, cont){
     return new Promise((resolve, reject) => {

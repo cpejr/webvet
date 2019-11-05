@@ -980,6 +980,26 @@ router.post('/',function(req,res,next){
       }
     }
 
+    if(req.body.calibrator.fumonisina){
+      //calibradores fbs
+      var id_calibrators_fbs = req.body.calibrator.fumonisina._id;
+      var abs_calibritor_fbs = req.body.calibrator.fumonisina.absorbance;
+      if(abs_calibritor_fbs.length == 1){
+        Sample.updateFbsAbsorbance(id_calibrators_fbs,abs_calibritor_fbs).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_fbs.length; i++){
+          Sample.updateFbsAbsorbance(id_calibrators_fbs[i],abs_calibritor_fbs[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+      
+    }
+
     
 
     
