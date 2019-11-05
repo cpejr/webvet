@@ -305,11 +305,11 @@ class Sample {
     });
   }
 
-  static updateAflaCalibrator(id, abs){
+  static updateDeoxAbsorbance(id, abs){
     return new Promise((resolve, reject) => {
       SampleModel.update(
         {_id: id},
-        {$set: {'aflatoxina.absorbance': abs}}).then((result) =>{
+        {$set: {'deoxinivalenol.absorbance': abs}}).then((result) =>{
         resolve(result);
       }).catch(err =>{
         reject(err);

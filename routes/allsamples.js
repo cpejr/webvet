@@ -14,9 +14,17 @@ const Sample=require('../models/sample');
 
 router.get('/', (req, res) => {
   var calib_afla_id = new Array;
+  var calib_don_id = new Array;
+  var calib_ocra_id = new Array;
+  var calib_t2_id = new Array;
+  var calib_zea_id = new Array;
+  var calib_fbs_id = new Array;
   var aflas_p = new Array;
-  var name = new Array;
-  var aflas_p = new Array;
+  var don_p = new Array;
+  var ocra_p = new Array;
+  var t2_p = new Array;
+  var zea_p = new Array;
+  var fbs_p = new Array;
   Sample.getAll().then((amostras)=>{
   Kit.getAll().then((kit)=>{
     for (let i = 0; i < kit.length; i++){
@@ -28,8 +36,44 @@ router.get('/', (req, res) => {
           calib_afla_id[2] = kit[i].calibrators.P3.sampleID;
           calib_afla_id[3] = kit[i].calibrators.P4.sampleID;
           calib_afla_id[4] = kit[i].calibrators.P5.sampleID;
-          //console.log(calib_afla_id);
         }
+      }
+      if(kitToxin.includes("DON")) {
+        calib_don_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_don_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_don_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_don_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_don_id[4] = kit[i].calibrators.P5.sampleID;
+      }
+      if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
+        calib_ocra_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_ocra_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_ocra_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_ocra_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_ocra_id[4] = kit[i].calibrators.P5.sampleID;
+      }
+      if(kitToxin.includes("T2")) {
+        calib_t2_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_t2_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_t2_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_t2_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_t2_id[4] = kit[i].calibrators.P5.sampleID;
+      }
+
+      if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
+        calib_zea_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_zea_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_zea_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_zea_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_zea_id[4] = kit[i].calibrators.P5.sampleID;
+      }
+
+      if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
+        calib_fbs_id[0] = kit[i].calibrators.P1.sampleID;
+        calib_fbs_id[1] = kit[i].calibrators.P2.sampleID;
+        calib_fbs_id[2] = kit[i].calibrators.P3.sampleID;
+        calib_fbs_id[3] = kit[i].calibrators.P4.sampleID;
+        calib_fbs_id[4] = kit[i].calibrators.P5.sampleID;
       }
     }
       Sample.getById(calib_afla_id[0]).then((p1)=>{
@@ -42,11 +86,63 @@ router.get('/', (req, res) => {
                 aflas_p[3] = p4;
                 Sample.getById(calib_afla_id[4]).then((p5)=>{
                     aflas_p[4]=p5;
-                    console.log(aflas_p);
                     
-    
+              Sample.getById(calib_don_id[0]).then((p1_d)=>{
+                don_p[0]=p1_d;
+                Sample.getById(calib_don_id[1]).then((p2_d)=>{
+                  don_p[1]=p2_d;
+                  Sample.getById(calib_don_id[2]).then((p3_d)=>{ 
+                    don_p[2]=p3_d;
+                      Sample.getById(calib_don_id[3]).then((p4_d)=>{
+                        don_p[3] = p4_d;
+                        Sample.getById(calib_don_id[4]).then((p5_d)=>{
+                          don_p[4]=p5_d;
+                          
+                          Sample.getById(calib_ocra_id[0]).then((p1_o)=>{
+                            ocra_p[0]=p1_o;
+                            Sample.getById(calib_ocra_id[1]).then((p2_o)=>{
+                              ocra_p[1]=p2_o;
+                              Sample.getById(calib_ocra_id[2]).then((p3_o)=>{ 
+                                ocra_p[2]=p3_o;
+                                  Sample.getById(calib_ocra_id[3]).then((p4_o)=>{
+                                    ocra_p[3] = p4_o;
+                                    Sample.getById(calib_ocra_id[4]).then((p5_o)=>{
+                                      ocra_p[4]=p5_o;
+                                      
+                                      Sample.getById(calib_t2_id[0]).then((p1_t)=>{
+                                        t2_p[0]=p1_t;
+                                        Sample.getById(calib_t2_id[1]).then((p2_t)=>{
+                                          t2_p[1]=p2_t;
+                                          Sample.getById(calib_t2_id[2]).then((p3_t)=>{ 
+                                            t2_p[2]=p3_t;
+                                              Sample.getById(calib_t2_id[3]).then((p4_t)=>{
+                                                t2_p[3] = p4_t;
+                                                Sample.getById(calib_t2_id[4]).then((p5_t)=>{
+                                                  t2_p[4]=p5_t;   
      
-  
+                                                  Sample.getById(calib_zea_id[0]).then((p1_z)=>{
+                                                    zea_p[0]=p1_z;
+                                                    Sample.getById(calib_zea_id[1]).then((p2_z)=>{
+                                                      zea_p[1]=p2_z;
+                                                      Sample.getById(calib_zea_id[2]).then((p3_z)=>{ 
+                                                        zea_p[2]=p3_z;
+                                                          Sample.getById(calib_zea_id[3]).then((p4_z)=>{
+                                                            zea_p[3] = p4_z;
+                                                            Sample.getById(calib_zea_id[4]).then((p5_z)=>{
+                                                              zea_p[4]=p5_z;   
+                                                              
+                                                              
+                                                                Sample.getById(calib_fbs_id[0]).then((p1_f)=>{
+                                                                  fbs_p[0]=p1_f;
+                                                                  Sample.getById(calib_fbs_id[1]).then((p2_f)=>{
+                                                                    fbs_p[1]=p2_f;
+                                                                    Sample.getById(calib_fbs_id[2]).then((p3_f)=>{ 
+                                                                      fbs_p[2]=p3_f;
+                                                                        Sample.getById(calib_fbs_id[3]).then((p4_f)=>{
+                                                                          fbs_p[3] = p4_f;
+                                                                          Sample.getById(calib_fbs_id[4]).then((p5_f)=>{
+                                                                            fbs_p[4]=p5_f;   
+    
 
  
     var today = new Date();
@@ -640,7 +736,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,aflas_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,zea_p,aflas_p,ocra_p,don_p,t2_p,fbs_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -664,6 +760,86 @@ router.get('/', (req, res) => {
 }).catch((error)=>{
   console.log(error);
 });
+
+}).catch((error) => {
+  console.log(error);
+ });
+}).catch((error) => {
+ console.log(error);
+});
+}).catch((error) => {
+ console.log(error);
+});
+}).catch((error) => {
+console.log(error);
+});
+}).catch((error)=>{
+console.log(error);
+});
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+
+
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
+}).catch((error)=>{
+  console.log(error);
+  });
 });
 
 
@@ -675,26 +851,83 @@ router.post('/',function(req,res,next){
   
   
   Sample.getAll().then((sample)=>{
-    var id_afla = req.body.sample.aflatoxina._id;
-    var abs_afla = req.body.sample.aflatoxina.absorbance;
-    var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
-    var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
-
-     for (let i = 0; i < abs_afla.length; i++) {
-        Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
+    //amostras afla
+    if(req.body.sample.aflatoxina){
+      var id_afla = req.body.sample.aflatoxina._id;
+      var abs_afla = req.body.sample.aflatoxina.absorbance;
+      if(abs_afla.length == 1){
+        Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
+      } else{
+        for (let i = 0; i < abs_afla.length; i++) {
+          Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
       }
-      for (let i = 0; i < abs_calibritor_afla.length; i++) {
-        Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
+    }
+    if(req.body.calibrator.aflatoxina){
+      //calibradores afla
+      var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
+      var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
+      if(abs_calibritor_afla.length == 1){
+        Sample.updateAflaAbsorbance(id_calibrators_afla, abs_calibritor_afla).then(()=>{
+        }).catch((error)=>{ 
+        console.log(error);
+        });
+      } else {
+        for (let i = 0; i < abs_calibritor_afla.length; i++) {
+          Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
+          }).catch((error)=>{ 
+          console.log(error);
+          });
+        } 
+      }
+    }
+    if(req.body.calibrator.deoxinivalenol){
+      //calibradores deox
+      var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
+      var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
+      if(abs_calibritor_deox.length == 1){
+        Sample.updateDeoxAbsorbance(id_calibrators_deox,abs_calibritor_deox).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
+      } else{
+        for(let i = 0; i< abs_calibritor_deox.length; i++){
+          Sample.updateDeoxAbsorbance(id_calibrators_deox[i],abs_calibritor_deox[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
       }
+    }
+    if(req.body.sample.deoxinivalenol){
+      //amostras deox
+      var id_deox = req.body.sample.deoxinivalenol._id;
+      var abs_deox = req.body.sample.deoxinivalenol.absorbance;
+      if(abs_deox.length == 1){
+        Sample.updateDeoxAbsorbance(id_deox, abs_deox).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }else{
+        for(let i = 0; i <abs_deox.length; i++){
+          Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
 
-     
     
+
+    
+
     var cont = 0;
 
     for (var i = 0; i < sample.length; i++) {
@@ -741,10 +974,10 @@ router.post('/',function(req,res,next){
         }).catch((error)=>{
          console.log(error);
          });
-         Sample.updateAflaActive(sample[i]._id,false).then(()=>{
-          }).catch((error)=>{
-         console.log(error);
-         });  
+        //  Sample.updateAflaActive(sample[i]._id,false).then(()=>{
+        //   }).catch((error)=>{
+        //  console.log(error);
+        //  });  
          
         
       }
@@ -754,10 +987,10 @@ router.post('/',function(req,res,next){
         }).catch((error)=>{
          console.log(error);
          });
-         Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
-          }).catch((error)=>{
-        console.log(error);
-        });
+        //  Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
+        //   }).catch((error)=>{
+        // console.log(error);
+        // });
       }
 
       if(sample[i].t2toxina.mapReference != 'Sem mapa' && sample[i].t2toxina.active == true ){
@@ -796,10 +1029,6 @@ router.post('/',function(req,res,next){
 
       }
     }
-
-
-
-
 
     res.redirect('/allsamples');
 
