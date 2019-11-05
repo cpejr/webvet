@@ -34,6 +34,7 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
     var cont_fum = 0;
     var cont_zea = 0;
     var cont_ota = 0;
+    var cont_fbs = 0;
     //pega o ultimo mapa de trabalho
     for (var i = 0; i < sample.length; i++){
       if(cont < sample[i].ocratoxina.contador){

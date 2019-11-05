@@ -7682,6 +7682,12 @@ body {
   float: left;
   margin-left: 15px; }
 
+.btn-back-previous {
+  float: left;
+  margin-left: 20px;
+  color: white;
+  border-radius: 15px; }
+
 .linhas-print {
   background-color: black;
   margin-right: auto;
