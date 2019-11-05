@@ -195,14 +195,29 @@ class Kit {
       });
     });
   }
+
+  /**
+   * Set a vector of mycotoxins
+   * @param {string} id - Kit Id
+   * @param {Number} start - number of the first workmap empty
+   * @returns {null}
+   */
+  static setToxinaStart(id, start) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $set: { toxinaStart: start } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
   
   /**
-    * Decreases  the amount in 1
+    * Change the amount
     * @param {string} id - Kit Id
+    * @param {Number} newAmount-new amount value
     */
-  static decreaseAmount(id, numDecrease) {
+  static setAmount(id, newAmount) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $inc: { amount: -1 } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $set: { amount: newAmount } }).catch((err) => {
         reject(err);
       });
     });
