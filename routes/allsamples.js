@@ -13,28 +13,7 @@ const Sample=require('../models/sample');
 
 
 router.get('/', (req, res) => {
-  var last_filled;
-  
-  Kit.getAll().then((kits)=>{ 
-    kits.forEach((kit)=>{
-      if(kit.active) {
-          last_filled=0;
-          for(let i=0;i<kit.mapArray.length;i++){
-            Workmap.getOneMap(mapid).then((workmap)=>{
-              if(workmap.samplesArray.length!=0) {
-                last_filled++;
-              }
-              if(i==kit.mapArray.length-1) {
-                kit.amount=kit.amount-last_filled;
-                kit.toxinaStart=last_filled;
-              }
-            });
-          }
-       }
-    })
-  }).catch((error)=>{
-    console.log(error);
-  })
+ 
   var calib_afla_id = new Array;
   var aflas_p = new Array;
   var name = new Array;
@@ -693,7 +672,28 @@ router.get('/', (req, res) => {
 
 
 router.post('/',function(req,res,next){
- 
+  var last_filled;
+  
+  Kit.getAll().then((kits)=>{ 
+    kits.forEach((kit)=>{
+      if(kit.active) {
+          last_filled=0;
+          for(let i=0;i<kit.mapArray.length;i++){
+            Workmap.getOneMap(kit.mapArray[i]).then((workmap)=>{
+              if(workmap.samplesArray.length!=0) {
+                last_filled++;
+              }
+              if(i==kit.mapArray.length-1) {
+                kit.amount=kit.amount-last_filled;
+                kit.toxinaStart=last_filled;
+              }
+            });
+          }
+       }
+    })
+  }).catch((error)=>{
+    console.log(error);
+  })
   
   
   Sample.getAll().then((sample)=>{

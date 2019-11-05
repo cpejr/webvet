@@ -1678,32 +1678,32 @@ $('#KitRadioAfla').click(function(){//não repete
                           calid:sample._id
                       });
                 }
-              //   else {
-              //     $.get('/search/userFromSample/'+sample._id,(user)=>{
-              //       if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
-              //             if(user.debt){
-              //               scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-              //                 id: "owner",
-              //                 title: "Amostra " + sample.samplenumber,
-              //                 analyst: sample.responsable,
-              //                 status: sample.aflatoxina.status,
-              //                 owner: "Devedor"
-              //               });
-              //             }
+                else {
+                  $.get('/search/userFromSample/'+sample._id,(user)=>{
+                    if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
+                          if(user.debt){
+                            scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                              id: "owner",
+                              title: "Amostra " + sample.samplenumber,
+                              analyst: sample.responsable,
+                              status: sample.aflatoxina.status,
+                              owner: "Devedor"
+                            });
+                          }
 
-              //             else {
-              //              scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-              //                 id: sample.samplenumber,
-              //                 title: "Amostra " + sample.samplenumber,
-              //                 analyst: sample.responsable,
-              //                 status: sample.aflatoxina.status
-              //              });
-              //           }
+                          else {
+                           scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
+                              id: sample.samplenumber,
+                              title: "Amostra " + sample.samplenumber,
+                              analyst: sample.responsable,
+                              status: sample.aflatoxina.status
+                           });
+                        }
 
-              //      }
+                   }
 
-              //    });
-              //  }
+                 });
+               }
                 });
               });
            });
