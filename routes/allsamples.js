@@ -1149,10 +1149,10 @@ router.post('/',function(req,res,next){
         }).catch((error)=>{
          console.log(error);
          });
-        //  Sample.updateAflaActive(sample[i]._id,false).then(()=>{
-        //   }).catch((error)=>{
-        //  console.log(error);
-        //  });  
+          Sample.updateAflaActive(sample[i]._id,false).then(()=>{
+           }).catch((error)=>{
+          console.log(error);
+          });  
          
         
       }
@@ -1162,10 +1162,10 @@ router.post('/',function(req,res,next){
         }).catch((error)=>{
          console.log(error);
          });
-        //  Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
-        //   }).catch((error)=>{
-        // console.log(error);
-        // });
+          Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
+           }).catch((error)=>{
+         console.log(error);
+         });
       }
 
       if(sample[i].t2toxina.mapReference != 'Sem mapa' && sample[i].t2toxina.active == true ){

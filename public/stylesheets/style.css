@@ -7682,4 +7682,10 @@ body {
   float: left;
   margin-left: 15px; }
 
+.linhas-print {
+  background-color: black;
+  margin-right: auto;
+  margin-left: auto;
+  width: 50%; }
+
 /*# sourceMappingURL=style.css.map */
