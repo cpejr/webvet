@@ -942,6 +942,26 @@ router.post('/',function(req,res,next){
       }
     }
 
+
+    if(req.body.sample.ocratoxina){
+      //amostras ocra
+      var id_ocra = req.body.sample.ocratoxina._id;
+      var abs_ocra = req.body.sample.ocratoxina.absorbance;
+      if(abs_ocra.length == 1){
+        Sample.updateOcraAbsorbance(id_ocra,abs_ocra).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_ocra.length; i++){
+          Sample.updateOcraAbsorbance(id_ocra[i],abs_ocra[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
     if(req.body.calibrator.t2toxina){
       //calibradores t2
       var id_calibrators_t2 = req.body.calibrator.t2toxina._id;
