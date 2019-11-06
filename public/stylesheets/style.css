@@ -6186,7 +6186,7 @@ header {
 .boxes {
   width: 80%;
   margin: 10px auto;
-  padding-top: 9px;
+  padding-top: 0px;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -6195,8 +6195,8 @@ header {
   justify-content: center; }
 
 .login-box1 {
-  margin: 40px;
-  margin-top: 98px;
+  margin: 20px;
+  margin-top: 120px;
   width: 35%;
   height: 350px;
   transform-style: preserve-3d;
@@ -6258,14 +6258,14 @@ header {
   background-image: url("/images/fundo8.jpg");
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #6BA05C;
-  padding: 7em;
+  background-color: white;
+  padding: 6em;
   width: 100%;
-  padding-bottom: 13px; }
+  padding-bottom: 65px; }
 
 .body-login {
   padding-top: 0px !important;
-  margin-top: -30px !important; }
+  margin-top: -40px !important; }
 
 .signup {
   width: 700px;
