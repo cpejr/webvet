@@ -72,4 +72,5 @@ router.get('/admreport', auth.isAuthenticated, function(req, res, next) {
 });
 
 
+
 module.exports = router;

@@ -2,8 +2,8 @@
   <h4>Mapas de Trabalho</h4>
 </div>
 
-<form action="/allsamples" method="post">
- 
+<form action="/allsamples" method="post" onclick="return confirm('Tem certeza que deseja finalizar o Mapa de Trabalho? As amostras aqui contidas serão excluidas do mapa de trabalho e irão para os laudos.')">
+
 
 <div class="templateprint row">
     <table class="table-afla-child ">
@@ -26,7 +26,7 @@
                   <th><input type="text" name = "calibrator[aflatoxina][absorbance]" class="input-absorbance"></th>
               </tr>
             {{/compare}}
-          {{/compare}}  
+          {{/compare}}
         {{/each}}
 
         {{#each amostras}}
@@ -74,7 +74,7 @@
         {{/compare}}
         {{/each}}
 
-      
+
 
 
         {{#each amostras}}
@@ -100,7 +100,7 @@
         {{/each}}
 
 
-  
+
 
         {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap4'}}
@@ -126,7 +126,7 @@
         {{/each}}
 
 
-  
+
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap5'}}
           {{#compare aflatoxina.active true}}
@@ -151,7 +151,7 @@
         {{/each}}
 
 
-   
+
 
 
       {{#each amostras}}
@@ -178,7 +178,7 @@
         {{/each}}
 
 
-   
+
 
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap7'}}
@@ -204,7 +204,7 @@
         {{/each}}
 
 
-  
+
 
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap8'}}
@@ -229,7 +229,7 @@
         {{/compare}}
         {{/each}}
 
-     
+
 
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap9'}}
@@ -255,7 +255,7 @@
         {{/each}}
 
 
-    
+
 
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap10'}}
@@ -281,7 +281,7 @@
         {{/each}}
 
 
-    
+
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap11'}}
             {{#compare aflatoxina.active true}}
@@ -305,7 +305,7 @@
         {{/compare}}
         {{/each}}
 
-    
+
 
 
       {{#each amostras}}
@@ -331,7 +331,7 @@
         {{/compare}}
         {{/each}}
 
-  
+
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap13'}}
           {{#compare aflatoxina.active true}}
@@ -405,7 +405,7 @@
         {{/compare}}
         {{/each}}
 
-   
+
       {{#each amostras}}
         {{#compare aflatoxina.mapReference '_workmap16'}}
           {{#compare aflatoxina.active true}}
@@ -457,7 +457,7 @@
                   <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
               </tr>
             {{/compare}}
-          {{/compare}}  
+          {{/compare}}
         {{/each}}
 
         {{#each amostras}}
@@ -470,9 +470,9 @@
                 <div class="some">
                   <input name = "sample[deoxinivalenol][_id]" type="text" value="{{_id}}">
                 </div>
-                                                                                                                  
+
                 <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
-            
+
               </tr>
             {{/compare}}
             {{/compare}}
@@ -486,7 +486,7 @@
         {{/each}}
 
 
-        
+
         {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap2'}}
              {{#compare deoxinivalenol.active true}}
@@ -508,8 +508,8 @@
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-        
-        
+
+
 
 
         {{#each amostras}}
@@ -533,8 +533,8 @@
           <tr><td><br></td></tr>
         {{/compare}}
         {{/each}}
-        
-    
+
+
         {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap4'}}
            {{#compare deoxinivalenol.active true}}
@@ -559,7 +559,7 @@
 
 
 
-    
+
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap5'}}
             {{#compare deoxinivalenol.active true}}
@@ -583,7 +583,7 @@
         {{/each}}
 
 
-      
+
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap6'}}
@@ -607,8 +607,8 @@
         {{/compare}}
         {{/each}}
 
-  
-      
+
+
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap7'}}
            {{#compare deoxinivalenol.active true}}
@@ -632,7 +632,7 @@
         {{/each}}
 
 
-      
+
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap8'}}
@@ -656,8 +656,8 @@
         {{/compare}}
         {{/each}}
 
-        
-      
+
+
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap9'}}
@@ -681,7 +681,7 @@
         {{/compare}}
         {{/each}}
 
-      
+
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap10'}}
           {{#compare deoxinivalenol.active true}}
@@ -777,7 +777,7 @@
         {{/each}}
 
 
-     
+
 
       {{#each amostras}}
         {{#compare deoxinivalenol.mapReference '_workmap14'}}
@@ -802,7 +802,7 @@
         {{/each}}
 
 
-    
+
 
 
 
@@ -841,7 +841,7 @@
 
                 <th><input type="text" name = "sample[deoxinivalenol][absorbance]" class="input-absorbance"></th>
               </tr>
-            {{/compare}} 
+            {{/compare}}
         {{/compare}}
         {{/each}}
 
@@ -880,7 +880,7 @@
                   <th><input type="text" name = "calibrator[ocratoxina][absorbance]" class="input-absorbance"></th>
               </tr>
             {{/compare}}
-          {{/compare}}  
+          {{/compare}}
         {{/each}}
 
 
@@ -1278,7 +1278,7 @@
       </thead>
       <tbody>
 
-        
+
         {{#each t2_p}}
           {{#compare isCalibrator true}}
             {{#compare t2toxina.mapReference '_workmap1'}}
@@ -1290,7 +1290,7 @@
                   <th><input type="text" name = "calibrator[t2toxina][absorbance]" class="input-absorbance"></th>
               </tr>
             {{/compare}}
-          {{/compare}}  
+          {{/compare}}
         {{/each}}
 
         {{#each amostras}}
@@ -1697,7 +1697,7 @@
                   <th><input type="text" name = "calibrator[zearalenona][absorbance]" class="input-absorbance"></th>
               </tr>
             {{/compare}}
-          {{/compare}}  
+          {{/compare}}
         {{/each}}
 
         {{#each amostras}}
@@ -2090,7 +2090,7 @@
       </thead>
       <tbody>
 
-        
+
         {{#each fbs_p}}
           {{#compare isCalibrator true}}
             {{#compare fumonisina.mapReference '_workmap1'}}
@@ -2102,7 +2102,7 @@
                   <th><input type="text" name = "calibrator[fumonisina][absorbance]" class="input-absorbance"></th>
               </tr>
             {{/compare}}
-          {{/compare}}  
+          {{/compare}}
         {{/each}}
 
 

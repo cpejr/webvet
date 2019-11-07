@@ -30,8 +30,8 @@ router.get('/', (req, res) => {
     for (let i = 0; i < kit.length; i++){
       kitToxin=kit[i].productCode;
       if(kit[i].active){
-        if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) { 
-          calib_afla_id[0] = kit[i].calibrators.P1.sampleID; 
+        if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
+          calib_afla_id[0] = kit[i].calibrators.P1.sampleID;
           calib_afla_id[1] = kit[i].calibrators.P2.sampleID;
           calib_afla_id[2] = kit[i].calibrators.P3.sampleID;
           calib_afla_id[3] = kit[i].calibrators.P4.sampleID;
@@ -80,71 +80,71 @@ router.get('/', (req, res) => {
         aflas_p[0]=p1;
         Sample.getById(calib_afla_id[1]).then((p2)=>{
           aflas_p[1]=p2;
-          Sample.getById(calib_afla_id[2]).then((p3)=>{ 
+          Sample.getById(calib_afla_id[2]).then((p3)=>{
             aflas_p[2]=p3;
               Sample.getById(calib_afla_id[3]).then((p4)=>{
                 aflas_p[3] = p4;
                 Sample.getById(calib_afla_id[4]).then((p5)=>{
                     aflas_p[4]=p5;
-                    
+
               Sample.getById(calib_don_id[0]).then((p1_d)=>{
                 don_p[0]=p1_d;
                 Sample.getById(calib_don_id[1]).then((p2_d)=>{
                   don_p[1]=p2_d;
-                  Sample.getById(calib_don_id[2]).then((p3_d)=>{ 
+                  Sample.getById(calib_don_id[2]).then((p3_d)=>{
                     don_p[2]=p3_d;
                       Sample.getById(calib_don_id[3]).then((p4_d)=>{
                         don_p[3] = p4_d;
                         Sample.getById(calib_don_id[4]).then((p5_d)=>{
                           don_p[4]=p5_d;
-                          
+
                           Sample.getById(calib_ocra_id[0]).then((p1_o)=>{
                             ocra_p[0]=p1_o;
                             Sample.getById(calib_ocra_id[1]).then((p2_o)=>{
                               ocra_p[1]=p2_o;
-                              Sample.getById(calib_ocra_id[2]).then((p3_o)=>{ 
+                              Sample.getById(calib_ocra_id[2]).then((p3_o)=>{
                                 ocra_p[2]=p3_o;
                                   Sample.getById(calib_ocra_id[3]).then((p4_o)=>{
                                     ocra_p[3] = p4_o;
                                     Sample.getById(calib_ocra_id[4]).then((p5_o)=>{
                                       ocra_p[4]=p5_o;
-                                      
+
                                       Sample.getById(calib_t2_id[0]).then((p1_t)=>{
                                         t2_p[0]=p1_t;
                                         Sample.getById(calib_t2_id[1]).then((p2_t)=>{
                                           t2_p[1]=p2_t;
-                                          Sample.getById(calib_t2_id[2]).then((p3_t)=>{ 
+                                          Sample.getById(calib_t2_id[2]).then((p3_t)=>{
                                             t2_p[2]=p3_t;
                                               Sample.getById(calib_t2_id[3]).then((p4_t)=>{
                                                 t2_p[3] = p4_t;
                                                 Sample.getById(calib_t2_id[4]).then((p5_t)=>{
-                                                  t2_p[4]=p5_t;   
-     
+                                                  t2_p[4]=p5_t;
+
                                                   Sample.getById(calib_zea_id[0]).then((p1_z)=>{
                                                     zea_p[0]=p1_z;
                                                     Sample.getById(calib_zea_id[1]).then((p2_z)=>{
                                                       zea_p[1]=p2_z;
-                                                      Sample.getById(calib_zea_id[2]).then((p3_z)=>{ 
+                                                      Sample.getById(calib_zea_id[2]).then((p3_z)=>{
                                                         zea_p[2]=p3_z;
                                                           Sample.getById(calib_zea_id[3]).then((p4_z)=>{
                                                             zea_p[3] = p4_z;
                                                             Sample.getById(calib_zea_id[4]).then((p5_z)=>{
-                                                              zea_p[4]=p5_z;   
-                                                              
-                                                              
+                                                              zea_p[4]=p5_z;
+
+
                                                                 Sample.getById(calib_fbs_id[0]).then((p1_f)=>{
                                                                   fbs_p[0]=p1_f;
                                                                   Sample.getById(calib_fbs_id[1]).then((p2_f)=>{
                                                                     fbs_p[1]=p2_f;
-                                                                    Sample.getById(calib_fbs_id[2]).then((p3_f)=>{ 
+                                                                    Sample.getById(calib_fbs_id[2]).then((p3_f)=>{
                                                                       fbs_p[2]=p3_f;
                                                                         Sample.getById(calib_fbs_id[3]).then((p4_f)=>{
                                                                           fbs_p[3] = p4_f;
                                                                           Sample.getById(calib_fbs_id[4]).then((p5_f)=>{
-                                                                            fbs_p[4]=p5_f;   
-    
+                                                                            fbs_p[4]=p5_f;
 
- 
+
+
     var today = new Date();
     var hours = today.getHours();
     var minutes = today.getMinutes();
@@ -153,7 +153,7 @@ router.get('/', (req, res) => {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
- 
+
     var afla1 = new Array;
     var don1 = new Array;
     var ota1 = new Array;
@@ -847,9 +847,6 @@ console.log(error);
 
 
 router.post('/',function(req,res,next){
- 
-  
-  
   Sample.getAll().then((sample)=>{
     //amostras afla
     if(req.body.sample.aflatoxina){
@@ -875,16 +872,16 @@ router.post('/',function(req,res,next){
       var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
       if(abs_calibritor_afla.length == 1){
         Sample.updateAflaAbsorbance(id_calibrators_afla, abs_calibritor_afla).then(()=>{
-        }).catch((error)=>{ 
+        }).catch((error)=>{
         console.log(error);
         });
       } else {
         for (let i = 0; i < abs_calibritor_afla.length; i++) {
           Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
-          }).catch((error)=>{ 
+          }).catch((error)=>{
           console.log(error);
           });
-        } 
+        }
       }
     }
     if(req.body.calibrator.deoxinivalenol){
@@ -1077,7 +1074,7 @@ router.post('/',function(req,res,next){
           });
         }
       }
-      
+
     }
 
     if(req.body.sample.fumonisina){
@@ -1098,10 +1095,10 @@ router.post('/',function(req,res,next){
         }
       }
     }
-    
-    
 
-    
+
+
+
 
     var cont = 0;
 
@@ -1128,7 +1125,7 @@ router.post('/',function(req,res,next){
 
 
 
-    
+
     for (var i = 0; i < sample.length; i++) {
 
       if(sample[i].ocratoxina.mapReference != 'Sem mapa' && sample[i].ocratoxina.active == true){
@@ -1140,8 +1137,8 @@ router.post('/',function(req,res,next){
         }).catch((error)=>{
        console.log(error);
        });
-         
-         
+
+
       }
 
       if(sample[i].aflatoxina.mapReference != 'Sem mapa' &&sample[i].aflatoxina.active == true ){
@@ -1152,11 +1149,11 @@ router.post('/',function(req,res,next){
           Sample.updateAflaActive(sample[i]._id,false).then(()=>{
            }).catch((error)=>{
           console.log(error);
-          });  
-         
-        
+          });
+
+
       }
-      
+
       if(sample[i].deoxinivalenol.mapReference != 'Sem mapa' && sample[i].deoxinivalenol.active == true ){
         Sample.updateDeoxWorkmap(sample[i]._id,cont+1).then(()=>{
         }).catch((error)=>{
@@ -1178,7 +1175,7 @@ router.post('/',function(req,res,next){
         console.log(error);
         });
       }
-      
+
       if(sample[i].fumonisina.mapReference != 'Sem mapa' && sample[i].fumonisina.active == true ){
         Sample.updatefumWorkmap(sample[i]._id,cont+1).then(()=>{
         }).catch((error)=>{
@@ -1200,7 +1197,7 @@ router.post('/',function(req,res,next){
         }).catch((error)=>{
         console.log(error);
         });
-        
+
 
       }
     }
