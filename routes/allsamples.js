@@ -13,41 +13,60 @@ const Sample=require('../models/sample');
 
 
 router.get('/', (req, res) => {
-  // var last_filled;
-  // var counter=0;
-  
-  // Kit.getAll().then((kits)=>{ 
-  //   kits.forEach((kit)=>{
-  //     if(kit.active) {
-  //         last_filled=0;
-  //         counter=0;
-  //        kit.mapArray.forEach((mapid)=>{
-  //         Workmap.getOneMap(mapid).then((workmap)=>{
-  //           counter++;
-  //           if(workmap.samplesArray.length!=0) {
-  //             last_filled++;
-              
-  //           }
-  //           if(counter==kit.mapArray.length-1) {
-  //             kit.amount=kit.amount-last_filled;
-  //             kit.toxinaStart=last_filled;
-  //             Kit.update(kit._id,kit).catch((err)=>{
-  //               console.log(err);
-  //             });
-  //           }
-            
-  //         });
+  Kit.getActiveAfla().then((aflaArray)=>{
+    var aflaKit=aflaArray[0];
+    var last_filled=0;
+    var counter=0;
 
+    aflaKit.mapArray.forEach((mapid)=>{
+    Workmap.getOneMap(mapid).then((workmap)=>{
+      counter++;
+      if(workmap.samplesArray.length>0) {
+        last_filled=counter;
+        
+      }
+      if(counter==aflaKit.mapArray.length-1) {
+        aflaKit.amount=aflaKit.amount-last_filled;
+        aflaKit.toxinaStart=last_filled;
+        Kit.update(aflaKit._id,aflaKit).catch((err)=>{
+          console.log(err);
+        });
+      }
+      
+     });
+    }); 
+  }).catch((error)=>{
+    console.log(error);
+  });
 
-
-  //        });
-            
-          
-  //      }
-  //   });
-  // }).catch((error)=>{
-  //   console.log(error);
-  // });
+  Kit.getActiveDeox().then((deoxArray)=>{ 
+    var deoxKit=deoxArray[0];
+    var last_filled=0;
+    var counter=0;
+    deoxKit.mapArray.forEach((mapid)=>{
+    Workmap.getOneMap(mapid).then((workmap)=>{
+      counter++;
+      console.log(counter);
+      console.log("_____________________________________________");
+      if(workmap.samplesArray.length>0) {
+        last_filled=counter;
+        console.log(last_filled);
+        console.log("--------------------------------------------------------")
+        
+      }
+      if(counter==deoxKit.mapArray.length-1) {
+        deoxKit.amount=deoxKit.amount-last_filled;
+        deoxKit.toxinaStart=last_filled;
+        Kit.update(deoxKit._id,deoxKit).catch((err)=>{
+          console.log(err);
+        });
+      }
+      
+     });
+    }); 
+  }).catch((error)=>{
+    console.log(error);
+  });
   
  
   var calib_afla_id = new Array;
