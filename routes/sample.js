@@ -148,7 +148,7 @@ router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
      res.redirect('/error');
    });
 });
-router.post('/setActiveKit/:code/:kitActiveID',  function(req, res, next) {
+router.post('/setActiveKit/:code/:kitActiveID',  function(req, res, next) { //manutenção
  Kit.getByProductCode(req.params.code).then((kits)=>{
      var size=kits.length;
      for(i=0;i<size;i++) {
