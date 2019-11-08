@@ -94,6 +94,34 @@ class Kit {
     });
   }
 
+   /**
+   * Get active Kit from Aflatoxina 
+   * @returns {Array} Array of Kits
+   */
+  static getActiveAfla() {
+    return new Promise((resolve, reject) => {
+      KitModel.find({active: true, productCode: "AFLA" }).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
+   * Get active Kit from Deoxinivalenol 
+   * @returns {Array} Array of Kits
+   */
+  static getActiveDeox() {
+    return new Promise((resolve, reject) => {
+      KitModel.find({active: true, productCode: "DON Romer" }).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   /**
    * Get a Kit by it's id
    * @param {string} id - Kit Id
