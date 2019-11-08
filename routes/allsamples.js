@@ -887,9 +887,7 @@ router.post('/',function(req,res,next){
     var new_last;
     var last_filled=0;
     var counter=0;
-    console.log("------------------");
-     console.log(deoxKit.toxinaStart);
-    console.log("------------------");
+  
     for(let i=deoxKit.toxinaStart;i<deoxKit.mapArray.length;i++) {
 
       Workmap.getOneMap(deoxKit.mapArray[i]).then((workmap)=>{
@@ -907,7 +905,8 @@ router.post('/',function(req,res,next){
           
         }
         if(i==deoxKit.mapArray.length-1) {
-          deoxKit.amount=deoxKit.stripLenght-last_filled;
+          console.log(deoxKit.stripLength-last_filled);
+          deoxKit.amount=deoxKit.stripLength-last_filled;
           deoxKit.toxinaStart=last_filled;
           Kit.update(deoxKit._id,deoxKit).catch((err)=>{
             console.log(err);
