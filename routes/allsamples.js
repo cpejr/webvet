@@ -13,62 +13,6 @@ const Sample=require('../models/sample');
 
 
 router.get('/', (req, res) => {
-  Kit.getActiveAfla().then((aflaArray)=>{
-    var aflaKit=aflaArray[0];
-    var last_filled=0;
-    var counter=0;
-
-    aflaKit.mapArray.forEach((mapid)=>{
-    Workmap.getOneMap(mapid).then((workmap)=>{
-      counter++;
-      if(workmap.samplesArray.length>0) {
-        last_filled=counter;
-        
-      }
-      if(counter==aflaKit.mapArray.length-1) {
-        aflaKit.amount=aflaKit.amount-last_filled;
-        aflaKit.toxinaStart=last_filled;
-        Kit.update(aflaKit._id,aflaKit).catch((err)=>{
-          console.log(err);
-        });
-      }
-      
-     });
-    }); 
-  }).catch((error)=>{
-    console.log(error);
-  });
-
-  Kit.getActiveDeox().then((deoxArray)=>{ 
-    var deoxKit=deoxArray[0];
-    var last_filled=0;
-    var counter=0;
-    deoxKit.mapArray.forEach((mapid)=>{
-    Workmap.getOneMap(mapid).then((workmap)=>{
-      counter++;
-      console.log(counter);
-      console.log("_____________________________________________");
-      if(workmap.samplesArray.length>0) {
-        last_filled=counter;
-        console.log(last_filled);
-        console.log("--------------------------------------------------------")
-        
-      }
-      if(counter==deoxKit.mapArray.length-1) {
-        deoxKit.amount=deoxKit.amount-last_filled;
-        deoxKit.toxinaStart=last_filled;
-        Kit.update(deoxKit._id,deoxKit).catch((err)=>{
-          console.log(err);
-        });
-      }
-      
-     });
-    }); 
-  }).catch((error)=>{
-    console.log(error);
-  });
-  
- 
   var calib_afla_id = new Array;
   var calib_don_id = new Array;
   var calib_ocra_id = new Array;
@@ -903,390 +847,439 @@ console.log(error);
 
 
 router.post('/',function(req,res,next){
-  var last_filled;
+  Kit.getActiveAfla().then((aflaArray)=>{
+    var aflaKit=aflaArray[0];
+    var new_last;
+    var last_filled=0;
+    var counter=0;
+
+    
+    for(let i=aflaKit.toxinaStart;i<aflaKit.mapArray.length;i++) {
+      Workmap.getOneMap(aflaKit.mapArray[i]).then((workmap)=>{
+        counter++;
+        if(workmap.samplesArray.length>0) {
+          new_last=workmap.mapID;
+          new_last=new_last.replace("_workmap", "");
+          new_last=Number(new_last);
   
-  Kit.getAll().then((kits)=>{ 
-    kits.forEach((kit)=>{
-      if(kit.active) {
-          last_filled=0;
-          for(let i=0;i<kit.mapArray.length;i++){
-            Workmap.getOneMap(kit.mapArray[i]).then((workmap)=>{
-              if(workmap.samplesArray.length!=0) {
-                last_filled++;
-              }
-              if(i==kit.mapArray.length-1) {
-                kit.amount=kit.amount-last_filled;
-                kit.toxinaStart=last_filled;
-              }
-            });
+          if(new_last>last_filled){
+            last_filled=new_last;
           }
-       }
-    })
+  
+          
+        }
+        if(counter==aflaKit.mapArray.length-1) {
+          aflaKit.amount=aflaKit.stripLenght-last_filled;;
+          aflaKit.toxinaStart=last_filled;
+          Kit.update(aflaKit._id,aflaKit).catch((err)=>{
+            console.log(err);
+          });
+        }
+        
+      });
+    } 
   }).catch((error)=>{
     console.log(error);
-  })
-  
-  
-  // Sample.getAll().then((sample)=>{
-  //   //amostras afla
-  //   if(req.body.sample.aflatoxina){
-  //     var id_afla = req.body.sample.aflatoxina._id;
-  //     var abs_afla = req.body.sample.aflatoxina.absorbance;
-  //     if(abs_afla.length == 1){
-  //       Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for (let i = 0; i < abs_afla.length; i++) {
-  //         Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-  //   if(req.body.calibrator.aflatoxina){
-  //     //calibradores afla
-  //     var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
-  //     var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
-  //     if(abs_calibritor_afla.length == 1){
-  //       Sample.updateAflaAbsorbance(id_calibrators_afla, abs_calibritor_afla).then(()=>{
-  //       }).catch((error)=>{ 
-  //       console.log(error);
-  //       });
-  //     } else {
-  //       for (let i = 0; i < abs_calibritor_afla.length; i++) {
-  //         Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
-  //         }).catch((error)=>{ 
-  //         console.log(error);
-  //         });
-  //       } 
-  //     }
-  //   }
-  //   if(req.body.calibrator.deoxinivalenol){
-  //     //calibradores deox
-  //     var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
-  //     var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
-  //     if(abs_calibritor_deox.length == 1){
-  //       Sample.updateDeoxAbsorbance(id_calibrators_deox,abs_calibritor_deox).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_calibritor_deox.length; i++){
-  //         Sample.updateDeoxAbsorbance(id_calibrators_deox[i],abs_calibritor_deox[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-  //   if(req.body.sample.deoxinivalenol){
-  //     //amostras deox
-  //     var id_deox = req.body.sample.deoxinivalenol._id;
-  //     var abs_deox = req.body.sample.deoxinivalenol.absorbance;
-  //     if(abs_deox.length == 1){
-  //       Sample.updateDeoxAbsorbance(id_deox, abs_deox).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     }else{
-  //       for(let i = 0; i <abs_deox.length; i++){
-  //         Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-  //   if(req.body.calibrator.ocratoxina){
-  //     //calibradores ocra
-  //     var id_calibrators_ocra = req.body.calibrator.ocratoxina._id;
-  //     var abs_calibritor_ocra = req.body.calibrator.ocratoxina.absorbance;
-  //     if(abs_calibritor_ocra.length == 1){
-  //       Sample.updateOcraAbsorbance(id_calibrators_ocra,abs_calibritor_ocra).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_calibritor_ocra.length; i++){
-  //         Sample.updateOcraAbsorbance(id_calibrators_ocra[i],abs_calibritor_ocra[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
+  });
 
+  Kit.getActiveDeox().then((deoxArray)=>{ 
+    var deoxKit=deoxArray[0];
+    var new_last;
+    var last_filled=0;
+    var counter=0;
+    console.log("------------------");
+     console.log(deoxKit.toxinaStart);
+    console.log("------------------");
+    for(let i=deoxKit.toxinaStart;i<deoxKit.mapArray.length;i++) {
 
-  //   if(req.body.sample.ocratoxina){
-  //     //amostras ocra
-  //     var id_ocra = req.body.sample.ocratoxina._id;
-  //     var abs_ocra = req.body.sample.ocratoxina.absorbance;
-  //     if(abs_ocra.length == 1){
-  //       Sample.updateOcraAbsorbance(id_ocra,abs_ocra).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_ocra.length; i++){
-  //         Sample.updateOcraAbsorbance(id_ocra[i],abs_ocra[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-
-  //   if(req.body.calibrator.t2toxina){
-  //     //calibradores t2
-  //     var id_calibrators_t2 = req.body.calibrator.t2toxina._id;
-  //     var abs_calibritor_t2 = req.body.calibrator.t2toxina.absorbance;
-  //     if(abs_calibritor_t2.length == 1){
-  //       Sample.updateT2Absorbance(id_calibrators_t2,abs_calibritor_t2).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_calibritor_t2.length; i++){
-  //         Sample.updateT2Absorbance(id_calibrators_t2[i],abs_calibritor_t2[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-
-  //   if(req.body.sample.t2toxina){
-  //     //amostra t2
-  //     var id_t2 = req.body.sample.t2toxina._id;
-  //     var abs_t2 = req.body.sample.t2toxina.absorbance;
-  //     if(abs_t2.length == 1){
-  //       Sample.updateT2Absorbance(id_t2,abs_t2).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_t2.length; i++){
-  //         Sample.updateT2Absorbance(id_t2[i],abs_t2[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-
-
-  //   if(req.body.sample.zearalenona){
-  //     //amostras zea
-  //     var id_zea = req.body.sample.zearalenona._id;
-  //     var abs_zea = req.body.sample.zearalenona.absorbance;
-  //     if(abs_zea.length == 1){
-  //       Sample.updateZeaAbsorbance(id_zea,abs_zea).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_zea.length; i++){
-  //         Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-
-
-  //   if(req.body.calibrator.zearalenona){
-  //     //calibradores zea
-  //     var id_calibrators_zea = req.body.calibrator.zearalenona._id;
-  //     var abs_calibritor_zea = req.body.calibrator.zearalenona.absorbance;
-  //     if(abs_calibritor_zea.length == 1){
-  //       Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_calibritor_zea.length; i++){
-  //         Sample.updateZeaAbsorbance(id_calibrators_zea[i],abs_calibritor_zea[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-
-  //   if(req.body.sample.zearalenona){
-  //     //amostras zea
-  //     var id_zea = req.body.sample.zearalenona._id;
-  //     var abs_zea = req.body.sample.zearalenona.absorbance;
-  //     if(abs_zea.length == 1){
-  //       Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_zea.length; i++){
-  //         Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
-
-
-  //   if(req.body.calibrator.fumonisina){
-  //     //calibradores fbs
-  //     var id_calibrators_fbs = req.body.calibrator.fumonisina._id;
-  //     var abs_calibritor_fbs = req.body.calibrator.fumonisina.absorbance;
-  //     if(abs_calibritor_fbs.length == 1){
-  //       Sample.updateFbsAbsorbance(id_calibrators_fbs,abs_calibritor_fbs).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_calibritor_fbs.length; i++){
-  //         Sample.updateFbsAbsorbance(id_calibrators_fbs[i],abs_calibritor_fbs[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
+      Workmap.getOneMap(deoxKit.mapArray[i]).then((workmap)=>{
       
-  //   }
+      
+        if(workmap.samplesArray.length>0) {
+          new_last=workmap.mapID;
+          new_last=new_last.replace("_workmap", "");
+          new_last=Number(new_last);
 
-  //   if(req.body.sample.fumonisina){
-  //     //amostras fbs
-  //     var id_fbs = req.body.sample.fumonisina._id;
-  //     var abs_fbs = req.body.sample.fumonisina.absorbance;
-  //     if(abs_fbs.length == 1){
-  //       Sample.updateFbsAbsorbance(id_fbs,abs_fbs).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     } else{
-  //       for(let i = 0; i< abs_fbs.length; i++){
-  //         Sample.updateFbsAbsorbance(id_fbs[i],abs_fbs[i]).then(()=>{
-  //         }).catch((error)=>{
-  //         console.log(error);
-  //         });
-  //       }
-  //     }
-  //   }
+          if(new_last>last_filled){
+            last_filled=new_last;
+          }
+
+          
+        }
+        if(i==deoxKit.mapArray.length-1) {
+          deoxKit.amount=deoxKit.stripLenght-last_filled;
+          deoxKit.toxinaStart=last_filled;
+          Kit.update(deoxKit._id,deoxKit).catch((err)=>{
+            console.log(err);
+          });
+        }
+        
+      });
+    }
+  }).catch((error)=>{
+    console.log(error);
+  });
+ 
+  Sample.getAll().then((sample)=>{
+    //amostras afla
+    if(req.body.sample.aflatoxina){
+      var id_afla = req.body.sample.aflatoxina._id;
+      var abs_afla = req.body.sample.aflatoxina.absorbance;
+      if(abs_afla.length == 1){
+        Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for (let i = 0; i < abs_afla.length; i++) {
+          Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+    if(req.body.calibrator.aflatoxina){
+      //calibradores afla
+      var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
+      var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
+      if(abs_calibritor_afla.length == 1){
+        Sample.updateAflaAbsorbance(id_calibrators_afla, abs_calibritor_afla).then(()=>{
+        }).catch((error)=>{ 
+        console.log(error);
+        });
+      } else {
+        for (let i = 0; i < abs_calibritor_afla.length; i++) {
+          Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
+          }).catch((error)=>{ 
+          console.log(error);
+          });
+        } 
+      }
+    }
+    if(req.body.calibrator.deoxinivalenol){
+      //calibradores deox
+      var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
+      var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
+      if(abs_calibritor_deox.length == 1){
+        Sample.updateDeoxAbsorbance(id_calibrators_deox,abs_calibritor_deox).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_deox.length; i++){
+          Sample.updateDeoxAbsorbance(id_calibrators_deox[i],abs_calibritor_deox[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+    if(req.body.sample.deoxinivalenol){
+      //amostras deox
+      var id_deox = req.body.sample.deoxinivalenol._id;
+      var abs_deox = req.body.sample.deoxinivalenol.absorbance;
+      if(abs_deox.length == 1){
+        Sample.updateDeoxAbsorbance(id_deox, abs_deox).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }else{
+        for(let i = 0; i <abs_deox.length; i++){
+          Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+    if(req.body.calibrator.ocratoxina){
+      //calibradores ocra
+      var id_calibrators_ocra = req.body.calibrator.ocratoxina._id;
+      var abs_calibritor_ocra = req.body.calibrator.ocratoxina.absorbance;
+      if(abs_calibritor_ocra.length == 1){
+        Sample.updateOcraAbsorbance(id_calibrators_ocra,abs_calibritor_ocra).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_ocra.length; i++){
+          Sample.updateOcraAbsorbance(id_calibrators_ocra[i],abs_calibritor_ocra[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+
+    if(req.body.sample.ocratoxina){
+      //amostras ocra
+      var id_ocra = req.body.sample.ocratoxina._id;
+      var abs_ocra = req.body.sample.ocratoxina.absorbance;
+      if(abs_ocra.length == 1){
+        Sample.updateOcraAbsorbance(id_ocra,abs_ocra).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_ocra.length; i++){
+          Sample.updateOcraAbsorbance(id_ocra[i],abs_ocra[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+    if(req.body.calibrator.t2toxina){
+      //calibradores t2
+      var id_calibrators_t2 = req.body.calibrator.t2toxina._id;
+      var abs_calibritor_t2 = req.body.calibrator.t2toxina.absorbance;
+      if(abs_calibritor_t2.length == 1){
+        Sample.updateT2Absorbance(id_calibrators_t2,abs_calibritor_t2).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_t2.length; i++){
+          Sample.updateT2Absorbance(id_calibrators_t2[i],abs_calibritor_t2[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+    if(req.body.sample.t2toxina){
+      //amostra t2
+      var id_t2 = req.body.sample.t2toxina._id;
+      var abs_t2 = req.body.sample.t2toxina.absorbance;
+      if(abs_t2.length == 1){
+        Sample.updateT2Absorbance(id_t2,abs_t2).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_t2.length; i++){
+          Sample.updateT2Absorbance(id_t2[i],abs_t2[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+
+    if(req.body.sample.zearalenona){
+      //amostras zea
+      var id_zea = req.body.sample.zearalenona._id;
+      var abs_zea = req.body.sample.zearalenona.absorbance;
+      if(abs_zea.length == 1){
+        Sample.updateZeaAbsorbance(id_zea,abs_zea).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_zea.length; i++){
+          Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+
+    if(req.body.calibrator.zearalenona){
+      //calibradores zea
+      var id_calibrators_zea = req.body.calibrator.zearalenona._id;
+      var abs_calibritor_zea = req.body.calibrator.zearalenona.absorbance;
+      if(abs_calibritor_zea.length == 1){
+        Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_zea.length; i++){
+          Sample.updateZeaAbsorbance(id_calibrators_zea[i],abs_calibritor_zea[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+    if(req.body.sample.zearalenona){
+      //amostras zea
+      var id_zea = req.body.sample.zearalenona._id;
+      var abs_zea = req.body.sample.zearalenona.absorbance;
+      if(abs_zea.length == 1){
+        Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_zea.length; i++){
+          Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+
+    if(req.body.calibrator.fumonisina){
+      //calibradores fbs
+      var id_calibrators_fbs = req.body.calibrator.fumonisina._id;
+      var abs_calibritor_fbs = req.body.calibrator.fumonisina.absorbance;
+      if(abs_calibritor_fbs.length == 1){
+        Sample.updateFbsAbsorbance(id_calibrators_fbs,abs_calibritor_fbs).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_calibritor_fbs.length; i++){
+          Sample.updateFbsAbsorbance(id_calibrators_fbs[i],abs_calibritor_fbs[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+      
+    }
+
+    if(req.body.sample.fumonisina){
+      //amostras fbs
+      var id_fbs = req.body.sample.fumonisina._id;
+      var abs_fbs = req.body.sample.fumonisina.absorbance;
+      if(abs_fbs.length == 1){
+        Sample.updateFbsAbsorbance(id_fbs,abs_fbs).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for(let i = 0; i< abs_fbs.length; i++){
+          Sample.updateFbsAbsorbance(id_fbs[i],abs_fbs[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
     
     
 
     
 
-  //   var cont = 0;
+    var cont = 0;
 
-  //   for (var i = 0; i < sample.length; i++) {
-  //    if(cont < sample[i].ocratoxina.contador){
-  //       cont = sample[i].ocratoxina.contador;
-  //     }
-  //     if(cont < sample[i].deoxinivalenol.contador){
-  //       cont = sample[i].deoxinivalenol.contador;
-  //     }
-  //     if(cont <  sample[i].t2toxina.contador){
-  //       cont = sample[i].t2toxina.contador;
-  //     }
-  //     if(cont < sample[i].fumonisina.contador){
-  //       cont = sample[i].fumonisina.contador;
-  //     }
-  //     if(cont < sample[i].zearalenona.contador){
-  //       cont = sample[i].zearalenona.contador;
-  //     }
-  //     if (cont < sample[i].aflatoxina.contador) {
-  //       cont = sample[i].aflatoxina.contador;
-  //     }
-  //   }
+    for (var i = 0; i < sample.length; i++) {
+     if(cont < sample[i].ocratoxina.contador){
+        cont = sample[i].ocratoxina.contador;
+      }
+      if(cont < sample[i].deoxinivalenol.contador){
+        cont = sample[i].deoxinivalenol.contador;
+      }
+      if(cont <  sample[i].t2toxina.contador){
+        cont = sample[i].t2toxina.contador;
+      }
+      if(cont < sample[i].fumonisina.contador){
+        cont = sample[i].fumonisina.contador;
+      }
+      if(cont < sample[i].zearalenona.contador){
+        cont = sample[i].zearalenona.contador;
+      }
+      if (cont < sample[i].aflatoxina.contador) {
+        cont = sample[i].aflatoxina.contador;
+      }
+    }
 
 
 
     
-  //   for (var i = 0; i < sample.length; i++) {
+    for (var i = 0; i < sample.length; i++) {
 
-  //     if(sample[i].ocratoxina.mapReference != 'Sem mapa' && sample[i].ocratoxina.active == true){
-  //       Sample.updateOcraWorkmap(sample[i]._id,cont+1).then(()=>{
-  //       }).catch((error)=>{
-  //        console.log(error);
-  //        });
-  //        Sample.updateOcraActive(sample[i]._id,false).then(()=>{
-  //       }).catch((error)=>{
-  //      console.log(error);
-  //      });
+      if(sample[i].ocratoxina.mapReference != 'Sem mapa' && sample[i].ocratoxina.active == true){
+        Sample.updateOcraWorkmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+         Sample.updateOcraActive(sample[i]._id,false).then(()=>{
+        }).catch((error)=>{
+       console.log(error);
+       });
          
          
-  //     }
+      }
 
-  //     if(sample[i].aflatoxina.mapReference != 'Sem mapa' &&sample[i].aflatoxina.active == true ){
-  //       Sample.updateAflaWorkmap(sample[i]._id,cont+1).then(()=>{
-  //       }).catch((error)=>{
-  //        console.log(error);
-  //        });
-  //         Sample.updateAflaActive(sample[i]._id,false).then(()=>{
-  //          }).catch((error)=>{
-  //         console.log(error);
-  //         });  
+      if(sample[i].aflatoxina.mapReference != 'Sem mapa' &&sample[i].aflatoxina.active == true ){
+        Sample.updateAflaWorkmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+          Sample.updateAflaActive(sample[i]._id,false).then(()=>{
+           }).catch((error)=>{
+          console.log(error);
+          });  
          
         
-  //     }
+      }
       
-  //     if(sample[i].deoxinivalenol.mapReference != 'Sem mapa' && sample[i].deoxinivalenol.active == true ){
-  //       Sample.updateDeoxWorkmap(sample[i]._id,cont+1).then(()=>{
-  //       }).catch((error)=>{
-  //        console.log(error);
-  //        });
-  //         Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
-  //          }).catch((error)=>{
-  //        console.log(error);
-  //        });
-  //     }
+      if(sample[i].deoxinivalenol.mapReference != 'Sem mapa' && sample[i].deoxinivalenol.active == true ){
+        Sample.updateDeoxWorkmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+          Sample.updateDeoxActive(sample[i]._id,false).then(()=>{
+           }).catch((error)=>{
+         console.log(error);
+         });
+      }
 
-  //     if(sample[i].t2toxina.mapReference != 'Sem mapa' && sample[i].t2toxina.active == true ){
-  //       Sample.updateT2Workmap(sample[i]._id,cont+1).then(()=>{
-  //       }).catch((error)=>{
-  //        console.log(error);
-  //        });
-  //        Sample.updateT2Active(sample[i]._id,false).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
-  //     }
+      if(sample[i].t2toxina.mapReference != 'Sem mapa' && sample[i].t2toxina.active == true ){
+        Sample.updateT2Workmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+         Sample.updateT2Active(sample[i]._id,false).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }
       
-  //     if(sample[i].fumonisina.mapReference != 'Sem mapa' && sample[i].fumonisina.active == true ){
-  //       Sample.updatefumWorkmap(sample[i]._id,cont+1).then(()=>{
-  //       }).catch((error)=>{
-  //        console.log(error);
-  //        });
-  //        Sample.updateFumActive(sample[i]._id,false).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
+      if(sample[i].fumonisina.mapReference != 'Sem mapa' && sample[i].fumonisina.active == true ){
+        Sample.updatefumWorkmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+         Sample.updateFumActive(sample[i]._id,false).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
 
-  //     }
+      }
 
-  //     if(sample[i].zearalenona.mapReference != 'Sem mapa' && sample[i].zearalenona.active == true ){
-  //       Sample.updateZeaWorkmap(sample[i]._id,cont+1).then(()=>{
-  //       }).catch((error)=>{
-  //        console.log(error);
-  //        });
-  //        Sample.updateZeaActive(sample[i]._id,false).then(()=>{
-  //       }).catch((error)=>{
-  //       console.log(error);
-  //       });
+      if(sample[i].zearalenona.mapReference != 'Sem mapa' && sample[i].zearalenona.active == true ){
+        Sample.updateZeaWorkmap(sample[i]._id,cont+1).then(()=>{
+        }).catch((error)=>{
+         console.log(error);
+         });
+         Sample.updateZeaActive(sample[i]._id,false).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
         
 
-  //     }
-  //   }
+      }
+    }
 
     res.redirect('/allsamples');
 
-  // }).catch((error)=>{
-  //   console.log(error);
-  // });
+  }).catch((error)=>{
+    console.log(error);
+  });
 });
 
 
