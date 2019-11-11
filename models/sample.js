@@ -30,7 +30,8 @@ const sampleSchema = new mongoose.Schema({
     mapReference:  {
       type:String,
       default: 'Sem mapa'
-    }
+    },
+    concentration: String
   },
   deoxinivalenol: {
     status: {
@@ -48,7 +49,8 @@ const sampleSchema = new mongoose.Schema({
     mapReference:  {
       type:String,
       default: 'Sem mapa'
-    }
+    },
+    concentration: String
   },
   t2toxina: {
     status: {
@@ -66,7 +68,8 @@ const sampleSchema = new mongoose.Schema({
     mapReference:  {
       type:String,
       default: 'Sem mapa'
-    }
+    },
+    concentration: String
   },
   fumonisina: {
     status: {
@@ -84,7 +87,8 @@ const sampleSchema = new mongoose.Schema({
     mapReference:  {
       type:String,
       default: 'Sem mapa'
-    }
+    },
+    concentration: String
   },
   zearalenona:  {
     status: {
@@ -102,7 +106,8 @@ const sampleSchema = new mongoose.Schema({
     mapReference:  {
       type:String,
       default: 'Sem mapa'
-    }
+    },
+    concentration: String
   },
   aflatoxina: {
     status: {
@@ -120,12 +125,13 @@ const sampleSchema = new mongoose.Schema({
     mapReference:  {
       type:String,
       default: 'Sem mapa'
-    }
     },
-    isCalibrator: {
-        type: Boolean,
-        default: false
-    }
+    concentration: String
+    },
+  isCalibrator: {
+      type: Boolean,
+      default: false
+  }
 }, { timestamps: true, strict: false });
 
 const SampleModel = mongoose.model('Sample', sampleSchema);
@@ -503,6 +509,73 @@ class Sample {
       SampleModel.update({_id:id},{$set:{'zearalenona.active': ativo}}).then((result)=>{
         resolve(result);
       }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
+
+  static updateAflaConcentration(id, concentration){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'aflatoxina.concentration': concentration}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+    });
+  }
+  static updateOcraConcentration(id, concentration){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'ocratoxina.concentration': concentration}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+    });
+  }
+  static updateDeoxinivalenolConcentration(id, concentration){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'deoxinivalenol.concentration': concentration}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+    });
+  }
+  static updateT2Concentration(id, concentration){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'t2toxina.concentration': concentration}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+    });
+  }
+  static updateZeaConcentration(id, concentration){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'zearalenona.concentration': concentration}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
+        reject(err);
+      });
+    });
+  }
+  static updateFumonisinaConcentration(id, concentration){
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        {_id: id},
+        {$set: {'fumonisina.concentration': concentration}}).then((result) =>{
+        resolve(result);
+      }).catch(err =>{
         reject(err);
       });
     });

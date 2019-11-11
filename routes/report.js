@@ -29,13 +29,60 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
 });
 
 router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
-  Sample.getById(req.params.id).then((samples) => {
-    res.render('report/show', { title: 'Show ', samples});
-    console.log (samples);
+  Sample.getById(req.params.id).then((sample) => {
+    res.render('report/show', { title: 'Show ', sample});
+    console.log (sample);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
+});
+
+router.get('/show/admin/:id', auth.isAuthenticated, function(req, res, next) {
+  Sample.getById(req.params.id).then((sample) => {
+    res.render('report/editAdmin', { title: 'Show ', sample});
+    console.log (sample);
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.post('/show/admin/:id', auth.isAuthenticated, function(req, res, next) {
+  var concentrations = req.body;
+  var id = req.params.id;
+  Sample.updateAflaConcentration(id, concentrations.aflatoxinaConc).then((result1) =>{
+    Sample.updateDeoxinivalenolConcentration(id, concentrations.deoxConc).then((result2) =>{
+        Sample.updateFumonisinaConcentration(id, concentrations.fumoConc).then((result3) =>{
+            Sample.updateOcraConcentration(id, concentrations.ocratoxConc).then((result4) =>{
+              Sample.updateT2Concentration(id, concentrations.T2Conc).then((result4) =>{
+                Sample.updateZeaConcentration(id, concentrations.ZearalenonaConc).then((result4) =>{
+                  req.flash('success', 'Atualizado com sucesso.');
+                  res.redirect('/report/show/admin/' + id);
+                }).catch(err =>{
+                  req.flash('danger', 'Problem ao atualizar');
+                  res.redirect('/report/show/admin/' + id);
+                });
+              }).catch(err =>{
+                req.flash('danger', 'Problem ao atualizar');
+                res.redirect('/report/show/admin/' + id);
+              });
+            }).catch(err =>{
+              req.flash('danger', 'Problem ao atualizar');
+              res.redirect('/report/show/admin/' + id);
+            });
+          }).catch(err =>{
+            req.flash('danger', 'Problem ao atualizar');
+            res.redirect('/report/show/admin/' + id);
+          });
+        }).catch(err =>{
+          req.flash('danger', 'Problem ao atualizar');
+          res.redirect('/report/show/admin/' + id);
+        });
+      }).catch(err =>{
+        req.flash('danger', 'Problem ao atualizar');
+        res.redirect('/report/show/admin/' + id);
+      });
 });
 
 router.get('/samples/:id', auth.isAuthenticated, function(req, res, next) {
