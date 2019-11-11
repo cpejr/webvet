@@ -100,7 +100,7 @@ class Kit {
    */
   static getActiveAfla() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, productCode: "AFLA" }).exec().then((results) => {
+      KitModel.find({active: true, $or:[{productCode:"AFLA Romer"},{productCode:"MycoSep AflaZon"}]}).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -114,13 +114,57 @@ class Kit {
    */
   static getActiveDeox() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, productCode: "DON Romer" }).exec().then((results) => {
+      KitModel.find({active: true, productCode: "DON Romer"  }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
       });
     });
   }
+
+  /**
+   * Get active Kit from T2-toxin 
+   * @returns {Array} Array of Kits
+   */
+  static getActiveT2() {
+    return new Promise((resolve, reject) => {
+      KitModel.find({active: true, productCode:"T2 Romer"}).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
+   * Get active Kit from Zearalenona 
+   * @returns {Array} Array of Kits
+   */
+  static getActiveZea() {
+    return new Promise((resolve, reject) => {
+      KitModel.find({active: true, productCode:"ZEA Romer"}).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+   /**
+   * Get active Kit from Fumonisina 
+   * @returns {Array} Array of Kits
+   */
+  static getActiveFum() {
+    return new Promise((resolve, reject) => {
+      KitModel.find({active: true, $or:[{productCode:"MycoSep Fum"},{productCode:"FUMO Romer"}]}).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  
 
   /**
    * Get a Kit by it's id
