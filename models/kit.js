@@ -100,7 +100,7 @@ class Kit {
    */
   static getActiveAfla() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, $or:[{productCode:"AFLA Romer"},{productCode:"MycoSep AflaZon"}]}).exec().then((results) => {
+      KitModel.find({active: true, productCode:"AFLA Romer"}).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -156,7 +156,22 @@ class Kit {
    */
   static getActiveFum() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, $or:[{productCode:"MycoSep Fum"},{productCode:"FUMO Romer"}]}).exec().then((results) => {
+      KitModel.find({active: true, productCode:"FUMO Romer"}).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+
+  /**
+   * Get active Kit from Ocratoxina
+   * @returns {Array} Array of Kits
+   */
+  static getActiveOcra() {
+    return new Promise((resolve, reject) => {
+      KitModel.find({active: true, productCode:"OTA Romer"}).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
