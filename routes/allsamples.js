@@ -848,43 +848,45 @@ console.log(error);
 
 router.post('/',function(req,res,next){
   Kit.getActiveAfla().then((aflaArray)=>{
-    
-    var aflaKit=aflaArray[0];
-    var new_last;
-    var last_filled=0;
-    var counter=0;
+    if(aflaArray.length!=0){
+         
+      var aflaKit=aflaArray[0];
+      var new_last;
+      var last_filled=0;
+      var counter=0;
 
+      
+      for(let i=aflaKit.toxinaStart;i<aflaKit.mapArray.length;i++) {
+        Workmap.getOneMap(aflaKit.mapArray[i]).then((workmap)=>{
+          counter++;
+          if(workmap.samplesArray.length>0) {
+            new_last=workmap.mapID;
+            new_last=new_last.replace("_workmap", "");
+            new_last=Number(new_last);
     
-    for(let i=aflaKit.toxinaStart;i<aflaKit.mapArray.length;i++) {
-      Workmap.getOneMap(aflaKit.mapArray[i]).then((workmap)=>{
-        counter++;
-        if(workmap.samplesArray.length>0) {
-          new_last=workmap.mapID;
-          new_last=new_last.replace("_workmap", "");
-          new_last=Number(new_last);
-  
-          if(new_last>last_filled){
-            last_filled=new_last;
+            if(new_last>last_filled){
+              last_filled=new_last;
+            }
+    
+            
           }
-  
+          if(counter==aflaKit.mapArray.length-1) {
+            aflaKit.amount=aflaKit.stripLength-last_filled;
+            aflaKit.toxinaStart=last_filled;
+            Kit.update(aflaKit._id,aflaKit).catch((err)=>{
+              console.log(err);
+            });
+          }
           
-        }
-        if(counter==aflaKit.mapArray.length-1) {
-          aflaKit.amount=aflaKit.stripLength-last_filled;
-          aflaKit.toxinaStart=last_filled;
-          Kit.update(aflaKit._id,aflaKit).catch((err)=>{
-            console.log(err);
-          });
-        }
-        
-      });
-    } 
+        });
+      } 
+     }
   }).catch((error)=>{
     console.log(error);
   });
 
   Kit.getActiveDeox().then((deoxArray)=>{ 
-    if(deoxArray!=0){
+    if(deoxArray.length!=0){
       var deoxKit=deoxArray[0];
       var new_last;
       var last_filled=0;
@@ -915,12 +917,147 @@ router.post('/',function(req,res,next){
         });
       }
     }
-   
-  
+  }).catch((error)=>{
+    console.log(error);
+  });
+
+  Kit.getActiveT2().then((t2Array)=>{ 
+    if(t2Array.length!=0){
+      var t2Kit=t2Array[0];
+      var new_last;
+      var last_filled=0;
+      var counter=0;
+      
+      for(let i=t2Kit.toxinaStart;i<t2Kit.mapArray.length;i++) {
+
+        Workmap.getOneMap(t2Kit.mapArray[i]).then((workmap)=>{
+          if(workmap.samplesArray.length>0) {
+            new_last=workmap.mapID;
+            new_last=new_last.replace("_workmap", "");
+            new_last=Number(new_last);
+
+            if(new_last>last_filled){
+              last_filled=new_last;
+            }
+
+            
+          }
+          if(i==t2Kit.mapArray.length-1) {
+            t2Kit.amount=t2Kit.stripLength-last_filled;
+            t2Kit.toxinaStart=last_filled;
+            Kit.update(t2Kit._id,t2Kit).catch((err)=>{
+              console.log(err);
+            });
+          }
+        });
+      }
+    }
   }).catch((error)=>{
     console.log(error);
   });
  
+  Kit.getActiveZea().then((zeaArray)=>{ 
+    if(zeaArray.length!=0){
+      var zeaKit=zeaArray[0];
+      var new_last;
+      var last_filled=0;
+      var counter=0;
+      
+      for(let i=zeaKit.toxinaStart;i<zeaKit.mapArray.length;i++) {
+
+        Workmap.getOneMap(zeaKit.mapArray[i]).then((workmap)=>{
+          if(workmap.samplesArray.length>0) {
+            new_last=workmap.mapID;
+            new_last=new_last.replace("_workmap", "");
+            new_last=Number(new_last);
+
+            if(new_last>last_filled){
+              last_filled=new_last;
+            }
+          }
+          if(i==zeaKit.mapArray.length-1) {
+            zeaKit.amount=zeaKit.stripLength-last_filled;
+            zeaKit.toxinaStart=last_filled;
+            Kit.update(zeaKit._id,zeaKit).catch((err)=>{
+              console.log(err);
+            });
+          }
+        });
+      }
+    }
+  }).catch((error)=>{
+    console.log(error);
+  });
+
+  Kit.getActiveFum().then((fumArray)=>{ 
+    if(fumArray.length!=0){
+      var fumKit=fumArray[0];
+      var new_last;
+      var last_filled=0;
+      var counter=0;
+      
+      for(let i=fumKit.toxinaStart;i<fumKit.mapArray.length;i++) {
+
+        Workmap.getOneMap(fumKit.mapArray[i]).then((workmap)=>{
+          if(workmap.samplesArray.length>0) {
+            new_last=workmap.mapID;
+            new_last=new_last.replace("_workmap", "");
+            new_last=Number(new_last);
+
+            if(new_last>last_filled){
+              last_filled=new_last;
+            }
+          }
+          if(i==fumKit.mapArray.length-1) {
+            fumKit.amount=fumKit.stripLength-last_filled;
+            fumKit.toxinaStart=last_filled;
+            Kit.update(fumKit._id,fumKit).catch((err)=>{
+              console.log(err);
+            });
+          }
+        });
+      }
+    }
+  }).catch((error)=>{
+    console.log(error);
+  });
+
+  
+  Kit.getActiveOcra().then((ocraArray)=>{ 
+    if(ocraArray.length!=0){
+      var ocraKit=ocraArray[0];
+      var new_last;
+      var last_filled=0;
+      var counter=0;
+      
+      for(let i=ocraKit.toxinaStart;i<ocraKit.mapArray.length;i++) {
+
+        Workmap.getOneMap(ocraKit.mapArray[i]).then((workmap)=>{
+          if(workmap.samplesArray.length>0) {
+            new_last=workmap.mapID;
+            new_last=new_last.replace("_workmap", "");
+            new_last=Number(new_last);
+
+            if(new_last>last_filled){
+              last_filled=new_last;
+            }
+
+            
+          }
+          if(i==ocraKit.mapArray.length-1) {
+            ocraKit.amount=ocraKit.stripLength-last_filled;
+            ocraKit.toxinaStart=last_filled;
+            Kit.update(ocraKit._id,ocraKit).catch((err)=>{
+              console.log(err);
+            });
+          }
+        });
+      }
+    }
+  }).catch((error)=>{
+    console.log(error);
+  });
+  
   Sample.getAll().then((sample)=>{
     //amostras afla
     if(req.body.sample.aflatoxina){
