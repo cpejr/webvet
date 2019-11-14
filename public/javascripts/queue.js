@@ -87,44 +87,14 @@ var scndAflatoxina = new jKanban({
       id : '_scndTesting',
       title  : 'Em análise',
       class : 'info'
-    },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-
-    },
-
-
+    }
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.title.replace("Amostra","");
     var goTO=target;
-    if(target =='_calibrator'){
-        if( el.dataset.calibrator) {//soemente cards P  se movem
-
-          $.post('/sample/calibrator/edit/aflatoxina/'+el.dataset.calid+'/'+nowAflaKit,  () => {
-
-          });
-        }
-
-        else{
-               
-          return false // impede outros cards de entrarem no board dos calibradores
-
-        }
-    }
-
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards originais
-              
-              var mapName=goTO.toString();
-              $.post('/sample/addponmap/aflatoxina/'+nowAflaKit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-              });
-
-           
-
+            return false;
         } 
 
         else {
@@ -145,7 +115,6 @@ var scndAflatoxina = new jKanban({
         }
       }
     }
-
     if(target=='_scndTesting') {
       var calibrator=el.dataset.eid;
       if( el.dataset.calibrator) {//cards P não se movem para em analise
