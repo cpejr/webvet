@@ -139,15 +139,6 @@ var scndAflatoxina = new jKanban({
   }
 });
 
-var countAfla=0;
-
-function IdAflaCount ()
-{
-    countAfla++;
-    return countAfla;
-}
-
-
 
 const deoxinivalenol = new jKanban({
   element : '#deoxinivalenol',
@@ -225,38 +216,14 @@ var scndDeoxinivalenol = new jKanban({
       id : '_scndTesting',
       title  : 'Em análise',
       class : 'info'
-    },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-     
-    },
-   
-
+    }
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    if(target =='_calibrator'){
-        if( el.dataset.calibrator) {//cards P não se movem
-          $.post('/sample/calibrator/edit/deoxinivalenol/'+el.dataset.calid+'/'+nowDeoxKit,  () => {
-
-          });
-         }
-        else {
-          return false // impede outros cards de entrarem no board dos calibradores
-        }
-    }
-
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards P    
-          var mapName=goTO.toString();
-             
-          $.post('/sample/addponmap/deoxinivalenol/'+nowDeoxKit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-          });
-         
+          return false;
          }  else {
           var mapName=goTO.toString();
 
@@ -272,10 +239,6 @@ var scndDeoxinivalenol = new jKanban({
     if(target=='_scndTesting') {
         var calibrator=el.dataset.eid;
       if( el.dataset.calibrator) {//cards P não se movem para em analise
-             return false;
-       }
-       else if (calibrator.indexOf("child")!=-1) {
-
              return false;
        }
        else {
