@@ -139,15 +139,6 @@ var scndAflatoxina = new jKanban({
   }
 });
 
-var countAfla=0;
-
-function IdAflaCount ()
-{
-    countAfla++;
-    return countAfla;
-}
-
-
 
 const deoxinivalenol = new jKanban({
   element : '#deoxinivalenol',
@@ -225,38 +216,14 @@ var scndDeoxinivalenol = new jKanban({
       id : '_scndTesting',
       title  : 'Em análise',
       class : 'info'
-    },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-     
-    },
-   
-
+    }
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    if(target =='_calibrator'){
-        if( el.dataset.calibrator) {//cards P não se movem
-          $.post('/sample/calibrator/edit/deoxinivalenol/'+el.dataset.calid+'/'+nowDeoxKit,  () => {
-
-          });
-         }
-        else {
-          return false // impede outros cards de entrarem no board dos calibradores
-        }
-    }
-
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards P    
-          var mapName=goTO.toString();
-             
-          $.post('/sample/addponmap/deoxinivalenol/'+nowDeoxKit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-          });
-         
+          return false;
          }  else {
           var mapName=goTO.toString();
 
@@ -272,10 +239,6 @@ var scndDeoxinivalenol = new jKanban({
     if(target=='_scndTesting') {
         var calibrator=el.dataset.eid;
       if( el.dataset.calibrator) {//cards P não se movem para em analise
-             return false;
-       }
-       else if (calibrator.indexOf("child")!=-1) {
-
              return false;
        }
        else {
@@ -375,39 +338,18 @@ var scndOcratoxina = new jKanban({
       id : '_scndTesting',
       title  : 'Em análise',
       class : 'info'
-    },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-     
-    },
+    }
    
 
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    if(target =='_calibrator'){
-        var strId=el.dataset.eid; //id do card
-        if( el.dataset.calibrator) {//cards P 
-          $.post('/sample/calibrator/edit/ocratoxina/'+el.dataset.calid+'/'+nowOcraKit,  () => {
-
-          });
-         }
-          else {
-          return false // impede outros cards de entrarem no board dos calibradores
-        }
-    }
-
+    
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
        var calibrator=el.dataset.eid;
         if( el.dataset.calibrator) {//cards P
-               var mapName=goTO.toString();
-               $.post('/sample/addponmap/ocratoxina/'+nowOcraKit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-              });
-
+              return false;
          } else {
           var mapName=goTO.toString();
 
@@ -664,36 +606,16 @@ var scndFumonisina = new jKanban({
       title  : 'Em análise',
       class : 'info'
     },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-    },
     
-
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    if(target =='_calibrator'){
-        var strId=el.dataset.eid; //id do card
-        if( el.dataset.calibrator) {//cards P 
-            $.post('/sample/calibrator/edit/fumonisina/'+el.dataset.calid+'/'+nowFumKit,  () => {
-
-            });        
-         }
-         else {
-          return false // impede outros cards de entrarem no board dos calibradores
-        }
-    }
-
+   
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
     
         if( el.dataset.calibrator) {//cards originais
-           var mapName=goTO.toString();
-           $.post('/sample/addponmap/fumonisina/'+nowFumKit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-          });
+           return false;
 
          } else {
           var mapName=goTO.toString();
@@ -1641,47 +1563,13 @@ $('#KitRadioAfla').click(function(){//não repete
     title:  "P5",
     calibrator: true
     
-});
-      // $.get('/search/getKit/'+nowAflaKit,(kit)=>{
-      //     $.get('/search/samples', (samples) => {
-      //       samples.forEach((sample) => {
-      //         if(sample.isCalibrator) {
-      //           if(sample.aflatoxina.mapReference=='Sem mapa') {
-                
-      //               if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-
-      //                 scndAflatoxina.addElement("_calibrator", {
-      //                   id: sample.name,
-      //                   title:  sample.name,
-      //                   calibrator: true,
-      //                   calid:sample._id
-      //                 });
-                   
-                     
-      //               }
-      //           }
-      //         }
-      //       });
-      //     });
-      //   }).catch((error) => {
-      //     console.log(error);
-      //     res.redirect('/error');
-      //   });
+  });
+    
        $.get('/search/getKit/'+nowAflaKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
           kit.mapArray.forEach((mapID) => {
             $.get('/search/getWorkmap/'+mapID,(workmap)=>{
               workmap.samplesArray.forEach((sampleID)=>{
                 $.get('/search/getOneSample/'+sampleID,(sample)=>{
-                  if(sample.isCalibrator) {
-                     
-                      // scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-                      //     id: sample.name,
-                      //     title:  sample.name,
-                      //     calibrator: true,
-                      //     calid:sample._id
-                      // });
-                }
-                else {
                   $.get('/search/userFromSample/'+sample._id,(user)=>{
                     if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
                           if(user.debt){
@@ -1706,7 +1594,7 @@ $('#KitRadioAfla').click(function(){//não repete
                    }
 
                  });
-               }
+               
                 });
               });
            });
@@ -1723,9 +1611,12 @@ $('#KitRadioAfla').click(function(){//não repete
 var nowOcraKit;
 var ocraLimit=0;
 var ocraFilter;
+var ocraBegin;
+var ocraBegin;
+
 $('#KitRadioOcra').change(function(){
    ocraFilter=0;
-  for(i=ocraLimit;i>0;i--){//delete previus workmap;
+  for(i=ocraLimit;i>ocraBegin-1;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndOcratoxina.removeBoard(board);
   }
@@ -1752,6 +1643,7 @@ $('#KitRadioOcra').change(function(){
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
                 isSelected=true;
+                ocraBegin=kit.toxinaStart+1;
                 document.getElementById("countkitsOcra").innerHTML = ocracount;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
@@ -1767,6 +1659,7 @@ $('#KitRadioOcra').change(function(){
                     nowOcraKit=kit._id;
                     ocracount = ocraLimit;
                     isSelected=true;
+                    ocraBegin=kit.toxinaStart+1;
                     document.getElementById("countkitsOcra").innerHTML = ocracount;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
@@ -1780,6 +1673,7 @@ $('#KitRadioOcra').change(function(){
                 nowOcraKit=kit._id;
                 ocracount = ocraLimit;
                 isSelected=true;
+                ocraBegin=kit.toxinaStart+1;
                 document.getElementById("countkitsOcra").innerHTML = ocracount;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowOcraKit, () => {
 
@@ -1794,11 +1688,11 @@ $('#KitRadioOcra').change(function(){
              }
 
             if(isSelected){
-              for(i=0;i<ocraLimit;i++){//the map 0 was defined before
+              for(i=ocraBegin;i<=ocraLimit;i++){//the map 0 was defined before
                 scndOcratoxina.addBoards(
                         [{
-                            'id' : '_workmap' + (i+1),
-                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'id' : '_workmap' + (i),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i),
                             'class' : 'info',
                         }]
                     )
@@ -1809,45 +1703,41 @@ $('#KitRadioOcra').change(function(){
          }
 
      })//for each
-     $.get('/search/getKit/'+nowOcraKit,(kit)=>{
-        $.get('/search/samples', (samples) => {
-          samples.forEach((sample) => {
-            if(sample.isCalibrator) {
-              if(sample.ocratoxina.mapReference=='Sem mapa') {
-                  if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                    scndOcratoxina.addElement("_calibrator", {
-                      id: sample.name,
-                      title:  sample.name,
-                      calibrator: true,
-                      calid:sample._id
-                    });
-
-                  }
-              }
-            }
-          });
-        }).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
+      scndOcratoxina.addElement("_workmap"+ocraBegin, {
+            id: "P1",
+            title:  "P1",
+            calibrator: true
+            
         });
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
+      scndOcratoxina.addElement("_workmap"+ocraBegin, {
+          id: "P2",
+          title:  "P2",
+          calibrator: true
+          
       });
+      scndOcratoxina.addElement("_workmap"+ocraBegin, {
+        id: "P3",
+        title:  "P3",
+        calibrator: true
+        
+      });
+      scndOcratoxina.addElement("_workmap"+ocraBegin, {
+      id: "P4",
+      title:  "P4",
+      calibrator: true
+
+      });
+      scndOcratoxina.addElement("_workmap"+ocraBegin, {
+      id: "P5",
+      title:  "P5",
+      calibrator: true
+
+});
      $.get('/search/getKit/'+nowOcraKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
         kit.mapArray.forEach((mapID) => {
           $.get('/search/getWorkmap/'+mapID,(workmap)=>{
             workmap.samplesArray.forEach((sampleID)=>{
               $.get('/search/getOneSample/'+sampleID,(sample)=>{
-                if(sample.isCalibrator) {
-                    scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
-                      id: sample.name,
-                        title:  sample.name,
-                        calibrator: true,
-                        calid:sample._id
-                    });
-              }
-              else {
                 $.get('/search/userFromSample/'+sample._id,(user)=>{
                   if(sample.ocratoxina.active == true && sample.ocratoxina.status=="Mapa de Trabalho" ) {
                         if(user.debt){
@@ -1872,7 +1762,7 @@ $('#KitRadioOcra').change(function(){
                  }
 
                });
-             }
+            
               });
             });
 
@@ -1896,9 +1786,10 @@ $('#KitRadioOcra').change(function(){
 var nowDeoxKit;
 var deoxLimit=0;
 var deoxFilter;
+var deoxBegin;
 $('#KitRadioDeox').change(function(){
    deoxFilter=0;
-  for(i=deoxLimit;i>0;i--){//delete previus workmap;
+  for(i=deoxLimit;i>deoxBegin-1;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndDeoxinivalenol.removeBoard(board);
   }
@@ -1925,6 +1816,7 @@ $('#KitRadioDeox').change(function(){
                 nowDeoxKit=kit._id;
                 deoxcount = deoxLimit;
                 isSelected=true;
+                deoxBegin=kit.toxinaStart+1;
                 document.getElementById("countkitsDeox").innerHTML = deoxcount;
                 $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
@@ -1940,6 +1832,7 @@ $('#KitRadioDeox').change(function(){
                nowDeoxKit=kit._id;
                deoxcount = deoxLimit;
                isSelected=true;
+               deoxBegin=kit.toxinaStart+1;
                document.getElementById("countkitsDeox").innerHTML = deoxcount;
                $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
@@ -1953,6 +1846,7 @@ $('#KitRadioDeox').change(function(){
                  nowDeoxKit=kit._id;
                  deoxcount = deoxLimit;
                  isSelected=true;
+                 deoxBegin=kit.toxinaStart+1;
                  document.getElementById("countkitsDeox").innerHTML = deoxcount;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowDeoxKit, () => {
 
@@ -1966,11 +1860,11 @@ $('#KitRadioDeox').change(function(){
             }
 
             if(isSelected){
-              for(i=0;i<deoxLimit;i++){//the map 0 was defined before
+              for(i=deoxBegin;i<=deoxLimit;i++){//the map 0 was defined before
                 scndDeoxinivalenol.addBoards(
                         [{
-                            'id' : '_workmap' + (i+1),
-                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'id' : '_workmap' + (i),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i),
                             'class' : 'info',
                         }]
                     )
@@ -1980,45 +1874,42 @@ $('#KitRadioDeox').change(function(){
          }
 
      });//kit foreach
-     $.get('/search/getKit/'+nowDeoxKit,(kit)=>{
-      $.get('/search/samples', (samples) => {
-        samples.forEach((sample) => {
-          if(sample.isCalibrator) {
-            if(sample.deoxinivalenol.mapReference=='Sem mapa') {
-                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                  scndDeoxinivalenol.addElement("_calibrator", {
-                    id: sample.name,
-                    title:  sample.name,
-                    calibrator: true,
-                    calid:sample._id
-                  });
 
-                }
-            }
-          }
-        });
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
-      });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
+      scndDeoxinivalenol.addElement("_workmap"+deoxBegin, {
+        id: "P1",
+        title:  "P1",
+        calibrator: true
+        
     });
+    scndDeoxinivalenol.addElement("_workmap"+deoxBegin, {
+      id: "P2",
+      title:  "P2",
+      calibrator: true
+      
+    });
+    scndDeoxinivalenol.addElement("_workmap"+deoxBegin, {
+      id: "P3",
+      title:  "P3",
+      calibrator: true
+      
+    });
+    scndDeoxinivalenol.addElement("_workmap"+deoxBegin, {
+        id: "P4",
+        title:  "P4",
+        calibrator: true
+    });
+
+  scndDeoxinivalenol.addElement("_workmap"+deoxBegin, {
+    id: "P5",
+    title:  "P5",
+    calibrator: true
+  });
+    
    $.get('/search/getKit/'+nowDeoxKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
           workmap.samplesArray.forEach((sampleID)=>{
             $.get('/search/getOneSample/'+sampleID,(sample)=>{
-              if(sample.isCalibrator) {
-                  scndDeoxinivalenol.addElement(sample.deoxinivalenol.mapReference, {
-                      id: sample.name,
-                      title:  sample.name,
-                      calibrator: true,
-                      calid:sample._id
-                  });
-              } 
-              else {
                 $.get('/search/userFromSample/'+sample._id,(user)=>{
                   if(sample.deoxinivalenol.active == true && sample.deoxinivalenol.status=="Mapa de Trabalho" ) {
                         if(user.debt){
@@ -2042,7 +1933,6 @@ $('#KitRadioDeox').change(function(){
 
                    }
                  });
-               }
              });
            });
          });
@@ -2057,9 +1947,10 @@ $('#KitRadioDeox').change(function(){
 var nowFumKit;
 var fumLimit=0;
 var fumFilter;
+var fumBegin;
 $('#KitRadioFum').change(function(){
   fumFilter=0;
-  for(i=fumLimit;i>0;i--){//delete previus workmap;
+  for(i=fumLimit;i>fumBegin-1;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndFumonisina.removeBoard(board);
   } 
@@ -2086,6 +1977,7 @@ $('#KitRadioFum').change(function(){
                   nowFumKit=kit._id;
                   fumcount = fumLimit;
                   isSelected=true;
+                  fumBegin=kit.toxinaStart+1;
                   document.getElementById("countkitsFumo").innerHTML = fumcount;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2100,6 +1992,7 @@ $('#KitRadioFum').change(function(){
                  nowFumKit=kit._id;
                  fumcount = fumLimit;
                  isSelected=true;
+                 fumBegin=kit.toxinaStart+1;
                  document.getElementById("countkitsFumo").innerHTML = fumcount;
                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2113,6 +2006,7 @@ $('#KitRadioFum').change(function(){
                    nowFumKit=kit._id;
                    fumcount = fumLimit;
                    isSelected=true;
+                   fumBegin=kit.toxinaStart+1;
                    document.getElementById("countkitsFumo").innerHTML = fumcount;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2126,11 +2020,11 @@ $('#KitRadioFum').change(function(){
             }
 
            if(isSelected) {
-            for(i=1;i<fumLimit;i++){//the map 0 was defined before
+            for(i=fumBegin;i<=fumLimit;i++){//the map 0 was defined before
               scndFumonisina.addBoards(
                       [{
-                          'id' : '_workmap' + (i+1),
-                          'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                          'id' : '_workmap' + (i),
+                          'title'  : 'Mapa de trabalho' + ' '+ (i),
                           'class' : 'info',
                       }]
                   )
@@ -2142,42 +2036,41 @@ $('#KitRadioFum').change(function(){
          }
 
      })//kit foreacj
-     $.get('/search/getKit/'+nowFumKit,(kit)=>{
-      $.get('/search/samples', (samples) => {
-        samples.forEach((sample) => {
-          if(sample.isCalibrator) {
-            if(sample.fumonisina.mapReference=='Sem mapa') {
-                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                  scndFumonisina.addElement("_calibrator", {
-                    id: sample.name,
-                    title:  sample.name,
-                    calibrator: true,
-                    calid:sample._id
-                  });
-
-                }
-            }
-          }
-        });
-      });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
+     scndFumonisina.addElement("_workmap"+fumBegin, {
+      id: "P1",
+      title:  "P1",
+      calibrator: true
+      
     });
+    scndFumonisina.addElement("_workmap"+fumBegin, {
+      id: "P2",
+      title:  "P2",
+      calibrator: true
+      
+    });
+    scndFumonisina.addElement("_workmap"+fumBegin, {
+      id: "P3",
+      title:  "P3",
+      calibrator: true
+      
+    });
+    scndFumonisina.addElement("_workmap"+fumBegin, {
+        id: "P4",
+        title:  "P4",
+        calibrator: true
+    });
+
+  scndFumonisina.addElement("_workmap"+fumBegin, {
+    id: "P5",
+    title:  "P5",
+    calibrator: true
+  });
    $.get('/search/getKit/'+nowFumKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
           workmap.samplesArray.forEach((sampleID)=>{
             $.get('/search/getOneSample/'+sampleID,(sample)=>{
-              if(sample.isCalibrator) {
-                  scndFumonisina.addElement(sample.fumonisina.mapReference, {
-                    id: sample.name,
-                      title:  sample.name,
-                      calibrator: true,
-                      calid:sample._id
-                  });
-            }
-            else {
+           
               $.get('/search/userFromSample/'+sample._id,(user)=>{
                 if(sample.fumonisina.active == true && sample.fumonisina.status=="Mapa de Trabalho" ) {
                       if(user.debt){
@@ -2202,7 +2095,6 @@ $('#KitRadioFum').change(function(){
                }
 
              });
-           }
             });
           });
        });
