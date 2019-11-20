@@ -1612,7 +1612,7 @@ var nowOcraKit;
 var ocraLimit=0;
 var ocraFilter;
 var ocraBegin;
-var ocraBegin;
+
 
 $('#KitRadioOcra').change(function(){
    ocraFilter=0;
@@ -2110,10 +2110,10 @@ $('#KitRadioFum').change(function(){
 var nowT2Kit;
 var t2Limit=0;
 var t2Filter;
-//corrigir
+var t2Begin;
 $('#KitRadioT').change(function(){
    t2Filter=0;
-  for(i=t2Limit;i>0;i--){//delete previus workmap;
+  for(i=t2Limit;i>t2Begin-1;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndT2toxina.removeBoard(board);
   }
@@ -2140,6 +2140,7 @@ $('#KitRadioT').change(function(){
                   nowT2Kit=kit._id;
                   t2count = t2Limit;
                   isSelected=true;
+                  t2Begin=kit.toxinaStart+1;
                   document.getElementById("countkits").innerHTML = t2count;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2153,6 +2154,7 @@ $('#KitRadioT').change(function(){
                    t2Limit=kit.stripLength;
                    nowT2Kit=kit._id;
                    t2count = t2Limit;
+                   t2Begin=kit.toxinaStart+1;
                    document.getElementById("countkits").innerHTML = t2count;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2166,6 +2168,7 @@ $('#KitRadioT').change(function(){
                     t2Limit=kit.stripLength;
                     nowT2Kit=kit._id;
                     t2count = t2Limit;
+                    t2Begin=kit.toxinaStart+1;
                     document.getElementById("countkits").innerHTML = t2count;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2179,11 +2182,11 @@ $('#KitRadioT').change(function(){
             }
 
             if(isSelected) {
-              for(i=1;i<t2Limit;i++){//the map 0 was defined before
+              for(i=t2Begin;i<=t2Limit;i++){//the map 0 was defined before
                 scndT2toxina.addBoards(
                         [{
-                            'id' : '_workmap' + (i+1),
-                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'id' : '_workmap' + (i),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i),
                             'class' : 'info',
                         }]
                     );
@@ -2192,42 +2195,42 @@ $('#KitRadioT').change(function(){
          }
 
      }) //kit
-     $.get('/search/getKit/'+nowT2Kit,(kit)=>{
-      $.get('/search/samples', (samples) => {
-        samples.forEach((sample) => {
-          if(sample.isCalibrator) {
-            if(sample.t2toxina.mapReference=='Sem mapa') {
-                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                  scndT2toxina.addElement("_calibrator", {
-                    id: sample.name,
-                    title:  sample.name,
-                    calibrator: true,
-                    calid:sample._id
-                  });
+     scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P1",
+      title:  "P1",
+      calibrator: true
+      
+    });
+    scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P2",
+      title:  "P2",
+      calibrator: true
+      
+    });
+    scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P3",
+      title:  "P3",
+      calibrator: true
+      
+    });
+    scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P4",
+      title:  "P4",
+      calibrator: true
+      
+    });
 
-                }
-            }
-          }
-        });
-      });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
+    scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P5",
+      title:  "P5",
+      calibrator: true
+      
     });
    $.get('/search/getKit/'+nowT2Kit,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
           workmap.samplesArray.forEach((sampleID)=>{
             $.get('/search/getOneSample/'+sampleID,(sample)=>{
-              if(sample.isCalibrator) {
-                  scndT2toxina.addElement(sample.t2toxina.mapReference, {
-                      id: sample.name,
-                      title:  sample.name,
-                      calibrator: true,
-                      calid:sample._id
-                  });
-            }
-            else {
               $.get('/search/userFromSample/'+sample._id,(user)=>{
                 if(sample.t2toxina.active == true && sample.t2toxina.status=="Mapa de Trabalho" ) {
                       if(user.debt){
@@ -2252,7 +2255,6 @@ $('#KitRadioT').change(function(){
                }
 
              });
-           }
             });
           });
        });
