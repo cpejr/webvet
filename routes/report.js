@@ -48,41 +48,24 @@ router.get('/show/admin/:id', auth.isAuthenticated, function(req, res, next) {
   });
 });
 
-router.post('/show/admin/:id', auth.isAuthenticated, function(req, res, next) {
+router.post('/show/admin/:id', auth.isAuthenticated, async function(req, res, next) {
   var concentrations = req.body;
   var id = req.params.id;
-  Sample.updateAflaConcentration(id, concentrations.aflatoxinaConc).then((result1) =>{
-    Sample.updateDeoxinivalenolConcentration(id, concentrations.deoxConc).then((result2) =>{
-        Sample.updateFumonisinaConcentration(id, concentrations.fumoConc).then((result3) =>{
-            Sample.updateOcraConcentration(id, concentrations.ocratoxConc).then((result4) =>{
-              Sample.updateT2Concentration(id, concentrations.T2Conc).then((result4) =>{
-                Sample.updateZeaConcentration(id, concentrations.ZearalenonaConc).then((result4) =>{
-                  req.flash('success', 'Atualizado com sucesso.');
-                  res.redirect('/report/show/admin/' + id);
-                }).catch(err =>{
-                  req.flash('danger', 'Problem ao atualizar');
-                  res.redirect('/report/show/admin/' + id);
-                });
-              }).catch(err =>{
-                req.flash('danger', 'Problem ao atualizar');
-                res.redirect('/report/show/admin/' + id);
-              });
-            }).catch(err =>{
-              req.flash('danger', 'Problem ao atualizar');
-              res.redirect('/report/show/admin/' + id);
-            });
-          }).catch(err =>{
-            req.flash('danger', 'Problem ao atualizar');
-            res.redirect('/report/show/admin/' + id);
-          });
-        }).catch(err =>{
-          req.flash('danger', 'Problem ao atualizar');
-          res.redirect('/report/show/admin/' + id);
-        });
-      }).catch(err =>{
-        req.flash('danger', 'Problem ao atualizar');
-        res.redirect('/report/show/admin/' + id);
-      });
+  try{
+    await Sample.updateAflaConcentration(id, concentrations.aflatoxinaConc);
+    await Sample.updateDeoxinivalenolConcentration(id, concentrations.deoxConc);
+    await Sample.updateFumonisinaConcentration(id, concentrations.fumoConc);
+    await Sample.updateOcraConcentration(id, concentrations.ocratoxConc);
+    await Sample.updateT2Concentration(id, concentrations.T2Conc);
+    await Sample.updateZeaConcentration(id, concentrations.ZearalenonaConc);
+    await Sample.updateDescription(id, concentrations.Description);
+    req.flash('success', 'Atualizado com sucesso.');
+    res.redirect('/report/show/admin/' + id);
+  }
+  catch(err){
+    req.flash('danger', 'Problem ao atualizar');
+    res.redirect('/report/show/admin/' + id);
+  }
 });
 
 router.get('/samples/:id', auth.isAuthenticated, function(req, res, next) {
