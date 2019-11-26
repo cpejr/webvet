@@ -715,36 +715,15 @@ var scndZearalenona = new jKanban({
       title  : 'Em análise',
       class : 'info'
     },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-      
-    },
    
 
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    if(target =='_calibrator'){
-        if( el.dataset.calibrator) {//cards P 
-          $.post('/sample/calibrator/edit/zearalenona/'+el.dataset.calid+'/'+nowZKit,  () => {
-
-          });   
-         }
-         else {
-          return false // impede outros cards de entrarem no board dos calibradores
-        }
-    }
-
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards P
-          var mapName=goTO.toString();
-
-          $.post('/sample/addponmap/zearalenona/'+nowZKit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-          });
+           return false;
         }   
          else {
           var mapName=goTO.toString();
@@ -2252,9 +2231,10 @@ $('#KitRadioT').change(function(){
 var nowZKit;
 var zLimit=0;
 var zFilter;
+var zBegin;
 $('#KitRadioZ').change(function(){
   zFilter=0;
-  for(i=zLimit;i>0;i--){//delete previus workmap;
+  for(i=zLimit;i>zBegin-1;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndZearalenona.removeBoard(board);
   }
@@ -2280,6 +2260,7 @@ $('#KitRadioZ').change(function(){
                   zLimit=kit.stripLength;
                   nowZKit=kit._id;
                   isSelected=true;
+                  zBegin=kit.toxinaStart+1;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                   });
@@ -2289,9 +2270,10 @@ $('#KitRadioZ').change(function(){
            }
              if($('#KitZB').is(':checked')&&kit.kitType=="B") {
               $('#hideZ').removeClass('form-disabled');
-                 zLimit=kit.stripLength;
+                   zLimit=kit.stripLength;
                    nowZKit=kit._id;
                    isSelected=true;
+                   zBegin=kit.toxinaStart+1;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                    });
@@ -2304,6 +2286,7 @@ $('#KitRadioZ').change(function(){
                  zLimit=kit.stripLength;
                    nowZKit=kit._id;
                    isSelected=true;
+                   zBegin=kit.toxinaStart+1;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                    });
@@ -2315,11 +2298,11 @@ $('#KitRadioZ').change(function(){
               $('#hideZ').addClass('form-disabled');
             }
             if(isSelected) {
-              for(i=1;i<zLimit;i++){//the map 0 was defined before
+              for(i=zBegin;i<=zLimit;i++){//the map 0 was defined before
                 scndZearalenona.addBoards(
                         [{
-                            'id' : '_workmap' + (i+1),
-                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'id' : '_workmap' + (i),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i),
                             'class' : 'info',
                         }]
                     )
@@ -2330,6 +2313,37 @@ $('#KitRadioZ').change(function(){
          }
 
      }) //foreach
+     scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P1",
+      title:  "P1",
+      calibrator: true
+      
+    });
+    scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P2",
+      title:  "P2",
+      calibrator: true
+      
+    });
+    scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P3",
+      title:  "P3",
+      calibrator: true
+      
+    });
+    scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P4",
+      title:  "P4",
+      calibrator: true
+      
+    });
+
+    scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P5",
+      title:  "P5",
+      calibrator: true
+      
+    });
      $.get('/search/getKit/'+nowZKit,(kit)=>{
       $.get('/search/samples', (samples) => {
         samples.forEach((sample) => {
