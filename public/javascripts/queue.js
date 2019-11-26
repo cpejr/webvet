@@ -461,36 +461,17 @@ var scndT2toxina = new jKanban({
       title  : 'Em análise',
       class : 'info'
     },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-      
-    },
+    
   
 
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    if(target =='_calibrator'){
-        var strId=el.dataset.eid; //id do card
-        if( el.dataset.calibrator) {//cards P 
-          $.post('/sample/calibrator/edit/t2toxina/'+el.dataset.calid+'/'+nowT2Kit,  () => {
-
-          });
-         }
-         else {
-          return false // impede outros cards de entrarem no board dos calibradores
-        }
-    }
-
+  
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards P
-          var mapName=goTO.toString();
-           $.post('/sample/addponmap/t2toxina/'+nowT2Kit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-              });
+          return false;
          } else {
            var mapName=goTO.toString();
 
