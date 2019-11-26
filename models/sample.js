@@ -131,7 +131,9 @@ const sampleSchema = new mongoose.Schema({
   isCalibrator: {
       type: Boolean,
       default: false
-  }
+  },
+
+  description: String,
 }, { timestamps: true, strict: false });
 
 const SampleModel = mongoose.model('Sample', sampleSchema);
@@ -579,6 +581,18 @@ class Sample {
         reject(err);
       });
     });
+  }
+  static async updateDescription(id, descriptionUpdate){
+    try{
+      let result = await SampleModel.update(
+        {_id: id},
+        {description: descriptionUpdate}
+      )
+      return result;
+    }
+    catch(err){
+      throw err;
+    }
   }
 }
 
