@@ -31,26 +31,26 @@ router.get('/', (req, res) => {
       kitToxin=kit[i].productCode;
       if(kit[i].active){
         if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-          calib_afla_id[0] = kit[i].calibrators.P1.sampleID;
-          calib_afla_id[1] = kit[i].calibrators.P2.sampleID;
-          calib_afla_id[2] = kit[i].calibrators.P3.sampleID;
-          calib_afla_id[3] = kit[i].calibrators.P4.sampleID;
-          calib_afla_id[4] = kit[i].calibrators.P5.sampleID;
+          calib_afla_id[0] = kit[i].calibrators.P1;
+          calib_afla_id[1] = kit[i].calibrators.P2;
+          calib_afla_id[2] = kit[i].calibrators.P3;
+          calib_afla_id[3] = kit[i].calibrators.P4;
+          calib_afla_id[4] = kit[i].calibrators.P5;
         }
       }
       if(kitToxin.includes("DON")) {
-        calib_don_id[0] = kit[i].calibrators.P1.sampleID;
-        calib_don_id[1] = kit[i].calibrators.P2.sampleID;
-        calib_don_id[2] = kit[i].calibrators.P3.sampleID;
-        calib_don_id[3] = kit[i].calibrators.P4.sampleID;
-        calib_don_id[4] = kit[i].calibrators.P5.sampleID;
+        calib_don_id[0] = kit[i].calibrators.P1;
+        calib_don_id[1] = kit[i].calibrators.P2;
+        calib_don_id[2] = kit[i].calibrators.P3;
+        calib_don_id[3] = kit[i].calibrators.P4;
+        calib_don_id[4] = kit[i].calibrators.P5;
       }
       if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
-        calib_ocra_id[0] = kit[i].calibrators.P1.sampleID;
-        calib_ocra_id[1] = kit[i].calibrators.P2.sampleID;
-        calib_ocra_id[2] = kit[i].calibrators.P3.sampleID;
-        calib_ocra_id[3] = kit[i].calibrators.P4.sampleID;
-        calib_ocra_id[4] = kit[i].calibrators.P5.sampleID;
+        calib_ocra_id[0] = kit[i].calibrators.P1;
+        calib_ocra_id[1] = kit[i].calibrators.P2;
+        calib_ocra_id[2] = kit[i].calibrators.P3;
+        calib_ocra_id[3] = kit[i].calibrators.P4;
+        calib_ocra_id[4] = kit[i].calibrators.P5;
       }
       if(kitToxin.includes("T2")) {
         calib_t2_id[0] = kit[i].calibrators.P1.sampleID;
