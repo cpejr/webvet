@@ -15,19 +15,32 @@
       </thead>
       <tbody>
 
-        {{#each aflas_p}}
-          {{#compare isCalibrator true}}
-            {{#compare aflatoxina.mapReference '_workmap1'}}
+
               <tr>
-                <th>{{name}}</th>
-                <div class="some">
-                  <input name = "calibrator[aflatoxina][_id]" type="text" value="{{_id}}">
-                 </div>
-                  <th><input type="text" name = "calibrator[aflatoxina][absorbance]" class="input-absorbance"></th>
+                <th>P1</th>
+                  <th><input type="text" name = "aflaCalibrator[P1][absorbance]" class="input-absorbance"></th>
               </tr>
-            {{/compare}}
-          {{/compare}}
-        {{/each}}
+              <tr>
+                <th>P2</th>
+                  <th><input type="text" name = "aflaCalibrator[P2][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                <th>P3</th>
+                  <th><input type="text" name = "aflaCalibrator[P3][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                 <th>P4</th>
+                  <th><input type="text" name = "aflaCalibrator[P4][absorbance]" class="input-absorbance"></th>
+              </tr>
+               
+              <tr>
+                <th>P5</th>
+                  <th><input type="text" name = "aflaCalibrator[P5][absorbance]" class="input-absorbance"></th>
+              </tr>
+          
+      
 
         {{#each amostras}}
           {{#compare aflatoxina.mapReference '_workmap1'}}
@@ -446,19 +459,30 @@
       </thead>
       <tbody>
 
-        {{#each don_p}}
-          {{#compare isCalibrator true}}
-            {{#compare deoxinivalenol.mapReference '_workmap1'}}
+
               <tr>
-                <th>{{name}}</th>
-                <div class="some">
-                  <input name = "calibrator[deoxinivalenol][_id]" type="text" value="{{_id}}">
-                 </div>
-                  <th><input type="text" name = "calibrator[deoxinivalenol][absorbance]" class="input-absorbance"></th>
+                <th>P1</th>
+                  <th><input type="text" name = "donCalibrator[P1][absorbance]" class="input-absorbance"></th>
               </tr>
-            {{/compare}}
-          {{/compare}}
-        {{/each}}
+              <tr>
+                <th>P2</th>
+                  <th><input type="text" name = "donCalibrator[P2][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                <th>P3</th>
+                  <th><input type="text" name = "donCalibrator[P3][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                 <th>P4</th>
+                  <th><input type="text" name = "donCalibrator[P4][absorbance]" class="input-absorbance"></th>
+              </tr>
+               
+              <tr>
+                <th>P5</th>
+                  <th><input type="text" name = "donCalibrator[P5][absorbance]" class="input-absorbance"></th>
+              </tr>
 
         {{#each amostras}}
           {{#compare deoxinivalenol.mapReference '_workmap1'}}
@@ -869,19 +893,31 @@
       </thead>
       <tbody>
 
-        {{#each ocra_p}}
-          {{#compare isCalibrator true}}
-            {{#compare ocratoxina.mapReference '_workmap1'}}
+        
+
               <tr>
-                <th>{{name}}</th>
-                <div class="some">
-                  <input name = "calibrator[ocratoxina][_id]" type="text" value="{{_id}}">
-                 </div>
-                  <th><input type="text" name = "calibrator[ocratoxina][absorbance]" class="input-absorbance"></th>
+                <th>P1</th>
+                  <th><input type="text" name = "otaCalibrator[P1][absorbance]" class="input-absorbance"></th>
               </tr>
-            {{/compare}}
-          {{/compare}}
-        {{/each}}
+              <tr>
+                <th>P2</th>
+                  <th><input type="text" name = "otaCalibrator[P2][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                <th>P3</th>
+                  <th><input type="text" name = "otaCalibrator[P3][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                 <th>P4</th>
+                  <th><input type="text" name = "otaCalibrator[P4][absorbance]" class="input-absorbance"></th>
+              </tr>
+               
+              <tr>
+                <th>P5</th>
+                  <th><input type="text" name = "otaCalibrator[P5][absorbance]" class="input-absorbance"></th>
+              </tr>
 
 
         {{#each amostras}}
@@ -1279,19 +1315,31 @@
       <tbody>
 
 
-        {{#each t2_p}}
-          {{#compare isCalibrator true}}
-            {{#compare t2toxina.mapReference '_workmap1'}}
+        
+
               <tr>
-                <th>{{name}}</th>
-                <div class="some">
-                  <input name = "calibrator[t2toxina][_id]" type="text" value="{{_id}}">
-                 </div>
-                  <th><input type="text" name = "calibrator[t2toxina][absorbance]" class="input-absorbance"></th>
+                <th>P1</th>
+                  <th><input type="text" name = "t2Calibrator[P1][absorbance]" class="input-absorbance"></th>
               </tr>
-            {{/compare}}
-          {{/compare}}
-        {{/each}}
+              <tr>
+                <th>P2</th>
+                  <th><input type="text" name = "t2Calibrator[P2][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                <th>P3</th>
+                  <th><input type="text" name = "t2Calibrator[P3][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                 <th>P4</th>
+                  <th><input type="text" name = "t2Calibrator[P4][absorbance]" class="input-absorbance"></th>
+              </tr>
+               
+              <tr>
+                <th>P5</th>
+                  <th><input type="text" name = "t2Calibrator[P5][absorbance]" class="input-absorbance"></th>
+              </tr>
 
         {{#each amostras}}
           {{#compare t2toxina.mapReference '_workmap1'}}
@@ -1686,19 +1734,31 @@
       </thead>
       <tbody>
 
-        {{#each zea_p}}
-          {{#compare isCalibrator true}}
-            {{#compare zearalenona.mapReference '_workmap1'}}
+     
+
               <tr>
-                <th>{{name}}</th>
-                <div class="some">
-                  <input name = "calibrator[zearalenona][_id]" type="text" value="{{_id}}">
-                 </div>
-                  <th><input type="text" name = "calibrator[zearalenona][absorbance]" class="input-absorbance"></th>
+                <th>P1</th>
+                  <th><input type="text" name = "zeaCalibrator[P1][absorbance]" class="input-absorbance"></th>
               </tr>
-            {{/compare}}
-          {{/compare}}
-        {{/each}}
+              <tr>
+                <th>P2</th>
+                  <th><input type="text" name = "zeaCalibrator[P2][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                <th>P3</th>
+                  <th><input type="text" name = "zeaCalibrator[P3][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                 <th>P4</th>
+                  <th><input type="text" name = "zeaCalibrator[P4][absorbance]" class="input-absorbance"></th>
+              </tr>
+               
+              <tr>
+                <th>P5</th>
+                  <th><input type="text" name = "zeaCalibrator[P5][absorbance]" class="input-absorbance"></th>
+              </tr>
 
         {{#each amostras}}
           {{#compare zearalenona.mapReference '_workmap1'}}
@@ -2089,21 +2149,29 @@
         </tr>
       </thead>
       <tbody>
-
-
-        {{#each fbs_p}}
-          {{#compare isCalibrator true}}
-            {{#compare fumonisina.mapReference '_workmap1'}}
               <tr>
-                <th>{{name}}</th>
-                <div class="some">
-                  <input name = "calibrator[fumonisina][_id]" type="text" value="{{_id}}">
-                 </div>
-                  <th><input type="text" name = "calibrator[fumonisina][absorbance]" class="input-absorbance"></th>
+                <th>P1</th>
+                  <th><input type="text" name = "fbCalibrator[P1][absorbance]" class="input-absorbance"></th>
               </tr>
-            {{/compare}}
-          {{/compare}}
-        {{/each}}
+              <tr>
+                <th>P2</th>
+                  <th><input type="text" name = "fbCalibrator[P2][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                <th>P3</th>
+                  <th><input type="text" name = "fbCalibrator[P3][absorbance]" class="input-absorbance"></th>
+              </tr>
+                
+              <tr>
+                 <th>P4</th>
+                  <th><input type="text" name = "fbCalibrator[P4][absorbance]" class="input-absorbance"></th>
+              </tr>
+               
+              <tr>
+                <th>P5</th>
+                  <th><input type="text" name = "fbCalibrator[P5][absorbance]" class="input-absorbance"></th>
+              </tr>
 
 
         {{#each amostras}}

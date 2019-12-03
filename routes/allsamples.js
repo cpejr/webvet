@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
   var t2_p = new Array;
   var zea_p = new Array;
   var fbs_p = new Array;
+  var afla_start = 0;
   Sample.getAll().then((amostras)=>{
   Kit.getAll().then((kit)=>{
     for (let i = 0; i < kit.length; i++){
@@ -30,6 +31,7 @@ router.get('/', (req, res) => {
           aflas_p[2] = kit[i].calibrators.P3;
           aflas_p[3] = kit[i].calibrators.P4;
           aflas_p[4] = kit[i].calibrators.P5;
+          afla_start = kit[i].toxinaStart;
         }
       }
       if(kitToxin.includes("DON")) {
@@ -662,7 +664,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,zea_p,aflas_p,ocra_p,don_p,t2_p,fbs_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,zea_p,aflas_p,afla_start,ocra_p,don_p,t2_p,fbs_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   
 }).catch((error)=>{
   console.log(error);
