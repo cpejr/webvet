@@ -13,65 +13,10 @@ const Sample=require('../models/sample');
 
 
 router.get('/', (req, res) => {
-  var aflas_p = new Array;
-  var don_p = new Array;
-  var ocra_p = new Array;
-  var t2_p = new Array;
-  var zea_p = new Array;
-  var fbs_p = new Array;
-  var afla_start = 0;
+ 
   Sample.getAll().then((amostras)=>{
   Kit.getAll().then((kit)=>{
-    for (let i = 0; i < kit.length; i++){
-      kitToxin=kit[i].productCode;
-      if(kit[i].active){
-        if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-          aflas_p[0] = kit[i].calibrators.P1;
-          aflas_p[1] = kit[i].calibrators.P2;
-          aflas_p[2] = kit[i].calibrators.P3;
-          aflas_p[3] = kit[i].calibrators.P4;
-          aflas_p[4] = kit[i].calibrators.P5;
-          afla_start = kit[i].toxinaStart;
-        }
-      }
-      if(kitToxin.includes("DON")) {
-        don_p[0] = kit[i].calibrators.P1;
-        don_p[1] = kit[i].calibrators.P2;
-        don_p[2] = kit[i].calibrators.P3;
-        don_p[3] = kit[i].calibrators.P4;
-        don_p[4] = kit[i].calibrators.P5;
-      }
-      if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
-        ocra_p [0] = kit[i].calibrators.P1;
-        ocra_p [1] = kit[i].calibrators.P2;
-        ocra_p [2] = kit[i].calibrators.P3;
-        ocra_p [3] = kit[i].calibrators.P4;
-        ocra_p [4] = kit[i].calibrators.P5;
-      }
-      if(kitToxin.includes("T2")) {
-        t2_p[0] = kit[i].calibrators.P1;
-        t2_p[1] = kit[i].calibrators.P2;
-        t2_p[2] = kit[i].calibrators.P3;
-        t2_p[3] = kit[i].calibrators.P4;
-        t2_p[4] = kit[i].calibrators.P5;
-      }
-
-      if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
-        zea_p[0] = kit[i].calibrators.P1;
-        zea_p[1] = kit[i].calibrators.P2;
-        zea_p[2] = kit[i].calibrators.P3;
-        zea_p[3] = kit[i].calibrators.P4;
-        zea_p[4] = kit[i].calibrators.P5;
-      }
-
-      if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
-        fbs_p[0] = kit[i].calibrators.P1;
-        fbs_p[1] = kit[i].calibrators.P2;
-        fbs_p[2] = kit[i].calibrators.P3;
-        fbs_p[3] = kit[i].calibrators.P4;
-        fbs_p[4] = kit[i].calibrators.P5;
-      }
-    }
+    
      
     var today = new Date();
     var hours = today.getHours();
@@ -664,7 +609,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,zea_p,aflas_p,afla_start,ocra_p,don_p,t2_p,fbs_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   
 }).catch((error)=>{
   console.log(error);
