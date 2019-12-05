@@ -892,95 +892,7 @@ router.post('/',function(req,res,next){
   
   Sample.getAll().then((sample)=>{
     //amostras afla
-    if(req.body.sample.aflatoxina){
-      var id_afla = req.body.sample.aflatoxina._id;
-      var abs_afla = req.body.sample.aflatoxina.absorbance;
-      if(abs_afla.length == 1){
-        Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
-        for (let i = 0; i < abs_afla.length; i++) {
-          Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-    }
-    if(req.body.calibrator.aflatoxina){
-      //calibradores afla
-      var id_calibrators_afla = req.body.calibrator.aflatoxina._id;
-      var abs_calibritor_afla = req.body.calibrator.aflatoxina.absorbance;
-      if(abs_calibritor_afla.length == 1){
-        Sample.updateAflaAbsorbance(id_calibrators_afla, abs_calibritor_afla).then(()=>{
-        }).catch((error)=>{ 
-        console.log(error);
-        });
-      } else {
-        for (let i = 0; i < abs_calibritor_afla.length; i++) {
-          Sample.updateAflaAbsorbance(id_calibrators_afla[i],abs_calibritor_afla[i]).then(()=>{
-          }).catch((error)=>{ 
-          console.log(error);
-          });
-        } 
-      }
-    }
-    if(req.body.calibrator.deoxinivalenol){
-      //calibradores deox
-      var id_calibrators_deox = req.body.calibrator.deoxinivalenol._id;
-      var abs_calibritor_deox = req.body.calibrator.deoxinivalenol.absorbance;
-      if(abs_calibritor_deox.length == 1){
-        Sample.updateDeoxAbsorbance(id_calibrators_deox,abs_calibritor_deox).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
-        for(let i = 0; i< abs_calibritor_deox.length; i++){
-          Sample.updateDeoxAbsorbance(id_calibrators_deox[i],abs_calibritor_deox[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-    }
-    if(req.body.sample.deoxinivalenol){
-      //amostras deox
-      var id_deox = req.body.sample.deoxinivalenol._id;
-      var abs_deox = req.body.sample.deoxinivalenol.absorbance;
-      if(abs_deox.length == 1){
-        Sample.updateDeoxAbsorbance(id_deox, abs_deox).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      }else{
-        for(let i = 0; i <abs_deox.length; i++){
-          Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-    }
-    if(req.body.calibrator.ocratoxina){
-      //calibradores ocra
-      var id_calibrators_ocra = req.body.calibrator.ocratoxina._id;
-      var abs_calibritor_ocra = req.body.calibrator.ocratoxina.absorbance;
-      if(abs_calibritor_ocra.length == 1){
-        Sample.updateOcraAbsorbance(id_calibrators_ocra,abs_calibritor_ocra).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
-        for(let i = 0; i< abs_calibritor_ocra.length; i++){
-          Sample.updateOcraAbsorbance(id_calibrators_ocra[i],abs_calibritor_ocra[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-    }
+    
 
 
     if(req.body.sample.ocratoxina){
@@ -1002,24 +914,6 @@ router.post('/',function(req,res,next){
       }
     }
 
-    if(req.body.calibrator.t2toxina){
-      //calibradores t2
-      var id_calibrators_t2 = req.body.calibrator.t2toxina._id;
-      var abs_calibritor_t2 = req.body.calibrator.t2toxina.absorbance;
-      if(abs_calibritor_t2.length == 1){
-        Sample.updateT2Absorbance(id_calibrators_t2,abs_calibritor_t2).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
-        for(let i = 0; i< abs_calibritor_t2.length; i++){
-          Sample.updateT2Absorbance(id_calibrators_t2[i],abs_calibritor_t2[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-    }
 
     if(req.body.sample.t2toxina){
       //amostra t2
@@ -1061,24 +955,6 @@ router.post('/',function(req,res,next){
     }
 
 
-    if(req.body.calibrator.zearalenona){
-      //calibradores zea
-      var id_calibrators_zea = req.body.calibrator.zearalenona._id;
-      var abs_calibritor_zea = req.body.calibrator.zearalenona.absorbance;
-      if(abs_calibritor_zea.length == 1){
-        Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
-        for(let i = 0; i< abs_calibritor_zea.length; i++){
-          Sample.updateZeaAbsorbance(id_calibrators_zea[i],abs_calibritor_zea[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-    }
 
     if(req.body.sample.zearalenona){
       //amostras zea
@@ -1100,25 +976,6 @@ router.post('/',function(req,res,next){
     }
 
 
-    if(req.body.calibrator.fumonisina){
-      //calibradores fbs
-      var id_calibrators_fbs = req.body.calibrator.fumonisina._id;
-      var abs_calibritor_fbs = req.body.calibrator.fumonisina.absorbance;
-      if(abs_calibritor_fbs.length == 1){
-        Sample.updateFbsAbsorbance(id_calibrators_fbs,abs_calibritor_fbs).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
-        for(let i = 0; i< abs_calibritor_fbs.length; i++){
-          Sample.updateFbsAbsorbance(id_calibrators_fbs[i],abs_calibritor_fbs[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-      
-    }
 
     if(req.body.sample.fumonisina){
       //amostras fbs
@@ -1244,7 +1101,7 @@ router.post('/',function(req,res,next){
       }
     }
 
-    res.redirect('/allsamples');
+    res.redirect('/queue');
 
   }).catch((error)=>{
     console.log(error);
