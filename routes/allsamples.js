@@ -651,6 +651,10 @@ router.post('/',function(req,res,next){
             aflaKit.amount=aflaKit.stripLength-last_filled;
             aflaKit.toxinaStart=last_filled;
             aflaKit.calibrators.P1.absorbance=parseFloat(req.body.aflaCalibrator.P1);
+            aflaKit.calibrators.P2.absorbance=parseFloat(req.body.aflaCalibrator.P2);
+            aflaKit.calibrators.P3.absorbance=parseFloat(req.body.aflaCalibrator.P3);
+            aflaKit.calibrators.P4.absorbance=parseFloat(req.body.aflaCalibrator.P4);
+            aflaKit.calibrators.P5.absorbance=parseFloat(req.body.aflaCalibrator.P5);
             Kit.update(aflaKit._id,aflaKit).catch((err)=>{
               console.log(err);
             });
@@ -659,34 +663,6 @@ router.post('/',function(req,res,next){
         });
       } 
      }
-     
-     var abs= parseFloat(req.body.aflaCalibrator.P1);
-     console.log("------------------------");
-     console.log(abs);
-     console.log("------------------------");
-     console.log(aflaKit.id);
-    //  Kit.setP1absorbance(aflaKit._id,abs).then((kit)=>{
-    //    console.log(kit.calibrators);
-    //  }).catch((error)=>{
-    //   console.log(error);
-    // });
-
-    // Kit.setP2absorbance(aflaKit._id,req.body.aflaCalibrator.P2).catch((error)=>{
-    //   console.log(error);
-    // });
-
-    // Kit.setP3absorbance(aflaKit._id,req.body.aflaCalibrator.P3).catch((error)=>{
-    //   console.log(error);
-    // });
-
-    // Kit.setP4absorbance(aflaKit._id,req.body.aflaCalibrator.P4).catch((error)=>{
-    //   console.log(error);
-    // });
-
-    // Kit.setP5absorbance(aflaKit._id,req.body.aflaCalibrator.P5).catch((error)=>{
-    //   console.log(error);
-    // });
-
   }).catch((error)=>{
     console.log(error);
   });
@@ -699,8 +675,8 @@ router.post('/',function(req,res,next){
       var counter=0;
       
       for(let i=deoxKit.toxinaStart;i<deoxKit.mapArray.length;i++) {
-
         Workmap.getOneMap(deoxKit.mapArray[i]).then((workmap)=>{
+          counter++;
           if(workmap.samplesArray.length>0) {
             new_last=workmap.mapID;
             new_last=new_last.replace("_workmap", "");
@@ -712,10 +688,15 @@ router.post('/',function(req,res,next){
 
             
           }
-          if(i==deoxKit.mapArray.length-1) {
-            console.log(deoxKit.stripLength-last_filled);
+          if(counter==deoxKit.mapArray.length-1) {
+            
             deoxKit.amount=deoxKit.stripLength-last_filled;
             deoxKit.toxinaStart=last_filled;
+            deoxKit.calibrators.P1.absorbance=parseFloat(req.body.donCalibrator.P1);
+            deoxKit.calibrators.P2.absorbance=parseFloat(req.body.donCalibrator.P2);
+            deoxKit.calibrators.P3.absorbance=parseFloat(req.body.donCalibrator.P3);
+            deoxKit.calibrators.P4.absorbance=parseFloat(req.body.donCalibrator.P4);
+            deoxKit.calibrators.P5.absorbance=parseFloat(req.body.donCalibrator.P5);
             Kit.update(deoxKit._id,deoxKit).catch((err)=>{
               console.log(err);
             });
@@ -735,8 +716,8 @@ router.post('/',function(req,res,next){
       var counter=0;
       
       for(let i=t2Kit.toxinaStart;i<t2Kit.mapArray.length;i++) {
-
         Workmap.getOneMap(t2Kit.mapArray[i]).then((workmap)=>{
+          counter++;
           if(workmap.samplesArray.length>0) {
             new_last=workmap.mapID;
             new_last=new_last.replace("_workmap", "");
@@ -837,8 +818,8 @@ router.post('/',function(req,res,next){
       var counter=0;
       
       for(let i=ocraKit.toxinaStart;i<ocraKit.mapArray.length;i++) {
-
         Workmap.getOneMap(ocraKit.mapArray[i]).then((workmap)=>{
+          counter++;
           if(workmap.samplesArray.length>0) {
             new_last=workmap.mapID;
             new_last=new_last.replace("_workmap", "");
@@ -850,7 +831,7 @@ router.post('/',function(req,res,next){
 
             
           }
-          if(i==ocraKit.mapArray.length-1) {
+          if(counter==ocraKit.mapArray.length-1) {
             ocraKit.amount=ocraKit.stripLength-last_filled;
             ocraKit.toxinaStart=last_filled;
             Kit.update(ocraKit._id,ocraKit).catch((err)=>{

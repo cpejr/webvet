@@ -19,23 +19,38 @@ const kitSchema = new mongoose.Schema({
   calibrators: {
     P1: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     },
     P2: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     },
     P3: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     },
     P4: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     },
     P5: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     }
   },
   amount: Number,
