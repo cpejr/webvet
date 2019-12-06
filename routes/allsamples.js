@@ -650,6 +650,7 @@ router.post('/',function(req,res,next){
           if(counter==aflaKit.mapArray.length-1) {
             aflaKit.amount=aflaKit.stripLength-last_filled;
             aflaKit.toxinaStart=last_filled;
+            aflaKit.calibrators.P1.absorbance=parseFloat(req.body.aflaCalibrator.P1);
             Kit.update(aflaKit._id,aflaKit).catch((err)=>{
               console.log(err);
             });
@@ -659,25 +660,32 @@ router.post('/',function(req,res,next){
       } 
      }
      
-     Kit.setP1absorbance(aflaKit._id,req.body.aflaCalibrator.P1).catch((error)=>{
-      console.log(error);
-    });
+     var abs= parseFloat(req.body.aflaCalibrator.P1);
+     console.log("------------------------");
+     console.log(abs);
+     console.log("------------------------");
+     console.log(aflaKit.id);
+    //  Kit.setP1absorbance(aflaKit._id,abs).then((kit)=>{
+    //    console.log(kit.calibrators);
+    //  }).catch((error)=>{
+    //   console.log(error);
+    // });
 
-    Kit.setP2absorbance(aflaKit._id,req.body.aflaCalibrator.P2).catch((error)=>{
-      console.log(error);
-    });
+    // Kit.setP2absorbance(aflaKit._id,req.body.aflaCalibrator.P2).catch((error)=>{
+    //   console.log(error);
+    // });
 
-    Kit.setP3absorbance(aflaKit._id,req.body.aflaCalibrator.P3).catch((error)=>{
-      console.log(error);
-    });
+    // Kit.setP3absorbance(aflaKit._id,req.body.aflaCalibrator.P3).catch((error)=>{
+    //   console.log(error);
+    // });
 
-    Kit.setP4absorbance(aflaKit._id,req.body.aflaCalibrator.P4).catch((error)=>{
-      console.log(error);
-    });
+    // Kit.setP4absorbance(aflaKit._id,req.body.aflaCalibrator.P4).catch((error)=>{
+    //   console.log(error);
+    // });
 
-    Kit.setP5absorbance(aflaKit._id,req.body.aflaCalibrator.P5).catch((error)=>{
-      console.log(error);
-    });
+    // Kit.setP5absorbance(aflaKit._id,req.body.aflaCalibrator.P5).catch((error)=>{
+    //   console.log(error);
+    // });
 
   }).catch((error)=>{
     console.log(error);

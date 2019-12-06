@@ -348,12 +348,14 @@ class Kit {
   /**
 
   * @param {string} id - Kit Id
-  * @param {string} p1 - sample/calibrator Id
+  * @param {number} p1 - calibrator absorbance
   */
 
   static setP1absorbance(id, p1) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P1.absorbance': p1 } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P1.absorbance': p1 } }).then((result) => {
+        resolve(result);
+      }).catch((err) => {
         reject(err);
       });
     });
