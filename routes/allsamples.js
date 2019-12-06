@@ -834,6 +834,11 @@ router.post('/',function(req,res,next){
           if(counter==ocraKit.mapArray.length-1) {
             ocraKit.amount=ocraKit.stripLength-last_filled;
             ocraKit.toxinaStart=last_filled;
+            deoxKit.calibrators.P1.absorbance=parseFloat(req.body.otaCalibrator.P1);
+            deoxKit.calibrators.P2.absorbance=parseFloat(req.body.otaCalibrator.P2);
+            deoxKit.calibrators.P3.absorbance=parseFloat(req.body.otaCalibrator.P3);
+            deoxKit.calibrators.P4.absorbance=parseFloat(req.body.otaCalibrator.P4);
+            deoxKit.calibrators.P5.absorbance=parseFloat(req.body.otaCalibrator.P5);
             Kit.update(ocraKit._id,ocraKit).catch((err)=>{
               console.log(err);
             });
