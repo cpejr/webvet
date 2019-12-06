@@ -18,37 +18,43 @@ function comparara(logb_bo_amostra,intercept,slope){
   var mapas = new Array;
   var amostras_afla = new Array;
   let kit_afla_ativo = await Kit.getActiveAfla();
-  let size = kit_afla_ativo[0].mapArray.length;
-  for (let i = 0; i < size; i++) {
-   mapas[i] = await Workmap.getOneMap(kit_afla_ativo[0].mapArray[i]);
-  }
-  var cont = 0;
-  //console.log(mapas);
-  for (let j = 0; j < mapas.length; j++) {
-   for(let i = 0; i < mapas[j].samplesArray.length; i++){
-    amostras_afla[cont] = await Sample.getById(mapas[j].samplesArray[i]);
-    cont++;
-   }
-  }
-  //console.log('----------AMOSTRAS----------');
-  for(let i = 0 ; i < amostras_afla.length; i++){
- //  console.log(amostras_afla[i]);
-  }
+  if(kit_afla_ativo.length!=0){
 
+    
+    let size = kit_afla_ativo[0].mapArray.length;
+    for (let i = 0; i < size; i++) {
+    mapas[i] = await Workmap.getOneMap(kit_afla_ativo[0].mapArray[i]);
+    }
+    var cont = 0;
+    //console.log(mapas);
+    for (let j = 0; j < mapas.length; j++) {
+    for(let i = 0; i < mapas[j].samplesArray.length; i++){
+      amostras_afla[cont] = await Sample.getById(mapas[j].samplesArray[i]);
+      cont++;
+    }
+    }
+    //console.log('----------AMOSTRAS----------');
+    for(let i = 0 ; i < amostras_afla.length; i++){
+  //  console.log(amostras_afla[i]);
+    }
+  }
   var mapas_deox = new Array;
   var amostras_deox = new Array;
   var kit_deox_ativo = await Kit.getActiveDeox() ;
-  for(let i = 0; i < kit_deox_ativo[0].mapArray.length;i++){
-    mapas_deox[i] = await Workmap.getOneMap(kit_deox_ativo[0].mapArray[i]);
-  }
-  var cont_deox = 0;
- // ATE AQUI OK console.log(mapas_deox);
-  for (let j = 0; j < mapas_deox.length; j++) {
-    for (let i = 0; i < mapas_deox[j].samplesArray.length; i++) {
-      amostras_deox[cont_deox] = await Sample.getById(mapas_deox[j].samplesArray[i]);
-      cont_deox++;
+  if(kit_deox_ativo.length != 0){
+    for(let i = 0; i < kit_deox_ativo[0].mapArray.length;i++){
+      mapas_deox[i] = await Workmap.getOneMap(kit_deox_ativo[0].mapArray[i]);
     }
-  }  
+    var cont_deox = 0;
+   // ATE AQUI OK console.log(mapas_deox);
+    for (let j = 0; j < mapas_deox.length; j++) {
+      for (let i = 0; i < mapas_deox[j].samplesArray.length; i++) {
+        amostras_deox[cont_deox] = await Sample.getById(mapas_deox[j].samplesArray[i]);
+        cont_deox++;
+      }
+    }
+  }
+    
   //console.log(amostras_deox.length);
   //for (let i = 0; i < amostras_deox.length; i++) {
     //console.log(amostras_deox[i]);
@@ -72,10 +78,64 @@ function comparara(logb_bo_amostra,intercept,slope){
     }
   }
 }
-  //console.log(amostras_ota.length);
-//for (let i = 0; i < amostras_ota.length; i++) {
-  //console.log(amostras_ota);
-//}
+
+var mapas_t2 = new Array;
+var amostras_t2 = new Array;
+var kit_t2_ativo = await Kit.getActiveT2();
+if(kit_t2_ativo.length != 0){
+  for (let i = 0; i < kit_t2_ativo[0].mapArray.length; i++) {
+    mapas_t2[i] = await Workmap.getOneMap(kit_t2_ativo[0].mapArray[i]);
+  }
+  var cont_t2 = 0;
+  for (let j = 0; j < mapas_t2.length; j++) {
+    for (let i = 0; i < mapas_t2[j].samplesArray.length; i++) {
+      amostras_t2[cont_t2] = await Sample.getById(mapas_t2[j].samplesArray[i]);
+      cont_t2++;
+    }
+  }
+}
+
+
+
+var mapas_zea = new Array;
+var amostras_zea = new Array;
+var kit_zea_ativo = await Kit.getActiveZea();
+if(kit_zea_ativo.length !=0){
+  for (let i = 0; i < kit_zea_ativo[0].mapArray.length; i++) {
+    mapas_zea[i] = await Workmap.getOneMap(kit_zea_ativo[0].mapArray[i]);
+  }
+  var cont_zea = 0;
+  for (let j = 0; j < mapas_zea.length; j++) {
+    for (let i = 0; i < mapas_zea[j].samplesArray.length; i++) {
+      amostras_zea[cont_zea] = await Sample.getById(mapas_zea[j].samplesArray[i]);
+      cont_zea++;
+    }
+    
+  }
+}
+
+
+
+
+  var mapas_fbs = new Array;
+  var amostras_fbs = new Array;
+  var kit_fbs_ativo = await Kit.getActiveFum();
+  if(kit_fbs_ativo.length != 0 ){
+    for (let i = 0; i < kit_fbs_ativo[0].mapArray.length; i++) {
+      mapas_fbs[i]= await Workmap.getOneMap(kit_fbs_ativo[0].mapArray[i]);
+    }
+    var cont_fbs = 0;
+    for (let j = 0; j < mapas_fbs.length; j++) {
+      for (let i = 0; i < mapas_fbs[j].samplesArray.length; i++) {
+        amostras_fbs[cont_fbs] = await Sample.getById(mapas_fbs[j].samplesArray[i]);
+        
+      }
+    }
+  }
+
+
+
+
 
 
 
