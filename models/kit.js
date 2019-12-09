@@ -19,23 +19,38 @@ const kitSchema = new mongoose.Schema({
   calibrators: {
     P1: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     },
     P2: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     },
     P3: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     },
     P4: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     },
     P5: {
       absorbance: Number,
-      concentration: Number
+      concentration: {
+        type: Number,
+        default: 0
+      } 
     }
   },
   amount: Number,
@@ -348,44 +363,48 @@ class Kit {
   /**
 
   * @param {string} id - Kit Id
-  * @param {string} p1 - sample/calibrator Id
+  * @param {number} p1 - calibrator absorbance
   */
 
-  static addP1(id, p1) {
+  static setP1absorbance(id, p1) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P1.sampleID': p1 } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P1.absorbance': p1 } }).then((result) => {
+        resolve(result);
+      }).catch((err) => {
         reject(err);
       });
     });
   }
 
-  static addP2(id, p2) {
+  static setP2absorbance(id, p2) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P2.sampleID': p2 } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P2.absorbance': p2 } }).then((result)=>{
+        console.log(result.calibrators);
+      }).catch((err) => {
         reject(err);
       });
     });
   }
 
-  static addP3(id, p3) {
+  static setP3absorbance(id, p3) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P3.sampleID': p3 } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P3.absorbance': p3 } }).catch((err) => {
         reject(err);
       });
     });
   }
 
-  static addP4(id, p4) {
+  static setP4absorbance(id, p4) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P4.sampleID': p4 } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P4.absorbance': p4 } }).catch((err) => {
         reject(err);
       });
     });
   }
 
-  static addP5(id, p5) {
+  static setP5absorbance(id, p5) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P5.sampleID': p5 } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P5.absorbance': p5 } }).catch((err) => {
         reject(err);
       });
     });

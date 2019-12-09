@@ -13,65 +13,10 @@ const Sample=require('../models/sample');
 
 
 router.get('/', (req, res) => {
-  var aflas_p = new Array;
-  var don_p = new Array;
-  var ocra_p = new Array;
-  var t2_p = new Array;
-  var zea_p = new Array;
-  var fbs_p = new Array;
-  var afla_start = 0;
+ 
   Sample.getAll().then((amostras)=>{
   Kit.getAll().then((kit)=>{
-    for (let i = 0; i < kit.length; i++){
-      kitToxin=kit[i].productCode;
-      if(kit[i].active){
-        if(kitToxin.includes("AFLA")||kitToxin.includes("Afla") ) {
-          aflas_p[0] = kit[i].calibrators.P1;
-          aflas_p[1] = kit[i].calibrators.P2;
-          aflas_p[2] = kit[i].calibrators.P3;
-          aflas_p[3] = kit[i].calibrators.P4;
-          aflas_p[4] = kit[i].calibrators.P5;
-          afla_start = kit[i].toxinaStart;
-        }
-      }
-      if(kitToxin.includes("DON")) {
-        don_p[0] = kit[i].calibrators.P1;
-        don_p[1] = kit[i].calibrators.P2;
-        don_p[2] = kit[i].calibrators.P3;
-        don_p[3] = kit[i].calibrators.P4;
-        don_p[4] = kit[i].calibrators.P5;
-      }
-      if(kitToxin.includes("OTA")||kitToxin.includes("Och")) {
-        ocra_p [0] = kit[i].calibrators.P1;
-        ocra_p [1] = kit[i].calibrators.P2;
-        ocra_p [2] = kit[i].calibrators.P3;
-        ocra_p [3] = kit[i].calibrators.P4;
-        ocra_p [4] = kit[i].calibrators.P5;
-      }
-      if(kitToxin.includes("T2")) {
-        t2_p[0] = kit[i].calibrators.P1;
-        t2_p[1] = kit[i].calibrators.P2;
-        t2_p[2] = kit[i].calibrators.P3;
-        t2_p[3] = kit[i].calibrators.P4;
-        t2_p[4] = kit[i].calibrators.P5;
-      }
-
-      if(kitToxin.includes("ZEA")||kitToxin.includes("Zea")) {
-        zea_p[0] = kit[i].calibrators.P1;
-        zea_p[1] = kit[i].calibrators.P2;
-        zea_p[2] = kit[i].calibrators.P3;
-        zea_p[3] = kit[i].calibrators.P4;
-        zea_p[4] = kit[i].calibrators.P5;
-      }
-
-      if(kitToxin.includes("FUMO")||kitToxin.includes("Fum")) {
-        fbs_p[0] = kit[i].calibrators.P1;
-        fbs_p[1] = kit[i].calibrators.P2;
-        fbs_p[2] = kit[i].calibrators.P3;
-        fbs_p[3] = kit[i].calibrators.P4;
-        fbs_p[4] = kit[i].calibrators.P5;
-      }
-    }
+    
      
     var today = new Date();
     var hours = today.getHours();
@@ -664,7 +609,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,zea_p,aflas_p,afla_start,ocra_p,don_p,t2_p,fbs_p,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render( 'allsamples',{amostras,afla1,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   
 }).catch((error)=>{
   console.log(error);
@@ -705,6 +650,11 @@ router.post('/',function(req,res,next){
           if(counter==aflaKit.mapArray.length-1) {
             aflaKit.amount=aflaKit.stripLength-last_filled;
             aflaKit.toxinaStart=last_filled;
+            aflaKit.calibrators.P1.absorbance=parseFloat(req.body.aflaCalibrator.P1);
+            aflaKit.calibrators.P2.absorbance=parseFloat(req.body.aflaCalibrator.P2);
+            aflaKit.calibrators.P3.absorbance=parseFloat(req.body.aflaCalibrator.P3);
+            aflaKit.calibrators.P4.absorbance=parseFloat(req.body.aflaCalibrator.P4);
+            aflaKit.calibrators.P5.absorbance=parseFloat(req.body.aflaCalibrator.P5);
             Kit.update(aflaKit._id,aflaKit).catch((err)=>{
               console.log(err);
             });
@@ -725,8 +675,8 @@ router.post('/',function(req,res,next){
       var counter=0;
       
       for(let i=deoxKit.toxinaStart;i<deoxKit.mapArray.length;i++) {
-
         Workmap.getOneMap(deoxKit.mapArray[i]).then((workmap)=>{
+          counter++;
           if(workmap.samplesArray.length>0) {
             new_last=workmap.mapID;
             new_last=new_last.replace("_workmap", "");
@@ -738,10 +688,15 @@ router.post('/',function(req,res,next){
 
             
           }
-          if(i==deoxKit.mapArray.length-1) {
-            console.log(deoxKit.stripLength-last_filled);
+          if(counter==deoxKit.mapArray.length-1) {
+            
             deoxKit.amount=deoxKit.stripLength-last_filled;
             deoxKit.toxinaStart=last_filled;
+            deoxKit.calibrators.P1.absorbance=parseFloat(req.body.donCalibrator.P1);
+            deoxKit.calibrators.P2.absorbance=parseFloat(req.body.donCalibrator.P2);
+            deoxKit.calibrators.P3.absorbance=parseFloat(req.body.donCalibrator.P3);
+            deoxKit.calibrators.P4.absorbance=parseFloat(req.body.donCalibrator.P4);
+            deoxKit.calibrators.P5.absorbance=parseFloat(req.body.donCalibrator.P5);
             Kit.update(deoxKit._id,deoxKit).catch((err)=>{
               console.log(err);
             });
@@ -761,8 +716,8 @@ router.post('/',function(req,res,next){
       var counter=0;
       
       for(let i=t2Kit.toxinaStart;i<t2Kit.mapArray.length;i++) {
-
         Workmap.getOneMap(t2Kit.mapArray[i]).then((workmap)=>{
+          counter++;
           if(workmap.samplesArray.length>0) {
             new_last=workmap.mapID;
             new_last=new_last.replace("_workmap", "");
@@ -774,9 +729,14 @@ router.post('/',function(req,res,next){
 
             
           }
-          if(i==t2Kit.mapArray.length-1) {
+          if(counter==t2Kit.mapArray.length-1) {
             t2Kit.amount=t2Kit.stripLength-last_filled;
             t2Kit.toxinaStart=last_filled;
+            t2Kit.calibrators.P1.absorbance=parseFloat(req.body.t2Calibrator.P1);
+            t2Kit.calibrators.P2.absorbance=parseFloat(req.body.t2Calibrator.P2);
+            t2Kit.calibrators.P3.absorbance=parseFloat(req.body.t2Calibrator.P3);
+            t2Kit.calibrators.P4.absorbance=parseFloat(req.body.t2Calibrator.P4);
+            t2Kit.calibrators.P5.absorbance=parseFloat(req.body.t2Calibrator.P5);
             Kit.update(t2Kit._id,t2Kit).catch((err)=>{
               console.log(err);
             });
@@ -796,8 +756,8 @@ router.post('/',function(req,res,next){
       var counter=0;
       
       for(let i=zeaKit.toxinaStart;i<zeaKit.mapArray.length;i++) {
-
         Workmap.getOneMap(zeaKit.mapArray[i]).then((workmap)=>{
+          counter++;
           if(workmap.samplesArray.length>0) {
             new_last=workmap.mapID;
             new_last=new_last.replace("_workmap", "");
@@ -807,7 +767,12 @@ router.post('/',function(req,res,next){
               last_filled=new_last;
             }
           }
-          if(i==zeaKit.mapArray.length-1) {
+          if(counter==zeaKit.mapArray.length-1) {
+            zeaKit.calibrators.P1.absorbance=parseFloat(req.body.zeaCalibrator.P1);
+            zeaKit.calibrators.P2.absorbance=parseFloat(req.body.zeaCalibrator.P2);
+            zeaKit.calibrators.P3.absorbance=parseFloat(req.body.zeaCalibrator.P3);
+            zeaKit.calibrators.P4.absorbance=parseFloat(req.body.zeaCalibrator.P4);
+            zeaKit.calibrators.P5.absorbance=parseFloat(req.body.zeaCalibrator.P5);
             zeaKit.amount=zeaKit.stripLength-last_filled;
             zeaKit.toxinaStart=last_filled;
             Kit.update(zeaKit._id,zeaKit).catch((err)=>{
@@ -843,6 +808,11 @@ router.post('/',function(req,res,next){
           if(i==fumKit.mapArray.length-1) {
             fumKit.amount=fumKit.stripLength-last_filled;
             fumKit.toxinaStart=last_filled;
+            fumKit.calibrators.P1.absorbance=parseFloat(req.body.fbCalibrator.P1);
+            fumKit.calibrators.P2.absorbance=parseFloat(req.body.fbCalibrator.P2);
+            fumKit.calibrators.P3.absorbance=parseFloat(req.body.fbCalibrator.P3);
+            fumKit.calibrators.P4.absorbance=parseFloat(req.body.fbCalibrator.P4);
+            fumKit.calibrators.P5.absorbance=parseFloat(req.body.fbCalibrator.P5);
             Kit.update(fumKit._id,fumKit).catch((err)=>{
               console.log(err);
             });
@@ -863,8 +833,8 @@ router.post('/',function(req,res,next){
       var counter=0;
       
       for(let i=ocraKit.toxinaStart;i<ocraKit.mapArray.length;i++) {
-
         Workmap.getOneMap(ocraKit.mapArray[i]).then((workmap)=>{
+          counter++;
           if(workmap.samplesArray.length>0) {
             new_last=workmap.mapID;
             new_last=new_last.replace("_workmap", "");
@@ -876,9 +846,14 @@ router.post('/',function(req,res,next){
 
             
           }
-          if(i==ocraKit.mapArray.length-1) {
+          if(counter==ocraKit.mapArray.length-1) {
             ocraKit.amount=ocraKit.stripLength-last_filled;
             ocraKit.toxinaStart=last_filled;
+            ocraKit.calibrators.P1.absorbance=parseFloat(req.body.otaCalibrator.P1);
+            ocraKit.calibrators.P2.absorbance=parseFloat(req.body.otaCalibrator.P2);
+            ocraKit.calibrators.P3.absorbance=parseFloat(req.body.otaCalibrator.P3);
+            ocraKit.calibrators.P4.absorbance=parseFloat(req.body.otaCalibrator.P4);
+            ocraKit.calibrators.P5.absorbance=parseFloat(req.body.otaCalibrator.P5);
             Kit.update(ocraKit._id,ocraKit).catch((err)=>{
               console.log(err);
             });
@@ -892,8 +867,43 @@ router.post('/',function(req,res,next){
   
   Sample.getAll().then((sample)=>{
     //amostras afla
-    
 
+    if(req.body.sample.aflatoxina){
+      var id_afla = req.body.sample.aflatoxina._id;
+      var abs_afla = req.body.sample.aflatoxina.absorbance;
+      if(abs_afla.length == 1){
+        Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      } else{
+        for (let i = 0; i < abs_afla.length; i++) {
+          Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
+
+    if(req.body.sample.deoxinivalenol){
+      //amostras deox
+      var id_deox = req.body.sample.deoxinivalenol._id;
+      var abs_deox = req.body.sample.deoxinivalenol.absorbance;
+      if(abs_deox.length == 1){
+        Sample.updateDeoxAbsorbance(id_deox, abs_deox).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
+      }else{
+        for(let i = 0; i <abs_deox.length; i++){
+          Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }
+      }
+    }
 
     if(req.body.sample.ocratoxina){
       //amostras ocra
@@ -913,7 +923,6 @@ router.post('/',function(req,res,next){
         }
       }
     }
-
 
     if(req.body.sample.t2toxina){
       //amostra t2
@@ -953,29 +962,6 @@ router.post('/',function(req,res,next){
         }
       }
     }
-
-
-
-    if(req.body.sample.zearalenona){
-      //amostras zea
-      var id_zea = req.body.sample.zearalenona._id;
-      var abs_zea = req.body.sample.zearalenona.absorbance;
-      if(abs_zea.length == 1){
-        Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
-        for(let i = 0; i< abs_zea.length; i++){
-          Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-    }
-
-
 
     if(req.body.sample.fumonisina){
       //amostras fbs
