@@ -18,35 +18,50 @@ const kitSchema = new mongoose.Schema({
   Loq: Number,
   calibrators: {
     P1: {
-      absorbance: Number,
+      absorbance: {
+        type: Number,
+        default: 0
+      },
       concentration: {
         type: Number,
         default: 0
       } 
     },
     P2: {
-      absorbance: Number,
+      absorbance: {
+        type: Number,
+        default: 0
+      }, 
       concentration: {
         type: Number,
         default: 0
       } 
     },
     P3: {
-      absorbance: Number,
+      absorbance: {
+        type: Number,
+        default: 0
+      } ,
       concentration: {
         type: Number,
         default: 0
       } 
     },
     P4: {
-      absorbance: Number,
+      absorbance: {
+        type: Number,
+        default: 0
+      }, 
       concentration: {
         type: Number,
         default: 0
       } 
     },
     P5: {
-      absorbance: Number,
+      absorbance:{
+        type: Number,
+        default: 0
+      } ,
       concentration: {
         type: Number,
         default: 0
@@ -85,7 +100,10 @@ const kitSchema = new mongoose.Schema({
     required: true
   },
   stripLength: Number,
-  toxinaStart: Number,
+  toxinaStart:{
+    type:Number,
+    default: 0
+  } 
   mapArray: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Workmap'
