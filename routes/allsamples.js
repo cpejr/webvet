@@ -729,9 +729,14 @@ router.post('/',function(req,res,next){
 
             
           }
-          if(i==t2Kit.mapArray.length-1) {
+          if(counter==t2Kit.mapArray.length-1) {
             t2Kit.amount=t2Kit.stripLength-last_filled;
             t2Kit.toxinaStart=last_filled;
+            t2Kit.calibrators.P1.absorbance=parseFloat(req.body.t2Calibrator.P1);
+            t2Kit.calibrators.P2.absorbance=parseFloat(req.body.t2Calibrator.P2);
+            t2Kit.calibrators.P3.absorbance=parseFloat(req.body.t2Calibrator.P3);
+            t2Kit.calibrators.P4.absorbance=parseFloat(req.body.t2Calibrator.P4);
+            t2Kit.calibrators.P5.absorbance=parseFloat(req.body.t2Calibrator.P5);
             Kit.update(t2Kit._id,t2Kit).catch((err)=>{
               console.log(err);
             });
@@ -751,8 +756,8 @@ router.post('/',function(req,res,next){
       var counter=0;
       
       for(let i=zeaKit.toxinaStart;i<zeaKit.mapArray.length;i++) {
-
         Workmap.getOneMap(zeaKit.mapArray[i]).then((workmap)=>{
+          counter++;
           if(workmap.samplesArray.length>0) {
             new_last=workmap.mapID;
             new_last=new_last.replace("_workmap", "");
@@ -762,7 +767,12 @@ router.post('/',function(req,res,next){
               last_filled=new_last;
             }
           }
-          if(i==zeaKit.mapArray.length-1) {
+          if(counter==zeaKit.mapArray.length-1) {
+            zeaKit.calibrators.P1.absorbance=parseFloat(req.body.zeaCalibrator.P1);
+            zeaKit.calibrators.P2.absorbance=parseFloat(req.body.zeaCalibrator.P2);
+            zeaKit.calibrators.P3.absorbance=parseFloat(req.body.zeaCalibrator.P3);
+            zeaKit.calibrators.P4.absorbance=parseFloat(req.body.zeaCalibrator.P4);
+            zeaKit.calibrators.P5.absorbance=parseFloat(req.body.zeaCalibrator.P5);
             zeaKit.amount=zeaKit.stripLength-last_filled;
             zeaKit.toxinaStart=last_filled;
             Kit.update(zeaKit._id,zeaKit).catch((err)=>{
@@ -798,6 +808,11 @@ router.post('/',function(req,res,next){
           if(i==fumKit.mapArray.length-1) {
             fumKit.amount=fumKit.stripLength-last_filled;
             fumKit.toxinaStart=last_filled;
+            fumKit.calibrators.P1.absorbance=parseFloat(req.body.fbCalibrator.P1);
+            fumKit.calibrators.P2.absorbance=parseFloat(req.body.fbCalibrator.P2);
+            fumKit.calibrators.P3.absorbance=parseFloat(req.body.fbCalibrator.P3);
+            fumKit.calibrators.P4.absorbance=parseFloat(req.body.fbCalibrator.P4);
+            fumKit.calibrators.P5.absorbance=parseFloat(req.body.fbCalibrator.P5);
             Kit.update(fumKit._id,fumKit).catch((err)=>{
               console.log(err);
             });
@@ -834,11 +849,11 @@ router.post('/',function(req,res,next){
           if(counter==ocraKit.mapArray.length-1) {
             ocraKit.amount=ocraKit.stripLength-last_filled;
             ocraKit.toxinaStart=last_filled;
-            deoxKit.calibrators.P1.absorbance=parseFloat(req.body.otaCalibrator.P1);
-            deoxKit.calibrators.P2.absorbance=parseFloat(req.body.otaCalibrator.P2);
-            deoxKit.calibrators.P3.absorbance=parseFloat(req.body.otaCalibrator.P3);
-            deoxKit.calibrators.P4.absorbance=parseFloat(req.body.otaCalibrator.P4);
-            deoxKit.calibrators.P5.absorbance=parseFloat(req.body.otaCalibrator.P5);
+            ocraKit.calibrators.P1.absorbance=parseFloat(req.body.otaCalibrator.P1);
+            ocraKit.calibrators.P2.absorbance=parseFloat(req.body.otaCalibrator.P2);
+            ocraKit.calibrators.P3.absorbance=parseFloat(req.body.otaCalibrator.P3);
+            ocraKit.calibrators.P4.absorbance=parseFloat(req.body.otaCalibrator.P4);
+            ocraKit.calibrators.P5.absorbance=parseFloat(req.body.otaCalibrator.P5);
             Kit.update(ocraKit._id,ocraKit).catch((err)=>{
               console.log(err);
             });
