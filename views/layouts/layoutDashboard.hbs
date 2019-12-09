@@ -100,9 +100,14 @@
             {{#compare user.type "Produtor"}}
               <li>
               </li>
+              {{#if user.type "Admin"}}
+                <li>
+                   <a href="/report/admreport"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
+                </li>
+              {{/if}}
             {{else}}
               <li>
-                 <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
+                 <a href="/report"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
               </li>
             {{/compare}}
 
