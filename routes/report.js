@@ -87,7 +87,7 @@ router.get('/samples/:id', auth.isAuthenticated, function(req, res, next) {
   });
 });
 
-router.get('/admreport', auth.isAuthenticated, function(req, res, next) {
+router.get('/admreport', auth.isAuthenticated||is.Admin||is.Analista,function(req, res, next) {
   var laudos = new Array;
   Sample.getAll().then((amostras) => {
     for (var i = 0; i < amostras.length; i++) {
