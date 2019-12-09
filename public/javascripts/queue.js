@@ -461,36 +461,17 @@ var scndT2toxina = new jKanban({
       title  : 'Em análise',
       class : 'info'
     },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-      
-    },
+    
   
 
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    if(target =='_calibrator'){
-        var strId=el.dataset.eid; //id do card
-        if( el.dataset.calibrator) {//cards P 
-          $.post('/sample/calibrator/edit/t2toxina/'+el.dataset.calid+'/'+nowT2Kit,  () => {
-
-          });
-         }
-         else {
-          return false // impede outros cards de entrarem no board dos calibradores
-        }
-    }
-
+  
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards P
-          var mapName=goTO.toString();
-           $.post('/sample/addponmap/t2toxina/'+nowT2Kit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-              });
+          return false;
          } else {
            var mapName=goTO.toString();
 
@@ -734,36 +715,15 @@ var scndZearalenona = new jKanban({
       title  : 'Em análise',
       class : 'info'
     },
-    {
-      id : '_calibrator',
-      title  : 'Calibradores',
-      class : 'success',
-      
-    },
    
 
   ],
   dropEl : function (el, target, source, sibling) {
     const samplenumber = el.dataset.eid;
     var goTO=target;
-    if(target =='_calibrator'){
-        if( el.dataset.calibrator) {//cards P 
-          $.post('/sample/calibrator/edit/zearalenona/'+el.dataset.calid+'/'+nowZKit,  () => {
-
-          });   
-         }
-         else {
-          return false // impede outros cards de entrarem no board dos calibradores
-        }
-    }
-
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards P
-          var mapName=goTO.toString();
-
-          $.post('/sample/addponmap/zearalenona/'+nowZKit+'/'+mapName+'/'+el.dataset.calid,  () => {
-
-          });
+           return false;
         }   
          else {
           var mapName=goTO.toString();
@@ -1612,7 +1572,7 @@ var nowOcraKit;
 var ocraLimit=0;
 var ocraFilter;
 var ocraBegin;
-var ocraBegin;
+
 
 $('#KitRadioOcra').change(function(){
    ocraFilter=0;
@@ -2110,10 +2070,10 @@ $('#KitRadioFum').change(function(){
 var nowT2Kit;
 var t2Limit=0;
 var t2Filter;
-//corrigir
+var t2Begin;
 $('#KitRadioT').change(function(){
    t2Filter=0;
-  for(i=t2Limit;i>0;i--){//delete previus workmap;
+  for(i=t2Limit;i>t2Begin-1;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndT2toxina.removeBoard(board);
   }
@@ -2140,6 +2100,7 @@ $('#KitRadioT').change(function(){
                   nowT2Kit=kit._id;
                   t2count = t2Limit;
                   isSelected=true;
+                  t2Begin=kit.toxinaStart+1;
                   document.getElementById("countkits").innerHTML = t2count;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2153,6 +2114,7 @@ $('#KitRadioT').change(function(){
                    t2Limit=kit.stripLength;
                    nowT2Kit=kit._id;
                    t2count = t2Limit;
+                   t2Begin=kit.toxinaStart+1;
                    document.getElementById("countkits").innerHTML = t2count;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2166,6 +2128,7 @@ $('#KitRadioT').change(function(){
                     t2Limit=kit.stripLength;
                     nowT2Kit=kit._id;
                     t2count = t2Limit;
+                    t2Begin=kit.toxinaStart+1;
                     document.getElementById("countkits").innerHTML = t2count;
                     $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
 
@@ -2179,11 +2142,11 @@ $('#KitRadioT').change(function(){
             }
 
             if(isSelected) {
-              for(i=1;i<t2Limit;i++){//the map 0 was defined before
+              for(i=t2Begin;i<=t2Limit;i++){//the map 0 was defined before
                 scndT2toxina.addBoards(
                         [{
-                            'id' : '_workmap' + (i+1),
-                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'id' : '_workmap' + (i),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i),
                             'class' : 'info',
                         }]
                     );
@@ -2192,42 +2155,42 @@ $('#KitRadioT').change(function(){
          }
 
      }) //kit
-     $.get('/search/getKit/'+nowT2Kit,(kit)=>{
-      $.get('/search/samples', (samples) => {
-        samples.forEach((sample) => {
-          if(sample.isCalibrator) {
-            if(sample.t2toxina.mapReference=='Sem mapa') {
-                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                  scndT2toxina.addElement("_calibrator", {
-                    id: sample.name,
-                    title:  sample.name,
-                    calibrator: true,
-                    calid:sample._id
-                  });
+     scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P1",
+      title:  "P1",
+      calibrator: true
+      
+    });
+    scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P2",
+      title:  "P2",
+      calibrator: true
+      
+    });
+    scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P3",
+      title:  "P3",
+      calibrator: true
+      
+    });
+    scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P4",
+      title:  "P4",
+      calibrator: true
+      
+    });
 
-                }
-            }
-          }
-        });
-      });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
+    scndT2toxina.addElement("_workmap"+t2Begin, {
+      id: "P5",
+      title:  "P5",
+      calibrator: true
+      
     });
    $.get('/search/getKit/'+nowT2Kit,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
           workmap.samplesArray.forEach((sampleID)=>{
             $.get('/search/getOneSample/'+sampleID,(sample)=>{
-              if(sample.isCalibrator) {
-                  scndT2toxina.addElement(sample.t2toxina.mapReference, {
-                      id: sample.name,
-                      title:  sample.name,
-                      calibrator: true,
-                      calid:sample._id
-                  });
-            }
-            else {
               $.get('/search/userFromSample/'+sample._id,(user)=>{
                 if(sample.t2toxina.active == true && sample.t2toxina.status=="Mapa de Trabalho" ) {
                       if(user.debt){
@@ -2252,7 +2215,6 @@ $('#KitRadioT').change(function(){
                }
 
              });
-           }
             });
           });
        });
@@ -2269,9 +2231,10 @@ $('#KitRadioT').change(function(){
 var nowZKit;
 var zLimit=0;
 var zFilter;
+var zBegin;
 $('#KitRadioZ').change(function(){
   zFilter=0;
-  for(i=zLimit;i>0;i--){//delete previus workmap;
+  for(i=zLimit;i>zBegin-1;i--){//delete previus workmap;
     var board= "_workmap"+i;
     scndZearalenona.removeBoard(board);
   }
@@ -2297,6 +2260,7 @@ $('#KitRadioZ').change(function(){
                   zLimit=kit.stripLength;
                   nowZKit=kit._id;
                   isSelected=true;
+                  zBegin=kit.toxinaStart+1;
                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                   });
@@ -2306,9 +2270,10 @@ $('#KitRadioZ').change(function(){
            }
              if($('#KitZB').is(':checked')&&kit.kitType=="B") {
               $('#hideZ').removeClass('form-disabled');
-                 zLimit=kit.stripLength;
+                   zLimit=kit.stripLength;
                    nowZKit=kit._id;
                    isSelected=true;
+                   zBegin=kit.toxinaStart+1;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                    });
@@ -2321,6 +2286,7 @@ $('#KitRadioZ').change(function(){
                  zLimit=kit.stripLength;
                    nowZKit=kit._id;
                    isSelected=true;
+                   zBegin=kit.toxinaStart+1;
                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowZKit, () => {
 
                    });
@@ -2332,11 +2298,11 @@ $('#KitRadioZ').change(function(){
               $('#hideZ').addClass('form-disabled');
             }
             if(isSelected) {
-              for(i=1;i<zLimit;i++){//the map 0 was defined before
+              for(i=zBegin;i<=zLimit;i++){//the map 0 was defined before
                 scndZearalenona.addBoards(
                         [{
-                            'id' : '_workmap' + (i+1),
-                            'title'  : 'Mapa de trabalho' + ' '+ (i+1),
+                            'id' : '_workmap' + (i),
+                            'title'  : 'Mapa de trabalho' + ' '+ (i),
                             'class' : 'info',
                         }]
                     )
@@ -2347,6 +2313,37 @@ $('#KitRadioZ').change(function(){
          }
 
      }) //foreach
+     scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P1",
+      title:  "P1",
+      calibrator: true
+      
+    });
+    scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P2",
+      title:  "P2",
+      calibrator: true
+      
+    });
+    scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P3",
+      title:  "P3",
+      calibrator: true
+      
+    });
+    scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P4",
+      title:  "P4",
+      calibrator: true
+      
+    });
+
+    scndZearalenona.addElement("_workmap"+zBegin, {
+      id: "P5",
+      title:  "P5",
+      calibrator: true
+      
+    });
      $.get('/search/getKit/'+nowZKit,(kit)=>{
       $.get('/search/samples', (samples) => {
         samples.forEach((sample) => {

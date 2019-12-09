@@ -867,6 +867,7 @@ router.post('/',function(req,res,next){
   
   Sample.getAll().then((sample)=>{
     //amostras afla
+
     if(req.body.sample.aflatoxina){
       var id_afla = req.body.sample.aflatoxina._id;
       var abs_afla = req.body.sample.aflatoxina.absorbance;
@@ -903,7 +904,7 @@ router.post('/',function(req,res,next){
         }
       }
     }
-    
+
     if(req.body.sample.ocratoxina){
       //amostras ocra
       var id_ocra = req.body.sample.ocratoxina._id;
@@ -923,7 +924,6 @@ router.post('/',function(req,res,next){
       }
     }
 
-    
     if(req.body.sample.t2toxina){
       //amostra t2
       var id_t2 = req.body.sample.t2toxina._id;
@@ -962,27 +962,6 @@ router.post('/',function(req,res,next){
         }
       }
     }
-
-
-    if(req.body.sample.zearalenona){
-      //amostras zea
-      var id_zea = req.body.sample.zearalenona._id;
-      var abs_zea = req.body.sample.zearalenona.absorbance;
-      if(abs_zea.length == 1){
-        Sample.updateZeaAbsorbance(id_calibrators_zea,abs_calibritor_zea).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
-        for(let i = 0; i< abs_zea.length; i++){
-          Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
-          }).catch((error)=>{
-          console.log(error);
-          });
-        }
-      }
-    }
-
 
     if(req.body.sample.fumonisina){
       //amostras fbs
@@ -1108,7 +1087,7 @@ router.post('/',function(req,res,next){
       }
     }
 
-    res.redirect('/allsamples');
+    res.redirect('/queue');
 
   }).catch((error)=>{
     console.log(error);
