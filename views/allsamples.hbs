@@ -2,8 +2,6 @@
   <h4>Mapas de Trabalho</h4>
 </div>
 
-<form action="/allsamples" method="post" onclick="return confirm('Tem certeza que deseja finalizar o Mapa de Trabalho? As amostras aqui contidas serão excluidas do mapa de trabalho e irão para os laudos.')">
-
 
 <div class="templateprint row">
     <table class="table-afla-child ">
@@ -24,23 +22,23 @@
                 <th>P2</th>
                   <th><input name = "aflaCalibrator[P2]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                 <th>P3</th>
                   <th><input   name = "aflaCalibrator[P3]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                  <th>P4</th>
                   <th><input name = "aflaCalibrator[P4]" class="input-absorbance"></th>
               </tr>
-               
+
               <tr>
                 <th>P5</th>
                   <th><input  name = "aflaCalibrator[P5]" class="input-absorbance"></th>
               </tr>
-          
-      
+
+
 
         {{#each amostras}}
           {{#compare aflatoxina.mapReference '_workmap1'}}
@@ -468,17 +466,17 @@
                 <th>P2</th>
                   <th><input type="text" name = "donCalibrator[P2]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                 <th>P3</th>
                   <th><input type="text" name = "donCalibrator[P3]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                  <th>P4</th>
                   <th><input type="text" name = "donCalibrator[P4]" class="input-absorbance"></th>
               </tr>
-               
+
               <tr>
                 <th>P5</th>
                   <th><input type="text" name = "donCalibrator[P5]" class="input-absorbance"></th>
@@ -893,7 +891,7 @@
       </thead>
       <tbody>
 
-        
+
 
               <tr>
                 <th>P1</th>
@@ -903,17 +901,17 @@
                 <th>P2</th>
                   <th><input type="text" name = "otaCalibrator[P2]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                 <th>P3</th>
                   <th><input type="text" name = "otaCalibrator[P3]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                  <th>P4</th>
                   <th><input type="text" name = "otaCalibrator[P4]" class="input-absorbance"></th>
               </tr>
-               
+
               <tr>
                 <th>P5</th>
                   <th><input type="text" name = "otaCalibrator[P5][absorbance]" class="input-absorbance"></th>
@@ -1315,7 +1313,7 @@
       <tbody>
 
 
-        
+
 
               <tr>
                 <th>P1</th>
@@ -1325,17 +1323,17 @@
                 <th>P2</th>
                   <th><input type="text" name = "t2Calibrator[P2]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                 <th>P3</th>
                   <th><input type="text" name = "t2Calibrator[P3]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                  <th>P4</th>
                   <th><input type="text" name = "t2Calibrator[P4]" class="input-absorbance"></th>
               </tr>
-               
+
               <tr>
                 <th>P5</th>
                   <th><input type="text" name = "t2Calibrator[P5]" class="input-absorbance"></th>
@@ -1734,7 +1732,7 @@
       </thead>
       <tbody>
 
-     
+
 
               <tr>
                 <th>P1</th>
@@ -1744,17 +1742,17 @@
                 <th>P2</th>
                   <th><input type="text" name = "zeaCalibrator[P2]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                 <th>P3</th>
                   <th><input type="text" name = "zeaCalibrator[P3]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                  <th>P4</th>
                   <th><input type="text" name = "zeaCalibrator[P4]" class="input-absorbance"></th>
               </tr>
-               
+
               <tr>
                 <th>P5</th>
                   <th><input type="text" name = "zeaCalibrator[P5]" class="input-absorbance"></th>
@@ -2157,17 +2155,17 @@
                 <th>P2</th>
                   <th><input type="text" name = "fbCalibrator[P2]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                 <th>P3</th>
                   <th><input type="text" name = "fbCalibrator[P3]" class="input-absorbance"></th>
               </tr>
-                
+
               <tr>
                  <th>P4</th>
                   <th><input type="text" name = "fbCalibrator[P4]" class="input-absorbance"></th>
               </tr>
-               
+
               <tr>
                 <th>P5</th>
                   <th><input type="text" name = "fbCalibrator[P5]" class="input-absorbance"></th>
@@ -2571,7 +2569,7 @@
         <a href="/queue" class="btn btn-success" id="test"> Voltar</a>
   </div>
 
-
+<form action="/allsamples" method="post" onclick="return confirm('Tem certeza que deseja finalizar o Mapa de Trabalho? As amostras aqui contidas serão excluidas do mapa de trabalho e irão para os laudos.')">
   <div class="btn-abs">
     <button class="btn btn-success"  >Finalizar </button>
   </div>
