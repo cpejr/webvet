@@ -237,7 +237,7 @@ var scndDeoxinivalenol = new jKanban({
     }
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    const samplenumber= el.dataset.title.replace("Amostra","");;
     var goTO=target;
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards P    
@@ -367,7 +367,7 @@ var scndOcratoxina = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    const samplenumber= el.dataset.title.replace("Amostra","");
     var goTO=target;
     
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
@@ -438,37 +438,46 @@ const t2toxina = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    
+    const samplenumber= el.dataset.title.replace("Amostra","");
 
     if  (target == '_testing') {
       $.post('/sample/testing/edit/t2toxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise'+ '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
     if  (target == '_ownering') {
       $.post('/sample/ownering/edit/t2toxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento'+ '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
     if  (target == '_waiting') {
       $.post('/sample/waiting/edit/t2toxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra'+ '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
 
-    if  (target == '_workmap') {
-      $.post('/sample/mapwork/edit/t2toxina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
   }
 });
 
@@ -490,7 +499,7 @@ var scndT2toxina = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    const samplenumber= el.dataset.title.replace("Amostra","");
     var goTO=target;
   
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
@@ -563,37 +572,45 @@ const fumonisina = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    const samplenumber= el.dataset.title.replace("Amostra","");
 
     if  (target == '_testing') {
       $.post('/sample/testing/edit/fumonisina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
     if  (target == '_ownering') {
       $.post('/sample/ownering/edit/fumonisina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
     if  (target == '_waiting') {
       $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
 
-    if  (target == '_workmap') {
-      $.post('/sample/mapwork/edit/fumonisina/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
   }
 });
 
@@ -614,7 +631,7 @@ var scndFumonisina = new jKanban({
     
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    const samplenumber= el.dataset.title.replace("Amostra","");
     var goTO=target;
    
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
@@ -691,7 +708,8 @@ const zearalenona = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+
+    const samplenumber= el.dataset.title.replace("Amostra","");
 
     if  (target == '_testing') {
       $.post('/sample/testing/edit/zearalenona/' + samplenumber, () => {
@@ -743,7 +761,7 @@ var scndZearalenona = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+    const samplenumber= el.dataset.title.replace("Amostra","");
     var goTO=target;
     if( goTO.indexOf("workmap")!=-1) { //se o alvo for um board workmap qualquer
         if( el.dataset.calibrator) {//cards P
