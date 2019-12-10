@@ -103,7 +103,7 @@ const kitSchema = new mongoose.Schema({
   toxinaStart:{
     type:Number,
     default: 0
-  } 
+  },
   mapArray: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Workmap'
