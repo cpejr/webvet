@@ -167,28 +167,46 @@ const deoxinivalenol = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
+
+    const samplenumber= el.dataset.title.replace("Amostra","");
 
     if  (target == '_testing') {
       $.post('/sample/testing/edit/deoxinivalenol/' + samplenumber, () => {
 
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+        });
 
+        if(el.dataset.eid=="owner") {
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+        }
+        else {
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+        }
     }
     if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/deoxinivalenol/' + samplenumber, () => {
 
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+        $.post('/sample/ownering/edit/deoxinivalenol/' + samplenumber, () => {
+
+        });
+        if(el.dataset.eid=="owner") {
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+        }
+        else {
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+        }
 
     }
     if  (target == '_waiting') {
       $.post('/sample/waiting/edit/deoxinivalenol/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
 
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
+     
     }
 
     if  (target == '_workmap') {
@@ -290,38 +308,44 @@ const ocratoxina = new jKanban({
 
   ],
   dropEl : function (el, target, source, sibling) {
-    const samplenumber = el.dataset.eid;
 
+    const samplenumber= el.dataset.title.replace("Amostra","");
+    
     if  (target == '_testing') {
       $.post('/sample/testing/edit/ocratoxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise'+ '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
     }
     if  (target == '_ownering') {
-      $.post('/sample/ownering/edit/ocratoxina/' + samplenumber, () => {
+      
+        $.post('/sample/ownering/edit/ocratoxina/' + samplenumber, () => {
 
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
+        });
+        if(el.dataset.eid=="owner") {
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+        }
+        else {
+          el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento'+ '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+        }
     }
     if  (target == '_waiting') {
       $.post('/sample/waiting/edit/ocratoxina/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra'+ '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
     }
 
-    if  (target == '_workmap') {
-      $.post('/sample/mapwork/edit/ocratoxina/' + samplenumber, () => {
-
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
 
   }
 });
