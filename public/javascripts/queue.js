@@ -715,31 +715,39 @@ const zearalenona = new jKanban({
       $.post('/sample/testing/edit/zearalenona/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
     if  (target == '_ownering') {
       $.post('/sample/ownering/edit/zearalenona/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
     if  (target == '_waiting') {
       $.post('/sample/waiting/edit/zearalenona/' + samplenumber, () => {
 
       });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      if(el.dataset.eid=="owner") {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      }
+      else {
+        el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      }
 
     }
 
-    if  (target == '_workmap') {
-      $.post('/sample/mapwork/edit/zearalenona/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho ' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
 
   }
 });
