@@ -871,18 +871,21 @@ router.post('/',function(req,res,next){
     if(req.body.sample.aflatoxina){
       var id_afla = req.body.sample.aflatoxina._id;
       var abs_afla = req.body.sample.aflatoxina.absorbance;
-      if(abs_afla.length == 1){
-        Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
+      if(Array.isArray(abs_afla)){
         for (let i = 0; i < abs_afla.length; i++) {
           Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
-        }
+        } 
+
+      } else{
+        
+          Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        
       }
     }
 
@@ -890,18 +893,18 @@ router.post('/',function(req,res,next){
       //amostras deox
       var id_deox = req.body.sample.deoxinivalenol._id;
       var abs_deox = req.body.sample.deoxinivalenol.absorbance;
-      if(abs_deox.length == 1){
-        Sample.updateDeoxAbsorbance(id_deox, abs_deox).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      }else{
+      if(Array.isArray(abs_deox)){
         for(let i = 0; i <abs_deox.length; i++){
           Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
+      }else{
+        Sample.updateDeoxAbsorbance(id_deox, abs_deox).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        }); 
       }
     }
 
@@ -909,37 +912,37 @@ router.post('/',function(req,res,next){
       //amostras ocra
       var id_ocra = req.body.sample.ocratoxina._id;
       var abs_ocra = req.body.sample.ocratoxina.absorbance;
-      if(abs_ocra.length == 1){
-        Sample.updateOcraAbsorbance(id_ocra,abs_ocra).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
+      if(Array.isArray(abs_ocra)){
         for(let i = 0; i< abs_ocra.length; i++){
           Sample.updateOcraAbsorbance(id_ocra[i],abs_ocra[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
-      }
+      } else{
+          Sample.updateOcraAbsorbance(id_ocra,abs_ocra).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        }  
     }
 
     if(req.body.sample.t2toxina){
       //amostra t2
       var id_t2 = req.body.sample.t2toxina._id;
       var abs_t2 = req.body.sample.t2toxina.absorbance;
-      if(abs_t2.length == 1){
-        Sample.updateT2Absorbance(id_t2,abs_t2).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
+      if(Array.isArray(abs_t2)){
         for(let i = 0; i< abs_t2.length; i++){
           Sample.updateT2Absorbance(id_t2[i],abs_t2[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
+      } else{ 
+        Sample.updateT2Absorbance(id_t2,abs_t2).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
       }
     }
 
@@ -948,18 +951,18 @@ router.post('/',function(req,res,next){
       //amostras zea
       var id_zea = req.body.sample.zearalenona._id;
       var abs_zea = req.body.sample.zearalenona.absorbance;
-      if(abs_zea.length == 1){
-        Sample.updateZeaAbsorbance(id_zea,abs_zea).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
+      if(Array.isArray(abs_zea)){
         for(let i = 0; i< abs_zea.length; i++){
           Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
+      } else{
+        Sample.updateZeaAbsorbance(id_zea,abs_zea).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
       }
     }
 
@@ -967,18 +970,18 @@ router.post('/',function(req,res,next){
       //amostras fbs
       var id_fbs = req.body.sample.fumonisina._id;
       var abs_fbs = req.body.sample.fumonisina.absorbance;
-      if(abs_fbs.length == 1){
-        Sample.updateFbsAbsorbance(id_fbs,abs_fbs).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
+      if(Array.isArray(abs_fbs)){
         for(let i = 0; i< abs_fbs.length; i++){
           Sample.updateFbsAbsorbance(id_fbs[i],abs_fbs[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
+      } else{
+        Sample.updateFbsAbsorbance(id_fbs,abs_fbs).then(()=>{
+        }).catch((error)=>{
+        console.log(error);
+        });
       }
     }
     

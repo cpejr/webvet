@@ -90,7 +90,7 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
                  sample.t2toxina.active=true;
                }
  
-               if(req.body.requisition.mycotoxin.includes("T-2 Fumonisina")) {
+               if(req.body.requisition.mycotoxin.includes("Fumonisina")) {
                  sample.fumonisina.active=true;
                }
  
