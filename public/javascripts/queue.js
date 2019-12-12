@@ -822,7 +822,6 @@ $.get('/search/samples', (samples) => {
         $.get('/search/userFromSample/'+sample._id,(user) =>{
           //AFLATOXINA
           if(sample.aflatoxina.active == true) {
-             console.log(sample)
             if(sample.aflatoxina.status=="Nova" || sample.aflatoxina.status=="Sem amostra" || sample.aflatoxina.status=="A corrigir") {
               if(user.debt) {
                 aflatoxina.addElement('_waiting', {
@@ -2152,7 +2151,7 @@ $('#KitRadioT').change(function(){
                   isSelected=true;
                   t2Begin=kit.toxinaStart+1;
                   document.getElementById("countkits").innerHTML = t2count;
-                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+                  $.post('/sample/setActiveKit/'+kitToxin+'/' + nowT2Kit, () => {
 
                   });
 
@@ -2166,7 +2165,7 @@ $('#KitRadioT').change(function(){
                    t2count = t2Limit;
                    t2Begin=kit.toxinaStart+1;
                    document.getElementById("countkits").innerHTML = t2count;
-                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+                   $.post('/sample/setActiveKit/'+kitToxin+'/' + nowT2Kit, () => {
 
                   });
 
@@ -2180,7 +2179,7 @@ $('#KitRadioT').change(function(){
                     t2count = t2Limit;
                     t2Begin=kit.toxinaStart+1;
                     document.getElementById("countkits").innerHTML = t2count;
-                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowFumKit, () => {
+                    $.post('/sample/setActiveKit/'+kitToxin+'/' + nowT2Kit, () => {
 
                     });
             } else {
