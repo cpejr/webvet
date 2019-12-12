@@ -871,18 +871,21 @@ router.post('/',function(req,res,next){
     if(req.body.sample.aflatoxina){
       var id_afla = req.body.sample.aflatoxina._id;
       var abs_afla = req.body.sample.aflatoxina.absorbance;
-      if(abs_afla.length == 1){
-        Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
-        }).catch((error)=>{
-        console.log(error);
-        });
-      } else{
+      if(Array.isArray(abs_afla.length)){
         for (let i = 0; i < abs_afla.length; i++) {
           Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
-        }
+        } 
+
+      } else{
+        
+          Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
+          }).catch((error)=>{
+          console.log(error);
+          });
+        
       }
     }
 
