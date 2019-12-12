@@ -1172,12 +1172,15 @@ $.get('/search/samples', (samples) => {
                   status: sample.zearalenona.status,
                   owner: "Devedor"
                 });
-                scndZearalenona.addElement('_scndTesting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status
-                });
+                if(sample.zearalenona.status=="Em análise") {
+                  scndZearalenona.addElement('_scndTesting', {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.zearalenona.status
+                  });
+                }
+                
               }
               else {
                 zearalenona.addElement('_testing', {
@@ -2393,47 +2396,16 @@ $('#KitRadioZ').change(function(){
       calibrator: true
       
     });
-     $.get('/search/getKit/'+nowZKit,(kit)=>{
-      $.get('/search/samples', (samples) => {
-        samples.forEach((sample) => {
-          if(sample.isCalibrator) {
-            if(sample.zearalenona.mapReference=='Sem mapa') {
-                if(kit.calibrators.P1.sampleID==sample._id||kit.calibrators.P2.sampleID==sample._id||kit.calibrators.P3.sampleID==sample._id||kit.calibrators.P4.sampleID==sample._id||kit.calibrators.P5.sampleID==sample._id) {
-                  scndFumonisina.addElement("_calibrator", {
-                    id: sample.name,
-                    title:  sample.name,
-                    calibrator: true,
-                    calid:sample._id
-                  });
-
-
-                }
-            }
-          }
-        });
-      });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
+   
    $.get('/search/getKit/'+nowZKit,(kit)=>{//allocate the samples/calibrators that are in an workmap
       kit.mapArray.forEach((mapID) => {
         $.get('/search/getWorkmap/'+mapID,(workmap)=>{
           workmap.samplesArray.forEach((sampleID)=>{
             $.get('/search/getOneSample/'+sampleID,(sample)=>{
-              if(sample.isCalibrator) {
-                  scndFumonisina.addElement(sample.zearalenona.mapReference, {
-                    id: sample.name,
-                      title:  sample.name,
-                      calibrator: true,
-                      calid:sample._id
-                  });
-            }
-            else {
               $.get('/search/userFromSample/'+sample._id,(user)=>{
                 if(sample.zearalenona.active == true && sample.zearalenona.status=="Mapa de Trabalho" ) {
                       if(user.debt){
-                        scndFumonisina.addElement(sample.zearalenona.mapReference, {
+                        scndZearalenona.addElement(sample.zearalenona.mapReference, {
                           id: "owner",
                           title: "Amostra " + sample.samplenumber,
                           analyst: sample.responsable,
@@ -2443,7 +2415,7 @@ $('#KitRadioZ').change(function(){
                       }
 
                       else {
-                       scndFumonisina.addElement(sample.zearalenona.mapReference, {
+                       scndZearalenona.addElement(sample.zearalenona.mapReference, {
                           id: sample.samplenumber,
                           title: "Amostra " + sample.samplenumber,
                           analyst: sample.responsable,
@@ -2454,7 +2426,7 @@ $('#KitRadioZ').change(function(){
                }
 
              });
-           }
+           
             });
           });
        });
