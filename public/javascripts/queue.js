@@ -124,14 +124,8 @@ var scndAflatoxina = new jKanban({
          $.post('/sample/scndTesting/edit/aflatoxina/' + samplenumber+'/'+nowAflaKit, () => {
 
          });
-
-         if(el.dataset.eid=="owner") {
-           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>'+ " "+'<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-         }
-
-         else{
           el.innerHTML = el.dataset.title + " "+ '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>'+ " "+ '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-        }
+        
       }
     }
 
@@ -844,26 +838,6 @@ $.get('/search/samples', (samples) => {
 
             }
             if(sample.aflatoxina.status=="Em análise"||sample.aflatoxina.status=="Mapa de Trabalho") {
-              if(user.debt) {
-                aflatoxina.addElement('_testing', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status,
-                  owner: "Devedor"
-                });
-                if(sample.aflatoxina.status=="Em análise") {
-                    scndAflatoxina.addElement('_scndTesting', {
-                      id: "owner",
-                      title: "Amostra " + sample.samplenumber,
-                      analyst: sample.responsable,
-                      status: sample.aflatoxina.status,
-                      owner: "Devedor"
-                    });
-                }
-
-              }
-              else{
               aflatoxina.addElement('_testing', {
                 id: sample.samplenumber,
                 title: "Amostra " + sample.samplenumber,
@@ -878,7 +852,7 @@ $.get('/search/samples', (samples) => {
                   status: sample.aflatoxina.status
                 });
                }
-             }
+             
 
             }
             if(sample.aflatoxina.status=="Aguardando pagamento") {
@@ -1584,25 +1558,12 @@ $('#KitRadioAfla').click(function(){//não repete
                 $.get('/search/getOneSample/'+sampleID,(sample)=>{
                   $.get('/search/userFromSample/'+sample._id,(user)=>{
                     if(sample.aflatoxina.active == true && sample.aflatoxina.status=="Mapa de Trabalho" ) {
-                          if(user.debt){
-                            scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
-                              id: "owner",
-                              title: "Amostra " + sample.samplenumber,
-                              analyst: sample.responsable,
-                              status: sample.aflatoxina.status,
-                              owner: "Devedor"
-                            });
-                          }
-
-                          else {
                            scndAflatoxina.addElement(sample.aflatoxina.mapReference, {
                               id: sample.samplenumber,
                               title: "Amostra " + sample.samplenumber,
                               analyst: sample.responsable,
                               status: sample.aflatoxina.status
                            });
-                        }
-
                    }
 
                  });
