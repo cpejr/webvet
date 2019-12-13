@@ -1052,15 +1052,15 @@ $.get('/search/samples', (samples) => {
                   status: sample.deoxinivalenol.status,
                   owner: "Devedor"
                 });
+
                 if(sample.deoxinivalenol.status=="Em análise") {
-                    scndDeoxinivalenol.addElement('_scndTesting', {
-                      id: "owner",
-                      title: "Amostra " + sample.samplenumber,
-                      analyst: sample.responsable,
-                      status: sample.deoxinivalenol.status,
-                      owner: "Devedor"
-                    });
-                }
+                  scndDeoxinivalenol.addElement('_scndTesting', {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.deoxinivalenol.status
+                  });
+              }
               }
 
               else {
