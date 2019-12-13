@@ -838,20 +838,33 @@ $.get('/search/samples', (samples) => {
 
             }
             if(sample.aflatoxina.status=="Em análise"||sample.aflatoxina.status=="Mapa de Trabalho") {
-              aflatoxina.addElement('_testing', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.aflatoxina.status
-              });
-              if(sample.aflatoxina.status=="Em análise") {
-                scndAflatoxina.addElement('_scndTesting', {
+              if(user.debt) {
+                aflatoxina.addElement('_testing', {
+                  id: "owner",
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsable,
+                  status: sample.aflatoxina.status,
+                  owner: "Devedor"
+                });
+
+              } else {
+
+                aflatoxina.addElement('_testing', {
                   id: sample.samplenumber,
                   title: "Amostra " + sample.samplenumber,
                   analyst: sample.responsable,
                   status: sample.aflatoxina.status
                 });
-               }
+                if(sample.aflatoxina.status=="Em análise") {
+                  scndAflatoxina.addElement('_scndTesting', {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.aflatoxina.status
+                  });
+                 }
+              }
+            
              
 
             }
@@ -931,11 +944,10 @@ $.get('/search/samples', (samples) => {
 
                 if(sample.ocratoxina.status=="Em análise") {
                   scndOcratoxina.addElement('_scndTesting', {
-                   id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status,
-                  owner: "Devedor"
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsable,
+                    status: sample.ocratoxina.status
                   });
                 }
 
@@ -1713,24 +1725,13 @@ $('#KitRadioOcra').change(function(){
               $.get('/search/getOneSample/'+sampleID,(sample)=>{
                 $.get('/search/userFromSample/'+sample._id,(user)=>{
                   if(sample.ocratoxina.active == true && sample.ocratoxina.status=="Mapa de Trabalho" ) {
-                        if(user.debt){
-                          scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
-                            id: "owner",
-                            title: "Amostra " + sample.samplenumber,
-                            analyst: sample.responsable,
-                            status: sample.ocratoxina.status,
-                            owner: "Devedor"
-                          });
-                        }
-
-                        else {
+                        
                          scndOcratoxina.addElement(sample.ocratoxina.mapReference, {
                             id: sample.samplenumber,
                             title: "Amostra " + sample.samplenumber,
                             analyst: sample.responsable,
                             status: sample.ocratoxina.status
                          });
-                      }
 
                  }
 
