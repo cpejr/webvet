@@ -1362,11 +1362,10 @@ $.get('/search/samples', (samples) => {
                 });
                 if(sample.fumonisina.status=="Em análise") {
                   scndFumonisina.addElement('_scndTesting', {
-                    id: "owner",
+                    id: sample.samplenumber,
                     title: "Amostra " + sample.samplenumber,
                     analyst: sample.responsable,
-                    status: sample.fumonisina.status,
-                    owner: "Devedor"
+                    status: sample.fumonisina.status
                   });
                 }
               }
@@ -2046,24 +2045,15 @@ $('#KitRadioFum').change(function(){
            
               $.get('/search/userFromSample/'+sample._id,(user)=>{
                 if(sample.fumonisina.active == true && sample.fumonisina.status=="Mapa de Trabalho" ) {
-                      if(user.debt){
-                        scndFumonisina.addElement(sample.fumonisina.mapReference, {
-                          id: "owner",
-                          title: "Amostra " + sample.samplenumber,
-                          analyst: sample.responsable,
-                          status: sample.fumonisina.status,
-                          owner: "Devedor"
-                        });
-                      }
 
-                      else {
+                    
                        scndFumonisina.addElement(sample.fumonisina.mapReference, {
                           id: sample.samplenumber,
                           title: "Amostra " + sample.samplenumber,
                           analyst: sample.responsable,
                           status: sample.fumonisina.status
                        });
-                    }
+                    
 
                }
 
@@ -2206,24 +2196,13 @@ $('#KitRadioT').change(function(){
             $.get('/search/getOneSample/'+sampleID,(sample)=>{
               $.get('/search/userFromSample/'+sample._id,(user)=>{
                 if(sample.t2toxina.active == true && sample.t2toxina.status=="Mapa de Trabalho" ) {
-                      if(user.debt){
-                        scndT2toxina.addElement(sample.t2toxina.mapReference, {
-                          id: "owner",
-                          title: "Amostra " + sample.samplenumber,
-                          analyst: sample.responsable,
-                          status: sample.fumonisina.status,
-                          owner: "Devedor"
-                        });
-                      }
-
-                      else {
                        scndT2toxina.addElement(sample.t2toxina.mapReference, {
                           id: sample.samplenumber,
                           title: "Amostra " + sample.samplenumber,
                           analyst: sample.responsable,
                           status: sample.t2toxina.status
                        });
-                    }
+                    
 
                }
 
@@ -2365,24 +2344,14 @@ $('#KitRadioZ').change(function(){
             $.get('/search/getOneSample/'+sampleID,(sample)=>{
               $.get('/search/userFromSample/'+sample._id,(user)=>{
                 if(sample.zearalenona.active == true && sample.zearalenona.status=="Mapa de Trabalho" ) {
-                      if(user.debt){
-                        scndZearalenona.addElement(sample.zearalenona.mapReference, {
-                          id: "owner",
-                          title: "Amostra " + sample.samplenumber,
-                          analyst: sample.responsable,
-                          status: sample.zearalenona.status,
-                          owner: "Devedor"
-                        });
-                      }
-
-                      else {
+                  
                        scndZearalenona.addElement(sample.zearalenona.mapReference, {
                           id: sample.samplenumber,
                           title: "Amostra " + sample.samplenumber,
                           analyst: sample.responsable,
                           status: sample.zearalenona.status
                        });
-                    }
+                    
 
                }
 
