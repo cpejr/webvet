@@ -1260,11 +1260,10 @@ $.get('/search/samples', (samples) => {
                 });
                 if(sample.t2toxina.status=="Em análise") {
                   scndT2toxina.addElement('_scndTesting', {
-                    id: "owner",
+                    id: sample.samplenumber,
                     title: "Amostra " + sample.samplenumber,
                     analyst: sample.responsable,
-                    status: sample.t2toxina.status,
-                    owner:"Devedor"
+                    status: sample.t2toxina.status
                   });
                 }
               }
