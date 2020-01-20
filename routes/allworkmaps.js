@@ -609,7 +609,7 @@ router.get('/', (req, res) => {
         }
       }
 
-    res.render( 'allsamples',{amostras,afla1,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
+    res.render('allworkmaps',{amostras,afla1,fbs,zea,don1,ota1,dd,mm,yyyy,today,t2,...req.session });
   
 }).catch((error)=>{
   console.log(error);
@@ -618,6 +618,7 @@ router.get('/', (req, res) => {
   console.log(error);
   });
 });
+
 
 
 
@@ -1095,6 +1096,10 @@ router.post('/',function(req,res,next){
     console.log(error);
   });
 });
+
+
+
+
 
 
 module.exports = router;

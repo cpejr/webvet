@@ -34,6 +34,7 @@ const allkitsRouter = require ('./routes/allkits');
 const printtemplateRouter = require ('./routes/printtemplate');
 const calibrationcurvesRouter = require ('./routes/calibrationcurves');
 const allsamplesRouter = require ('./routes/allsamples');
+const allworkmapsRouter = require('./routes/allworkmaps');
 const setstockRouter = require ('./routes/setstock');
 const previousmapRouter = require ('./routes/previousmap');
 const reportRouter = require ('./routes/report');
@@ -146,6 +147,7 @@ app.use('/allkits', allkitsRouter);
 app.use('/printtemplate', printtemplateRouter);
 app.use('/calibrationcurves', calibrationcurvesRouter);
 app.use('/allsamples', allsamplesRouter);
+app.use('/allworkmaps', allworkmapsRouter)
 app.use('/setstock', setstockRouter);
 app.use('/report', reportRouter);
 app.use('/previousmap',previousmapRouter);
