@@ -1,261 +1,418 @@
 <form action="/allsamples" method="post">
 
-  <div class="printtemplate">
-    <h4>Mapas de Trabalho</h4>
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="container-fluid col-sm-12 text-center">
+        <h4>Mapas de Trabalho</h4>
+      </div>
+
+      <div class="container-fluid col-sm-12 text-center">
+        <div class="templateprint row col-sm-12">
+          <table class="table-afla-child ">
+
+            <thead>
+              <tr>
+                <th>AFLA</th>
+                <th>Absorvância</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th>P1</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input name="aflaCalibrator[P1]" class="input-absorbance form-control">
+                    <input name="aflaCalibrator2[P1]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P2</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input name="aflaCalibrator[P2]" class="input-absorbance form-control">
+                    <input name="aflaCalibrator2[P2]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P3</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input name="aflaCalibrator[P3]" class="input-absorbance form-control">
+                    <input name="aflaCalibrator2[P3]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P4</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input name="aflaCalibrator[P4]" class="input-absorbance form-control">
+                    <input name="aflaCalibrator2[P4]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P5</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input name="aflaCalibrator[P5]" class="input-absorbance form-control">
+                    <input name="aflaCalibrator2[P5]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+
+          </table>
+
+
+
+          <table class="table-afla">
+
+            <thead>
+              <tr>
+
+                <th>DON</th>
+                <th>Absorvância</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th>P1</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="donCalibrator[P1]" class="input-absorbance form-control">
+                    <input type="text" name="donCalibrator2[P1]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P2</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="donCalibrator[P2]" class="input-absorbance form-control">
+                    <input type="text" name="donCalibrator2[P2]" class="input-absorbance form-control">
+                    </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P3</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="donCalibrator[P3]" class="input-absorbance form-control">
+                    <input type="text" name="donCalibrator2[P3]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P4</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="donCalibrator[P4]" class="input-absorbance form-control">
+                    <input type="text" name="donCalibrator2[P4]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P5</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="donCalibrator[P5]" class="input-absorbance form-control">
+                    <input type="text" name="donCalibrator2[P5]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+
+          </table>
+
+
+
+          <table class="table-afla">
+
+            <thead>
+              <tr>
+
+                <th>OTA</th>
+                <th>Absorvância</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th>P1</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="otaCalibrator[P1]" class="input-absorbance form-control">
+                    <input type="text" name="otaCalibrator2[P1]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P2</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="otaCalibrator[P2]" class="input-absorbance form-control">
+                    <input type="text" name="otaCalibrator2[P2]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P3</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="otaCalibrator[P3]" class="input-absorbance form-control">
+                    <input type="text" name="otaCalibrator2[P3]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P4</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="otaCalibrator[P4]" class="input-absorbance form-control">
+                    <input type="text" name="otaCalibrator2[P4]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P5</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="otaCalibrator[P5][absorbance]" class="input-absorbance form-control">
+                    <input type="text" name="otaCalibrator2[P5][absorbance]" class="input-absorbance form-control"> {{!-- Porque esse nome está diferente? --}}
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+
+          </table>
+
+
+
+          <table class="table-afla ">
+
+            <thead>
+              <tr>
+                <th>T2</th>
+                <th>Absorvância</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th>P1</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="t2Calibrator[P1]" class="input-absorbance form-control">
+                    <input type="text" name="t2Calibrator2[P1]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P2</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="t2Calibrator[P2]" class="input-absorbance form-control">
+                    <input type="text" name="t2Calibrator2[P2]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P3</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="t2Calibrator[P3]" class="input-absorbance form-control">
+                    <input type="text" name="t2Calibrator2[P3]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P4</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="t2Calibrator[P4]" class="input-absorbance form-control">
+                    <input type="text" name="t2Calibrator2[P4]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P5</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="t2Calibrator[P5]" class="input-absorbance form-control">
+                    <input type="text" name="t2Calibrator2[P5]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+
+          </table>
+
+
+
+          <table class="table-afla ">
+
+            <thead>
+              <tr>
+                <th>ZEA</th>
+                <th>Absorvância</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th>P1</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="zeaCalibrator[P1]" class="input-absorbance form-control">
+                    <input type="text" name="zeaCalibrator2[P1]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P2</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="zeaCalibrator[P2]" class="input-absorbance form-control">
+                    <input type="text" name="zeaCalibrator2[P2]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P3</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="zeaCalibrator[P3]" class="input-absorbance form-control">
+                    <input type="text" name="zeaCalibrator2[P3]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P4</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="zeaCalibrator[P4]" class="input-absorbance form-control">
+                    <input type="text" name="zeaCalibrator2[P4]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P5</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="zeaCalibrator[P5]" class="input-absorbance form-control">
+                    <input type="text" name="zeaCalibrator2[P5]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+
+          </table>
+
+
+
+          <table class="table-afla ">
+
+            <thead>
+              <tr>
+                <th>FBs</th>
+                <th>Absorvância</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th>P1</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="fbCalibrator[P1]" class="input-absorbance form-control">
+                    <input type="text" name="fbCalibrator2[P1]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P2</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="fbCalibrator[P2]" class="input-absorbance form-control">
+                    <input type="text" name="fbCalibrator2[P2]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P3</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="fbCalibrator[P3]" class="input-absorbance form-control">
+                    <input type="text" name="fbCalibrator2[P3]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P4</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="fbCalibrator[P4]" class="input-absorbance form-control">
+                    <input type="text" name="fbCalibrator2[P4]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+
+              <tr>
+                <th>P5</th>
+                <th>
+                  <div class="input-group-sm">
+                    <input type="text" name="fbCalibrator[P5]" class="input-absorbance form-control">
+                    <input type="text" name="fbCalibrator2[P5]" class="input-absorbance form-control">
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <div class="btn-group-justified col-sm-12 container-fluid">
+        <div class="btn btn-back">
+          <a href="/queue" class="btn btn-success" id="test">Voltar</a>
+        </div>
+        <div class="btn btn-abs">
+          <button class="btn btn-success">Finalizar</button>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <div class="templateprint row">
-    <table class="table-afla-child ">
-
-      <thead>
-        <tr>
-          <th>AFLA</th>
-          <th>Absorvancia</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <th>P1</th>
-          <th><input name="aflaCalibrator[P1]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P2</th>
-          <th><input name="aflaCalibrator[P2]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P3</th>
-          <th><input name="aflaCalibrator[P3]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P4</th>
-          <th><input name="aflaCalibrator[P4]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P5</th>
-          <th><input name="aflaCalibrator[P5]" class="input-absorbance"></th>
-        </tr>
-      </tbody>
-
-    </table>
-
-
-
-    <table class="table-afla">
-
-      <thead>
-        <tr>
-
-          <th>DON</th>
-          <th>Absorvancia</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <th>P1</th>
-          <th><input type="text" name="donCalibrator[P1]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P2</th>
-          <th><input type="text" name="donCalibrator[P2]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P3</th>
-          <th><input type="text" name="donCalibrator[P3]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P4</th>
-          <th><input type="text" name="donCalibrator[P4]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P5</th>
-          <th><input type="text" name="donCalibrator[P5]" class="input-absorbance"></th>
-        </tr>
-      </tbody>
-
-    </table>
-
-
-
-    <table class="table-afla">
-
-      <thead>
-        <tr>
-
-          <th>OTA</th>
-          <th>Absorvancia</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <th>P1</th>
-          <th><input type="text" name="otaCalibrator[P1]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P2</th>
-          <th><input type="text" name="otaCalibrator[P2]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P3</th>
-          <th><input type="text" name="otaCalibrator[P3]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P4</th>
-          <th><input type="text" name="otaCalibrator[P4]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P5</th>
-          <th><input type="text" name="otaCalibrator[P5][absorbance]" class="input-absorbance"></th>
-        </tr>
-      </tbody>
-
-    </table>
-
-
-
-    <table class="table-afla ">
-
-      <thead>
-        <tr>
-          <th>T2</th>
-          <th>Absorvancia</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <th>P1</th>
-          <th><input type="text" name="t2Calibrator[P1]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P2</th>
-          <th><input type="text" name="t2Calibrator[P2]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P3</th>
-          <th><input type="text" name="t2Calibrator[P3]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P4</th>
-          <th><input type="text" name="t2Calibrator[P4]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P5</th>
-          <th><input type="text" name="t2Calibrator[P5]" class="input-absorbance"></th>
-        </tr>
-      </tbody>
-
-    </table>
-
-
-
-    <table class="table-afla ">
-
-      <thead>
-        <tr>
-          <th>ZEA</th>
-          <th>Absorvancia</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <th>P1</th>
-          <th><input type="text" name="zeaCalibrator[P1]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P2</th>
-          <th><input type="text" name="zeaCalibrator[P2]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P3</th>
-          <th><input type="text" name="zeaCalibrator[P3]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P4</th>
-          <th><input type="text" name="zeaCalibrator[P4]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P5</th>
-          <th><input type="text" name="zeaCalibrator[P5]" class="input-absorbance"></th>
-        </tr>
-      </tbody>
-
-    </table>
-
-
-
-    <table class="table-afla ">
-
-      <thead>
-        <tr>
-          <th>FBs</th>
-          <th>Absorvancia</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <th>P1</th>
-          <th><input type="text" name="fbCalibrator[P1]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P2</th>
-          <th><input type="text" name="fbCalibrator[P2]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P3</th>
-          <th><input type="text" name="fbCalibrator[P3]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P4</th>
-          <th><input type="text" name="fbCalibrator[P4]" class="input-absorbance"></th>
-        </tr>
-
-        <tr>
-          <th>P5</th>
-          <th><input type="text" name="fbCalibrator[P5]" class="input-absorbance"></th>
-        </tr>
-      </tbody>
-
-    </table>
-
-
-  </div>
-  <div class="btn-back">
-    <a href="/queue" class="btn btn-success" id="test"> Voltar</a>
-  </div>
-
-
-  <div class="btn-abs">
-    <button class="btn btn-success">Finalizar </button>
-  </div>
-  
 </form>
 
 
