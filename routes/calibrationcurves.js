@@ -23,7 +23,10 @@ function comparara(logb_bo_amostra,intercept,slope){
   var resultado_afla = new Array;
   var Aflaabsorbance_p = new Array;
   var AflalogB_Bo = new Array; 
+
+
   if(kit_afla_ativo.length!=0){
+  //Parte responsável por pegar a concentracao e absorvancia settadas no kit afla ativo
       Aflaconcentration_p[0] = kit_afla_ativo[0].calibrators.P1.concentration;
       Aflaconcentration_p[1] = kit_afla_ativo[0].calibrators.P2.concentration;
       Aflaconcentration_p[2] = kit_afla_ativo[0].calibrators.P3.concentration;
@@ -35,30 +38,14 @@ function comparara(logb_bo_amostra,intercept,slope){
       Aflaabsorbance_p[2] = kit_afla_ativo[0].calibrators.P3.absorbance;
       Aflaabsorbance_p[3] = kit_afla_ativo[0].calibrators.P4.absorbance;
       Aflaabsorbance_p[4] = kit_afla_ativo[0].calibrators.P5.absorbance;
-      
-      //console.log(Aflaabsorbance_p);
-      //console.log(Aflaconcentration_p);
             
+      
       //log B/Bo = (absorvanciaAmostras - intercept)/slope
 
+  
 
+    //Agora já se tem os valores de todos os calibradores, com isso basta agora usar as fórmulas da planilha para calcula o B Bo seu log, slope , intercept e etc.
 
-
-
-
-
-    let size = kit_afla_ativo[0].mapArray.length;
-    for (let i = 0; i < size; i++) {
-      mapas[i] = await Workmap.getOneMap(kit_afla_ativo[0].mapArray[i]);
-    }
-    var cont = 0;
-    //console.log(mapas);
-    for (let j = 0; j < mapas.length; j++) {
-      for(let i = 0; i < mapas[j].samplesArray.length; i++){
-        amostras_afla[cont] = await Sample.getById(mapas[j].samplesArray[i]);
-        cont++;
-      }
-    }
     var log_concentracao = [Math.log10(Aflaconcentration_p[1]),Math.log10(Aflaconcentration_p[2]),Math.log10(Aflaconcentration_p[3]),Math.log10(Aflaconcentration_p[4])]; //eixo x
     var b_b0 = new Array; 
     var ln_b_b0 = new Array;
@@ -89,49 +76,52 @@ function comparara(logb_bo_amostra,intercept,slope){
     console.log('yintercept');
     console.log(yIntercept);
      
+//--------------------------------------Aqui termina a parte que calcula todos os dados dos calibradores-------------------------------------------------------------
 
+
+//---------------------------------------Agora começa a parte que pega as absorvancias e calcula o que é preciso- em realação a amostra Essa parte será levada para outra página----------------------------------------------------
+    
+    //parte responsável por pegar as amostras do kit de aflatoxina, logo  através do kit ativo de afla pega na variável mapArray o id dos mapas que estão sendo utilizados naqueles kits
+    let size = kit_afla_ativo[0].mapArray.length;
+    for (let i = 0; i < size; i++) {
+      mapas[i] = await Workmap.getOneMap(kit_afla_ativo[0].mapArray[i]);
+    }
+    var cont = 0;
+    //Após ter os ids dos mapas de trabalho que estão sendo utilizados roda um for para percorrer todos os mapas e um for dentro desse para acessar todas as amostras em cada mapa
+    for (let j = 0; j < mapas.length; j++) {
+      for(let i = 0; i < mapas[j].samplesArray.length; i++){
+        amostras_afla[cont] = await Sample.getById(mapas[j].samplesArray[i]);
+        cont++;
+        
+      }
+    }
+    console.log("absss");
+    
+    console.log(amostras_afla[0].aflatoxina.absorbance);
+    console.log(amostras_afla[1].aflatoxina.absorbance);
+    
 
     var Afla_log_b_b0 = new Array;
-    //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
     for (let i = 0; i < amostras_afla.length; i++) {
       Afla_log_b_b0[i] = Math.log10((amostras_afla[i].aflatoxina.absorbance/Aflaabsorbance_p[0])/(1-(amostras_afla[i].aflatoxina.absorbance/Aflaabsorbance_p[0])));
+      console.log("log b bo");
+      console.log(Afla_log_b_b0[i]);
       
     }
-    
-
-    console.log(Afla_log_b_b0);
-    
-//function comparara(logb_bo_amostra,intercept,slope){
-  //return Math.pow(10,(logb_bo_amostra-intercept)/slope);
- //}
-    
-   // resultado_afla = Math.pow(10,(Afla_log_b_b0[0] -yIntercept)/ slope);
-    
-    
     for (let i = 0; i < Afla_log_b_b0.length; i++) {
       resultado_afla[i] = comparara(Afla_log_b_b0[i],yIntercept,slope);
     }
     console.log('funcao compara');
     
     console.log(resultado_afla);
-        
-        
-    //log B/Bo = (absorvanciaAmostras - intercept)/slope
-    //chama o compara
-    
-
-  
-
-    console.log('----------AMOSTRAS----------');
-    for(let i = 0 ; i < amostras_afla.length; i++){
-      //log B/Bo = (absorvanciaAmostras - intercept)/slope
-      //AflalogB_Bo = amostras_afla[i].aflatoxina.absorbance
-      //console.log(amostras_afla[i].aflatoxina.absorbance);
-
-    }
-    console.log('---------------------------');
   
   }
+
+
+
+  //-----------------------------------Agora o processo se repete para todas as micotoxinas-----------------------------------------------------------------
+
+  
   var mapas_deox = new Array;
   var amostras_deox = new Array;
   var Deoxconcentration_p = new Array;
