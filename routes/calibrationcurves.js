@@ -40,7 +40,7 @@ function comparara(logb_bo_amostra,intercept,slope){
       Aflaabsorbance_p[4] = kit_afla_ativo[0].calibrators.P5.absorbance;
             
       
-      //log B/Bo = (absorvanciaAmostras - intercept)/slope
+    
 
   
 
@@ -602,7 +602,7 @@ if(kit_zea_ativo.length !=0){
   //console.log(yIntercept);
   //console.log('_______________________');
   //console.log(fifty_inhibition);
-  res.render('calibrationcurves', { title: 'Curvas de Calibração', resultado_afla,layout: 'layoutDashboard.hbs'});
+  res.render('calibrationcurves', { title: 'Curvas de Calibração', resultado_afla});
   
 
 })
