@@ -650,11 +650,6 @@ router.post('/',function(req,res,next){
           if(counter==aflaKit.mapArray.length-1) {
             aflaKit.amount=aflaKit.stripLength-last_filled;
             aflaKit.toxinaStart=last_filled;
-            aflaKit.calibrators.P1.absorbance=parseFloat(req.body.aflaCalibrator.P1);
-            aflaKit.calibrators.P2.absorbance=parseFloat(req.body.aflaCalibrator.P2);
-            aflaKit.calibrators.P3.absorbance=parseFloat(req.body.aflaCalibrator.P3);
-            aflaKit.calibrators.P4.absorbance=parseFloat(req.body.aflaCalibrator.P4);
-            aflaKit.calibrators.P5.absorbance=parseFloat(req.body.aflaCalibrator.P5);
             Kit.update(aflaKit._id,aflaKit).catch((err)=>{
               console.log(err);
             });
@@ -692,11 +687,6 @@ router.post('/',function(req,res,next){
             
             deoxKit.amount=deoxKit.stripLength-last_filled;
             deoxKit.toxinaStart=last_filled;
-            deoxKit.calibrators.P1.absorbance=parseFloat(req.body.donCalibrator.P1);
-            deoxKit.calibrators.P2.absorbance=parseFloat(req.body.donCalibrator.P2);
-            deoxKit.calibrators.P3.absorbance=parseFloat(req.body.donCalibrator.P3);
-            deoxKit.calibrators.P4.absorbance=parseFloat(req.body.donCalibrator.P4);
-            deoxKit.calibrators.P5.absorbance=parseFloat(req.body.donCalibrator.P5);
             Kit.update(deoxKit._id,deoxKit).catch((err)=>{
               console.log(err);
             });
@@ -732,11 +722,6 @@ router.post('/',function(req,res,next){
           if(counter==t2Kit.mapArray.length-1) {
             t2Kit.amount=t2Kit.stripLength-last_filled;
             t2Kit.toxinaStart=last_filled;
-            t2Kit.calibrators.P1.absorbance=parseFloat(req.body.t2Calibrator.P1);
-            t2Kit.calibrators.P2.absorbance=parseFloat(req.body.t2Calibrator.P2);
-            t2Kit.calibrators.P3.absorbance=parseFloat(req.body.t2Calibrator.P3);
-            t2Kit.calibrators.P4.absorbance=parseFloat(req.body.t2Calibrator.P4);
-            t2Kit.calibrators.P5.absorbance=parseFloat(req.body.t2Calibrator.P5);
             Kit.update(t2Kit._id,t2Kit).catch((err)=>{
               console.log(err);
             });
@@ -768,11 +753,6 @@ router.post('/',function(req,res,next){
             }
           }
           if(counter==zeaKit.mapArray.length-1) {
-            zeaKit.calibrators.P1.absorbance=parseFloat(req.body.zeaCalibrator.P1);
-            zeaKit.calibrators.P2.absorbance=parseFloat(req.body.zeaCalibrator.P2);
-            zeaKit.calibrators.P3.absorbance=parseFloat(req.body.zeaCalibrator.P3);
-            zeaKit.calibrators.P4.absorbance=parseFloat(req.body.zeaCalibrator.P4);
-            zeaKit.calibrators.P5.absorbance=parseFloat(req.body.zeaCalibrator.P5);
             zeaKit.amount=zeaKit.stripLength-last_filled;
             zeaKit.toxinaStart=last_filled;
             Kit.update(zeaKit._id,zeaKit).catch((err)=>{
@@ -808,11 +788,6 @@ router.post('/',function(req,res,next){
           if(i==fumKit.mapArray.length-1) {
             fumKit.amount=fumKit.stripLength-last_filled;
             fumKit.toxinaStart=last_filled;
-            fumKit.calibrators.P1.absorbance=parseFloat(req.body.fbCalibrator.P1);
-            fumKit.calibrators.P2.absorbance=parseFloat(req.body.fbCalibrator.P2);
-            fumKit.calibrators.P3.absorbance=parseFloat(req.body.fbCalibrator.P3);
-            fumKit.calibrators.P4.absorbance=parseFloat(req.body.fbCalibrator.P4);
-            fumKit.calibrators.P5.absorbance=parseFloat(req.body.fbCalibrator.P5);
             Kit.update(fumKit._id,fumKit).catch((err)=>{
               console.log(err);
             });
@@ -849,11 +824,6 @@ router.post('/',function(req,res,next){
           if(counter==ocraKit.mapArray.length-1) {
             ocraKit.amount=ocraKit.stripLength-last_filled;
             ocraKit.toxinaStart=last_filled;
-            ocraKit.calibrators.P1.absorbance=parseFloat(req.body.otaCalibrator.P1);
-            ocraKit.calibrators.P2.absorbance=parseFloat(req.body.otaCalibrator.P2);
-            ocraKit.calibrators.P3.absorbance=parseFloat(req.body.otaCalibrator.P3);
-            ocraKit.calibrators.P4.absorbance=parseFloat(req.body.otaCalibrator.P4);
-            ocraKit.calibrators.P5.absorbance=parseFloat(req.body.otaCalibrator.P5);
             Kit.update(ocraKit._id,ocraKit).catch((err)=>{
               console.log(err);
             });
@@ -871,9 +841,11 @@ router.post('/',function(req,res,next){
     if(req.body.sample.aflatoxina){
       var id_afla = req.body.sample.aflatoxina._id;
       var abs_afla = req.body.sample.aflatoxina.absorbance;
+      var abs2_afla = req.body.sample.aflatoxina.absorbance2;
+      
       if(Array.isArray(abs_afla)){
         for (let i = 0; i < abs_afla.length; i++) {
-          Sample.updateAflaAbsorbance(id_afla[i],abs_afla[i]).then(()=>{
+          Sample.updateAbsorbance('aflatoxina', id_afla[i], abs_afla[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
@@ -881,7 +853,7 @@ router.post('/',function(req,res,next){
 
       } else{
         
-          Sample.updateAflaAbsorbance(id_afla,abs_afla).then(()=>{
+          Sample.updateAbsorbance('aflatoxina', id_afla,abs_afla).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
@@ -893,15 +865,17 @@ router.post('/',function(req,res,next){
       //amostras deox
       var id_deox = req.body.sample.deoxinivalenol._id;
       var abs_deox = req.body.sample.deoxinivalenol.absorbance;
+      var abs2_deox = req.body.sample.aflatoxina.absorbance2;
+
       if(Array.isArray(abs_deox)){
         for(let i = 0; i <abs_deox.length; i++){
-          Sample.updateDeoxAbsorbance(id_deox[i],abs_deox[i]).then(()=>{
+          Sample.updateAbsorbance('deoxinivalenol', id_deox[i],abs_deox[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
       }else{
-        Sample.updateDeoxAbsorbance(id_deox, abs_deox).then(()=>{
+        Sample.updateAbsorbance('deoxinivalenol', id_deox, abs_deox).then(()=>{
         }).catch((error)=>{
         console.log(error);
         }); 
@@ -912,15 +886,17 @@ router.post('/',function(req,res,next){
       //amostras ocra
       var id_ocra = req.body.sample.ocratoxina._id;
       var abs_ocra = req.body.sample.ocratoxina.absorbance;
+      var abs2_ocra = req.body.sample.ocratoxina.absorbance2;
+
       if(Array.isArray(abs_ocra)){
         for(let i = 0; i< abs_ocra.length; i++){
-          Sample.updateOcraAbsorbance(id_ocra[i],abs_ocra[i]).then(()=>{
+          Sample.updateAbsorbance('ocratoxina', id_ocra[i],abs_ocra[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
       } else{
-          Sample.updateOcraAbsorbance(id_ocra,abs_ocra).then(()=>{
+          Sample.updateAbsorbance('ocratoxina', id_ocra,abs_ocra).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
@@ -931,15 +907,17 @@ router.post('/',function(req,res,next){
       //amostra t2
       var id_t2 = req.body.sample.t2toxina._id;
       var abs_t2 = req.body.sample.t2toxina.absorbance;
+      var abs2_t2 = req.body.sample.t2toxina.absorbance2;
+
       if(Array.isArray(abs_t2)){
         for(let i = 0; i< abs_t2.length; i++){
-          Sample.updateT2Absorbance(id_t2[i],abs_t2[i]).then(()=>{
+          Sample.updateAbsorbance('t2toxina', id_t2[i],abs_t2[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
       } else{ 
-        Sample.updateT2Absorbance(id_t2,abs_t2).then(()=>{
+        Sample.updateAbsorbance('t2toxina', id_t2,abs_t2).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
@@ -951,15 +929,17 @@ router.post('/',function(req,res,next){
       //amostras zea
       var id_zea = req.body.sample.zearalenona._id;
       var abs_zea = req.body.sample.zearalenona.absorbance;
+      var abs_zea2 = req.body.sample.zearalenona.absorbance2;
+      
       if(Array.isArray(abs_zea)){
         for(let i = 0; i< abs_zea.length; i++){
-          Sample.updateZeaAbsorbance(id_zea[i],abs_zea[i]).then(()=>{
+          Sample.updateAbsorbance('zearalenona', id_zea[i],abs_zea[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
       } else{
-        Sample.updateZeaAbsorbance(id_zea,abs_zea).then(()=>{
+        Sample.updateAbsorbance('zearalenona', id_zea,abs_zea).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
@@ -970,15 +950,17 @@ router.post('/',function(req,res,next){
       //amostras fbs
       var id_fbs = req.body.sample.fumonisina._id;
       var abs_fbs = req.body.sample.fumonisina.absorbance;
+      var abs_fbs2 = req.body.sample.fumonisina.absorbance2;
+
       if(Array.isArray(abs_fbs)){
         for(let i = 0; i< abs_fbs.length; i++){
-          Sample.updateFbsAbsorbance(id_fbs[i],abs_fbs[i]).then(()=>{
+          Sample.updateAbsorbance('fumonisina', id_fbs[i],abs_fbs[i]).then(()=>{
           }).catch((error)=>{
           console.log(error);
           });
         }
       } else{
-        Sample.updateFbsAbsorbance(id_fbs,abs_fbs).then(()=>{
+        Sample.updateAbsorbance('fumonisina', id_fbs,abs_fbs).then(()=>{
         }).catch((error)=>{
         console.log(error);
         });
