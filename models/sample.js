@@ -602,14 +602,19 @@ class Sample {
   }
 
   //===London Eye===//
-  static updateAbsorbance(toxina, id, abs) {
+  static updateAbsorbances(toxina, id, abs, abs2) {
 
-    
     return new Promise((resolve, reject) => {
       var parameter = toxina + '.absorbance';
+      var parameter2 = toxina + '.absorbance2';
+      
+      var updateVal = {};
+      updateVal[parameter] = abs;
+      updateVal[parameter2] = abs2;
+      
       SampleModel.update(
         { _id: id },
-        { $set: { parameter : abs } }).then((result) => {
+        { $set: updateVal }).then((result) => {
           resolve(result);
         }).catch(err => {
           reject(err);
@@ -618,6 +623,7 @@ class Sample {
     });
   }
 
+  /*
   static updateAbsorbance2(toxina, id, abs) {
 
     var parameter = toxina + '.absorbance2';
@@ -631,7 +637,7 @@ class Sample {
         });
 
     });
-  }
+  }*/
 }
 
 
