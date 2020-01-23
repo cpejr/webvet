@@ -41,6 +41,7 @@ const sampleSchema = new mongoose.Schema({
     },
     date: String,
     absorbance: Number,
+    absorbance2:Number,
     active: {
        type: Boolean,
        default: false
