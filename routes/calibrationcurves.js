@@ -97,8 +97,8 @@ function comparara(logb_bo_amostra,intercept,slope){
     }
     console.log("absss");
     
-    console.log(amostras_afla[0].aflatoxina.absorbance);
-    console.log(amostras_afla[1].aflatoxina.absorbance);
+   // console.log(amostras_afla[0].aflatoxina.absorbance);
+    //console.log(amostras_afla[1].aflatoxina.absorbance);
     
 
     var Afla_log_b_b0 = new Array;
