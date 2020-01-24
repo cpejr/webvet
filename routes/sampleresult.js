@@ -111,7 +111,8 @@ router.get('/', async function (req, res, next) {
       resultado_afla[i] = {
         compara: comparara(Afla_log_b_b0[i], yIntercept, slope),
         average: avg,
-        number: amostras_afla[i].samplenumber
+        number: amostras_afla[i].samplenumber,
+        changed_workmap: i != 0 && amostras_afla[i - 1].aflatoxina.mapReference != amostras_afla[i].aflatoxina.mapReference
       }
     }
     console.log('funcao compara');
@@ -195,7 +196,8 @@ router.get('/', async function (req, res, next) {
       resultado_deox[i] = {
         compara: comparara(Deox_log_b_b0[i], yIntercept_deox, slope_deox),
         average: avg,
-        number: amostras_deox[i].samplenumber
+        number: amostras_deox[i].samplenumber,
+        changed_workmap: i != 0 && amostras_deox[i - 1].deoxinivalenol.mapReference != amostras_deox[i].deoxinivalenol.mapReference
       };
     }
     console.log('funcao compara');
@@ -291,7 +293,8 @@ router.get('/', async function (req, res, next) {
       resultado_ota[i] = {
         compara: comparara(Ota_log_b_b0[i], yIntercept_ota, slope_ota),
         average: avg,
-        number: amostras_ota[i].samplenumber
+        number: amostras_ota[i].samplenumber,
+        changed_workmap: i != 0 && amostras_ota[i - 1].ocratoxina.mapReference != amostras_ota[i].ocratoxina.mapReference
       };
     }
     console.log('funcao compara');
@@ -372,7 +375,8 @@ router.get('/', async function (req, res, next) {
       resultado_t2[i] = {
         compara: comparara(T2_log_b_b0[i], yIntercept_t2, slope_t2),
         average: avg,
-        number: amostras_t2[i].samplenumber
+        number: amostras_t2[i].samplenumber,
+        changed_workmap: i != 0 && amostras_t2[i - 1].t2toxina.mapReference != amostras_t2[i].t2toxina.mapReference
       };
     }
     console.log('funcao compara');
@@ -457,7 +461,8 @@ router.get('/', async function (req, res, next) {
       resultado_zea[i] = {
         compara: comparara(Zea_log_b_b0[i], yIntercept_zea, slope_zea),
         average: avg,
-        number: amostras_zea.samplesnumber
+        number: amostras_zea.samplesnumber,
+        changed_workmap: i != 0 && amostras_zea[i - 1].zearalenona.mapReference != amostras_zea[i].zearalenona.mapReference
       };
     }
     console.log('funcao compara');
@@ -538,7 +543,8 @@ router.get('/', async function (req, res, next) {
       resultado_fbs[i] = {
         compara: vcomparara(Fbs_log_b_b0[i], yIntercept_fbs, slope_fbs),
         average: avg,
-        number: amostras_fbs[i].samplenumber
+        number: amostras_fbs[i].samplenumber,
+        changed_workmap: i != 0 && amostras_fbs[i - 1].fumonisina.mapReference != amostras_fbs[i].fumonisina.mapReference
       };
     }
     console.log('funcao compara');
