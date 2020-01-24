@@ -1,0 +1,148 @@
+<form action="/allworkmaps" method="post">
+
+  <div class="col-sm-fluid container-fluid">
+    <h4>Cálculos de amostra</h4>
+  </div>
+
+  <div class="templateprint row">
+    <table class="table-afla">
+      <thead>
+        <tr>
+          <th>AFLA</th>
+          <th>Absorvância</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {{#each resultado_afla}}
+          <tr>
+            <th>{{number}}</th>
+            <th>
+              <input readonly type="text" class="input-absorbance" value="{{value}}">
+              <input readonly type="text" class="input-absorbance" value="{{value2}}">
+            </th>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    <table class="table-afla">
+      <thead>
+        <tr>
+          <th>DON</th>
+          <th>Absorvância</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each resultado_deox}}
+          <tr>
+            <th>{{number}}</th>
+            <th>
+              <input readonly type="text" class="input-absorbance" value="{{value}}">
+              <input readonly type="text" class="input-absorbance" value="{{value2}}">
+            </th>
+
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    <table class="table-afla">
+      <thead>
+        <tr>
+          <th>OTA</th>
+          <th>Absorvância</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each resultado_ota}}
+          <th>{{number}}</th>
+          <th>
+            <input readonly type="text" class="input-absorbance" value="{{value}}" >
+            <input readonly type="text" class="input-absorbance" value="{{value2}}">
+          </th>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    <table class="table-afla">
+      <thead>
+        <tr>
+
+          <th>T2</th>
+          <th>Absorvância</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each resultado_t2}}
+                <tr>
+                  <th>{{number}}</th>
+                  <div class="some">
+                    <input name="sample[t2toxina][_id]" type="text" value="{{value}}">
+                  </div>
+
+                  <th>
+                    <input type="text" name="sample[t2toxina][absorbance]" class="input-absorbance">
+                    <input type="text" name="sample[t2toxina][absorbance2]" class="input-absorbance">
+                  </th>
+                </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+
+    <table class="table-afla">
+      <thead>
+        <tr>
+
+          <th>ZEA</th>
+          <th>Absorvância</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each resultado_zea}}         
+              <tr>
+                <th>{{number}}</th>
+                <th>
+                  <input readonly type="text" class="input-absorbance" value="{{value}}">
+                  <input readonly type="text" class="input-absorbance" value="{{value2}}">
+                </th>
+              </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+
+    <table class="table-afla-child">
+      <thead>
+        <tr>
+
+          <th>FBs</th>
+          <th>Absorvância</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each resultado_fbs}}
+                <tr>
+                  <th>{{samplenumber}}</th>
+                  <th>
+                    <input readonly type="text" class="input-absorbance" value="{{value}}">
+                    <input readonly type="text" class="input-absorbance" value="{{value2}}">
+                  </th>
+                </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+
+    <div class="btn-group-justified col-sm-12 container-fluid">
+      <div class="btn btn-back">
+        <a href="/queue" class="btn btn-success" id="test">Voltar</a>
+      </div>
+      <div class="btn btn-abs">
+        <button class="btn btn-success">Finalizar</button>
+      </div>
+    </div>
+
+</form>
