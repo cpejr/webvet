@@ -67,11 +67,12 @@ router.get('/', async function (req, res, next) {
 
     }
     for (let i = 0; i < Afla_log_b_b0.length; i++) {
-      var avg = (amostras_ota[i].aflatoxina.absorbance + amostras_ota[i].aflatoxina.absorbance2)/2;
-      resultado_afla[i] = { 
-        value: comparara(Afla_log_b_b0[i], yIntercept, slope), 
-        value2: avg,
-        number: amostras_afla[i].samplesnumber }//amostras_afla[i].samplenumber};
+      var avg = (amostras_ota[i].aflatoxina.absorbance + amostras_ota[i].aflatoxina.absorbance2) / 2;
+      resultado_afla[i] = {
+        compara: comparara(Afla_log_b_b0[i], yIntercept, slope),
+        average: avg,
+        number: amostras_afla[i].samplesnumber
+      }//amostras_afla[i].samplenumber};
     }
     console.log('funcao compara');
 
@@ -150,12 +151,12 @@ router.get('/', async function (req, res, next) {
     }
 
     for (let i = 0; i < Deox_log_b_b0.length; i++) {
-      var avg = (amostras_ota[i].deoxinivalenol.absorbance + amostras_ota[i].deoxinivalenol.absorbance2)/2;
+      var avg = (amostras_ota[i].deoxinivalenol.absorbance + amostras_ota[i].deoxinivalenol.absorbance2) / 2;
       resultado_deox[i] = {
-         value: comparara(Deox_log_b_b0[i], yIntercept_deox, slope_deox),
-         value2: avg,
-          number: amostras_deox[i].samplesnumber 
-        };
+        compara: comparara(Deox_log_b_b0[i], yIntercept_deox, slope_deox),
+        average: avg,
+        number: amostras_deox[i].samplesnumber
+      };
     }
     console.log('funcao compara');
     console.log(resultado_deox);
@@ -246,11 +247,12 @@ router.get('/', async function (req, res, next) {
     console.log(Ota_log_b_b0);
 
     for (let i = 0; i < Ota_log_b_b0.length; i++) {
-      var avg = (amostras_ota[i].ocratoxina.absorbance + amostras_ota[i].ocratoxina.absorbance2)/2;
-      resultado_ota[i] = { 
-        value: comparara(Ota_log_b_b0[i], yIntercept_ota, slope_ota), 
-        value2: avg,
-        number: amostras_ota[i].samplesnumber };
+      var avg = (amostras_ota[i].ocratoxina.absorbance + amostras_ota[i].ocratoxina.absorbance2) / 2;
+      resultado_ota[i] = {
+        compara: comparara(Ota_log_b_b0[i], yIntercept_ota, slope_ota),
+        average: avg,
+        number: amostras_ota[i].samplesnumber
+      };
     }
     console.log('funcao compara');
 
@@ -326,12 +328,12 @@ router.get('/', async function (req, res, next) {
     console.log(T2_log_b_b0);
 
     for (let i = 0; i < T2_log_b_b0.length; i++) {
-      var avg = (amostras_fbs[i].t2toxina.absorbance + amostras_fbs[i].t2toxina.absorbance2)/2;
+      var avg = (amostras_fbs[i].t2toxina.absorbance + amostras_fbs[i].t2toxina.absorbance2) / 2;
       resultado_t2[i] = {
-         value: comparara(T2_log_b_b0[i], yIntercept_t2, slope_t2),
-         value2: avg,
-         number: amostras_t2[i].samplesnumber 
-        };
+        compara: comparara(T2_log_b_b0[i], yIntercept_t2, slope_t2),
+        average: avg,
+        number: amostras_t2[i].samplesnumber
+      };
     }
     console.log('funcao compara');
 
@@ -411,12 +413,12 @@ router.get('/', async function (req, res, next) {
 
     console.log(Zea_log_b_b0);
     for (let i = 0; i < Zea_log_b_b0.length; i++) {
-      var avg = (amostras_fbs[i].zearalenona.absorbance + amostras_fbs[i].zearalenona.absorbance2)/2;
-      resultado_zea[i] = { 
-        value: comparara(Zea_log_b_b0[i], yIntercept_zea, slope_zea),
-        value2: avg,
-         number: amostras_zea.samplesnumber 
-        };
+      var avg = (amostras_fbs[i].zearalenona.absorbance + amostras_fbs[i].zearalenona.absorbance2) / 2;
+      resultado_zea[i] = {
+        compara: comparara(Zea_log_b_b0[i], yIntercept_zea, slope_zea),
+        average: avg,
+        number: amostras_zea.samplesnumber
+      };
     }
     console.log('funcao compara');
 
@@ -492,12 +494,12 @@ router.get('/', async function (req, res, next) {
 
 
     for (let i = 0; i < Fbs_log_b_b0.length; i++) {
-      var avg = (amostras_fbs[i].fumonisina.absorbance + amostras_fbs[i].fumonisina.absorbance2)/2;
+      var avg = (amostras_fbs[i].fumonisina.absorbance + amostras_fbs[i].fumonisina.absorbance2) / 2;
       resultado_fbs[i] = {
-         value: vcomparara(Fbs_log_b_b0[i], yIntercept_fbs, slope_fbs),
-         value2: avg,
-         number: amostras_fbs[i].samplesnumber
-         };
+        compara: vcomparara(Fbs_log_b_b0[i], yIntercept_fbs, slope_fbs),
+        average: avg,
+        number: amostras_fbs[i].samplesnumber
+      };
     }
     console.log('funcao compara');
 
