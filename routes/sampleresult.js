@@ -26,8 +26,8 @@ router.get('/', async function (req, res, next) {
   var resultado_fbs = new Array;
 
   var Aflaabsorbance_p = new Array;
-  var Aflaconcentration_p  = new Array;
-  
+  var Aflaconcentration_p = new Array;
+
   if (kit_afla_ativo.length != 0) {
     //Parte responsável por pegar a concentracao e absorvancia settadas no kit afla ativo
 
@@ -547,13 +547,22 @@ router.get('/', async function (req, res, next) {
         changed_workmap: i != 0 && amostras_fbs[i - 1].fumonisina.mapReference != amostras_fbs[i].fumonisina.mapReference
       };
     }
+
     console.log('funcao compara');
-
     console.log(resultado_fbs);
-
   }
 
-  res.render('sampleresult', { title: 'Curvas de Calibração', resultado_afla, resultado_deox, resultado_ota, resultado_t2, resultado_zea, resultado_fbs });
+  //Finalizando a forma de como os dados serão enviados ao front
+  var resultados = {}
+
+  resultados[0] = { name: 'AFLA', result: resultado_afla };
+  resultados[1] = { name: 'DEOX', result: resultado_deox };
+  resultados[2] = { name: 'OTA', result: resultado_ota };
+  resultados[3] = { name: 'T2', result: resultado_t2 };
+  resultados[4] = { name: 'ZEA', result: resultado_zea };
+  resultados[5] = { name: 'FBS', result: resultado_fbs };
+
+  res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
 
 
 })

@@ -3,151 +3,30 @@
 </div>
 
 <div class="container-fluid d-flex justify-content-between flex-wrap">
-  <table>
-    <thead>
-      <tr>
-        <th class="" scope="col">AFLA</th>
-        <th class="absorbance px-2" scope="col">Média abs</th>
-        <th class="absorbance px-2" scope="col">Resultado</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {{#each resultado_afla}}
-        {{#if changed_workmap}}
-          <tr>
-            <td><br></td>
-          </tr>
-        {{/if}}
+  {{#each resultados}}
+    <table>
+      <thead>
         <tr>
-          <th scope="row">{{number}}</th>
-          <td><input readonly type="text" class="input-absorbance" value="{{average}}"></td>
-          <td><input readonly type="text" class="input-absorbance" value="{{compara}}"></td>
+          <th class="" scope="col">{{name}}</th>
+          <th class="absorbance px-2" scope="col">Média abs</th>
+          <th class="absorbance px-2" scope="col">Resultado</th>
         </tr>
-      {{/each}}
-    </tbody>
-  </table>
+      </thead>
 
-  <table>
-    <thead>
-      <tr>
-        <th class="" scope="col">DON</th>
-        <th class="absorbance px-2" scope="col">Média abs</th>
-        <th class="absorbance px-2" scope="col">Resultado</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each resultado_deox}}
-        {{#if changed_workmap}}
+      <tbody>
+        {{#each result}}
+          {{#if changed_workmap}}
+            <tr>
+              <td><br></td>
+            </tr>
+          {{/if}}
           <tr>
-            <td><br></td>
+            <th scope="row">{{number}}</th>
+            <td><input readonly type="text" class="input-absorbance" value="{{average}}"></td>
+            <td><input readonly type="text" class="input-absorbance" value="{{compara}}"></td>
           </tr>
-        {{/if}}
-        <tr>
-          <th scope="row">{{number}}</th>
-          <th><input readonly type="text" class="input-absorbance" value="{{compara}}"></th>
-          <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-
-  <table>
-    <thead>
-      <tr>
-        <th class="" scope="col">OTA</th>
-        <th class="absorbance px-2" scope="col">Média abs</th>
-        <th class="absorbance px-2" scope="col">Resultado</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each resultado_ota}}
-        {{#if changed_workmap}}
-          <tr>
-            <td><br></td>
-          </tr>
-        {{/if}}
-        <th scope="row">{{number}}</th>
-        <th><input readonly type="text" class="input-absorbance" value="{{compara}}"></th>
-        <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-
-  <table>
-    <thead>
-      <tr>
-        <th class="" scope="col">T2</th>
-        <th class="absorbance px-2" scope="col">Média abs</th>
-        <th class="absorbance px-2" scope="col">Resultado</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each resultado_t2}}
-        {{#if changed_workmap}}
-          <tr>
-            <td><br></td>
-          </tr>
-        {{/if}}
-        <tr>
-          <th scope="row">{{number}}</th>
-          <div class="some">
-            <input name="sample[t2toxina][_id]" type="text" value="{{value}}">
-          </div>
-
-          <th><input type="text" name="sample[t2toxina][absorbance]" class="input-absorbance"></th>
-          <th><input type="text" name="sample[t2toxina][absorbance2]" class="input-absorbance"></th>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-
-  <table>
-    <thead>
-      <tr>
-        <th class="" scope="col">ZEA</th>
-        <th class="absorbance px-2" scope="col">Média abs</th>
-        <th class="absorbance px-2" scope="col">Resultado</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each resultado_zea}}
-        {{#if changed_workmap}}
-          <tr>
-            <td><br></td>
-          </tr>
-        {{/if}}
-        <tr>
-          <th scope="row">{{number}}</th>
-          <th><input readonly type="text" class="input-absorbance" value="{{value}}"></th>
-          <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-
-  <table>
-    <thead>
-      <tr>
-        <th class="" scope="col">FBs</th>
-        <th class="absorbance px-2" scope="col">Média abs</th>
-        <th class="absorbance px-2" scope="col">Resultado</thclass="absorbance px-2">
-      </tr>
-    </thead>
-    <tbody>
-      {{#each resultado_fbs}}
-        {{#if changed_workmap}}
-          <tr>
-            <td><br></td>
-          </tr>
-        {{/if}}
-        <tr>
-          <th scope="row">{{samplenumber}}</thscope="row">
-          </th><input readonly type="text" class="input-absorbance" value="{{value}}"></th>
-          </th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/each}}
 </div>
