@@ -91,7 +91,7 @@ router.get('/', async function (req, res, next) {
     }
     console.log("absss");
 
-    // console.log(amostras_afla[0].aflatoxina.absorbance);
+    console.log(amostras_afla[0].aflatoxina.absorbance);
     //console.log(amostras_afla[1].aflatoxina.absorbance);
 
 
