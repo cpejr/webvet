@@ -7581,14 +7581,15 @@ body {
 
 .input-absorbance {
   height: 20px;
-  width: 40px;
+  width: 60px;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  margin-left: 38px;
-  margin-right: 38px; }
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
+
+th.absorbance {
+  min-width: 72px; }
 
 .tudo {
   padding-left: 310px; }
