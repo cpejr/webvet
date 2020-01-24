@@ -9,7 +9,8 @@
       <thead>
         <tr>
           <th>AFLA</th>
-          <th>Absorvância</th>
+          <th>Média</th>
+          <th>Compara</th>
         </tr>
       </thead>
       <tbody>
@@ -17,10 +18,9 @@
         {{#each resultado_afla}}
           <tr>
             <th>{{number}}</th>
-            <th>
-              <input readonly type="text" class="input-absorbance" value="{{compara}}">
-              <input readonly type="text" class="input-absorbance" value="{{average}}">
-            </th>
+            <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
+            <th><input readonly type="text" class="input-absorbance" value="{{compara}}"></th>
+
           </tr>
         {{/each}}
       </tbody>
@@ -30,17 +30,17 @@
       <thead>
         <tr>
           <th>DON</th>
-          <th>Absorvância</th>
+          <th>Média</th>
+          <th>Compara</th>
         </tr>
       </thead>
       <tbody>
         {{#each resultado_deox}}
           <tr>
             <th>{{number}}</th>
-            <th>
-              <input readonly type="text" class="input-absorbance" value="{{compara}}">
-              <input readonly type="text" class="input-absorbance" value="{{average}}">
-            </th>
+            <th><input readonly type="text" class="input-absorbance" value="{{compara}}"></th>
+            <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
+
 
           </tr>
         {{/each}}
@@ -51,16 +51,15 @@
       <thead>
         <tr>
           <th>OTA</th>
-          <th>Absorvância</th>
+          <th>Média</th>
+          <th>Compara</th>
         </tr>
       </thead>
       <tbody>
         {{#each resultado_ota}}
           <th>{{number}}</th>
-          <th>
-            <input readonly type="text" class="input-absorbance" value="{{compara}}" >
-            <input readonly type="text" class="input-absorbance" value="{{average}}">
-          </th>
+          <th><input readonly type="text" class="input-absorbance" value="{{compara}}"></th>
+          <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
           </tr>
         {{/each}}
       </tbody>
@@ -71,22 +70,22 @@
         <tr>
 
           <th>T2</th>
-          <th>Absorvância</th>
+          <th>Média</th>
+          <th>Compara</th>
         </tr>
       </thead>
       <tbody>
         {{#each resultado_t2}}
-                <tr>
-                  <th>{{number}}</th>
-                  <div class="some">
-                    <input name="sample[t2toxina][_id]" type="text" value="{{value}}">
-                  </div>
+          <tr>
+            <th>{{number}}</th>
+            <div class="some">
+              <input name="sample[t2toxina][_id]" type="text" value="{{value}}">
+            </div>
 
-                  <th>
-                    <input type="text" name="sample[t2toxina][absorbance]" class="input-absorbance">
-                    <input type="text" name="sample[t2toxina][absorbance2]" class="input-absorbance">
-                  </th>
-                </tr>
+            <th><input type="text" name="sample[t2toxina][absorbance]" class="input-absorbance"></th>
+            <th><input type="text" name="sample[t2toxina][absorbance2]" class="input-absorbance"></th>
+
+          </tr>
         {{/each}}
 
       </tbody>
@@ -97,18 +96,17 @@
         <tr>
 
           <th>ZEA</th>
-          <th>Absorvância</th>
+          <th>Média</th>
+          <th>Compara</th>
         </tr>
       </thead>
       <tbody>
-        {{#each resultado_zea}}         
-              <tr>
-                <th>{{number}}</th>
-                <th>
-                  <input readonly type="text" class="input-absorbance" value="{{value}}">
-                  <input readonly type="text" class="input-absorbance" value="{{average}}">
-                </th>
-              </tr>
+        {{#each resultado_zea}}
+          <tr>
+            <th>{{number}}</th>
+            <th><input readonly type="text" class="input-absorbance" value="{{value}}"></th>
+            <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
+          </tr>
         {{/each}}
 
       </tbody>
@@ -119,18 +117,17 @@
         <tr>
 
           <th>FBs</th>
-          <th>Absorvância</th>
+          <th>Média</th>
+          <th>Compara</th>
         </tr>
       </thead>
       <tbody>
         {{#each resultado_fbs}}
-                <tr>
-                  <th>{{samplenumber}}</th>
-                  <th>
-                    <input readonly type="text" class="input-absorbance" value="{{value}}">
-                    <input readonly type="text" class="input-absorbance" value="{{average}}">
-                  </th>
-                </tr>
+          <tr>
+            <th>{{samplenumber}}</th>
+            </th><input readonly type="text" class="input-absorbance" value="{{value}}"></th>
+            </th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
+          </tr>
         {{/each}}
 
       </tbody>
