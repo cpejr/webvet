@@ -19,6 +19,12 @@
           <td><input readonly type="text" class="input-absorbance" value="{{average}}"></td>
           <td><input readonly type="text" class="input-absorbance" value="{{compara}}"></td>
         </tr>
+
+        {{#if changed_workmap}}
+          <tr>
+            <td><br></td>
+          </tr>
+        {{/if}}
       {{/each}}
     </tbody>
   </table>
@@ -37,9 +43,12 @@
           <th scope="row">{{number}}</th>
           <th><input readonly type="text" class="input-absorbance" value="{{compara}}"></th>
           <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
-
-
         </tr>
+        {{#if changed_workmap}}
+          <tr>
+            <td><br></td>
+          </tr>
+        {{/if}}
       {{/each}}
     </tbody>
   </table>
@@ -58,6 +67,11 @@
         <th><input readonly type="text" class="input-absorbance" value="{{compara}}"></th>
         <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
         </tr>
+        {{#if changed_workmap}}
+          <tr>
+            <td><br></td>
+          </tr>
+        {{/if}}
       {{/each}}
     </tbody>
   </table>
@@ -80,10 +94,13 @@
 
           <th><input type="text" name="sample[t2toxina][absorbance]" class="input-absorbance"></th>
           <th><input type="text" name="sample[t2toxina][absorbance2]" class="input-absorbance"></th>
-
         </tr>
+        {{#if changed_workmap}}
+          <tr>
+            <td><br></td>
+          </tr>
+        {{/if}}
       {{/each}}
-
     </tbody>
   </table>
 
@@ -102,8 +119,12 @@
           <th><input readonly type="text" class="input-absorbance" value="{{value}}"></th>
           <th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
         </tr>
+        {{#if changed_workmap}}
+          <tr>
+            <td><br></td>
+          </tr>
+        {{/if}}
       {{/each}}
-
     </tbody>
   </table>
 
@@ -122,8 +143,12 @@
           </th><input readonly type="text" class="input-absorbance" value="{{value}}"></th>
           </th><input readonly type="text" class="input-absorbance" value="{{average}}"></th>
         </tr>
+        {{#if changed_workmap}}
+          <tr>
+            <td><br></td>
+          </tr>
+        {{/if}}
       {{/each}}
-
     </tbody>
   </table>
 </div>
