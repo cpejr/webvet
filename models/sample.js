@@ -622,22 +622,6 @@ class Sample {
 
     });
   }
-
-  /*
-  static updateAbsorbance2(toxina, id, abs) {
-
-    var parameter = toxina + '.absorbance2';
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { parameter : abs } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }*/
 }
 
 
