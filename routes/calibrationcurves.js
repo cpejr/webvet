@@ -97,9 +97,8 @@ function comparara(logb_bo_amostra,intercept,slope){
     }
     console.log("absss");
     
-   // console.log(amostras_afla[0].aflatoxina.absorbance);
-    //console.log(amostras_afla[1].aflatoxina.absorbance);
-    
+   console.log(amostras_afla[0].aflatoxina.absorbance);
+   console.log(amostras_afla[1].aflatoxina.absorbance);
 
     var Afla_log_b_b0 = new Array;
     for (let i = 0; i < amostras_afla.length; i++) {
@@ -602,9 +601,8 @@ if(kit_zea_ativo.length !=0){
   //console.log(yIntercept);
   //console.log('_______________________');
   //console.log(fifty_inhibition);
-  res.render('calibrationcurves', { title: 'Curvas de Calibração', resultado_afla});
+  res.render('calibrationcurves', { title: 'Curvas de Calibração', resultado_afla, Aflaconcentration_p, Fbsabsorbance_p, yIntercept, slope, result});
   
-
 })
  
 module.exports = router;
