@@ -4,9 +4,9 @@ const router = express.Router();
 const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const Kit = require('../models/kit');
-const Sample=require('../models/sample');
+const Sample = require('../models/sample');
 const regression = require('regression');
-const Workmap=require('../models/Workmap');
+const Workmap=  require('../models/Workmap');
 
 
 
@@ -77,7 +77,9 @@ function comparara(logb_bo_amostra,intercept,slope){
     console.log(slope);
     console.log('yintercept');
     console.log(yIntercept);
+
     //Aflaconcentration_p ,Aflaabsorbance_p , yIntercept, result, slope
+
     var resultado_afla={
       concentracao: Aflaconcentration_p,
       absorvancia: Aflaabsorbance_p,
@@ -193,12 +195,6 @@ function comparara(logb_bo_amostra,intercept,slope){
     //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
 
   }
-
-
-
-
-
-
 
     
   //console.log(amostras_deox.length);
@@ -362,12 +358,8 @@ if(kit_t2_ativo.length != 0){
   }
   console.log(T2_log_b_b0);
       
-    
-
 
 }
-
-
 
 var Zeaconcentration_p  = new Array;
 var ZeaAbsorbance_p = new Array;
@@ -610,14 +602,99 @@ if(kit_zea_ativo.length !=0){
   // resultados[4] = { name: 'ZEA', result: result };
 
   // res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
+  
+
+  // name: "",
+  // absorvancia: "",
+  // concentracao: "",
+
+
   var toxinas = {}
 
-  toxinas[0] = { name: 'AFLA', result: resultado_afla };
-  toxinas[1] = { name: 'DEOX', result: resultado_deox };
-  toxinas[2] = { name: 'OTA', result: resultado_ota };
-  toxinas[3] = { name: 'T2', result: resultado_t2 };
-  toxinas[4] = { name: 'ZEA', result: resultado_zea };
-  toxinas[5] = { name: 'FBS', result: resultado_fbs };
+  toxinas[0] = { 
+    name: 'AFLA', 
+    calibradores: {
+      calname: "",
+      absorvancia: {},
+      concentracao: {}
+    } 
+  };
+
+  toxinas[1] = { 
+    name: 'DEOX', 
+    calibradores: {
+      calname: "",
+      absorvancia: {},
+      concentracao: {}
+    } 
+  };
+
+  toxinas[2] = { 
+    name: 'OTA', 
+    calibradores: {
+      calname: "",
+      absorvancia: {},
+      concentracao: {}
+    } 
+  };
+
+  toxinas[3] = { 
+    name: 'T2', 
+    calibradores: {
+      calname: "",
+      absorvancia: {},
+      concentracao: {}
+    } 
+  };
+
+  toxinas[4] = { 
+    name: 'ZEA', 
+    calibradores: {
+      calname: "",
+      absorvancia: {},
+      concentracao: {}
+    } 
+  };
+
+  toxinas[5] = { 
+    name: 'FBS', 
+    calibradores: {
+      calname: "",
+      absorvancia: {},
+      concentracao: {}
+    } 
+  };
+
+  for (i = 0; i < 6; i++){
+    for (j = 0; j < 5; j++){
+      console.log("Variaveis - i: " + i + " ; j: " + j + ". ");
+      toxinas[i].calibradores[j] = {calname: "P" + (j+1)};
+      console.log(toxinas[i].calibradores[j].calname);
+      if (i == 0){
+        toxinas[i].calibradores[j] = {absorvancia: Aflaabsorbance_p[j]};
+        toxinas[i].calibradores[j] = {concentracao: Aflaconcentration_p[j]};
+      } else if (i == 1) {
+        toxinas[i].calibradores[j] = {absorvancia: DeoxAbsorbance_p[j]};
+        toxinas[i].calibradores[j] = {concentracao: Deoxconcentration_p[j]};
+      } else if (i == 2) {
+        toxinas[i].calibradores[j] = {absorvancia: OtaAbsorbance_p[j]};
+        toxinas[i].calibradores[j] = {concentracao: Otaconcentration_p[j]};
+      } else if (i == 3) {
+        toxinas[i].calibradores[j] = {absorvancia: T2absorbance_p[j]};
+        toxinas[i].calibradores[j] = {concentracao: T2concentration_p[j]};
+      } else if (i == 4) {
+        toxinas[i].calibradores[j] = {absorvancia: ZeaAbsorbance_p[j]};
+        toxinas[i].calibradores[j] = {concentracao: Zeaconcentration_p[j]};
+      } else if (i == 5) {
+        toxinas[i].calibradores[j] = {absorvancia: Fbsabsorbance_p[j]};
+        toxinas[i].calibradores[j] = {concentracao: Fbsconcentration_p[j]};
+      } else {
+        console.log("Erro de tamanho de for");
+      }  
+    }
+  }
+
+  console.log("Imprimir todas as toxinas:");
   console.log(toxinas);
 
   res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas });
