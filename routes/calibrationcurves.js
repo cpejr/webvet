@@ -20,9 +20,11 @@ function comparara(logb_bo_amostra,intercept,slope){
   let kit_afla_ativo = await Kit.getActiveAfla();
   //console.log(kit_afla_ativo);
   var Aflaconcentration_p  = new Array;
-  var resultado_afla = new Array;
   var Aflaabsorbance_p = new Array;
   var AflalogB_Bo = new Array; 
+  var result;
+  var slope; 
+  var yIntercept; 
 
 
   if(kit_afla_ativo.length!=0){
@@ -67,14 +69,23 @@ function comparara(logb_bo_amostra,intercept,slope){
     console.log(ln_b_b0);
 
 
-    const result = regression.linear([[log_concentracao[0],ln_b_b0[0]],[log_concentracao[1],ln_b_b0[1]],[log_concentracao[2],ln_b_b0[2]]]);
-    const slope = result.equation[0];// slope
-    const yIntercept = result.equation[1];// intercept
+    result = regression.linear([[log_concentracao[0],ln_b_b0[0]],[log_concentracao[1],ln_b_b0[1]],[log_concentracao[2],ln_b_b0[2]]]);
+    slope = result.equation[0];// slope
+    yIntercept = result.equation[1];// intercept
     
     console.log('slope');
     console.log(slope);
     console.log('yintercept');
     console.log(yIntercept);
+    //Aflaconcentration_p ,Aflaabsorbance_p , yIntercept, result, slope
+    var resultado_afla={
+      concentracao: Aflaconcentration_p,
+      absorvancia: Aflaabsorbance_p,
+      intercept: yIntercept,
+      resultado: result,
+      slope: slope,
+    };
+    
      
 //--------------------------------------Aqui termina a parte que calcula todos os dados dos calibradores-------------------------------------------------------------
 
@@ -107,12 +118,6 @@ function comparara(logb_bo_amostra,intercept,slope){
       console.log(Afla_log_b_b0[i]);
       
     }
-    for (let i = 0; i < Afla_log_b_b0.length; i++) {
-      resultado_afla[i] = comparara(Afla_log_b_b0[i],yIntercept,slope);
-    }
-    console.log('funcao compara');
-    
-    console.log(resultado_afla);
   
   }
 
@@ -177,18 +182,16 @@ function comparara(logb_bo_amostra,intercept,slope){
     console.log('yintercept');
     console.log(yIntercept_deox);
     
+    var resultado_deox={
+      concentracao: Deoxconcentration_p,
+      absorvancia: DeoxAbsorbance_p,
+      intercept: yIntercept_deox,
+      resultado: result_deox,
+      slope: slope_deox,
+    };
     var Deox_log_b_b0 = new Array;
     //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
-    for (let i = 0; i < amostras_deox.length; i++) {
-      Deox_log_b_b0[i] = Math.log10((amostras_deox[i].deoxinivalenol.absorbance/DeoxAbsorbance_p[0])/(1-(amostras_deox[i].deoxinivalenol.absorbance/DeoxAbsorbance_p[0])));
-      
-    }
 
-    for (let i = 0; i < Deox_log_b_b0.length; i++) {
-      resultado_deox[i] = comparara(Deox_log_b_b0[i],yIntercept_deox,slope_deox);
-    }
-    console.log('funcao compara');
-    console.log(resultado_deox);
   }
 
 
@@ -208,7 +211,6 @@ function comparara(logb_bo_amostra,intercept,slope){
  var kit_ota_ativo = await Kit.getActiveOcra();
  //console.log(kit_ota_ativo);
  var Otaconcentration_p  = new Array;
- var resultado_ota = new Array;
  var OtaAbsorbance_p = new Array;
  if(kit_ota_ativo.length!= 0){
   Otaconcentration_p[0] = kit_ota_ativo[0].calibrators.P1.concentration;
@@ -268,6 +270,13 @@ function comparara(logb_bo_amostra,intercept,slope){
   console.log('yintercept');
   console.log(yIntercept_ota);
 
+  var resultado_ota={
+    concentracao: Otaconcentration_p,
+    absorvancia: OtaAbsorbance_p,
+    intercept: yIntercept_ota,
+    resultado: result_ota,
+    slope: slope_ota,
+  };
   var Ota_log_b_b0 = new Array;
   //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
   for (let i = 0; i < amostras_ota.length; i++) {
@@ -275,13 +284,6 @@ function comparara(logb_bo_amostra,intercept,slope){
     
   }
   console.log(Ota_log_b_b0);
-
-  for (let i = 0; i < Ota_log_b_b0.length; i++) {
-    resultado_ota[i] = comparara(Ota_log_b_b0[i],yIntercept_ota,slope_ota);
-  }
-  console.log('funcao compara');
-    
-  console.log(resultado_ota);
 
 }
 
@@ -291,7 +293,6 @@ var mapas_t2 = new Array;
 var amostras_t2 = new Array;
 var kit_t2_ativo = await Kit.getActiveT2();
 var T2concentration_p  = new Array;
-var resultado_afla = new Array;
 var T2absorbance_p = new Array;
 
 if(kit_t2_ativo.length != 0){
@@ -336,7 +337,6 @@ if(kit_t2_ativo.length != 0){
   
   console.log('ln_b_b0');
   console.log(ln_b_b0_t2);
-  var resultado_t2;
 
   const result_t2 = regression.linear([[log_concentracao[0],ln_b_b0[0]],[log_concentracao[1],ln_b_b0[1]],[log_concentracao[2],ln_b_b0[2]]]);
   const slope_t2 = result_t2.equation[0];// slope
@@ -346,6 +346,14 @@ if(kit_t2_ativo.length != 0){
   console.log('yintercept');
   console.log(yIntercept_t2);
 
+  var resultado_t2={
+    concentracao: T2concentration_p,
+    absorvancia: T2absorbance_p,
+    intercept: yIntercept_t2,
+    resultado: result_t2,
+    slope: slope_t2,
+  };
+
 
   var T2_log_b_b0 = new Array;
   //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
@@ -353,13 +361,6 @@ if(kit_t2_ativo.length != 0){
     T2_log_b_b0[i] = Math.log10((amostras_t2[i].t2toxina.absorbance/T2absorbance_p[0])/(1-(amostras_t2[i].t2toxina.absorbance/T2absorbance_p[0])));
   }
   console.log(T2_log_b_b0);
-   
-  for (let i = 0; i < T2_log_b_b0.length; i++) {
-    resultado_t2[i] = comparara(T2_log_b_b0[i],yIntercept_t2,slope_t2);
-  }
-  console.log('funcao compara');
-  
-  console.log(resultado_t2);
       
     
 
@@ -369,7 +370,6 @@ if(kit_t2_ativo.length != 0){
 
 
 var Zeaconcentration_p  = new Array;
-var resultado_zea = new Array;
 var ZeaAbsorbance_p = new Array;
 var mapas_zea = new Array;
 var amostras_zea = new Array;
@@ -428,6 +428,14 @@ if(kit_zea_ativo.length !=0){
   console.log('yintercept');
   console.log(yIntercept_zea);
 
+  var resultado_zea={
+    concentracao: Zeaconcentration_p,
+    absorvancia: ZeaAbsorbance_p,
+    intercept: yIntercept_zea,
+    resultado: result_zea,
+    slope: slope_zea,
+  };
+
   var Zea_log_b_b0 = new Array;
     //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
     for (let i = 0; i < amostras_zea.length; i++) {
@@ -435,18 +443,11 @@ if(kit_zea_ativo.length !=0){
     }
 
  console.log(Zea_log_b_b0);
- for (let i = 0; i < Zea_log_b_b0.length; i++) {
-  resultado_zea[i] = comparara(Zea_log_b_b0[i],yIntercept_zea,slope_zea);
-  }
-  console.log('funcao compara');
-
-  console.log(resultado_zea);
 
 
 }
 
   var Fbsconcentration_p  = new Array;
-  var resultado_fbs = new Array;
   var Fbsabsorbance_p = new Array;
   var mapas_fbs = new Array;
   var amostras_fbs = new Array;
@@ -501,6 +502,14 @@ if(kit_zea_ativo.length !=0){
     console.log(slope_fbs);
     console.log('yintercept');
     console.log(yIntercept_fbs);
+
+    var resultado_fbs={
+      concentracao: Fbsconcentration_p,
+      absorvancia: Fbsabsorbance_p,
+      intercept: yIntercept_fbs,
+      resultado: result_fbs,
+      slope: slope_fbs,
+    };
     
     var Fbs_log_b_b0 = new Array;
     //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
@@ -509,14 +518,6 @@ if(kit_zea_ativo.length !=0){
       
     }
     console.log(Fbs_log_b_b0);
-
-    
-    for (let i = 0; i < Fbs_log_b_b0.length; i++) {
-      resultado_fbs[i] = comparara(Fbs_log_b_b0[i],yIntercept_fbs,slope_fbs);
-    }
-    console.log('funcao compara');
-    
-    console.log(resultado_fbs);
   
   }
 
@@ -600,9 +601,28 @@ if(kit_zea_ativo.length !=0){
   //console.log('__________');
   //console.log(yIntercept);
   //console.log('_______________________');
-  //console.log(fifty_inhibition);
-  res.render('calibrationcurves', { title: 'Curvas de Calibração', resultado_afla, Aflaconcentration_p, Fbsabsorbance_p, yIntercept, slope, result});
-  
+  //console.log(fifty_inhibition);var resultados = {}
+
+  // resultados[0] = { name: 'AFLA', result: Aflaconcentration_p };
+  // resultados[1] = { name: 'DEOX', result: Fbsabsorbance_p };
+  // resultados[2] = { name: 'OTA', result: yIntercept };
+  // resultados[3] = { name: 'T2', result: slope };
+  // resultados[4] = { name: 'ZEA', result: result };
+
+  // res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
+  var toxinas = {}
+
+  toxinas[0] = { name: 'AFLA', result: resultado_afla };
+  toxinas[1] = { name: 'DEOX', result: resultado_deox };
+  toxinas[2] = { name: 'OTA', result: resultado_ota };
+  toxinas[3] = { name: 'T2', result: resultado_t2 };
+  toxinas[4] = { name: 'ZEA', result: resultado_zea };
+  toxinas[5] = { name: 'FBS', result: resultado_fbs };
+  console.log(toxinas);
+
+  res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas });
 })
+
+  
  
 module.exports = router;

@@ -580,6 +580,6 @@ router.get('/', async function (req, res, next) {
   res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
 
 
-})
+});
 
 module.exports = router;
