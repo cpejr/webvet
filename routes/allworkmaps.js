@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
         samples: []
       }
       result[1] = {
-        name: "DEOX",
+        name: "DON",
         samples: []
       }
       result[2] = {
@@ -52,68 +52,32 @@ router.get('/', (req, res) => {
         samples: []
       }
 
+      function addSample(index, element, toxina) {
+
+        if (toxina.active && toxina.mapReference != 'Sem mapa') {
+          var changedworkmap = result[index].samples.length > 0 && result[index].samples[result[index].samples.length - 1].mapReference != toxina.mapReference;
+
+          if (result[index].samples.length > 0)
+            console.log(result[index].samples[result[index].samples.length - 1].mapReference != toxina.mapReference);
+
+          result[index].samples.push({
+            changedworkmap: changedworkmap,
+            _id: element._id,
+            samplenumber: element.samplenumber,
+            mapReference: element.mapReference
+          });
+        }
+      }
+
       amostras.forEach(element => {
-        var changedworkmap = false;
-
-        if (element.aflatoxina.active && element.aflatoxina.mapReference != 'Sem mapa') {
-          changedworkmap = result[0].samples.length > 1 && result[0].samples[result[0].samples.length - 1].mapReference != element.aflatoxina.mapReference;
-
-          result[0].samples.push({
-            changedworkmap: result[0].samples[result[0].samples.length - 1],
-            _id: element._id,
-            samplenumber: element.samplenumber,
-            mapReference: element.mapReference
-          });
-        }
-
-        if (element.deoxinivalenol.active && element.deoxinivalenol.mapReference != 'Sem mapa') {
-          changedworkmap = result[1].samples.length > 1 && result[1].samples[result[1].samples.length - 1].mapReference != element.deoxinivalenol.mapReference;
-
-          result[1].samples.push({
-            changedworkmap: result[1].samples[result[1].samples.length - 1],
-            _id: element._id,
-            samplenumber: element.samplenumber,
-            mapReference: element.mapReference
-          });
-        }
-
-        if (element.ocratoxina.active && element.ocratoxina.mapReference != 'Sem mapa') {
-          changedworkmap = result[2].samples.length > 1 && result[2].samples[result[2].samples.length - 1].mapReference != element.ocratoxina.mapReference;
-
-          result[2].samples.push({
-            changedworkmap: result[2].samples[result[2].samples.length - 1],
-            _id: element._id,
-            samplenumber: element.samplenumber,
-            mapReference: element.mapReference
-          });
-        }
-
-        
-
-        if (element.t2toxina.active && element.t2toxina.mapReference != 'Sem mapa')
-          result[3].samples.push({
-            changedworkmap: false,
-            _id: element._id,
-            samplenumber: element.samplenumber
-          });
-
-        if (element.zearalenona.active && element.zearalenona.mapReference != 'Sem mapa')
-          result[4].samples.push({
-            changedworkmap: false,
-            _id: element._id,
-            samplenumber: element.samplenumber
-          });
-
-        if (element.fumonisina.active && element.fumonisina.mapReference != 'Sem mapa')
-          result[5].samples.push({
-            changedworkmap: false,
-            _id: element._id,
-            samplenumber: element.samplenumber
-          });
-
+        addSample(0, element, element.aflatoxina);
+        addSample(1, element, element.deoxinivalenol);
+        addSample(2, element, element.ocratoxina);
+        addSample(3, element, element.t2toxina);
+        addSample(4, element, element.zearalenona);
+        addSample(5, element, element.fumonisina);
       });
 
-      console.log(result);
       res.render('allworkmaps', { result, amostras, dd, mm, yyyy, today, ...req.session });
 
     }).catch((error) => {
@@ -124,11 +88,8 @@ router.get('/', (req, res) => {
   });
 });
 
-
-
-
-
 router.post('/', function (req, res, next) {
+  
   Kit.getActiveAfla().then((aflaArray) => {
     if (aflaArray.length != 0) {
 
@@ -343,10 +304,10 @@ router.post('/', function (req, res, next) {
   Sample.getAll().then((sample) => {
     //amostras afla
 
-    if (req.body.sample.aflatoxina) {
-      var id_afla = req.body.sample.aflatoxina._id;
-      var abs_afla = req.body.sample.aflatoxina.absorbance;
-      var abs2_afla = req.body.sample.aflatoxina.absorbance2;
+    if (req.body.sample.AFLA) {
+      var id_afla = req.body.sample.AFLA._id;
+      var abs_afla = req.body.sample.AFLA.absorbance;
+      var abs2_afla = req.body.sample.AFLA.absorbance2;
 
       if (Array.isArray(abs_afla)) {
         for (let i = 0; i < abs_afla.length; i++) {
@@ -366,11 +327,11 @@ router.post('/', function (req, res, next) {
       }
     }
 
-    if (req.body.sample.deoxinivalenol) {
+    if (req.body.sample.DON) {
       //amostras deox
-      var id_deox = req.body.sample.deoxinivalenol._id;
-      var abs_deox = req.body.sample.deoxinivalenol.absorbance;
-      var abs2_deox = req.body.sample.aflatoxina.absorbance2;
+      var id_deox = req.body.sample.DON._id;
+      var abs_deox = req.body.sample.DON.absorbance;
+      var abs2_deox = req.body.sample.DON.absorbance2;
 
       if (Array.isArray(abs_deox)) {
         for (let i = 0; i < abs_deox.length; i++) {
@@ -387,11 +348,11 @@ router.post('/', function (req, res, next) {
       }
     }
 
-    if (req.body.sample.ocratoxina) {
+    if (req.body.sample.OTA) {
       //amostras ocra
-      var id_ocra = req.body.sample.ocratoxina._id;
-      var abs_ocra = req.body.sample.ocratoxina.absorbance;
-      var abs2_ocra = req.body.sample.ocratoxina.absorbance2;
+      var id_ocra = req.body.sample.OTA._id;
+      var abs_ocra = req.body.sample.OTA.absorbance;
+      var abs2_ocra = req.body.sample.OTA.absorbance2;
 
       if (Array.isArray(abs_ocra)) {
         for (let i = 0; i < abs_ocra.length; i++) {
@@ -408,11 +369,11 @@ router.post('/', function (req, res, next) {
       }
     }
 
-    if (req.body.sample.t2toxina) {
+    if (req.body.sample.T2) {
       //amostra t2
-      var id_t2 = req.body.sample.t2toxina._id;
-      var abs_t2 = req.body.sample.t2toxina.absorbance;
-      var abs2_t2 = req.body.sample.t2toxina.absorbance2;
+      var id_t2 = req.body.sample.T2._id;
+      var abs_t2 = req.body.sample.T2.absorbance;
+      var abs2_t2 = req.body.sample.T2.absorbance2;
 
       if (Array.isArray(abs_t2)) {
         for (let i = 0; i < abs_t2.length; i++) {
@@ -430,11 +391,11 @@ router.post('/', function (req, res, next) {
     }
 
 
-    if (req.body.sample.zearalenona) {
+    if (req.body.sample.ZEA) {
       //amostras zea
-      var id_zea = req.body.sample.zearalenona._id;
-      var abs_zea = req.body.sample.zearalenona.absorbance;
-      var abs_zea2 = req.body.sample.zearalenona.absorbance2;
+      var id_zea = req.body.sample.ZEA._id;
+      var abs_zea = req.body.sample.ZEA.absorbance;
+      var abs2_zea = req.body.sample.ZEA.absorbance2;
 
       if (Array.isArray(abs_zea)) {
         for (let i = 0; i < abs_zea.length; i++) {
@@ -451,11 +412,11 @@ router.post('/', function (req, res, next) {
       }
     }
 
-    if (req.body.sample.fumonisina) {
+    if (req.body.sample.FBS) {
       //amostras fbs
-      var id_fbs = req.body.sample.fumonisina._id;
-      var abs_fbs = req.body.sample.fumonisina.absorbance;
-      var abs_fbs2 = req.body.sample.fumonisina.absorbance2;
+      var id_fbs = req.body.sample.FBS._id;
+      var abs_fbs = req.body.sample.FBS.absorbance;
+      var abs2_fbs = req.body.sample.FBS.absorbance2;
 
       if (Array.isArray(abs_fbs)) {
         for (let i = 0; i < abs_fbs.length; i++) {

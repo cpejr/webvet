@@ -571,7 +571,7 @@ router.get('/', async function (req, res, next) {
   var resultados = {}
 
   resultados[0] = { name: 'AFLA', result: resultado_afla };
-  resultados[1] = { name: 'DEOX', result: resultado_deox };
+  resultados[1] = { name: 'DON', result: resultado_deox };
   resultados[2] = { name: 'OTA', result: resultado_ota };
   resultados[3] = { name: 'T2', result: resultado_t2 };
   resultados[4] = { name: 'ZEA', result: resultado_zea };
