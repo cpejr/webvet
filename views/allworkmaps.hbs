@@ -4,6 +4,39 @@
     <h4>Mapas de Trabalho</h4>
   </div>
 
+  <div class="container-fluid d-flex justify-content-between flex-wrap">
+    {{#each result}}
+      <table>
+        <thead>
+          <tr>
+            <th class="" scope="col">{{name}}</th>
+            <th class="absorbance px-2" scope="col">Absorvância</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#if changed_workmap}}
+            <tr>
+              <td><br></td>
+            </tr>
+          {{/if}}
+
+          {{#each samples}}
+            <tr>
+              <th>{{samplenumber}}</th>
+              <div class="some">
+                <input name="sample[{{name}}][_id]" type="text" value="{{_id}}">
+              </div>
+              <th>
+                <input type="text" name="sample[{{name}}][absorbance]" class="input-absorbance">
+                <input type="text" name="sample[{{name}}][absorbance2]" class="input-absorbance">
+              </th>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/each}}
+  </div>
 
   <div class="templateprint row">
     <table class="table-afla-child ">
@@ -19,15 +52,7 @@
             {{#compare aflatoxina.active true}}
               {{#compare isCalibrator false}}
                 <tr>
-                  <th>{{samplenumber}}</th>
-                  <div class="some">
-                    <input name="sample[aflatoxina][_id]" type="text" value="{{_id}}">
-                  </div>
 
-                  <th>
-                    <input type="text" name="sample[aflatoxina][absorbance]" class="input-absorbance">
-                    <input type="text" name="sample[aflatoxina][absorbance2]" class="input-absorbance">
-                  </th>
                 </tr>
               {{/compare}}
             {{/compare}}
