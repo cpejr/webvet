@@ -13,30 +13,13 @@
         </tr>
       </thead>
       <tbody>
+        {{#each calibradores}}
         <tr>
-          <th scope="row">P1</th>
-          <td>Mark</td>
-          <td>Otto</td>
+          <th scope="row">{{calname}}</th>
+          <td>{{concentracao}}</td>
+          <td>{{absorvancia}}</td>
         </tr>
-        <tr>
-          <th scope="row">P2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-        </tr>
-        <tr>
-          <th scope="row">P3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-        </tr>
-        <tr>
-          <th scope="row">P4</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-        </tr>
-        <tr>
-          <th scope="row">P5</th>
-          <td>Larry</td>
-          <td>the Bird</td>
+        {{/each}}
         </tr>
       </tbody>
     </table>
