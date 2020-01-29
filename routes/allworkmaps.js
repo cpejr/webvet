@@ -929,7 +929,7 @@ router.post('/', function (req, res, next) {
       //amostras zea
       var id_zea = req.body.sample.zearalenona._id;
       var abs_zea = req.body.sample.zearalenona.absorbance;
-      var abs_zea2 = req.body.sample.zearalenona.absorbance2;
+      var abs2_zea = req.body.sample.zearalenona.absorbance2;
 
       if (Array.isArray(abs_zea)) {
         for (let i = 0; i < abs_zea.length; i++) {
@@ -950,7 +950,7 @@ router.post('/', function (req, res, next) {
       //amostras fbs
       var id_fbs = req.body.sample.fumonisina._id;
       var abs_fbs = req.body.sample.fumonisina.absorbance;
-      var abs_fbs2 = req.body.sample.fumonisina.absorbance2;
+      var abs2_fbs = req.body.sample.fumonisina.absorbance2;
 
       if (Array.isArray(abs_fbs)) {
         for (let i = 0; i < abs_fbs.length; i++) {
