@@ -56,10 +56,7 @@ router.get('/', (req, res) => {
 
         if (toxina.active && toxina.mapReference != 'Sem mapa') {
           var changedworkmap = result[index].samples.length > 0 && result[index].samples[result[index].samples.length - 1].mapReference != toxina.mapReference;
-
-          if (result[index].samples.length > 0)
-            console.log(result[index].samples[result[index].samples.length - 1].mapReference != toxina.mapReference);
-
+          
           result[index].samples.push({
             changedworkmap: changedworkmap,
             _id: element._id,
@@ -89,7 +86,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', function (req, res, next) {
-  
+
   Kit.getActiveAfla().then((aflaArray) => {
     if (aflaArray.length != 0) {
 

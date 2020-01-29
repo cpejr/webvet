@@ -578,8 +578,7 @@ router.get('/', async function (req, res, next) {
   resultados[5] = { name: 'FBS', result: resultado_fbs };
 
   res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
-
-
+  
 });
 
 module.exports = router;
