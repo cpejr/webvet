@@ -1,3 +1,4 @@
+
 <div class="col-sm-12 container-fluid">
   <div class="col-sm-12 text-center container-fluid">
     <h1>Curvas de Calibração</h1>
@@ -23,6 +24,11 @@
         </tr>
       </tbody>
     </table>
+    <text>
+      <h5>Slope: {{valores.slope}}</h5>
+      <h5>Intercept: {{valores.intercept}}</h5>
+      <h5>R: {{valores.resultado.r2}}</h5>
+    </text>
     {{/each}}
   </div>
   <div class="btn-group-justified col-sm-12 container-fluid">

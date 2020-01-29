@@ -676,6 +676,8 @@ if(kit_zea_ativo.length !=0){
   console.log("Imprimir valor do resultado do calibrador 1 de AFLA")
   console.log(toxinas[0].valores.resultado);
 
+  console.log("Tipo")
+  console.log(typeof toxinas[0].valores.resultado);
   res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas });
 })
 
