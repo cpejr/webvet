@@ -143,18 +143,6 @@ function comparara(logb_bo_amostra,intercept,slope){
     DeoxAbsorbance_p[2] = kit_deox_ativo[0].calibrators.P3.absorbance;
     DeoxAbsorbance_p[3] = kit_deox_ativo[0].calibrators.P4.absorbance;
     DeoxAbsorbance_p[4] = kit_deox_ativo[0].calibrators.P5.absorbance;
-    
-    for(let i = 0; i < kit_deox_ativo[0].mapArray.length;i++){
-      mapas_deox[i] = await Workmap.getOneMap(kit_deox_ativo[0].mapArray[i]);
-    }
-    var cont_deox = 0;
-   // ATE AQUI OK console.log(mapas_deox);
-    for (let j = 0; j < mapas_deox.length; j++) {
-      for (let i = 0; i < mapas_deox[j].samplesArray.length; i++) {
-        amostras_deox[cont_deox] = await Sample.getById(mapas_deox[j].samplesArray[i]);
-        cont_deox++;
-      }
-    }
     var log_concentracao_deox = [Math.log10(Deoxconcentration_p[1]),Math.log10(Deoxconcentration_p[2]),Math.log10(Deoxconcentration_p[3]),Math.log10(Deoxconcentration_p[4])]; //eixo x
     var b_b0_deox = new Array; 
     var ln_b_b0_deox = new Array;
@@ -187,19 +175,10 @@ function comparara(logb_bo_amostra,intercept,slope){
       resultado: result_deox,
       slope: slope_deox,
     };
-    var Deox_log_b_b0 = new Array;
-    //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
 
   }
 
-    
-  //console.log(amostras_deox.length);
-  //for (let i = 0; i < amostras_deox.length; i++) {
-    //console.log(amostras_deox[i]);
-  //}
-
- var mapas_ota = new Array;
- var amostras_ota = new Array;  
+ 
  var kit_ota_ativo = await Kit.getActiveOcra();
  //console.log(kit_ota_ativo);
  var Otaconcentration_p  = new Array;
@@ -218,22 +197,7 @@ function comparara(logb_bo_amostra,intercept,slope){
   OtaAbsorbance_p[4] = kit_ota_ativo[0].calibrators.P5.absorbance;
 
 
- 
-  for (let i = 0; i < kit_ota_ativo[0].mapArray.length; i++) {
-    mapas_ota[i] = await Workmap.getOneMap(kit_ota_ativo[0].mapArray[i]);
-  }
-  var cont_ota = 0;
-  for (let j = 0; j < mapas_ota.length; j++) {
-    for (let i = 0; i < mapas_ota[j].samplesArray.length; i++) {
-      amostras_ota[cont_ota] = await Sample.getById(mapas_ota[j].samplesArray[i]);
-      cont_ota++;
-      console.log('0000000000000000');
-      
-      console.log(amostras_ota);
-      
-    }
-  }
-  var log_concentracao_ota = new Array;
+  var log_concentracao_ota = [Math.log10(Otaconcentration_p[1]),Math.log10(Otaconcentration_p[2]),Math.log10(Otaconcentration_p[3]),Math.log10(Otaconcentration_p[4])];
   var b_b0_ota = new Array;
   var ln_b_b0_ota = new Array;
   console.log('log concentracao');
@@ -267,14 +231,6 @@ function comparara(logb_bo_amostra,intercept,slope){
     resultado: result_ota,
     slope: slope_ota,
   };
-  var Ota_log_b_b0 = new Array;
-  //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
-  for (let i = 0; i < amostras_ota.length; i++) {
-    Ota_log_b_b0[i] = Math.log10((amostras_ota[i].ocratoxina.absorbance/OtaAbsorbance_p[0])/(1-(amostras_ota[i].ocratoxina.absorbance/OtaAbsorbance_p [0])));
-    
-  }
-  console.log(Ota_log_b_b0);
-
 }
 
 
@@ -298,16 +254,6 @@ if(kit_t2_ativo.length != 0){
   T2absorbance_p[3] = kit_t2_ativo[0].calibrators.P4.absorbance;
   T2absorbance_p[4] = kit_t2_ativo[0].calibrators.P5.absorbance;
 
-  for (let i = 0; i < kit_t2_ativo[0].mapArray.length; i++) {
-    mapas_t2[i] = await Workmap.getOneMap(kit_t2_ativo[0].mapArray[i]);
-  }
-  var cont_t2 = 0;
-  for (let j = 0; j < mapas_t2.length; j++) {
-    for (let i = 0; i < mapas_t2[j].samplesArray.length; i++) {
-      amostras_t2[cont_t2] = await Sample.getById(mapas_t2[j].samplesArray[i]);
-      cont_t2++;
-    }
-  }
   
   var log_concentracao_t2 = [Math.log10(T2concentration_p[1]),Math.log10(T2concentration_p[2]),Math.log10(T2concentration_p[3]),Math.log10(T2concentration_p[4])]; //eixo x
   var b_b0_t2 = new Array; 
@@ -343,13 +289,7 @@ if(kit_t2_ativo.length != 0){
   };
 
 
-  var T2_log_b_b0 = new Array;
-  //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
-  for (let i = 0; i < amostras_t2.length; i++) {
-    T2_log_b_b0[i] = Math.log10((amostras_t2[i].t2toxina.absorbance/T2absorbance_p[0])/(1-(amostras_t2[i].t2toxina.absorbance/T2absorbance_p[0])));
-  }
-  console.log(T2_log_b_b0);
-      
+  
 
 }
 
@@ -372,16 +312,7 @@ if(kit_zea_ativo.length !=0){
   ZeaAbsorbance_p[4] = kit_zea_ativo[0].calibrators.P5.absorbance;
   
 
-  for (let i = 0; i < kit_zea_ativo[0].mapArray.length; i++) {
-    mapas_zea[i] = await Workmap.getOneMap(kit_zea_ativo[0].mapArray[i]);
-  }
-  var cont_zea = 0;
-  for (let j = 0; j < mapas_zea.length; j++) {
-    for (let i = 0; i < mapas_zea[j].samplesArray.length; i++) {
-      amostras_zea[cont_zea] = await Sample.getById(mapas_zea[j].samplesArray[i]);
-      cont_zea++;
-    }
-  }
+
   var log_concentracao_zea = [Math.log10(Zeaconcentration_p[1]),Math.log10(Zeaconcentration_p[2]),Math.log10(Zeaconcentration_p[3]),Math.log10(Zeaconcentration_p[4])]; //eixo x
   var b_b0_zea = new Array; 
   var ln_b_b0_zea = new Array;
@@ -418,14 +349,6 @@ if(kit_zea_ativo.length !=0){
     slope: slope_zea,
   };
 
-  var Zea_log_b_b0 = new Array;
-    //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
-    for (let i = 0; i < amostras_zea.length; i++) {
-      Zea_log_b_b0[i] = Math.log10((amostras_zea[i].zearalenona.absorbance/ZeaAbsorbance_p[0])/(1-(amostras_zea[i].zearalenona.absorbance/ZeaAbsorbance_p[0])));
-    }
-
- console.log(Zea_log_b_b0);
-
 
 }
 
@@ -447,16 +370,6 @@ if(kit_zea_ativo.length !=0){
     Fbsabsorbance_p[3] = kit_fbs_ativo[0].calibrators.P4.absorbance;
     Fbsabsorbance_p[4] = kit_fbs_ativo[0].calibrators.P5.absorbance;
 
-    for (let i = 0; i < kit_fbs_ativo[0].mapArray.length; i++) {
-      mapas_fbs[i]= await Workmap.getOneMap(kit_fbs_ativo[0].mapArray[i]);
-    }
-    var cont_fbs = 0;
-    for (let j = 0; j < mapas_fbs.length; j++) {
-      for (let i = 0; i < mapas_fbs[j].samplesArray.length; i++) {
-        amostras_fbs[cont_fbs] = await Sample.getById(mapas_fbs[j].samplesArray[i]);
-        
-      }
-    }
     
     var log_concentracao_fbs = [Math.log10(Fbsconcentration_p[1]),Math.log10(Fbsconcentration_p[2]),Math.log10(Fbsconcentration_p[3]),Math.log10(Fbsconcentration_p[4])]; //eixo x
     var b_b0_fbs = new Array; 
@@ -491,14 +404,7 @@ if(kit_zea_ativo.length !=0){
       slope: slope_fbs,
     };
     
-    var Fbs_log_b_b0 = new Array;
-    //log b/b0 = Math.log10((absorvanciaAmostras/AbsorvanciaP1)/(1-(absorvanciaAmostras/AbsorvanciaP1)))
-    for (let i = 0; i < amostras_fbs.length; i++) {
-      Fbs_log_b_b0[i] = Math.log10((amostras_fbs[i].fumonisina.absorbance/Fbsabsorbance_p[0])/(1-(amostras_fbs[i].fumonisina.absorbance/Fbsabsorbance_p[0])));
-      
-    }
-    console.log(Fbs_log_b_b0);
-  
+
   }
 
  
@@ -557,7 +463,7 @@ if(kit_zea_ativo.length !=0){
   // var b_b0 = new Array;
   // var ln_b_b0 = new Array; // eixo y
   // cont_b0 = 0;
-  // var log_concentracao = [Math.log10(4),Math.log10(10),Math.log10(20),Math.log10(40)]; //eixo x
+  // var log_concentracaco = [Math.log10(4),Math.log10(10),Math.log10(20),Math.log10(40)]; //eixo x
   // for (var i = 0; i < 4; i++){
   //   b_b0[cont_b0] = aflas_p[i+1].absorbance/aflas_p[0].absorbance;
   //   cont_b0++;
