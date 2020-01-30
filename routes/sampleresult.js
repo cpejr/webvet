@@ -113,7 +113,8 @@ router.get('/', async function (req, res, next) {
         compara: avgcompara,
         average: avg,
         number: amostras_afla[i].samplenumber,
-        changed_workmap: i != 0 && amostras_afla[i - 1].aflatoxina.mapReference != amostras_afla[i].aflatoxina.mapReference
+        changed_workmap: i != 0 && amostras_afla[i - 1].aflatoxina.mapReference != amostras_afla[i].aflatoxina.mapReference,
+        _id: amostras_afla[i]._id
       }
     }
     console.log('funcao compara');
@@ -200,7 +201,8 @@ router.get('/', async function (req, res, next) {
         compara: avgcompara,
         average: avg,
         number: amostras_deox[i].samplenumber,
-        changed_workmap: i != 0 && amostras_deox[i - 1].deoxinivalenol.mapReference != amostras_deox[i].deoxinivalenol.mapReference
+        changed_workmap: i != 0 && amostras_deox[i - 1].deoxinivalenol.mapReference != amostras_deox[i].deoxinivalenol.mapReference,
+        _id: amostras_deox[i]._id
       };
     }
     console.log('funcao compara');
@@ -300,7 +302,8 @@ router.get('/', async function (req, res, next) {
         compara: avgcompara,
         average: avg,
         number: amostras_ota[i].samplenumber,
-        changed_workmap: i != 0 && amostras_ota[i - 1].ocratoxina.mapReference != amostras_ota[i].ocratoxina.mapReference
+        changed_workmap: i != 0 && amostras_ota[i - 1].ocratoxina.mapReference != amostras_ota[i].ocratoxina.mapReference,
+        _id: amostras_ota[i]._id
       };
     }
     console.log('funcao compara');
@@ -385,7 +388,8 @@ router.get('/', async function (req, res, next) {
         compara: avgcompara,
         average: avg,
         number: amostras_t2[i].samplenumber,
-        changed_workmap: i != 0 && amostras_t2[i - 1].t2toxina.mapReference != amostras_t2[i].t2toxina.mapReference
+        changed_workmap: i != 0 && amostras_t2[i - 1].t2toxina.mapReference != amostras_t2[i].t2toxina.mapReference,
+        _id: amostras_t2[i]._id
       };
     }
     console.log('funcao compara');
@@ -475,7 +479,8 @@ router.get('/', async function (req, res, next) {
         compara: avgcompara,
         average: avg,
         number: amostras_zea.samplesnumber,
-        changed_workmap: i != 0 && amostras_zea[i - 1].zearalenona.mapReference != amostras_zea[i].zearalenona.mapReference
+        changed_workmap: i != 0 && amostras_zea[i - 1].zearalenona.mapReference != amostras_zea[i].zearalenona.mapReference,
+        _id: amostras_zea[i]._id
       };
     }
     console.log('funcao compara');
@@ -578,8 +583,7 @@ router.get('/', async function (req, res, next) {
   resultados[5] = { name: 'FBS', result: resultado_fbs };
 
   res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
-
-
 });
+
 
 module.exports = router;
