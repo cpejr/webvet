@@ -16,7 +16,7 @@ router.get('/', async function (req, res, next) {
   var mapas = new Array;
   var amostras_afla = new Array;
   let kit_afla_ativo = await Kit.getActiveAfla();
-  //console.log(kit_afla_ativo);
+  //////console.log(kit_afla_ativo);
 
   var resultado_afla = new Array;
   var resultado_deox = new Array;
@@ -46,32 +46,32 @@ router.get('/', async function (req, res, next) {
     var log_concentracao = [Math.log10(Aflaconcentration_p[1]), Math.log10(Aflaconcentration_p[2]), Math.log10(Aflaconcentration_p[3]), Math.log10(Aflaconcentration_p[4])]; //eixo x
     var b_b0 = new Array;
     var ln_b_b0 = new Array;
-    console.log('log concentracao');
-    console.log(log_concentracao);
+    //console.log('log concentracao');
+    //console.log(log_concentracao);
     for (var i = 0; i < 4; i++) {
       b_b0[i] = Aflaabsorbance_p[i + 1] / Aflaabsorbance_p[0];
     }
-    console.log('B B0');
+    //console.log('B B0');
 
-    console.log(b_b0);
+    //console.log(b_b0);
 
     for (var i = 0; i < b_b0.length; i++) {
       ln_b_b0[i] = Math.log10(b_b0[i] / (1 - b_b0[i]));
     }
 
 
-    console.log('ln_b_b0');
-    console.log(ln_b_b0);
+    //console.log('ln_b_b0');
+    //console.log(ln_b_b0);
 
 
     const result = regression.linear([[log_concentracao[0], ln_b_b0[0]], [log_concentracao[1], ln_b_b0[1]], [log_concentracao[2], ln_b_b0[2]]]);
     const slope = result.equation[0];// slope
     const yIntercept = result.equation[1];// intercept
 
-    console.log('slope');
-    console.log(slope);
-    console.log('yintercept');
-    console.log(yIntercept);
+    //console.log('slope');
+    //console.log(slope);
+    //console.log('yintercept');
+    //console.log(yIntercept);
 
     //---------------------------------------Agora começa a parte que pega as absorvancias e calcula o que é preciso- em realação a amostra Essa parte será levada para outra página----------------------------------------------------
 
@@ -89,9 +89,9 @@ router.get('/', async function (req, res, next) {
         cont++;
       }
     }
-    console.log("absss");
+    //console.log("absss");
 
-    console.log(amostras_afla[0].aflatoxina.absorbance);
+    //console.log(amostras_afla[0].aflatoxina.absorbance);
 
     var Afla_log_b_b0 = new Array;
     var Afla_log_b_b0_2 = new Array;
@@ -99,8 +99,8 @@ router.get('/', async function (req, res, next) {
     for (let i = 0; i < amostras_afla.length; i++) {
       Afla_log_b_b0[i] = Math.log10((amostras_afla[i].aflatoxina.absorbance / Aflaabsorbance_p[0]) / (1 - (amostras_afla[i].aflatoxina.absorbance / Aflaabsorbance_p[0])));
       Afla_log_b_b0_2[i] = Math.log10((amostras_afla[i].aflatoxina.absorbance2 / Aflaabsorbance_p[0]) / (1 - (amostras_afla[i].aflatoxina.absorbance2 / Aflaabsorbance_p[0])));
-      console.log("log b bo");
-      console.log(Afla_log_b_b0[i]);
+      //console.log("log b bo");
+      //console.log(Afla_log_b_b0[i]);
 
     }
 
@@ -117,9 +117,9 @@ router.get('/', async function (req, res, next) {
         _id: amostras_afla[i]._id
       }
     }
-    console.log('funcao compara');
+    //console.log('funcao compara');
 
-    console.log(resultado_afla);
+    //console.log(resultado_afla);
 
   }
 
@@ -152,7 +152,7 @@ router.get('/', async function (req, res, next) {
     }
 
     var cont_deox = 0;
-    // ATE AQUI OK console.log(mapas_deox);
+    // ATE AQUI OK //console.log(mapas_deox);
     for (let j = 0; j < mapas_deox.length; j++) {
       for (let i = 0; i < mapas_deox[j].samplesArray.length; i++) {
         amostras_deox[cont_deox] = await Sample.getById(mapas_deox[j].samplesArray[i]);
@@ -162,29 +162,29 @@ router.get('/', async function (req, res, next) {
     var log_concentracao_deox = [Math.log10(Deoxconcentration_p[1]), Math.log10(Deoxconcentration_p[2]), Math.log10(Deoxconcentration_p[3]), Math.log10(Deoxconcentration_p[4])]; //eixo x
     var b_b0_deox = new Array;
     var ln_b_b0_deox = new Array;
-    console.log('log concentracao');
-    console.log(log_concentracao_deox);
+    //console.log('log concentracao');
+    //console.log(log_concentracao_deox);
     for (var i = 0; i < 4; i++) {
       b_b0_deox[i] = DeoxAbsorbance_p[i + 1] / DeoxAbsorbance_p[0];
     }
-    console.log('B B0');
-    console.log(b_b0_deox);
+    //console.log('B B0');
+    //console.log(b_b0_deox);
     for (var i = 0; i < b_b0_deox.length; i++) {
       ln_b_b0_deox[i] = Math.log10(b_b0_deox[i] / (1 - b_b0_deox[i]));
     }
 
-    console.log('ln_b_b0');
-    console.log(ln_b_b0_deox);
+    //console.log('ln_b_b0');
+    //console.log(ln_b_b0_deox);
 
 
     const result_deox = regression.linear([[log_concentracao_deox[0], ln_b_b0_deox[0]], [log_concentracao_deox[1], ln_b_b0_deox[1]], [log_concentracao_deox[2], ln_b_b0_deox[2]]]);
     const slope_deox = result_deox.equation[0];// slope
     const yIntercept_deox = result_deox.equation[1];// intercept
 
-    console.log('slope');
-    console.log(slope_deox);
-    console.log('yintercept');
-    console.log(yIntercept_deox);
+    //console.log('slope');
+    //console.log(slope_deox);
+    //console.log('yintercept');
+    //console.log(yIntercept_deox);
 
     var Deox_log_b_b0 = new Array;
     var Deox_log_b_b0_2 = new Array;
@@ -205,8 +205,8 @@ router.get('/', async function (req, res, next) {
         _id: amostras_deox[i]._id
       };
     }
-    console.log('funcao compara');
-    console.log(resultado_deox);
+    //console.log('funcao compara');
+    //console.log(resultado_deox);
   }
 
 
@@ -216,7 +216,7 @@ router.get('/', async function (req, res, next) {
 
 
 
-  //console.log(amostras_deox.length);
+  ////console.log(amostras_deox.length);
   //for (let i = 0; i < amostras_deox.length; i++) {
   //console.log(amostras_deox[i]);
   //}
@@ -224,7 +224,7 @@ router.get('/', async function (req, res, next) {
   var mapas_ota = new Array;
   var amostras_ota = new Array;
   var kit_ota_ativo = await Kit.getActiveOcra();
-  //console.log(kit_ota_ativo);
+  ////console.log(kit_ota_ativo);
   var Otaconcentration_p = new Array;
   var OtaAbsorbance_p = new Array;
   if (kit_ota_ativo.length != 0) {
@@ -259,31 +259,31 @@ router.get('/', async function (req, res, next) {
     var log_concentracao_ota = new Array;
     var b_b0_ota = new Array;
     var ln_b_b0_ota = new Array;
-    console.log('log concentracao');
-    console.log(log_concentracao_ota);
+    //console.log('log concentracao');
+    //console.log(log_concentracao_ota);
     for (var i = 0; i < 4; i++) {
       b_b0_ota[i] = OtaAbsorbance_p[i + 1] / OtaAbsorbance_p[0];
     }
-    console.log('B B0');
+    //console.log('B B0');
 
-    console.log(b_b0_ota);
+    //console.log(b_b0_ota);
 
 
     for (var i = 0; i < b_b0_ota.length; i++) {
       ln_b_b0_ota[i] = Math.log10(b_b0_ota[i] / (1 - b_b0_ota[i]));
     }
-    console.log('ln_b_b0');
-    console.log(ln_b_b0_ota);
+    //console.log('ln_b_b0');
+    //console.log(ln_b_b0_ota);
 
 
     const result_ota = regression.linear([[log_concentracao_ota[0], ln_b_b0_ota[0]], [log_concentracao_ota[1], ln_b_b0_ota[1]], [log_concentracao_ota[2], ln_b_b0_ota[2]]]);
     const slope_ota = result_ota.equation[0];// slope
     const yIntercept_ota = result_ota.equation[1];// intercept
 
-    console.log('slope');
-    console.log(slope_ota);
-    console.log('yintercept');
-    console.log(yIntercept_ota);
+    //console.log('slope');
+    //console.log(slope_ota);
+    //console.log('yintercept');
+    //console.log(yIntercept_ota);
 
     var Ota_log_b_b0 = new Array;
     var Ota_log_b_b0_2 = new Array;
@@ -293,7 +293,7 @@ router.get('/', async function (req, res, next) {
       Ota_log_b_b0_2[i] = Math.log10((amostras_ota[i].ocratoxina.absorbance2 / OtaAbsorbance_p[0]) / (1 - (amostras_ota[i].ocratoxina.absorbance2 / OtaAbsorbance_p[0])));
     }
 
-    console.log(Ota_log_b_b0);
+    //console.log(Ota_log_b_b0);
 
     for (let i = 0; i < Ota_log_b_b0.length; i++) {
       var avg = (amostras_ota[i].ocratoxina.absorbance + amostras_ota[i].ocratoxina.absorbance2) / 2;
@@ -306,9 +306,9 @@ router.get('/', async function (req, res, next) {
         _id: amostras_ota[i]._id
       };
     }
-    console.log('funcao compara');
+    //console.log('funcao compara');
 
-    console.log(resultado_ota);
+    //console.log(resultado_ota);
 
   }
 
@@ -347,29 +347,29 @@ router.get('/', async function (req, res, next) {
     var log_concentracao_t2 = [Math.log10(T2concentration_p[1]), Math.log10(T2concentration_p[2]), Math.log10(T2concentration_p[3]), Math.log10(T2concentration_p[4])]; //eixo x
     var b_b0_t2 = new Array;
     var ln_b_b0_t2 = new Array;
-    console.log('log concentracao');
-    console.log(log_concentracao_t2);
+    //console.log('log concentracao');
+    //console.log(log_concentracao_t2);
     for (var i = 0; i < 4; i++) {
       b_b0_t2[i] = T2absorbance_p[i + 1] / T2absorbance_p[0];
     }
-    console.log('B B0');
+    //console.log('B B0');
 
-    console.log(b_b0_t2);
+    //console.log(b_b0_t2);
     for (var i = 0; i < b_b0_t2.length; i++) {
       ln_b_b0_t2[i] = Math.log10(b_b0_t2[i] / (1 - b_b0_t2[i]));
     }
 
 
-    console.log('ln_b_b0');
-    console.log(ln_b_b0_t2);
+    //console.log('ln_b_b0');
+    //console.log(ln_b_b0_t2);
 
     const result_t2 = regression.linear([[log_concentracao[0], ln_b_b0[0]], [log_concentracao[1], ln_b_b0[1]], [log_concentracao[2], ln_b_b0[2]]]);
     const slope_t2 = result_t2.equation[0];// slope
     const yIntercept_t2 = result_t2.equation[1];// intercept
-    console.log('slope');
-    console.log(slope_t2);
-    console.log('yintercept');
-    console.log(yIntercept_t2);
+    //console.log('slope');
+    //console.log(slope_t2);
+    //console.log('yintercept');
+    //console.log(yIntercept_t2);
 
 
     var T2_log_b_b0 = new Array;
@@ -379,7 +379,7 @@ router.get('/', async function (req, res, next) {
       T2_log_b_b0[i] = Math.log10((amostras_t2[i].t2toxina.absorbance / T2absorbance_p[0]) / (1 - (amostras_t2[i].t2toxina.absorbance / T2absorbance_p[0])));
       T2_log_b_b0_2[i] = Math.log10((amostras_t2[i].t2toxina.absorbance2 / T2absorbance_p[0]) / (1 - (amostras_t2[i].t2toxina.absorbance2 / T2absorbance_p[0])));
     }
-    console.log(T2_log_b_b0);
+    //console.log(T2_log_b_b0);
 
     for (let i = 0; i < T2_log_b_b0.length; i++) {
       var avg = (amostras_t2[i].t2toxina.absorbance + amostras_t2[i].t2toxina.absorbance2) / 2;
@@ -392,9 +392,9 @@ router.get('/', async function (req, res, next) {
         _id: amostras_t2[i]._id
       };
     }
-    console.log('funcao compara');
+    //console.log('funcao compara');
 
-    console.log(resultado_t2);
+    //console.log(resultado_t2);
 
 
 
@@ -435,32 +435,32 @@ router.get('/', async function (req, res, next) {
     var log_concentracao_zea = [Math.log10(Zeaconcentration_p[1]), Math.log10(Zeaconcentration_p[2]), Math.log10(Zeaconcentration_p[3]), Math.log10(Zeaconcentration_p[4])]; //eixo x
     var b_b0_zea = new Array;
     var ln_b_b0_zea = new Array;
-    console.log('log concentracao');
-    console.log(log_concentracao_zea);
+    //console.log('log concentracao');
+    //console.log(log_concentracao_zea);
     for (var i = 0; i < 4; i++) {
       b_b0_zea[i] = ZeaAbsorbance_p[i + 1] / ZeaAbsorbance_p[0];
     }
 
-    console.log('B B0');
+    //console.log('B B0');
 
-    console.log(b_b0_zea);
+    //console.log(b_b0_zea);
 
     for (var i = 0; i < b_b0_zea.length; i++) {
       ln_b_b0_zea[i] = Math.log10(b_b0_zea[i] / (1 - b_b0_zea[i]));
     }
 
 
-    console.log('ln_b_b0');
-    console.log(ln_b_b0_zea);
+    //console.log('ln_b_b0');
+    //console.log(ln_b_b0_zea);
 
     const result_zea = regression.linear([[log_concentracao_zea[0], ln_b_b0_zea[0]], [log_concentracao_zea[1], ln_b_b0_zea[1]], [log_concentracao_zea[2], ln_b_b0_zea[2]]]);
     const slope_zea = result_zea.equation[0];// slope
     const yIntercept_zea = result_zea.equation[1];// intercept
 
-    console.log('slope');
-    console.log(slope_zea);
-    console.log('yintercept');
-    console.log(yIntercept_zea);
+    //console.log('slope');
+    //console.log(slope_zea);
+    //console.log('yintercept');
+    //console.log(yIntercept_zea);
 
     var Zea_log_b_b0 = new Array;
     var Zea_log_b_b0_2 = new Array;
@@ -470,7 +470,7 @@ router.get('/', async function (req, res, next) {
       Zea_log_b_b0_2[i] = Math.log10((amostras_zea[i].zearalenona.absorbance2 / ZeaAbsorbance_p[0]) / (1 - (amostras_zea[i].zearalenona.absorbance2 / ZeaAbsorbance_p[0])));
     }
 
-    console.log(Zea_log_b_b0);
+    //console.log(Zea_log_b_b0);
     for (let i = 0; i < Zea_log_b_b0.length; i++) {
       var avg = (amostras_zea[i].zearalenona.absorbance + amostras_zea[i].zearalenona.absorbance2) / 2;
       var avgcompara = (comparara(Zea_log_b_b0[i], yIntercept_zea, slope_zea) + comparara(Zea_log_b_b0_2[i], yIntercept_zea, slope_zea)) / 2;
@@ -483,9 +483,9 @@ router.get('/', async function (req, res, next) {
         _id: amostras_zea[i]._id
       };
     }
-    console.log('funcao compara');
+    //console.log('funcao compara');
 
-    console.log(resultado_zea);
+    //console.log(resultado_zea);
 
 
   }
@@ -523,29 +523,29 @@ router.get('/', async function (req, res, next) {
     var log_concentracao_fbs = [Math.log10(Fbsconcentration_p[1]), Math.log10(Fbsconcentration_p[2]), Math.log10(Fbsconcentration_p[3]), Math.log10(Fbsconcentration_p[4])]; //eixo x
     var b_b0_fbs = new Array;
     var ln_b_b0_fbs = new Array;
-    console.log('log concentracao');
-    console.log(log_concentracao_fbs);
+    //console.log('log concentracao');
+    //console.log(log_concentracao_fbs);
     for (var i = 0; i < 4; i++) {
       b_b0_fbs[i] = Fbsabsorbance_p[i + 1] / Fbsabsorbance_p[0];
     }
-    console.log('B B0');
+    //console.log('B B0');
 
-    console.log(b_b0_fbs);
+    //console.log(b_b0_fbs);
     for (var i = 0; i < b_b0_fbs.length; i++) {
       ln_b_b0_fbs[i] = Math.log10(b_b0_fbs[i] / (1 - b_b0_fbs[i]));
     }
 
 
-    console.log('ln_b_b0');
-    console.log(ln_b_b0_fbs);
+    //console.log('ln_b_b0');
+    //console.log(ln_b_b0_fbs);
     const result_fbs = regression.linear([[log_concentracao_fbs[0], ln_b_b0_fbs[0]], [log_concentracao_fbs[1], ln_b_b0_fbs[1]], [log_concentracao_fbs[2], ln_b_b0_fbs[2]]]);
     const slope_fbs = result_fbs.equation[0];// slope
     const yIntercept_fbs = result_fbs.equation[1];// intercept
 
-    console.log('slope');
-    console.log(slope_fbs);
-    console.log('yintercept');
-    console.log(yIntercept_fbs);
+    //console.log('slope');
+    //console.log(slope_fbs);
+    //console.log('yintercept');
+    //console.log(yIntercept_fbs);
 
     var Fbs_log_b_b0 = new Array;
     var Fbs_log_b_b0_2 = new Array;
@@ -554,7 +554,7 @@ router.get('/', async function (req, res, next) {
       Fbs_log_b_b0[i] = Math.log10((amostras_fbs[i].fumonisina.absorbance / Fbsabsorbance_p[0]) / (1 - (amostras_fbs[i].fumonisina.absorbance / Fbsabsorbance_p[0])));
       Fbs_log_b_b0_2[i] = Math.log10((amostras_fbs[i].fumonisina.absorbance2 / Fbsabsorbance_p[0]) / (1 - (amostras_fbs[i].fumonisina.absorbance2 / Fbsabsorbance_p[0])));
     }
-    console.log(Fbs_log_b_b0);
+    //console.log(Fbs_log_b_b0);
 
 
     for (let i = 0; i < Fbs_log_b_b0.length; i++) {
@@ -568,15 +568,15 @@ router.get('/', async function (req, res, next) {
       };
     }
 
-    console.log('funcao compara');
-    console.log(resultado_fbs);
+    //console.log('funcao compara');
+    //console.log(resultado_fbs);
   }
 
   //Finalizando a forma de como os dados serão enviados ao front
   var resultados = {}
 
   resultados[0] = { name: 'AFLA', result: resultado_afla };
-  resultados[1] = { name: 'DEOX', result: resultado_deox };
+  resultados[1] = { name: 'DON', result: resultado_deox };
   resultados[2] = { name: 'OTA', result: resultado_ota };
   resultados[3] = { name: 'T2', result: resultado_t2 };
   resultados[4] = { name: 'ZEA', result: resultado_zea };
@@ -585,5 +585,27 @@ router.get('/', async function (req, res, next) {
   res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
 });
 
+
+router.post("/", async function (req, res, next){
+  var amostras = new Array;
+  const toxinas = ['AFLA','DON','OTA', 'T2', 'ZEA', 'FBS'];
+  const toxinafull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
+
+  for (var i = 0; i < toxinas.length; i++){
+    amostras = req.body.sample[toxinas[i]];
+
+    for(var j = 0; j < amostras.length; j++){
+      
+    }
+
+    console.log("i: " + i);
+    console.log("req.body.sample[toxinas[i]]");
+    console.log(req.body.sample[toxinas[i]]);
+    console.log("amostras");
+    console.log(amostras);
+  }
+
+  res.render('allworkmaps', {title: 'finalizado', amostras, toxinas});
+});
 
 module.exports = router;
