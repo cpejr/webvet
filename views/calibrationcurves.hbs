@@ -1,10 +1,20 @@
+<style>
+.dados{
+    text-align: left;
+    padding-left: 50px;
+    width: 100%;
+    height: 150px;
+    font-size: medium;
+}
+</style>
+
 <div class="col-sm-12 container-fluid">
   <div class="col-sm-12 text-center container-fluid">
     <h1>Curvas de Calibração</h1>
   </div>
-  <div class="col-sm-12 text-center container-fluid">
+  <div class="col-sm-12 text-center container-fluid d-flex justify-content-between flex-wrap">
     {{#each toxinas}}
-    <table class="table mb-5">
+    <table class="table mb-2 w-50">
       <thead>
         <tr>
           <th scope="col">{{name}}</th>
@@ -13,41 +23,29 @@
         </tr>
       </thead>
       <tbody>
+        {{#each calibradores}}
         <tr>
-          <th scope="row">P1</th>
-          <td>Mark</td>
-          <td>Otto</td>
+          <th scope="row">{{calname}}</th>
+          <td>{{concentracao}}</td>
+          <td>{{absorvancia}}</td>
         </tr>
-        <tr>
-          <th scope="row">P2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-        </tr>
-        <tr>
-          <th scope="row">P3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-        </tr>
-        <tr>
-          <th scope="row">P4</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-        </tr>
-        <tr>
-          <th scope="row">P5</th>
-          <td>Larry</td>
-          <td>the Bird</td>
+        {{/each}}
         </tr>
       </tbody>
     </table>
+    <text class="dados w-50">
+      <p><b>Slope:</b> {{valores.slope}}</p>
+      <p><b>Intercept:</b> {{valores.intercept}}</p>
+      <p><b>R:</b> {{valores.resultado.r2}}</p>
+    </text>
     {{/each}}
   </div>
-  <div class="btn-group-justified col-sm-12 container-fluid">
+  <div class="btn-group-justified w-40 container-fluid">
     <div class="btn btn-back">
       <a href="/allsamples" class="btn btn-success" id="test">Digitar absorvâncias novamente</a>
     </div>
     <div class="btn btn-abs">
-      <button class="btn btn-success">Finalizar</button>
+      <a href="allworkmaps" class="btn btn-success">Prosseguir</a>
     </div>
   </div>
 </div>

@@ -133,6 +133,7 @@ router.post('/', function (req, res, next) {
   Sample.getAll().then((sample) => {
     //amostras afla
 
+
     function updateSample(name, obj) {
       if (obj) {
         var id_tox = obj._id;
@@ -146,14 +147,11 @@ router.post('/', function (req, res, next) {
               console.log(error);
             });
           }
-
         } else {
-
           Sample.updateAbsorbances(name, id_tox, abs_tox, abs2_tox).then(() => {
           }).catch((error) => {
             console.log(error);
           });
-
         }
       }
     }
@@ -263,7 +261,7 @@ router.post('/', function (req, res, next) {
       }
     }
 
-    res.redirect('/queue');
+    res.redirect('/sampleresult');
 
   }).catch((error) => {
     console.log(error);

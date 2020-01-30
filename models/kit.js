@@ -438,6 +438,17 @@ class Kit {
       });
     });
   }
+
+  static getActiveID(siglaToxina) {
+    return new Promise((resolve, reject) => {
+      //{ active: 1 } é somente para retornar o _id, economizar internet
+      KitModel.findOne({active: true, productCode: siglaToxina + " Romer"}, { active: 1 }).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 
