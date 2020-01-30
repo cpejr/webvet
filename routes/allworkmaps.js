@@ -865,7 +865,7 @@ router.post('/', function (req, res, next) {
       //amostras deox
       var id_deox = req.body.sample.deoxinivalenol._id;
       var abs_deox = req.body.sample.deoxinivalenol.absorbance;
-      var abs2_deox = req.body.sample.aflatoxina.absorbance2;
+      var abs2_deox = req.body.sample.deoxinivalenol.absorbance2;
 
       if (Array.isArray(abs_deox)) {
         for (let i = 0; i < abs_deox.length; i++) {
@@ -1072,7 +1072,7 @@ router.post('/', function (req, res, next) {
       }
     }
 
-    res.redirect('/queue');
+    res.redirect('/sampleresult');
 
   }).catch((error) => {
     console.log(error);

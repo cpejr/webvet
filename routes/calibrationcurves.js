@@ -233,7 +233,7 @@ function comparara(logb_bo_amostra,intercept,slope){
       
     }
   }
-  var log_concentracao_ota = new Array;
+  var log_concentracao_ota = [Math.log10(Otaconcentration_p[1]),Math.log10(Otaconcentration_p[2]),Math.log10(Otaconcentration_p[3]),Math.log10(Otaconcentration_p[4])];
   var b_b0_ota = new Array;
   var ln_b_b0_ota = new Array;
   console.log('log concentracao');
@@ -557,7 +557,7 @@ if(kit_zea_ativo.length !=0){
   // var b_b0 = new Array;
   // var ln_b_b0 = new Array; // eixo y
   // cont_b0 = 0;
-  // var log_concentracao = [Math.log10(4),Math.log10(10),Math.log10(20),Math.log10(40)]; //eixo x
+  // var log_concentracaco = [Math.log10(4),Math.log10(10),Math.log10(20),Math.log10(40)]; //eixo x
   // for (var i = 0; i < 4; i++){
   //   b_b0[cont_b0] = aflas_p[i+1].absorbance/aflas_p[0].absorbance;
   //   cont_b0++;
