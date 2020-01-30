@@ -2,31 +2,42 @@
   <h4>Cálculos de amostra</h4>
 </div>
 
-<div class="container-fluid d-flex justify-content-between flex-wrap">
-  {{#each resultados}}
-    <table>
-      <thead>
-        <tr>
-          <th class="" scope="col">{{name}}</th>
-          <th class="absorbance px-2" scope="col">Média abs</th>
-          <th class="absorbance px-2" scope="col">Resultado</th>
-        </tr>
-      </thead>
 
-      <tbody>
-        {{#each result}}
-          {{#if changed_workmap}}
-            <tr>
-              <td><br></td>
-            </tr>
-          {{/if}}
+<form action="/sampleresult" method="post">
+  <div class="container-fluid d-flex justify-content-between flex-wrap">
+    {{#each resultados}}
+      <table>
+        <thead>
           <tr>
-            <th scope="row">{{number}}</th>
-            <td><input readonly type="text" class="input-absorbance" value="{{average}}"></td>
-            <td><input readonly type="text" class="input-absorbance" value="{{compara}}"></td>
+            <th class="" scope="col">{{name}}</th>
+            <th class="absorbance px-2" scope="col">Média abs</th>
+            <th class="absorbance px-2" scope="col">Resultado</th>
           </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  {{/each}}
-</div>
+        </thead>
+
+        <tbody>
+          {{#each result}}
+            {{#if changed_workmap}}
+              <tr>
+                <td><br></td>
+              </tr>
+            {{/if}}
+            <tr>
+              <th class="some">
+                <input name="sample[{{../name}}][_id]" type="text" value="{{_id}}">
+              </th>
+              <th scope="row">{{number}}</th>
+              <td><input readonly type="text" class="input-absorbance" value="{{average}}"></td>
+              <td><input readonly type="text" class="input-absorbance" value="{{compara}}"></td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/each}}
+  </div>
+  <div class="row">
+    <div class="col-sm-12 btn-group text-center">
+      <button type="button" class="btn btn-success">Gerar laudo</button>
+    </div>
+  </div>
+</form>
