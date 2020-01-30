@@ -594,18 +594,23 @@ router.post("/", async function (req, res, next) {
   for (var i = 0; i < toxinas.length; i++) {
     amostras = req.body.sample[toxinas[i]];
 
-    if (typeof amostras !== 'undefined') {
-      console.log("ENTROU NO FOR");
-      for (var j = 0; j < amostras.length; j++) {
-        Sample.finalizeSample(amostras._id[j], toxinafull[i], "aa");
-      }
+    if (typeof amostras === 'object') {
+      var kit = await Kit.getActiveID(toxinas[i]);
+      console.log("kit id");
+
+      console.log(kit);
+      if (Array.isArray(amostras._id))
+        for (var j = 0; j < amostras._id.length; j++) {
+          Sample.finalizeSample(amostras._id[j], toxinafull[i], kit._id);
+        }
+      else
+        Sample.finalizeSample(amostras._id, toxinafull[i], kit._);
     }
 
     console.log("i: " + i);
-    console.log("req.body.sample[toxinas[i]]");
-    console.log(req.body.sample[toxinas[i]]);
     console.log("amostras");
     console.log(amostras);
+    console.log(typeof amostras);
   }
 
   res.render('allworkmaps', { title: 'finalizado', amostras, toxinas });

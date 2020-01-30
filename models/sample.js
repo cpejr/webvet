@@ -623,14 +623,17 @@ class Sample {
     });
   }
 
-  static finalizeSample(id, toxina, workmap_id) {
+  static finalizeSample(id, toxina, kit_id) {
 
     return new Promise((resolve, reject) => {
-      
+      var parameter = toxina + '.active';
+      var parameter2 = toxina + '.kit_id';
       var updateVal = {};
-      updateVal[toxina]['active'] = false;
-      updateVal[toxina]['workmap_id'] = workmap_id;
-      console.log("aaaaaa");
+
+      updateVal[parameter] = false;
+      updateVal[parameter2] = kit_id;
+
+      console.log("aaaaaa----" + id);
       console.log(updateVal);
       SampleModel.update(
         { _id: id },
