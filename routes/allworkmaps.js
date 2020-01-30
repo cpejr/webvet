@@ -135,7 +135,7 @@ router.post('/', function (req, res, next) {
 
 
     function updateSample(name, obj) {
-      if (obj) {
+      if (typeof obj !== 'undefined') {
         var id_tox = obj._id;
         var abs_tox = obj.absorbance;
         var abs2_tox = obj.absorbance2;
@@ -156,12 +156,14 @@ router.post('/', function (req, res, next) {
       }
     }
 
-    updateSample('aflatoxina', req.body.sample.AFLA);
-    updateSample('deoxinivalenol', req.body.sample.DON);
-    updateSample('ocratoxina', req.body.sample.OTA);
-    updateSample('t2toxina', req.body.sample.T2);
-    updateSample('zearalenona', req.body.sample.ZEA);
-    updateSample('fumonisina', req.body.sample.FBS);
+    if (req.body.sample) {
+      updateSample('aflatoxina', req.body.sample.AFLA);
+      updateSample('deoxinivalenol', req.body.sample.DON);
+      updateSample('ocratoxina', req.body.sample.OTA);
+      updateSample('t2toxina', req.body.sample.T2);
+      updateSample('zearalenona', req.body.sample.ZEA);
+      updateSample('fumonisina', req.body.sample.FBS);
+    }
 
     var cont = 0;
 
