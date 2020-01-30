@@ -586,16 +586,19 @@ router.get('/', async function (req, res, next) {
 });
 
 
-router.post("/", async function (req, res, next){
+router.post("/", async function (req, res, next) {
   var amostras = new Array;
-  const toxinas = ['AFLA','DON','OTA', 'T2', 'ZEA', 'FBS'];
+  const toxinas = ['AFLA', 'DON', 'OTA', 'T2', 'ZEA', 'FBS'];
   const toxinafull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
 
-  for (var i = 0; i < toxinas.length; i++){
+  for (var i = 0; i < toxinas.length; i++) {
     amostras = req.body.sample[toxinas[i]];
 
-    for(var j = 0; j < amostras.length; j++){
-      
+    if (typeof amostras !== 'undefined') {
+      console.log("ENTROU NO FOR");
+      for (var j = 0; j < amostras.length; j++) {
+        Sample.finalizeSample(amostras._id[j], toxinafull[i], "aa");
+      }
     }
 
     console.log("i: " + i);
@@ -605,7 +608,7 @@ router.post("/", async function (req, res, next){
     console.log(amostras);
   }
 
-  res.render('allworkmaps', {title: 'finalizado', amostras, toxinas});
+  res.render('allworkmaps', { title: 'finalizado', amostras, toxinas });
 });
 
 module.exports = router;

@@ -622,6 +622,26 @@ class Sample {
 
     });
   }
+
+  static finalizeSample(id, toxina, workmap_id) {
+
+    return new Promise((resolve, reject) => {
+      
+      var updateVal = {};
+      updateVal[toxina]['active'] = false;
+      updateVal[toxina]['workmap_id'] = workmap_id;
+      console.log("aaaaaa");
+      console.log(updateVal);
+      SampleModel.update(
+        { _id: id },
+        { $set: updateVal }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
 }
 
 
