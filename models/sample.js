@@ -622,6 +622,29 @@ class Sample {
 
     });
   }
+
+  static finalizeSample(id, toxina, kit_id) {
+
+    return new Promise((resolve, reject) => {
+      var parameter = toxina + '.active';
+      var parameter2 = toxina + '.kit_id';
+      var updateVal = {};
+
+      updateVal[parameter] = false;
+      updateVal[parameter2] = kit_id;
+
+      console.log("aaaaaa----" + id);
+      console.log(updateVal);
+      SampleModel.update(
+        { _id: id },
+        { $set: updateVal }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
 }
 
 
