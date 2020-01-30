@@ -606,7 +606,7 @@ if(kit_zea_ativo.length !=0){
   };
 
   toxinas[1] = { 
-    name: 'DEOX', 
+    name: 'DON', 
     calibradores: {},
     valores: resultado_deox
   };

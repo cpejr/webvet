@@ -12,9 +12,9 @@
   <div class="col-sm-12 text-center container-fluid">
     <h1>Curvas de Calibração</h1>
   </div>
-  <div class="col-sm-12 text-center container-fluid">
+  <div class="col-sm-12 text-center container-fluid d-flex justify-content-between flex-wrap">
     {{#each toxinas}}
-    <table class="table mb-2">
+    <table class="table mb-2 w-50">
       <thead>
         <tr>
           <th scope="col">{{name}}</th>
@@ -33,14 +33,14 @@
         </tr>
       </tbody>
     </table>
-    <text class="dados">
+    <text class="dados w-50">
       <p><b>Slope:</b> {{valores.slope}}</p>
       <p><b>Intercept:</b> {{valores.intercept}}</p>
       <p><b>R:</b> {{valores.resultado.r2}}</p>
     </text>
     {{/each}}
   </div>
-  <div class="btn-group-justified col-sm-12 container-fluid">
+  <div class="btn-group-justified w-40 container-fluid">
     <div class="btn btn-back">
       <a href="/allsamples" class="btn btn-success" id="test">Digitar absorvâncias novamente</a>
     </div>
