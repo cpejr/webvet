@@ -2,14 +2,15 @@
 var num = 2;
 function addInput() {
   if(num<11) {
-    var newInput = '<div class="form-row"><div class="requisition-text col-md-8"><input type="text" name="requisition[sampleVector]" id="sample'+num+'" class="requisition-text" placeholder="Amostra '+num+'"/></div><div class="checkbox"><input type="checkbox" id="polpa'+num+'" name="polpa" value="polpa"> Contém polpa cítrica</input></div></div>';
-     document.getElementById('samples').innerHTML += newInput;
-     num++;
+    var newInput = document.createElement("div");
+    newInput.innerHTML = '<div class="requisition-text col-md-8"><input type="text" name="requisition[sampleVector]" id="sample'+num+'" class="requisition-text" placeholder="Amostra '+num+'"/></div><div class="checkbox"><input type="checkbox" id="polpa'+num+'" name="polpa" value="polpa"> Contém polpa cítrica</input></div>'
+    newInput.className = "form-row";
+    document.getElementById('samples').appendChild(newInput);
+    num++;
   } else {
     req.flash('alert', 'Número máximo de requisições atingido');
   }
 }
-
 var checados = document.getElementsByName('polpa');
 var inputs = document.getElementsByName('requisition[sampleVector]');
 var polpaCitrica = " com polpa cítrica"
