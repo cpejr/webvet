@@ -440,9 +440,27 @@ class Kit {
   }
 
   static getActiveID(siglaToxina) {
+
+    if(siglaToxina == "FBS")
+      siglaToxina = "FUMO"
+
     return new Promise((resolve, reject) => {
       //{ active: 1 } é somente para retornar o _id, economizar internet
       KitModel.findOne({active: true, productCode: siglaToxina + " Romer"}, { active: 1 }).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getActive(siglaToxina) {
+
+    if(siglaToxina == "FBS")
+      siglaToxina = "FUMO"
+
+    return new Promise((resolve, reject) => {
+      KitModel.findOne({active: true, productCode: siglaToxina + " Romer"}).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);

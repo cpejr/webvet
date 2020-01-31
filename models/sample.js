@@ -607,11 +607,11 @@ class Sample {
     return new Promise((resolve, reject) => {
       var parameter = toxina + '.absorbance';
       var parameter2 = toxina + '.absorbance2';
-      
+
       var updateVal = {};
       updateVal[parameter] = abs;
       updateVal[parameter2] = abs2;
-      
+
       SampleModel.update(
         { _id: id },
         { $set: updateVal }).then((result) => {
@@ -633,8 +633,6 @@ class Sample {
       updateVal[parameter] = false;
       updateVal[parameter2] = kit_id;
 
-      console.log("aaaaaa----" + id);
-      console.log(updateVal);
       SampleModel.update(
         { _id: id },
         { $set: updateVal }).then((result) => {
@@ -643,6 +641,16 @@ class Sample {
           reject(err);
         });
 
+    });
+  }
+
+  static getByIdArray(id_array) {
+    return new Promise((resolve, reject) => {
+      SampleModel.find({ _id: { $in: id_array } }).then((map) => {
+        resolve(map);
+      }).catch((err) => {
+        reject(err);
+      });
     });
   }
 }

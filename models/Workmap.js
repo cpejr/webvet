@@ -56,9 +56,9 @@ class Workmap {
    * @param {Object} Sample - id
    * @returns {null}
    */
-  static addSample(id, sample,mapid) {
+  static addSample(id, sample, mapid) {
     return new Promise((resolve, reject) => {
-    WorkmapModel.findByIdAndUpdate(id, { $push: { samplesArray: sample },$set: { mapID: mapid } }).catch((err) => {
+      WorkmapModel.findByIdAndUpdate(id, { $push: { samplesArray: sample }, $set: { mapID: mapid } }).catch((err) => {
         reject(err);
       });
     });
@@ -73,9 +73,9 @@ class Workmap {
 
   static removeSample(id, sample) {
     return new Promise((resolve, reject) => {
-    WorkmapModel.findByIdAndUpdate(id, { $pull: { samplesArray: sample }}).then(()=>{
-      resolve();
-    }).catch((err) => {
+      WorkmapModel.findByIdAndUpdate(id, { $pull: { samplesArray: sample } }).then(() => {
+        resolve();
+      }).catch((err) => {
         reject(err);
       });
     });
@@ -84,7 +84,7 @@ class Workmap {
 
   static setMapID(id, mapid) {
     return new Promise((resolve, reject) => {
-    WorkmapModel.findByIdAndUpdate(id, { $set: { mapID: mapid } }).catch((err) => {
+      WorkmapModel.findByIdAndUpdate(id, { $set: { mapID: mapid } }).catch((err) => {
         reject(err);
       });
     });
@@ -92,27 +92,34 @@ class Workmap {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      WorkmapModel.findOneAndDelete({_id: id}).then(() => {
+      WorkmapModel.findOneAndDelete({ _id: id }).then(() => {
         resolve();
       }).catch((err) => {
         reject(err);
       });
-   });
- }
-
-
- static getOneMap(id) {
-   return new Promise((resolve, reject) => {
-    WorkmapModel.findById(id).exec().then((map) => {
-       resolve(map);
-    }).catch((err) => {
-      reject(err);
     });
-  });
- }
+  }
 
 
+  static getOneMap(id) {
+    return new Promise((resolve, reject) => {
+      WorkmapModel.findById(id).exec().then((map) => {
+        resolve(map);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
+  static getByIdArray(id_array) {
+    return new Promise((resolve, reject) => {
+      WorkmapModel.find({ _id: { $in: id_array } }).then((map) => {
+        resolve(map);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 module.exports = Workmap;
