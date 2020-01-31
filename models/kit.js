@@ -440,6 +440,10 @@ class Kit {
   }
 
   static getActiveID(siglaToxina) {
+    //Correção provisória do problema com a sigla
+    if(siglaToxina == "FBS")
+      siglaToxina = "FUMO"
+
     return new Promise((resolve, reject) => {
       //{ active: 1 } é somente para retornar o _id, economizar internet
       KitModel.findOne({active: true, productCode: siglaToxina + " Romer"}, { active: 1 }).exec().then((results) => {
