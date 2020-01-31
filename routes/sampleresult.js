@@ -256,7 +256,7 @@ router.get('/', async function (req, res, next) {
 
       }
     }
-    var log_concentracao_ota = new Array;
+    var log_concentracao_ota = [Math.log10(Otaconcentration_p[1]), Math.log10(Otaconcentration_p[2]), Math.log10(Otaconcentration_p[3]), Math.log10(Otaconcentration_p[4])]; //eixo x;
     var b_b0_ota = new Array;
     var ln_b_b0_ota = new Array;
     //console.log('log concentracao');
@@ -363,7 +363,7 @@ router.get('/', async function (req, res, next) {
     //console.log('ln_b_b0');
     //console.log(ln_b_b0_t2);
 
-    const result_t2 = regression.linear([[log_concentracao[0], ln_b_b0[0]], [log_concentracao[1], ln_b_b0[1]], [log_concentracao[2], ln_b_b0[2]]]);
+    const result_t2 = regression.linear([[log_concentracao_t2[0], ln_b_b0_t2[0]], [log_concentracao_t2[1], ln_b_b0_t2[1]], [log_concentracao_t2[2], ln_b_b0_t2[2]]]);
     const slope_t2 = result_t2.equation[0];// slope
     const yIntercept_t2 = result_t2.equation[1];// intercept
     //console.log('slope');
