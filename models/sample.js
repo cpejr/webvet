@@ -653,6 +653,22 @@ class Sample {
       });
     });
   }
+
+  static getActiveByIdArray(id_array, toxinafull) {
+    return new Promise((resolve, reject) => {
+
+      var querry = {};
+      querry['_id'] = { $in: id_array };
+      querry[toxinafull + '.active'] = true;
+
+      console.log(querry);
+      SampleModel.find(querry).then((map) => {
+        resolve(map);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 

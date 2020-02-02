@@ -50,7 +50,7 @@ router.get('/', async function (req, res, next) {
         for (let i = 0; i < mapas[j].samplesArray.length; i++)
           samples_id.push(mapas[j].samplesArray[i]);
 
-      amostras = await Sample.getByIdArray(samples_id);
+      amostras = await Sample.getActiveByIdArray(samples_id, toxinafull);
 
       var log_concentracao = [Math.log10(p_concentration[1]), Math.log10(p_concentration[2]), Math.log10(p_concentration[3]), Math.log10(p_concentration[4])]; //eixo x
       var b_b0 = [];
