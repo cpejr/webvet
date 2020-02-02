@@ -195,11 +195,6 @@ router.post('/', function (req, res, next) {
         }).catch((error) => {
           console.log(error);
         });
-        Sample.updateOcraActive(sample[i]._id, false).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-
       }
 
       if (sample[i].aflatoxina.mapReference != 'Sem mapa' && sample[i].aflatoxina.active == true) {
@@ -207,20 +202,10 @@ router.post('/', function (req, res, next) {
         }).catch((error) => {
           console.log(error);
         });
-        Sample.updateAflaActive(sample[i]._id, false).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-
-
       }
 
       if (sample[i].deoxinivalenol.mapReference != 'Sem mapa' && sample[i].deoxinivalenol.active == true) {
         Sample.updateDeoxWorkmap(sample[i]._id, cont + 1).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-        Sample.updateDeoxActive(sample[i]._id, false).then(() => {
         }).catch((error) => {
           console.log(error);
         });
@@ -231,10 +216,6 @@ router.post('/', function (req, res, next) {
         }).catch((error) => {
           console.log(error);
         });
-        Sample.updateT2Active(sample[i]._id, false).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
       }
 
       if (sample[i].fumonisina.mapReference != 'Sem mapa' && sample[i].fumonisina.active == true) {
@@ -242,11 +223,6 @@ router.post('/', function (req, res, next) {
         }).catch((error) => {
           console.log(error);
         });
-        Sample.updateFumActive(sample[i]._id, false).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-
       }
 
       if (sample[i].zearalenona.mapReference != 'Sem mapa' && sample[i].zearalenona.active == true) {
@@ -254,12 +230,6 @@ router.post('/', function (req, res, next) {
         }).catch((error) => {
           console.log(error);
         });
-        Sample.updateZeaActive(sample[i]._id, false).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-
-
       }
     }
 
