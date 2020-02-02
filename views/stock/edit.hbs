@@ -1,12 +1,12 @@
 <div class="edit-requisition">
-    <p><font color="gray" size="5">Kit {{kit.kitType}} </p>
+    <p><font color="gray" size="5">{{kit.productCode}} ({{kit.kitType}})</p>   
     <hr color="lightgray">
     <div class="showboxinfo">
       <form action="/stock/{{kit.id}}?_method=PUT" method="post">
           <p><font size="4" color="black">Descrição do Produto: <input id="stock-edit" type="text" style="width: 27px" value= {{kit.productDescription}} name="kit[productDescription]"></p>
           <p><font size="4" color="black">Quantidade em Estoque: <input id="stock-edit" type="number" style="width: 37px" value= {{kit.amount}} name="kit[amount]"></p>
           <p><font size="4" color="black">Lod: <input id="stock-edit" type="text" style="width: 50px" value= {{kit.Lod}} name="kit[Lod]"></p>
-          <p><font size="4" color="black">Loq: <input id="stock-edit" type="text" style="width: 50px" value= {{kit.LoQ}} name="kit[LoQ]"></p>
+          <p><font size="4" color="black">Loq: <input id="stock-edit" type="text" style="width: 50px" value= {{kit.Loq}} name="kit[LoQ]"></p>
           <p><font size="4" color="black">Fornecedor: <input id="stock-edit" type="text" style="width: 200px" value= {{kit.provider}} name="kit[provider]"></p>
           <p><font size="4" color="black">Data de Expiração: <input id="stock-edit" type="text" style="width: 30px" value= {{kit.dayexpirationDate}} name="kit[dayexpirationDate]">/<input id="stock-edit" type="text" style="width: 30px" value= {{kit.monthexpirationDate}} name="kit[monthexpirationDate]">/<input id="stock-edit" type="text" style="width: 40px" value= {{kit.yearexpirationDate}} name="kit[yearexpirationDate]"></p>
           <p><font size="4" color="black">Estoque Mínimo:  <input id="stock-edit" type="text" style="width: 29px" value= {{kit.stockMin}} name="kit[stockMin]"></p>
