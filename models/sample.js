@@ -628,10 +628,12 @@ class Sample {
     return new Promise((resolve, reject) => {
       var parameter = toxina + '.active';
       var parameter2 = toxina + '.kit_id';
+      var parameter3 = 'report';
       var updateVal = {};
 
       updateVal[parameter] = false;
       updateVal[parameter2] = kit_id;
+      updateVal[parameter3] = true;
 
       SampleModel.update(
         { _id: id },
