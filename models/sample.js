@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+var data = new Date();
+var yyyy = data.getFullYear();
 
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
@@ -14,6 +16,10 @@ const sampleSchema = new mongoose.Schema({
     ref: 'Requisition'
   },
   responsible: String,
+  creationYear: {
+    type: Number,
+    default: yyyy,
+  },
   ocratoxina: {
     status: {
       type: String,
