@@ -453,6 +453,16 @@ class Kit {
       });
     });
   }
+
+  static getAllActive() {
+    return new Promise((resolve, reject) => {
+      KitModel.find({active: true}).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 
