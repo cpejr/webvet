@@ -38,12 +38,9 @@ router.post('/', function (req, res, next) {
 
       var new_last;
       var last_filled = 0;
-      var counter = 0;
-
 
       for (let i = Current_kit.toxinaStart; i < Current_kit.mapArray.length; i++) {
         Workmap.getOneMap(Current_kit.mapArray[i]).then((workmap) => {
-          counter++;
           if (workmap.samplesArray.length > 0) {
             new_last = workmap.mapID;
             new_last = new_last.replace("_workmap", "");
@@ -52,26 +49,25 @@ router.post('/', function (req, res, next) {
             if (new_last > last_filled) {
               last_filled = new_last;
             }
-
-
           }
-          if (counter == Current_kit.mapArray.length - 1) {
-            Current_kit.amount = Current_kit.stripLength - last_filled;
-            Current_kit.toxinaStart = last_filled;
-            Current_kit.calibrators.P1.absorbance = parseFloat(req.body[sigla + "Calibrator"].P1);
-            Current_kit.calibrators.P2.absorbance = parseFloat(req.body[sigla + "Calibrator"].P2);
-            Current_kit.calibrators.P3.absorbance = parseFloat(req.body[sigla + "Calibrator"].P3);
-            Current_kit.calibrators.P4.absorbance = parseFloat(req.body[sigla + "Calibrator"].P4);
-            Current_kit.calibrators.P5.absorbance = parseFloat(req.body[sigla + "Calibrator"].P5);
-            Kit.update(Current_kit._id, Current_kit).catch((err) => {
-              console.log(err);
-            });
-          }
-
         });
       }
+
+      Current_kit.amount = Current_kit.stripLength - last_filled;
+      Current_kit.toxinaStart = last_filled;
+      Current_kit.calibrators.P1.absorbance = parseFloat(req.body[sigla + "Calibrator"].P1);
+      Current_kit.calibrators.P2.absorbance = parseFloat(req.body[sigla + "Calibrator"].P2);
+      Current_kit.calibrators.P3.absorbance = parseFloat(req.body[sigla + "Calibrator"].P3);
+      Current_kit.calibrators.P4.absorbance = parseFloat(req.body[sigla + "Calibrator"].P4);
+      Current_kit.calibrators.P5.absorbance = parseFloat(req.body[sigla + "Calibrator"].P5);
+      Kit.update(Current_kit._id, Current_kit).catch((err) => {
+        console.log(err);
+      });
+
     }
   }
+
+  res.redirect("/calibrationcurves");
 });
 
 
