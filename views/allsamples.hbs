@@ -21,52 +21,16 @@
               </thead>
 
               <tbody>
-                <tr>
-                  <th>P1</th>
-                  <th>
-                    <div class="input-group-sm">
-                      <input name="{{this}}Calibrator[P1]" class="form-control">
-                    </div>
-                  </th>
-                </tr>
-
-                <tr>
-                  <th>P2</th>
-                  <th>
-                    <div class="input-group-sm">
-                      <input name="{{this}}Calibrator[P2]" class="form-control">
-                    </div>
-                  </th>
-                </tr>
-
-                <tr>
-                  <th>P3</th>
-                  <th>
-                    <div class="input-group-sm">
-                      <input name="{{this}}Calibrator[P3]" class="form-control">
-                    </div>
-                  </th>
-                </tr>
-
-                <tr>
-                  <th>P4</th>
-                  <th>
-                    <div class="input-group-sm">
-                      <input name="{{this}}Calibrator[P4]" class="form-control">
-                    </div>
-                  </th>
-                </tr>
-
-                <tr>
-                  <th>P5</th>
-                  <th>
-                    <div class="input-group-sm">
-                      <input name="{{this}}Calibrator[P5]" class="form-control">
-                    </div>
-                  </th>
-                </tr>
-              </tbody>
-
+                {{#for 1 6 1}}
+                  <tr>
+                    <th>P{{this}}</th>
+                    <th>
+                      <div class="input-group-sm">
+                        <input name="{{../this}}Calibrator[P{{this}}]" class="form-control">
+                      </div>
+                    </th>
+                  </tr>
+                {{/for}}
             </table>
           {{/each}}
         </div>
