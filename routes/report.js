@@ -29,10 +29,8 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
 });
 
 router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
-  var date = new Date();
-  var yyyy = date.getFullYear();
   Sample.getById(req.params.id).then((sample) => {
-    res.render('report/show', { title: 'Show ', sample, yyyy});
+    res.render('report/show', { title: 'Show ', sample});
     console.log (sample);
   }).catch((error) => {
     console.log(error);
@@ -41,10 +39,8 @@ router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 router.get('/show/admin/:id', auth.isAuthenticated, function(req, res, next) {
-  var date = new Date();
-  var yyyy = date.getFullYear();
   Sample.getById(req.params.id).then((sample) => {
-    res.render('report/editAdmin', { title: 'Show ', sample, yyyy});
+    res.render('report/editAdmin', { title: 'Show ', sample});
     console.log (sample);
   }).catch((error) => {
     console.log(error);
@@ -93,8 +89,6 @@ router.get('/samples/:id', auth.isAuthenticated, function(req, res, next) {
 
 router.get('/admreport', auth.isAuthenticated||is.Admin||is.Analista,function(req, res, next) {
   var laudos = new Array;
-  var date = new Date();
-  var yyyy = date.getFullYear();
   Sample.getAll().then((amostras) => {
     for (var i = 0; i < amostras.length; i++) {
       if (amostras[i].report == true) {
@@ -103,7 +97,7 @@ router.get('/admreport', auth.isAuthenticated||is.Admin||is.Analista,function(re
         console.log("nadinha");
       }
     }
-  res.render('report/admreport', {title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs',...req.session, laudos, yyyy});
+  res.render('report/admreport', {title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs',...req.session, laudos});
   });
 });
 
