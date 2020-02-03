@@ -101,6 +101,7 @@ router.get('/', async function (req, res, next) {
   var r5 = await calcular(ToxinasFull[4], ToxinasSigla[4]);
   var r6 = await calcular(ToxinasFull[5], ToxinasSigla[5]);
 
+
   //Finalizando a forma de como os dados serão enviados ao front
   var resultados = {}
 

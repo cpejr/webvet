@@ -440,7 +440,7 @@ class Kit {
   }
 
   static getActiveID(siglaToxina) {
-
+    //Correção provisória do problema com a sigla
     if(siglaToxina == "FBS")
       siglaToxina = "FUMO"
 
