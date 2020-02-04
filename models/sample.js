@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const Counter = require('counter');
+var data = new Date();
+var yyyy = data.getFullYear();
 
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
@@ -14,6 +17,10 @@ const sampleSchema = new mongoose.Schema({
     ref: 'Requisition'
   },
   responsible: String,
+  creationYear: {
+    type: Number,
+    default: yyyy,
+  },
   ocratoxina: {
     status: {
       type: String,
@@ -23,6 +30,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -43,6 +51,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -63,6 +72,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -83,6 +93,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -103,6 +114,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -123,6 +135,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -167,7 +180,7 @@ class Sample {
    */
   static getById(id) {
     return new Promise((resolve, reject) => {
-      SampleModel.findById(id).populate('sample').exec().then((result) => {
+      SampleModel.findOne({_id: id}).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -607,11 +620,11 @@ class Sample {
     return new Promise((resolve, reject) => {
       var parameter = toxina + '.absorbance';
       var parameter2 = toxina + '.absorbance2';
-      
+
       var updateVal = {};
       updateVal[parameter] = abs;
       updateVal[parameter2] = abs2;
-      
+
       SampleModel.update(
         { _id: id },
         { $set: updateVal }).then((result) => {
@@ -628,13 +641,59 @@ class Sample {
     return new Promise((resolve, reject) => {
       var parameter = toxina + '.active';
       var parameter2 = toxina + '.kit_id';
+      var parameter3 = 'report';
       var updateVal = {};
 
       updateVal[parameter] = false;
       updateVal[parameter2] = kit_id;
+      updateVal[parameter3] = true;
 
-      console.log("aaaaaa----" + id);
-      console.log(updateVal);
+      SampleModel.update(
+        { _id: id },
+        { $set: updateVal }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
+
+  static getByIdArray(id_array) {
+    return new Promise((resolve, reject) => {
+      SampleModel.find({ _id: { $in: id_array } }).then((map) => {
+        resolve(map);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getActiveByIdArray(id_array, toxinafull) {
+    return new Promise((resolve, reject) => {
+
+      var querry = {};
+      querry['_id'] = { $in: id_array };
+      querry[toxinafull + '.active'] = true;
+
+      console.log(querry);
+      SampleModel.find(querry).then((map) => {
+        resolve(map);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static async updateResult(id, toxina_full, result) {
+
+    return new Promise((resolve, reject) => {
+      var parameter = toxina_full + '.result';
+
+      var updateVal = {};
+
+      updateVal[parameter] = result;
+
       SampleModel.update(
         { _id: id },
         { $set: updateVal }).then((result) => {

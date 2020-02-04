@@ -12,7 +12,7 @@
 </div>
 <div class="laudo-text">
   <h4>Registro Lab. MICOTOX 137</h4>
-  <h4> 1. Laudo n° </h4>
+  <h4> 1. Laudo n°: {{sample.samplenumber}}/{{sample.creationYear}}</h4>
   <h4> 2. Descrição da Amostra: </h4>
     <div class="info-laudo">
       <h4> 2.1 - Tipo de embalagem: Reensilagem em saco plástico  </h4>
@@ -48,25 +48,25 @@
         <tbody>
           <tr>
             <th scope="row">Aflatoxinas</th>
-            <td><input type="text" name = "aflatoxinaConc" value = "{{sample.aflatoxina.concentration}}"></td>
+            <td><input type="text" name = "aflatoxinaConc" value = "{{sample.aflatoxina.result}}"></td>
             <td></td>
             <td></td>
           </tr>
           <tr>
             <th scope="row">Deoxinivalenol</th>
-            <td><input type="text" name = "deoxConc" value = "{{sample.deoxinivalenol.concentration}}"></td>
+            <td><input type="text" name = "deoxConc" value = "{{sample.deoxinivalenol.result}}"></td>
             <td></td>
             <td></td>
           </tr>
           <tr>
             <th scope="row">Fumonisinas</th>
-            <td><input type="text" name = "fumoConc" value = "{{sample.fumonisina.concentration}}"></td>
+            <td><input type="text" name = "fumoConc" value = "{{sample.fumonisina.result}}"></td>
             <td></td>
             <td></td>
           </tr>
           <tr>
             <th scope="row">Ocratoxina A</th>
-            <td><input type="text" name = "ocratoxConc" value = "{{sample.ocratoxina.concentration}}"></td>
+            <td><input type="text" name = "ocratoxConc" value = "{{sample.ocratoxina.result}}"></td>
             <td></td>
             <td></td>
           </tr>

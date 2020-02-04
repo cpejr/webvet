@@ -97,7 +97,7 @@ router.get('/admreport', auth.isAuthenticated||is.Admin||is.Analista,function(re
         console.log("nadinha");
       }
     }
-  res.render('report/admreport', {title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs',...req.session, laudos });
+  res.render('report/admreport', {title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs',...req.session, laudos});
   });
 });
 
