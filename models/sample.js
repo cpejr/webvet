@@ -180,7 +180,7 @@ class Sample {
    */
   static getById(id) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOne({_id: id}).then((result) => {
+      SampleModel.findOne({ _id: id }).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -225,12 +225,12 @@ class Sample {
    */
   static create(sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.create(sample).then((result) => {
-        resolve(result._id);
-      }).catch((err) => {
-        reject(err);
+      Counter.testAndResolveCounter(yyyy).then(sampleNumber => {
+        sample.samplenumber = sampleNumber;
+        SampleModel.create(sample).then((result) => {
+          resolve(result._id);
+        });
       });
-
     });
   }
 

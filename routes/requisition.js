@@ -10,21 +10,21 @@ const Kitstock = require('../models/kitstock');
 
 
 
-router.get('/new', auth.isAuthenticated,  function(req,res) {
+router.get('/new', auth.isAuthenticated, function (req, res) {
   Kitstock.getAll().then((kitstock) => {
     console.log(kitstock);
-    res.render('requisition/newrequisition', {title:'Requisition',layout:'layoutDashboard.hbs', ...req.session });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
+    res.render('requisition/newrequisition', { title: 'Requisition', layout: 'layoutDashboard.hbs', ...req.session });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 
 });
 
 
-router.post('/new', auth.isAuthenticated, function(req,res) {
+router.post('/new', auth.isAuthenticated, function (req, res) {
   const { requisition } = req.body;
-  requisition.user=req.session.user;
+  requisition.user = req.session.user;
   if (req.body.producerAddress == 0) {
     console.log("MINI BOIIIII");
     const address = req.session.user.address;
@@ -34,158 +34,79 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
   console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
     var i;
-    var numDefault=1;
     const samplesV = [];
     var size;
 
-    if(Array.isArray(req.body.requisition.sampleVector)) {
-      req.body.requisition.sampleVector.forEach(function(sample)  {//monta o vetor de amostras
-            samplesV.push(sample);
+    if (Array.isArray(req.body.requisition.sampleVector)) {
+      req.body.requisition.sampleVector.forEach(function (sample) {//monta o vetor de amostras
+        samplesV.push(sample);
       });
-      size=samplesV.length;
+      size = samplesV.length;
     }
     else {
-      size=1;
+      size = 1;
     }
 
+    for (i = 0; i < size; i++) {
+      const sample = {
+        name: samplesV[i],
+        samplenumber: -1,
+        responsible: req.body.responsible,
+        aflatoxina: {
+          active: false,
+        },
+        ocratoxina: {
+          active: false,
+        },
+        deoxinivalenol: {
+          active: false,
+        },
+        fumonisina: {
+          active: false,
+        },
+        t2toxina: {
+          active: false,
+        },
+        zearalenona: {
+          active: false,
+        }
+      }
 
-   Sample.getMaxSampleNumber().then((maxSample) => {//pega maior numero atribuido as amostras do banco
-      Sample.count().then((countSample)=>{
-        if(countSample==0) { //se o banco esta vazio
-             for(i = 0; i< size; i++) {
-                const sample = {
-                  name: samplesV[i],
-                  samplenumber: numDefault,
-                  responsible: req.body.responsible,
-                  aflatoxina: {
-                    active: false,
-                  },
-                  ocratoxina: {
-                    active: false,
-                  },
-                  deoxinivalenol: {
-                    active: false,
-                  },
-                  t2toxina: {
-                    active: false,
-                  },
-                  zearalenona: {
-                    active: false,
-                  }
-                }
+      if (req.body.requisition.mycotoxin.includes("Aflatoxinas")) {
+        sample.aflatoxina.active = true;
+      }
+      if (req.body.requisition.mycotoxin.includes("Ocratoxina A")) {
+        sample.ocratoxina.active = true;
+      }
 
-                if(req.body.requisition.mycotoxin.includes("Aflatoxinas")) {
-                  sample.aflatoxina.active=true;
-                }
-                if(req.body.requisition.mycotoxin.includes("Ocratoxina A")) {
-                 sample.ocratoxina.active=true;
-               }
- 
-               if(req.body.requisition.mycotoxin.includes("Deoxinivalenol*")) {
-                 sample.deoxinivalenol.active=true;
-               }
- 
-               
-               if(req.body.requisition.mycotoxin.includes("T-2 toxina")) {
-                 sample.t2toxina.active=true;
-               }
- 
-               if(req.body.requisition.mycotoxin.includes("Fumonisina")) {
-                 sample.fumonisina.active=true;
-               }
- 
-               if(req.body.requisition.mycotoxin.includes("Zearalenona")) {
-                 sample.zearalenona.active=true;
-               }
-                
-                Sample.create(sample).then((sid) => {
-                  console.log(`New Sample with id: ${sid}`);
-                   Requisition.addSample(reqid, sid).catch((error) => {
-                      console.log(error);
-                      res.redirect('/error');
-                   });
-                }).catch((error) => {
-                  console.log(error);
-                  res.redirect('/error');
-                });
-                numDefault++;
-            }
-          }
-        else{  //banco não esta vazio
-          // console.log("AQUI\I/")
-          // console.log(req.body.mycotoxin)
-            numDefault=maxSample[0].samplenumber+1;
-            for(i = 0; i< size; i++) {
-               const sample = {
-                 name: samplesV[i],
-                 samplenumber: numDefault,
-                 responsible: req.body.responsible,
-                 aflatoxina: {
-                      active: false,
-                 },
-                 ocratoxina: {
-                  active: false,
-                 },
-                 deoxinivalenol: {
-                  active: false,
-                 },
-                 t2toxina: {
-                  active: false,
-                 },
-                 fumonisina:{
-                  active:false,
-                 },
-                 zearalenona: {
-                  active: false,
-                 }
-               }
-               if(req.body.requisition.mycotoxin.includes("Aflatoxinas")) {
-                 sample.aflatoxina.active=true;
-               }
-               if(req.body.requisition.mycotoxin.includes("Ocratoxina A")) {
-                sample.ocratoxina.active=true;
-              }
-
-              if(req.body.requisition.mycotoxin.includes("Deoxinivalenol*")) {
-                sample.deoxinivalenol.active=true;
-              }
-
-              
-              if(req.body.requisition.mycotoxin.includes("T-2 toxina")) {
-                sample.t2toxina.active=true;
-              }
-
-              if(req.body.requisition.mycotoxin.includes("Fumonisina")) {
-                sample.fumonisina.active=true;
-              }
-
-              if(req.body.requisition.mycotoxin.includes("Zearalenona")) {
-                sample.zearalenona.active=true;
-              }
+      if (req.body.requisition.mycotoxin.includes("Deoxinivalenol*")) {
+        sample.deoxinivalenol.active = true;
+      }
 
 
+      if (req.body.requisition.mycotoxin.includes("T-2 toxina")) {
+        sample.t2toxina.active = true;
+      }
 
-         
-               Sample.create(sample).then((sid) => {
-                  Requisition.addSample(reqid, sid).catch((error) => {
-                     console.log(error);
-                     res.redirect('/error');
-                  });
-               }).catch((error) => {
-                 console.log(error);
-                 res.redirect('/error');
-               });
-               numDefault++;
-            }
-          }
+      if (req.body.requisition.mycotoxin.includes("Fumonisina")) {
+        sample.fumonisina.active = true;
+      }
+
+      if (req.body.requisition.mycotoxin.includes("Zearalenona")) {
+        sample.zearalenona.active = true;
+      }
+
+      Sample.create(sample).then((sid) => {
+        console.log(`New Sample with id: ${sid}`);
+        Requisition.addSample(reqid, sid).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
       }).catch((error) => {
         console.log(error);
-        res.redirect('/error'); });
-   }).catch((error) => {
-      console.log(error);
-     res.redirect('/error'); });//catch do getMaxSampleNumber
-
-
+        res.redirect('/error');
+      });
+    }
 
     console.log(`New requisition with id: ${reqid}`);
     req.flash('success', 'Nova requisição enviada');
@@ -193,27 +114,27 @@ router.post('/new', auth.isAuthenticated, function(req,res) {
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');//catch do create
- });
-});
-
-router.get('/', auth.isAuthenticated, function(req, res, next) {
-  Requisition.getAll().then((requisitions) => {
-    console.log(requisitions);
-    res.render('requisition/index', {title: 'Requisições Disponíveis', layout: 'layoutDashboard.hbs',...req.session, requisitions });
   });
 });
 
-router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res, next) {
+  Requisition.getAll().then((requisitions) => {
+    console.log(requisitions);
+    res.render('requisition/index', { title: 'Requisições Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, requisitions });
+  });
+});
+
+router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisitions) => {
     //console.log(kit);
     res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-});
+  });
 });
 
-router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {
+router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisitions) => {
     console.log(requisitions);
     res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisitions });
@@ -223,7 +144,7 @@ router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {
   });
 });
 
-router.put('/:id', auth.isAuthenticated, function(req, res, next) {
+router.put('/:id', auth.isAuthenticated, function (req, res, next) {
   const { requisitions } = req.body;
   Requisition.update(req.params.id, requisitions).then(() => {
     req.flash('success', 'Requisição alterada com sucesso.');
