@@ -454,13 +454,9 @@ class Kit {
     });
   }
 
-  static getActive(siglaToxina) {
-
-    if(siglaToxina == "FBS")
-      siglaToxina = "FUMO"
-
+  static getAllActive() {
     return new Promise((resolve, reject) => {
-      KitModel.findOne({active: true, productCode: siglaToxina + " Romer"}).exec().then((results) => {
+      KitModel.find({active: true}).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);

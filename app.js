@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const createError = require('http-errors');
 const express = require('express');
-const exphbs  = require('express-handlebars');
+const exphbs = require('express-handlebars');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -25,20 +25,20 @@ const userRouter = require('./routes/user');
 const cardsAdminRouter = require('./routes/cardsAdmin');
 const homeAdminRouter = require('./routes/homeAdmin');
 const searchRouter = require('./routes/search');
-const analystRouter = require ('./routes/analyst');
-const recordRouter = require ('./routes/record');
+const analystRouter = require('./routes/analyst');
+const recordRouter = require('./routes/record');
 const sampleRouter = require('./routes/sample');
 const requisitionRouter = require('./routes/requisition');
 const profileRouter = require('./routes/profile');
-const allkitsRouter = require ('./routes/allkits');
-const printtemplateRouter = require ('./routes/printtemplate');
-const calibrationcurvesRouter = require ('./routes/calibrationcurves');
-const allsamplesRouter = require ('./routes/allsamples');
+const allkitsRouter = require('./routes/allkits');
+const printtemplateRouter = require('./routes/printtemplate');
+const calibrationcurvesRouter = require('./routes/calibrationcurves');
+const allsamplesRouter = require('./routes/allsamples');
 const allworkmapsRouter = require('./routes/allworkmaps');
-const setstockRouter = require ('./routes/setstock');
-const previousmapRouter = require ('./routes/previousmap');
+const setstockRouter = require('./routes/setstock');
+const previousmapRouter = require('./routes/previousmap');
 const sampleresultRouter = require('./routes/sampleresult');
-const reportRouter = require ('./routes/report');
+const reportRouter = require('./routes/report');
 const app = express();
 
 /**
@@ -87,14 +87,14 @@ app.engine('hbs', exphbs({
 
       const operator = options.hash.operator || '==';
       const operators = {
-        '==': function(l, r) { return l == r; },
-        '===': function(l, r) { return l === r; },
-        '!=': function(l, r) { return l != r; },
-        '<': function(l, r) { return l < r; },
-        '>': function(l, r) { return l > r; },
-        '<=': function(l, r) { return l <= r; },
-        '>=': function(l, r) { return l >= r; },
-        'typeof': function(l, r) { return typeof l == r; }
+        '==': function (l, r) { return l == r; },
+        '===': function (l, r) { return l === r; },
+        '!=': function (l, r) { return l != r; },
+        '<': function (l, r) { return l < r; },
+        '>': function (l, r) { return l > r; },
+        '<=': function (l, r) { return l <= r; },
+        '>=': function (l, r) { return l >= r; },
+        'typeof': function (l, r) { return typeof l == r; }
       }
       if (!operators[operator]) {
         throw new Error(`Handlerbars Helper 'compare' doesn't know the operator ${operator}`);
@@ -104,6 +104,12 @@ app.engine('hbs', exphbs({
         return options.fn(this);
       }
       return options.inverse(this);
+    },
+    for(from, to, incr, block) {
+      var accum = '';
+      for (var i = from; i < to; i += incr)
+        accum += block.fn(i);
+      return accum;
     }
   }
 }));
@@ -151,7 +157,7 @@ app.use('/allsamples', allsamplesRouter);
 app.use('/allworkmaps', allworkmapsRouter)
 app.use('/setstock', setstockRouter);
 app.use('/report', reportRouter);
-app.use('/previousmap',previousmapRouter);
+app.use('/previousmap', previousmapRouter);
 app.use('/sampleresult', sampleresultRouter);
 
 
