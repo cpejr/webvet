@@ -29,6 +29,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -49,6 +50,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -69,6 +71,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -89,6 +92,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -109,6 +113,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -129,6 +134,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
+    result: Number,
     active: {
       type: Boolean,
       default: false
@@ -173,7 +179,7 @@ class Sample {
    */
   static getById(id) {
     return new Promise((resolve, reject) => {
-      SampleModel.findById(id).populate('sample').exec().then((result) => {
+      SampleModel.findOne({_id: id}).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -675,6 +681,26 @@ class Sample {
       }).catch((err) => {
         reject(err);
       });
+    });
+  }
+
+  static async updateResult(id, toxina_full, result) {
+
+    return new Promise((resolve, reject) => {
+      var parameter = toxina_full + '.result';
+
+      var updateVal = {};
+
+      updateVal[parameter] = result;
+
+      SampleModel.update(
+        { _id: id },
+        { $set: updateVal }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
     });
   }
 }

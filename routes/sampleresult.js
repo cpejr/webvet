@@ -86,6 +86,8 @@ router.get('/', async function (req, res, next) {
           changed_workmap: i != 0 && amostras[i - 1][toxinafull].mapReference != amostras[i][toxinafull].mapReference,
           _id: amostras[i]._id
         };
+
+        Sample.updateResult(resultado[i]._id, toxinafull, resultado[i].compara);
       }
 
       return resultado;
@@ -129,7 +131,7 @@ router.post("/", async function (req, res, next) {
       console.log(kit);
       if (Array.isArray(amostras._id))
         for (var j = 0; j < amostras._id.length; j++) {
-          Sample.finalizeSample(amostras._id[j], ToxinasFull[i], kit._id);
+          Sample.finalizeSample(amostras._id[j], ToxinasFull[i], kit._id, );
         }
       else
         Sample.finalizeSample(amostras._id, ToxinasFull[i], kit._id);
