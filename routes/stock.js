@@ -11,6 +11,23 @@ const Kitstock = require('../models/kitstock');
 const Sample= require('../models/sample');
 
 
+//a 1 é a data de validade e a 2 é a data de hoje
+//retorna falso  == da vermelho
+function datavalida(d1,m1,a1,d2,m2,a2){
+  
+  if(a1 > a2){
+    return true;
+  }
+  if(a1 >= a2 && m1>m2 ){
+    return true;
+  }
+  if(a1>=a2 && m1==m2 && d1>=d2){
+    return true;
+  }
+  return false;
+}
+
+
 
 //É PARA MEXER NESSA
 /* GET home page. */
@@ -34,8 +51,7 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
       var firstDate = new Date(yyyy,mm,dd);
       var secondDate = new Date(kits[i].yearexpirationDate,kits[i].monthexpirationDate,kits[i].dayexpirationDate);
       var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-
-      if(diffDays > 90){
+      if(firstDate.getTime() < secondDate.getTime()  || datavalida(kits[i].dayexpirationDate,kits[i].monthexpirationDate,kits[i].yearexpirationDate,dd,mm,yyyy) == false){ 
         kit90[cont90] = kits[i];
         cont90++;
       }
