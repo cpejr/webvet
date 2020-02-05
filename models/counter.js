@@ -53,8 +53,7 @@ class Counter {
 
     static resetCounter(id, currentYear) {
         return new Promise((resolve, reject) => {
-            CounterModel.update(
-                { _id: id },
+            CounterModel.update({ _id: id },
                 {
                     $set: { 'lastYear': currentYear, 'sampleCount': 1 }
                 }).then((result) => {
@@ -83,11 +82,34 @@ class Counter {
 
     static updateCounter(counter) {
         var num = counter.sampleCount + 1;
-        CounterModel.update(
-            { _id: counter._id },
-            {
-                $set: { 'sampleCount': num },
+        CounterModel.update({ _id: counter._id }, { $set: { 'sampleCount': num } });
+    }
+
+    static setSampleCount(num) {
+        CounterModel.findOneAndUpdate({}, { $set: { 'sampleCount': num } }).exec().catch(err => console.log(err));
+    }
+
+    static getSampleCount() {
+        return new Promise((resolve, reject) => {
+            CounterModel.findOne({}).then((result) => {
+
+                if (result != null)
+                    sendValue(result, this)
+                else
+                    this.create().then((result) => sendValue(result, this));
+
+                function sendValue(counter, reference) {
+                    //Verificar se o ano mudou
+                    if (counter.lastYear < yyyy) {
+                        counter.sampleCount = 1;
+                        reference.resetCounter(counter._id, yyyy);
+                    }
+                    resolve(counter.sampleCount);
+                }
+            }).catch((err) => {
+                reject(err);
             });
+        });
     }
 }
 

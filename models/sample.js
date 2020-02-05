@@ -234,6 +234,25 @@ class Sample {
     });
   }
 
+  static createMany(samples) {
+    return new Promise((resolve, reject) => {
+      let result = [];
+      Counter.getSampleCount().then(async sampleNumber => {
+        let count = sampleNumber;
+        for (let index = 0; index < samples.length; index++) {
+          const element = samples[index];
+          element.samplenumber = count;
+
+          var value = await SampleModel.create(element);
+
+          result.push(value);
+          count++;
+        }
+        Counter.setSampleCount(count);
+        resolve(result);
+      });
+    });
+  }
 
   static getMaxSampleNumber() {
     return new Promise((resolve, reject) => {

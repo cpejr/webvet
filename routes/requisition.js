@@ -47,6 +47,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
       size = 1;
     }
 
+    let sampleObjects = [];
     for (i = 0; i < size; i++) {
       const sample = {
         name: samplesV[i],
@@ -96,17 +97,25 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
         sample.zearalenona.active = true;
       }
 
-      Sample.create(sample).then((sid) => {
+      sampleObjects.push(sample);
+    }
+
+    Sample.createMany(sampleObjects).then((sids) => {
+      for (let index = 0; index < sids.length; index++) {
+        const sid = sids[index]._id;
+
+        //Isso aq dá para otimizar (acho)
         console.log(`New Sample with id: ${sid}`);
         Requisition.addSample(reqid, sid).catch((error) => {
           console.log(error);
           res.redirect('/error');
         });
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
-      });
-    }
+      }
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+
 
     console.log(`New requisition with id: ${reqid}`);
     req.flash('success', 'Nova requisição enviada');
