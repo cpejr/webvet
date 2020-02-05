@@ -51,7 +51,7 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
       var firstDate = new Date(yyyy,mm,dd);
       var secondDate = new Date(kits[i].yearexpirationDate,kits[i].monthexpirationDate,kits[i].dayexpirationDate);
       var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-      if(firstDate.getTime() < secondDate.getTime()  || datavalida(kits[i].dayexpirationDate,kits[i].monthexpirationDate,kits[i].yearexpirationDate,dd,mm,yyyy) == false){ 
+      if(diffDays > 90 && datavalida(kits[i].dayexpirationDate,kits[i].monthexpirationDate,kits[i].yearexpirationDate,dd,mm,yyyy) == true){ 
         kit90[cont90] = kits[i];
         cont90++;
       }
@@ -59,7 +59,7 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
         kit60[cont60] = kits[i];
         cont60++;
       }
-      else if (diffDays < 30) {
+      else if (diffDays < 30 || datavalida(kits[i].dayexpirationDate,kits[i].monthexpirationDate,kits[i].yearexpirationDate,dd,mm,yyyy) == false) {
         kit30[cont30] = kits[i];
         cont30++;
       }
