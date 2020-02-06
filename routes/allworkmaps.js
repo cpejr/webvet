@@ -113,8 +113,8 @@ router.post('/', function (req, res, next) {
       }
       Workmap.getAllMaps(map_ids).then((workmaps) => {
         for (let i = 0; i < workmaps.length; i++) {
-          if (workmaps !== null && workmaps.samplesArray.length > 0) {
-            new_last = workmaps.mapID;
+          if (workmaps[i].samplesArray.length > 0) {
+            new_last = workmaps[i].mapID;
             new_last = new_last.replace("_workmap", "");
             new_last = Number(new_last);
 

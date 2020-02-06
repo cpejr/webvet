@@ -20,7 +20,7 @@ router.get('/', async function (req, res, next) {
 
   async function calcular(toxinafull, toxinasigla) {
 
-    var kit = await Kit.getActiveID(toxinasigla);
+    var kit = await Kit.getActive(toxinasigla);
     if (kit !== null) {
       var mapas = [];
       var amostras = [];
@@ -87,7 +87,10 @@ router.get('/', async function (req, res, next) {
           _id: amostras[i]._id
         };
 
-        Sample.updateResult(resultado[i]._id, toxinafull, resultado[i].compara);
+        if (isNaN(resultado[i].compara)) {
+          resultado[i].compara = null;
+        }
+          Sample.updateResult(resultado[i]._id, toxinafull, resultado[i].compara);
       }
 
       return resultado;
@@ -131,7 +134,7 @@ router.post("/", async function (req, res, next) {
       console.log(kit);
       if (Array.isArray(amostras._id))
         for (var j = 0; j < amostras._id.length; j++) {
-          Sample.finalizeSample(amostras._id[j], ToxinasFull[i], kit._id,);
+          Sample.finalizeSample(amostras._id[j], ToxinasFull[i], kit._id);
         }
       else
         Sample.finalizeSample(amostras._id, ToxinasFull[i], kit._id);
