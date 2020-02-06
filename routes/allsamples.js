@@ -41,7 +41,7 @@ router.post('/', function (req, res, next) {
 
       for (let i = Current_kit.toxinaStart; i < Current_kit.mapArray.length; i++) {
         Workmap.getOneMap(Current_kit.mapArray[i]).then((workmap) => {
-          if (workmap.samplesArray.length > 0) {
+          if (workmap !== null && workmap.samplesArray.length > 0) {
             new_last = workmap.mapID;
             new_last = new_last.replace("_workmap", "");
             new_last = Number(new_last);
