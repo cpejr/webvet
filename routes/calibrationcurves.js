@@ -18,7 +18,7 @@ router.get('/', async function (req, res, next) {
 
   async function calcular(toxinafull, toxinasigla) {
 
-    var kit = await Kit.getActiveID(toxinasigla);
+    var kit = await Kit.getActive(toxinasigla);
     if (kit !== null) {
       var mapas = [];
       var p_concentration = [];
@@ -64,46 +64,42 @@ router.get('/', async function (req, res, next) {
       const slope = result.equation[0];// slope
       const yIntercept = result.equation[1];// intercept
 
-      resultado = {
+
+      resultado.parte1 = {
         intercept: yIntercept,
         resultado: result.r2,
         slope: slope,
+      };
+
+      resultado.parte2 = {
+        absorbance: p_absorvance,
+        concentration: p_concentration
       };
     }
     return resultado;
   }
 
-  var toxinas = {}
+  var toxinas = [];
 
-  for (let i = 0; i < toxinasSigla.length; i++) {
-    const sigla = toxinasSigla[i];
+  for (let i = 0; i < ToxinasSigla.length; i++) {
+    const sigla = ToxinasSigla[i];
+    let resultado = await calcular(ToxinasFull[i], ToxinasSigla[i]);
+
     toxinas[i] = {
       name: sigla,
       calibradores: {},
-      valores: calcular(ToxinasFull[i], ToxinasSigla[i])
-    };    
-  }
+      valores: (await resultado).parte1,
+    };
 
-  for (i = 0; i < 6; i++) {
-    for (j = 0; j < 5; j++) {
-      console.log("Variaveis - i: " + i + " ; j: " + j + ". ");
-      toxinas[i].calibradores[j] = { calname: "P" + (j + 1) };
-      console.log(toxinas[i].calibradores[j].calname);
-      if (i == 0) {
-        toxinas[i].calibradores[j] = { concentracao: Aflaconcentration_p[j], absorvancia: Aflaabsorbance_p[j], calname: "P" + (j + 1) };
-      } else if (i == 1) {
-        toxinas[i].calibradores[j] = { concentracao: Deoxconcentration_p[j], absorvancia: DeoxAbsorbance_p[j], calname: "P" + (j + 1) };
-      } else if (i == 2) {
-        toxinas[i].calibradores[j] = { concentracao: Otaconcentration_p[j], absorvancia: OtaAbsorbance_p[j], calname: "P" + (j + 1) };
-      } else if (i == 3) {
-        toxinas[i].calibradores[j] = { concentracao: T2concentration_p[j], absorvancia: T2absorbance_p[j], calname: "P" + (j + 1) };
-      } else if (i == 4) {
-        toxinas[i].calibradores[j] = { concentracao: Zeaconcentration_p[j], absorvancia: ZeaAbsorbance_p[j], calname: "P" + (j + 1) };
-      } else if (i == 5) {
-        toxinas[i].calibradores[j] = { concentracao: Fbsconcentration_p[j], absorvancia: Fbsabsorbance_p[j], calname: "P" + (j + 1) };
-      } else {
-        console.log("Erro de tamanho de for");
-      }
+    for (let jcali = 0; jcali < 5; jcali++) { //5 calibradores
+      console.log("Variaveis - i: " + i + " ; j: " + jcali + ". ");
+
+      toxinas[i].calibradores[jcali] = {
+        concentracao: (await resultado).parte2.concentration[jcali],
+        absorvancia: (await resultado).parte2.absorbance[jcali],
+        calname: "P" + (jcali + 1)
+      };
+      console.log(toxinas[i].calibradores[jcali].calname);
     }
   }
 
