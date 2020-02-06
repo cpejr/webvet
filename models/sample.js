@@ -180,7 +180,7 @@ class Sample {
    */
   static getById(id) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOne({_id: id}).then((result) => {
+      SampleModel.findOne({ _id: id }).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -225,15 +225,34 @@ class Sample {
    */
   static create(sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.create(sample).then((result) => {
-        resolve(result._id);
-      }).catch((err) => {
-        reject(err);
+      Counter.testAndResolveCounter(yyyy).then(sampleNumber => {
+        sample.samplenumber = sampleNumber;
+        SampleModel.create(sample).then((result) => {
+          resolve(result._id);
+        });
       });
-
     });
   }
 
+  static createMany(samples) {
+    return new Promise((resolve, reject) => {
+      let result = [];
+      Counter.getSampleCount().then(async sampleNumber => {
+        let count = sampleNumber;
+        for (let index = 0; index < samples.length; index++) {
+          const element = samples[index];
+          element.samplenumber = count;
+
+          var value = await SampleModel.create(element);
+
+          result.push(value);
+          count++;
+        }
+        Counter.setSampleCount(count);
+        resolve(result);
+      });
+    });
+  }
 
   static getMaxSampleNumber() {
     return new Promise((resolve, reject) => {
