@@ -111,6 +111,16 @@ class Workmap {
     });
   }
 
+  static getAllMaps(id_array) {
+    return new Promise((resolve, reject) => {
+      WorkmapModel.find({ '_id': { $in: id_array } }).exec().then((map) => {
+        resolve(map);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   static getByIdArray(id_array) {
     return new Promise((resolve, reject) => {
       WorkmapModel.find({ _id: { $in: id_array } }).then((map) => {

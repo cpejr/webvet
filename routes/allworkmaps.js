@@ -86,49 +86,52 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', function (req, res, next) {
+  const ToxinasSigla = ['AFLA', 'DON', 'OTA', 'T2', 'ZEA', 'FBS'];
 
-  Kit.getActiveAfla().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  Kit.getActiveT2().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  Kit.getActiveZea().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  Kit.getActiveFum().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  Kit.getActiveOcra().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  Kit.getActiveDeox().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
+  //Dando update em todos os kits ativos.
+  Kit.getAllActive().then(obj => updateKits(obj)).catch((error) => { console.log(error); });
 
-  function updateKit(ToxinaArray) {
-    if (ToxinaArray.length != 0) {
 
-      var toxinaKit = ToxinaArray[0];
+  // Kit.getActiveAfla().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
+  // Kit.getActiveT2().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
+  // Kit.getActiveZea().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
+  // Kit.getActiveFum().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
+  // Kit.getActiveOcra().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
+  // Kit.getActiveDeox().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
+
+  function updateKits(KitArray) {
+
+    for (let h = 0; h < KitArray.length; h++) {
+
+      var Kit = KitArray[h];
       var new_last;
       var last_filled = 0;
-      var counter = 0;
+      var map_ids = [];
 
-
-      for (let i = toxinaKit.toxinaStart; i < toxinaKit.mapArray.length; i++) {
-        Workmap.getOneMap(toxinaKit.mapArray[i]).then((workmap) => {
-          counter++;
-          if (workmap.samplesArray.length > 0) {
-            new_last = workmap.mapID;
+      for(let u = Kit.toxinaStart; u < Kit.mapArray.length; u++){
+        map_ids.push(Kit.mapArray[u]);
+      }
+      Workmap.getAllMaps(map_ids).then((workmaps) => {
+        for (let i = 0; i < workmaps.length; i++) {
+          if (workmaps !== null && workmaps.samplesArray.length > 0) {
+            new_last = workmaps.mapID;
             new_last = new_last.replace("_workmap", "");
             new_last = Number(new_last);
 
             if (new_last > last_filled) {
               last_filled = new_last;
             }
-
-
           }
-          if (counter == toxinaKit.mapArray.length - 1) {
-            toxinaKit.amount = toxinaKit.stripLength - last_filled;
-            toxinaKit.toxinaStart = last_filled;
-            Kit.update(toxinaKit._id, toxinaKit).catch((err) => {
-              console.log(err);
-            });
-          }
-
+        }
+        Kit.amount = Kit.stripLength - last_filled;
+        Kit.toxinaStart = last_filled;
+        Kit.update(Kit._id, Kit).catch((err) => {
+          console.log(err);
         });
-      }
+      });
     }
   }
+
 
   Sample.getAll().then((sample) => {
     //amostras afla
