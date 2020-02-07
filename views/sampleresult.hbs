@@ -27,8 +27,8 @@
                 <input name="sample[{{../name}}][_id]" type="text" value="{{_id}}">
               </th>
               <th scope="row">{{number}}</th>
-              <td><input readonly type="text" class="input-absorbance" value="{{average}}"></td>
-              <td><input readonly type="text" class="input-absorbance" value="{{compara}}"></td>
+              <td><input readonly type="text" class="input-absorbance" value="{{round average 2}}"></td>
+              <td><input readonly type="text" class="input-absorbance" value="{{round compara 2}}"></td>
             </tr>
           {{/each}}
         </tbody>

@@ -110,6 +110,12 @@ app.engine('hbs', exphbs({
       for (var i = from; i < to; i += incr)
         accum += block.fn(i);
       return accum;
+    },
+    round(value, decimalPlaces) {
+      if (value !== null)
+        return value.toFixed(decimalPlaces);
+      else
+        return null;
     }
   }
 }));

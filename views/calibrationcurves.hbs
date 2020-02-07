@@ -34,9 +34,9 @@
       </tbody>
     </table>
     <text class="dados w-50">
-      <p><b>Slope:</b> {{valores.slope}}</p>
-      <p><b>Intercept:</b> {{valores.intercept}}</p>
-      <p><b>R:</b> {{valores.resultado}}</p>
+      <p><b>Slope:</b> {{round valores.slope 2}}</p>
+      <p><b>Intercept:</b> {{round valores.intercept 2}}</p>
+      <p><b>R:</b> {{round valores.resultado 2}}</p>
     </text>
     {{/each}}
   </div>
