@@ -723,6 +723,31 @@ class Sample {
 
     });
   }
+
+  static getAllActive() {
+    return new Promise((resolve, reject) => {
+
+      const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
+
+      var querry = { $or: [] };
+
+      for (let index = 0; index < ToxinasFull.length; index++) {
+        const toxina = ToxinasFull[index];
+        var expression = {}
+
+        expression[toxina + '.mapReference'] = { $not: { $eq: 'Sem mapa' } };
+        expression[toxina + '.active'] = true;
+
+        querry.$or.push(expression);
+      }
+
+      SampleModel.find(querry).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 

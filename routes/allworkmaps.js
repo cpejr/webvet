@@ -11,75 +11,57 @@ const Email = require('../models/email');
 const Workmap = require('../models/Workmap');
 const Sample = require('../models/sample');
 
+const ToxinasSigla = ['AFLA', 'DON', 'OTA', 'T2', 'ZEA', 'FBS'];
+const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
 
 router.get('/', (req, res) => {
 
-  Sample.getAll().then((amostras) => {
-    Kit.getAll().then((kit) => {
-      var today = new Date();
-      var hours = today.getHours();
-      var minutes = today.getMinutes();
-      var scnds = today.getSeconds();
+  Sample.getAllActive().then((amostras) => {
+    var today = new Date();
+    var hours = today.getHours();
+    var minutes = today.getMinutes();
+    var scnds = today.getSeconds();
 
-      var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      var yyyy = today.getFullYear();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
-      result = [];
+    result = [];
 
-      result[0] = {
-        name: "AFLA",
+    for (let i = 0; i < ToxinasSigla.length; i++) {
+      const sigla = ToxinasSigla[i];
+
+      result[i] = {
+        name: sigla,
         samples: []
       }
-      result[1] = {
-        name: "DON",
-        samples: []
-      }
-      result[2] = {
-        name: "OTA",
-        samples: []
-      }
-      result[3] = {
-        name: "T2",
-        samples: []
-      }
-      result[4] = {
-        name: "ZEA",
-        samples: []
-      }
-      result[5] = {
-        name: "FBS",
-        samples: []
-      }
+    }
 
-      function addSample(index, element, toxina) {
+    function addSample(index, element, toxinaFull) {
 
-        if (toxina.active && toxina.mapReference != 'Sem mapa') {
-          var changedworkmap = result[index].samples.length > 0 && result[index].samples[result[index].samples.length - 1].mapReference != toxina.mapReference;
-
-          result[index].samples.push({
-            changedworkmap: changedworkmap,
-            _id: element._id,
-            samplenumber: element.samplenumber,
-            mapReference: element.mapReference
-          });
-        }
+      if (element[toxinaFull].active && element[toxinaFull].mapReference != 'Sem mapa') {
+        //                     se não é o primeiro elemento        compara o mapReference com a ultima amostra da lista
+        var changedworkmap = result[index].samples.length > 0 && result[index].samples[result[index].samples.length - 1].mapReference !== element[toxinaFull].mapReference;
+        //changedworkmap serve para soltar os espaços entre os campos
+        
+        result[index].samples.push({
+          changedworkmap: changedworkmap,
+          _id: element._id,
+          samplenumber: element.samplenumber,
+          mapReference: element[toxinaFull].mapReference
+        });
       }
+    }
 
-      amostras.forEach(element => {
-        addSample(0, element, element.aflatoxina);
-        addSample(1, element, element.deoxinivalenol);
-        addSample(2, element, element.ocratoxina);
-        addSample(3, element, element.t2toxina);
-        addSample(4, element, element.zearalenona);
-        addSample(5, element, element.fumonisina);
-      });
+    for (let i = 0; i < amostras.length; i++) 
+      for (let j = 0; j < ToxinasFull.length; j++) 
+        addSample(j, amostras[i], ToxinasFull[j]);        
 
-      res.render('allworkmaps', { result, amostras, dd, mm, yyyy, today, ...req.session });
-
-    }).catch((error) => {
-      console.log(error);
-    });
+    /*
+    Result é um vetor de 6 dimensões 
+    e cada posição faz referência a uma toxina diferente   
+    */
+    res.render('allworkmaps', { result, dd, mm, yyyy, today, ...req.session });
   }).catch((error) => {
     console.log(error);
   });
@@ -108,7 +90,7 @@ router.post('/', function (req, res, next) {
       var last_filled = 0;
       var map_ids = [];
 
-      for(let u = Kit.toxinaStart; u < Kit.mapArray.length; u++){
+      for (let u = Kit.toxinaStart; u < Kit.mapArray.length; u++) {
         map_ids.push(Kit.mapArray[u]);
       }
       Workmap.getAllMaps(map_ids).then((workmaps) => {
