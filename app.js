@@ -112,7 +112,7 @@ app.engine('hbs', exphbs({
       return accum;
     },
     round(value, decimalPlaces) {
-      if (value !== null)
+      if (value !== null && value !== undefined)
         return value.toFixed(decimalPlaces);
       else
         return null;
