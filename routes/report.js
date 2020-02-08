@@ -40,7 +40,7 @@ router.get('/show/:id', auth.isAuthenticated, function(req, res, next) {
 
 router.get('/show/admin/:id', auth.isAuthenticated, function(req, res, next) {
   const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
-  const ToxinasSigla = ['AFLA', 'DON', 'OTA', 'T2', 'ZEA', 'FBS'];
+  const ToxinasSiglsa = ['AFLA', 'DON', 'OTA', 'T2', 'ZEA', 'FBS'];
   var valoresAFLA = {loc: 0, loq : 0};
   var valoresDON = {loc: 0, loq : 0};
   var valoresFUMO = {loc: 0, loq : 0};
