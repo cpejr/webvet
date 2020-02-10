@@ -14,8 +14,14 @@ const kitSchema = new mongoose.Schema({
   expirationDate: String,
   yearexpirationDate: Number,
   stdLevel: Number,
-  Lod: Number,
-  Loq: Number,
+  Lod: {
+    type: Number,
+    default: 0,
+  },
+  Loq: {
+    type: Number,
+    default: 0,
+  },
   calibrators: {
     P1: {
       absorbance: {
@@ -25,47 +31,47 @@ const kitSchema = new mongoose.Schema({
       concentration: {
         type: Number,
         default: 0
-      } 
+      }
     },
     P2: {
       absorbance: {
         type: Number,
         default: 0
-      }, 
+      },
       concentration: {
         type: Number,
         default: 0
-      } 
+      }
     },
     P3: {
       absorbance: {
         type: Number,
         default: 0
-      } ,
+      },
       concentration: {
         type: Number,
         default: 0
-      } 
+      }
     },
     P4: {
       absorbance: {
         type: Number,
         default: 0
-      }, 
+      },
       concentration: {
         type: Number,
         default: 0
-      } 
+      }
     },
     P5: {
-      absorbance:{
+      absorbance: {
         type: Number,
         default: 0
-      } ,
+      },
       concentration: {
         type: Number,
         default: 0
-      } 
+      }
     }
   },
   amount: Number,
@@ -100,8 +106,8 @@ const kitSchema = new mongoose.Schema({
     required: true
   },
   stripLength: Number,
-  toxinaStart:{
-    type:Number,
+  toxinaStart: {
+    type: Number,
     default: 0
   },
   mapArray: [{
@@ -127,13 +133,13 @@ class Kit {
     });
   }
 
-   /**
-   * Get active Kit from Aflatoxina 
-   * @returns {Array} Array of Kits
-   */
+  /**
+  * Get active Kit from Aflatoxina 
+  * @returns {Array} Array of Kits
+  */
   static getActiveAfla() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, productCode:"AFLA Romer"}).exec().then((results) => {
+      KitModel.find({ active: true, productCode: "AFLA Romer" }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -147,7 +153,7 @@ class Kit {
    */
   static getActiveDeox() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, productCode: "DON Romer"  }).exec().then((results) => {
+      KitModel.find({ active: true, productCode: "DON Romer" }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -161,7 +167,7 @@ class Kit {
    */
   static getActiveT2() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, productCode:"T2 Romer"}).exec().then((results) => {
+      KitModel.find({ active: true, productCode: "T2 Romer" }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -175,7 +181,7 @@ class Kit {
    */
   static getActiveZea() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, productCode:"ZEA Romer"}).exec().then((results) => {
+      KitModel.find({ active: true, productCode: "ZEA Romer" }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -183,13 +189,13 @@ class Kit {
     });
   }
 
-   /**
-   * Get active Kit from Fumonisina 
-   * @returns {Array} Array of Kits
-   */
+  /**
+  * Get active Kit from Fumonisina 
+  * @returns {Array} Array of Kits
+  */
   static getActiveFum() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, productCode:"FUMO Romer"}).exec().then((results) => {
+      KitModel.find({ active: true, productCode: "FUMO Romer" }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -204,7 +210,7 @@ class Kit {
    */
   static getActiveOcra() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true, productCode:"OTA Romer"}).exec().then((results) => {
+      KitModel.find({ active: true, productCode: "OTA Romer" }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -212,7 +218,7 @@ class Kit {
     });
   }
 
-  
+
 
   /**
    * Get a Kit by it's id
@@ -329,7 +335,7 @@ class Kit {
       });
     });
   }
-  
+
   /**
     * Change the amount
     * @param {string} id - Kit Id
@@ -396,7 +402,7 @@ class Kit {
 
   static setP2absorbance(id, p2) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P2.absorbance': p2 } }).then((result)=>{
+      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P2.absorbance': p2 } }).then((result) => {
         console.log(result.calibrators);
       }).catch((err) => {
         reject(err);
@@ -441,12 +447,12 @@ class Kit {
 
   static getActiveID(siglaToxina) {
     //Correção provisória do problema com a sigla
-    if(siglaToxina == "FBS")
+    if (siglaToxina == "FBS")
       siglaToxina = "FUMO"
 
     return new Promise((resolve, reject) => {
       //{ active: 1 } é somente para retornar o _id, economizar internet
-      KitModel.findOne({active: true, productCode: siglaToxina + " Romer"}, { active: 1 }).exec().then((results) => {
+      KitModel.findOne({ active: true, productCode: siglaToxina + " Romer" }, { active: 1 }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -456,11 +462,11 @@ class Kit {
 
   static getActive(siglaToxina) {
     //Correção provisória do problema com a sigla
-    if(siglaToxina == "FBS")
+    if (siglaToxina == "FBS")
       siglaToxina = "FUMO"
 
     return new Promise((resolve, reject) => {
-      KitModel.findOne({active: true, productCode: siglaToxina + " Romer"}).exec().then((results) => {
+      KitModel.findOne({ active: true, productCode: siglaToxina + " Romer" }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -470,14 +476,47 @@ class Kit {
 
   static getAllActive() {
     return new Promise((resolve, reject) => {
-      KitModel.find({active: true}).exec().then((results) => {
+      KitModel.find({ active: true }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
       });
     });
   }
+
+  static getValuesFromMany(listIds, validIds) {
+    let valueObject = [];
+    let result;
+    return new Promise((resolve) => {
+      for (i = 0; i < listIds.length; i++) {
+        if (validIds[i]) {
+          try {
+            result = new Promise((resolve, reject) => {
+              KitModel.findById(listIds[i]);
+            });
+          }
+          catch (err) {
+            console.log("Erro de sincronizacao");
+          }
+          finally {
+            valueObject.push({ loq: result.Loq, lod: result.Lod });
+          }
+        } else {
+          valueObject.push({ loq: "Numero nao declarado", log: "Numero nao declarado" });
+        }
+        console.log("valueObject: ");
+        console.log(valueObject);
+      }
+      Promise.all(valueObject).then(function finalizar() {
+        console.log("ValueObject esta pronto? ");
+        console.log(valueObject);
+        resolve(valueObject);
+      });
+    });
+  }
 }
+
+
 
 
 module.exports = Kit;
