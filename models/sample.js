@@ -612,7 +612,7 @@ class Sample {
   static getAllActive() {
     return new Promise((resolve, reject) => {
 
-      const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
+      const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
 
       var querry = { $or: [] };
 
