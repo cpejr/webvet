@@ -38,7 +38,7 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, next) {
+router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
   Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
     const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
     const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
@@ -57,6 +57,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
     }
     console.log("Lista de Id's:");
     console.log(listIds);
+
     Kit.getByIdArray(listIds).then((kits) => {
       var orderedKits = [];
       for(i = 0; i < kits.length; i++){
@@ -72,32 +73,6 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
       console.log(orderedKits);
       res.render('report/editAdmin', { title: 'Show ', sample, ToxinasFull, orderedKits});
     });
-
-
-    /* if (toxiKit.kitId !== null) {
-      console.log("Id do kit não é null");
-      let kitEncontrado = new Promise((resolve, reject) => {
-        Kit.getById(toxiKit.kitId).then((kit) => {
-          console.log("Foi encontrado um kit em " + ToxinasFull[i]);
-          console.log("Kit encontrado: " + kit);
-          resolve(kit);
-        }).catch((err) => {
-          reject(err);
-        })
-      });
-      kitEncontrado.then((kit) => {
-        if (kit !== null) {
-          valores.push({ loq: kit.Loq, lod: kit.Lod });
-        } else {
-          console.log("O kit encontrado em " + ToxinasFull[i] + " e nulo.");
-          valores.push({ loq: null, lod: null });
-        }
-      });
-    } else {
-      console.log("O KitId do ");
-      valores.push({ loq: null, lod: null });
-    }*/
-
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
