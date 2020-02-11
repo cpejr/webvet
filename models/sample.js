@@ -39,7 +39,10 @@ const sampleSchema = new mongoose.Schema({
       type: String,
       default: 'Sem mapa'
     },
-    concentration: String
+    concentration: String,
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   deoxinivalenol: {
     status: {
@@ -60,7 +63,10 @@ const sampleSchema = new mongoose.Schema({
       type: String,
       default: 'Sem mapa'
     },
-    concentration: String
+    concentration: String,
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   t2toxina: {
     status: {
@@ -81,7 +87,10 @@ const sampleSchema = new mongoose.Schema({
       type: String,
       default: 'Sem mapa'
     },
-    concentration: String
+    concentration: String,
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   fumonisina: {
     status: {
@@ -102,7 +111,10 @@ const sampleSchema = new mongoose.Schema({
       type: String,
       default: 'Sem mapa'
     },
-    concentration: String
+    concentration: String,
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   zearalenona: {
     status: {
@@ -123,7 +135,10 @@ const sampleSchema = new mongoose.Schema({
       type: String,
       default: 'Sem mapa'
     },
-    concentration: String
+    concentration: String,
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   aflatoxina: {
     status: {
@@ -144,7 +159,10 @@ const sampleSchema = new mongoose.Schema({
       type: String,
       default: 'Sem mapa'
     },
-    concentration: String
+    concentration: String,
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   isCalibrator: {
     type: Boolean,
@@ -544,7 +562,7 @@ class Sample {
 
     return new Promise((resolve, reject) => {
       var parameter = toxina + '.active';
-      var parameter2 = toxina + '.kit_id';
+      var parameter2 = toxina + '.kitId';
       var parameter3 = 'report';
       var updateVal = {};
 
@@ -612,7 +630,7 @@ class Sample {
   static getAllActive() {
     return new Promise((resolve, reject) => {
 
-      const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
+      const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
 
       var querry = { $or: [] };
 

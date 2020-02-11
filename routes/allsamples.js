@@ -12,7 +12,7 @@ const Workmap = require('../models/Workmap');
 const Sample = require('../models/sample');
 
 router.get('/', (req, res) => {
-  var names = ["AFLA", "DON", "OTA", "T2", "ZEA", "FBS"];
+  var names = ["AFLA", "DON", "FBS", "OTA", "T2", "ZEA"];
 
 
   res.render('allsamples', { names });

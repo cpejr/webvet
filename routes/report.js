@@ -39,60 +39,54 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
-  const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
-  const ToxinasSiglsa = ['AFLA', 'DON', 'OTA', 'T2', 'ZEA', 'FBS'];
-  var valoresAFLA = { loc: 0, loq: 0 };
-  var valoresDON = { loc: 0, loq: 0 };
-  var valoresFUMO = { loc: 0, loq: 0 };
-  var valoresOCRA = { loc: 0, loq: 0 };
-  var valoresT2 = { loc: 0, loq: 0 };
-  var valoresZEA = { loc: 0, loq: 0 };
+  Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
+    const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+    const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
+    var toxiKit = {};
+    var listIds = [];
+    for (i = 0; i < ToxinasFull.length; i++) {
+      console.log(i + " KitId " + ToxinasFull[i]);
+      toxiKit = sample[ToxinasFull[i]];
+      console.log(toxiKit);
+      if (toxiKit.kitId !== null) {
+        listIds.push(toxiKit.kitId);
+      }
 
-  Sample.getById(req.params.id).then((sample) => {
-    if (sample.aflatoxina.kit_id != undefined) {
-      Kit.getById(sample.aflatoxina.kit_id).then((kit) => {
-        console.log("Foi encontrado um kit em afla");
-        valoresAFLA.loc = kit.loc;
-        valoresAFLA.loq = kit.loq;
-      });
     }
-    if (sample.deoxinivalenol.kit_id != undefined) {
-      Kit.getById(sample.deoxinivalenol.kit_id).then((kit) => {
-        console.log("Foi encontrado um kit em don");
-        valoresDON.loc = kit.loc;
-        valoresDON.loq = kit.loq;
-      });
+    console.log("Lista de Id's:");
+    for (i = 0; i < listIds.length; i++) {
+      console.log();
     }
-    if (sample.ocratoxina.kit_id != undefined) {
-      Kit.getById(sample.ocratoxina.kit_id).then((kit) => {
-        console.log("Foi encontrado um kit em ota");
-        valoresOTA.loc = kit.loc;
-        valoresOTA.loq = kit.loq;
+
+    Kit.getById(listIds[0]).then((kit) => {
+      console.log("O kit da primeira posicao da list kits e:");
+      console.log(kit);
+    })
+
+    Kit.getByIdArray(listIds).then((kits) => {
+      var orderedKits = [];
+      for (i = 0; i < kits.length; i++) {
+        console.log("Entrou no primeiro for.");
+        for (j = 0; j < productCode.length; j++) {
+          console.log("Entrou no segundo for.");
+          if (kits[i].productCode === productCode[j]) {
+            console.log("kits[i].productCode: " + kits[i].productCode);
+            console.log("productCode[j]: " + productCode[j]);
+            var obj = {};
+            obj[ToxinasFull[j]] = kits[i];
+            orderedKits.push(obj);
+          }
+        }
+      }
+      var data = {};
+      Requisition.getById(sample.requisitionId).then((requisition) => {
+        data.toxinas = requisition.mycotoxin
+      }).then((tu) => {
+        res.render('report/editAdmin', { title: 'Show ', sample, ToxinasFull, orderedKits, data });
       });
-    }
-    if (sample.t2toxina.kit_id != undefined) {
-      Kit.getById(sample.t2toxina.kit_id).then((kit) => {
-        console.log("Foi encontrado um kit em t2");
-        valoresT2.loc = kit.loc;
-        valoresT2.loq = kit.loq;
-      });
-    }
-    if (sample.zearalenona.kit_id != undefined) {
-      Kit.getById(sample.zearalenona.kit_id).then((kit) => {
-        console.log("Foi encontrado um kit em zea");
-        valoresZEA.loc = kit.loc;
-        valoresZEA.loq = kit.loq;
-      });
-    }
-    if (sample.fumonisina.kit_id != undefined) {
-      Kit.getById(sample.fumonisina.kit_id).then((kit) => {
-        console.log("Foi encontrado um kit em fbs");
-        valoresFBS.loc = kit.loc;
-        valoresFBS.loq = kit.loq;
-      });
-    }
-    res.render('report/editAdmin', { title: 'Show ', sample, valoresAFLA, valoresDON, valoresFUMO, valoresOCRA, valoresT2, valoresZEA });
-    console.log(sample);
+      console.log("Resultado Final?")
+      console.log(orderedKits);
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -138,7 +132,7 @@ router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, async function (req, res, next) {
+router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, function (req, res, next) {
   var laudos = new Array;
   let result = {};
 
@@ -162,7 +156,6 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, async 
     }).then((params) => {
       res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, result });
     });
-
   });
 });
 
