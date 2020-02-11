@@ -134,15 +134,28 @@ router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, function (req, res, next) {
   var laudos = new Array;
-  Sample.getAll().then((amostras) => {
-    for (var i = 0; i < amostras.length; i++) {
-      if (amostras[i].report == true) {
-        laudos[i] = amostras[i];
-      } else {
-        console.log("nadinha");
+  let result = {};
+
+  Sample.getAllReport().then((amostras) => {
+    let reqids = [];
+
+    for (var i = 0; i < amostras.length; i++)
+      reqids.push(amostras[i].requisitionId);
+
+    Requisition.getByIdArray(reqids).then((requisitions) => {
+      for (let j = 0; j < amostras.length; j++) {
+        for (let k = 0; k < requisitions.length; k++) {
+          if (JSON.stringify(amostras[j].requisitionId) === JSON.stringify(requisitions[k]._id))//Check if is equal
+            result[j] = {
+              number: requisitions[k].requisitionnumber,
+              year: requisitions[k].createdAt.getFullYear(),
+              _id: amostras[j]._id,
+            }
+        }
       }
-    }
-    res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, laudos });
+    }).then((params) => {
+      res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, result });
+    });
   });
 });
 
