@@ -71,8 +71,18 @@ class Requisition {
    */
   static getBySampleID(sampleid) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find( { samples: {$in:sampleid } }).then((req) => {
-        resolve(req[0]);
+      RequisitionModel.find({ _id: sampleid }).then((req) => {
+        resolve(req);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getByIdArray(reqidArray) {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.find({ _id: { $in: reqidArray } }).then((req) => {
+        resolve(req);
       }).catch((err) => {
         reject(err);
       });
