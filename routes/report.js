@@ -50,19 +50,27 @@ router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
       console.log(toxiKit);
       if (toxiKit.kitId !== null) {
         listIds.push(toxiKit.kitId);
-      } else {
-        listIds.push(null);
-        console.log("O KitId da toxina " + ToxinasFull[i] + "e nulo.");
       }
     }
     console.log("Lista de Id's:");
-    console.log(listIds);
+    for(i = 0; i < listIds.length; i++){
+      console.log();
+    }
 
+    Kit.getById(listIds[0]).then((kit)=>{
+      console.log("O kit da primeira posicao da list kits e:");
+      console.log(kit);
+    })
+    
     Kit.getByIdArray(listIds).then((kits) => {
       var orderedKits = [];
       for(i = 0; i < kits.length; i++){
+        console.log("Entrou no primeiro for.");
         for(j = 0; j < productCode.length; j++){
-          if(kits[j].producCode === productCode[j]){
+          console.log("Entrou no segundo for.");
+          if(kits[i].productCode === productCode[j]){
+            console.log("kits[i].productCode: " + kits[i].productCode);
+            console.log("productCode[j]: " + productCode[j]);
             var obj = {};
             obj[ToxinasFull[j]] = kits[i];
             orderedKits.push(obj);
