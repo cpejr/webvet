@@ -54,22 +54,22 @@ router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
 
     }
     console.log("Lista de Id's:");
-    for(i = 0; i < listIds.length; i++){
+    for (i = 0; i < listIds.length; i++) {
       console.log();
     }
 
-    Kit.getById(listIds[0]).then((kit)=>{
+    Kit.getById(listIds[0]).then((kit) => {
       console.log("O kit da primeira posicao da list kits e:");
       console.log(kit);
     })
-    
+
     Kit.getByIdArray(listIds).then((kits) => {
       var orderedKits = [];
-      for(i = 0; i < kits.length; i++){
+      for (i = 0; i < kits.length; i++) {
         console.log("Entrou no primeiro for.");
-        for(j = 0; j < productCode.length; j++){
+        for (j = 0; j < productCode.length; j++) {
           console.log("Entrou no segundo for.");
-          if(kits[i].productCode === productCode[j]){
+          if (kits[i].productCode === productCode[j]) {
             console.log("kits[i].productCode: " + kits[i].productCode);
             console.log("productCode[j]: " + productCode[j]);
             var obj = {};
@@ -78,9 +78,14 @@ router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
           }
         }
       }
+      var data = {};
+      Requisition.getById(sample.requisitionId).then((requisition) => {
+        data.toxinas = requisition.mycotoxin
+      }).then((tu) => {
+        res.render('report/editAdmin', { title: 'Show ', sample, ToxinasFull, orderedKits, data });
+      });
       console.log("Resultado Final?")
       console.log(orderedKits);
-      res.render('report/editAdmin', { title: 'Show ', sample, ToxinasFull, orderedKits});
     });
   }).catch((error) => {
     console.log(error);
