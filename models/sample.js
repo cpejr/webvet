@@ -12,9 +12,8 @@ const sampleSchema = new mongoose.Schema({
     type: Boolean, //1 for available, 0 for not available
     default: 0
   },
-  requisition: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Requisition'
+  requisitionId: {
+    type: mongoose.Schema.Types.ObjectId
   },
   responsible: String,
   creationYear: {
@@ -151,7 +150,6 @@ const sampleSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-
   description: String,
 }, { timestamps: true, strict: false });
 
@@ -217,43 +215,7 @@ class Sample {
       });
     });
   }
-
-  /**
-   * Create a new Sample
-   * @param {Object} project - Sample Document Data
-   * @returns {string} New Sample Id
-   */
-  static create(sample) {
-    return new Promise((resolve, reject) => {
-      Counter.testAndResolveCounter(yyyy).then(sampleNumber => {
-        sample.samplenumber = sampleNumber;
-        SampleModel.create(sample).then((result) => {
-          resolve(result._id);
-        });
-      });
-    });
-  }
-
-  static createMany(samples) {
-    return new Promise((resolve, reject) => {
-      let result = [];
-      Counter.getSampleCount().then(async sampleNumber => {
-        let count = sampleNumber;
-        for (let index = 0; index < samples.length; index++) {
-          const element = samples[index];
-          element.samplenumber = count;
-
-          var value = await SampleModel.create(element);
-
-          result.push(value);
-          count++;
-        }
-        Counter.setSampleCount(count);
-        resolve(result);
-      });
-    });
-  }
-
+ 
   static getMaxSampleNumber() {
     return new Promise((resolve, reject) => {
       SampleModel.find({}, { samplenumber: 1, _id: 0 }).sort({ samplenumber: -1 }).limit(1).populate('sample').exec().then((result) => {
@@ -335,83 +297,6 @@ class Sample {
       }).catch(err => {
         reject(err);
       });
-    });
-  }
-
-  static updateAflaAbsorbance(id, abs) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'aflatoxina.absorbance': abs } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateDeoxAbsorbance(id, abs) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'deoxinivalenol.absorbance': abs } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateOcraAbsorbance(id, abs) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'ocratoxina.absorbance': abs } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateT2Absorbance(id, abs) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 't2toxina.absorbance': abs } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateZeaAbsorbance(id, abs) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'zearalenona.absorbance': abs } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-  static updateFbsAbsorbance(id, abs) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'fumonisina.absorbance': abs } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
     });
   }
 
@@ -748,6 +633,43 @@ class Sample {
       });
     });
   }
+
+   /**
+   * Create a new Sample
+   * @param {Object} project - Sample Document Data
+   * @returns {string} New Sample Id
+   */
+  static create(sample) {
+    return new Promise((resolve, reject) => {
+      Counter.testAndResolveCounter(yyyy).then(sampleNumber => {
+        sample.samplenumber = sampleNumber;
+        SampleModel.create(sample).then((result) => {
+          resolve(result._id);
+        });
+      });
+    });
+  }
+
+  static createMany(samples) {
+    return new Promise((resolve, reject) => {
+      let result = [];
+      Counter.getSampleCount().then(async sampleNumber => {
+        let count = sampleNumber;
+        for (let index = 0; index < samples.length; index++) {
+          const element = samples[index];
+          element.samplenumber = count;
+
+          var value = await SampleModel.create(element);
+
+          result.push(value);
+          count++;
+        }
+        Counter.setSampleCount(count);
+        resolve(result);
+      });
+    });
+  }
+
 }
 
 
