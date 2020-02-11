@@ -51,6 +51,7 @@ router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
       if (toxiKit.kitId !== null) {
         listIds.push(toxiKit.kitId);
       }
+
     }
     console.log("Lista de Id's:");
     for(i = 0; i < listIds.length; i++){

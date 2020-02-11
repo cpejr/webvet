@@ -11,8 +11,8 @@ const User = require('../models/user');
 
 
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function(req, res, next) {
-  res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs',...req.session});
+router.get('/', auth.isAuthenticated, function (req, res, next) {
+  res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
 });
 
 module.exports = router;

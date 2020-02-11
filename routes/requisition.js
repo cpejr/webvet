@@ -25,6 +25,11 @@ router.get('/new', auth.isAuthenticated, function (req, res) {
 router.post('/new', auth.isAuthenticated, function (req, res) {
   const { requisition } = req.body;
   requisition.user = req.session.user;
+
+  //CORREÇÃO PROVISÓRIA DO CAMPO DESTINATION
+  if (Array.isArray(requisition.destination))
+    requisition.destination = requisition.destination.toString();
+
   if (req.body.producerAddress == 0) {
     console.log("MINI BOIIIII");
     const address = req.session.user.address;
@@ -53,6 +58,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
         name: samplesV[i],
         samplenumber: -1,
         responsible: req.body.responsible,
+        requisitionId: NaN,
         aflatoxina: {
           active: false,
         },
@@ -97,6 +103,8 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
         sample.zearalenona.active = true;
       }
 
+
+      sample.requisitionId = reqid;
       sampleObjects.push(sample);
     }
 
@@ -105,7 +113,6 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
         const sid = sids[index]._id;
 
         //Isso aq dá para otimizar (acho)
-        console.log(`New Sample with id: ${sid}`);
         Requisition.addSample(reqid, sid).catch((error) => {
           console.log(error);
           res.redirect('/error');

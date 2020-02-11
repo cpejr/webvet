@@ -11,8 +11,8 @@ const Email = require('../models/email');
 const Workmap = require('../models/Workmap');
 const Sample = require('../models/sample');
 
-const ToxinasSigla = ['AFLA', 'DON', 'OTA', 'T2', 'ZEA', 'FBS'];
-const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'ocratoxina', 't2toxina', 'zearalenona', 'fumonisina'];
+const ToxinasSigla = ['AFLA', 'DON', 'FBS', 'OTA', 'T2', 'ZEA'];
+const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
 
 router.get('/', (req, res) => {
 

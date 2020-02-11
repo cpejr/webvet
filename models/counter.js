@@ -1,5 +1,3 @@
-const express = require('express');
-const router = express.Router();
 const mongoose = require('mongoose');
 var data = new Date();
 var yyyy = data.getFullYear();
@@ -7,6 +5,7 @@ var yyyy = data.getFullYear();
 const counterSchema = new mongoose.Schema({
     lastYear: Number,
     sampleCount: Number,
+    requisitionCount: Number,
     counterName: {
         type: String,
         default: 'Contador padrão'
@@ -55,7 +54,7 @@ class Counter {
         return new Promise((resolve, reject) => {
             CounterModel.update({ _id: id },
                 {
-                    $set: { 'lastYear': currentYear, 'sampleCount': 1 }
+                    $set: { 'lastYear': currentYear, 'sampleCount': 1, 'requisitionCount': 1 } // Reiniciar sampleCount e requisitionCount
                 }).then((result) => {
                     resolve(result);
                 }).catch(err => {
@@ -105,6 +104,29 @@ class Counter {
                         reference.resetCounter(counter._id, yyyy);
                     }
                     resolve(counter.sampleCount);
+                }
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    static getRequisitonCount() {
+        return new Promise((resolve, reject) => {
+            CounterModel.findOne({}).then((result) => {
+
+                if (result != null)
+                    sendValue(result, this)
+                else
+                    this.create().then((result) => sendValue(result, this));
+
+                function sendValue(counter, reference) {
+                    //Verificar se o ano mudou
+                    if (counter.lastYear < yyyy) {
+                        counter.requisitionCount = 1;
+                        reference.resetCounter(counter._id, yyyy);
+                    }
+                    resolve(counter.requisitionCount);
                 }
             }).catch((err) => {
                 reject(err);
