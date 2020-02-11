@@ -484,11 +484,21 @@ class Kit {
     });
   }
 
+  static getByIdArray(id_array) {
+    return new Promise((resolve, reject) => {
+      KitModel.find({ _id: { $in: id_array } }).then((kit) => {
+        resolve(kit);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   static getValuesFromMany(listIds, validIds) {
     let valueObject = [];
     let result;
     return new Promise((resolve) => {
-      for (i = 0; i < listIds.length; i++) {
+       for (i = 0; i < listIds.length; i++) {
         if (validIds[i]) {
           try {
             result = new Promise((resolve, reject) => {
@@ -506,7 +516,7 @@ class Kit {
         }
         console.log("valueObject: ");
         console.log(valueObject);
-      }
+      } 
       Promise.all(valueObject).then(function finalizar() {
         console.log("ValueObject esta pronto? ");
         console.log(valueObject);

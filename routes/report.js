@@ -38,28 +38,39 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, next) {
   Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
     const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+    const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
     var toxiKit = {};
     var listIds = [];
-    var validIds = [];
     for (i = 0; i < ToxinasFull.length; i++) {
       console.log(i + " KitId " + ToxinasFull[i]);
       toxiKit = sample[ToxinasFull[i]];
       console.log(toxiKit);
       if (toxiKit.kitId !== null) {
         listIds.push(toxiKit.kitId);
-        validIds.push(true);
       } else {
         listIds.push(null);
-        validIds.push(false);
         console.log("O KitId da toxina " + ToxinasFull[i] + "e nulo.");
       }
     }
-
-    Kit.getValuesFromMany(listIds, validIds).then((valueList) => {
-      res.render('report/editAdmin', { title: 'Show ', sample, valueList });
+    console.log("Lista de Id's:");
+    console.log(listIds);
+    Kit.getByIdArray(listIds).then((kits) => {
+      var orderedKits = [];
+      for(i = 0; i < kits.length; i++){
+        for(j = 0; j < productCode.length; j++){
+          if(kits[j].producCode === productCode[j]){
+            var obj = {};
+            obj[ToxinasFull[j]] = kits[i];
+            orderedKits.push(obj);
+          }
+        }
+      }
+      console.log("Resultado Final?")
+      console.log(orderedKits);
+      res.render('report/editAdmin', { title: 'Show ', sample, ToxinasFull, orderedKits});
     });
 
 
