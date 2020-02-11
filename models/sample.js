@@ -215,7 +215,7 @@ class Sample {
       });
     });
   }
- 
+
   static getMaxSampleNumber() {
     return new Promise((resolve, reject) => {
       SampleModel.find({}, { samplenumber: 1, _id: 0 }).sort({ samplenumber: -1 }).limit(1).populate('sample').exec().then((result) => {
@@ -634,18 +634,34 @@ class Sample {
     });
   }
 
-   /**
-   * Create a new Sample
-   * @param {Object} project - Sample Document Data
-   * @returns {string} New Sample Id
-   */
+  static getAllReport() {
+    return new Promise((resolve, reject) => {
+      
+      var querry = { report: true };
+
+      SampleModel.find(querry).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
+  * Create a new Sample
+  * @param {Object} project - Sample Document Data
+  * @returns {string} New Sample Id
+  */
   static create(sample) {
     return new Promise((resolve, reject) => {
-      Counter.testAndResolveCounter(yyyy).then(sampleNumber => {
-        sample.samplenumber = sampleNumber;
-        SampleModel.create(sample).then((result) => {
-          resolve(result._id);
-        });
+      Counter.getSampleCount().then(async sampleNumber => {
+        let count = sampleNumber;
+        sample.samplenumber = count;
+
+        var value = await SampleModel.create(sample);
+        count++;
+        Counter.setSampleCount(count);
+        resolve(value);
       });
     });
   }

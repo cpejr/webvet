@@ -9,15 +9,11 @@
       </tr>
     </thead>
     <tbody>
-    {{#each laudos}}
+    {{#each result}}
       <tr>
-      <th>{{samplenumber}}/{{creationYear}}</th>
+      <th>{{number}}/{{year}}</th>
       <th>
-        {{#if report}}
           <a href="../../report/show/admin/{{_id}}"><button class="btn btn-success">Disponível</button></a>
-        {{else}}
-          <button class="btn btn-danger">Não Disponível</button>
-        {{/if}}
       </th>
     </tr>
     {{/each}}

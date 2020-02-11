@@ -3,12 +3,14 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('./user');
 const Mycotoxin = require('./mycotoxin');
+const Counter = require('./counter')
 
 const requisitionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
+  requisitionnumber: Number,
   identification: Number,
   datecollection: String,
   detectedConcetration: Number,
@@ -71,7 +73,7 @@ class Requisition {
    */
   static getBySampleID(sampleid) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({ _id: sampleid }).then((req) => {
+      RequisitionModel.find({ samples: { $in: sampleid } }).then((req) => {
         resolve(req);
       }).catch((err) => {
         reject(err);
@@ -126,11 +128,14 @@ class Requisition {
    */
   static create(requisition) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.create(requisition).then((result) => {
-        resolve(result._id);
-        console.log('entrou na funcao create');
-      }).catch((err) => {
-        reject(err);
+      Counter.getRequisitionCount().then(async requisitionNumber => {
+        let count = requisitionNumber;
+        requisition.requisitionnumber = count;
+
+        var value = await RequisitionModel.create(requisition);
+        count++;
+        Counter.setRequisitionCount(count);
+        resolve(value);
       });
     });
   }
@@ -139,7 +144,6 @@ class Requisition {
    * Update a Requisition
    * @param {string} id - Requisition Id
    * @param {Object} Requisition - Requisition Document Data
-   * @returns {null}
    */
   static update(id, requisition) {
     return new Promise((resolve, reject) => {
@@ -196,13 +200,13 @@ class Requisition {
   * @param {string} sample - Sample Id
   * @returns {null}
   */
- static addSample(id, sample) {
-   return new Promise((resolve, reject) => {
-     RequisitionModel.findByIdAndUpdate(id, { $push: { samples: sample } }).catch((err) => {
-       reject(err);
-     });
-   });
- }
+  static addSample(id, sample) {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.findByIdAndUpdate(id, { $push: { samples: sample } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
 }
 
