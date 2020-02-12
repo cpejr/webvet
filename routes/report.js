@@ -38,49 +38,88 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, next) {
+  function arrayContains(needle, arrhaystack) {
+    return (arrhaystack.indexOf(needle) > -1);
+  }
+
   Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
-    const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+    const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+    const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
     const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
     var toxiKit = {};
     var listIds = [];
-    for (i = 0; i < ToxinasFull.length; i++) {
-      console.log(i + " KitId " + ToxinasFull[i]);
-      toxiKit = sample[ToxinasFull[i]];
+    for (i = 0; i < ToxinasLower.length; i++) {
+      console.log(i + " KitId " + ToxinasLower[i]);
+      toxiKit = sample[ToxinasLower[i]];
       console.log(toxiKit);
       if (toxiKit.kitId !== null) {
         listIds.push(toxiKit.kitId);
       }
 
     }
-    console.log("Lista de Id's:");
-    for(i = 0; i < listIds.length; i++){
-      console.log();
-    }
 
-    Kit.getById(listIds[0]).then((kit)=>{
-      console.log("O kit da primeira posicao da list kits e:");
-      console.log(kit);
-    })
-    
     Kit.getByIdArray(listIds).then((kits) => {
       var orderedKits = [];
-      for(i = 0; i < kits.length; i++){
+      var kit = {};
+      var name = {};
+      var listNames = [];
+      for (i = 0; i < productCode.length; i++) {
         console.log("Entrou no primeiro for.");
-        for(j = 0; j < productCode.length; j++){
+        for (j = 0; j < kits.length; j++) {
           console.log("Entrou no segundo for.");
-          if(kits[i].productCode === productCode[j]){
-            console.log("kits[i].productCode: " + kits[i].productCode);
-            console.log("productCode[j]: " + productCode[j]);
-            var obj = {};
-            obj[ToxinasFull[j]] = kits[i];
-            orderedKits.push(obj);
+          if (kits[j].productCode === productCode[i]) {
+            console.log("kits[j].productCode: " + kits[j].productCode);
+            console.log("productCode[i]: " + productCode[i]);
+            kit = kits[j];
+            name = ToxinasLower[i];
+            listNames.push(ToxinasLower[i]);
+            orderedKits.push({ kit, name });
           }
         }
       }
+
+      for (h = 0; h < ToxinasLower.length; h++) {
+        if (!arrayContains(ToxinasLower[h], listNames)){
+          kit = {
+            Loq: NaN,
+            Lod: NaN,
+          };
+          name = ToxinasLower[h];
+          orderedKits.push({ kit, name });
+        }
+      }
+
       console.log("Resultado Final?")
       console.log(orderedKits);
-      res.render('report/editAdmin', { title: 'Show ', sample, ToxinasFull, orderedKits});
+      var Values = {}
+      var toxinaData = {
+        Sample: sample,
+        Values,
+      };
+      var Name = {};
+      var Pair = {};
+      for (var k = 0; k < orderedKits.length; k++) {
+        if (orderedKits[k].kit !== undefined && orderedKits[k].kit !== null) {
+          for(m = 0; m < ToxinasLower.length; m++){
+            if(ToxinasLower[m] === orderedKits[k].name){
+              Pair = orderedKits[k];
+              Name = ToxinasFormal[m];
+              Values[m] = { Name, Pair };
+            }
+          }
+        } else {
+          console.log("Algo deu errado, o kit em orderedKits[k] nao deveria estar desse jeito, vai dar merda");
+          Pair.name = orderedKits[k].name;
+          Name = ToxinasFormal[k];
+          Values.push({ Name, Pair });
+        }
+        
+      }
+
+      console.log("Objeto final: ");
+      console.log(toxinaData);
+      res.render('report/editAdmin', { title: 'Show ', sample, toxinaData });
     });
   }).catch((error) => {
     console.log(error);
