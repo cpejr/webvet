@@ -208,6 +208,16 @@ class Requisition {
     });
   }
 
+  static getAllInProgress() {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.find({ status: "Em Progresso" }).then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
 }
 
 module.exports = Requisition;
