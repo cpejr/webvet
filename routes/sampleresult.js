@@ -146,7 +146,7 @@ router.post("/", async function (req, res, next) {
     console.log(typeof amostras);
   }
 
-  res.render('allworkmaps', { title: 'finalizado', amostras, toxinas: ToxinasSigla });
+  res.redirect('../report/admreport');
 });
 
 module.exports = router;
