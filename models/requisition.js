@@ -11,7 +11,8 @@ const requisitionSchema = new mongoose.Schema({
     ref: 'User'
   },
   requisitionnumber: Number,
-  identification: Number,
+  receivedquantity: Number,
+  packingtype: String,
   datecollection: String,
   detectedConcetration: Number,
   origin: String,

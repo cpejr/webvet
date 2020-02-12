@@ -14,7 +14,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   Requisition.getAll().then((requisitions) => {
     var user = req.session.user.register;
     var logados = new Array;
-    var usuarios = new Array;
     var countlogados = 0;
     for (var i = 0; i < requisitions.length; i++) {
       if (requisitions[i].user.register == user) {
