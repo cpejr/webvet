@@ -12,21 +12,23 @@
         <th class = "th-name">Identificação</th>
         <th class = "th-type">Fazenda</th>
         <th class = "th-type">Destino</th>
-        <th class = "th-action"></th>
+        <th class = "th-type">Detalhes</th>
         <th class = "th-type">Amostras</th>
       </tr>
     </thead>
     <tbody>
       {{#each logados}}
           <tr>
-            <th>{{identification}}</th>
+            <th>{{requisitionnumber}}</th>
             <th>{{farmname}}</th>
             <th>{{destination}}</th>
             <th>
               <button onClick="location.href='requisition/show/{{_id}}'" class="fa fa-info btn m-1"></button>
             </th>
             <th>
-              <button onClick="location.href='report/samples/{{_id}}'"></button>
+              {{#each samples}}
+              <button onClick="location.href='report/samples/{{this}}'" class="btn">Amostra</button>
+              {{/each}}
             </th>
           </tr>
       {{/each}}
