@@ -61,7 +61,7 @@ router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
     Kit.getById(listIds[0]).then((kit) => {
       console.log("O kit da primeira posicao da list kits e:");
       console.log(kit);
-    })
+    });
 
     Kit.getByIdArray(listIds).then((kits) => {
       var orderedKits = [];
@@ -80,7 +80,9 @@ router.get('/show/admin/:id', auth.isAuthenticated, function (req, res, next) {
       }
       var data = {};
       Requisition.getById(sample.requisitionId).then((requisition) => {
-        data.toxinas = requisition.mycotoxin
+        data.toxinas = requisition.mycotoxin;
+        data.requisitionnumber = requisition.requisitionnumber;
+        data.year = requisition.createdAt.getFullYear();
       }).then((tu) => {
         res.render('report/editAdmin', { title: 'Show ', sample, ToxinasFull, orderedKits, data });
       });
