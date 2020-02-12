@@ -32,77 +32,33 @@
   <div class="info-laudo">
     <h4> 4.1 - Detecção e quantificação de {{data.toxinas}} </h4>
   </div>
-  <h4> 5. Resultados:4</h4>
+  <h4> 5. Resultados: </h4>
   <form action="/report/show/admin/{{sample._id}}" method="post">
     <div class="info-laudo">
-      <table class="table">
-        <caption>ND = Não Detectado *média de duas repetições </caption>
-        <thead>
-          <tr>
-            <th scope="col">Micotoxinas</th>
-            <th scope="col">Concentração Detectada (ppb)* </th>
-            <th scope="col">Limite de Detecção -LoD (ppb) </th>
-            <th scope="col">Limite de Quantificação - LoQ (ppb)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Aflatoxinas</th>
-            <td>
-              <input type="text" name="aflatoxinaConc" value="{{round sample.aflatoxina.result 2}}">
-              <input type="checkbox" name="aflaCheck">
-            </td>
-            <td>{{!-- {{valueList[5].lod}} --}}</td>
-            <td>{{!-- {{valueList[5].loq}} --}}</td>
-          </tr>
-          <tr>
-            <th scope="row">Deoxinivalenol</th>
-            <td>
-              <input type="text" name="deoxConc" value="{{round sample.deoxinivalenol.result 2}}">
-              <input type="checkbox" name="deoxCheck">
-            </td>
-            <td>{{!-- {{valueList[5].lod}} --}}</td>
-            <td>{{!-- {{valueList[5].loq}} --}}</td>
-          </tr>
-          <tr>
-            <th scope="row">Fumonisinas</th>
-            <td>
-              <input type="text" name="fumoConc" value="{{round sample.fumonisina.result 2}}">
-              <input type="checkbox" name="fumoCheck">
-            </td>
-            <td>{{!-- {{valueList[5].lod}} --}}</td>
-            <td>{{!-- {{valueList[5].loq}} --}}</td>
-          </tr>
-          <tr>
-            <th scope="row">Ocratoxina A</th>
-            <td>
-              <input type="text" name="ocratoxConc" value="{{round sample.ocratoxina.result 2}}">
-              <input type="checkbox" name="ocraCheck">
-            </td>
-
-            <td>{{!-- {{valueList[5].lod}} --}}</td>
-            <td>{{!-- {{valueList[5].loq}} --}}</td>
-          </tr>
-          <tr>
-            <th scope="row">T-2 toxina</th>
-            <td>
-              <input type="text" name="T2Conc" value="{{round sample.t2toxina.result 2}}">
-              <input type="checkbox" name="t2Check">
-            </td>
-            <td>{{!-- {{valueList[5].lod}} --}}</td>
-            <td>{{!-- {{valueList[5].loq}} --}}</td>
-          </tr>
-          <tr>
-            <th scope="row">Zearalenona</th>
-            <td>
-              <input type="text" name="ZearalenonaConc" value="{{round sample.zearalenona.result 2}}">
-              <input type="checkbox" name="zeaCheck">
-            </td>
-            <td>{{!-- {{valueList[5].lod}} --}}</td>
-            <td>{{!-- {{valueList[5].loq}} --}}</td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="table text-center">
+          <caption>ND = Não Detectado *média de duas repetições </caption>
+          <thead>
+            <tr>
+              <th scope="col">Micotoxinas</th>
+              <th scope="col">Concentração Detectada (ppb)* </th>
+              <th scope="col">Limite de Detecção -LoD (ppb) </th>
+              <th scope="col">Limite de Quantificação - LoQ (ppb)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each toxinaData.Values}}
+              <tr>
+                <th scope="row">{{Name}}</th>
+                <td>
+                  <input type="text" name="{{Pair.name}}Conc" value="{{round sample.aflatoxina.result 2}}">
+                  <input type="checkbox" name="{{Pair.name}}Check">
+                </td>
+                <td>{{Pair.kit.Lod}}</td>
+                <td>{{Pair.kit.Loq}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
       <div>
         <input type="checkbox" name="allCheck">
         <label for="allCheck">Todas as toxinas passaram</label><br>
