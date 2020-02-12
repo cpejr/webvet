@@ -66,7 +66,7 @@ class Counter {
     }
 
     static setRequisitionCount(num) {
-        CounterModel.findOneAndUpdate({}, { $set: { 'requistionCount': num } }).exec().catch(err => console.log(err));
+        CounterModel.findOneAndUpdate({}, { $set: { 'requisitionCount': num } }).exec().catch(err => console.log(err));
     }
 
     static getSampleCount() {
@@ -86,7 +86,7 @@ class Counter {
                     }
 
                     //Previnir de erros
-                    if (Number.isNaN(counter.sampleCount))
+                    if (Number.isNaN(counter.sampleCount) || typeof counter.sampleCount === "undefined")
                         counter.sampleCount = 1;
 
                     resolve(counter.sampleCount);
@@ -114,7 +114,7 @@ class Counter {
                     }
 
                     //Previnir de erros
-                    if (Number.isNaN(counter.requisitionCount) || typeof something === "undefined")
+                    if (Number.isNaN(counter.requisitionCount) || typeof counter.requisitionCount === "undefined")
                         counter.requisitionCount = 1;
 
                     resolve(counter.requisitionCount);
