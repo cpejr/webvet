@@ -26,30 +26,6 @@ class Counter {
         });
     }
 
-    static testAndResolveCounter(currentYear) {
-        return new Promise((resolve, reject) => {
-            Counter.getCounter().then((Contador) => {
-
-                if (Contador == null)
-                    Counter.create().then((valor) => CounterUpdate(valor));
-                else
-                    CounterUpdate(Contador);
-
-                function CounterUpdate(params) {
-                    if (params.lastYear < currentYear) {
-                        Counter.resetCounter(params._id, currentYear);
-                        resolve(params.sampleCount);
-                    } else {
-                        Counter.updateCounter(params);
-                        resolve(params.sampleCount);
-                    }
-                }
-            });
-        });
-    }
-
-
-
     static resetCounter(id, currentYear) {
         return new Promise((resolve, reject) => {
             CounterModel.update({ _id: id },
@@ -67,6 +43,7 @@ class Counter {
         const Contador = {
             lastYear: yyyy,
             sampleCount: 1,
+            requisitionCount: 1,
             counterName: 'Contador padrão'
         }
 
@@ -88,6 +65,10 @@ class Counter {
         CounterModel.findOneAndUpdate({}, { $set: { 'sampleCount': num } }).exec().catch(err => console.log(err));
     }
 
+    static setRequisitionCount(num) {
+        CounterModel.findOneAndUpdate({}, { $set: { 'requistionCount': num } }).exec().catch(err => console.log(err));
+    }
+
     static getSampleCount() {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((result) => {
@@ -103,6 +84,11 @@ class Counter {
                         counter.sampleCount = 1;
                         reference.resetCounter(counter._id, yyyy);
                     }
+
+                    //Previnir de erros
+                    if (Number.isNaN(counter.sampleCount))
+                        counter.sampleCount = 1;
+
                     resolve(counter.sampleCount);
                 }
             }).catch((err) => {
@@ -111,7 +97,7 @@ class Counter {
         });
     }
 
-    static getRequisitonCount() {
+    static getRequisitionCount() {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((result) => {
 
@@ -126,6 +112,11 @@ class Counter {
                         counter.requisitionCount = 1;
                         reference.resetCounter(counter._id, yyyy);
                     }
+
+                    //Previnir de erros
+                    if (Number.isNaN(counter.requisitionCount) || typeof something === "undefined")
+                        counter.requisitionCount = 1;
+
                     resolve(counter.requisitionCount);
                 }
             }).catch((err) => {

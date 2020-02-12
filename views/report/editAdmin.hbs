@@ -12,7 +12,7 @@
 </div>
 <div class="laudo-text">
   <h4>Registro Lab. MICOTOX 137</h4>
-  <h4> 1. Laudo n°: {{sample.samplenumber}}/{{sample.creationYear}}</h4>
+  <h4> 1. Laudo n°: {{data.requisitionnumber}}/{{data.year}}</h4>
   <h4> 2. Descrição da Amostra: </h4>
   <div class="info-laudo">
     <h4> 2.1 - Tipo de embalagem: Reensilagem em saco plástico </h4>
@@ -30,7 +30,7 @@
   </div>
   <h4> 4. Características das análises da amostra: </h4>
   <div class="info-laudo">
-    <h4> 4.1 - Detecção e quantificação de </h4>
+    <h4> 4.1 - Detecção e quantificação de {{data.toxinas}} </h4>
   </div>
   <h4> 5. Resultados: </h4>
   <form action="/report/show/admin/{{sample._id}}" method="post">
