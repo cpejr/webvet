@@ -219,6 +219,16 @@ class Requisition {
     });
   }
 
+  static getAllInProgressById(userId) {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.find({ status: "Em Progresso", user: userId}).then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
 }
 
 module.exports = Requisition;
