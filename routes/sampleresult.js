@@ -110,12 +110,12 @@ router.get('/', async function (req, res, next) {
   //Finalizando a forma de como os dados serão enviados ao front
   var resultados = {}
 
-  resultados[0] = { name: 'AFLA', result: r1 };
-  resultados[1] = { name: 'DON', result: r2 };
-  resultados[2] = { name: 'OTA', result: r3 };
-  resultados[3] = { name: 'T2', result: r4 };
-  resultados[4] = { name: 'ZEA', result: r5 };
-  resultados[5] = { name: 'FBS', result: r6 };
+  resultados[0] = { name: ToxinasSigla[0], result: r1 };
+  resultados[1] = { name: ToxinasSigla[1], result: r2 };
+  resultados[2] = { name: ToxinasSigla[2], result: r3 };
+  resultados[3] = { name: ToxinasSigla[3], result: r4 };
+  resultados[4] = { name: ToxinasSigla[4], result: r5 };
+  resultados[5] = { name: ToxinasSigla[5], result: r6 };
 
   res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
 });

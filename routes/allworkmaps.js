@@ -68,8 +68,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', function (req, res, next) {
-  const ToxinasSigla = ['AFLA', 'DON', 'OTA', 'T2', 'ZEA', 'FBS'];
-
   //Dando update em todos os kits ativos.
   Kit.getAllActive().then(obj => updateKits(obj)).catch((error) => { console.log(error); });
 
