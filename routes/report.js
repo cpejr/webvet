@@ -80,7 +80,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
       }
 
       for (h = 0; h < ToxinasLower.length; h++) {
-        if (!arrayContains(ToxinasLower[h], listNames)){
+        if (!arrayContains(ToxinasLower[h], listNames)) {
           kit = {
             Loq: NaN,
             Lod: NaN,
@@ -101,8 +101,8 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
       var Pair = {};
       for (var k = 0; k < orderedKits.length; k++) {
         if (orderedKits[k].kit !== undefined && orderedKits[k].kit !== null) {
-          for(m = 0; m < ToxinasLower.length; m++){
-            if(ToxinasLower[m] === orderedKits[k].name){
+          for (m = 0; m < ToxinasLower.length; m++) {
+            if (ToxinasLower[m] === orderedKits[k].name) {
               Pair = orderedKits[k];
               Name = ToxinasFormal[m];
               Values[m] = { Name, Pair };
@@ -114,12 +114,12 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
           Name = ToxinasFormal[k];
           Values.push({ Name, Pair });
         }
-        
+
       }
 
       console.log("Objeto final: ");
       console.log(toxinaData);
-      
+
       var data = {};
       Requisition.getById(sample.requisitionId).then((requisition) => {
         data.toxinas = requisition.mycotoxin;
@@ -180,9 +180,15 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
 
   Sample.getAllReport().then((amostras) => {
     let reqids = [];
+    for(var j = 0; j< amostras.length; j++){
+      if(amostras[j].report){
+        laudos.push(amostras[j]);
+      }
+    }
 
-    for (var i = 0; i < amostras.length; i++)
+    for (var i = 0; i < amostras.length; i++){
       reqids.push(amostras[i].requisitionId);
+    }
 
     Requisition.getByIdArray(reqids).then((requisitions) => {
       for (let j = 0; j < amostras.length; j++) {
@@ -196,7 +202,7 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
         }
       }
     }).then((params) => {
-      res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, result });
+      res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, laudos,result });
     });
   });
 });
