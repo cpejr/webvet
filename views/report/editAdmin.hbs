@@ -11,8 +11,8 @@
   </h3>
 </div>
 <div class="laudo-text">
-  <h4>Registro Lab. MICOTOX 137</h4>
-  <h4> 1. Laudo n°: {{data.requisitionnumber}}/{{data.year}}</h4>
+  <h4>Registro Lab. MICOTOX {{data.requisitionnumber}}</h4>
+  <h4> 1. Laudo n°: {{sample.samplenumber}}/{{data.year}}</h4>
   <h4> 2. Descrição da Amostra: </h4>
   <div class="info-laudo">
     <h4> 2.1 - Tipo de embalagem: Reensilagem em saco plástico </h4>
@@ -93,36 +93,40 @@
 <script>
   $(document).ready(function () {
     var countChecked = function () {
+      const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+      const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
       var n = $("input:checked").length;
-      var listNames = [];
+      var listNames = ['Meuovo', 'Minhabola'];
       var idName = {};
       var frase = "";
-      var fraseCompleta = "Foi detectada a presença de*vetor*na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
-      if (n !== 0) {
-        const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
-        const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
-        for (i = 0; i < ToxinasLower.length; i++) {
-          idName = (ToxinasLower[i] + "Check")
-          if ($(`#${idName}`).attr('checked', true)) {
-            listNames.push(ToxinasFormal[i]);
-          } else {
-            listNames = listNames.filter(palavra => palavra != ToxinasFormal[i]); //removeu toxinasLower[i] do vetor.
+      var inicio = ""
+      var fraseCompleta = "*inicio*a presença de*frase*na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
+
+
+      if (n !== 0) { //Pedaço que analiza o vetor de nomes e escreve apropiadamente.
+        if (listNames.length > 2) {
+          for (i = 0; i < listNames.length - 2; i++) {
+            frase = frase + " " + listNames[i] + ", ";
           }
-        }
-        if (listNames.length > 1) {
-          for (j = 0; j < listNames.length - 1; j++) {
-            frase = frase + " " + listNames[i] + ",";
+          frase = frase + " " + listNames[listNames.length - 2] + " ";
+          frase = frase + " e " + listNames[listNames.length - 1] + " ";
+          inicio = "Foram detectadas ";
+        } else if (listNames.length == 1) {
+          frase = frase + listNames[0] + " ";
+          inicio = "Foi detectado ";
+        } else {
+          for (i = 0; i < listNames.length - 1; i++) {
+            frase = frase + " " + listNames[i] + " ";
           }
           frase = frase + " e " + listNames[listNames.length - 1] + " ";
-        } else {
-          frase = " " + listNames[0] + " ";
+          inicio = "Foram detectadas ";
         }
-        fraseCompleta = fraseCompleta.replace("*vetor*", frase);
+        fraseCompleta = fraseCompleta.replace("*frase*", frase);
+        fraseCompleta = fraseCompleta.replace("*inicio*", inicio);
         $("#parecer").text(fraseCompleta);
       } else {
         $("#parecer").text("Não foi detectada a presença de nenhuma toxina na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.");
       }
-
     };
     countChecked();
     $("input[type=checkbox]").on("click", countChecked);
