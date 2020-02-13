@@ -10,6 +10,7 @@ const Email = require('../models/email');
 const Workmap = require('../models/Workmap');
 const Sample = require('../models/sample');
 
+
 router.get('/', auth.isAuthenticated, function (req, res, next) {
   Requisition.getAll().then((requisitions) => {
     var user = req.session.user.register;

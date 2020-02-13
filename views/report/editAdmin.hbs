@@ -1,6 +1,6 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="jquery-3.4.1.min.js"></script>
 <div class="logolaudo">
   <img src="/images/logolaudo.jpg">
 </div>
@@ -11,8 +11,8 @@
   </h3>
 </div>
 <div class="laudo-text">
-  <h4>Registro Lab. MICOTOX 137</h4>
-  <h4> 1. Laudo n°: {{data.requisitionnumber}}/{{data.year}}</h4>
+  <h4>Registro Lab. MICOTOX {{data.requisitionnumber}}</h4>
+  <h4> 1. Laudo n°: {{sample.samplenumber}}/{{data.year}}</h4>
   <h4> 2. Descrição da Amostra: </h4>
   <div class="info-laudo">
     <h4> 2.1 - Tipo de embalagem: Reensilagem em saco plástico </h4>
@@ -35,36 +35,37 @@
   <h4> 5. Resultados: </h4>
   <form action="/report/show/admin/{{sample._id}}" method="post">
     <div class="info-laudo">
-        <table class="table text-center">
-          <caption>ND = Não Detectado *média de duas repetições </caption>
-          <thead>
+      <table class="table text-center">
+        <caption>ND = Não Detectado *média de duas repetições </caption>
+        <thead>
+          <tr>
+            <th scope="col">Micotoxinas</th>
+            <th scope="col">Concentração Detectada (ppb)* </th>
+            <th scope="col">Limite de Detecção -LoD (ppb) </th>
+            <th scope="col">Limite de Quantificação - LoQ (ppb)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each toxinaData.Values}}
             <tr>
-              <th scope="col">Micotoxinas</th>
-              <th scope="col">Concentração Detectada (ppb)* </th>
-              <th scope="col">Limite de Detecção -LoD (ppb) </th>
-              <th scope="col">Limite de Quantificação - LoQ (ppb)</th>
+              <th scope="row">{{Name}}</th>
+              <td>
+                <input type="text" id="{{Pair.name}}Conc" value="{{round sample.aflatoxina.result 2}}">
+                <input type="checkbox" id="{{Pair.name}}Check">
+              </td>
+              <td>{{Pair.kit.Lod}}</td>
+              <td>{{Pair.kit.Loq}}</td>
             </tr>
-          </thead>
-          <tbody>
-            {{#each toxinaData.Values}}
-              <tr>
-                <th scope="row">{{Name}}</th>
-                <td>
-                  <input type="text" name="{{Pair.name}}Conc" value="{{round sample.aflatoxina.result 2}}">
-                  <input type="checkbox" name="{{Pair.name}}Check">
-                </td>
-                <td>{{Pair.kit.Lod}}</td>
-                <td>{{Pair.kit.Loq}}</td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
+          {{/each}}
+        </tbody>
+      </table>
       <div>
-        <input type="checkbox" name="allCheck">
+        <input type="checkbox" id="allCheck">
         <label for="allCheck">Todas as toxinas passaram</label><br>
       </div>
     </div>
     <h4> 6. Parecer técnico: </h4>
+    <div id="parecer"></div>
     <h4> 7. Comentários: </h4>
     <textarea name="Description" cols="100" rows="7">{{sample.description}}</textarea>
     <br> <button type="submit">Atualizar</button>
@@ -88,5 +89,48 @@
         aria-hidden="true"></span> Voltar </button>
   </center>
 </div>
+
+<script>
+  $(document).ready(function () {
+    var countChecked = function () {
+      const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+      const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
+      var n = $("input:checked").length;
+      var listNames = ['Meuovo', 'Minhabola'];
+      var idName = {};
+      var frase = "";
+      var inicio = ""
+      var fraseCompleta = "*inicio*a presença de*frase*na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
+
+
+      if (n !== 0) { //Pedaço que analiza o vetor de nomes e escreve apropiadamente.
+        if (listNames.length > 2) {
+          for (i = 0; i < listNames.length - 2; i++) {
+            frase = frase + " " + listNames[i] + ", ";
+          }
+          frase = frase + " " + listNames[listNames.length - 2] + " ";
+          frase = frase + " e " + listNames[listNames.length - 1] + " ";
+          inicio = "Foram detectadas ";
+        } else if (listNames.length == 1) {
+          frase = frase + listNames[0] + " ";
+          inicio = "Foi detectado ";
+        } else {
+          for (i = 0; i < listNames.length - 1; i++) {
+            frase = frase + " " + listNames[i] + " ";
+          }
+          frase = frase + " e " + listNames[listNames.length - 1] + " ";
+          inicio = "Foram detectadas ";
+        }
+        fraseCompleta = fraseCompleta.replace("*frase*", frase);
+        fraseCompleta = fraseCompleta.replace("*inicio*", inicio);
+        $("#parecer").text(fraseCompleta);
+      } else {
+        $("#parecer").text("Não foi detectada a presença de nenhuma toxina na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.");
+      }
+    };
+    countChecked();
+    $("input[type=checkbox]").on("click", countChecked);
+  })
+</script>
 
 <script src="/javascripts/report.js"></script>
