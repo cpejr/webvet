@@ -23,8 +23,8 @@ const requisitionSchema = new mongoose.Schema({
   sampleVector: [String],
   status: {
     type: String,
-    enum: ['Aprovada', 'Em Progresso', 'Cancelada'],
-    default: 'Em Progresso',
+    enum: ['Nova', 'Aprovada', 'Em Progresso', 'Cancelada'],
+    default: 'Nova',
     required: true
   },
   address: {
@@ -219,9 +219,9 @@ class Requisition {
     });
   }
 
-  static getAllInProgressById(userId) {
+  static getAllNewById(userId) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({ status: "Em Progresso", user: userId}).then((results) => {
+      RequisitionModel.find({ status: "Nova", user: userId}).then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
