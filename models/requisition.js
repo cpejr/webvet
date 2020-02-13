@@ -18,6 +18,7 @@ const requisitionSchema = new mongoose.Schema({
   origin: String,
   comment: String,
   lab: String,
+  producer: String,
   destination: String,
   farmname: String,
   sampleVector: [String],
