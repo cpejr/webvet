@@ -70,6 +70,15 @@ class Workmap {
    * @param {Object} Sample - id
    * @returns {null}
    */
+  static removeSamples(id, sampleIdArray) {
+    return new Promise((resolve, reject) => {
+      WorkmapModel.findByIdAndUpdate(id, { $pull: { samplesArray: { $in: sampleIdArray } } }).then(() => {
+        resolve();
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
   static removeSample(id, sample) {
     return new Promise((resolve, reject) => {

@@ -5,12 +5,12 @@ const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const Sample = require('../models/sample');
 const Kit = require('../models/kit');
-const Workmap=require('../models/Workmap');
+const Workmap = require('../models/Workmap');
 
 
 /* GET home page. */
 
-router.get('/',  auth.isAuthenticated, function(req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res, next) {
   res.render('test', { title: 'Usuários', layout: 'layoutDashboard.hbs', ...req.session });
 
 });
@@ -20,9 +20,9 @@ router.post('/create', (req, res) => {
   console.log("NA ROTA SAMPLE!");
   Sample.getMaxSampleNumber().then((maxSample) => {
 
-      sample = {
-        samplenumber: maxSample[0].samplenumber + 1
-      }
+    sample = {
+      samplenumber: maxSample[0].samplenumber + 1
+    }
 
 
     Sample.create(sample).then(() => {
@@ -37,7 +37,7 @@ router.post('/create', (req, res) => {
   });
 });
 
-router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
+router.post('/totest/edit/:mycotoxin/:samplenumber', function (req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample[0];
@@ -92,21 +92,21 @@ router.post('/totest/edit/:mycotoxin/:samplenumber' , function(req, res, next) {
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
 
   }).catch((error) => {
-   console.log(error);
-   res.redirect('/error');
+    console.log(error);
+    res.redirect('/error');
   });
 });
 
 
 
-router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
+router.post('/testing/edit/:mycotoxin/:samplenumber', function (req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample[0];
@@ -138,46 +138,46 @@ router.post('/testing/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
-   }).catch((error) => {
-     console.log(error);
-     res.redirect('/error');
-   });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 });
-router.post('/setActiveKit/:code/:kitActiveID',  function(req, res, next) { //manutenção
- Kit.getByProductCode(req.params.code).then((kits)=>{
-     var size=kits.length;
-     for(i=0;i<size;i++) {
-          if(kits[i]._id==req.params.kitActiveID){
-            Kit.setActiveStatus(req.params.kitActiveID,true).catch((error) => {
-              console.log(error);
-              res.redirect('/error');
-            });
-          }
-          else{
-            Kit.setActiveStatus(kits[i]._id,false).catch((error) => {
-              console.log(error);
-              res.redirect('/error');
-            });
-          }
-     }
+router.post('/setActiveKit/:code/:kitActiveID', function (req, res, next) { //manutenção
+  Kit.getByProductCode(req.params.code).then((kits) => {
+    var size = kits.length;
+    for (i = 0; i < size; i++) {
+      if (kits[i]._id == req.params.kitActiveID) {
+        Kit.setActiveStatus(req.params.kitActiveID, true).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
+      }
+      else {
+        Kit.setActiveStatus(kits[i]._id, false).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
+      }
+    }
 
 
- }).catch((error) => {
-   console.log(error);
-   res.redirect('/error');
- });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 
 
 
 
 
 });
-router.post('/ownering/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
+router.post('/ownering/edit/:mycotoxin/:samplenumber', function (req, res, next) {
 
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
@@ -210,20 +210,20 @@ router.post('/ownering/edit/:mycotoxin/:samplenumber',  function(req, res, next)
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
-   }).catch((error) => {
-     console.log(error);
-     res.redirect('/error');
-   });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 });
 
 
 
-router.post('/waiting/edit/:mycotoxin/:samplenumber',  function(req, res, next) {
+router.post('/waiting/edit/:mycotoxin/:samplenumber', function (req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample[0];
@@ -255,19 +255,19 @@ router.post('/waiting/edit/:mycotoxin/:samplenumber',  function(req, res, next) 
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
+      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
-   }).catch((error) => {
-     console.log(error);
-     res.redirect('/error');
-   });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 });
 
 
-router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID',  function(req, res, next) {//this function is for the second kanban
+router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID', function (req, res, next) {//this function is for the second kanban
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     var mapPosition;
@@ -276,195 +276,194 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID',  function(req, 
 
     if (req.params.mycotoxin == "aflatoxina") {
       sampleedit.aflatoxina.status = "Em análise";
-      mapPosition=sampleedit.aflatoxina.mapReference;
-      sampleedit.aflatoxina.mapReference="Sem mapa";
+      mapPosition = sampleedit.aflatoxina.mapReference;
+      sampleedit.aflatoxina.mapReference = "Sem mapa";
     }
 
     if (req.params.mycotoxin == "ocratoxina") {
       sampleedit.ocratoxina.status = "Em análise";
-      mapPosition=sampleedit.ocratoxina.mapReference;
-      sampleedit.ocratoxina.mapReference="Sem mapa";
+      mapPosition = sampleedit.ocratoxina.mapReference;
+      sampleedit.ocratoxina.mapReference = "Sem mapa";
     }
 
     if (req.params.mycotoxin == "deoxinivalenol") {
       sampleedit.deoxinivalenol.status = "Em análise";
-       mapPosition=sampleedit.deoxinivalenol.mapReference;
-      sampleedit.deoxinivalenol.mapReference="Sem mapa";
+      mapPosition = sampleedit.deoxinivalenol.mapReference;
+      sampleedit.deoxinivalenol.mapReference = "Sem mapa";
     }
 
     if (req.params.mycotoxin == "t2toxina") {
       sampleedit.t2toxina.status = "Em análise";
-      mapPosition=sampleedit.t2toxina.mapReference;
-      sampleedit.t2toxina.mapReference="Sem mapa";
+      mapPosition = sampleedit.t2toxina.mapReference;
+      sampleedit.t2toxina.mapReference = "Sem mapa";
     }
 
     if (req.params.mycotoxin == "fumonisina") {
       sampleedit.fumonisina.status = "Em análise";
-      mapPosition=sampleedit.fumonisina.mapReference;
-      sampleedit.fumonisina.mapReference="Sem mapa";
+      mapPosition = sampleedit.fumonisina.mapReference;
+      sampleedit.fumonisina.mapReference = "Sem mapa";
     }
 
     if (req.params.mycotoxin == "zearalenona") {
       sampleedit.zearalenona.status = "Em análise";
-      mapPosition=sampleedit.zearalenona.mapReference;
-        sampleedit.zearalenona.mapReference="Sem mapa";
+      mapPosition = sampleedit.zearalenona.mapReference;
+      sampleedit.zearalenona.mapReference = "Sem mapa";
     }
     //in the next lines the mapReference is converted to number
-   var mapPosition = mapPosition.replace("_workmap", "");
-   var mapPosition= Number(mapPosition)-1;//is necessary to subtract one, since the array starts with 0 instead of 1
+    var mapPosition = mapPosition.replace("_workmap", "");
+    var mapPosition = Number(mapPosition) - 1;//is necessary to subtract one, since the array starts with 0 instead of 1
 
-    Kit.getWorkmapsById(req.params.kitID).then((mapArray)=>{//get workmap of the current kit
-       Workmap.removeSample(mapArray[mapPosition],sampleedit._id).then(()=>{
-           Sample.update(sampleedit._id, sampleedit).then(() => {
-             console.log(sampleedit);
-             res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
-           }).catch((error) => {
-             console.log(error);
-             res.redirect('/error');
-           });
-       }).catch((error) => {
-         console.log(error);
-         res.redirect('/error');
-       });
+    Kit.getWorkmapsById(req.params.kitID).then((mapArray) => {//get workmap of the current kit
+      Workmap.removeSample(mapArray[mapPosition], sampleedit._id).then(() => {
+        Sample.update(sampleedit._id, sampleedit).then(() => {
+          console.log(sampleedit);
+          res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+        }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      });
 
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
 
- }).catch((error) => {
-   console.log(error);
-   res.redirect('/error');
- });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 });
 
 
 
 
-router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference',  function(req, res, next) {
+router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (req, res, next) {
 
 
-  Kit.getById(req.params.kitID).then((kit)=>{
-     var mapPosition = req.params.mapreference;
-     var mapPosition = mapPosition.replace("_workmap", "");
-     var mapPosition= Number(mapPosition)-1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
-     var originMapPosition;
-     console.log(kit);
-     Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-         const sampleedit = sample[0]; //sample is a array with one content, to work with it just catch the first element
+  Kit.getById(req.params.kitID).then((kit) => {
+    var mapPosition = req.params.mapreference;
+    var mapPosition = mapPosition.replace("_workmap", "");
+    var mapPosition = Number(mapPosition) - 1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
+    var originMapPosition;
+    console.log(kit);
+    Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
+      const sampleedit = sample[0]; //sample is a array with one content, to work with it just catch the first element
 
-         Kit.getWorkmapsById(kit._id).then((mapArray)=>{//access the kit and get the workmaps
-           if (req.params.mycotoxin == "aflatoxina") { //bellow the sample atributes are seted
-             sampleedit.aflatoxina.status = "Mapa de Trabalho";
-             originMapPosition=sampleedit.aflatoxina.mapReference;
-             sampleedit.aflatoxina.mapReference=req.params.mapreference;
+      Kit.getWorkmapsById(kit._id).then((mapArray) => {//access the kit and get the workmaps
+        if (req.params.mycotoxin == "aflatoxina") { //bellow the sample atributes are seted
+          sampleedit.aflatoxina.status = "Mapa de Trabalho";
+          originMapPosition = sampleedit.aflatoxina.mapReference;
+          sampleedit.aflatoxina.mapReference = req.params.mapreference;
+          sampleedit.aflatoxina.workmapId = mapArray[mapPosition];
+        }
 
-           }
+        if (req.params.mycotoxin == "ocratoxina") {
+          sampleedit.ocratoxina.status = "Mapa de Trabalho";
+          originMapPosition = sampleedit.ocratoxina.mapReference;
+          sampleedit.ocratoxina.mapReference = req.params.mapreference;
+          sampleedit.ocratoxina.workmapId = mapArray[mapPosition];
+        }
 
-           if (req.params.mycotoxin == "ocratoxina") {
-             sampleedit.ocratoxina.status = "Mapa de Trabalho";
-             originMapPosition=sampleedit.ocratoxina.mapReference;
-             sampleedit.ocratoxina.mapReference=req.params.mapreference;
+        if (req.params.mycotoxin == "deoxinivalenol") {
+          sampleedit.deoxinivalenol.status = "Mapa de Trabalho";
+          originMapPosition = sampleedit.deoxinivalenol.mapReference;
+          sampleedit.deoxinivalenol.mapReference = req.params.mapreference;
+          sampleedit.deoxinivalenol.workmapId = mapArray[mapPosition];
+        }
 
+        if (req.params.mycotoxin == "t2toxina") {
+          sampleedit.t2toxina.status = "Mapa de Trabalho";
+          originMapPosition = sampleedit.t2toxina.mapReference;
+          sampleedit.t2toxina.mapReference = req.params.mapreference;
+          sampleedit.t2toxina.workmapId = mapArray[mapPosition];
+        }
 
+        if (req.params.mycotoxin == "fumonisina") {
+          sampleedit.fumonisina.status = "Mapa de Trabalho";
+          originMapPosition = sampleedit.fumonisina.mapReference;
+          sampleedit.fumonisina.mapReference = req.params.mapreference;
+          sampleedit.fumonisina.workmapId = mapArray[mapPosition];
+        }
 
-           }
+        if (req.params.mycotoxin == "zearalenona") {
+          sampleedit.zearalenona.status = "Mapa de Trabalho";
+          originMapPosition = sampleedit.zearalenona.mapReference;
+          sampleedit.zearalenona.mapReference = req.params.mapreference;
+          sampleedit.zearalenona.workmapId = mapArray[mapPosition];
+        }
 
-           if (req.params.mycotoxin == "deoxinivalenol") {
-             sampleedit.deoxinivalenol.status = "Mapa de Trabalho";
-             originMapPosition=sampleedit.deoxinivalenol.mapReference;
-             sampleedit.deoxinivalenol.mapReference=req.params.mapreference;
+        console.log(originMapPosition);
 
-           }
-
-           if (req.params.mycotoxin == "t2toxina") {
-             sampleedit.t2toxina.status = "Mapa de Trabalho";
-             originMapPosition=sampleedit.t2toxina.mapReference;
-             sampleedit.t2toxina.mapReference=req.params.mapreference;
-           }
-
-           if (req.params.mycotoxin == "fumonisina") {
-             sampleedit.fumonisina.status = "Mapa de Trabalho";
-             originMapPosition=sampleedit.fumonisina.mapReference;
-             sampleedit.fumonisina.mapReference=req.params.mapreference;
-
-           }
-
-           if (req.params.mycotoxin == "zearalenona") {
-             sampleedit.zearalenona.status = "Mapa de Trabalho";
-             originMapPosition=sampleedit.zearalenona.mapReference;
-             sampleedit.zearalenona.mapReference=req.params.mapreference;
-
-           }
-
-           console.log(originMapPosition);
-
-           if(originMapPosition!="Sem mapa") { //if is null or undefined, it cant be manipulate and will be used bellow
-             originMapPosition = originMapPosition.replace("_workmap", "");//casts the old map reference of the sample to an number
-             originMapPosition = Number(originMapPosition)-1;
-             console.log(originMapPosition);
-           }
-
+        if (originMapPosition != "Sem mapa") { //if is null or undefined, it cant be manipulate and will be used bellow
+          originMapPosition = originMapPosition.replace("_workmap", "");//casts the old map reference of the sample to an number
+          originMapPosition = Number(originMapPosition) - 1;
+          console.log(originMapPosition);
+        }
 
 
-           Sample.update(sampleedit._id, sampleedit).then(() => {
-               Workmap.getOneMap(mapArray[mapPosition]._id).then((targetMap)=>{//gets only the workmap where the sample will be added
-                   var isAdded=false;
-                   for(i=0;i<targetMap.samplesArray.length;i++) {//check if the sample already exists in the workmap
-                      if(targetMap.samplesArray[i]._id.equals(sampleedit._id)){// a simple == doest work, for _id the function.equals() is necessary
-                          isAdded=true;
-                          i=targetMap.samplesArray.length; //breaks the for
-                      }
-                   }
 
-                  if(isAdded) {
-                    res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});//if alredy exists, dont add
-                   }
-                  else {
-                    if(originMapPosition=="Sem mapa"){//the sample never was in a workmap before
-                      Workmap.addSample(mapArray[mapPosition], sampleedit._id,req.params.mapreference).then(() => { //else, it will be add
-                          res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
-                       }).catch((error) => {
-                         console.log(error);
-                         res.redirect('/error');
-                       });
-                    }
-                    else { //the sample was an workmap before
-                      Workmap.removeSample(mapArray[originMapPosition],sampleedit._id).then(()=>{//remove from the previus workmap
-                        Workmap.addSample(mapArray[mapPosition], sampleedit._id,req.params.mapreference).then(() => { //else, it will be add
-                            res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs'});
-                         }).catch((error) => {
-                           console.log(error);
-                           res.redirect('/error');
-                         });
-                      }).catch((error) => {
-                        console.log(error);
-                        res.redirect('/error');
-                      });
+        Sample.update(sampleedit._id, sampleedit).then(() => {
+          Workmap.getOneMap(mapArray[mapPosition]._id).then((targetMap) => {//gets only the workmap where the sample will be added
+            var isAdded = false;
+            for (i = 0; i < targetMap.samplesArray.length; i++) {//check if the sample already exists in the workmap
+              if (targetMap.samplesArray[i]._id.equals(sampleedit._id)) {// a simple == doest work, for _id the function.equals() is necessary
+                isAdded = true;
+                i = targetMap.samplesArray.length; //breaks the for
+              }
+            }
 
-                    }
-
-                  }
-
-
-               }).catch((error) => {
+            if (isAdded) {
+              res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });//if alredy exists, dont add
+            }
+            else {
+              if (originMapPosition == "Sem mapa") {//the sample never was in a workmap before
+                Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then(() => { //else, it will be add
+                  res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+                }).catch((error) => {
+                  console.log(error);
+                  res.redirect('/error');
+                });
+              }
+              else { //the sample was an workmap before
+                Workmap.removeSample(mapArray[originMapPosition], sampleedit._id).then(() => {//remove from the previus workmap
+                  Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then(() => { //else, it will be add
+                    res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+                  }).catch((error) => {
+                    console.log(error);
+                    res.redirect('/error');
+                  });
+                }).catch((error) => {
                   console.log(error);
                   res.redirect('/error');
                 });
 
-            }).catch((error) => {
-               console.log(error);
-               res.redirect('/error');
-             });
+              }
+
+            }
+
+
+          }).catch((error) => {
+            console.log(error);
+            res.redirect('/error');
+          });
+
         }).catch((error) => {
           console.log(error);
           res.redirect('/error');
         });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect('/error');
+      });
 
-     }).catch((error) => {
-       console.log(error);
-       res.redirect('/error');
-     });
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -476,7 +475,7 @@ router.get('/edit/:samplenumber', (req, res) => {
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleshow = sample[0];
     console.log(sampleshow);
-    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sampleshow});
+    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sampleshow });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -488,7 +487,7 @@ router.put('/edit/:samplenumber', (req, res) => {
   console.log(sampleX);
   Sample.update(req.params.samplenumber, sampleX).then(() => {
     req.flash('success', 'Amostra alterada');
-    res.redirect('/sample/edit/'+req.params.samplenumber);
+    res.redirect('/sample/edit/' + req.params.samplenumber);
   }).catch((error) => {
     console.log("AMIGO ESTOU AQUI");
     console.log(error);
