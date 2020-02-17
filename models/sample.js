@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Counter = require('../models/counter');
+const Workmap = require('./Workmap');
 var data = new Date();
 var yyyy = data.getFullYear();
+const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
 
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
@@ -39,6 +41,9 @@ const sampleSchema = new mongoose.Schema({
       type: String,
       default: 'Sem mapa'
     },
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
     concentration: String,
     kitId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -62,6 +67,9 @@ const sampleSchema = new mongoose.Schema({
     mapReference: {
       type: String,
       default: 'Sem mapa'
+    },
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
     },
     concentration: String,
     kitId: {
@@ -91,6 +99,9 @@ const sampleSchema = new mongoose.Schema({
     kitId: {
       type: mongoose.Schema.Types.ObjectId,
     },
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   fumonisina: {
     status: {
@@ -113,6 +124,9 @@ const sampleSchema = new mongoose.Schema({
     },
     concentration: String,
     kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    workmapId: {
       type: mongoose.Schema.Types.ObjectId,
     },
   },
@@ -139,6 +153,9 @@ const sampleSchema = new mongoose.Schema({
     kitId: {
       type: mongoose.Schema.Types.ObjectId,
     },
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   aflatoxina: {
     status: {
@@ -161,6 +178,9 @@ const sampleSchema = new mongoose.Schema({
     },
     concentration: String,
     kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    workmapId: {
       type: mongoose.Schema.Types.ObjectId,
     },
   },
@@ -268,11 +288,52 @@ class Sample {
    * @param {string} id - Sample Id
    * @returns {null}
    */
+  /* Função desabilidata por Arthur, ela não faz update nos workmaps
   static delete(id) {
     return new Promise((resolve, reject) => {
       SampleModel.findByIdAndDelete(id).catch((err) => {
         reject(err);
       });
+    });
+  }*/
+
+  static deleteMany(id_array) {
+    return new Promise((resolve, reject) => {
+      SampleModel.find({ _id: { $in: id_array } }).then(samples => {
+        let samplesToRemove = {};
+
+        for (let j = 0; j < samples.length; j++) {
+          const sample = samples[j]
+
+          //Find samples in workmaps
+          for (let i = 0; i < ToxinasFull.length; i++) {
+            const toxina = ToxinasFull[i];
+            if (sample[toxina].mapReference !== "Sem mapa") {
+              let workmapIdStr = sample[toxina].workmapId.toString();
+
+              //Initialize
+              if (samplesToRemove[workmapIdStr] == undefined)
+                samplesToRemove[workmapIdStr] = [];
+
+              samplesToRemove[workmapIdStr].push(sample._id);
+            }
+          }
+        }
+
+        //Atualizar os workmaps
+        let workmapsId = Object.keys(samplesToRemove);
+        for (let i = 0; i < workmapsId.length; i++)
+          Workmap.removeSamples(workmapsId[i], samplesToRemove[workmapsId[i]]);
+
+
+
+      }).then(() => {
+        SampleModel.deleteMany({ _id: { $in: id_array } }).then(
+          obj => resolve(obj)
+        ).catch((err) => {
+          reject(err);
+        });
+      })
     });
   }
 
@@ -654,7 +715,7 @@ class Sample {
 
   static getAllReport() {
     return new Promise((resolve, reject) => {
-      
+
       var querry = { report: true };
 
       SampleModel.find(querry).then((result) => {

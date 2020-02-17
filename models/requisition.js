@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = require('./user');
 const Mycotoxin = require('./mycotoxin');
 const Counter = require('./counter')
+const Sample = require('./sample');
 
 const requisitionSchema = new mongoose.Schema({
   user: {
@@ -20,7 +21,6 @@ const requisitionSchema = new mongoose.Schema({
   lab: String,
   destination: String,
   farmname: String,
-  sampleVector: [String],
   status: {
     type: String,
     enum: ['Aprovada', 'Em Progresso', 'Cancelada'],
@@ -161,9 +161,16 @@ class Requisition {
    */
   static delete(id) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.findByIdAndDelete(id).catch((err) => {
+      //projection: -> Optional. A subset of fields to return.
+      RequisitionModel.findOneAndDelete({ _id: id }, { projection: { "samples": 1 } }).then(obj => {
+        var samples = obj.samples;
+        Sample.deleteMany(samples).then(result => {
+          resolve(result);
+        });
+      }).catch((err) => {
         reject(err);
       });
+
     });
   }
 

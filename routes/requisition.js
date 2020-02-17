@@ -21,6 +21,11 @@ router.get('/new', auth.isAuthenticated, function (req, res) {
 
 });
 
+router.post('/delete/:id', auth.isAuthenticated, (req, res) => {
+  Requisition.delete(req.params.id).then(() => {
+    res.redirect('/requisition');
+  });
+});
 
 router.post('/new', auth.isAuthenticated, function (req, res) {
   const { requisition } = req.body;
