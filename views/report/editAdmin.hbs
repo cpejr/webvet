@@ -96,7 +96,7 @@
       const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
       const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
       var n = $("input:checked").length;
-      var listNames = ['Meuovo', 'Minhabola'];
+      var listNames = ['Afla'];
       var idName = {};
       var frase = "";
       var inicio = ""
@@ -112,7 +112,7 @@
           frase = frase + " e " + listNames[listNames.length - 1] + " ";
           inicio = "Foram detectadas ";
         } else if (listNames.length == 1) {
-          frase = frase + listNames[0] + " ";
+          frase = " " + frase + listNames[0] + " ";
           inicio = "Foi detectado ";
         } else {
           for (i = 0; i < listNames.length - 1; i++) {
