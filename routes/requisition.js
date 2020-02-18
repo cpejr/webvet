@@ -147,8 +147,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisitions) => {
-    //console.log(kit);
-    res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions });
+    res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions});
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -157,8 +156,11 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisitions) => {
-    console.log(requisitions);
-    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisitions });
+    var nova = false;
+    if(requisitions.status === "Nova"){
+      nova = true;
+    }
+    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisitions, nova});
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -166,10 +168,15 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 router.put('/:id', auth.isAuthenticated, function (req, res, next) {
-  const { requisitions } = req.body;
+  var { requisitions } = req.body;
+  if(req.params.novaCheck){
+    console.log("Detectou que a checkbox esta marcada");
+    requisitions.status = "Aprovada";
+  }
   Requisition.update(req.params.id, requisitions).then(() => {
+    console.log("Deveria ter dado update");
     req.flash('success', 'Requisição alterada com sucesso.');
-    res.redirect(`/requisition/show/${req.params.id}`)
+    res.redirect(`/requisition/show/${req.params.id}`);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
