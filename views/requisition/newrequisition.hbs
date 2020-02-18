@@ -1,5 +1,4 @@
-
-<div class="requisition" >
+<div class="requisition">
   <h4 align="center"> Formulário de Novo Registro</h4>
   <br>
   <div class="requisition-titles">
@@ -12,19 +11,19 @@
 <form action="/requisition/new" method="post">
   <div id="keep-address" class="form-row">
     <div class="requisition-text col-md-11">
-      <input id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}" class="requisition-text"
-        placeholder="Razão Social/Nome Completo:">
+      <input id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}"
+        class="requisition-text" placeholder="Razão Social/Nome Completo:">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}" class="requisition-text"
-        placeholder="CNPJ/CPF:">
+      <input id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}"
+        class="requisition-text" placeholder="CNPJ/CPF:">
     </div>
     <div class="requisition-text col-md-5">
-      <input id="I.E" type="text" name="" value="I.E" class="requisition-text" placeholder="I.E:">
+      <input id="I.E" type="text" name="requisition[IE]" class="requisition-text" placeholder="I.E">
     </div>
     <div class="requisition-text col-md-6">
       <input id="street" type="text" name="requisition[address][street]" value="{{user.address.street}}"
-        class="requisition-text" placeholder="Endereço de Faturamento:">
+        class="requisition-text" placeholder="Rua de endereço de Faturamento:">
     </div>
     <div class="requisition-text col-md-5">
       <input id="number" type="text" name="requisition[address][number]" value="{{user.address.number}}"
@@ -35,7 +34,8 @@
         class="requisition-text" placeholder="Complemento:">
     </div>
     <div class="requisition-text col-md-5">
-      <input id="neighborhood" type="text" name="requisition[address][neighborhood]" value="{{user.address.neighborhood}}" class="requisition-text" placeholder="Bairro:">
+      <input id="neighborhood" type="text" name="requisition[address][neighborhood]"
+        value="{{user.address.neighborhood}}" class="requisition-text" placeholder="Bairro:">
     </div>
     <div class="requisition-text col-md-4">
       <input id="city" type="text" name="requisition[address][city]" value="{{user.address.city}}"
@@ -51,7 +51,7 @@
     </div>
     <div class="requisition-text col-md-11">
       <input id="resposible" type="text" name="responsible" class="requisition-text"
-        placeholder="Responsável pela amostra:">
+        placeholder="Responsável pela amostra">
     </div>
     <div class="requisition-text col-md-6">
       <input id="phone" type="text" name="requisition[client][phone]" value="{{user.phone}}" class="requisition-text"
@@ -72,14 +72,15 @@
   </div>
   <br>
   <div class="requisition-text col-md-12">
-    <input type="text" name="requisition[producer]" class="requisition-text" placeholder="Nome do cliente | Fazenda | Produtor">
+    <input type="text" name="requisition[producer]" class="requisition-text"
+      placeholder="Nome do cliente | Fazenda | Produtor">
   </div>
   <div class="form-row">
     <div class="requisition-text col-md-4">
-      <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Município">
+      <input type="text" name="requisition[city]" class="requisition-text" placeholder="Município">
     </div>
     <div class="requisition-text col-md-4">
-      <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Estado">
+      <input type="text" name="requisition[state]" class="requisition-text" placeholder="Estado">
     </div>
     <div class="requisition-text col-md-4">
       <input type="text" name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
@@ -91,89 +92,75 @@
   <!--  <input type="text" class="requisition-text" name="requisition[destination]" placeholder="Aves, Bovinos, Suínos, etc..."> -->
 
 
-  <div class="form-group">
-
+  <div class="form-group flex">
     <div id="radio-animal" class="form-check ">
       <div class="btn-destination-child">
         <div class="form-check">
-          <input checked class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Bovinos">
-          <label class="radio-text form-check-label mr-3">Gado de Leite</label>
+          <label class="radio-text form-check-label mr-3">
+            <input checked class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Bovinos">
+            Gado de Leite</label>
+        </div>
+      </div>
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <label class="radio-text form-check-label mr-3">
+            <input checked class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Bovinos">
+            Gado de Corte</label>
+        </div>
+      </div>
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <label class="radio-text form-check-label mr-3"> <input id="Pig" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="Suínos">Suínos</label>
+        </div>
+      </div>
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <label class="radio-text form-check-label mr-3"> <input id="Pig" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="Suínos">Aves</label>
+        </div>
+      </div>
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <label class="radio-text form-check-label mr-3"> <input id="Horse" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="Equinos">Equinos</label>
+        </div>
+      </div>
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <label class="radio-text form-check-label mr-3"> <input id="Goat" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="Caprinos">Caprinos</label>
+        </div>
+      </div>
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <label class="radio-text form-check-label mr-3"> <input id="Sheep" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="Ovinos">
+            Ovinos</label>
         </div>
       </div>
 
 
       <div class="btn-destination-child">
         <div class="form-check">
-          <input checked class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Bovinos">
-          <label class="radio-text form-check-label mr-3">Gado de Corte</label>
-        </div>
-      </div>
-
-
-
-
-
-      <div class="btn-destination-child">
-        <div class="form-check">
-          <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Suínos">
-          <label class="radio-text form-check-label  mr-3">Suínos</label>
+          <label class="radio-text form-check-label mr-3"> <input id="Sheep" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="Ovinos">Matéria-Prima(Fábrica de Ração)</label>
         </div>
       </div>
 
 
       <div class="btn-destination-child">
         <div class="form-check">
-          <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Suínos">
-          <label class="radio-text form-check-label  mr-3">Aves</label>
-        </div>
-      </div>
-
-
-
-
-
-      <div class="btn-destination-child">
-        <div class="form-check">
-          <input id="Horse" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Equinos">
-          <label class="radio-text form-check-label mr-3">Equinos</label>
-        </div>
-      </div>
-
-      <div class="btn-destination-child">
-        <div class="form-check">
-          <input id="Goat" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Caprinos">
-          <label class="radio-text form-check-label mr-3">Caprinos</label>
-        </div>
-      </div>
-      <div class="btn-destination-child">
-        <div class="form-check">
-          <input id="Sheep" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Ovinos">
-          <label class="radio-text form-check-label mr-3">Ovinos</label>
-        </div>
-      </div>
-
-
-      <div class="btn-destination-child">
-        <div class="form-check">
-          <input id="Sheep" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Ovinos">
-          <label class="radio-text form-check-label mr-3">Matéria-Prima(Fábrica de Ração)</label>
-        </div>
-      </div>
-
-
-      <div class="btn-destination-child">
-        <div class="form-check">
-          <input id="Fish" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Peixes">
-          <label class="radio-text form-check-label mr-3">Peixes</label>
+          <label class="radio-text form-check-label mr-3"> <input id="Fish" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="Peixes">Peixes</label>
         </div>
       </div>
 
@@ -181,26 +168,21 @@
 
       <div class="btn-destination-child">
         <div class="form-check">
-          <input id="Pet" class="form-check-input destination" type="radio" name="requisition[destination]" value="Pet">
-          <label class="radio-text form-check-label mr-3">Pet</label>
+          <label class="radio-text form-check-label mr-3"> <input id="Pet" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="Pet">
+            Pet</label>
         </div>
       </div>
-      <br><br>
-
 
       <div class="btn-destination">
         <div class="form-check">
-          <input id="Others" class="form-check-input destination" type="radio" name="requisition[destination]" value="">
-          <label class="radio-text form-check-label mr-3">Outros</label>
+          <label class="radio-text form-check-label mr-3"> <input id="Others" class="form-check-input destination"
+              type="radio" name="requisition[destination]" value="">
+            Outros</label>
         </div>
       </div>
     </div>
   </div>
-
-
-
-
-
 
   <div id="Other-destination" class="form-disabled form-row">
     <input type="text" name="requisition[destination]" class="requisition-text col-md-2" placeholder="Outros">
@@ -247,28 +229,28 @@
   <div class="form-check form-check-inline">
     <p>
       <div class="micotoxina-options">
-        <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
-          value="Aflatoxinas">Aflatoxinas</input>
+        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
+          value="Aflatoxinas">Aflatoxinas</label>
       </div>
       <div class="micotoxina-options">
-        <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
-          value="Ocratoxina A">Ocratoxina A</input>
+        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
+          value="Ocratoxina A">Ocratoxina A</label>
       </div>
       <div class="micotoxina-options">
-        <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
-          value="Deoxinivalenol*">Deoxinivalenol*</input>
+        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
+          value="Deoxinivalenol">Deoxinivalenol*</label>
       </div>
       <div class="micotoxina-options">
-        <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
-          value="T-2 toxina">T-2 toxina</input>
+        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
+          value="T-2 toxina">T-2 toxina</label>
       </div>
       <div class="micotoxina-options">
-        <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
-          value="Fumonisina">Fumonisinas</input>
+        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
+          value="Fumonisina">Fumonisinas</label>
       </div>
       <div class="micotoxina-options">
-        <input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
-          value="Zearalenona">Zearalenona</input>
+        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox" name="requisition[mycotoxin]"
+          value="Zearalenona">Zearalenona</label>
       </div>
     </p>
   </div>

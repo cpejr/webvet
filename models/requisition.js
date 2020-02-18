@@ -12,16 +12,18 @@ const requisitionSchema = new mongoose.Schema({
     ref: 'User'
   },
   requisitionnumber: Number,
-  receivedquantity: Number,
-  packingtype: String,
+  receivedquantity: Number, //Quantidade recebida
+  packingtype: String, //Tipo de embalagem
   datecollection: String,
-  datereceived: String,
-  origin: String,
+  datereceipt: String, //Data de recebimento
   comment: String,
-  lab: String,
+  IE: String,
+  city: String,
+  state: String,
   producer: String,
   destination: String,
   farmname: String,
+  mycotoxin: [String],
   status: {
     type: String,
     enum: ['Nova', 'Aprovada', 'Em Progresso', 'Cancelada'],
@@ -44,7 +46,6 @@ const requisitionSchema = new mongoose.Schema({
     email: String
 
   },
-  mycotoxin: [String],
   samples: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Sample'
