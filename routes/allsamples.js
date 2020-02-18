@@ -15,13 +15,15 @@ router.get('/', (req, res) => {
   var names = ["AFLA", "DON", "FBS", "OTA", "T2", "ZEA"];
 
 
-  res.render('allsamples', { names });
+  res.render('allsamples', { names, ...req.session });
 });
 
 router.post('/', function (req, res, next) {
 
   Kit.getAllActive().then((activekits) => updateKitsCalibrators(activekits)).catch((error) => {
     console.log(error);
+  }).then(() => {
+    res.redirect("/calibrationcurves");
   });
 
   function updateKitsCalibrators(kits) {
@@ -66,8 +68,6 @@ router.post('/', function (req, res, next) {
 
     }
   }
-
-  res.redirect("/calibrationcurves");
 });
 
 

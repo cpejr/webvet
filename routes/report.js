@@ -126,7 +126,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         data.requisitionnumber = requisition.requisitionnumber;
         data.year = requisition.createdAt.getFullYear();
       }).then((tu) => {
-        res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data });
+        res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data, ...req.session });
       });
     });
   }).catch((error) => {
@@ -166,7 +166,7 @@ router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
         console.log("DEEEEEEEEEEEEEU");
         console.log(teste1[i]);
       }
-      res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs', teste1 });
+      res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs', teste1, ...req.session });
     });
   }).catch((error) => {
     console.log(error);

@@ -90,7 +90,7 @@ router.get('/', async function (req, res, next) {
         if (isNaN(resultado[i].compara)) {
           resultado[i].compara = null;
         }
-          Sample.updateResult(resultado[i]._id, toxinafull, resultado[i].compara);
+        Sample.updateResult(resultado[i]._id, toxinafull, resultado[i].compara);
       }
 
       return resultado;
@@ -117,7 +117,7 @@ router.get('/', async function (req, res, next) {
   resultados[4] = { name: ToxinasSigla[4], result: r5 };
   resultados[5] = { name: ToxinasSigla[5], result: r6 };
 
-  res.render('sampleresult', { title: 'Curvas de Calibração', resultados });
+  res.render('sampleresult', { title: 'Curvas de Calibração', resultados, ...req.session });
 });
 
 
@@ -125,25 +125,27 @@ router.post("/", async function (req, res, next) {
   var amostras = new Array;
 
   for (var i = 0; i < ToxinasSigla.length; i++) {
-    amostras = req.body.sample[ToxinasSigla[i]];
+    if (req.body.sample != undefined) {
+      amostras = req.body.sample[ToxinasSigla[i]];
 
-    if (typeof amostras === 'object') {
-      var kit = await Kit.getActiveID(ToxinasSigla[i]);
-      console.log("kit id");
+      if (typeof amostras === 'object') {
+        var kit = await Kit.getActiveID(ToxinasSigla[i]);
+        console.log("kit id");
 
-      console.log(kit);
-      if (Array.isArray(amostras._id))
-        for (var j = 0; j < amostras._id.length; j++) {
-          Sample.finalizeSample(amostras._id[j], ToxinasFull[i], kit._id);
-        }
-      else
-        Sample.finalizeSample(amostras._id, ToxinasFull[i], kit._id);
+        console.log(kit);
+        if (Array.isArray(amostras._id))
+          for (var j = 0; j < amostras._id.length; j++) {
+            Sample.finalizeSample(amostras._id[j], ToxinasFull[i], kit._id);
+          }
+        else
+          Sample.finalizeSample(amostras._id, ToxinasFull[i], kit._id);
+      }
+
+      console.log("i: " + i);
+      console.log("amostras");
+      console.log(amostras);
+      console.log(typeof amostras);
     }
-
-    console.log("i: " + i);
-    console.log("amostras");
-    console.log(amostras);
-    console.log(typeof amostras);
   }
 
   res.redirect('../report/admreport');

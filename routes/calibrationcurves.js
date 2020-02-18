@@ -8,8 +8,8 @@ const Sample = require('../models/sample');
 const regression = require('regression');
 const Workmap = require('../models/Workmap');
 
-const ToxinasSigla = ['AFLA', 'DON','FBS', 'OTA', 'T2', 'ZEA'];
-const ToxinasFull = ['aflatoxina', 'deoxinivalenol','fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+const ToxinasSigla = ['AFLA', 'DON', 'FBS', 'OTA', 'T2', 'ZEA'];
+const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
 
 router.get('/', async function (req, res, next) {
   var mapas = new Array;
@@ -84,22 +84,21 @@ router.get('/', async function (req, res, next) {
   for (let i = 0; i < ToxinasSigla.length; i++) {
     const sigla = ToxinasSigla[i];
     let resultado = await calcular(ToxinasFull[i], ToxinasSigla[i]);
-
-    toxinas[i] = {
-      name: sigla,
-      calibradores: {},
-      valores: (await resultado).parte1,
-    };
-
-    for (let jcali = 0; jcali < 5; jcali++) { //5 calibradores
-      console.log("Variaveis - i: " + i + " ; j: " + jcali + ". ");
-
-      toxinas[i].calibradores[jcali] = {
-        concentracao: (await resultado).parte2.concentration[jcali],
-        absorvancia: (await resultado).parte2.absorbance[jcali],
-        calname: "P" + (jcali + 1)
+    if (await resultado != undefined) {
+      toxinas[i] = {
+        name: sigla,
+        calibradores: {},
+        valores: resultado.parte1,
       };
-      console.log(toxinas[i].calibradores[jcali].calname);
+
+      for (let jcali = 0; jcali < 5; jcali++) { //5 calibradores
+
+        toxinas[i].calibradores[jcali] = {
+          concentracao: resultado.parte2.concentration[jcali],
+          absorvancia: resultado.parte2.absorbance[jcali],
+          calname: "P" + (jcali + 1)
+        };
+      }
     }
   }
 
@@ -123,7 +122,7 @@ router.get('/', async function (req, res, next) {
 
   console.log("Tipo")
   console.log(typeof toxinas[0].valores.resultado);
-  res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas });
+  res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas , ...req.session});
 })
 
 
