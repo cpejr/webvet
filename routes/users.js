@@ -105,23 +105,23 @@ router.get('/producers/:id', auth.isAuthenticated, function(req, res, next) {
   });
 
 });
-
+// ----------------------------------------- AQUI ------------------------------------------
 router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
   const { user } = req.body;
   const promises = [];
   const producersId = [];
-
+// ----------------------------------------- AQUI ------------------------------------------
   req.body.producer.forEach((producerName) => {
     const regex = new RegExp(producerName, 'i');
     const promise = User.getOneByQuery({ name: regex });
     promises.push(promise);
   });
-
+// ----------------------------------------- AQUI ------------------------------------------
   Promise.all(promises).then((producers) => {
     producers.forEach((producer) => {
       producersId.push(producer.id);
     });
-
+// ----------------------------------------- AQUI ------------------------------------------
     user.associatedProducers = producersId;
     console.log (user.fullname);
     User.update(req.params.id, user).then(() => {
