@@ -155,19 +155,19 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
-  Requisition.getById(req.params.id).then((requisitions) => {
+  Requisition.getById(req.params.id).then((requisition) => {
     var nova = false;
-    if(requisitions.status === "Nova"){
+    if(requisition.status === "Nova"){
       nova = true;
     }
-    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisitions, nova});
+    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisitions: requisition, nova});
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
 });
 
-router.put('/:id', auth.isAuthenticated, function (req, res, next) {
+router.put('re/:id', auth.isAuthenticated, function (req, res, next) {
   var { requisitions } = req.body;
   if(req.params.novaCheck){
     console.log("Detectou que a checkbox esta marcada");
