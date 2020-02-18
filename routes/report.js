@@ -59,7 +59,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 
     }
 
-    Kit.getByIdArray(listIds).then((kits) => { //
+    Kit.getByIdArray(listIds).then((kits) => {
       var orderedKits = [];
       var kit = {};
       var name = {};
@@ -85,7 +85,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
           orderedKits.push({ kit, name });
         }
       }
-      
+
       var Values = {}
       var toxinaData = {
         Sample: sample,
