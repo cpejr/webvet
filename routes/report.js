@@ -50,93 +50,95 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         toxinas: requisition.mycotoxin.join(', '),
         requisitionnumber: requisition.requisitionnumber,
         year: requisition.createdAt.getFullYear(),
-        producer:  requisition.producer,
+        producer: requisition.producer,
         clientName: requisition.client.fullname,
         packingtype: requisition.packingtype,
         receivedquantity: requisition.receivedquantity,
         datereceived: requisition.datereceived,
       };
-    });
+    }).then(() => {
 
-    const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
-    const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
-    const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
-    var toxiKit = {};
-    var listIds = [];
 
-    for (i = 0; i < ToxinasLower.length; i++) {  //
-      console.log(i + " KitId " + ToxinasLower[i]);
-      toxiKit = sample[ToxinasLower[i]];
-      console.log(toxiKit);
-      if (toxiKit.kitId !== null) {
-        listIds.push(toxiKit.kitId);
+      const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+      const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
+      const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
+      var toxiKit = {};
+      var listIds = [];
+
+      for (i = 0; i < ToxinasLower.length; i++) {  //
+        console.log(i + " KitId " + ToxinasLower[i]);
+        toxiKit = sample[ToxinasLower[i]];
+        console.log(toxiKit);
+        if (toxiKit.kitId !== null) {
+          listIds.push(toxiKit.kitId);
+        }
+
       }
 
-    }
+      Kit.getByIdArray(listIds).then((kits) => {
+        var orderedKits = [];
+        var kit = {};
+        var name = {};
+        var listNames = [];
+        for (i = 0; i < productCode.length; i++) {
+          for (j = 0; j < kits.length; j++) {
+            if (kits[j].productCode === productCode[i]) {
+              kit = kits[j];
+              name = ToxinasLower[i];
+              listNames.push(ToxinasLower[i]);
+              orderedKits.push({ kit, name });
+            }
+          }
+        }
 
-    Kit.getByIdArray(listIds).then((kits) => {
-      var orderedKits = [];
-      var kit = {};
-      var name = {};
-      var listNames = [];
-      for (i = 0; i < productCode.length; i++) {
-        for (j = 0; j < kits.length; j++) {
-          if (kits[j].productCode === productCode[i]) {
-            kit = kits[j];
-            name = ToxinasLower[i];
-            listNames.push(ToxinasLower[i]);
+        for (h = 0; h < ToxinasLower.length; h++) {
+          if (!arrayContains(ToxinasLower[h], listNames)) {
+            kit = {
+              Loq: NaN,
+              Lod: NaN,
+            };
+            name = ToxinasLower[h];
             orderedKits.push({ kit, name });
           }
         }
-      }
 
-      for (h = 0; h < ToxinasLower.length; h++) {
-        if (!arrayContains(ToxinasLower[h], listNames)) {
-          kit = {
-            Loq: NaN,
-            Lod: NaN,
-          };
-          name = ToxinasLower[h];
-          orderedKits.push({ kit, name });
-        }
-      }
-
-      var Values = {}
-      var toxinaData = {
-        Sample: sample,
-        Values,
-      };
-      var Name = {};
-      var Pair = {};
-      for (var k = 0; k < orderedKits.length; k++) {
-        if (orderedKits[k].kit !== undefined && orderedKits[k].kit !== null) {
-          for (m = 0; m < ToxinasLower.length; m++) {
-            if (ToxinasLower[m] === orderedKits[k].name) {
-              Pair = orderedKits[k];
-              Name = ToxinasFormal[m];
-              Values[m] = {
-                Result: sample[ToxinasLower[m]].result,
-                Name,
-                Pair
-              };
+        var Values = {}
+        var toxinaData = {
+          Sample: sample,
+          Values,
+        };
+        var Name = {};
+        var Pair = {};
+        for (var k = 0; k < orderedKits.length; k++) {
+          if (orderedKits[k].kit !== undefined && orderedKits[k].kit !== null) {
+            for (m = 0; m < ToxinasLower.length; m++) {
+              if (ToxinasLower[m] === orderedKits[k].name) {
+                Pair = orderedKits[k];
+                Name = ToxinasFormal[m];
+                Values[m] = {
+                  Result: sample[ToxinasLower[m]].result,
+                  Name,
+                  Pair
+                };
+              }
             }
+          } else {
+            console.log("Algo deu errado, o kit em orderedKits[k] nao deveria estar desse jeito, vai dar merda");
+            Pair.name = orderedKits[k].name;
+            Name = ToxinasFormal[k];
+            Values.push({
+              Result: sample[ToxinasLower[m]].result,
+              Name,
+              Pair
+            });
           }
-        } else {
-          console.log("Algo deu errado, o kit em orderedKits[k] nao deveria estar desse jeito, vai dar merda");
-          Pair.name = orderedKits[k].name;
-          Name = ToxinasFormal[k];
-          Values.push({
-            Result: sample[ToxinasLower[m]].result,
-            Name,
-            Pair
-          });
+
         }
 
-      }
-
-      console.log("Objeto final: ");
-      console.log(toxinaData);
-      res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });
+        console.log("Objeto final: ");
+        console.log(toxinaData);
+        res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });
+      });
     });
   }).catch((error) => {
     console.log(error);
