@@ -15,17 +15,17 @@
   <h4> 1. Laudo n°: {{sample.samplenumber}}/{{data.year}}</h4>
   <h4> 2. Descrição da Amostra: </h4>
   <div class="info-laudo">
-    <h4> 2.1 - Tipo de embalagem: Reensilagem em saco plástico </h4>
-    <h4> 2.2 - Quantidade recebida: </h4>
-    <h4> 2.3 - Produtor: </h4>
+    <h4> 2.1 - Tipo de embalagem: {Reensilagem em saco plástico} </h4>
+    <h4> 2.2 - Quantidade recebida: {quantidade}</h4>
+    <h4> 2.3 - Produtor: {{data.producer}}</h4>
     <div class="laudo-linha row">
-      <h4> 2.4 - Data de recebimento: </h4>
-      <h4> N° autorização: </h4>
+      <h4 class="mr-5"> 2.4 - Data de recebimento: {data}</h4>
+      <h4> N° autorização: {numero}</h4>
     </div>
   </div>
   <h4> 3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante: </h4>
   <div class="info-laudo">
-    <h4> 3.1 - Nome: </h4>
+    <h4> 3.1 - Nome: {{data.clientName}}</h4>
     <h4> 3.2 - Responsável pela entrega da amostra: {{responsible}} </h4>
   </div>
   <h4> 4. Características das análises da amostra: </h4>

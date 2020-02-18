@@ -129,13 +129,17 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
       console.log("Objeto final: ");
       console.log(toxinaData);
 
-      var data = {};
+      var Requisitiondata;
       Requisition.getById(sample.requisitionId).then((requisition) => {
-        data.toxinas = requisition.mycotoxin;
-        data.requisitionnumber = requisition.requisitionnumber;
-        data.year = requisition.createdAt.getFullYear();
+        Requisitiondata = {
+          toxinas: requisition.mycotoxin.join(', '),
+          requisitionnumber: requisition.requisitionnumber,
+          year: requisition.createdAt.getFullYear(),
+          producer:  requisition.producer,
+          clientName: requisition.client.fullname,
+        };
       }).then((tu) => {
-        res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data, ...req.session });
+        res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });
       });
     });
   }).catch((error) => {
