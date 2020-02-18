@@ -1,39 +1,251 @@
 <div class="edit-requisition">
   <hr color="lightgray">
-  <div class="showboxinfo">
-    <form action="/{{requisitions.id}}" method="put">
-      <p>
-        <font size="4" color="black"> Data de coleta: <input id="stock-edit" name="datecollection" type="text" style="width: 200px"
-            value={{requisitions.datecollection}}>
-      </p>
-      <p>
-        <font size="4" color="black"> Origem: <input id="stock-edit" name="origin" type="text" style="width: 200px"
+  <div class="requisition-titles">
+    <p> Dados de Cobrança</p>
+  </div>
+  </br>
+  <button id="btn-new-address" class="btn btn-success" type="button">Cadastrar outros dados de cobrança</button>
+</div>
+
+<form action="/requisition/new" method="post">
+  <div id="keep-address" class="form-row">
+    <div class="requisition-text col-md-11">
+      <input id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}" class="requisition-text"
+        placeholder="Razão Social/Nome Completo:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}" class="requisition-text"
+        placeholder="CNPJ/CPF:">
+    </div>
+    <div class="requisition-text col-md-5">
+      <input id="I.E" type="text" name="" value="I.E" class="requisition-text" placeholder="I.E:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="street" type="text" name="requisition[address][street]" value="{{user.address.street}}"
+        class="requisition-text" placeholder="Endereço de Faturamento:">
+    </div>
+    <div class="requisition-text col-md-5">
+      <input id="number" type="text" name="requisition[address][number]" value="{{user.address.number}}"
+        class="requisition-text" placeholder="Nº:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="complement" type="text" name="requisition[address][complement]" value="{{user.address.complement}}"
+        class="requisition-text" placeholder="Complemento:">
+    </div>
+    <div class="requisition-text col-md-5">
+      <input id="neighborhood" type="text" name="requisition[address][neighborhood]" value="{{user.address.neighborhood}}" class="requisition-text" placeholder="Bairro:">
+    </div>
+    <div class="requisition-text col-md-4">
+      <input id="city" type="text" name="requisition[address][city]" value="{{user.address.city}}"
+        class="requisition-text" placeholder="Cidade">
+    </div>
+    <div class="requisition-text col-md-4">
+      <input id="state" type="text" name="requisition[address][state]" value="{{user.address.state}}"
+        class="requisition-text" placeholder="Estado">
+    </div>
+    <div class="requisition-text col-md-3">
+      <input id="cep" type="text" name="requisition[address][cep]" value="{{user.address.cep}}" class="requisition-text"
+        placeholder="CEP">
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="resposible" type="text" name="responsible" class="requisition-text"
+        placeholder="Responsável pela amostra:">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="phone" type="text" name="requisition[client][phone]" value="{{user.phone}}" class="requisition-text"
+        placeholder="Tel. com DDD:">
+    </div>
+    <div class=" requisition-text col-md-5">
+      <input id="cellphone" type="text" name="requisition[client][cellphone]" value="{{user.cellphone}}"
+        class="requisition-text" placeholder="Cel. com DDD:">
+    </div>
+    <div class="requisition-text col-md-11">
+      <input id="email" type="text" name="requisition[client][email]" value="{{user.email}}" class="requisition-text"
+        placeholder="Email:">
+    </div>
+  </div>
+  <br>
+  <div class="requisition-titles">
+    <p> Requisição de Análise</p>
+  </div>
+  <br>
+  <div class="requisition-text col-md-12">
+    <input type="text" name="requisition[producer]" class="requisition-text" placeholder="Nome do cliente | Fazenda | Produtor">
+  </div>
+  <div class="form-row">
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[deliver]" class="requisition-text" placeholder="Município">
+    </div>
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Estado">
+    </div>
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[origin]" class="requisition-text" placeholder="Origem">
+    </div>
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[farmname]" class="requisition-text" placeholder="Fazenda">
+    </div>
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[lab]" class="requisition-text" placeholder="Laboratório">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[packingtype]" class="requisition-text" placeholder="Tipo de Embalagem">
+    </div>
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[receivedquantity]" class="requisition-text" placeholder="Quantidade Recebida">
+    </div>
+    <div class="requisition-text col-md-4">
+      <input type="text" name="requisition[datecollection]" class="requisition-text" placeholder="Data de Recebimento">
+    </div>
+  </div>
+   <div class="showboxinfo">
+    {{!-- <form action="/{{requisitions.id}}" method="put"> --}}
+      {{!-- <p>
+        <font size="2" color="black"> Origem: <input id="stock-edit" name="origin" type="text" style="width: 200px"
             value={{requisitions.origin}}>
       </p>
       <p>
-        <font size="4" color="black"> Destino: <input id="stock-edit" name="destination" type="text" style="width: 200px"
-            value={{requisitions.destination}}>
-      </p>
-      <p>
-        <font size="4" color="black"> Fazenda: <input id="stock-edit" name="farmname" type="text" style="width: 200px"
+        <font size="2" color="black"> Fazenda: <input id="stock-edit" name="farmname" type="text" style="width: 200px"
             value={{requisitions.farmname}}>
       </p>
       <p>
-        <font size="4" color="black"> Laboratório: <input id="stock-edit" name="lab" type="text" style="width: 200px"
+        <font size="2" color="black"> Laboratório: <input id="stock-edit" name="lab" type="text" style="width: 200px"
             value={{requisitions.lab}}>
-      </p>
-      <p>
-        <font size="4" color="black"> Tipo de embalagem: <input id="stock-edit" name="packingtype" type="text" style="width: 200px"
+      </p> --}}
+      {{!-- <p>
+        <font size="2" color="black"> Tipo de embalagem: <input id="stock-edit" name="packingtype" type="text" style="width: 200px"
             value={{requisitions.packingtype}}>
       </p>
       <p>
-        <font size="4" color="black"> Qtde. recebida: <input id="stock-edit" name="receivedquantity" type="text" style="width: 200px"
+        <font size="2" color="black"> Qtde. recebida: <input id="stock-edit" name="receivedquantity" type="text" style="width: 200px"
             value={{requisitions.receivedquantity}}>
       </p>
       <p>
-        <font size="4" color="black"> Data de recebimento: <input id="stock-edit" name="datecollection" type="text" style="width: 200px"
+        <font size="2" color="black"> Data de recebimento: <input id="stock-edit" name="datecollection" type="text" style="width: 200px"
             value={{requisitions.datecollection}}>
-      </p>
+      </p> --}}
+  <h6 align="left"> Qual é a destinação do alimento?</h6>
+  <!--  <div class="requisition-text col-md-12"> -->
+  <!--  <input type="text" class="requisition-text" name="requisition[destination]" placeholder="Aves, Bovinos, Suínos, etc..."> -->
+
+
+  <div class="form-group">
+
+    <div id="radio-animal" class="form-check ">
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input checked class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Bovinos">
+          <label class="radio-text form-check-label mr-3">Gado de Leite</label>
+        </div>
+      </div>
+
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input checked class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Bovinos">
+          <label class="radio-text form-check-label mr-3">Gado de Corte</label>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Suínos">
+          <label class="radio-text form-check-label  mr-3">Suínos</label>
+        </div>
+      </div>
+
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Suínos">
+          <label class="radio-text form-check-label  mr-3">Aves</label>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input id="Horse" class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Equinos">
+          <label class="radio-text form-check-label mr-3">Equinos</label>
+        </div>
+      </div>
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input id="Goat" class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Caprinos">
+          <label class="radio-text form-check-label mr-3">Caprinos</label>
+        </div>
+      </div>
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input id="Sheep" class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Ovinos">
+          <label class="radio-text form-check-label mr-3">Ovinos</label>
+        </div>
+      </div>
+
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input id="Sheep" class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Ovinos">
+          <label class="radio-text form-check-label mr-3">Matéria-Prima(Fábrica de Ração)</label>
+        </div>
+      </div>
+
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input id="Fish" class="form-check-input destination" type="radio" name="requisition[destination]"
+            value="Peixes">
+          <label class="radio-text form-check-label mr-3">Peixes</label>
+        </div>
+      </div>
+
+
+
+      <div class="btn-destination-child">
+        <div class="form-check">
+          <input id="Pet" class="form-check-input destination" type="radio" name="requisition[destination]" value="Pet">
+          <label class="radio-text form-check-label mr-3">Pet</label>
+        </div>
+      </div>
+      <br><br>
+
+
+      <div class="btn-destination">
+        <div class="form-check">
+          <input id="Others" class="form-check-input destination" type="radio" name="requisition[destination]" value="">
+          <label class="radio-text form-check-label mr-3">Outros</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="Other-destination" class="form-disabled form-row">
+    <input type="text" name="requisition[destination]" class="requisition-text col-md-2" placeholder="Outros">
+  </div>
+ 
       {{#if nova}}
         <div class="col-sm-6">
           <input type="checkbox" id="novaCheckId" name="novaCheck" value="isChecked"></input>
