@@ -100,26 +100,26 @@
       var idName = {};
       var frase = "";
       var inicio = ""
-      var fraseCompleta = "*inicio*a presença de*frase*na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
+      var fraseCompleta = "*inicio* a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
 
 
-      if (n !== 0) { //Pedaço que analiza o vetor de nomes e escreve apropiadamente.
+      if (n !== 0) { //Pedaço que analiza o vetor de nomes e escreve apropriadamente.
         if (listNames.length > 2) {
           for (i = 0; i < listNames.length - 2; i++) {
-            frase = frase + " " + listNames[i] + ", ";
+            frase = frase + " " + listNames[i] + ",";
           }
-          frase = frase + " " + listNames[listNames.length - 2] + " ";
-          frase = frase + " e " + listNames[listNames.length - 1] + " ";
-          inicio = "Foram detectadas ";
+          frase = frase + " " + listNames[listNames.length - 2];
+          frase = frase + " e " + listNames[listNames.length - 1];
+          inicio = "Foram detectadas";
         } else if (listNames.length == 1) {
-          frase = " " + frase + listNames[0] + " ";
-          inicio = "Foi detectado ";
+          frase = frase + listNames[0];
+          inicio = "Foi detectado";
         } else {
           for (i = 0; i < listNames.length - 1; i++) {
-            frase = frase + " " + listNames[i] + " ";
+            frase = frase + " " + listNames[i];
           }
-          frase = frase + " e " + listNames[listNames.length - 1] + " ";
-          inicio = "Foram detectadas ";
+          frase = frase + " e " + listNames[listNames.length - 1];
+          inicio = "Foram detectadas";
         }
         fraseCompleta = fraseCompleta.replace("*frase*", frase);
         fraseCompleta = fraseCompleta.replace("*inicio*", inicio);
