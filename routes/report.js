@@ -42,7 +42,6 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
   function arrayContains(needle, arrhaystack) {
     return (arrhaystack.indexOf(needle) > -1);
   }
-
   Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
 
     var Requisitiondata;
@@ -65,7 +64,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
     var toxiKit = {};
     var listIds = [];
 
-    for (i = 0; i < ToxinasLower.length; i++) {
+    for (i = 0; i < ToxinasLower.length; i++) {  //
       console.log(i + " KitId " + ToxinasLower[i]);
       toxiKit = sample[ToxinasLower[i]];
       console.log(toxiKit);
@@ -81,12 +80,8 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
       var name = {};
       var listNames = [];
       for (i = 0; i < productCode.length; i++) {
-        console.log("Entrou no primeiro for.");
         for (j = 0; j < kits.length; j++) {
-          console.log("Entrou no segundo for.");
           if (kits[j].productCode === productCode[i]) {
-            console.log("kits[j].productCode: " + kits[j].productCode);
-            console.log("productCode[i]: " + productCode[i]);
             kit = kits[j];
             name = ToxinasLower[i];
             listNames.push(ToxinasLower[i]);
@@ -106,8 +101,6 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         }
       }
 
-      console.log("Resultado Final?")
-      console.log(orderedKits);
       var Values = {}
       var toxinaData = {
         Sample: sample,
@@ -143,10 +136,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 
       console.log("Objeto final: ");
       console.log(toxinaData);
-
-     
       res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });
-
     });
   }).catch((error) => {
     console.log(error);
