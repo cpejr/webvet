@@ -42,7 +42,6 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
   function arrayContains(needle, arrhaystack) {
     return (arrhaystack.indexOf(needle) > -1);
   }
-
   Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
     const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
     const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
@@ -50,7 +49,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
     var toxiKit = {};
     var listIds = [];
 
-    for (i = 0; i < ToxinasLower.length; i++) {
+    for (i = 0; i < ToxinasLower.length; i++) {  //
       console.log(i + " KitId " + ToxinasLower[i]);
       toxiKit = sample[ToxinasLower[i]];
       console.log(toxiKit);
@@ -60,18 +59,14 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 
     }
 
-    Kit.getByIdArray(listIds).then((kits) => {
+    Kit.getByIdArray(listIds).then((kits) => { //
       var orderedKits = [];
       var kit = {};
       var name = {};
       var listNames = [];
       for (i = 0; i < productCode.length; i++) {
-        console.log("Entrou no primeiro for.");
         for (j = 0; j < kits.length; j++) {
-          console.log("Entrou no segundo for.");
           if (kits[j].productCode === productCode[i]) {
-            console.log("kits[j].productCode: " + kits[j].productCode);
-            console.log("productCode[i]: " + productCode[i]);
             kit = kits[j];
             name = ToxinasLower[i];
             listNames.push(ToxinasLower[i]);
@@ -90,9 +85,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
           orderedKits.push({ kit, name });
         }
       }
-
-      console.log("Resultado Final?")
-      console.log(orderedKits);
+      
       var Values = {}
       var toxinaData = {
         Sample: sample,
@@ -135,13 +128,13 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
           toxinas: requisition.mycotoxin.join(', '),
           requisitionnumber: requisition.requisitionnumber,
           year: requisition.createdAt.getFullYear(),
-          producer:  requisition.producer,
+          producer: requisition.producer,
           clientName: requisition.client.fullname,
           packingtype: requisition.packingtype,
           receivedquantity: requisition.receivedquantity,
           datereceived: requisition.datereceived,
         };
-      }).then((tu) => {
+      }).then(() => {
         res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });
       });
     });
