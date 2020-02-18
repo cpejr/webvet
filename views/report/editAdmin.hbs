@@ -11,9 +11,9 @@
   </h3>
 </div>
 <div class="laudo-text">
-  <h4>Registro Lab. MICOTOX {{data.requisitionnumber}}</h4>
-  <h4> 1. Laudo n°: {{sample.samplenumber}}/{{data.year}}</h4>
-  <h4> 2. Descrição da Amostra: </h4>
+  <h4> <b>Registro Lab.</b> MICOTOX {{data.requisitionnumber}}</h4>
+  <h4> <b>1. Laudo n°:</b> {{sample.samplenumber}}/{{data.year}}</h4>
+  <h4> <b>2. Descrição da Amostra:</b> </h4>
   <div class="info-laudo">
     <h4> 2.1 - Tipo de embalagem: {{packingtype}} </h4>
     <h4> 2.2 - Quantidade recebida: {{receivedquantity}}</h4>
@@ -23,16 +23,16 @@
       <h4> N° autorização: {numero}</h4>
     </div>
   </div>
-  <h4> 3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante: </h4>
+  <h4> <b>3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante:</b> </h4>
   <div class="info-laudo">
     <h4> 3.1 - Nome: {{data.clientName}}</h4>
     <h4> 3.2 - Responsável pela entrega da amostra: {{responsible}} </h4>
   </div>
-  <h4> 4. Características das análises da amostra: </h4>
+  <h4> <b>4. Características das análises da amostra:</b> </h4>
   <div class="info-laudo">
     <h4> 4.1 - Detecção e quantificação de {{data.toxinas}} </h4>
   </div>
-  <h4> 5. Resultados: </h4>
+  <h4> <b>5. Resultados:</b> </h4>
   <form action="/report/show/admin/{{sample._id}}" method="post">
     <div class="info-laudo">
       <table class="table text-center">
@@ -103,7 +103,7 @@
       var inicio = ""
       var fraseCompleta = "*inicio* a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
 
-     // $('#allCheck').prop("checked", n === nTotal);
+      // $('#allCheck').prop("checked", n === nTotal);
 
       $('input[name="toxinaCheck"]:checked').each(function () {
         listNames.push($(this).val());
@@ -137,7 +137,7 @@
     countChecked();
     $("input[type=checkbox][name=toxinaCheck]").change(countChecked);
 
-    var checkAll = function (){
+    var checkAll = function () {
       $('input[type=checkbox][name="toxinaCheck"]').each(function () {
         $(this).prop("checked", $("#allCheck").is(":checked"));
         countChecked();
