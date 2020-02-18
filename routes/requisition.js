@@ -160,20 +160,20 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
     if(requisition.status === "Nova"){
       nova = true;
     }
-    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisitions: requisition, nova});
+    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova});
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
 });
 
-router.put('re/:id', auth.isAuthenticated, function (req, res, next) {
-  var { requisitions } = req.body;
-  if(req.params.novaCheck){
+router.post('/:id', auth.isAuthenticated, function (req, res, next) {
+  var { requisition } = req.body;
+  if(req.body.novaCheck === "isChecked"){
     console.log("Detectou que a checkbox esta marcada");
-    requisitions.status = "Aprovada";
+    requisition.status = "Aprovada";
   }
-  Requisition.update(req.params.id, requisitions).then(() => {
+  Requisition.update(req.params.id, requisition).then(() => {
     console.log("Deveria ter dado update");
     req.flash('success', 'Requisição alterada com sucesso.');
     res.redirect(`/requisition/show/${req.params.id}`);

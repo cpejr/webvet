@@ -274,7 +274,9 @@ class Kit {
    */
   static update(id, kit) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, kit).catch((err) => {
+      KitModel.findByIdAndUpdate(id, kit).then((res)=>{
+        resolve(res);
+      }).catch((err) => {
         reject(err);
       });
     });

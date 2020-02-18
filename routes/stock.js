@@ -126,7 +126,7 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.put('/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/:id', auth.isAuthenticated, function (req, res, next) {
   const { kit } = req.body;
   Kit.update(req.params.id, kit).then(() => {
     req.flash('success', 'Kit alterado com sucesso.');

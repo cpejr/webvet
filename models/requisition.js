@@ -21,7 +21,7 @@ const requisitionSchema = new mongoose.Schema({
   city: String,
   state: String,
   producer: String,
-  destination: String,
+  destination: [],
   farmname: String,
   mycotoxin: [String],
   status: {
@@ -150,7 +150,9 @@ class Requisition {
    */
   static update(id, requisition) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.findByIdAndUpdate(id, requisition).catch((err) => {
+      RequisitionModel.findByIdAndUpdate(id, requisition).then((res) => {
+        resolve(res);
+      }).catch((err) => {
         reject(err);
       });
     });

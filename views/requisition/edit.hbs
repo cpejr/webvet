@@ -6,35 +6,35 @@
   </br>
 </div>
 
-<form action="/requisition/{{requisitions.id}}" method="put">
+<form action="/requisition/{{requisition._id}}" method="post">
   <div id="keep-address" class="form-row">
     <div class="requisition-text col-md-11">
       <input id="fullname" type="text" name="requisition[client][fullname]" value="{{requisition.client.fullname}}"
-        class="requisition-text" placeholder="Razão Social/Nome Completo:">
+        class="requisition-text" placeholder="Razão Social/Nome Completo">
     </div>
     <div class="requisition-text col-md-6">
       <input id="cpf" type="text" name="requisition[client][register]" value="{{requisition.client.register}}"
-        class="requisition-text" placeholder="CNPJ/CPF:">
+        class="requisition-text" placeholder="CNPJ/CPF">
     </div>
     <div class="requisition-text col-md-5">
-      <input id="I.E" type="text" name="" value="I.E" class="requisition-text" placeholder="I.E:"
+      <input id="I.E" type="text" name="requisition[IE]" class="requisition-text" placeholder="I.E"
         value="{{requisition.IE}}">
     </div>
     <div class="requisition-text col-md-6">
       <input id="street" type="text" name="requisition[address][street]" value="{{requisition.address.street}}"
-        class="requisition-text" placeholder="Endereço de Faturamento:">
+        class="requisition-text" placeholder="Endereço de Faturamento">
     </div>
     <div class="requisition-text col-md-5">
       <input id="number" type="text" name="requisition[address][number]" value="{{requisition.address.number}}"
-        class="requisition-text" placeholder="Nº:">
+        class="requisition-text" placeholder="Nº">
     </div>
     <div class="requisition-text col-md-6">
       <input id="complement" type="text" name="requisition[address][complement]"
-        value="{{requisition.address.complement}}" class="requisition-text" placeholder="Complemento:">
+        value="{{requisition.address.complement}}" class="requisition-text" placeholder="Complemento">
     </div>
     <div class="requisition-text col-md-5">
       <input id="neighborhood" type="text" name="requisition[address][neighborhood]"
-        value="{{requisition.address.neighborhood}}" class="requisition-text" placeholder="Bairro:">
+        value="{{requisition.address.neighborhood}}" class="requisition-text" placeholder="Bairro">
     </div>
     <div class="requisition-text col-md-4">
       <input id="city" type="text" name="requisition[address][city]" value="{{requisition.address.city}}"
@@ -49,20 +49,20 @@
         class="requisition-text" placeholder="CEP">
     </div>
     <div class="requisition-text col-md-11">
-      <input id="resposible" type="text" name="responsible" class="requisition-text"
-        placeholder="Responsável pela amostra:" value="{{requisition.responsible}}">
+      <input id="resposible" type="text" name="requisition[responsible]" class="requisition-text"
+        placeholder="Responsável pela amostra" value="{{requisition.responsible}}">
     </div>
     <div class="requisition-text col-md-6">
       <input id="phone" type="text" name="requisition[client][phone]" value="{{requisition.client.phone}}"
-        class="requisition-text" placeholder="Tel. com DDD:">
+        class="requisition-text" placeholder="Tel. com DDD">
     </div>
     <div class=" requisition-text col-md-5">
       <input id="cellphone" type="text" name="requisition[client][cellphone]" value="{{requisition.client.cellphone}}"
-        class="requisition-text" placeholder="Cel. com DDD:">
+        class="requisition-text" placeholder="Cel. com DDD">
     </div>
     <div class="requisition-text col-md-11">
       <input id="email" type="text" name="requisition[client][email]" value="{{requisition.client.email}}"
-        class="requisition-text" placeholder="Email:">
+        class="requisition-text" placeholder="Email">
     </div>
   </div>
   <br>
@@ -96,14 +96,14 @@
     </div>
     <div class="requisition-text col-md-4">
       <input type="text" name="requisition[receivedquantity]" class="requisition-text"
-        value="{{requisition.receivequantity}}" placeholder="Quantidade Recebida">
+        value="{{requisition.receivedquantity}}" placeholder="Quantidade Recebida">
     </div>
     <div class="requisition-text col-md-4">
       <input type="text" name="requisition[datereceipt]" class="requisition-text" placeholder="Data de Recebimento"
         value="{{requisition.datereceipt}}">
     </div>
   </div>
-{{!-- <div class="form-row">
+  {{!-- <div class="form-row">
       <div class="requisition-text col-md-4">
         <input type="text" name="requisition[origin]" class="requisition-text" placeholder="Origem"
           value="{{requisition.origin}}">
@@ -113,7 +113,7 @@
         <input type="text" name="requisition[lab]" class="requisition-text" placeholder="Laboratório"
           value="{{requisition.lab}}">
       </div> --}}
-    
+
   </div>
   {{!-- <div class="showboxinfo"> --}}
   {{!-- <form action="/{{requisitions.id}}" method="put"> --}}
