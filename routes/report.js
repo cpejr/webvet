@@ -55,14 +55,14 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         clientName: requisition.client.fullname,
         packingtype: requisition.packingtype,
         receivedquantity: requisition.receivedquantity,
-        datereceived: requisition.datereceived,
+        datereceipt: requisition.datereceipt,
       };
     }).then(() => {
 
 
       const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
       const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisina', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
-      const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
+      const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OTA Romer', 'T2 Romer', 'ZEA Romer'];
       var toxiKit = {};
       var listIds = [];
 
@@ -103,8 +103,8 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         for (h = 0; h < ToxinasFormal.length; h++) {
           if (arrayContains(ToxinasFormal[h], workedList)) {
             kit = {
-              Loq: NaN,
-              Lod: NaN,
+              Loq: "Aguardando finalização",
+              Lod: "Aguardando finalização",
             };
             name = ToxinasLower[h];
             orderedKits.push({ kit, name });
@@ -146,7 +146,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 
         console.log("Objeto final: ");
         console.log(toxinaData);
-        res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });
+        res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, Requisitiondata, ...req.session });
       });
     });
   }).catch((error) => {
