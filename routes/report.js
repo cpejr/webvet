@@ -43,6 +43,21 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
     return (arrhaystack.indexOf(needle) > -1);
   }
   Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
+
+    var Requisitiondata;
+    Requisition.getById(sample.requisitionId).then((requisition) => {
+      Requisitiondata = {
+        toxinas: requisition.mycotoxin.join(', '),
+        requisitionnumber: requisition.requisitionnumber,
+        year: requisition.createdAt.getFullYear(),
+        producer:  requisition.producer,
+        clientName: requisition.client.fullname,
+        packingtype: requisition.packingtype,
+        receivedquantity: requisition.receivedquantity,
+        datereceived: requisition.datereceived,
+      };
+    });
+
     const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
     const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
     const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
@@ -121,22 +136,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 
       console.log("Objeto final: ");
       console.log(toxinaData);
-
-      var Requisitiondata;
-      Requisition.getById(sample.requisitionId).then((requisition) => {
-        Requisitiondata = {
-          toxinas: requisition.mycotoxin.join(', '),
-          requisitionnumber: requisition.requisitionnumber,
-          year: requisition.createdAt.getFullYear(),
-          producer: requisition.producer,
-          clientName: requisition.client.fullname,
-          packingtype: requisition.packingtype,
-          receivedquantity: requisition.receivedquantity,
-          datereceived: requisition.datereceived,
-        };
-      }).then(() => {
-        res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });
-      });
+      res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });
     });
   }).catch((error) => {
     console.log(error);
