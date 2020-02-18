@@ -49,6 +49,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
     const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
     var toxiKit = {};
     var listIds = [];
+
     for (i = 0; i < ToxinasLower.length; i++) {
       console.log(i + " KitId " + ToxinasLower[i]);
       toxiKit = sample[ToxinasLower[i]];
@@ -105,14 +106,22 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
             if (ToxinasLower[m] === orderedKits[k].name) {
               Pair = orderedKits[k];
               Name = ToxinasFormal[m];
-              Values[m] = { Name, Pair };
+              Values[m] = {
+                Result: sample[ToxinasLower[m]].result,
+                Name,
+                Pair
+              };
             }
           }
         } else {
           console.log("Algo deu errado, o kit em orderedKits[k] nao deveria estar desse jeito, vai dar merda");
           Pair.name = orderedKits[k].name;
           Name = ToxinasFormal[k];
-          Values.push({ Name, Pair });
+          Values.push({
+            Result: sample[ToxinasLower[m]].result,
+            Name,
+            Pair
+          });
         }
 
       }
@@ -180,13 +189,13 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
 
   Sample.getAllReport().then((amostras) => {
     let reqids = [];
-    for(var j = 0; j< amostras.length; j++){
-      if(amostras[j].report){
+    for (var j = 0; j < amostras.length; j++) {
+      if (amostras[j].report) {
         laudos.push(amostras[j]);
       }
     }
 
-    for (var i = 0; i < amostras.length; i++){
+    for (var i = 0; i < amostras.length; i++) {
       reqids.push(amostras[i].requisitionId);
     }
 
@@ -202,7 +211,7 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
         }
       }
     }).then((params) => {
-      res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, laudos,result });
+      res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, laudos, result });
     });
   });
 });
