@@ -47,6 +47,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
     var Requisitiondata;
     Requisition.getById(sample.requisitionId).then((requisition) => {
       Requisitiondata = {
+        listToxinas: requisition.mycotoxin,
         toxinas: requisition.mycotoxin.join(', '),
         requisitionnumber: requisition.requisitionnumber,
         year: requisition.createdAt.getFullYear(),
@@ -60,7 +61,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 
 
       const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
-      const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
+      const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisina', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
       const productCode = ['AFLA Romer', 'DON Romer', 'FUMO Romer', 'OCRA Romer', 'T2 Romer', 'ZEA Romer'];
       var toxiKit = {};
       var listIds = [];
@@ -80,19 +81,27 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         var kit = {};
         var name = {};
         var listNames = [];
+
         for (i = 0; i < productCode.length; i++) {
           for (j = 0; j < kits.length; j++) {
             if (kits[j].productCode === productCode[i]) {
               kit = kits[j];
               name = ToxinasLower[i];
-              listNames.push(ToxinasLower[i]);
+              listNames.push(ToxinasFormal[i]);
               orderedKits.push({ kit, name });
             }
           }
         }
 
-        for (h = 0; h < ToxinasLower.length; h++) {
-          if (!arrayContains(ToxinasLower[h], listNames)) {
+        var workedList = Requisitiondata.listToxinas;
+        var aux = Array;
+        for (j = 0; j < listNames.length; j++) {
+          aux = workedList.filter(e => e !== listNames[j]);
+          workedList = aux;
+        }
+
+        for (h = 0; h < ToxinasFormal.length; h++) {
+          if (arrayContains(ToxinasFormal[h], workedList)) {
             kit = {
               Loq: NaN,
               Lod: NaN,
