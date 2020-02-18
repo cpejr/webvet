@@ -51,7 +51,7 @@
               <th scope="row">{{Name}}</th>
               <td>
                 <input type="text" id="{{Pair.name}}Conc" value="{{round Result 2}}">
-                <input type="checkbox" id="{{Pair.name}}Check">
+                <input type="checkbox" id="{{Pair.name}}Check" name="toxinaCheck" value="{{Name}}">
               </td>
               <td>{{Pair.kit.Lod}}</td>
               <td>{{Pair.kit.Loq}}</td>
@@ -60,7 +60,7 @@
         </tbody>
       </table>
       <div>
-        <input type="checkbox" id="allCheck">
+        <input type="checkbox" id="allCheck" value="checked">
         <label for="allCheck">Todas as toxinas passaram</label><br>
       </div>
     </div>
@@ -95,15 +95,21 @@
     var countChecked = function () {
       const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
       const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
-      var n = $("input:checked").length;
-      var listNames = ['Afla'];
+      var n = $('input[name="toxinaCheck"]:checked').length;
+      //var nTotal = $('input[name="toxinaCheck"]').length;
+      var listNames = [];
       var idName = {};
       var frase = "";
       var inicio = ""
       var fraseCompleta = "*inicio* a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
 
+     // $('#allCheck').prop("checked", n === nTotal);
 
-      if (n !== 0) { //Pedaço que analiza o vetor de nomes e escreve apropriadamente.
+      $('input[name="toxinaCheck"]:checked').each(function () {
+        listNames.push($(this).val());
+      });
+
+      if (n > 0) { //Pedaço que analiza o vetor de nomes e escreve apropriadamente.
         if (listNames.length > 2) {
           for (i = 0; i < listNames.length - 2; i++) {
             frase = frase + " " + listNames[i] + ",";
@@ -113,7 +119,7 @@
           inicio = "Foram detectadas";
         } else if (listNames.length == 1) {
           frase = frase + listNames[0];
-          inicio = "Foi detectado";
+          inicio = "Foi detectada";
         } else {
           for (i = 0; i < listNames.length - 1; i++) {
             frase = frase + " " + listNames[i];
@@ -129,7 +135,15 @@
       }
     };
     countChecked();
-    $("input[type=checkbox]").on("click", countChecked);
+    $("input[type=checkbox][name=toxinaCheck]").change(countChecked);
+
+    var checkAll = function (){
+      $('input[type=checkbox][name="toxinaCheck"]').each(function () {
+        $(this).prop("checked", $("#allCheck").is(":checked"));
+        countChecked();
+      });
+    }
+    $("#allCheck").change(checkAll);
   })
 </script>
 
