@@ -137,6 +137,9 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
           year: requisition.createdAt.getFullYear(),
           producer:  requisition.producer,
           clientName: requisition.client.fullname,
+          packingtype: requisition.packingtype,
+          receivedquantity: requisition.receivedquantity,
+          datereceived: requisition.datereceived,
         };
       }).then((tu) => {
         res.render('report/editAdmin', { title: 'Show ', sample, toxinaData, data: Requisitiondata, ...req.session });

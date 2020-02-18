@@ -15,7 +15,7 @@ const requisitionSchema = new mongoose.Schema({
   receivedquantity: Number,
   packingtype: String,
   datecollection: String,
-  detectedConcetration: Number,
+  datereceived: String,
   origin: String,
   comment: String,
   lab: String,
