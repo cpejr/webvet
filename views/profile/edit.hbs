@@ -1,9 +1,10 @@
-<form class="form-show-box"  action="/profile/edit/{{user._id}}?_method=PUT" method="post">//indica que a página edit está atualizada com as informações do usuario logado e o post indica que ao salvar a página será atualizada
+<form class="form-show-box"  action="/profile/edit/{{user._id}}?_method=PUT" method="post">
+{{!-- //indica que a página edit está atualizada com as informações do usuario logado e o post indica que ao salvar a página será atualizada --}}
     <h1 class="form-show-title">Editar Perfil</h1>
     <div>
       <div class="form-show-text col-md-12">
         <label for="user[fullname]">Nome</label>
-        //Nesses inputs nao tem "disabled" pois esses inputs podem ser editados
+        {{!-- //Nesses inputs nao tem "disabled" pois esses inputs podem ser editados --}}
         <input type="text" value="{{user.fullname}}" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
       </div>
       <div class="form-row">
@@ -24,7 +25,7 @@
       <div class="form-row">
         <div class="col-md-3 mt-3">
           <div class="form-check form-check-inline">
-            // O #if indica que dependendo do "persontype" do usuário, CPE ou CNPJ, essa parte do formulário estará preenchida de forma diferente
+            {{!-- // O #if indica que dependendo do "persontype" do usuário, CPE ou CNPJ, essa parte do formulário estará preenchida de forma diferente --}}
               {{#if user.persontype}}
                 <input class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
                 <label class="radio-text form-check-label mr-3">CPF</label>
@@ -73,9 +74,9 @@
         </div>
       </div>
     <div class="col-md-12 mt-3">
-      //a função "onclick="location.href='/user'"" indica que ao clicar no botão, o usuário será redirecionado para '/user'
+      {{!-- //a função "onclick="location.href='/user'"" indica que ao clicar no botão, o usuário será redirecionado para '/user' --}}
       <button class="btn mr-2" type="button" onclick="location.href='/user'"><i class="fa fa-reply"></i> Voltar</button>
-      //Como o type do botão é "submit", as informações editadas já serão alteradas no banco de dados quando envia
+      {{!-- //Como o type do botão é "submit", as informações editadas já serão alteradas no banco de dados quando envia --}}
       <button class="btn mr-2" type="submit"><i class="fa fa-pencil"></i> Salvar</button>
     </div>
 </form>
