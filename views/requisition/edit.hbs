@@ -1,31 +1,45 @@
 <div class="edit-requisition">
   <hr color="lightgray">
   <div class="showboxinfo">
-    <form action="/requisition/{{requisitions.id}}" method="put">
+    <form action="/{{requisitions.id}}" method="put">
       <p>
-        <font size="4" color="black"> Data de coleta: <input id="stock-edit" type="text" style="width: 200px" value={{requisitions.datecollection}}>
+        <font size="4" color="black"> Data de coleta: <input id="stock-edit" name="datecollection" type="text" style="width: 200px"
+            value={{requisitions.datecollection}}>
       </p>
       <p>
-        <font size="4" color="black"> Origem: <input id="stock-edit" type="text" style="width: 200px" value={{requisitions.origin}}>
+        <font size="4" color="black"> Origem: <input id="stock-edit" name="origin" type="text" style="width: 200px"
+            value={{requisitions.origin}}>
       </p>
       <p>
-        <font size="4" color="black"> Destino: <input id="stock-edit" type="text" style="width: 200px" value={{requisitions.destination}}>
+        <font size="4" color="black"> Destino: <input id="stock-edit" name="destination" type="text" style="width: 200px"
+            value={{requisitions.destination}}>
       </p>
       <p>
-        <font size="4" color="black"> Fazenda: <input id="stock-edit" type="text" style="width: 200px" value={{requisitions.farmname}}>
+        <font size="4" color="black"> Fazenda: <input id="stock-edit" name="farmname" type="text" style="width: 200px"
+            value={{requisitions.farmname}}>
       </p>
       <p>
-        <font size="4" color="black"> Laboratório: <input id="stock-edit" type="text" style="width: 200px" value={{requisitions.lab}}>
+        <font size="4" color="black"> Laboratório: <input id="stock-edit" name="lab" type="text" style="width: 200px"
+            value={{requisitions.lab}}>
       </p>
       <p>
-        <font size="4" color="black"> Tipo de embalagem: <input id="stock-edit" type="text" style="width: 200px" value={{requisitions.packingtype}}>
+        <font size="4" color="black"> Tipo de embalagem: <input id="stock-edit" name="packingtype" type="text" style="width: 200px"
+            value={{requisitions.packingtype}}>
       </p>
       <p>
-        <font size="4" color="black"> Qtde. recebida: <input id="stock-edit" type="text" style="width: 200px" value={{requisitions.receivedquantity}}>
+        <font size="4" color="black"> Qtde. recebida: <input id="stock-edit" name="receivedquantity" type="text" style="width: 200px"
+            value={{requisitions.receivedquantity}}>
       </p>
       <p>
-        <font size="4" color="black"> Data de recebimento: <input id="stock-edit" type="text" style="width: 200px" value={{requisitions.datecollection}}>
+        <font size="4" color="black"> Data de recebimento: <input id="stock-edit" name="datecollection" type="text" style="width: 200px"
+            value={{requisitions.datecollection}}>
       </p>
+      {{#if nova}}
+        <div class="col-sm-6">
+          <input type="checkbox" id="novaCheckId" name="novaCheck" value="isChecked"></input>
+          <label for="novaCheckId">Aprovar requisição</label>
+        </div>
+      {{/if}}
       <div class="text-center">
         <button type="submit" align="center" class="btn btn-outline-success">Enviar Alterações</button>
       </div>

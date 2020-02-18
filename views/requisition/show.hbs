@@ -1,31 +1,49 @@
 <div class="">
-    <div class="">
-      <br>
-      <div class="row">
-        <form class="col-2" action="/requisition" method="get">
-            <button type="submit" class="btn btn-outline-success">Voltar</button>
-        </form>
-        <div class="col-8">
-          <font color="gray" size="5"> Requisição {{requisitions.requisitionnumber}}
-        </div>
-        <form class="col-2" action="/requisition/delete/{{requisitions._id}}" method="post">
-            <button type="submit" class="btn btn-outline-danger">Apagar</button>
-        </form>
+  <div class="">
+    <br>
+    <div class="row">
+      <form class="col-2" action="/requisition" method="get">
+        <button type="submit" class="btn btn-outline-success">Voltar</button>
+      </form>
+      <div class="col-8">
+        <font color="gray" size="5"> Requisição {{requisitions.requisitionnumber}}
       </div>
-      <hr color="lightgray">
-      <form class="showboxinfo" action="/requisition/edit/{{requisitions._id}}" method="get" >
-        <p><font size="4" color="black">Data de coleta: {{requisitions.datecollection}}</p>
-        <p><font size="4" color="black">Data de recebimento: {{requisitions.receivedquantity}}</p>
-        <p><font size="4" color="black">Concentração detectada: {{requisitions.detectedConcetration}}</p>
-        <p><font size="4" color="black">Origem: {{requisitions.origin}} </p>
-        <p><font size="4" color="black">Tipo de embalagem: {{requisitions.packingtype}}</p>
-        <p><font size="4" color="black">Laboratório: {{requisitions.lab}}</p>
-        <p><font size="4" color="black">Destino: {{requisitions.destination}}</p>
-        <p><font size="4" color="black">Fazenda: {{requisitions.farmname}}</p>
-        <p><font size="4" color="black">Quantidade recebida: {{requisitions.receivedquantity}}</p>
-        <div class="text-center">
-          <button type=submit class="btn btn-outline-success">Editar</button>
-        </div>
+      <form class="col-2" action="/requisition/delete/{{requisitions._id}}" method="post">
+        <button type="submit" class="btn btn-outline-danger">Apagar</button>
       </form>
     </div>
+    <hr color="lightgray">
+    <form class="showboxinfo" action="/requisition/edit/{{requisitions._id}}" method="get">
+      <p>
+        <font size="4" color="black">Data de coleta: {{requisitions.datecollection}}
+      </p>
+      <p>
+        <font size="4" color="black">Data de recebimento: {{requisitions.receivedquantity}}
+      </p>
+      <p>
+        <font size="4" color="black">Concentração detectada: {{requisitions.detectedConcetration}}
+      </p>
+      <p>
+        <font size="4" color="black">Origem: {{requisitions.origin}}
+      </p>
+      <p>
+        <font size="4" color="black">Tipo de embalagem: {{requisitions.packingtype}}
+      </p>
+      <p>
+        <font size="4" color="black">Laboratório: {{requisitions.lab}}
+      </p>
+      <p>
+        <font size="4" color="black">Destino: {{requisitions.destination}}
+      </p>
+      <p>
+        <font size="4" color="black">Fazenda: {{requisitions.farmname}}
+      </p>
+      <p>
+        <font size="4" color="black">Quantidade recebida: {{requisitions.receivedquantity}}
+      </p>
+      <div class="container-fluid">
+        <button type="submit" class="btn btn-outline-success">Editar</button>
+      </div>
+    </form>
   </div>
+</div>
