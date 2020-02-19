@@ -140,10 +140,11 @@ router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 router.get('/show/:id', function(req, res, next) {
-  User.getById(req.params.id).then((user) => {
+  User.getById(req.params.id).then((actualUser) => {
     User.getAll().then((users) => {
-      console.log(user);
-      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', user, users, });
+      var user = req.session.user;
+      console.log(actualUser);
+      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', actualUser, user, users, });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
