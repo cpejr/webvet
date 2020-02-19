@@ -6,7 +6,7 @@
   </br>
 </div>
 
-<form action="/requisition/{{requisition._id}}" method="post">
+<form action="/requisition/{{requisition._id}}" id="reqEdit" method="post">
   <div id="keep-address" class="form-row">
     <div class="requisition-text col-md-11">
       <input id="fullname" type="text" name="requisition[client][fullname]" value="{{requisition.client.fullname}}"
@@ -153,50 +153,50 @@
       </div>
 
       <div class="form-check">
-        <input checked id="leite" class="form-check-input destination" type="radio" name="requisition[destination]"
-          value="Bovinos">
-        <label for="leite" class="radio-text form-check-label mr-3"> Gado de Leite </label>
+        <input checked id="Gado de Leite" class="form-check-input destination" type="radio"
+          name="requisition[destination]" value="Bovinos">
+        <label for="Gado de Leiteleite" class="radio-text form-check-label mr-3"> Gado de Leite </label>
       </div>
     </div>
 
     <div class="column">
       <div class="form-check">
-        <input id="corte" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Gado de Corte" class="form-check-input destination" type="radio" name="requisition[destination]"
           value="Bovinos">
-        <label for="corte" class="radio-text form-check-label mr-3"> Gado de Corte </label>
+        <label for="Gado de Corte" class="radio-text form-check-label mr-3"> Gado de Corte </label>
       </div>
 
       <div class="form-check">
-        <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Suínos" class="form-check-input destination" type="radio" name="requisition[destination]"
           value="Suínos">
-        <label for="Pig" class="radio-text form-check-label mr-3"> Suínos </label>
+        <label for="Suínos" class="radio-text form-check-label mr-3"> Suínos </label>
       </div>
     </div>
 
     <div class="column">
       <div class="form-check">
-        <input id="Horse" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Equinos" class="form-check-input destination" type="radio" name="requisition[destination]"
           value="Equinos">
-        <label for="Horse" class="radio-text form-check-label mr-3"> Equinos </label>
+        <label for="Equinos" class="radio-text form-check-label mr-3"> Equinos </label>
       </div>
 
       <div class="form-check">
-        <input id="Goat" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Caprinos" class="form-check-input destination" type="radio" name="requisition[destination]"
           value="Caprinos">
-        <label for="Goat" class="radio-text form-check-label mr-3"> Caprinos </label>
+        <label for="Caprinos" class="radio-text form-check-label mr-3"> Caprinos </label>
       </div>
     </div>
 
     <div class="column">
       <div class="form-check">
-        <input id="Sheep" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Ovinos" class="form-check-input destination" type="radio" name="requisition[destination]"
           value="Ovinos">
-        <label for="Sheep" class="radio-text form-check-label mr-3"> Ovinos </label>
+        <label for="Ovinos" class="radio-text form-check-label mr-3"> Ovinos </label>
       </div>
       <div class="form-check">
-        <input id="Fish" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Peixes" class="form-check-input destination" type="radio" name="requisition[destination]"
           value="Peixes">
-        <label for="Fish" class="radio-text form-check-label mr-3"> Peixes </label>
+        <label for="Peixes" class="radio-text form-check-label mr-3"> Peixes </label>
       </div>
     </div>
     <div class="column">
@@ -206,34 +206,74 @@
       </div>
 
       <div class="form-check">
-        <input id="materiaprima" class="form-check-input destination" type="radio" name="requisition[destination]"
-          value="Matéria-Prima">
-        <label for="materiaprima" class="radio-text form-check-label mr-3"> Matéria-Prima(Fábrica de Ração) </label>
+        <input id="Matéria-Prima(Fábrica de Ração)" class="form-check-input destination" type="radio"
+          name="requisition[destination]" value="Matéria-Prima">
+        <label for="Matéria-Prima(Fábrica de Ração)" class="radio-text form-check-label mr-3"> Matéria-Prima(Fábrica de
+          Ração) </label>
       </div>
     </div>
     <div class="row ml-0">
       <div class="form-check">
-        <input id="Others" class="form-check-input destination" type="radio" name="requisition[destination]"
-          value="Outros">
-        <label for="Others" class="radio-text form-check-label mr-3"> Outros </label>
+        <input id="Outros" class="form-check-input destination" type="radio" name="requisition[destination]" value="">
+        <label for="Outros" class="radio-text form-check-label mr-3"> Outros </label>
       </div>
       <div id="Other-destination" class="form-disabled form-row h-50">
-        <input type="text" name="" class="input w-100" placeholder="Destinação">
+        <input type="text" id="OtherInput" class="input w-100" placeholder="Destinação">
       </div>
     </div>
 
   </div>
 
-
   {{#if nova}}
-    <div class="col-sm-6">
-      <input type="checkbox" id="novaCheckId" name="novaCheck" value="isChecked"></input>
-      <label for="novaCheckId">Aprovar requisição</label>
-    </div>
+      <input type="checkbox" style="display: none;" id="novaCheckId" name="novaCheck" value="isChecked"></input>
   {{/if}}
-  <div class="text-center">
-    <button type="submit" align="center" class="btn btn-outline-success">Enviar Alterações</button>
-  </div>
+
 </form>
+<div class="text-center">
+  {{#unless nova}}
+    <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
+  {{/unless}}
+ 
+  {{#if nova}}
+    <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
+      requisição</button>
+
+    <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
+  {{/if}}
 </div>
-</div>
+
+<script>
+  //SetCheckbox selected
+  $(document).ready(function () {
+    if ($('#{{requisition.destination}}').length)
+      $('#{{requisition.destination}}').prop("checked", true);
+    else {
+      $('#Outros').prop("checked", true);
+      $('#Outros').val("{{requisition.destination}}");
+      $('#OtherInput').val("{{requisition.destination}}");
+      $('#Other-destination').removeClass('form-disabled');
+    }
+  });
+
+  $("#submitAlterations").click(function () {
+    $("#reqEdit").submit(); // Submit the form
+  });
+
+  $("#submitAproved").click(function () {
+    $('#novaCheckId').prop("checked", true);
+    $("#reqEdit").submit(); // Submit the form
+  });
+
+  $('.destination').change(function () {
+    console.log("aaa");
+    if ($('#Outros').is(':checked')) {
+      $('#Other-destination').removeClass('form-disabled');
+    } else {
+      $('#Other-destination').addClass('form-disabled');
+    }
+  });
+
+  $("#Other-destination").keyup(function () {
+    $('#Outros').val($(this).find('input').val());
+  });
+</script>
