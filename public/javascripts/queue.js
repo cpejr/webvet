@@ -1,1426 +1,246 @@
-var aflatoxina = new jKanban({
-  element: '#aflatoxina',
-  gutter: '10px',
-  widthBoard: '190px',
-  click: function (el) {
-    window.location.href = 'sample/edit/' + el.dataset.eid;
-  },
-  boards: [
-    {
-      id: '_testing',
-      title: 'Em análise',
-      class: 'success',
+ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+
+
+function createAnalysisKanban(toxinaFull) {
+  return new jKanban({
+    element: '#' + toxinaFull,
+    gutter: '10px',
+    widthBoard: '190px',
+    click: function (el) {
+      window.location.href = 'sample/edit/' + el.dataset.eid;
     },
-    {
-      id: '_ownering',
-      title: 'Aguardando pagamento',
-      class: 'success',
+    boards: [
+      {
+        id: '_testing',
+        title: 'Em análise',
+        class: 'success',
+      },
+      {
+        id: '_ownering',
+        title: 'Aguardando pagamento',
+        class: 'success',
+      },
+      {
+        id: '_waiting',
+        title: 'Aguardando amostra',
+        class: 'info',
+      },
+
+    ],
+    dropEl: function (el, target, source, sibling) {
+      const samplenumber = el.dataset.title.replace("Amostra", "");
+
+      let text;
+
+      switch (target) {
+        case '_testing':
+          text = 'Em análise';
+          break;
+
+        case '_ownering':
+          text = 'Aguardando pagamento';
+          break;
+        case '_waiting':
+          text = 'Aguardando amostra';
+          break;
+      }
+
+      $.post(`/sample/${target.replace("_", "")}/edit/${toxinaFull}/${samplenumber}`);
+
+      if (el.dataset.eid == "owner")
+        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + text + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+      else
+        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + text + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+    }
+  });
+}
+
+const aflatoxina = createAnalysisKanban('aflatoxina');
+const deoxinivalenol = createAnalysisKanban('deoxinivalenol');
+const ocratoxina = createAnalysisKanban('ocratoxina');
+const t2toxina = createAnalysisKanban('t2toxina');
+const fumonisina = createAnalysisKanban('fumonisina');
+const zearalenona = createAnalysisKanban('zearalenona');
+
+let Analysiskanbans = { aflatoxina, deoxinivalenol, ocratoxina, t2toxina, fumonisina, zearalenona };
+
+
+function createWormapKanban(toxinaFull) {
+  return new jKanban({
+    element: '#' + toxinaFull + '2',
+    gutter: '10px',
+    widthBoard: '165px',
+    click: function (el) {
+      window.location.href = 'sample/edit/' + el.dataset.eid;
     },
-    {
-      id: '_waiting',
-      title: 'Aguardando amostra',
-      class: 'info',
-    },
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-
-    if (target == '_testing') {
-      $.post('/sample/testing/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+    boards: [
+      {
+        id: '_scndTesting',
+        title: 'Em análise',
+        class: 'info'
       }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-
-    }
-    if (target == '_ownering') {
-      $.post('/sample/ownering/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-
-      }
-
-    }
-    if (target == '_waiting') {
-      $.post('/sample/waiting/edit/aflatoxina/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-    }
-
-
-
-  }
-});
-
-
-
-
-var scndAflatoxina = new jKanban({
-  element: '#afla2toxina',
-  gutter: '10px',
-  widthBoard: '165px',
-  click: function (el) {
-    window.location.href = 'sample/edit/' + el.dataset.eid;
-  },
-  boards: [
-    {
-      id: '_scndTesting',
-      title: 'Em análise',
-      class: 'info'
-    }
-  ],
-  dropEl: function (el, target, source, sibling) {
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-    var goTO = target;
-    if (goTO.indexOf("workmap") != -1) { //se o alvo for um board workmap qualquer
-      if (el.dataset.calibrator) {//cards originais
-        return false;
-      }
-
-      else {
-        // $.post('/sample/mapwork/edit/aflatoxina/' + samplenumber+'/'+goTO, () => {
-        //
-        // });
-        var mapName = goTO.toString();
-
-        $.post('/sample/mapedit/aflatoxina/' + samplenumber + '/' + nowAflaKit + '/' + mapName, () => {
-
-        });
-
-        if (el.dataset.eid == "owner") {
-          el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+    ],
+    dropEl: function (el, target, source, sibling) {
+      const samplenumber = el.dataset.title.replace("Amostra", "");
+      var goTO = target;
+      if (goTO.indexOf("workmap") != -1) { //se o alvo for um board workmap qualquer
+        if (el.dataset.calibrator) {//cards originais
+          return false;
         }
         else {
-          el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+          var mapName = goTO.toString();
+          console.log(nowActiveKits);
+          console.log(nowActiveKits[toxinaFull]);
+          $.post(`/sample/mapedit/${toxinaFull}/${samplenumber}/${nowActiveKits[toxinaFull]._id}/${mapName}`);
+
+          if (el.dataset.eid == "owner") {
+            el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+          }
+          else {
+            el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+          }
         }
       }
-    }
-    if (target == '_scndTesting') {
-      var calibrator = el.dataset.eid;
-      if (el.dataset.calibrator) {//cards P não se movem para em analise
-        return false
+      if (target == '_scndTesting') {
+        var calibrator = el.dataset.eid;
+        if (el.dataset.calibrator) {//cards P não se movem para em analise
+          return false
+        }
+        else {
+          $.post(`/sample/scndTesting/edit/${toxinaFull}/${samplenumber}/${nowActiveKits[toxinaFull]}`);
+          el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+
+        }
       }
-      else {
-        $.post('/sample/scndTesting/edit/aflatoxina/' + samplenumber + '/' + nowAflaKit, () => {
 
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-
-  }
-});
-
-
-const deoxinivalenol = new jKanban({
-  element: '#deoxinivalenol',
-  gutter: '10px',
-  widthBoard: '190px',
-  click: function (el) {
-    alert(el.innerHTML);
-    alert(el.dataset.eid)
-  },
-  boards: [
-    {
-      id: '_testing',
-      title: 'Em análise',
-      class: 'success',
-    },
-    {
-      id: '_ownering',
-      title: 'Aguardando pagamento',
-      class: 'success',
-    },
-    {
-      id: '_waiting',
-      title: 'Aguardando amostra',
-      class: 'success',
-    },
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-
-    if (target == '_testing') {
-      $.post('/sample/testing/edit/deoxinivalenol/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-    }
-    if (target == '_ownering') {
-
-      $.post('/sample/ownering/edit/deoxinivalenol/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
 
     }
-    if (target == '_waiting') {
-      $.post('/sample/waiting/edit/deoxinivalenol/' + samplenumber, () => {
-
-      });
-
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-
-    if (target == '_workmap') {
-      $.post('/sample/mapwork/edit/deoxinivalenol/' + samplenumber, () => {
-
-      });
-      el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-    }
-
-
-
-  }
-});
-
-var scndDeoxinivalenol = new jKanban({
-  element: '#deoxini2valenol',
-  gutter: '10px',
-  widthBoard: '165px',
-  click: function (el) {
-    window.location.href = 'sample/edit/' + el.dataset.eid;
-  },
-  boards: [
-    {
-      id: '_scndTesting',
-      title: 'Em análise',
-      class: 'info'
-    }
-  ],
-  dropEl: function (el, target, source, sibling) {
-    const samplenumber = el.dataset.title.replace("Amostra", "");;
-    var goTO = target;
-    if (goTO.indexOf("workmap") != -1) { //se o alvo for um board workmap qualquer
-      if (el.dataset.calibrator) {//cards P    
-        return false;
-      } else {
-        var mapName = goTO.toString();
-
-        $.post('/sample/mapedit/deoxinivalenol/' + samplenumber + '/' + nowDeoxKit + '/' + mapName, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-
-    }
-
-    if (target == '_scndTesting') {
-      var calibrator = el.dataset.eid;
-      if (el.dataset.calibrator) {//cards P não se movem para em analise
-        return false;
-      }
-      else {
-        $.post('/sample/scndTesting/edit/deoxinivalenol/' + samplenumber + '/' + nowDeoxKit, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-
-  }
-
-});
-
-//função de criação dos id dos Pchild para o scndDeoxinivalenol
-var countDeox = 0;
-
-function IdDeoxCount() {
-  countDeox++;
-  return countDeox;
+  });
 }
 
-
-
-
-const ocratoxina = new jKanban({
-  element: '#ocratoxina',
-  gutter: '10px',
-  widthBoard: '190px',
-  boards: [
-    {
-      id: '_testing',
-      title: 'Em análise',
-      class: 'success',
-    },
-    {
-      id: '_ownering',
-      title: 'Aguardando pagamento',
-      class: 'success',
-    },
-    {
-      id: '_waiting',
-      title: 'Aguardando amostra',
-      class: 'success',
-    },
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-
-    if (target == '_testing') {
-      $.post('/sample/testing/edit/ocratoxina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-    }
-    if (target == '_ownering') {
-
-      $.post('/sample/ownering/edit/ocratoxina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-    }
-    if (target == '_waiting') {
-      $.post('/sample/waiting/edit/ocratoxina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-    }
-
-
-  }
-});
-
-var scndOcratoxina = new jKanban({
-  element: '#ocra2toxina',
-  gutter: '10px',
-  widthBoard: '165px',
-  click: function (el) {
-    window.location.href = 'sample/edit/' + el.dataset.eid;
-  },
-  boards: [
-    {
-      id: '_scndTesting',
-      title: 'Em análise',
-      class: 'info'
-    }
-
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-    var goTO = target;
-
-    if (goTO.indexOf("workmap") != -1) { //se o alvo for um board workmap qualquer
-      var calibrator = el.dataset.eid;
-      if (el.dataset.calibrator) {//cards P
-        return false;
-      } else {
-        var mapName = goTO.toString();
-
-
-        $.post('/sample/mapedit/ocratoxina/' + samplenumber + '/' + nowOcraKit + '/' + mapName, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-    if (target == '_scndTesting') {
-
-      if (el.dataset.calibrator) {//cards P não se movem para em analise
-        return false
-      }
-
-      else {
-        $.post('/sample/scndTesting/edit/ocratoxina/' + samplenumber + '/' + nowOcraKit, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-  }
-});
-
-//função de criação dos id dos Pchild para o scndOcratoxina
-var countOcra = 0;
-
-function IdOcraCount() {
-  countOcra++;
-  return countOcra;
-}
-
-
-
-
-const t2toxina = new jKanban({
-  element: '#t2toxina',
-  gutter: '10px',
-  widthBoard: '190px',
-  boards: [
-    {
-      id: '_testing',
-      title: 'Em análise',
-      class: 'success',
-    },
-    {
-      id: '_ownering',
-      title: 'Aguardando pagamento',
-      class: 'success',
-    },
-    {
-      id: '_waiting',
-      title: 'Aguardando amostra',
-      class: 'success',
-    },
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-
-    if (target == '_testing') {
-      $.post('/sample/testing/edit/t2toxina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-    if (target == '_ownering') {
-      $.post('/sample/ownering/edit/t2toxina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-    if (target == '_waiting') {
-      $.post('/sample/waiting/edit/t2toxina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-
-  }
-});
-
-var scndT2toxina = new jKanban({
-  element: '#t22toxina',
-  gutter: '10px',
-  widthBoard: '165px',
-  click: function (el) {
-    window.location.href = 'sample/edit/' + el.dataset.eid;
-  },
-  boards: [
-    {
-      id: '_scndTesting',
-      title: 'Em análise',
-      class: 'info'
-    },
-
-
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-    var goTO = target;
-
-    if (goTO.indexOf("workmap") != -1) { //se o alvo for um board workmap qualquer
-      if (el.dataset.calibrator) {//cards P
-        return false;
-      } else {
-        var mapName = goTO.toString();
-
-        $.post('/sample/mapedit/t2toxina/' + samplenumber + '/' + nowT2Kit + '/' + mapName, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-    if (target == '_scndTesting') {
-
-      if (el.dataset.calibrator) {//cards P não se movem para em analise
-        return false
-      }
-
-      else {
-        $.post('/sample/scndTesting/edit/t2toxina/' + samplenumber + '/' + nowT2Kit, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-
-  }
-});
-
-//função de criação dos id dos Pchild para o T2 toxina
-var countT2 = 0;
-
-function IdT2Count() {
-  countT2++; 0
-  return countT2;
-}
-
-
-var t2Limit;
-
-
-
-const fumonisina = new jKanban({
-  element: '#fumonisina',
-  gutter: '10px',
-  widthBoard: '190px',
-  boards: [
-    {
-      id: '_testing',
-      title: 'Em análise',
-      class: 'success',
-    },
-    {
-      id: '_ownering',
-      title: 'Aguardando pagamento',
-      class: 'success',
-    },
-    {
-      id: '_waiting',
-      title: 'Aguardando amostra',
-      class: 'success',
-    },
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-
-    if (target == '_testing') {
-      $.post('/sample/testing/edit/fumonisina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-    if (target == '_ownering') {
-      $.post('/sample/ownering/edit/fumonisina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-    if (target == '_waiting') {
-      $.post('/sample/waiting/edit/fumonisina/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-
-  }
-});
-
-
-var scndFumonisina = new jKanban({
-  element: '#fumonisina2',
-  gutter: '10px',
-  widthBoard: '165px',
-  click: function (el) {
-    window.location.href = 'sample/edit/' + el.dataset.eid;
-  },
-  boards: [
-    {
-      id: '_scndTesting',
-      title: 'Em análise',
-      class: 'info'
-    },
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-    var goTO = target;
-
-    if (goTO.indexOf("workmap") != -1) { //se o alvo for um board workmap qualquer
-
-      if (el.dataset.calibrator) {//cards originais
-        return false;
-
-      } else {
-        var mapName = goTO.toString();
-
-
-        $.post('/sample/mapedit/fumonisina/' + samplenumber + '/' + nowFumKit + '/' + mapName, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-    if (target == '_scndTesting') {
-
-      if (el.dataset.calibrator) {//cards P não se movem para em analise
-        return false
-      }
-
-      else {
-        $.post('/sample/scndTesting/edit/fumonisina/' + samplenumber + '/' + nowFumKit, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-
-  }
-});
-
-//função de criação dos id dos Pchild para a fumonisina
-var countFum = 0;
-
-
-function IdFumCount() {
-  countFum++;
-  return countFum;
-}
-
-
-
-const zearalenona = new jKanban({
-  element: '#zearalenona',
-  gutter: '10px',
-  widthBoard: '190px',
-  click: function (el) {
-    alert(el.dataset.eid);
-  },
-  boards: [
-    {
-      id: '_testing',
-      title: 'Em análise',
-      class: 'success',
-    },
-    {
-      id: '_ownering',
-      title: 'Aguardando pagamento',
-      class: 'success',
-    },
-    {
-      id: '_waiting',
-      title: 'Aguardando amostra',
-      class: 'success',
-    },
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-
-    if (target == '_testing') {
-      $.post('/sample/testing/edit/zearalenona/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-    if (target == '_ownering') {
-      $.post('/sample/ownering/edit/zearalenona/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando pagamento' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-    if (target == '_waiting') {
-      $.post('/sample/waiting/edit/zearalenona/' + samplenumber, () => {
-
-      });
-      if (el.dataset.eid == "owner") {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      }
-      else {
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Aguardando amostra' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-      }
-
-    }
-
-
-  }
-});
-
-var scndZearalenona = new jKanban({
-  element: '#zearalenona2',
-  gutter: '10px',
-  widthBoard: '165px',
-  click: function (el) {
-    window.location.href = 'sample/edit/' + el.dataset.eid;
-  },
-  boards: [
-    {
-      id: '_scndTesting',
-      title: 'Em análise',
-      class: 'info'
-    },
-
-
-  ],
-  dropEl: function (el, target, source, sibling) {
-    const samplenumber = el.dataset.title.replace("Amostra", "");
-    var goTO = target;
-    if (goTO.indexOf("workmap") != -1) { //se o alvo for um board workmap qualquer
-      if (el.dataset.calibrator) {//cards P
-        return false;
-      }
-      else {
-        var mapName = goTO.toString();
-
-
-        $.post('/sample/mapedit/zearalenona/' + samplenumber + '/' + nowZKit + '/' + mapName, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-    if (target == '_scndTesting') {
-      if (el.dataset.calibrator) {//cards P não se movem para em analise
-        return false;
-      }
-
-      else {
-        $.post('/sample/scndTesting/edit/zearalenona/' + samplenumber + '/' + nowZKit, () => {
-
-        });
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
-      }
-    }
-
-
-  }
-});
-//função de criação dos id dos Pchild para a fumonisina
-var countZ = 0;
-
-function IdZCount() {
-  countZ++;
-  return countZ;
-}
-
+var scndAflatoxina = createWormapKanban('aflatoxina');
+var scndDeoxinivalenol = createWormapKanban('deoxinivalenol')
+var scndOcratoxina = createWormapKanban('ocratoxina');
+var scndT2toxina = createWormapKanban('t2toxina');
+var scndFumonisina = createWormapKanban('fumonisina');
+var scndZearalenona = createWormapKanban('zearalenona');
+
+let Wormapskanbans = {
+  aflatoxina: scndAflatoxina,
+  deoxinivalenol: scndDeoxinivalenol,
+  ocratoxina: scndOcratoxina,
+  t2toxina: scndT2toxina,
+  fumonisina: scndFumonisina,
+  zearalenona: scndZearalenona
+};
 
 //cria cedulas kanban
-$.get('/search/samples', (samples) => {
+$.get('/search/samplesActive', (samples) => {
   $(document).ready(function () {
     samples.forEach((sample) => {
       if (!sample.isCalibrator) {
-        $.get('/search/userFromSample/' + sample._id, (user) => {
-          //AFLATOXINA
-          if (sample.aflatoxina.active == true) {
-            if (sample.aflatoxina.status == "Nova" || sample.aflatoxina.status == "Sem amostra" || sample.aflatoxina.status == "A corrigir") {
-              if (user.debt) {
-                aflatoxina.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                aflatoxina.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status
-                });
+        $.get('/search/userFromRequisiton/' + sample.requisitionId, (user) => {
+          //Teste para cada toxina
+          for (let i = 0; i < ToxinasFull.length; i++) {
+            if (sample[ToxinasFull[i]].active == true) {
+              let toxina = ToxinasFull[i];
+              let status = sample[toxina].status;
+              let kanban = Analysiskanbans[toxina];
 
-              }
-
-            }
-            if (sample.aflatoxina.status == "Em análise" || sample.aflatoxina.status == "Mapa de Trabalho") {
-              if (user.debt) {
-                aflatoxina.addElement('_testing', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status,
-                  owner: "Devedor"
-                });
-
-              } else {
-
-                aflatoxina.addElement('_testing', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status
-                });
-                if (sample.aflatoxina.status == "Em análise") {
-                  scndAflatoxina.addElement('_scndTesting', {
-                    id: sample.samplenumber,
+              if (status == "Nova" || status == "Sem amostra" || status == "A corrigir") {
+                if (user.debt) {
+                  kanban.addElement('_waiting', {
+                    id: "owner",
                     title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.aflatoxina.status
+                    analyst: sample.responsible,
+                    status: status,
+                    owner: "Devedor"
                   });
                 }
-              }
-
-
-
-            }
-            if (sample.aflatoxina.status == "Aguardando pagamento") {
-              if (user.debt) {
-                aflatoxina.addElement('_ownering', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                aflatoxina.addElement('_ownering', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status,
-                });
-              }
-            }
-            if (sample.aflatoxina.status == "Aguardando amostra") {
-              if (user.debt) {
-                aflatoxina.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                aflatoxina.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.aflatoxina.status
-                });
-              }
-            }
-
-          }
-
-          //OCRATOXINA A
-          if (sample.ocratoxina.active == true) {
-            if (sample.ocratoxina.status == "Nova" || sample.ocratoxina.status == "Sem amostra" || sample.ocratoxina.status == "A corrigir") {
-              if (user.debt) {
-                ocratoxina.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                ocratoxina.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status
-                });
-
-              }
-
-            }
-            if (sample.ocratoxina.status == "Em análise" || sample.ocratoxina.status == "Mapa de Trabalho") {
-              if (user.debt) {
-                ocratoxina.addElement('_testing', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status,
-                  owner: "Devedor"
-                });
-
-                if (sample.ocratoxina.status == "Em análise") {
-                  scndOcratoxina.addElement('_scndTesting', {
+                else {
+                  kanban.addElement('_waiting', {
                     id: sample.samplenumber,
                     title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.ocratoxina.status
+                    analyst: sample.responsible,
+                    status: status
                   });
+
                 }
 
               }
 
-              else {
-                ocratoxina.addElement('_testing', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status
-                });
-
-                if (sample.ocratoxina.status == "Em análise") {
-                  scndOcratoxina.addElement('_scndTesting', {
+              if (status == "Em análise" || status == "Mapa de Trabalho") {
+                if (user.debt) {
+                  kanban.addElement('_testing', {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsible,
+                    status: status,
+                    owner: "Devedor"
+                  });
+                } else {
+                  kanban.addElement('_testing', {
                     id: sample.samplenumber,
                     title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.ocratoxina.status
+                    analyst: sample.responsible,
+                    status: status
+                  });
+                  if (status == "Em análise") {
+                    console.log(toxina)
+                    Wormapskanbans[toxina].addElement('_scndTesting', {
+                      id: sample.samplenumber,
+                      title: "Amostra " + sample.samplenumber,
+                      analyst: sample.responsible,
+                      status: status
+                    });
+                  }
+                }
+              }
+
+              if (status == "Aguardando pagamento") {
+                if (user.debt) {
+                  kanban.addElement('_ownering', {
+                    id: "owner",
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsible,
+                    status: status,
+                    owner: "Devedor"
                   });
                 }
-
-              }
-
-
-
-            }
-            if (sample.ocratoxina.status == "Aguardando pagamento") {
-              if (user.debt) {
-                ocratoxina.addElement('_ownering', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status
-                });
-              }
-              else {
-                ocratoxina.addElement('_ownering', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status,
-                  owner: "Devedor"
-                });
-
-              }
-
-            }
-            if (sample.ocratoxina.status == "Aguardando amostra") {
-              if (user.debt) {
-                ocratoxina.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status,
-                  owner: "Devedor"
-                });
-
-              }
-              else {
-                ocratoxina.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.ocratoxina.status
-                });
-              }
-            }
-
-
-          }
-
-          //DEOXINIVALENOL
-          if (sample.deoxinivalenol.active == true) {
-            if (sample.deoxinivalenol.status == "Nova" || sample.deoxinivalenol.status == "Sem amostra" || sample.deoxinivalenol.status == "A corrigir") {
-              if (user.debt) {
-                deoxinivalenol.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                deoxinivalenol.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status
-                });
-
-              }
-
-            }
-            if (sample.deoxinivalenol.status == "Em análise" || sample.deoxinivalenol.status == "Mapa de Trabalho") {
-              if (user.debt) {
-                deoxinivalenol.addElement('_testing', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status,
-                  owner: "Devedor"
-                });
-
-                if (sample.deoxinivalenol.status == "Em análise") {
-                  scndDeoxinivalenol.addElement('_scndTesting', {
+                else {
+                  kanban.addElement('_ownering', {
                     id: sample.samplenumber,
                     title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.deoxinivalenol.status
+                    analyst: sample.responsible,
+                    status: status,
                   });
                 }
               }
 
-              else {
-                deoxinivalenol.addElement('_testing', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status
-                });
-                if (sample.deoxinivalenol.status == "Em análise") {
-                  scndDeoxinivalenol.addElement('_scndTesting', {
-                    id: sample.samplenumber,
+              if (status == "Aguardando amostra") {
+                if (user.debt) {
+                  kanban.addElement('_waiting', {
+                    id: "owner",
                     title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.deoxinivalenol.status
+                    analyst: sample.responsible,
+                    status: status,
+                    owner: "Devedor"
                   });
                 }
-
-              }
-
-
-
-            }
-            if (sample.deoxinivalenol.status == "Aguardando pagamento") { //continuar aqui
-              if (user.debt) {
-                deoxinivalenol.addElement('_ownering', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status,
-                  owner: "Devendo"
-                });
-              }
-              else {
-                deoxinivalenol.addElement('_ownering', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status
-                });
-              }
-
-            }
-            if (sample.deoxinivalenol.status == "Aguardando amostra") {
-              if (user.debt) {
-                deoxinivalenol.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status,
-                  owner: "Devendo"
-                });
-              }
-              else {
-                deoxinivalenol.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.deoxinivalenol.status
-                });
-              }
-
-            }
-          }
-
-          //ZEARALENONA
-          if (sample.zearalenona.active == true) {
-            if (sample.zearalenona.status == "Nova" || sample.zearalenona.status == "Sem amostra" || sample.zearalenona.status == "A corrigir") {
-              if (user.debt) {
-                zearalenona.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                zearalenona.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status
-                });
-
-              }
-
-            }
-            if (sample.zearalenona.status == "Em análise" || sample.zearalenona.status == "Mapa de Trabalho") {
-              if (user.debt) {
-                zearalenona.addElement('_testing', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status,
-                  owner: "Devedor"
-                });
-                if (sample.zearalenona.status == "Em análise") {
-                  scndZearalenona.addElement('_scndTesting', {
+                else {
+                  kanban.addElement('_waiting', {
                     id: sample.samplenumber,
                     title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.zearalenona.status
-                  });
-                }
-
-              }
-              else {
-                zearalenona.addElement('_testing', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status
-                });
-                scndZearalenona.addElement('_scndTesting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status
-                });
-              }
-
-            }
-            if (sample.zearalenona.status == "Aguardando pagamento") {
-              if (user.debt) {
-                zearalenona.addElement('_ownering', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                zearalenona.addElement('_ownering', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status
-                });
-              }
-
-            }
-            if (sample.zearalenona.status == "Aguardando amostra") {
-              if (user.debt) {
-                zearalenona.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                zearalenona.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.zearalenona.status
-                });
-              }
-
-            }
-
-          }
-
-          //T-2 TOXINA
-          if (sample.t2toxina.active == true) {
-            if (sample.t2toxina.status == "Nova" || sample.t2toxina.status == "Sem amostra" || sample.t2toxina.status == "A corrigir") {
-              if (user.debt) {
-                t2toxina.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.t2toxina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                t2toxina.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.t2toxina.status
-                });
-              }
-
-            }
-            if (sample.t2toxina.status == "Em análise" || sample.t2toxina.status == "Mapa de Trabalho") {
-              if (user.debt) {
-                t2toxina.addElement('_testing', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.t2toxina.status,
-                  owner: "Devedor"
-                });
-                if (sample.t2toxina.status == "Em análise") {
-                  scndT2toxina.addElement('_scndTesting', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.t2toxina.status
+                    analyst: sample.responsible,
+                    status: status
                   });
                 }
               }
-              else {
-                t2toxina.addElement('_testing', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.t2toxina.status
-                });
-                if (sample.t2toxina.status == "Em análise") {
-                  scndT2toxina.addElement('_scndTesting', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.t2toxina.status
-                  });
-                }
-              }
-
-
             }
-            if (sample.t2toxina.status == "Aguardando pagamento") {
-              if (user.debt) {
-                t2toxina.addElement('_ownering', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.t2toxina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                t2toxina.addElement('_ownering', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.t2toxina.status
-                });
-              }
-
-            }
-            if (sample.t2toxina.status == "Aguardando amostra") {
-              if (user.debt) {
-                t2toxina.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.t2toxina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                t2toxina.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.t2toxina.status
-                });
-              }
-
-            }
-
-          }
-
-          //FUMOSININA
-          if (sample.fumonisina.active == true) {
-            if (sample.fumonisina.status == "Nova" || sample.fumonisina.status == "Sem amostra" || sample.fumonisina.status == "A corrigir") {
-              if (user.debt) {
-                fumonisina.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.fumonisina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                fumonisina.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.fumonisina.status
-                });
-              }
-
-            }
-            if (sample.fumonisina.status == "Em análise" || sample.fumonisina.status == "Mapa de Trabalho") {
-              if (user.debt) {
-                fumonisina.addElement('_testing', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.fumonisina.status,
-                  owner: "Devedor"
-                });
-                if (sample.fumonisina.status == "Em análise") {
-                  scndFumonisina.addElement('_scndTesting', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.fumonisina.status
-                  });
-                }
-              }
-              else {
-                fumonisina.addElement('_testing', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.fumonisina.status
-                });
-                if (sample.fumonisina.status == "Em análise") {
-                  scndFumonisina.addElement('_scndTesting', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsable,
-                    status: sample.fumonisina.status
-                  });
-                }
-              }
-
-
-            }
-            if (sample.fumonisina.status == "Aguardando pagamento") {
-              fumonisina.addElement('_ownering', {
-                id: sample.samplenumber,
-                title: "Amostra " + sample.samplenumber,
-                analyst: sample.responsable,
-                status: sample.fumonisina.status
-              });
-            }
-            if (sample.fumonisina.status == "Aguardando amostra") {
-              if (user.debt) {
-                fumonisina.addElement('_waiting', {
-                  id: "owner",
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.fumonisina.status,
-                  owner: "Devedor"
-                });
-              }
-              else {
-                fumonisina.addElement('_waiting', {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsable,
-                  status: sample.fumonisina.status
-                });
-              }
-
-            }
-
           }
         });
       }
-
-
-
     });
-
   });
 });
 
@@ -1428,6 +248,7 @@ $.get('/search/samples', (samples) => {
 
 
 // ______________________________________________________________________
+
 var nowAflaKit;
 var aflaLimit = 0;
 var AflaFilter = 0; //this variable will hide the second kanban if the selected radio hasn't a corresponding kit in mongo
@@ -1644,8 +465,6 @@ var nowOcraKit;
 var ocraLimit = 0;
 var ocraFilter;
 var ocraBegin;
-
-
 $('#KitRadioOcra').change(function () {
   ocraFilter = 0;
   for (i = ocraLimit; i > ocraBegin - 1; i--) {//delete previus workmap;
@@ -2636,6 +1455,16 @@ $('#KitRadioZ').change(function () {
 
   })
 });
+
+
+let nowActiveKits = {
+  aflatoxina: nowAflaKit,
+  deoxinivalenol: nowDeoxKit,
+  ocratoxina: nowOcraKit,
+  t2toxina: nowT2Kit,
+  fumonisina: nowFumKit,
+  zearalenona: nowZKit
+};
 
 
   //
