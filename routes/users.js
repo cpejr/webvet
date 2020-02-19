@@ -5,6 +5,7 @@ const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Email = require('../models/email');
+const Requisition = require('../models/requisition');
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function(req, res, next) {
@@ -111,11 +112,11 @@ router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
   const promises = [];
   const producersId = [];
 // ----------------------------------------- AQUI ------------------------------------------
-  req.body.producer.forEach((producerName) => {
-    const regex = new RegExp(producerName, 'i');
-    const promise = User.getOneByQuery({ name: regex });
-    promises.push(promise);
-  });
+  //req.body.producer.forEach((producerName) => {
+  // const regex = new RegExp(producerName, 'i');
+  //  const promise = User.getOneByQuery({ name: regex });
+  // promises.push(promise);
+  //});
 // ----------------------------------------- AQUI ------------------------------------------
   Promise.all(promises).then((producers) => {
     producers.forEach((producer) => {
