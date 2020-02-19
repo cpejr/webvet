@@ -21,7 +21,7 @@ const requisitionSchema = new mongoose.Schema({
   city: String,
   state: String,
   producer: String,
-  destination: [],
+  destination: String,
   farmname: String,
   mycotoxin: [String],
   status: {
