@@ -2,20 +2,20 @@
     <h1 class="form-show-title"> Visualização de Usuário</h1>
     <div>
       <div class="requisition-text col-md-12">
-        <label for="user[fullname]">Nome</label>
+        <label for="user[fullname]"></label>
         <input type="text" value="{{user.fullname}}" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo">
       </div>
       <div class="form-row">
         <div class="requisition-text col-md-6">
-          <label for="user[email]">Email</label>
+          <label for="user[email]"></label>
           <input type="email" value="{{user.email}}" name="user[email]" class="input-placeholder-green" placeholder="Email">
         </div>
         <div class="requisition-text col-md-6">
-          <label for="user[cellphone]">Celular</label>
+          <label for="user[cellphone]"></label>
           <input type="text" value="{{user.cellphone}}" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular">
         </div>
         <div class="requisition-text col-md-3">
-          <label for="user[phone]">Telefone</label>
+          <label for="user[phone]"></label>
           <input type="text" value="{{user.phone}}" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
         </div>
       </div>
@@ -42,38 +42,38 @@
       </div>
       <div class="form-row">
         <div class="requisition-text col-md-6">
-          <label for="user[address][street]">Rua</label>
+          <label for="user[address][street]"></label>
           <input type="text" value="{{user.address.street}}" name="user[address][street]" class="input-placeholder-green" placeholder="Endereço">
         </div>
         <div class="requisition-text col-md-3">
-          <label for="user[address][number]">Número</label>
+          <label for="user[address][number]"></label>
           <input type="text" value="{{user.address.number}}" name="user[address][number]" class="input-placeholder-green" placeholder="Número">
         </div>
         <div class="requisition-text col-md-3">
-          <label for="user[address][complement]">Complemento</label>
+          <label for="user[address][complement]"></label>
           <input type="text" value="{{user.address.complement}}" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
         </div>
       </div>
       <div>
         <div class="form-row">
           <div class="requisition-text col-md-6">
-            <label for="user[address][city]">Cidade</label>
-            <input type="text" value="{{user.address.city}}" name="user[address][city]">
+            <label for="user[address][city]"></label>
+            <input type="text" value="{{user.address.city}}" name="user[address][city]" placeholder="Cidade">
           </div>
           <div class="requisition-text col-md-3">
-            <label for="user[address][state]">Estado</label>
-            <input type="text" value="{{user.address.state}}" name="user[address][state]">
+            <label for="user[address][state]"></label>
+            <input type="text" value="{{user.address.state}}" name="user[address][state]" placeholder="Estado">
           </div>
           <div class="requisition-text col-md-3">
-            <label for="user[address][cep]">CEP</label>
-            <input type="text" value="{{user.address.cep}}" class="requisition-text" name="user[address][cep]">
+            <label for="user[address][cep]"></label>
+            <input type="text" value="{{user.address.cep}}" class="requisition-text" name="user[address][cep]" placeholder="CEP">
           </div>
         </div>
       </div>
 
       <div class="form-row">
         <div id="box-radio" class="col-md-12 ml-3" align="left">
-          <label class="form-show-label">Tipo</label>
+          <label class="form-show-label"></label>
           <div id="radio" class="form-check form-check-inline">
             {{#compare user.type "Produtor"}}
               <input id="producer-radio" checked class="form-check-input" type="radio" name="user[type]" value="Produtor">
