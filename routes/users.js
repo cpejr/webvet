@@ -8,7 +8,7 @@ const Email = require('../models/email');
 const Requisition = require('../models/requisition');
 
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function(req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res, next) {
   User.getAll().then((users) => {
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
@@ -19,7 +19,7 @@ router.get('/', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/pending', auth.isAuthenticated, function(req, res, next) {
+router.get('/pending', auth.isAuthenticated, function (req, res, next) {
 
   User.getAll().then((users) => {
     //console.log(users);
@@ -31,7 +31,7 @@ router.get('/pending', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/associated', auth.isAuthenticated, function(req, res, next) {
+router.get('/associated', auth.isAuthenticated, function (req, res, next) {
 
   User.getAll().then((users) => {
     console.log(users);
@@ -43,7 +43,7 @@ router.get('/associated', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/producers', auth.isAuthenticated, function(req, res, next) {
+router.get('/producers', auth.isAuthenticated, function (req, res, next) {
 
   User.getAll().then((users) => {
     console.log(users);
@@ -56,7 +56,7 @@ router.get('/producers', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/managers', auth.isAuthenticated, function(req, res, next) {
+router.get('/managers', auth.isAuthenticated, function (req, res, next) {
 
   User.getAll().then((users) => {
     const loggedID = req.session.user._id
@@ -70,7 +70,7 @@ router.get('/managers', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/managers/:id', auth.isAuthenticated, function(req, res, next) {
+router.get('/managers/:id', auth.isAuthenticated, function (req, res, next) {
 
   User.getAssociatedMaganersById(req.params.id).then((users) => {
     console.log(users);
@@ -89,7 +89,7 @@ router.get('/managers/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 
-router.get('/producers/:id', auth.isAuthenticated, function(req, res, next) {
+router.get('/producers/:id', auth.isAuthenticated, function (req, res, next) {
 
   User.getAssociatedProducersById(req.params.id).then((users) => {
     console.log(users);
@@ -107,30 +107,30 @@ router.get('/producers/:id', auth.isAuthenticated, function(req, res, next) {
 
 });
 // ----------------------------------------- AQUI ------------------------------------------
-router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
+router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   const { user } = req.body;
   const promises = [];
   const producersId = [];
-// ----------------------------------------- AQUI ------------------------------------------
+  // ----------------------------------------- AQUI ------------------------------------------
   //req.body.producer.forEach((producerName) => {
   // const regex = new RegExp(producerName, 'i');
   //  const promise = User.getOneByQuery({ name: regex });
   // promises.push(promise);
   //});
-// ----------------------------------------- AQUI ------------------------------------------
+  // ----------------------------------------- AQUI ------------------------------------------
   Promise.all(promises).then((producers) => {
     producers.forEach((producer) => {
       producersId.push(producer.id);
     });
-// ----------------------------------------- AQUI ------------------------------------------
+    // ----------------------------------------- AQUI ------------------------------------------
     user.associatedProducers = producersId;
-    console.log (user.fullname);
+    console.log(user.fullname);
     User.update(req.params.id, user).then(() => {
-     req.flash('success', 'Usuário editado com sucesso.');
-     res.redirect('/users/show/'+req.params.id);
+      req.flash('success', 'Usuário editado com sucesso.');
+      res.redirect('/users/show/' + req.params.id);
     }).catch((error) => {
-     console.log(error);
-     res.redirect('/error');
+      console.log(error);
+      res.redirect('/error');
     });
   }).catch((error) => {
     console.log(error);
@@ -139,11 +139,13 @@ router.post('/edit/:id', auth.isAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/show/:id', function(req, res, next) {
-  User.getById(req.params.id).then((user) => {
+router.get('/show/:id', function (req, res, next) {
+  User.getById(req.params.id).then((actualUser) => {
     User.getAll().then((users) => {
-      console.log(user);
-      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', user, users, });
+      user = req.session.user;
+      console.log(user.fullname);
+      console.log(actualUser);
+      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', actualUser, user, users, });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -154,7 +156,7 @@ router.get('/show/:id', function(req, res, next) {
   });
 });
 
-router.put('/approve/:id', auth.isAuthenticated, function(req, res, next) {
+router.put('/approve/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     Email.userApprovedEmail(user).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário aprovado.');
@@ -172,7 +174,7 @@ router.put('/approve/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 
-router.put('/reject/:id', auth.isAuthenticated, function(req, res, next) {
+router.put('/reject/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     Email.userRejectedEmail(user).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
@@ -187,9 +189,9 @@ router.put('/reject/:id', auth.isAuthenticated, function(req, res, next) {
   });
   req.flash('success', 'Usuário bloqueado com sucesso.');
   res.redirect('/users/pending');
-  });
+});
 
-router.put('/block/:id', auth.isAuthenticated, function(req, res, next) {
+router.put('/block/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     Email.userRejectedEmail(user).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
@@ -205,7 +207,7 @@ router.put('/block/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 
-router.get('/addManager', auth.isAuthenticated,  function(req, res, next) {
+router.get('/addManager', auth.isAuthenticated, function (req, res, next) {
   User.getById("5ce8401566fee16478f3f43a").then((manager) => {
     // Adiciona o segundo id ao primeiro
     User.addManager("5ce8401566fee16478f3f43a", "5ce83ed566fee16478f3f435").catch((error) => {
@@ -216,29 +218,29 @@ router.get('/addManager', auth.isAuthenticated,  function(req, res, next) {
   });
 });
 
-router.put('/approvepayment/:id', auth.isAuthenticated, function(req, res, next) {
+router.put('/approvepayment/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     if (user.debt) {
       const user2 = {
         debt: false
       };
-      User.update(req.params.id, user2).then(()=>{
+      User.update(req.params.id, user2).then(() => {
         req.flash('success', 'Pagamento aprovado com sucesso.');
         res.redirect('/users');
       }).catch((error) => {
         console.log(error);
         res.redirect('/error');
       });
-      } else {
+    } else {
       const user2 = {
         debt: true
       };
-      User.update(req.params.id, user2).then(()=>{
+      User.update(req.params.id, user2).then(() => {
         req.flash('success', 'Pagamento aprovado com sucesso.');
         res.redirect('/users');
       }).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
+        console.log(error);
+        res.redirect('/error');
       });
     }
   }).catch((error) => {
