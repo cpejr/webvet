@@ -42,6 +42,13 @@ const reportRouter = require('./routes/report');
 const app = express();
 
 /**
+ * Globals
+ */
+ToxinasSigla = ['AFLA', 'DON', 'FBS', 'OTA', 'T2', 'ZEA'];
+ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+
+
+/**
  *  Database setup
  */
 
