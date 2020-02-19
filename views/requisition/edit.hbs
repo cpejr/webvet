@@ -153,16 +153,16 @@
       </div>
 
       <div class="form-check">
-        <input checked id="Gado de Leite" class="form-check-input destination" type="radio"
-          name="requisition[destination]" value="Bovinos">
-        <label for="Gado de Leiteleite" class="radio-text form-check-label mr-3"> Gado de Leite </label>
+        <input id="Gado de Leite" class="form-check-input destination" type="radio" name="requisition[destination]"
+          value="Gado de Leite">
+        <label for="Gado de Leite" class="radio-text form-check-label mr-3"> Gado de Leite </label>
       </div>
     </div>
 
     <div class="column">
       <div class="form-check">
         <input id="Gado de Corte" class="form-check-input destination" type="radio" name="requisition[destination]"
-          value="Bovinos">
+          value="Gado de Corte">
         <label for="Gado de Corte" class="radio-text form-check-label mr-3"> Gado de Corte </label>
       </div>
 
@@ -206,9 +206,9 @@
       </div>
 
       <div class="form-check">
-        <input id="Matéria-Prima(Fábrica de Ração)" class="form-check-input destination" type="radio"
-          name="requisition[destination]" value="Matéria-Prima">
-        <label for="Matéria-Prima(Fábrica de Ração)" class="radio-text form-check-label mr-3"> Matéria-Prima(Fábrica de
+        <input id="Matéria-Prima" class="form-check-input destination" type="radio" name="requisition[destination]"
+          value="Matéria-Prima">
+        <label for="Matéria-Prima" class="radio-text form-check-label mr-3"> Matéria-Prima(Fábrica de
           Ração) </label>
       </div>
     </div>
@@ -225,7 +225,7 @@
   </div>
 
   {{#if nova}}
-      <input type="checkbox" style="display: none;" id="novaCheckId" name="novaCheck" value="isChecked"></input>
+    <input type="checkbox" style="display: none;" id="novaCheckId" name="novaCheck" value="isChecked"></input>
   {{/if}}
 
 </form>
@@ -233,7 +233,7 @@
   {{#unless nova}}
     <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
   {{/unless}}
- 
+
   {{#if nova}}
     <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
       requisição</button>
@@ -245,8 +245,8 @@
 <script>
   //SetCheckbox selected
   $(document).ready(function () {
-    if ($('#{{requisition.destination}}').length)
-      $('#{{requisition.destination}}').prop("checked", true);
+    if ($('[id="{{requisition.destination}}"]').length)
+      $('[id="{{requisition.destination}}"]').prop("checked", true);
     else {
       $('#Outros').prop("checked", true);
       $('#Outros').val("{{requisition.destination}}");
