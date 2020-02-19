@@ -45,19 +45,19 @@
         class="requisition-text" placeholder="Estado">
     </div>
     <div class="requisition-text col-md-3">
-      <input id="cep" type="text" name="requisition[address][cep]" value="{{requisition.address.cep}}"
-        class="requisition-text" placeholder="CEP">
+      <input id="cep" type="number" name="requisition[address][cep]" value="{{requisition.address.cep}}"
+        class="requisition-text" placeholder="CEP" title="Um CEP válido tem 8 caracteres!">
     </div>
     <div class="requisition-text col-md-11">
       <input id="resposible" type="text" name="requisition[responsible]" class="requisition-text"
         placeholder="Responsável pela amostra" value="{{requisition.responsible}}">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="phone" type="text" name="requisition[client][phone]" value="{{requisition.client.phone}}"
+      <input id="phone" type="number" name="requisition[client][phone]" value="{{requisition.client.phone}}"
         class="requisition-text" placeholder="Tel. com DDD">
     </div>
     <div class=" requisition-text col-md-5">
-      <input id="cellphone" type="text" name="requisition[client][cellphone]" value="{{requisition.client.cellphone}}"
+      <input id="cellphone" type="number" name="requisition[client][cellphone]" value="{{requisition.client.cellphone}}"
         class="requisition-text" placeholder="Cel. com DDD">
     </div>
     <div class="requisition-text col-md-11">
@@ -95,7 +95,7 @@
         value="{{requisition.packingtype}}">
     </div>
     <div class="requisition-text col-md-4">
-      <input type="text" name="requisition[receivedquantity]" class="requisition-text"
+      <input type="number" name="requisition[receivedquantity]" class="requisition-text"
         value="{{requisition.receivedquantity}}" placeholder="Quantidade Recebida">
     </div>
     <div class="requisition-text col-md-4">
