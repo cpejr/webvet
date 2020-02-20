@@ -42,6 +42,23 @@ const reportRouter = require('./routes/report');
 const app = express();
 
 /**
+ * Globals
+ */
+ToxinasSigla = ['AFLA', 'DON', 'FBS', 'OTA', 'T2', 'ZEA'];
+ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisina', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
+ToxinasAll = {}; 
+
+for (let i = 0; i < ToxinasFull.length; i++) {
+  ToxinasAll[ToxinasFull[i]] = {
+    Full: ToxinasFull[i],
+    Sigla: ToxinasSigla[i],
+    Formal: ToxinasFormal[i]
+  }  
+}
+
+
+/**
  *  Database setup
  */
 

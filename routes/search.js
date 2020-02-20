@@ -114,8 +114,43 @@ router.get('/userFromRequisiton/:requisitonID', auth.isAuthenticated, (req, res)
 router.get('/kits', auth.isAuthenticated, (req, res) => {
   Kit.getAll().then((kits) => {
     res.send(kits);
-    console.log(kits);
   }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.get('/kits/:toxinafull', auth.isAuthenticated, (req, res) => {
+
+  let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)]
+
+  //Correção provisória do problema com a sigla
+  if (sigla === "FBS")
+    sigla = "FUMO"
+
+  Kit.getByProductCode(sigla + " Romer").then((kits) => {
+    res.send(kits);
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.get('/kits/:toxinafull/:kittype', auth.isAuthenticated, (req, res) => {
+
+  let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)]
+
+  //Correção provisória do problema com a sigla
+  if (sigla === "FBS")
+    sigla = "FUMO"
+
+  Kit.getByCustomQuery({
+    productCode: sigla + " Romer",
+    kitType: req.params.kittype,
+  }).then((kits) => {
+    res.send(kits);
+  }).catch((error) => {
+    console.log(error);
     res.redirect('/error');
   });
 });

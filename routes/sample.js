@@ -92,7 +92,7 @@ router.post('/totest/edit/:mycotoxin/:samplenumber', function (req, res, next) {
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+      res.render('admin/queue', {toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -138,7 +138,7 @@ router.post('/testing/edit/:mycotoxin/:samplenumber', function (req, res, next) 
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+      res.render('admin/queue', {toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -148,35 +148,32 @@ router.post('/testing/edit/:mycotoxin/:samplenumber', function (req, res, next) 
     res.redirect('/error');
   });
 });
-router.post('/setActiveKit/:code/:kitActiveID', function (req, res, next) { //manutenção
-  Kit.getByProductCode(req.params.code).then((kits) => {
-    var size = kits.length;
-    for (i = 0; i < size; i++) {
-      if (kits[i]._id == req.params.kitActiveID) {
-        Kit.setActiveStatus(req.params.kitActiveID, true).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
-        });
-      }
-      else {
-        Kit.setActiveStatus(kits[i]._id, false).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
-        });
-      }
-    }
 
+router.post('/setActiveKit/:toxinafull/:kitActiveID', function (req, res, next) {
+  //Set active to inactive
+  let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)]
 
+  //Correção provisória do problema com a sigla
+  if (sigla === "FBS")
+    sigla = "FUMO"
+
+  Kit.getActiveID(sigla).then((kit) => {
+    if (kit)
+      Kit.setActiveStatus(kit._id, false);
+  }).then(() => {
+    //Update new one
+    Kit.setActiveStatus(req.params.kitActiveID, true).then((response) => {
+      res.send(response);
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
-
-
-
-
-
 });
+
 router.post('/ownering/edit/:mycotoxin/:samplenumber', function (req, res, next) {
 
 
@@ -210,7 +207,7 @@ router.post('/ownering/edit/:mycotoxin/:samplenumber', function (req, res, next)
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+      res.render('admin/queue', {toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -255,7 +252,7 @@ router.post('/waiting/edit/:mycotoxin/:samplenumber', function (req, res, next) 
     }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+      res.render('admin/queue', {toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -317,7 +314,7 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID', function (req, 
       Workmap.removeSample(mapArray[mapPosition], sampleedit._id).then(() => {
         Sample.update(sampleedit._id, sampleedit).then(() => {
           console.log(sampleedit);
-          res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+          res.render('admin/queue', {toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
         }).catch((error) => {
           console.log(error);
           res.redirect('/error');
@@ -349,7 +346,6 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
     var mapPosition = mapPosition.replace("_workmap", "");
     var mapPosition = Number(mapPosition) - 1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
     var originMapPosition;
-    console.log(kit);
     Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
       const sampleedit = sample[0]; //sample is a array with one content, to work with it just catch the first element
 
@@ -417,12 +413,12 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
             }
 
             if (isAdded) {
-              res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });//if alredy exists, dont add
+              res.render('admin/queue', {toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });//if alredy exists, dont add
             }
             else {
               if (originMapPosition == "Sem mapa") {//the sample never was in a workmap before
                 Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then(() => { //else, it will be add
-                  res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+                  res.render('admin/queue', {toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
                 }).catch((error) => {
                   console.log(error);
                   res.redirect('/error');
@@ -431,7 +427,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
               else { //the sample was an workmap before
                 Workmap.removeSample(mapArray[originMapPosition], sampleedit._id).then(() => {//remove from the previus workmap
                   Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then(() => { //else, it will be add
-                    res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+                    res.render('admin/queue', {toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
                   }).catch((error) => {
                     console.log(error);
                     res.redirect('/error');

@@ -251,6 +251,16 @@ class Kit {
     });
   }
 
+  static getByCustomQuery(query) {
+    return new Promise((resolve, reject) => {
+      KitModel.find(query).exec().then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   /**
    * Create a new Kit
    * @param {Object} kit - Kit Document Data
@@ -274,7 +284,7 @@ class Kit {
    */
   static update(id, kit) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, kit).then((res)=>{
+      KitModel.findByIdAndUpdate(id, kit).then((res) => {
         resolve(res);
       }).catch((err) => {
         reject(err);
@@ -318,7 +328,9 @@ class Kit {
    */
   static setActiveStatus(id, status) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { active: status } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, { $set: { active: status } }).then((res) => {
+        resolve(res)
+      }).catch((err) => {
         reject(err);
       });
     });
@@ -449,7 +461,7 @@ class Kit {
 
   static getActiveID(siglaToxina) {
     //Correção provisória do problema com a sigla
-    if (siglaToxina == "FBS")
+    if (siglaToxina === "FBS")
       siglaToxina = "FUMO"
 
     return new Promise((resolve, reject) => {
@@ -464,7 +476,7 @@ class Kit {
 
   static getActive(siglaToxina) {
     //Correção provisória do problema com a sigla
-    if (siglaToxina == "FBS")
+    if (siglaToxina === "FBS")
       siglaToxina = "FUMO"
 
     return new Promise((resolve, reject) => {
@@ -500,7 +512,7 @@ class Kit {
     let valueObject = [];
     let result;
     return new Promise((resolve) => {
-       for (i = 0; i < listIds.length; i++) {
+      for (i = 0; i < listIds.length; i++) {
         if (validIds[i]) {
           try {
             result = new Promise((resolve, reject) => {
@@ -518,7 +530,7 @@ class Kit {
         }
         console.log("valueObject: ");
         console.log(valueObject);
-      } 
+      }
       Promise.all(valueObject).then(function finalizar() {
         console.log("ValueObject esta pronto? ");
         console.log(valueObject);

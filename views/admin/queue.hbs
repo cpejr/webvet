@@ -1,390 +1,49 @@
-
-
 <div class="queue-tabs">
-  {{!-- ------------------------------------------------------------------------------------------------------ --}}
-  <input type="radio" name="queue-tabs" id="tab1" checked="checked">
-  <label for="tab1">Aflatoxinas</label>
-  <div class="queue-tab">
-    <div id="aflatoxina">
-    </div>
-    <div class="form-check form-check-inline">
-      <div class="lote" id="KitRadioAfla">
-
-        <p>
-          <a class="radioSub"> Selecione o Kit:</a>
-
-
-          <div class="btn-lote">
-            <input  class="radio-queue" name="Kit" type="radio" id="KitAflaA" value="0">A</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitAflaB" value="0" >B</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitAflaC" value="0" >C</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitAflaD" value="0" >D</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitAflaE" value="0" >E</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitAflaF" value="0" >F</input>
-          </div>
-
-
-        </p>
+  {{#each toxinas}}
+    <input type="radio" name="queue-tabs" id="tab{{@index}}" {{#if @first}} checked="checked" {{/if}}>
+    <label class="Main" for="tab{{@index}}">{{Formal}}</label>
+    <div class="queue-tab">
+      <div id="{{Full}}">
       </div>
-      <div class="btn-count">
-        <button class="btn btn-success" id="countkitsAfla"> </button>
-      </div>
-    </div>
+      <div class="d-inline-flex justify-content-between w-100 mt-2">
+        <div class="d-flex align-items-center">
+          <div class="loteradio" id="KitRadio{{Full}}" data-toxin="{{Full}}">
 
-   <div id="hideAfla" class="form-disabled">
-     <div id="aflatoxina2" >
-     </div>
-
-     <div class="btns-kanban ">
-
-
-       <form action="/allsamples" method="post">
-         <div class="btn-minus">
-            <a href="/allsamples" class="btn btn-success"> Finalizar</a>
-         </div>
-       </form>
-       
-
-       <div class="btn-print">
-         <a href="/printtemplate" class="btn btn-success"> Imprimir</a>
-       </div>
-       <div class="btn-scnd-print">
-         <a href="/previousmap" class="btn btn-success"> Mapa anterior</a>
-       </div>
-
-     </div>
-
-   </div>
-
-
-  </div>
-  {{!-- ------------------------------------------------------------------------------------------------------ --}}
-  <input type="radio" name="queue-tabs" id="tab3">
-  <label for="tab3">Deoxinivalenol</label>
-  <div class="queue-tab">
-
-    <div id="deoxinivalenol">
-    </div>
-    <div class="form-check form-check-inline">
-      <div class="lote" id="KitRadioDeox">
-
-        <p>
-          <a class="radioSub"> Selecione o Kit:</a>
-
-
-          <div class="btn-lote">
-            <input checked class="radio-queue   " name="Kit" type="radio" id="KitDeoxA">A</input>
+            <a class="mr-1"> Selecione o Kit:</a>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}A" data-letter="A" value="0"></input>
+            <label for="Kit{{Full}}A" class="radio-text form-check-label mr-3"> A </label>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}B" data-letter="B" value="0"></input>
+            <label for="Kit{{Full}}B" class="radio-text form-check-label mr-3"> B </label>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}C" data-letter="C" value="0"></input>
+            <label for="Kit{{Full}}C" class="radio-text form-check-label mr-3"> C </label>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}D" data-letter="D" value="0"></input>
+            <label for="Kit{{Full}}D" class="radio-text form-check-label mr-3"> D </label>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}E" data-letter="E" value="0"></input>
+            <label for="Kit{{Full}}E" class="radio-text form-check-label mr-3"> E </label>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}F" data-letter="F" value="0"></input>
+            <label for="Kit{{Full}}F" class="radio-text form-check-label mr-3"> F </label>
           </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitDeoxB" >B</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitDeoxC"  >C</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue   " name="Kit" type="radio" id="KitDeoxD">D</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitDeoxE" >E</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitDeoxF"  >F</input>
-          </div>
-
-        </p>
-      </div>
-      <div class="btn-count">
-        <button class="btn btn-success" id="countkitsDeox"> </button>
-      </div>
-    </div>
-      <div class=" form-disabled" id="hideDeox">
-        <div id="deoxinivalenol2">
         </div>
+        <button class="btn btn-success" id="countkits{{Full}}">0</button>
+      </div>
 
-
-
-        <div class="btns-kanban">
-
-       
-       <form action="/allsamples" method="post">
-         <div class="btn-minus">
-            <a href="/allsamples" class="btn btn-success"> Finalizar</a>
-         </div>
-       </form>
-       
-            <div class="btn-print">
-              <a href="/printtemplate" class="btn btn-success"> Imprimir</a>
-              </div>
-            <div class="btn-scnd-print">
-            <a href="/previousmap" class="btn btn-success"> Mapa anterior</a>
+      <div id="hide{{Full}}" class="form-disabled">
+        <div id="{{Full}}2">
+        </div>
+        <div class="btns-kanban ">
+          <form action="/allsamples" method="post">
+            <div class="btn-minus">
+              <a href="/allsamples" class="btn btn-success"> Finalizar</a>
             </div>
-         
-        </div>
-      </div>
-   </div>
-  {{!-- ------------------------------------------------------------------------------------------------------ --}}
-<input type="radio" name="queue-tabs" id="tab5">
-  <label for="tab5">Fumonisinas</label>
-  <div class="queue-tab">
-    <div id="fumonisina">
-    </div>
-    <div class="form-check form-check-inline">
-      <div class="lote" id="KitRadioFum">
-
-        <p>
-          <a class="radioSub"> Selecione o Kit:</a>
-
-
-          <div class="btn-lote">
-            <input class="radio-queue   " name="Kit" type="radio" id="KitFumA" >A</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitFumB" >B</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitFumC"  >C</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue   " name="Kit" type="radio" id="KitFumD" >D</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitFumE" >E</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitFumF"  >F</input>
-          </div>
-
-        </p>
-      </div>
-      <div class="btn-count">
-        <button class="btn btn-success" id="countkitsFumo"> </button>
-      </div>
-    </div>
-    <div class="form-disabled" id="hideFum">
-        <div id="fumonisina2">
-        </div>
-
-
-
-        <div class="btns-kanban">
-
-      
-       <form action="/allsamples" method="post">
-         <div class="btn-minus">
-            <a href="/allsamples" class="btn btn-success"> Finalizar</a>
-         </div>
-       </form>
-       
+          </form>
           <div class="btn-print">
             <a href="/printtemplate" class="btn btn-success"> Imprimir</a>
           </div>
           <div class="btn-scnd-print">
             <a href="/previousmap" class="btn btn-success"> Mapa anterior</a>
           </div>
-          
-        </div>
-    </div>
-  </div>
-  {{!-- ------------------------------------------------------------------------------------------------------ --}}
-
-  <input type="radio" name="queue-tabs" id="tab2">
-  <label for="tab2">Ocratoxina A</label>
-  <div class="queue-tab">
-    <div id="ocratoxina">
-    </div>
-    <div class="form-check form-check-inline">
-      <div class="lote" id="KitRadioOcra">
-
-        <p>
-          <a class="radioSub"> Selecione o Kit: </a>
-
-
-          <div class="btn-lote">
-            <input class="radio-queue   " name="Kit" type="radio"  id="KitOcraA">A</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitOcraB">B</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitOcraC" >C</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue   " name="Kit" type="radio"  id="KitOcraD">D</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitOcraE">E</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitOcraF" >F</input>
-          </div>
-
-        </p>
-      </div>
-      <div class="btn-count">
-        <button class="btn btn-success" id="countkitsOcra"></button>
-      </div>
-    </div>
-      <div class="form-disabled" id="hideOcra">
-        <div id="ocratoxina2">
-        </div>
-
-
-
-        <div class="btns-kanban">
-
-        
-       <form action="/allsamples" method="post">
-         <div class="btn-minus">
-            <a href="/allsamples" class="btn btn-success"> Finalizar</a>
-         </div>
-       </form>
-       
-        
         </div>
       </div>
     </div>
-
-{{!-- ------------------------------------------------------------------------------------------------------ --}}
-  
-   {{!-- ------------------------------------------------------------------------------------------------------ --}}
-
-  <input type="radio" name="queue-tabs" id="tab4">
-  <label for="tab4">T-2 toxina</label>
-  <div class="queue-tab">
-    <div id="t2toxina">
-    </div>
-    <div class="form-check form-check-inline">
-      <div class="lote" id="KitRadioT">
-
-        <p>
-          <a class="radioSub"> Selecione o Kit:</a>
-
-
-          <div class="btn-lote">
-            <input checked class="radio-queue   " name="Kit" type="radio" id="KitTA" >A</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitTB">B</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitTC">C</input>
-          </div><div class="btn-lote">
-            <input class="radio-queue   " name="Kit" type="radio" id="KitTD" >D</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitTE">E</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitTF">F</input>
-          </div>
-
-        </p>
-      </div>
-      <div class="btn-count">
-        <button class="btn btn-success" id="countkits"></button>
-      </div>
-    </div>
-    <div id="hideT" class="form-disabled">
-      <div id="t2toxina2">
-      </div>
-
-
-
-      <div class="btns-kanban">
-
-       <form action="/allsamples" method="post">
-         <div class="btn-minus">
-            <a href="/allsamples" class="btn btn-success"> Finalizar</a>
-         </div>
-       </form>
-       
-        <div class="btn-print">
-         <a href="/printtemplate" class="btn btn-success"> Imprimir</a>
-       </div>
-       <div class="btn-scnd-print">
-         <a href="/previousmap" class="btn btn-success"> Mapa anterior</a>
-       </div>
-      </div>
-
-    </div>
-  </div>
-{{!-- ------------------------------------------------------------------------------------------------------ --}}
-  
-{{!-- ------------------------------------------------------------------------------------------------------ --}}
-  <input type="radio" name="queue-tabs" id="tab6">
-  <label for="tab6">Zearalenona</label>
-  <div class="queue-tab">
-    <div id="zearalenona">
-    </div>
-    <div class="form-check form-check-inline">
-      <div class="lote" id="KitRadioZ">
-
-        <p>
-          <a class="radioSub"> Selecione o Kit:</a>
-
-
-          <div class="btn-lote">
-            <input class="radio-queue   " name="Kit" type="radio" id="KitZA">A</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitZB">B</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitZC">C</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue   " name="Kit" type="radio" id="KitZD">D</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue  " name="Kit" type="radio" id="KitZE">E</input>
-          </div>
-          <div class="btn-lote">
-            <input class="radio-queue " type="radio" name="Kit" id="KitZF">F</input>
-          </div>
-
-        </p>
-      </div>
-      <div class="btn-count">
-        <button class="btn btn-success" id="countkitsZ"> </button>
-      </div>
-    </div>
-    <div class="form-disabled" id="hideZ">
-      <div id="zearalenona2">
-      </div>
-
-
-
-      <div class="btns-kanban">
-
-       <form action="/allsamples" method="post">
-         <div class="btn-minus">
-            <a href="/allsamples" class="btn btn-success"> Finalizar</a>
-         </div>
-       </form>
-       
-          <div class="btn-print">
-            <a href="/printtemplate" class="btn btn-success"> Imprimir</a>
-          </div>
-          <div class="btn-scnd-print">
-            <a href="/previousmap" class="btn btn-success"> Mapa anterior</a>
-          </div>
-          
-
-
-    </div>
-  </div>
-</div>
-
-
-<script src="/javascripts/queue.js"></script>
-<script src="/javascripts/sample.js"></script>
+  {{/each}}
+  <script src="/javascripts/queue.js"></script>

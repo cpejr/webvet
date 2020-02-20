@@ -712,7 +712,7 @@ class Sample {
       });
     });
   }
-
+  
   static getAllActive() {
     return new Promise((resolve, reject) => {
 

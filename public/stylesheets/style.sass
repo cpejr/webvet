@@ -160,6 +160,10 @@ header
   align-items: center
   justify-content: center
 
+input.center
+  vertical-align: middle
+  margin-top: -1px
+
 .login-box1
   margin: 20px
   margin-top: 120px
@@ -1134,7 +1138,7 @@ li
   padding-bottom: 0
   padding-top: 10px
 
-.queue-tabs label
+.queue-tabs label.Main
   order: 1
   display: block
   padding: 1rem 2rem
@@ -1161,10 +1165,10 @@ li
 .queue-tabs input[type="radio"]
 	display: none
 
-.queue-tabs input[type="radio"]:checked + label
+.queue-tabs input[type="radio"]:checked + label[class="Main"]
 	background: #2fab4b
 
-.queue-tabs input[type="radio"]:checked + label + .queue-tab
+.queue-tabs input[type="radio"]:checked + label[class="Main"] + .queue-tab
 	display: block
 
 
