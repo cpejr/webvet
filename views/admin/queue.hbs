@@ -10,17 +10,23 @@
           <div class="loteradio" id="KitRadio{{Full}}" data-toxin="{{Full}}">
 
             <a class="mr-1"> Selecione o Kit:</a>
-            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}A" data-letter="A" value="0"></input>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}A" data-letter="A"
+              value="0"></input>
             <label for="Kit{{Full}}A" class="radio-text form-check-label mr-3"> A </label>
-            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}B" data-letter="B" value="0"></input>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}B" data-letter="B"
+              value="0"></input>
             <label for="Kit{{Full}}B" class="radio-text form-check-label mr-3"> B </label>
-            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}C" data-letter="C" value="0"></input>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}C" data-letter="C"
+              value="0"></input>
             <label for="Kit{{Full}}C" class="radio-text form-check-label mr-3"> C </label>
-            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}D" data-letter="D" value="0"></input>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}D" data-letter="D"
+              value="0"></input>
             <label for="Kit{{Full}}D" class="radio-text form-check-label mr-3"> D </label>
-            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}E" data-letter="E" value="0"></input>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}E" data-letter="E"
+              value="0"></input>
             <label for="Kit{{Full}}E" class="radio-text form-check-label mr-3"> E </label>
-            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}F" data-letter="F" value="0"></input>
+            <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}F" data-letter="F"
+              value="0"></input>
             <label for="Kit{{Full}}F" class="radio-text form-check-label mr-3"> F </label>
           </div>
         </div>
@@ -45,5 +51,13 @@
         </div>
       </div>
     </div>
+    <script>
+      $(document).ready(function () {
+        let el = $("#Kit{{Full}}{{active}}");
+        if (el) {
+          $(el).prop("checked", true).change();
+        }
+      });
+    </script>
   {{/each}}
   <script src="/javascripts/queue.js"></script>

@@ -80,8 +80,8 @@ router.post('/:status/edit/:mycotoxin/:samplenumber', function (req, res, next) 
 
 
 
-    Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
+    Sample.update(sampleedit._id, sampleedit).then((res) => {
+      res.send(res)
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -137,7 +137,7 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID', function (req, 
       Workmap.removeSample(mapArray[mapPosition], sampleedit._id).then(() => {
         Sample.update(sampleedit._id, sampleedit).then(() => {
           console.log(sampleedit);
-          res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
+          res.send(sampleedit);
         }).catch((error) => {
           console.log(error);
           res.redirect('/error');
@@ -173,49 +173,12 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
       const sampleedit = sample; //sample is a array with one content, to work with it just catch the first element
 
       Kit.getWorkmapsById(kit._id).then((mapArray) => {//access the kit and get the workmaps
-        if (req.params.mycotoxin == "aflatoxina") { //bellow the sample atributes are seted
-          sampleedit.aflatoxina.status = "Mapa de Trabalho";
-          originMapPosition = sampleedit.aflatoxina.mapReference;
-          sampleedit.aflatoxina.mapReference = req.params.mapreference;
-          sampleedit.aflatoxina.workmapId = mapArray[mapPosition];
-        }
+        const toxin = req.params.mycotoxin;
 
-        if (req.params.mycotoxin == "ocratoxina") {
-          sampleedit.ocratoxina.status = "Mapa de Trabalho";
-          originMapPosition = sampleedit.ocratoxina.mapReference;
-          sampleedit.ocratoxina.mapReference = req.params.mapreference;
-          sampleedit.ocratoxina.workmapId = mapArray[mapPosition];
-        }
-
-        if (req.params.mycotoxin == "deoxinivalenol") {
-          sampleedit.deoxinivalenol.status = "Mapa de Trabalho";
-          originMapPosition = sampleedit.deoxinivalenol.mapReference;
-          sampleedit.deoxinivalenol.mapReference = req.params.mapreference;
-          sampleedit.deoxinivalenol.workmapId = mapArray[mapPosition];
-        }
-
-        if (req.params.mycotoxin == "t2toxina") {
-          sampleedit.t2toxina.status = "Mapa de Trabalho";
-          originMapPosition = sampleedit.t2toxina.mapReference;
-          sampleedit.t2toxina.mapReference = req.params.mapreference;
-          sampleedit.t2toxina.workmapId = mapArray[mapPosition];
-        }
-
-        if (req.params.mycotoxin == "fumonisina") {
-          sampleedit.fumonisina.status = "Mapa de Trabalho";
-          originMapPosition = sampleedit.fumonisina.mapReference;
-          sampleedit.fumonisina.mapReference = req.params.mapreference;
-          sampleedit.fumonisina.workmapId = mapArray[mapPosition];
-        }
-
-        if (req.params.mycotoxin == "zearalenona") {
-          sampleedit.zearalenona.status = "Mapa de Trabalho";
-          originMapPosition = sampleedit.zearalenona.mapReference;
-          sampleedit.zearalenona.mapReference = req.params.mapreference;
-          sampleedit.zearalenona.workmapId = mapArray[mapPosition];
-        }
-
-        console.log(originMapPosition);
+        sampleedit[toxin].status = "Mapa de Trabalho";
+        originMapPosition = sampleedit[toxin].mapReference;
+        sampleedit[toxin].mapReference = req.params.mapreference;
+        sampleedit[toxin].workmapId = mapArray[mapPosition];
 
         if (originMapPosition != "Sem mapa") { //if is null or undefined, it cant be manipulate and will be used bellow
           originMapPosition = originMapPosition.replace("_workmap", "");//casts the old map reference of the sample to an number
@@ -223,9 +186,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
           console.log(originMapPosition);
         }
 
-
-
-        Sample.update(sampleedit._id, sampleedit).then(() => {
+        Sample.update(sampleedit._id, sampleedit).then((res) => {
           Workmap.getOneMap(mapArray[mapPosition]._id).then((targetMap) => {//gets only the workmap where the sample will be added
             var isAdded = false;
             for (i = 0; i < targetMap.samplesArray.length; i++) {//check if the sample already exists in the workmap
@@ -236,12 +197,12 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
             }
 
             if (isAdded) {
-              res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });//if alredy exists, dont add
+              res.send(res);//if alredy exists, dont add
             }
             else {
               if (originMapPosition == "Sem mapa") {//the sample never was in a workmap before
-                Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then(() => { //else, it will be add
-                  res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
+                Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then((res) => { //else, it will be add
+                  res.send(res);
                 }).catch((error) => {
                   console.log(error);
                   res.redirect('/error');
@@ -249,8 +210,8 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
               }
               else { //the sample was an workmap before
                 Workmap.removeSample(mapArray[originMapPosition], sampleedit._id).then(() => {//remove from the previus workmap
-                  Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then(() => { //else, it will be add
-                    res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
+                  Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then((res) => { //else, it will be add
+                    ress.send(res);
                   }).catch((error) => {
                     console.log(error);
                     res.redirect('/error');
