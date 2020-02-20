@@ -7,13 +7,12 @@
   </div>
   <div class= "user-card" id="laudo-user">
     <h1>Laudos disponíveis</h1>
-      <li>Laudo 1</li>
-      <li>Laudo 2</li>
-      <li>Laudo 3</li>
-      <li>Laudo 4</li>
-      <li>Laudo 5</li>
-      <li>Laudo 6</li>
-      <li>Laudo 7</li>
+      {{#if laudEmpty}}
+        <li>Nenhum laudo disponível</li>
+      {{/if}}
+      {{#each laudos}}
+        <li>Laudo {{samplenumber}}</li>
+      {{/each}}
   </div>
 </div>
 <div class="col-md-6 botao" >

@@ -19,7 +19,7 @@
     <h4> 2.3 - Produtor: {{Requisitiondata.producer}}</h4>
     <div class="laudo-linha row">
       <h4 class="mr-5"> 2.4 - Data de recebimento: {{Requisitiondata.datereceipt}}</h4>
-      <h4> N° autorização: {numero}</h4>
+      <h4> N° autorização: {{Requisitiondata.autorizationnumber}}</h4>
     </div>
   </div>
   <h4> <b>3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante:</b> </h4>
@@ -66,8 +66,8 @@
     <h4> 6. Parecer técnico: </h4>
     <div id="parecer"></div>
     <h4> 7. Comentários: </h4>
-    <textarea name="Description" cols="100" rows="7">{{sample.description}}</textarea>
-    <br> <button type="submit">Atualizar</button>
+    <textarea name="sample[description]" cols="100" rows="7">{{sample.description}}</textarea>
+    <br><button type="submit">Atualizar</button>
   </form>
   <h4> Belo Horizonte, </h4>
   <div class="laudo-assinatura">

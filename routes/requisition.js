@@ -140,7 +140,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
 
 router.get('/', auth.isAuthenticated, function (req, res, next) {
   Requisition.getAll().then((requisitions) => {
-    console.log(requisitions);
+    requisitions = requisitions.reverse();
     res.render('requisition/index', { title: 'Requisições Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, requisitions });
   });
 });

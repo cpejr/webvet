@@ -8,9 +8,6 @@ const Sample = require('../models/sample');
 const regression = require('regression');
 const Workmap = require('../models/Workmap');
 
-const ToxinasSigla = ['AFLA', 'DON', 'FBS', 'OTA', 'T2', 'ZEA'];
-const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
-
 function comparara(logb_bo_amostra, intercept, slope) {
   return Math.pow(10, (logb_bo_amostra - intercept) / slope);
 }

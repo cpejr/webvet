@@ -22,6 +22,7 @@ const sampleSchema = new mongoose.Schema({
     type: Number,
     default: yyyy,
   },
+  description: String,
   ocratoxina: {
     status: {
       type: String,

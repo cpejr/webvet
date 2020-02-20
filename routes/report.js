@@ -56,6 +56,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         packingtype: requisition.packingtype,
         receivedquantity: requisition.receivedquantity,
         datereceipt: requisition.datereceipt,
+        autorizationnumber: requisition.autorizationnumber,
       };
     }).then(() => {
 
@@ -158,14 +159,9 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, next) {
   var concentrations = req.body;
   var id = req.params.id;
+  // var description = req.body.sample.description;
   try {
-    await Sample.updateAflaConcentration(id, concentrations.aflatoxinaConc);
-    await Sample.updateDeoxinivalenolConcentration(id, concentrations.deoxConc);
-    await Sample.updateFumonisinaConcentration(id, concentrations.fumoConc);
-    await Sample.updateOcraConcentration(id, concentrations.ocratoxConc);
-    await Sample.updateT2Concentration(id, concentrations.T2Conc);
-    await Sample.updateZeaConcentration(id, concentrations.ZearalenonaConc);
-    await Sample.updateDescription(id, concentrations.Description);
+    await Sample.updateDescription(id, req.body.sample.description);
     req.flash('success', 'Atualizado com sucesso.');
     res.redirect('/report/show/admin/' + id);
   }
@@ -196,7 +192,7 @@ router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, function (req, res, next) {
   var laudos = new Array;
-  let result = {};
+  let result = [];
 
   Sample.getAllReport().then((amostras) => {
     let reqids = [];
@@ -221,6 +217,8 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
             }
         }
       }
+      laudos = laudos.reverse();
+      result = result.reverse();
     }).then((params) => {
       res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, laudos, result });
     });
