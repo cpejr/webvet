@@ -77,8 +77,8 @@ const kitSchema = new mongoose.Schema({
   amount: Number,
   provider: String,
   stockMin: Number,
-  unit: Number,
-  price: Number,
+  // unit: Number,
+  // price: Number,
   r2: Number,
   status: {
     type: String,

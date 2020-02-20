@@ -126,11 +126,11 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.post('/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   const { kit } = req.body;
   Kit.update(req.params.id, kit).then(() => {
     req.flash('success', 'Kit alterado com sucesso.');
-    res.redirect(`/stock/show/${req.params.id}`)
+    res.redirect(`/stock/show/${req.params.id}`);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -145,11 +145,11 @@ router.get('/new', auth.isAuthenticated, function (req, res) {
 
 router.post('/new', auth.isAuthenticated, function (req, res) {
   const { kit } = req.body;
-  if (kit.productCode[0] == "Outros") {
-    kit.productCode = kit.productCode[1];
-  } else {
-    kit.productCode = kit.productCode[0];
-  }
+  // if (kit.productCode[0] == "Outros") {
+  //   kit.productCode = kit.productCode[1];
+  // } else {
+  //   kit.productCode = kit.productCode[0];
+  // }
 
   kit.stripLength = kit.amount;
 
