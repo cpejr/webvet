@@ -13,7 +13,7 @@ const Sample = require('../models/sample');
 
 router.get('/', (req, res) => {
 
-  Sample.getAllActive().then((amostras) => {
+  Sample.getAllActiveWithWorkmap().then((amostras) => {
     var today = new Date();
     var hours = today.getHours();
     var minutes = today.getMinutes();
@@ -66,7 +66,7 @@ router.get('/', (req, res) => {
 
 router.post('/', function (req, res, next) {
   //Dando update em todos os kits ativos.
-  Kit.getAllActive().then(obj => updateKits(obj)).catch((error) => { console.log(error); });
+  Kit.getAllActiveWithWorkmap().then(obj => updateKits(obj)).catch((error) => { console.log(error); });
 
 
   // Kit.getActiveAfla().then(obj => updateKit(obj)).catch((error) => { console.log(error); });

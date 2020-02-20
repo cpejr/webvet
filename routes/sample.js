@@ -37,62 +37,51 @@ router.post('/create', (req, res) => {
   });
 });
 
-router.post('/totest/edit/:mycotoxin/:samplenumber', function (req, res, next) {
+router.post('/:status/edit/:mycotoxin/:samplenumber', function (req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    const sampleedit = sample[0];
+    const sampleedit = sample;
+    const status = req.params.status;
+    const toxina = req.params.mycotoxin;
 
-    console.log(sampleedit);
-    if (req.params.mycotoxin == "aflatoxina") {
-      if (sampleedit.aflatoxina.status == "Aguardando pagamento") {
-        sampleedit.aflatoxina.status = "Nova";
-      } else {
-        sampleedit.aflatoxina.status = "A corrigir";
+    function removeWorkmap() {//Remove from workmaps
+      if (sample[toxina].mapReference !== "Sem mapa") {
+        sampleedit[toxina].mapReference = "Sem mapa";
+        sampleedit[toxina].workmapId = null;
+        const workmapId = sample[toxina].workmapId;
+
+        Workmap.removeSample(workmapId, sample._id);
       }
     }
 
-    if (req.params.mycotoxin == "ocratoxina") {
-      if (sampleedit.ocratoxina.status == "Aguardando pagamento") {
-        sampleedit.ocratoxina.status = "Nova";
-      } else {
-        sampleedit.ocratoxina.status = "A corrigir";
-      }
+
+    switch (status) {
+      case "totest":
+        if (sampleedit[toxina].status == "Aguardando pagamento") {
+          sampleedit[toxina].status = "Nova";
+        } else {
+          sampleedit[toxina].status = "A corrigir";
+        }
+        break;
+      case "testing":
+        sampleedit[toxina].status = "Em análise";
+        break;
+      case "ownering":
+        sampleedit[toxina].status = "Aguardando pagamento";
+        removeWorkmap();
+
+        break;
+      case "waiting":
+        sampleedit[toxina].status = "Aguardando amostra";
+        removeWorkmap();
+        break;
     }
 
-    if (req.params.mycotoxin == "deoxinivalenol") {
-      if (sampleedit.deoxinivalenol.status == "Aguardando pagamento") {
-        sampleedit.deoxinivalenol.status = "Nova";
-      } else {
-        sampleedit.deoxinivalenol.status = "A corrigir";
-      }
-    }
 
-    if (req.params.mycotoxin == "t2toxina") {
-      if (sampleedit.t2toxina.status == "Aguardando pagamento") {
-        sampleedit.t2toxina.status = "Nova";
-      } else {
-        sampleedit.t2toxina.status = "A corrigir";
-      }
-    }
 
-    if (req.params.mycotoxin == "fumonisina") {
-      if (sampleedit.fumonisina.status == "Aguardando pagamento") {
-        sampleedit.fumonisina.status = "Nova";
-      } else {
-        sampleedit.fumonisina.status = "A corrigir";
-      }
-    }
-
-    if (req.params.mycotoxin == "zearalenona") {
-      if (sampleedit.zearalenona.status == "Aguardando pagamento") {
-        sampleedit.zearalenona.status = "Nova";
-      } else {
-        sampleedit.zearalenona.status = "A corrigir";
-      }
-    }
 
     Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+      res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -104,41 +93,20 @@ router.post('/totest/edit/:mycotoxin/:samplenumber', function (req, res, next) {
   });
 });
 
+router.post('/setActiveKit/:toxinafull/:kitActiveID', function (req, res, next) {
+  //Set active to inactive
+  let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)]
+  //Correção provisória do problema com a sigla
+  if (sigla === "FBS")
+    sigla = "FUMO"
 
-
-router.post('/testing/edit/:mycotoxin/:samplenumber', function (req, res, next) {
-
-  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    const sampleedit = sample[0];
-    sampleedit.status = "Em análise";
-    console.log(sampleedit);
-
-    if (req.params.mycotoxin == "aflatoxina") {
-      sampleedit.aflatoxina.status = "Em análise";
-    }
-
-    if (req.params.mycotoxin == "ocratoxina") {
-      sampleedit.ocratoxina.status = "Em análise";
-    }
-
-    if (req.params.mycotoxin == "deoxinivalenol") {
-      sampleedit.deoxinivalenol.status = "Em análise";
-    }
-
-    if (req.params.mycotoxin == "t2toxina") {
-      sampleedit.t2toxina.status = "Em análise";
-    }
-
-    if (req.params.mycotoxin == "fumonisina") {
-      sampleedit.fumonisina.status = "Em análise";
-    }
-
-    if (req.params.mycotoxin == "zearalenona") {
-      sampleedit.zearalenona.status = "Em análise";
-    }
-
-    Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+  Kit.getActiveID(sigla).then((kit) => {
+    if (kit)
+      Kit.setActiveStatus(kit._id, false);
+  }).then(() => {
+    //Update new one
+    Kit.setActiveStatus(req.params.kitActiveID, true).then((response) => {
+      res.send(response);
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -148,167 +116,19 @@ router.post('/testing/edit/:mycotoxin/:samplenumber', function (req, res, next) 
     res.redirect('/error');
   });
 });
-router.post('/setActiveKit/:code/:kitActiveID', function (req, res, next) { //manutenção
-  Kit.getByProductCode(req.params.code).then((kits) => {
-    var size = kits.length;
-    for (i = 0; i < size; i++) {
-      if (kits[i]._id == req.params.kitActiveID) {
-        Kit.setActiveStatus(req.params.kitActiveID, true).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
-        });
-      }
-      else {
-        Kit.setActiveStatus(kits[i]._id, false).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
-        });
-      }
-    }
-
-
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-
-
-
-
-
-});
-router.post('/ownering/edit/:mycotoxin/:samplenumber', function (req, res, next) {
-
-
-  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    const sampleedit = sample[0];
-    sampleedit.status = "Aguardando pagamento";
-    console.log(sampleedit);
-
-    if (req.params.mycotoxin == "aflatoxina") {
-      sampleedit.aflatoxina.status = "Aguardando pagamento";
-    }
-
-    if (req.params.mycotoxin == "ocratoxina") {
-      sampleedit.ocratoxina.status = "Aguardando pagamento";
-    }
-
-    if (req.params.mycotoxin == "deoxinivalenol") {
-      sampleedit.deoxinivalenol.status = "Aguardando pagamento";
-    }
-
-    if (req.params.mycotoxin == "t2toxina") {
-      sampleedit.t2toxina.status = "Aguardando pagamento";
-    }
-
-    if (req.params.mycotoxin == "fumonisina") {
-      sampleedit.fumonisina.status = "Aguardando pagamento";
-    }
-
-    if (req.params.mycotoxin == "zearalenona") {
-      sampleedit.zearalenona.status = "Aguardando pagamento";
-    }
-
-    Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-});
-
-
-
-router.post('/waiting/edit/:mycotoxin/:samplenumber', function (req, res, next) {
-
-  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    const sampleedit = sample[0];
-    sampleedit.status = "Aguardando Amostra";
-    console.log(sampleedit);
-
-    if (req.params.mycotoxin == "aflatoxina") {
-      sampleedit.aflatoxina.status = "Aguardando amostra";
-    }
-
-    if (req.params.mycotoxin == "ocratoxina") {
-      sampleedit.ocratoxina.status = "Aguardando amostra";
-    }
-
-    if (req.params.mycotoxin == "deoxinivalenol") {
-      sampleedit.deoxinivalenol.status = "Aguardando amostra";
-    }
-
-    if (req.params.mycotoxin == "t2toxina") {
-      sampleedit.t2toxina.status = "Aguardando amostra";
-    }
-
-    if (req.params.mycotoxin == "fumonisina") {
-      sampleedit.fumonisina.status = "Aguardando amostra";
-    }
-
-    if (req.params.mycotoxin == "zearalenona") {
-      sampleedit.zearalenona.status = "Aguardando amostra";
-    }
-
-    Sample.update(sampleedit._id, sampleedit).then(() => {
-      res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-});
-
 
 router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID', function (req, res, next) {//this function is for the second kanban
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     var mapPosition;
-    const sampleedit = sample[0];
+    const sampleedit = sample;
     sampleedit.status = "Em análise";
 
-    if (req.params.mycotoxin == "aflatoxina") {
-      sampleedit.aflatoxina.status = "Em análise";
-      mapPosition = sampleedit.aflatoxina.mapReference;
-      sampleedit.aflatoxina.mapReference = "Sem mapa";
-    }
+    const toxina = req.params.mycotoxin;
+    sampleedit[toxina].status = "Em análise";
+    mapPosition = sampleedit[toxina].mapReference;
+    sampleedit[toxina].mapReference = "Sem mapa";
 
-    if (req.params.mycotoxin == "ocratoxina") {
-      sampleedit.ocratoxina.status = "Em análise";
-      mapPosition = sampleedit.ocratoxina.mapReference;
-      sampleedit.ocratoxina.mapReference = "Sem mapa";
-    }
-
-    if (req.params.mycotoxin == "deoxinivalenol") {
-      sampleedit.deoxinivalenol.status = "Em análise";
-      mapPosition = sampleedit.deoxinivalenol.mapReference;
-      sampleedit.deoxinivalenol.mapReference = "Sem mapa";
-    }
-
-    if (req.params.mycotoxin == "t2toxina") {
-      sampleedit.t2toxina.status = "Em análise";
-      mapPosition = sampleedit.t2toxina.mapReference;
-      sampleedit.t2toxina.mapReference = "Sem mapa";
-    }
-
-    if (req.params.mycotoxin == "fumonisina") {
-      sampleedit.fumonisina.status = "Em análise";
-      mapPosition = sampleedit.fumonisina.mapReference;
-      sampleedit.fumonisina.mapReference = "Sem mapa";
-    }
-
-    if (req.params.mycotoxin == "zearalenona") {
-      sampleedit.zearalenona.status = "Em análise";
-      mapPosition = sampleedit.zearalenona.mapReference;
-      sampleedit.zearalenona.mapReference = "Sem mapa";
-    }
     //in the next lines the mapReference is converted to number
     var mapPosition = mapPosition.replace("_workmap", "");
     var mapPosition = Number(mapPosition) - 1;//is necessary to subtract one, since the array starts with 0 instead of 1
@@ -317,7 +137,7 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID', function (req, 
       Workmap.removeSample(mapArray[mapPosition], sampleedit._id).then(() => {
         Sample.update(sampleedit._id, sampleedit).then(() => {
           console.log(sampleedit);
-          res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+          res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
         }).catch((error) => {
           console.log(error);
           res.redirect('/error');
@@ -349,9 +169,8 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
     var mapPosition = mapPosition.replace("_workmap", "");
     var mapPosition = Number(mapPosition) - 1; //cats the number of the workmap, but since the array starts with zero, it's necessary subtract 1
     var originMapPosition;
-    console.log(kit);
     Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-      const sampleedit = sample[0]; //sample is a array with one content, to work with it just catch the first element
+      const sampleedit = sample; //sample is a array with one content, to work with it just catch the first element
 
       Kit.getWorkmapsById(kit._id).then((mapArray) => {//access the kit and get the workmaps
         if (req.params.mycotoxin == "aflatoxina") { //bellow the sample atributes are seted
@@ -417,12 +236,12 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
             }
 
             if (isAdded) {
-              res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });//if alredy exists, dont add
+              res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });//if alredy exists, dont add
             }
             else {
               if (originMapPosition == "Sem mapa") {//the sample never was in a workmap before
                 Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then(() => { //else, it will be add
-                  res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+                  res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
                 }).catch((error) => {
                   console.log(error);
                   res.redirect('/error');
@@ -431,7 +250,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
               else { //the sample was an workmap before
                 Workmap.removeSample(mapArray[originMapPosition], sampleedit._id).then(() => {//remove from the previus workmap
                   Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then(() => { //else, it will be add
-                    res.render('admin/queue', { title: 'Queue', layout: 'layoutDashboard.hbs' });
+                    res.render('admin/queue', { toxinas: ToxinasFull, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
                   }).catch((error) => {
                     console.log(error);
                     res.redirect('/error');
@@ -473,7 +292,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
 
 router.get('/edit/:samplenumber', (req, res) => {
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    const sampleshow = sample[0];
+    const sampleshow = sample;
     console.log(sampleshow);
     res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sampleshow });
   }).catch((error) => {
