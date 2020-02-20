@@ -159,14 +159,9 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, next) {
   var concentrations = req.body;
   var id = req.params.id;
+  // var description = req.body.sample.description;
   try {
-    await Sample.updateAflaConcentration(id, concentrations.aflatoxinaConc);
-    await Sample.updateDeoxinivalenolConcentration(id, concentrations.deoxConc);
-    await Sample.updateFumonisinaConcentration(id, concentrations.fumoConc);
-    await Sample.updateOcraConcentration(id, concentrations.ocratoxConc);
-    await Sample.updateT2Concentration(id, concentrations.T2Conc);
-    await Sample.updateZeaConcentration(id, concentrations.ZearalenonaConc);
-    await Sample.updateDescription(id, concentrations.Description);
+    await Sample.updateDescription(id, req.body.sample.description);
     req.flash('success', 'Atualizado com sucesso.');
     res.redirect('/report/show/admin/' + id);
   }
