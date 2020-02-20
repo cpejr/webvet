@@ -196,7 +196,7 @@ router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, function (req, res, next) {
   var laudos = new Array;
-  let result = {};
+  let result = [];
 
   Sample.getAllReport().then((amostras) => {
     let reqids = [];
@@ -221,6 +221,8 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
             }
         }
       }
+      laudos = laudos.reverse();
+      result = result.reverse();
     }).then((params) => {
       res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, laudos, result });
     });
