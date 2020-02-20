@@ -231,7 +231,7 @@ class Sample {
    */
   static getBySampleNumber(samplenumber) {
     return new Promise((resolve, reject) => {
-      SampleModel.find({ samplenumber: samplenumber }).populate('sample').exec().then((result) => {
+      SampleModel.findOne({ samplenumber: samplenumber }).populate('sample').exec().then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);

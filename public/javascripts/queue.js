@@ -33,10 +33,8 @@ function createAnalysisKanban(toxinaFull) {
 
       let sourceName = $(source).parent().data("id");
 
-      if (sourceName === '_testing') {
+      if (sourceName === '_testing') 
         Wormapskanbans[toxinaFull].removeElement(samplenumber);
-        $.post(`/sample/scndTesting/edit/${toxinaFull}/${samplenumber}/${nowActiveKits[toxinaFull]}`);
-      }
 
       let text;
 
@@ -126,7 +124,6 @@ function createWormapKanban(toxinaFull) {
         else {
           $.post(`/sample/scndTesting/edit/${toxinaFull}/${samplenumber}/${nowActiveKits[toxinaFull]}`);
           el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-
         }
       }
 
@@ -312,6 +309,7 @@ $('div[class="loteradio"]').each(function (index, group) {
               workmap.samplesArray.forEach((sampleID) => {
                 $.get('/search/getOneSample/' + sampleID, (sample) => {
                   if (sample[toxina].active == true && sample[toxina].status == "Mapa de Trabalho") {
+                    console.log(sample.samplenumber)
                     Wormapskanbans[toxina].addElement(sample[toxina].mapReference, {
                       id: sample.samplenumber,
                       title: "Amostra " + sample.samplenumber,
