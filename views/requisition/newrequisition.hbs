@@ -71,9 +71,15 @@
     <p> Requisição de Análise</p>
   </div>
   <br>
-  <div class="requisition-text col-md-12">
-    <input type="text" name="requisition[producer]" class="requisition-text"
-      placeholder="Nome do cliente | Fazenda | Produtor">
+  <div class="form-row">
+    <div class="requisition-text col-md-6">
+      <input type="text" name="requisition[producer]" class="requisition-text"
+        placeholder="Nome do cliente | Fazenda | Produtor">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input type="text" name="requisition[autorizationnumber]" class="requisition-text"
+        placeholder="Número de Autorização">
+    </div>
   </div>
   <div class="form-row">
     <div class="requisition-text col-md-4">
@@ -92,7 +98,8 @@
   <div class="form-group d-flex flex-wrap text-left">
     <div class="column">
       <div class="form-check">
-        <input checked id="Aves" class="form-check-input destination" type="radio" name="requisition[destination]" value="Aves">
+        <input checked id="Aves" class="form-check-input destination" type="radio" name="requisition[destination]"
+          value="Aves">
         <label for="Aves" class="radio-text form-check-label mr-3"> Aves </label>
       </div>
 

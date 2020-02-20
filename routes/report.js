@@ -56,6 +56,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         packingtype: requisition.packingtype,
         receivedquantity: requisition.receivedquantity,
         datereceipt: requisition.datereceipt,
+        autorizationnumber: requisition.autorizationnumber,
       };
     }).then(() => {
 
