@@ -253,21 +253,19 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
 
 router.get('/edit/:samplenumber', (req, res) => {
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    const sampleshow = sample;
-    console.log(sampleshow);
-    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sampleshow });
+    res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sample });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
 });
 
-router.put('/edit/:samplenumber', (req, res) => {
-  const { sampleX } = req.body;
-  console.log(sampleX);
-  Sample.update(req.params.samplenumber, sampleX).then(() => {
+router.post('/save', (req, res) => {
+  const { sample } = req.body;
+  console.log(sample);
+  Sample.updateBySampleNumber(sample.samplenumber + "", sample).then(() => {
     req.flash('success', 'Amostra alterada');
-    res.redirect('/sample/edit/' + req.params.samplenumber);
+    res.redirect('/sample/edit/' + sample.samplenumber);
   }).catch((error) => {
     console.log("AMIGO ESTOU AQUI");
     console.log(error);

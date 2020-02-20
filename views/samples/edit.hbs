@@ -1,26 +1,23 @@
-<form class="form-show-box" action="/sample/edit/{{sample.samplenumber}}?_method=PUT" method="post">
-    <h1 class="form-show-title"> Visualização da Amostra</h1>
-    <div>
-      <div class="form-show-text col-md-12">
-        <label for="sample[name]">Nome</label>
-        <input disabled type="text" value="{{sampleshow.name}}">
+<form class="form-show-box" action="/sample/save" method="post">
+  <h1 class="form-show-title"> Visualização da Amostra</h1>
+  <div>
+    <div class="form-show-text col-md-12">
+      <label for="sample[name]">Nome</label>
+      <input type="text" value="{{sample.name}}" name="sample[name]">
+    </div>
+    <div class="form-row">
+      <div class="form-show-text col-md-6">
+        <label for="sample[samplenumber]">Número da Amostra</label>
+        <input disabled type="text" value="{{sample.samplenumber}}" name="">
+        <input type="text" value="{{sample.samplenumber}}" class="form-disabled" name="sample[samplenumber]">
       </div>
-      <div class="form-row">
-        <div class="form-show-text col-md-6">
-          <label for="sample[samplenumber]">Número da Amostra</label>
-          <input disabled type="text" value="{{sampleshow.samplenumber}}">
-        </div>
-        <div class="form-show-text col-md-3">
-          <label for="sample[status]">Situação</label>
-          <input type="text" value="{{sampleshow.status}}" class="input-placeholder-green">
-        </div>
-        <div class="form-show-text col-md-3">
-          <label for="sample[responsable]">Responsável</label>
-          <input type="text" value="{{sampleshow.responsable}}" name="sample[responsable]">
-        </div>
+      <div class="form-show-text col-md-6">
+        <label for="sample[responsible]">Responsável</label>
+        <input type="text" value="{{sample.responsible}}" name="sample[responsible]">
       </div>
+    </div>
     <div class="col-md-12 mt-3">
       <button class="btn mr-2" type="button" onclick="location.href='/queue'"><i class="fa fa-reply"></i>Voltar</button>
-      <button class="btn ml-2" type="submit" ><i class="fa fa-pencil"></i>Alterar</button>
+      <button class="btn ml-2" type="submit"><i class="fa fa-pencil"></i>Alterar</button>
     </div>
 </form>

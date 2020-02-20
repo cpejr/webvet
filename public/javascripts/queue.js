@@ -323,7 +323,7 @@ $('div[class="loteradio"]').each(function (index, group) {
           });
         }
         else {
-          $(group).parent().find("#countkits" + toxina).text("0");
+          $("#countkits" + toxina).text("0");
           $('#hide' + toxina).addClass('form-disabled');
         }
       });

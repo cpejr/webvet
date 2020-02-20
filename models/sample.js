@@ -276,14 +276,23 @@ class Sample {
    */
   static update(id, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findByIdAndUpdate(id, sample).then(() => {
-        resolve();
+      SampleModel.findByIdAndUpdate(id, sample).then((res) => {
+        resolve(res);
       }).catch((err) => {
         reject(err);
       });
     });
   }
 
+  static updateBySampleNumber(sampleNumber, sample) {
+    return new Promise((resolve, reject) => {
+      SampleModel.findOneAndUpdate({samplenumber: sampleNumber}, sample).then((res) => {
+        resolve(res);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
   /**
    * Delete a Sample
    * @param {string} id - Sample Id
