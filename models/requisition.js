@@ -13,6 +13,7 @@ const requisitionSchema = new mongoose.Schema({
   },
   requisitionnumber: Number,
   receivedquantity: Number, //Quantidade recebida
+  autorizationnumber: String, //Controle interno do solicitante 
   packingtype: String, //Tipo de embalagem
   datecollection: String,
   datereceipt: String, //Data de recebimento
