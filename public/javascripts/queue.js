@@ -29,13 +29,30 @@ function createAnalysisKanban(toxinaFull) {
 
     ],
     dropEl: function (el, target, source, sibling) {
-      const samplenumber = el.dataset.title.replace("Amostra", "");
+      const samplenumber = el.dataset.title.replace("Amostra ", "");
+
+      let sourceName = $(source).parent().data("id");
+
+      if (sourceName === '_testing') {
+        Wormapskanbans[toxinaFull].removeElement(samplenumber);
+        $.post(`/sample/scndTesting/edit/${toxinaFull}/${samplenumber}/${nowActiveKits[toxinaFull]}`);
+      }
 
       let text;
 
       switch (target) {
         case '_testing':
           text = 'Em análise';
+
+          //Se já não estiver lá
+          if (!Wormapskanbans[toxinaFull].findElement(samplenumber)) {
+            Wormapskanbans[toxinaFull].addElement('_scndTesting', {
+              id: samplenumber,
+              title: el.dataset.title,
+              analyst: el.dataset.analyst,
+              status: el.dataset.status
+            });
+          }
           break;
 
         case '_ownering':
@@ -242,11 +259,9 @@ let workmapsStart = 0;
 let workmapsEnd = 0;
 
 $('div[class="loteradio"]').each(function (index, group) {
-  console.log("aa")
   let toxina = $(group).data("toxin");
   $(group).find('input.radio-queue').each(function (index, checkbox) {
     $(checkbox).change(function () {
-      console.log("bbbb")
       let letter = $(this).data("letter");
       $.get(`/search/kits/${toxina}/${letter}`, (kits) => {
         let kit = kits[0];
@@ -256,7 +271,7 @@ $('div[class="loteradio"]').each(function (index, group) {
           let begin = kit.toxinaStart + 1; //Workmaps start       
           nowActiveKits[toxina] = kit._id;
 
-          $(group).parent().find("#countkits" + toxina).text(kit.stripLength);
+          $("#countkits" + toxina).text(kit.stripLength);
 
           $.post(`/sample/setActiveKit/${toxina}/${kit._id}`);
 
