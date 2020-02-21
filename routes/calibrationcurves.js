@@ -9,10 +9,6 @@ const regression = require('regression');
 const Workmap = require('../models/Workmap');
 
 router.get('/', async function (req, res, next) {
-  var mapas = new Array;
-  var amostras_afla = new Array;
-  let kit_afla_ativo = await Kit.getActiveAfla();
-
   async function calcular(toxinafull, toxinasigla) {
 
     var kit = await Kit.getActive(toxinasigla);
@@ -37,12 +33,14 @@ router.get('/', async function (req, res, next) {
 
       //parte responsável por pegar as amostras do kit, logo  através do kit ativo de afla pega na variável mapArray o id dos mapas que estão sendo utilizados naqueles kits
       mapas = await Workmap.getByIdArray(kit.mapArray);
-
       var samples_id = [];
+
       //Após ter os ids dos mapas de trabalho que estão sendo utilizados roda um for para percorrer todos os mapas e um for dentro desse para acessar todas as amostras em cada mapa
-      for (let j = 0; j < mapas.length; j++)
-        for (let i = 0; i < mapas[j].samplesArray.length; i++)
-          samples_id.push(mapas[j].samplesArray[i]);
+      const promises = mapas.map(async (map) =>
+        samples_id = samples_id.concat(map.samplesArray)
+      );
+
+      await Promise.all(promises);      
 
       amostras = await Sample.getActiveByIdArray(samples_id, toxinafull);
 
@@ -77,49 +75,32 @@ router.get('/', async function (req, res, next) {
   }
 
   var toxinas = [];
+  let count = 0;
 
-  for (let i = 0; i < ToxinasSigla.length; i++) {
-    const sigla = ToxinasSigla[i];
-    let resultado = await calcular(ToxinasFull[i], ToxinasSigla[i]);
-    if (await resultado != undefined) {
-      toxinas[i] = {
+  ToxinasSigla.forEach(async (sigla, index) => {
+    let resultado = await calcular(ToxinasFull[index], sigla);
+    if (resultado != undefined) {
+      toxinas[index] = {
         name: sigla,
         calibradores: {},
         valores: resultado.parte1,
       };
-
-      for (let jcali = 0; jcali < 5; jcali++) { //5 calibradores
-
-        toxinas[i].calibradores[jcali] = {
-          concentracao: resultado.parte2.concentration[jcali],
-          absorvancia: resultado.parte2.absorbance[jcali],
-          calname: "P" + (jcali + 1)
-        };
-      }
     }
-  }
 
-  console.log("Imprimir todas as toxinas: ");
-  console.log(toxinas);
+    for (let jcali = 0; jcali < 5; jcali++) { //5 calibradores
 
-  console.log("Imprimir calibrador AFLA P2: ");
-  console.log(toxinas[0].calibradores[1]);
+      toxinas[index].calibradores[jcali] = {
+        concentracao: resultado.parte2.concentration[jcali],
+        absorvancia: resultado.parte2.absorbance[jcali],
+        calname: "P" + (jcali + 1)
+      };
+    }
 
-  console.log("Imprimir todos calibradores de AFLA: ");
-  console.log(toxinas[0].calibradores);
-
-  console.log("Imprimir numero do calibrador P1 de AFLA: ");
-  console.log(toxinas[0].calibradores[0].calname);
-
-  console.log("Imprimir numero de absorvancia do calibrador P1 de AFLA: ");
-  console.log(toxinas[0].calibradores[0].absorvancia);
-
-  console.log("Imprimir valor do resultado do calibrador 1 de AFLA")
-  console.log(toxinas[0].valores.resultado);
-
-  console.log("Tipo")
-  console.log(typeof toxinas[0].valores.resultado);
-  res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas , ...req.session});
+    //Check if is the last
+    count++;
+    if (count == ToxinasSigla.length)
+      res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas, ...req.session });
+  });
 })
 
 
