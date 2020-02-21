@@ -48,7 +48,10 @@ function createAnalysisKanban(toxinaFull) {
               id: samplenumber,
               title: el.dataset.title,
               analyst: el.dataset.analyst,
-              status: el.dataset.status
+              status: el.dataset.status,
+              click: function (el) {
+                window.location.href = 'sample/edit/' + el.dataset.eid;
+              },
             });
           }
           break;
@@ -85,10 +88,7 @@ function createWormapKanban(toxinaFull) {
   return new jKanban({
     element: '#' + toxinaFull + '2',
     gutter: '10px',
-    widthBoard: '165px',
-    click: function (el) {
-      window.location.href = 'sample/edit/' + el.dataset.eid;
-    },
+    widthBoard: '165px',    
     dragBoards: false,
     boards: [
       {
@@ -161,7 +161,10 @@ $.get('/search/samplesActiveWithUser', (samples) => {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsible,
-              status: status
+              status: status,
+              click: function (el) {
+                window.location.href = 'sample/edit/' + el.dataset.eid;
+              },
             }
 
             if (debt) {
@@ -232,10 +235,11 @@ $('div[class="loteradio"]').each(function (index, group) {
           //ADD and DelETE calibradores
           for (let i = 1; i <= 5; i++) {
             Wormapskanbans[toxina].removeElement("P" + i);
-            Wormapskanbans[toxina].addElement("_workmap" + begin, {
+            Wormapskanbans[toxina].addFixedElement("_workmap" + begin, {
               id: "P" + i,
               title: "P" + i,
-              calibrator: true
+              calibrator: true,
+              click: () => { }
             });
           }
 
@@ -252,7 +256,10 @@ $('div[class="loteradio"]').each(function (index, group) {
                   id: sample.samplenumber,
                   title: "Amostra " + sample.samplenumber,
                   analyst: sample.responsible,
-                  status: sample[toxina].status
+                  status: sample[toxina].status,
+                  click: function (el) {
+                    window.location.href = 'sample/edit/' + el.dataset.eid;
+                  },
                 });
               }
             }
