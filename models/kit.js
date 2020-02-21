@@ -134,93 +134,6 @@ class Kit {
   }
 
   /**
-  * Get active Kit from Aflatoxina 
-  * @returns {Array} Array of Kits
-  */
-  static getActiveAfla() {
-    return new Promise((resolve, reject) => {
-      KitModel.find({ active: true, productCode: "AFLA Romer" }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
-   * Get active Kit from Deoxinivalenol 
-   * @returns {Array} Array of Kits
-   */
-  static getActiveDeox() {
-    return new Promise((resolve, reject) => {
-      KitModel.find({ active: true, productCode: "DON Romer" }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
-   * Get active Kit from T2-toxin 
-   * @returns {Array} Array of Kits
-   */
-  static getActiveT2() {
-    return new Promise((resolve, reject) => {
-      KitModel.find({ active: true, productCode: "T2 Romer" }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
-   * Get active Kit from Zearalenona 
-   * @returns {Array} Array of Kits
-   */
-  static getActiveZea() {
-    return new Promise((resolve, reject) => {
-      KitModel.find({ active: true, productCode: "ZEA Romer" }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
-  * Get active Kit from Fumonisina 
-  * @returns {Array} Array of Kits
-  */
-  static getActiveFum() {
-    return new Promise((resolve, reject) => {
-      KitModel.find({ active: true, productCode: "FUMO Romer" }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-
-  /**
-   * Get active Kit from Ocratoxina
-   * @returns {Array} Array of Kits
-   */
-  static getActiveOcra() {
-    return new Promise((resolve, reject) => {
-      KitModel.find({ active: true, productCode: "OTA Romer" }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-
-
-  /**
    * Get a Kit by it's id
    * @param {string} id - Kit Id
    * @returns {Object} - Kit Document Data
@@ -234,7 +147,6 @@ class Kit {
       });
     });
   }
-
 
   /**
    * Get all kits with same productCode
@@ -396,58 +308,7 @@ class Kit {
         reject(err);
       });
     });
-  }
-
-  /**
-
-  * @param {string} id - Kit Id
-  * @param {number} p1 - calibrator absorbance
-  */
-
-  static setP1absorbance(id, p1) {
-    return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P1.absorbance': p1 } }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  static setP2absorbance(id, p2) {
-    return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P2.absorbance': p2 } }).then((result) => {
-        console.log(result.calibrators);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  static setP3absorbance(id, p3) {
-    return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P3.absorbance': p3 } }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  static setP4absorbance(id, p4) {
-    return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P4.absorbance': p4 } }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  static setP5absorbance(id, p5) {
-    return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { 'calibrators.P5.absorbance': p5 } }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
+  }  
 
   static getWorkmapsById(id) {
     return new Promise((resolve, reject) => {

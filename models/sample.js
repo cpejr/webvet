@@ -361,7 +361,6 @@ class Sample {
     });
   }
 
-
   /**
    * Sum all Samples from DB
    * @returns {null}
@@ -376,9 +375,6 @@ class Sample {
     });
   }
 
-
-
-
   static updatereport(id, report) {
     return new Promise((resolve, reject) => {
       SampleModel.update({ _id: id }, { $set: { report: report } }).then((result) => {
@@ -389,211 +385,6 @@ class Sample {
     });
   }
 
-  static updateAflaWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'aflatoxina.contador': cont } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateOcraWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'ocratoxina.contador': cont } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateDeoxWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'deoxinivalenol.contador': cont } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateT2Workmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 't2toxina.contador': cont } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updatefumWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'fumonisina.contador': cont } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateZeaWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'zearalenona.contador': cont } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-
-    });
-  }
-
-  static updateAflaActive(id, ativo) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { 'aflatoxina.active': ativo } }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
-    });
-  }
-
-
-  static updateOcraActive(id, ativo) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { 'ocratoxina.active': ativo } }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
-    });
-  }
-
-  static updateDeoxActive(id, ativo) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { 'deoxinivalenol.active': ativo } }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
-    });
-  }
-
-  static updateT2Active(id, ativo) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { 't2toxina.active': ativo } }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
-    });
-  }
-
-  static updateFumActive(id, ativo) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { 'fumonisina.active': ativo } }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
-    });
-  }
-
-  static updateZeaActive(id, ativo) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { 'zearalenona.active': ativo } }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
-    });
-  }
-
-  static updateAflaConcentration(id, concentration) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'aflatoxina.concentration': concentration } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-    });
-  }
-  static updateOcraConcentration(id, concentration) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'ocratoxina.concentration': concentration } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-    });
-  }
-  static updateDeoxinivalenolConcentration(id, concentration) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'deoxinivalenol.concentration': concentration } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-    });
-  }
-  static updateT2Concentration(id, concentration) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 't2toxina.concentration': concentration } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-    });
-  }
-  static updateZeaConcentration(id, concentration) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'zearalenona.concentration': concentration } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-    });
-  }
-  static updateFumonisinaConcentration(id, concentration) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'fumonisina.concentration': concentration } }).then((result) => {
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
-    });
-  }
   static async updateDescription(id, descriptionUpdate) {
     try {
       let result = await SampleModel.update(
@@ -607,7 +398,6 @@ class Sample {
     }
   }
 
-  //===London Eye===//
   static updateAbsorbances(toxina, id, abs, abs2) {
 
     return new Promise((resolve, reject) => {

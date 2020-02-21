@@ -47,8 +47,8 @@ router.post('/:status/edit/:mycotoxin/:samplenumber', function (req, res, next) 
     function removeWorkmap() {//Remove from workmaps
       if (sample[toxina].mapReference !== "Sem mapa") {
         sampleedit[toxina].mapReference = "Sem mapa";
-        sampleedit[toxina].workmapId = null;
         const workmapId = sample[toxina].workmapId;
+        sampleedit[toxina].workmapId = null;
 
         Workmap.removeSample(workmapId, sample._id);
       }
@@ -80,8 +80,8 @@ router.post('/:status/edit/:mycotoxin/:samplenumber', function (req, res, next) 
 
 
 
-    Sample.update(sampleedit._id, sampleedit).then((res) => {
-      res.send(res)
+    Sample.update(sampleedit._id, sampleedit).then((response) => {
+      res.send(response)
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -186,7 +186,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
           console.log(originMapPosition);
         }
 
-        Sample.update(sampleedit._id, sampleedit).then((res) => {
+        Sample.update(sampleedit._id, sampleedit).then((response) => {
           Workmap.getOneMap(mapArray[mapPosition]._id).then((targetMap) => {//gets only the workmap where the sample will be added
             var isAdded = false;
             for (i = 0; i < targetMap.samplesArray.length; i++) {//check if the sample already exists in the workmap
@@ -197,7 +197,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
             }
 
             if (isAdded) {
-              res.send(res);//if alredy exists, dont add
+              res.send(response);//if alredy exists, dont add
             }
             else {
               if (originMapPosition == "Sem mapa") {//the sample never was in a workmap before
@@ -220,17 +220,12 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
                   console.log(error);
                   res.redirect('/error');
                 });
-
               }
-
             }
-
-
           }).catch((error) => {
             console.log(error);
             res.redirect('/error');
           });
-
         }).catch((error) => {
           console.log(error);
           res.redirect('/error');
