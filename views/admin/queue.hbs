@@ -55,7 +55,7 @@
       $(document).ready(function () {
         let el = $("#Kit{{Full}}{{active}}");
         if (el) {
-          $(el).prop("checked", true).change();
+          $(el).prop("checked", true).trigger('change', [{ stating: true }]);
         }
       });
     </script>

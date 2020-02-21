@@ -82,6 +82,32 @@ router.get('/samplesActive', auth.isAuthenticated, (req, res) => {
   });
 });
 
+router.get('/samplesActiveWithUser', auth.isAuthenticated, (req, res) => {
+  let obj = [];
+
+  Sample.getAllActive().then((samples) => {
+    let itensprocessed = 0;
+    samples.forEach(sample => {
+      Requisition.getById(sample.requisitionId).then(requisition => {
+        User.getById(requisition.user).then((user) => {
+          itensprocessed++;
+          obj.push({ user, sample });
+
+          if (itensprocessed == samples.length)
+            res.send(obj);
+
+        }).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
+      })
+    });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
 router.get('/userFromSample/:sampleID', auth.isAuthenticated, (req, res) => {
   Requisition.getBySampleID(req.params.sampleID).then((requisition) => {
     User.getById(requisition.user).then((user) => {
@@ -167,6 +193,7 @@ router.get('/getWorkmap/:workmapid', auth.isAuthenticated, (req, res) => {
   Workmap.getOneMap(req.params.workmapid).then((workmap) => {
     res.send(workmap);
   }).catch((error) => {
+    console.log(error);
     res.redirect('/error');
   });
 });
@@ -175,10 +202,44 @@ router.get('/getOneSample/:sampleID', auth.isAuthenticated, (req, res) => {
   Sample.getById(req.params.sampleID).then((sample) => {
     res.send(sample);
   }).catch((error) => {
+    console.log(error);
     res.redirect('/error');
   });
+});
 
+router.get('/getSamplesActive/:toxin/:samples', auth.isAuthenticated, (req, res) => {
+  let samples = req.params.samples.split(",");
+  let toxin = req.params.toxin;
+  let query = {}
+  query[toxin][active] = true;
 
+  Sample.getByIdArrayWithQuery(samples, query).then((res) => {
+    res.send(res);
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.get('/getSamplesActiveByWorkapArray/:mapidArray/:toxin', auth.isAuthenticated, (req, res) => {
+  let workmapids = req.params.mapidArray.split(",");
+  let toxin = req.params.toxin;
+  Workmap.getByIdArray(workmapids).then(workmaps => {
+    let samples = [];
+    workmaps.forEach(workmap => {
+      samples = samples.concat(workmap.samplesArray);
+    });
+
+    Sample.getActiveByIdArray(samples, toxin).then(samplesobj => {
+      res.send(samplesobj);
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
 });
 
 module.exports = router;

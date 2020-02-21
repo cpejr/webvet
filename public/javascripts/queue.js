@@ -33,7 +33,7 @@ function createAnalysisKanban(toxinaFull) {
 
       let sourceName = $(source).parent().data("id");
 
-      if (sourceName === '_testing') 
+      if (sourceName === '_testing')
         Wormapskanbans[toxinaFull].removeElement(samplenumber);
 
       let text;
@@ -144,107 +144,45 @@ let Wormapskanbans = {
 let nowActiveKits = {};
 
 //cria cedulas kanban
-$.get('/search/samplesActive', (samples) => {
+$.get('/search/samplesActiveWithUser', (samples) => {
   $(document).ready(function () {
-    samples.forEach((sample) => {
+    samples.forEach((item) => {
+      let sample = item.sample;
+
       if (!sample.isCalibrator) {
-        $.get('/search/userFromRequisiton/' + sample.requisitionId, (user) => {
-          //Teste para cada toxina
-          for (let i = 0; i < ToxinasFull.length; i++) {
-            if (sample[ToxinasFull[i]].active == true) {
-              let toxina = ToxinasFull[i];
-              let status = sample[toxina].status;
-              let kanban = Analysiskanbans[toxina];
+        //Teste para cada toxina
+        ToxinasFull.forEach(toxina => {
+          if (sample[toxina].active == true) {
+            let status = sample[toxina].status;
+            let kanban = Analysiskanbans[toxina];
+            let debt = item.user.debt;
 
-              if (status == "Nova" || status == "Sem amostra" || status == "A corrigir") {
-                if (user.debt) {
-                  kanban.addElement('_waiting', {
-                    id: "owner",
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsible,
-                    status: status,
-                    owner: "Devedor"
-                  });
-                }
-                else {
-                  kanban.addElement('_waiting', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsible,
-                    status: status
-                  });
-
-                }
-
-              }
-
-              if (status == "Em análise" || status == "Mapa de Trabalho") {
-                if (user.debt) {
-                  kanban.addElement('_testing', {
-                    id: "owner",
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsible,
-                    status: status,
-                    owner: "Devedor"
-                  });
-                } else {
-                  kanban.addElement('_testing', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsible,
-                    status: status
-                  });
-                  if (status == "Em análise") {
-                    Wormapskanbans[toxina].addElement('_scndTesting', {
-                      id: sample.samplenumber,
-                      title: "Amostra " + sample.samplenumber,
-                      analyst: sample.responsible,
-                      status: status
-                    });
-                  }
-                }
-              }
-
-              if (status == "Aguardando pagamento") {
-                if (user.debt) {
-                  kanban.addElement('_ownering', {
-                    id: "owner",
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsible,
-                    status: status,
-                    owner: "Devedor"
-                  });
-                }
-                else {
-                  kanban.addElement('_ownering', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsible,
-                    status: status,
-                  });
-                }
-              }
-
-              if (status == "Aguardando amostra") {
-                if (user.debt) {
-                  kanban.addElement('_waiting', {
-                    id: "owner",
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsible,
-                    status: status,
-                    owner: "Devedor"
-                  });
-                }
-                else {
-                  kanban.addElement('_waiting', {
-                    id: sample.samplenumber,
-                    title: "Amostra " + sample.samplenumber,
-                    analyst: sample.responsible,
-                    status: status
-                  });
-                }
-              }
+            let element = {
+              id: sample.samplenumber,
+              title: "Amostra " + sample.samplenumber,
+              analyst: sample.responsible,
+              status: status
             }
+
+            if (debt) {
+              element[id] = "owner";
+              element[owner] = "Devedor";
+            }
+
+            if (status == "Nova" || status == "Sem amostra" || status == "A corrigir" || status == "Aguardando amostra")
+              kanban.addElement('_waiting', element);
+
+            else if (status == "Mapa de Trabalho")
+              kanban.addElement('_testing', element);
+
+            else if (status == "Em análise") {
+              kanban.addElement('_testing', element);
+              if (!debt)
+                Wormapskanbans[toxina].addElement('_scndTesting', element);
+            }
+            else if (status == "Aguardando pagamento")
+              kanban.addElement('_ownering', element);
+
           }
         });
       }
@@ -255,10 +193,11 @@ $.get('/search/samplesActive', (samples) => {
 let workmapsStart = 0;
 let workmapsEnd = 0;
 
+//Add eventos
 $('div[class="loteradio"]').each(function (index, group) {
   let toxina = $(group).data("toxin");
   $(group).find('input.radio-queue').each(function (index, checkbox) {
-    $(checkbox).change(function () {
+    $(checkbox).change(function (e, data) {
       let letter = $(this).data("letter");
       $.get(`/search/kits/${toxina}/${letter}`, (kits) => {
         let kit = kits[0];
@@ -270,7 +209,8 @@ $('div[class="loteradio"]').each(function (index, group) {
 
           $("#countkits" + toxina).text(kit.stripLength);
 
-          $.post(`/sample/setActiveKit/${toxina}/${kit._id}`);
+          if (data == undefined)
+            $.post(`/sample/setActiveKit/${toxina}/${kit._id}`);
 
           //remove boards
           for (let i = workmapsStart; i <= workmapsEnd; i++) {//the map 0 was defined before
@@ -304,22 +244,18 @@ $('div[class="loteradio"]').each(function (index, group) {
           workmapsEnd = kit.stripLength;
 
           //allocate the samples/calibrators that are in an workmap
-          kit.mapArray.forEach((mapID) => {
-            $.get('/search/getWorkmap/' + mapID, (workmap) => {
-              workmap.samplesArray.forEach((sampleID) => {
-                $.get('/search/getOneSample/' + sampleID, (sample) => {
-                  if (sample[toxina].active == true && sample[toxina].status == "Mapa de Trabalho") {
-                    console.log(sample.samplenumber)
-                    Wormapskanbans[toxina].addElement(sample[toxina].mapReference, {
-                      id: sample.samplenumber,
-                      title: "Amostra " + sample.samplenumber,
-                      analyst: sample.responsible,
-                      status: sample[toxina].status
-                    });
-                  }
+          $.get(`/search/getSamplesActiveByWorkapArray/${kit.mapArray}/${toxina}`).then(samples => {
+            for (let i = 0; i < samples.length; i++) {
+              const sample = samples[i];
+              if (sample[toxina].status == "Mapa de Trabalho") {
+                Wormapskanbans[toxina].addElement(sample[toxina].mapReference, {
+                  id: sample.samplenumber,
+                  title: "Amostra " + sample.samplenumber,
+                  analyst: sample.responsible,
+                  status: sample[toxina].status
                 });
-              });
-            });
+              }
+            }
           });
         }
         else {

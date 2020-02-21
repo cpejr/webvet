@@ -17,8 +17,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
       Requisition.getAll().then((Requisitions) => {
         Kit.getAll().then((kits) => {
           Kitstock.getAll().then((kitstock) => {
-            const outofStockArray = new Array;
-            var cont = 0;
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -26,8 +24,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
             var possiveis = new Array;
             var possiveis_dias = new Array;
             var cont_possiveis_dias = 0;
-            var dia_vence = new Array;
-            var cont_dia_vence = 0;
             var cont_possiveis = 0;
             var cont_vencidos = 0;
             var vencidos = new Array;

@@ -103,7 +103,7 @@ class Requisition {
   static getById(id) {
     return new Promise((resolve, reject) => {
       RequisitionModel.findById(id).populate('user').exec().then((result) => {
-        resolve(result.toObject());
+        resolve(result);
       }).catch((err) => {
         reject(err);
       });
