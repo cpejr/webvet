@@ -599,6 +599,83 @@ class Sample {
     });
   }
 
+  static updateAflaWorkmap(id, cont) {
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        { _id: id },
+        { $set: { 'aflatoxina.contador': cont } }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
+
+  static updateOcraWorkmap(id, cont) {
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        { _id: id },
+        { $set: { 'ocratoxina.contador': cont } }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
+
+  static updateDeoxWorkmap(id, cont) {
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        { _id: id },
+        { $set: { 'deoxinivalenol.contador': cont } }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
+
+  static updateT2Workmap(id, cont) {
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        { _id: id },
+        { $set: { 't2toxina.contador': cont } }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
+
+  static updatefumWorkmap(id, cont) {
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        { _id: id },
+        { $set: { 'fumonisina.contador': cont } }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
+
+  static updateZeaWorkmap(id, cont) {
+    return new Promise((resolve, reject) => {
+      SampleModel.update(
+        { _id: id },
+        { $set: { 'zearalenona.contador': cont } }).then((result) => {
+          resolve(result);
+        }).catch(err => {
+          reject(err);
+        });
+
+    });
+  }
 }
 
 

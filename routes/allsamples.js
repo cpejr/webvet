@@ -52,6 +52,8 @@ router.post('/', function (req, res, next) {
               last_filled = new_last;
             }
           }
+        }).catch(err =>{
+          console.log(err);
         });
       }
 

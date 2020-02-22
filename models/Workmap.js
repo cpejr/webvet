@@ -112,7 +112,7 @@ class Workmap {
 
   static getOneMap(id) {
     return new Promise((resolve, reject) => {
-      WorkmapModel.findById(id).exec().then((map) => {
+      WorkmapModel.findById(id).then((map) => {
         resolve(map);
       }).catch((err) => {
         reject(err);

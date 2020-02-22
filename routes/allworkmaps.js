@@ -66,7 +66,7 @@ router.get('/', (req, res) => {
 
 router.post('/', function (req, res, next) {
   //Dando update em todos os kits ativos.
-  Kit.getAllActiveWithWorkmap().then(obj => updateKits(obj)).catch((error) => { console.log(error); });
+  Kit.getAllActive().then(obj => updateKits(obj)).catch((error) => { console.log(error); });
 
 
   // Kit.getActiveAfla().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
@@ -88,7 +88,7 @@ router.post('/', function (req, res, next) {
       for (let u = Kit.toxinaStart; u < Kit.mapArray.length; u++) {
         map_ids.push(Kit.mapArray[u]);
       }
-      Workmap.getAllMaps(map_ids).then((workmaps) => {
+      Workmap.getByIdArray(map_ids).then((workmaps) => {
         for (let i = 0; i < workmaps.length; i++) {
           if (workmaps[i].samplesArray.length > 0) {
             new_last = workmaps[i].mapID;
