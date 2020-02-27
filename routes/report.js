@@ -46,6 +46,7 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
         receivedquantity: requisition.receivedquantity,
         datereceipt: requisition.datereceipt,
         autorizationnumber: requisition.autorizationnumber,
+        responsible: requisition.responsible,
       };
     }).then(() => {
 
@@ -156,6 +157,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         receivedquantity: requisition.receivedquantity,
         datereceipt: requisition.datereceipt,
         autorizationnumber: requisition.autorizationnumber,
+        responsible: requisition.responsible,
       };
     }).then(() => {
 

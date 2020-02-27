@@ -25,6 +25,7 @@ const requisitionSchema = new mongoose.Schema({
   destination: String,
   farmname: String,
   mycotoxin: [String],
+  responsible: String,
   status: {
     type: String,
     enum: ['Nova', 'Aprovada', 'Em Progresso', 'Cancelada'],
