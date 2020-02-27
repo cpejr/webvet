@@ -36,16 +36,15 @@ router.get('/', (req, res) => {
 
     function addSample(index, element, toxinaFull) {
 
-      if (element[toxinaFull].active && element[toxinaFull].mapReference != 'Sem mapa') {
-        //                     se não é o primeiro elemento        compara o mapReference com a ultima amostra da lista
-        var changedworkmap = result[index].samples.length > 0 && result[index].samples[result[index].samples.length - 1].mapReference !== element[toxinaFull].mapReference;
+      if (element[toxinaFull].active && element[toxinaFull].status === 'Mapa de Trabalho') {
+        //                     se não é o primeiro elemento        compara o workmapid com a ultima amostra da lista
+        var changedworkmap = result[index].samples.length > 0 && result[index].samples[result[index].samples.length - 1].workmapId !== element[toxinaFull].workmapId;
         //changedworkmap serve para soltar os espaços entre os campos
 
         result[index].samples.push({
           changedworkmap: changedworkmap,
           _id: element._id,
           samplenumber: element.samplenumber,
-          mapReference: element[toxinaFull].mapReference
         });
       }
     }

@@ -48,6 +48,14 @@
           this.options = __extendDefaults(defaults, arguments[0]);
         }
 
+        this.removeAllBoards = function (filter) {
+          var allB = self.element.querySelectorAll(".kanban-board");
+          if (allB.length > 0 && allB !== undefined)
+            for (var i = 0; i < allB.length; i++)
+              if(allB[i].dataset.id !== filter)
+              this.removeBoard(allB[i].dataset.id);
+        }
+
         this.init = function () {
           //set initial boards
           __setBoard();
@@ -167,7 +175,6 @@
           );
           var nodeItem = document.createElement("div");
           nodeItem.classList.add("kanban-item");
-          console.log(element);
           if (typeof element.id !== "undefined" && element.id !== "" && element.id !== "owner" && element.calibrator != true) {
             nodeItem.setAttribute("data-eid", element.id);
             nodeItem.setAttribute("data-title", element.title);
@@ -208,7 +215,6 @@
           var nodeItem = document.createElement("div");
           nodeItem.classList.add("kanban-item");
           nodeItem.classList.add("not-draggable");
-          console.log(element);
           if (typeof element.id !== "undefined" && element.id !== "" && element.id !== "owner" && element.calibrator != true) {
             nodeItem.setAttribute("data-eid", element.id);
             nodeItem.setAttribute("data-title", element.title);
@@ -256,7 +262,6 @@
           );
           var nodeItem = document.createElement("div");
           nodeItem.classList.add("kanban-item");
-          console.log(element);
           if (typeof element.id !== "undefined" && element.id !== "" && element.calibrator != true) {
             nodeItem.setAttribute("data-eid", element.id);
             nodeItem.setAttribute("data-title", element.title);
@@ -330,8 +335,6 @@
             //create node
             var boardNode = document.createElement("div");
             boardNode.dataset.id = board.id;
-            if (board._id)
-              boardNode.dataset._id = board._id;
             boardNode.dataset.order = self.container.childNodes.length + 1;
             boardNode.classList.add("kanban-board");
             //set style
@@ -407,11 +410,6 @@
           }
           return self;
         };
-
-
-
-
-
 
         this.addNewBoards = function (boards, isInit) {
           if (self.options.responsivePercentage) {
@@ -527,13 +525,6 @@
           }
           return self;
         };
-
-
-
-
-
-
-
 
         this.findBoard = function (id) {
           var el = self.element.querySelector('[data-id="' + id + '"]');

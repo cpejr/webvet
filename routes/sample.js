@@ -37,22 +37,21 @@ router.post('/create', (req, res) => {
   });
 });
 
-router.post('/:status/edit/:mycotoxin/:samplenumber', function (req, res, next) {
+router.post('/updatestatus/:status/:mycotoxin/:samplenumber', function (req, res, next) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample;
     const status = req.params.status;
     const toxina = req.params.mycotoxin;
 
-    function removeWorkmap() {//Remove from workmaps
-      if (sample[toxina].mapReference !== "Sem mapa") {
-        sampleedit[toxina].mapReference = "Sem mapa";
-        const workmapId = sample[toxina].workmapId;
-        sampleedit[toxina].workmapId = null;
 
-        Workmap.removeSample(workmapId, sample._id);
-      }
+    if (sample[toxina].status === "Mapa de Trabalho") {
+      const workmapId = sample[toxina].workmapId;
+      sampleedit[toxina].workmapId = null;
+
+      Workmap.removeSample(workmapId, sample._id);
     }
+
 
 
     switch (status) {
@@ -63,17 +62,17 @@ router.post('/:status/edit/:mycotoxin/:samplenumber', function (req, res, next) 
           sampleedit[toxina].status = "A corrigir";
         }
         break;
+
       case "testing":
         sampleedit[toxina].status = "Em análise";
         break;
+
       case "ownering":
         sampleedit[toxina].status = "Aguardando pagamento";
-        removeWorkmap();
-
         break;
+
       case "waiting":
         sampleedit[toxina].status = "Aguardando amostra";
-        removeWorkmap();
         break;
     }
 
@@ -117,70 +116,48 @@ router.post('/setActiveKit/:toxinafull/:kitActiveID', function (req, res, next) 
   });
 });
 
-router.post('/scndTesting/edit/:mycotoxin/:samplenumber/:kitID', function (req, res, next) {//this function is for the second kanban
+router.post('/scndTesting/edit/:mycotoxin/:samplenumber', function (req, res, next) {//this function is for the second kanban
 
-  Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
-    var mapPosition;
-    const sampleedit = sample;
-    sampleedit.status = "Em análise";
-
-    const toxina = req.params.mycotoxin;
-    sampleedit[toxina].status = "Em análise";
-    mapPosition = sampleedit[toxina].mapReference;
-    sampleedit[toxina].mapReference = "Sem mapa";
-
-    //in the next lines the mapReference is converted to number
-    var mapPosition = mapPosition.replace("_workmap", "");
-    var mapPosition = Number(mapPosition) - 1;//is necessary to subtract one, since the array starts with 0 instead of 1
-
-    Kit.getWorkmapsById(req.params.kitID).then((mapArray) => {//get workmap of the current kit
-      Workmap.removeSample(mapArray[mapPosition], sampleedit._id).then(() => {
-        Sample.update(sampleedit._id, sampleedit).then(() => {
-          console.log(sampleedit);
-          res.send(sampleedit);
-        }).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
-        });
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
-      });
-
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
-
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-});
-
-
-
-
-router.post('/mapedit/:mycotoxin/:samplenumber/:mapreference/:mapID', function (req, res, next) {
-  let mapID = req.params.mapID;
   let samplenumber = req.params.samplenumber;
   let toxina = req.params.mycotoxin;
-  let mapreference = req.params.mapreference;
 
   Sample.getBySampleNumber(samplenumber).then(sample => {
 
-    if (sample[toxina].mapReference !== 'Sem mapa')
+    if (sample[toxina].status === 'Mapa de Trabalho')
       Workmap.removeSample(sample[toxina].workmapId, sample._id);
 
-    Workmap.addSample(mapID, sample._id, mapreference);
+    let sampleUpdate = {};
+    sampleUpdate[toxina + ".status"] = "Em análise";
+    sampleUpdate[toxina + ".workmapId"] = null;
 
-    let sampleUpdate = {
-      status: "Mapa de Trabalho",
-      mapReference: mapreference,
-      workmapId: mapID
-    }
+    Sample.updateCustom(sample._id, sampleUpdate);
 
-    Sample.updateCustom(sample, sampleUpdate);
+    res.send();
+
+  }).catch(err => {
+    console.log(err);
+  });
+});
+
+router.post('/mapedit/:mycotoxin/:samplenumber/:mapID', function (req, res, next) {
+  let mapID = req.params.mapID;
+  let samplenumber = req.params.samplenumber;
+  let toxina = req.params.mycotoxin;
+
+  Sample.getBySampleNumber(samplenumber).then(sample => {
+
+    if (sample[toxina].status === 'Mapa de Trabalho')
+      Workmap.removeSample(sample[toxina].workmapId, sample._id);
+
+    Workmap.addSample(mapID, sample._id);
+
+    let sampleUpdate = {};
+    sampleUpdate[toxina + ".status"] = "Mapa de Trabalho";
+    sampleUpdate[toxina + ".workmapId"] = mapID;
+
+    Sample.updateCustom(sample._id, sampleUpdate);
+
+    res.send();
 
   }).catch(err => {
     console.log(err);
