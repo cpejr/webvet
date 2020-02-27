@@ -80,7 +80,7 @@ router.get('/', async function (req, res, next) {
           compara: avgcompara,
           average: avg,
           number: amostras[i].samplenumber,
-          changed_workmap: i != 0 && amostras[i - 1][toxinafull].mapReference != amostras[i][toxinafull].mapReference,
+          changed_workmap: i != 0 && amostras[i - 1][toxinafull].workmapId != amostras[i][toxinafull].workmapId,
           _id: amostras[i]._id
         };
 

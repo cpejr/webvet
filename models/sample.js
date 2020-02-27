@@ -285,6 +285,17 @@ class Sample {
     });
   }
 
+  static updateCustom(id, params) {
+    return new Promise((resolve, reject) => {
+      SampleModel.updateOne({ _id: id }, { $set: params }).then((result) => {
+        resolve(result);
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
   static updateBySampleNumber(sampleNumber, sample) {
     return new Promise((resolve, reject) => {
       SampleModel.findOneAndUpdate({samplenumber: sampleNumber}, sample).then((res) => {
@@ -319,7 +330,7 @@ class Sample {
           //Find samples in workmaps
           for (let i = 0; i < ToxinasFull.length; i++) {
             const toxina = ToxinasFull[i];
-            if (sample[toxina].mapReference !== "Sem mapa") {
+            if (sample[toxina].status === "Mapa de Trabalho") {
               let workmapIdStr = sample[toxina].workmapId.toString();
 
               //Initialize
