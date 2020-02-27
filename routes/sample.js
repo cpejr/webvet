@@ -211,7 +211,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:kitID/:mapreference', function (
               else { //the sample was an workmap before
                 Workmap.removeSample(mapArray[originMapPosition], sampleedit._id).then(() => {//remove from the previus workmap
                   Workmap.addSample(mapArray[mapPosition], sampleedit._id, req.params.mapreference).then((res) => { //else, it will be add
-                    ress.send(res);
+                    res.send(res);
                   }).catch((error) => {
                     console.log(error);
                     res.redirect('/error');
