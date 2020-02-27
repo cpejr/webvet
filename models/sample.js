@@ -190,6 +190,7 @@ const sampleSchema = new mongoose.Schema({
     default: false
   },
   description: String,
+  parecer: String,
 }, { timestamps: true, strict: false });
 
 const SampleModel = mongoose.model('Sample', sampleSchema);
@@ -385,11 +386,11 @@ class Sample {
     });
   }
 
-  static async updateDescription(id, descriptionUpdate) {
+  static async updateDescription(id, info) {
     try {
       let result = await SampleModel.update(
         { _id: id },
-        { description: descriptionUpdate }
+        { description: info.description, parecer: info.parecer}
       )
       return result;
     }
