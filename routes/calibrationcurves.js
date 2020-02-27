@@ -40,7 +40,7 @@ router.get('/', async function (req, res, next) {
         samples_id = samples_id.concat(map.samplesArray)
       );
 
-      await Promise.all(promises);      
+      await Promise.all(promises);
 
       amostras = await Sample.getActiveByIdArray(samples_id, toxinafull);
 
@@ -85,17 +85,15 @@ router.get('/', async function (req, res, next) {
         calibradores: {},
         valores: resultado.parte1,
       };
+
+      for (let jcali = 0; jcali < 5; jcali++) { //5 calibradores
+        toxinas[index].calibradores[jcali] = {
+          concentracao: resultado.parte2.concentration[jcali],
+          absorvancia: resultado.parte2.absorbance[jcali],
+          calname: "P" + (jcali + 1)
+        };
+      }
     }
-
-    for (let jcali = 0; jcali < 5; jcali++) { //5 calibradores
-
-      toxinas[index].calibradores[jcali] = {
-        concentracao: resultado.parte2.concentration[jcali],
-        absorvancia: resultado.parte2.absorbance[jcali],
-        calname: "P" + (jcali + 1)
-      };
-    }
-
     //Check if is the last
     count++;
     if (count == ToxinasSigla.length)
