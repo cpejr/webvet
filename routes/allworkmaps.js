@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
         //                     se não é o primeiro elemento        compara o mapReference com a ultima amostra da lista
         var changedworkmap = result[index].samples.length > 0 && result[index].samples[result[index].samples.length - 1].mapReference !== element[toxinaFull].mapReference;
         //changedworkmap serve para soltar os espaços entre os campos
-        
+
         result[index].samples.push({
           changedworkmap: changedworkmap,
           _id: element._id,
@@ -50,9 +50,9 @@ router.get('/', (req, res) => {
       }
     }
 
-    for (let i = 0; i < amostras.length; i++) 
-      for (let j = 0; j < ToxinasFull.length; j++) 
-        addSample(j, amostras[i], ToxinasFull[j]);        
+    for (let i = 0; i < amostras.length; i++)
+      for (let j = 0; j < ToxinasFull.length; j++)
+        addSample(j, amostras[i], ToxinasFull[j]);
 
     /*
     Result é um vetor de 6 dimensões 
@@ -66,159 +66,69 @@ router.get('/', (req, res) => {
 
 router.post('/', function (req, res, next) {
   //Dando update em todos os kits ativos.
-  Kit.getAllActive().then(obj => updateKits(obj)).catch((error) => { console.log(error); });
+  Kit.getAllActive().then(obj => updateKits(obj)).catch(error => { console.log(error); });
 
+  if (req.body.sample) {
+    let count = 0;
 
-  // Kit.getActiveAfla().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  // Kit.getActiveT2().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  // Kit.getActiveZea().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  // Kit.getActiveFum().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  // Kit.getActiveOcra().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
-  // Kit.getActiveDeox().then(obj => updateKit(obj)).catch((error) => { console.log(error); });
+    ToxinasFull.forEach((toxina) => {
+      count++;
+      updateSample(toxina, req.body.sample[ToxinasAll[toxina].Sigla]);
+
+      if (count == ToxinasFull.length)
+        res.redirect('/sampleresult');
+    });
+  }
 
   function updateKits(KitArray) {
-
-    for (let h = 0; h < KitArray.length; h++) {
-
-      var Kit = KitArray[h];
-      var new_last;
+    KitArray.forEach((kit) => {
       var last_filled = 0;
       var map_ids = [];
 
-      for (let u = Kit.toxinaStart; u < Kit.mapArray.length; u++) {
-        map_ids.push(Kit.mapArray[u]);
-      }
+      for (let u = kit.toxinaStart; u < kit.mapArray.length; u++)
+        map_ids.push(kit.mapArray[u]);
+
       Workmap.getByIdArray(map_ids).then((workmaps) => {
         for (let i = 0; i < workmaps.length; i++) {
           if (workmaps[i].samplesArray.length > 0) {
-            new_last = workmaps[i].mapID;
-            new_last = new_last.replace("_workmap", "");
-            new_last = Number(new_last);
 
-            if (new_last > last_filled) {
+            let new_last = Number(workmaps[i].mapID.replace("_workmap", ""));
+
+            if (new_last > last_filled)
               last_filled = new_last;
-            }
+
           }
         }
-        Kit.amount = Kit.stripLength - last_filled;
-        Kit.toxinaStart = last_filled;
-        Kit.update(Kit._id, Kit).catch((err) => {
+        kit.amount = kit.stripLength - last_filled;
+        kit.toxinaStart = last_filled;
+        Kit.update(kit._id, kit).catch((err) => {
           console.log(err);
         });
       });
-    }
+    });
   }
 
+  function updateSample(name, obj) {
+    if (typeof obj !== 'undefined') {
+      var id_tox = obj._id;
+      var abs_tox = obj.absorbance;
+      var abs2_tox = obj.absorbance2;
 
-  Sample.getAll().then((sample) => {
-    //amostras afla
-
-
-    function updateSample(name, obj) {
-      if (typeof obj !== 'undefined') {
-        var id_tox = obj._id;
-        var abs_tox = obj.absorbance;
-        var abs2_tox = obj.absorbance2;
-
-        if (Array.isArray(abs_tox)) {
-          for (let i = 0; i < abs_tox.length; i++) {
-            Sample.updateAbsorbances(name, id_tox[i], abs_tox[i], abs2_tox[i]).then(() => {
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-        } else {
-          Sample.updateAbsorbances(name, id_tox, abs_tox, abs2_tox).then(() => {
+      if (Array.isArray(abs_tox)) {
+        for (let i = 0; i < abs_tox.length; i++) {
+          Sample.updateAbsorbances(name, id_tox[i], abs_tox[i], abs2_tox[i]).then(() => {
           }).catch((error) => {
             console.log(error);
           });
         }
-      }
-    }
-
-    if (req.body.sample) {
-      updateSample('aflatoxina', req.body.sample.AFLA);
-      updateSample('deoxinivalenol', req.body.sample.DON);
-      updateSample('ocratoxina', req.body.sample.OTA);
-      updateSample('t2toxina', req.body.sample.T2);
-      updateSample('zearalenona', req.body.sample.ZEA);
-      updateSample('fumonisina', req.body.sample.FBS);
-    }
-
-    var cont = 0;
-
-    for (var i = 0; i < sample.length; i++) {
-      if (cont < sample[i].ocratoxina.contador) {
-        cont = sample[i].ocratoxina.contador;
-      }
-      if (cont < sample[i].deoxinivalenol.contador) {
-        cont = sample[i].deoxinivalenol.contador;
-      }
-      if (cont < sample[i].t2toxina.contador) {
-        cont = sample[i].t2toxina.contador;
-      }
-      if (cont < sample[i].fumonisina.contador) {
-        cont = sample[i].fumonisina.contador;
-      }
-      if (cont < sample[i].zearalenona.contador) {
-        cont = sample[i].zearalenona.contador;
-      }
-      if (cont < sample[i].aflatoxina.contador) {
-        cont = sample[i].aflatoxina.contador;
-      }
-    }
-
-    for (var i = 0; i < sample.length; i++) {
-
-      if (sample[i].ocratoxina.mapReference != 'Sem mapa' && sample[i].ocratoxina.active == true) {
-        Sample.updateOcraWorkmap(sample[i]._id, cont + 1).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-      }
-
-      if (sample[i].aflatoxina.mapReference != 'Sem mapa' && sample[i].aflatoxina.active == true) {
-        Sample.updateAflaWorkmap(sample[i]._id, cont + 1).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-      }
-
-      if (sample[i].deoxinivalenol.mapReference != 'Sem mapa' && sample[i].deoxinivalenol.active == true) {
-        Sample.updateDeoxWorkmap(sample[i]._id, cont + 1).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-      }
-
-      if (sample[i].t2toxina.mapReference != 'Sem mapa' && sample[i].t2toxina.active == true) {
-        Sample.updateT2Workmap(sample[i]._id, cont + 1).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-      }
-
-      if (sample[i].fumonisina.mapReference != 'Sem mapa' && sample[i].fumonisina.active == true) {
-        Sample.updatefumWorkmap(sample[i]._id, cont + 1).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
-      }
-
-      if (sample[i].zearalenona.mapReference != 'Sem mapa' && sample[i].zearalenona.active == true) {
-        Sample.updateZeaWorkmap(sample[i]._id, cont + 1).then(() => {
+      } else {
+        Sample.updateAbsorbances(name, id_tox, abs_tox, abs2_tox).then(() => {
         }).catch((error) => {
           console.log(error);
         });
       }
     }
-
-    res.redirect('/sampleresult');
-
-  }).catch((error) => {
-    console.log(error);
-  });
-
+  }
 
 });
 
