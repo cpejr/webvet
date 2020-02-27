@@ -330,6 +330,8 @@
             //create node
             var boardNode = document.createElement("div");
             boardNode.dataset.id = board.id;
+            if (board._id)
+              boardNode.dataset._id = board._id;
             boardNode.dataset.order = self.container.childNodes.length + 1;
             boardNode.classList.add("kanban-board");
             //set style

@@ -285,6 +285,16 @@ class Sample {
     });
   }
 
+  static updateCustom(id, params) {
+    return new Promise((resolve, reject) => {
+      SampleModel.update({ _id: id }, { $set: params }).then((result) => {
+        resolve(result);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+
   static updateBySampleNumber(sampleNumber, sample) {
     return new Promise((resolve, reject) => {
       SampleModel.findOneAndUpdate({samplenumber: sampleNumber}, sample).then((res) => {

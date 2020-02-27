@@ -98,7 +98,8 @@ function createWormapKanban(toxinaFull) {
       }
     ],
     dropEl: function (el, target, source, sibling) {
-      const samplenumber = el.dataset.title.replace("Amostra", "");
+      const samplenumber = el.dataset.eid;
+      console.log(target);
       var goTO = target;
       if (goTO.indexOf("workmap") != -1) { //se o alvo for um board workmap qualquer
         if (el.dataset.calibrator) {//cards originais
@@ -106,7 +107,7 @@ function createWormapKanban(toxinaFull) {
         }
         else {
           var mapName = goTO.toString();
-          $.post(`/sample/mapedit/${toxinaFull}/${samplenumber}/${nowActiveKits[toxinaFull]}/${mapName}`);
+          $.post(`/sample/mapedit/${toxinaFull}/${samplenumber}/${mapName}/`);
 
           if (el.dataset.eid == "owner") {
             el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
@@ -226,6 +227,7 @@ $('div[class="loteradio"]').each(function (index, group) {
             Wormapskanbans[toxina].addBoards(
               [{
                 'id': '_workmap' + (i),
+                '_id': kit.mapArray[i],
                 'title': 'Mapa de trabalho' + ' ' + (i),
                 'class': 'info',
               }]
