@@ -254,14 +254,18 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, next) {
   var concentrations = req.body;
   var id = req.params.id;
+  var info = {
+    description : req.body.sample.description,
+    parecer : req.body.sample.parecer
+  }
   // var description = req.body.sample.description;
   try {
-    await Sample.updateDescription(id, req.body.sample.description);
+    await Sample.updateDescription(id, info);
     req.flash('success', 'Atualizado com sucesso.');
     res.redirect('/report/show/admin/' + id);
   }
   catch (err) {
-    req.flash('danger', 'Problem ao atualizar');
+    req.flash('danger', 'Problema ao atualizar');
     res.redirect('/report/show/admin/' + id);
   }
 });
