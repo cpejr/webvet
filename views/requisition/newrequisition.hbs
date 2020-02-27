@@ -11,58 +11,58 @@
 <form action="/requisition/new" method="post">
   <div id="keep-address" class="form-row">
     <div class="requisition-text col-md-11">
-      <input id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}"
+      <input required id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}"
         class="requisition-text" placeholder="Razão Social/Nome Completo">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}"
+      <input required id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}"
         class="requisition-text" placeholder="CNPJ/CPF">
     </div>
     <div class="requisition-text col-md-5">
-      <input id="I.E" type="text" name="requisition[IE]" class="requisition-text" placeholder="I.E">
+      <input required id="I.E" type="text" name="requisition[IE]" class="requisition-text" placeholder="I.E">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="street" type="text" name="requisition[address][street]" value="{{user.address.street}}"
+      <input required id="street" type="text" name="requisition[address][street]" value="{{user.address.street}}"
         class="requisition-text" placeholder="Rua de endereço de Faturamento">
     </div>
     <div class="requisition-text col-md-5">
-      <input id="number" type="text" name="requisition[address][number]" value="{{user.address.number}}"
+      <input required id="number" type="text" name="requisition[address][number]" value="{{user.address.number}}"
         class="requisition-text" placeholder="Nº">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="complement" type="text" name="requisition[address][complement]" value="{{user.address.complement}}"
+      <input required id="complement" type="text" name="requisition[address][complement]" value="{{user.address.complement}}"
         class="requisition-text" placeholder="Complemento">
     </div>
     <div class="requisition-text col-md-5">
-      <input id="neighborhood" type="text" name="requisition[address][neighborhood]"
+      <input required id="neighborhood" type="text" name="requisition[address][neighborhood]"
         value="{{user.address.neighborhood}}" class="requisition-text" placeholder="Bairro">
     </div>
     <div class="requisition-text col-md-4">
-      <input id="city" type="text" name="requisition[address][city]" value="{{user.address.city}}"
+      <input required id="city" type="text" name="requisition[address][city]" value="{{user.address.city}}"
         class="requisition-text" placeholder="Cidade">
     </div>
     <div class="requisition-text col-md-4">
-      <input id="state" type="text" name="requisition[address][state]" value="{{user.address.state}}"
+      <input required id="state" type="text" name="requisition[address][state]" value="{{user.address.state}}"
         class="requisition-text" placeholder="Estado">
     </div>
     <div class="requisition-text col-md-3">
-      <input id="cep" type="text" name="requisition[address][cep]" value="{{user.address.cep}}" class="requisition-text"
+      <input required id="cep" type="text" name="requisition[address][cep]" value="{{user.address.cep}}" class="requisition-text"
         placeholder="CEP">
     </div>
     <div class="requisition-text col-md-11">
-      <input id="resposible" type="text" name="requisition[responsible]" class="requisition-text"
+      <input required id="resposible" type="text" name="requisition[responsible]" class="requisition-text"
         placeholder="Responsável pela amostra">
     </div>
     <div class="requisition-text col-md-6">
-      <input id="phone" type="text" name="requisition[client][phone]" value="{{user.phone}}" class="requisition-text"
+      <input required id="phone" type="text" name="requisition[client][phone]" value="{{user.phone}}" class="requisition-text"
         placeholder="Tel. com DDD">
     </div>
     <div class=" requisition-text col-md-5">
-      <input id="cellphone" type="text" name="requisition[client][cellphone]" value="{{user.cellphone}}"
+      <input required id="cellphone" type="text" name="requisition[client][cellphone]" value="{{user.cellphone}}"
         class="requisition-text" placeholder="Cel. com DDD">
     </div>
     <div class="requisition-text col-md-11">
-      <input id="email" type="text" name="requisition[client][email]" value="{{user.email}}" class="requisition-text"
+      <input required id="email" type="text" name="requisition[client][email]" value="{{user.email}}" class="requisition-text"
         placeholder="Email">
     </div>
   </div>
@@ -73,23 +73,23 @@
   <br>
   <div class="form-row">
     <div class="requisition-text col-md-6">
-      <input type="text" name="requisition[producer]" class="requisition-text"
+      <input required type="text" name="requisition[producer]" class="requisition-text"
         placeholder="Nome do cliente | Fazenda | Produtor">
     </div>
     <div class="requisition-text col-md-6">
-      <input type="text" name="requisition[autorizationnumber]" class="requisition-text"
+      <input required type="text" name="requisition[autorizationnumber]" class="requisition-text"
         placeholder="Número de Autorização">
     </div>
   </div>
   <div class="form-row">
     <div class="requisition-text col-md-4">
-      <input type="text" name="requisition[city]" class="requisition-text" placeholder="Município">
+      <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município">
     </div>
     <div class="requisition-text col-md-4">
-      <input type="text" name="requisition[state]" class="requisition-text" placeholder="Estado">
+      <input required type="text" name="requisition[state]" class="requisition-text" placeholder="Estado">
     </div>
     <div class="requisition-text col-md-4">
-      <input type="text" name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
+      <input required type="text" name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
     </div>
   </div>
   <br>
@@ -98,7 +98,7 @@
   <div class="form-group d-flex flex-wrap text-left">
     <div class="column">
       <div class="form-check">
-        <input checked id="Aves" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input checked id="Aves" class="form-check-input required destination" type="radio" name="requisition[destination]"
           value="Aves">
         <label for="Aves" class="radio-text form-check-label mr-3"> Aves </label>
       </div>
@@ -193,7 +193,7 @@
   </div>
   <div class="form-row">
     <div class="requisition-text col-md-8">
-      <input type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text" placeholder="Amostra 1">
+      <input required type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text" placeholder="Amostra 1">
     </div>
     <div class="checkbox">
       <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input>
@@ -218,7 +218,7 @@
   <div class="form-check form-check-inline">
     <p>
       <div class="micotoxina-options">
-        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
+        <label class="radio-text form-check-label"><input checked class="form-check-input position-static ml-1" type="checkbox"
             name="requisition[mycotoxin]" value="Aflatoxinas">Aflatoxinas</label>
       </div>
       <div class="micotoxina-options">
