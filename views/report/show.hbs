@@ -46,7 +46,7 @@
             <tr>
               <th scope="row">{{Name}}</th>
               <td>
-                <a type="text" id="{{Pair.name}}Conc" value="{{round Result 2}}"></a>
+                <a type="text" id="{{Pair.name}}Conc">{{round Result 2}}</a>
               </td>
               <td>{{Pair.kit.Lod}}</td>
               <td>{{Pair.kit.Loq}}</td>
@@ -57,7 +57,7 @@
     </div>
     <h4> 6. Parecer técnico: </h4>
     <div id="parecer"></div>
-     <textarea name="sample[parecer]" class="col-sm-12">{{sample.parecer}}</textarea>
+     <div name="sample[parecer]" class="col-sm-12">{{sample.parecer}}</div>
     <h4> 7. Comentários: </h4>
     <textarea name="sample[description]" cols="100" rows="7">{{sample.description}}</textarea>
   <h4> Belo Horizonte, </h4>
