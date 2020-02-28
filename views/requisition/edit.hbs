@@ -41,8 +41,36 @@
         class="requisition-text" placeholder="Cidade">
     </div>
     <div class="requisition-text col-md-4">
-      <input id="state" type="text" name="requisition[address][state]" value="{{requisition.address.state}}"
-        class="requisition-text" placeholder="Estado">
+      <select id="state" class="drowdownoptions" name="requisition[address][state]" required="required">
+        <option disabled selected value="">Estado</option>
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espirito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </select>
     </div>
     <div class="requisition-text col-md-3">
       <input id="cep" type="number" name="requisition[address][cep]" value="{{requisition.address.cep}}"
@@ -259,6 +287,9 @@
       $('#OtherInput').val("{{requisition.destination}}");
       $('#Other-destination').removeClass('form-disabled');
     }
+
+    let state = "{{requisition.address.state}}";
+    $('select#state').val(state);
   });
 
   $("#submitAlterations").click(function () {
