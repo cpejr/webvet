@@ -81,24 +81,22 @@ router.post('/', function (req, res, next) {
 
   function updateKits(KitArray) {
     KitArray.forEach((kit) => {
-      var last_filled = 0;
-      var map_ids = [];
+      var last_filled = kit.toxinaStart;
 
-      for (let u = kit.toxinaStart; u < kit.mapArray.length; u++)
-        map_ids.push(kit.mapArray[u]);
-
-      Workmap.getByIdArray(map_ids).then((workmaps) => {
-        for (let i = 0; i < workmaps.length; i++) {
+      Workmap.getByIdArray(kit.mapArray).then((workmaps) => {
+        for (let i = kit.toxinaStart; i < workmaps.length; i++) {
           if (workmaps[i].samplesArray.length > 0) {
 
-            let new_last = Number(workmaps[i].mapID.replace("_workmap", ""));
+            let new_last = i;
+            console.log("====");
+            console.log(i);
+            console.log(kit.productCode);
 
             if (new_last > last_filled)
               last_filled = new_last;
-
           }
         }
-        kit.amount = kit.stripLength - last_filled;
+        kit.amount = kit.stripLength - (last_filled  + 1);
         kit.toxinaStart = last_filled;
         Kit.update(kit._id, kit).catch((err) => {
           console.log(err);

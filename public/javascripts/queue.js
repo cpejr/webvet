@@ -222,7 +222,7 @@ $('div[class="loteradio"]').each(function (index, group) {
           }
 
           //Add boards
-          for (let i = begin; i < kit.stripLength; i++) {//the map 0 was defined before
+          for (let i = begin; i < kit.stripLength - 1; i++) {//the map 0 was defined before
             Wormapskanbans[toxina].addBoards(
               [{
                 'id': kit.mapArray[i],
@@ -232,40 +232,43 @@ $('div[class="loteradio"]').each(function (index, group) {
             )
           }
 
-          //ADD and DelETE calibradores
-          for (let i = 1; i <= 5; i++) {
-            Wormapskanbans[toxina].removeElement("P" + i);
-            Wormapskanbans[toxina].addFixedElement(kit.mapArray[begin], {
-              id: "P" + i,
-              title: "P" + i,
-              calibrator: true,
-              click: () => { }
+          //If there is workmaps
+          if (begin != kit.stripLength - 1) {
+            //ADD and DelETE calibradores
+            for (let i = 1; i <= 5; i++) {
+              Wormapskanbans[toxina].removeElement("P" + i);
+              Wormapskanbans[toxina].addFixedElement(kit.mapArray[begin], {
+                id: "P" + i,
+                title: "P" + i,
+                calibrator: true,
+                click: () => { }
+              });
+            }
+
+            //Update variables
+            workmapsStart = begin;
+            workmapsEnd = kit.stripLength;
+
+            //allocate the samples/calibrators that are in an workmap
+            $.get(`/search/getSamplesActiveByWorkapArray/${kit.mapArray}/${toxina}`).then(samples => {
+              for (let i = 0; i < samples.length; i++) {
+                const sample = samples[i];
+                console.log("sample[toxina].status");
+                console.log(sample[toxina].status);
+                if (sample[toxina].status === "Mapa de Trabalho") {
+                  Wormapskanbans[toxina].addElement(sample[toxina].workmapId, {
+                    id: sample.samplenumber,
+                    title: "Amostra " + sample.samplenumber,
+                    analyst: sample.responsible,
+                    status: sample[toxina].status,
+                    click: function (el) {
+                      window.location.href = 'sample/edit/' + el.dataset.eid;
+                    },
+                  });
+                }
+              }
             });
           }
-
-          //Update variables
-          workmapsStart = begin;
-          workmapsEnd = kit.stripLength;
-
-          //allocate the samples/calibrators that are in an workmap
-          $.get(`/search/getSamplesActiveByWorkapArray/${kit.mapArray}/${toxina}`).then(samples => {
-            for (let i = 0; i < samples.length; i++) {
-              const sample = samples[i];
-              console.log("sample[toxina].status");
-              console.log(sample[toxina].status);
-              if (sample[toxina].status === "Mapa de Trabalho") {
-                Wormapskanbans[toxina].addElement(sample[toxina].workmapId, {
-                  id: sample.samplenumber,
-                  title: "Amostra " + sample.samplenumber,
-                  analyst: sample.responsible,
-                  status: sample[toxina].status,
-                  click: function (el) {
-                    window.location.href = 'sample/edit/' + el.dataset.eid;
-                  },
-                });
-              }
-            }
-          });
         }
         else {
           $("#countkits" + toxina).text("0");
