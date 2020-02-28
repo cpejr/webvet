@@ -107,7 +107,7 @@ router.get('/stock', auth.isAuthenticated, (req, res) => {
 router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
     //console.log(kit);
-    res.render('stock/show', { title: 'Show Kit', layout: 'layoutDashboard.hbs', kit });
+    res.render('stock/show', { title: 'Show Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -119,7 +119,7 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
     console.log(kit);
-    res.render('stock/edit', { title: 'Edit Kit', layout: 'layoutDashboard.hbs', kit });
+    res.render('stock/edit', { title: 'Edit Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
