@@ -103,7 +103,7 @@
       </div>
 
       <div class="form-row">
-          <div class="form-show-typeahead col-md-4 form-disabled" id="producer-form">
+          <div class="form-show-typeahead col-md-15 form-disabled" id="producer-form">
             <label>Produtores associados</label>
             <div class="d-flex flex-row justify-content-space-between">
                 <input id="producer-search" class="typeahead" type="text">
@@ -118,9 +118,9 @@
                         <tr>
                           <td align="center">{{fullname}}</td>
                           <td align="center">{{register}}</td>
-                          <td align="center">
+                          {{!-- <td align="center">
                             <button type="button" id="add-producer" class="btn btn-sm"><i class="fa fa-plus-circle"></i></button>
-                          </td>
+                          </td> --}}
                         </tr>
                       {{/compare}}
                     {{/each}}
@@ -130,7 +130,7 @@
             </div>
           </div>
 
-          <div class="form-show-typeahead col-md-4 form-disabled" id="manager-form">
+          <div class="form-show-typeahead col-md-15 form-disabled" id="manager-form">
             <label>Gerentes associados</label>
             <div id="manager-list">
               <input class="typeahead" type="text">
