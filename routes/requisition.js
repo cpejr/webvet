@@ -62,7 +62,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
       const sample = {
         name: samplesV[i],
         samplenumber: -1,
-        responsible: req.body.responsible,
+        responsible: req.body.requisition.responsible,
         requisitionId: NaN,
         aflatoxina: {
           active: false,
