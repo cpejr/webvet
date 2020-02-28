@@ -28,9 +28,15 @@ router.post('/', function (req, res, next) {
 
   function updateKitsCalibrators(kits) {
     for (let j = 0; j < kits.length; j++) {
-      
+
       var Current_kit = kits[j];
-     
+      let sigla = Current_kit.productCode;
+      sigla = sigla.replace(" Romer", "");
+
+      //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
+      if (sigla === "FUMO")
+        sigla = "FBS";
+
       Current_kit.calibrators.P1.absorbance = parseFloat(req.body[sigla + "Calibrator"].P1);
       Current_kit.calibrators.P2.absorbance = parseFloat(req.body[sigla + "Calibrator"].P2);
       Current_kit.calibrators.P3.absorbance = parseFloat(req.body[sigla + "Calibrator"].P3);

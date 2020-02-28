@@ -220,7 +220,7 @@ $('div[class="loteradio"]').each(function (index, group) {
           }
 
           //Add boards
-          for (let i = begin; i < kit.stripLength - 1; i++) {//the map 0 was defined before
+          for (let i = begin; i < kit.stripLength; i++) {//the map 0 was defined before
             Wormapskanbans[toxina].addBoards(
               [{
                 'id': kit.mapArray[i],
