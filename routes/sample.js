@@ -145,7 +145,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:mapID', function (req, res, next
   let toxina = req.params.mycotoxin;
 
   Sample.getBySampleNumber(samplenumber).then(sample => {
-    if (sample[toxina].workmapId !== mapID) {
+    if (sample[toxina].workmapId + "" !== mapID) {
       if (sample[toxina].status === 'Mapa de Trabalho')
         Workmap.removeSample(sample[toxina].workmapId, sample._id);
 
