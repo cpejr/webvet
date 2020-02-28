@@ -70,11 +70,25 @@ router.get('/', async function (req, res, next) {
       for (let i = 0; i < amostras.length; i++) {
         log_b_b0[i] = Math.log10((amostras[i][toxinafull].absorbance / p_absorvance[0]) / (1 - (amostras[i][toxinafull].absorbance / p_absorvance[0])));
         log_b_b0_2[i] = Math.log10((amostras[i][toxinafull].absorbance2 / p_absorvance[0]) / (1 - (amostras[i][toxinafull].absorbance2 / p_absorvance[0])));
+
+        console.log("===Valores log===" + i)
+        console.log(amostras[i][toxinafull].absorbance);
+        console.log(amostras[i][toxinafull].absorbance2);
+        console.log(p_absorvance[0]);
+        console.log(log_b_b0[i]);
+        console.log(log_b_b0_2[i]);
+        console.log("===fim===" + i);
       }
 
       for (let i = 0; i < log_b_b0.length; i++) {
         var avg = (amostras[i][toxinafull].absorbance + amostras[i][toxinafull].absorbance2) / 2;
         var avgcompara = (comparara(log_b_b0[i], yIntercept, slope) + comparara(log_b_b0_2[i], yIntercept, slope)) / 2;
+        console.log("===Valores compara===" + i)
+        console.log(avgcompara);
+        console.log(log_b_b0[i]);
+        console.log(yIntercept);
+        console.log(slope);
+        console.log("===fim===" + i);
 
         resultado[i] = {
           compara: avgcompara,

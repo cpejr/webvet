@@ -28,37 +28,9 @@ router.post('/', function (req, res, next) {
 
   function updateKitsCalibrators(kits) {
     for (let j = 0; j < kits.length; j++) {
-
+      
       var Current_kit = kits[j];
-      sigla = Current_kit.productCode;
-      sigla = sigla.replace(" Romer", "");
-
-      //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
-      if (sigla == "FUMO")
-        sigla = "FBS";
-
-
-      var new_last;
-      var last_filled = 0;
-
-      for (let i = Current_kit.toxinaStart; i < Current_kit.mapArray.length; i++) {
-        Workmap.getOneMap(Current_kit.mapArray[i]).then((workmap) => {
-          if (workmap !== null && workmap.samplesArray.length > 0) {
-            new_last = workmap.mapID;
-            new_last = new_last.replace("_workmap", "");
-            new_last = Number(new_last);
-
-            if (new_last > last_filled) {
-              last_filled = new_last;
-            }
-          }
-        }).catch(err =>{
-          console.log(err);
-        });
-      }
-
-      Current_kit.amount = Current_kit.stripLength - last_filled;
-      Current_kit.toxinaStart = last_filled;
+     
       Current_kit.calibrators.P1.absorbance = parseFloat(req.body[sigla + "Calibrator"].P1);
       Current_kit.calibrators.P2.absorbance = parseFloat(req.body[sigla + "Calibrator"].P2);
       Current_kit.calibrators.P3.absorbance = parseFloat(req.body[sigla + "Calibrator"].P3);

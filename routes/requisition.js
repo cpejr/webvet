@@ -84,30 +84,14 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
         }
       }
 
-      if (req.body.requisition.mycotoxin.includes("Aflatoxinas")) {
-        sample.aflatoxina.active = true;
-      }
-      if (req.body.requisition.mycotoxin.includes("Ocratoxina A")) {
-        sample.ocratoxina.active = true;
-      }
+      for (let i = 0; i < ToxinasFormal.length; i++) {
+        const formal = ToxinasFormal[i];
+        const full = ToxinasFull[i];
 
-      if (req.body.requisition.mycotoxin.includes("Deoxinivalenol*")) {
-        sample.deoxinivalenol.active = true;
+        if (req.body.requisition.mycotoxin.includes(formal))
+          sample[full].active = true;
+
       }
-
-
-      if (req.body.requisition.mycotoxin.includes("T-2 toxina")) {
-        sample.t2toxina.active = true;
-      }
-
-      if (req.body.requisition.mycotoxin.includes("Fumonisina")) {
-        sample.fumonisina.active = true;
-      }
-
-      if (req.body.requisition.mycotoxin.includes("Zearalenona")) {
-        sample.zearalenona.active = true;
-      }
-
 
       sample.requisitionId = reqid;
       sampleObjects.push(sample);
@@ -147,7 +131,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisitions) => {
-    res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions});
+    res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -157,10 +141,10 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisition) => {
     var nova = false;
-    if(requisition.status === "Nova"){
+    if (requisition.status === "Nova") {
       nova = true;
     }
-    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova});
+    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -169,7 +153,7 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 
 router.post('/:id', auth.isAuthenticated, function (req, res, next) {
   var { requisition } = req.body;
-  if(req.body.novaCheck === "isChecked"){
+  if (req.body.novaCheck === "isChecked") {
     console.log("Detectou que a checkbox esta marcada");
     requisition.status = "Aprovada";
   }
