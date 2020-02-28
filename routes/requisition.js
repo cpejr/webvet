@@ -84,30 +84,14 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
         }
       }
 
-      if (req.body.requisition.mycotoxin.includes("Aflatoxinas")) {
-        sample.aflatoxina.active = true;
-      }
-      if (req.body.requisition.mycotoxin.includes("Ocratoxina A")) {
-        sample.ocratoxina.active = true;
-      }
+      for (let i = 0; i < ToxinasFormal.length; i++) {
+        const formal = ToxinasFormal[i];
+        const full = ToxinasFull[i];
 
-      if (req.body.requisition.mycotoxin.includes("Deoxinivalenol*")) {
-        sample.deoxinivalenol.active = true;
+        if (req.body.requisition.mycotoxin.includes(formal)) 
+          sample[full].active = true;
+        
       }
-
-
-      if (req.body.requisition.mycotoxin.includes("T-2 toxina")) {
-        sample.t2toxina.active = true;
-      }
-
-      if (req.body.requisition.mycotoxin.includes("Fumonisina")) {
-        sample.fumonisina.active = true;
-      }
-
-      if (req.body.requisition.mycotoxin.includes("Zearalenona")) {
-        sample.zearalenona.active = true;
-      }
-
 
       sample.requisitionId = reqid;
       sampleObjects.push(sample);

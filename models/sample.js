@@ -521,7 +521,7 @@ class Sample {
         const toxina = ToxinasFull[index];
         var expression = {}
 
-        expression[toxina + '.mapReference'] = { $not: { $eq: 'Sem mapa' } };
+        expression[toxina + '.status'] = { $eq: 'Mapa de Trabalho'  };
         expression[toxina + '.active'] = true;
 
         querry.$or.push(expression);

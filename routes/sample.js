@@ -145,18 +145,18 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:mapID', function (req, res, next
   let toxina = req.params.mycotoxin;
 
   Sample.getBySampleNumber(samplenumber).then(sample => {
+    if (sample[toxina].workmapId !== mapID) {
+      if (sample[toxina].status === 'Mapa de Trabalho')
+        Workmap.removeSample(sample[toxina].workmapId, sample._id);
 
-    if (sample[toxina].status === 'Mapa de Trabalho')
-      Workmap.removeSample(sample[toxina].workmapId, sample._id);
+      Workmap.addSample(mapID, sample._id);
 
-    Workmap.addSample(mapID, sample._id);
+      let sampleUpdate = {};
+      sampleUpdate[toxina + ".status"] = "Mapa de Trabalho";
+      sampleUpdate[toxina + ".workmapId"] = mapID;
 
-    let sampleUpdate = {};
-    sampleUpdate[toxina + ".status"] = "Mapa de Trabalho";
-    sampleUpdate[toxina + ".workmapId"] = mapID;
-
-    Sample.updateCustom(sample._id, sampleUpdate);
-
+      Sample.updateCustom(sample._id, sampleUpdate);
+    }
     res.send();
 
   }).catch(err => {

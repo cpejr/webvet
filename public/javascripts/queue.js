@@ -29,47 +29,49 @@ function createAnalysisKanban(toxinaFull) {
 
     ],
     dropEl: function (el, target, source, sibling) {
-      const samplenumber = el.dataset.title.replace("Amostra ", "");
+      if (target !== source) {
+        const samplenumber = el.dataset.title.replace("Amostra ", "");
 
-      let sourceName = $(source).parent().data("id");
+        let sourceName = $(source).parent().data("id");
 
-      if (sourceName === '_testing')
-        Wormapskanbans[toxinaFull].removeElement(samplenumber);
+        if (sourceName === '_testing')
+          Wormapskanbans[toxinaFull].removeElement(samplenumber);
 
-      let text;
+        let text;
 
-      switch (target) {
-        case '_testing':
-          text = 'Em análise';
+        switch (target) {
+          case '_testing':
+            text = 'Em análise';
 
-          //Se já não estiver lá
-          if (!Wormapskanbans[toxinaFull].findElement(samplenumber)) {
-            Wormapskanbans[toxinaFull].addElement('_scndTesting', {
-              id: samplenumber,
-              title: el.dataset.title,
-              analyst: el.dataset.analyst,
-              status: el.dataset.status,
-              click: function (el) {
-                window.location.href = 'sample/edit/' + el.dataset.eid;
-              },
-            });
-          }
-          break;
+            //Se já não estiver lá
+            if (!Wormapskanbans[toxinaFull].findElement(samplenumber)) {
+              Wormapskanbans[toxinaFull].addElement('_scndTesting', {
+                id: samplenumber,
+                title: el.dataset.title,
+                analyst: el.dataset.analyst,
+                status: el.dataset.status,
+                click: function (el) {
+                  window.location.href = 'sample/edit/' + el.dataset.eid;
+                },
+              });
+            }
+            break;
 
-        case '_ownering':
-          text = 'Aguardando pagamento';
-          break;
-        case '_waiting':
-          text = 'Aguardando amostra';
-          break;
+          case '_ownering':
+            text = 'Aguardando pagamento';
+            break;
+          case '_waiting':
+            text = 'Aguardando amostra';
+            break;
+        }
+
+        $.post(`sample/updatestatus/${target.replace("_", "")}/${toxinaFull}/${samplenumber}`);
+
+        if (el.dataset.eid == "owner")
+          el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + text + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+        else
+          el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + text + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
       }
-
-      $.post(`sample/updatestatus/${target.replace("_", "")}/${toxinaFull}/${samplenumber}`);
-
-      if (el.dataset.eid == "owner")
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + text + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      else
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + text + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
     }
   });
 }
@@ -98,35 +100,34 @@ function createWormapKanban(toxinaFull) {
       }
     ],
     dropEl: function (el, target, source, sibling) {
-      const samplenumber = el.dataset.eid;
+      if (target !== source) {
+        const samplenumber = el.dataset.eid;
 
-      if (target == '_scndTesting') {
-        var calibrator = el.dataset.eid;
-        if (el.dataset.calibrator) {//cards P não se movem para em analise
-          return false
-        }
-        else {
-          $.post(`/sample/scndTesting/edit/${toxinaFull}/${samplenumber}`);
-          el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-        }
-      }
-      else {
-        if (el.dataset.calibrator) //cards originais
-          return false;
-        else {
-          $.post(`/sample/mapedit/${toxinaFull}/${samplenumber}/${target}`);
-
-          if (el.dataset.eid == "owner") {
-            el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+        if (target == '_scndTesting') {
+          var calibrator = el.dataset.eid;
+          if (el.dataset.calibrator) {//cards P não se movem para em analise
+            return false
           }
           else {
-            el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+            $.post(`/sample/scndTesting/edit/${toxinaFull}/${samplenumber}`);
+            el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+          }
+        }
+        else {
+          if (el.dataset.calibrator) //cards originais
+            return false;
+          else {
+            $.post(`/sample/mapedit/${toxinaFull}/${samplenumber}/${target}`);
+
+            if (el.dataset.eid == "owner") {
+              el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
+            }
+            else {
+              el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+            }
           }
         }
       }
-
-
-
     }
   });
 }
@@ -247,7 +248,7 @@ $('div[class="loteradio"]').each(function (index, group) {
           workmapsEnd = kit.stripLength;
 
           //allocate the samples/calibrators that are in an workmap
-          $.get(`/search/getSamplesActiveByWorkapArray/${kit.mapArray}/${toxina}`).then(samples => {            
+          $.get(`/search/getSamplesActiveByWorkapArray/${kit.mapArray}/${toxina}`).then(samples => {
             for (let i = 0; i < samples.length; i++) {
               const sample = samples[i];
               console.log("sample[toxina].status");
