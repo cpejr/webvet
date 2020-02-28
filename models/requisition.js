@@ -38,15 +38,16 @@ const requisitionSchema = new mongoose.Schema({
     number: String,
     complement: String,
     city: String,
-    state: String
+    state: String,
+    neighborhood: String,
   },
   client: {
     cep: Number,
     fullname: String,
     phone: String,
     cellphone: String,
-    email: String
-
+    email: String,
+    register: String,
   },
   samples: [{
     type: mongoose.Schema.Types.ObjectId,
