@@ -131,7 +131,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisitions) => {
-    res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions });
+    res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -144,7 +144,7 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
     if (requisition.status === "Nova") {
       nova = true;
     }
-    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova });
+    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');

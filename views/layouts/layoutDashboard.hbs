@@ -1,159 +1,144 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="/stylesheets/jkanban.css">
-    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
-    <meta name="viewport" content ="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  </head>
-  <body>
-    <script src="/javascripts/jquery.js" charset="utf-8"></script>
-    <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
-    <script src="/javascripts/jkanban.js" charset="utf-8"></script>
-    <script src="/javascripts/typeahead.bundle.js"></script>
+<head>
+  <title>{{title}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="/stylesheets/jkanban.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <nav class="navbar fixed-top navbar-light bg-light">
-      <div class="navbar-header fixed-brand">
-        <button class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
-          <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
-        </button>
-       </div>
+</head>
 
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
+<body>
+  <script src="/javascripts/jquery.js" charset="utf-8"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
+  <script src="/javascripts/jkanban.js" charset="utf-8"></script>
+  <script src="/javascripts/typeahead.bundle.js"></script>
+
+  <nav class="navbar fixed-top navbar-light bg-light">
+    <div class="navbar-header fixed-brand">
+      <button class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
+        <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active">
+          <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2">
+            <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div id="dashboard-phone">
+      <p>(31) 3409-2113 </p>
+      <p>(31) 3409-2115 </p>
+    </div>
+
+
+    <div id="dashboard-social-media">
+      <button id="btn-facebook" class="btn"><i class="fa fa-facebook fa-lg"></i></button>
+      <button id="btn-instagram" class="btn"><i class="fa fa-instagram fa-lg"></i></button>
+    </div>
+
+    <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i>{{user.fullname}}</a></div>
+    <a type="button" id="dashboard-logout" class="btn btn-primary btn-sm" href="/logout">Logout</a>
+
+  </nav>
+
+  <div id="wrapper">
+    <div id="sidebar-wrapper">
+      <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+        {{#compare user.type "Produtor"}}
           <li class="active">
-            <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2">
-              <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
-            </button>
+            <a href="/user"><span class="fa-stack fa-lg pull-left"><i
+                  class="fa fa-home fa-stack-1x "></i></span>Principal</a>
           </li>
-        </ul>
-      </div>
-
-      <div id="dashboard-phone">
-        <p>(31) 3409-2113 </p>
-        <p>(31) 3409-2115 </p>
-      </div>
-
-
-      <div id="dashboard-social-media">
-        <button id="btn-facebook" class="btn"><i class="fa fa-facebook fa-lg"></i></button>
-        <button id="btn-instagram" class="btn"><i class="fa fa-instagram fa-lg"></i></button>
-      </div>
-
-      <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i>{{user.fullname}}</a></div>
-      <a type="button" id="dashboard-logout" class="btn btn-primary btn-sm" href="/logout">Logout</a>
-
-    </nav>
-
-    <div id="wrapper">
-      <div id="sidebar-wrapper">
-         <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-           {{#compare user.type "Produtor"}}
-           <li class="active">
-              <a href="/user"><span class="fa-stack fa-lg pull-left"><i class="fa fa-home fa-stack-1x "></i></span>Principal</a>
-            </li>
-           {{else}}
+          <li class="active">
+            <a href="/requisition/new"><span class="fa-stack fa-lg pull-left"><i
+                  class="fa fa-dashboard fa-stack-1x "></i></span>Nova Requisição de Análise</a>
+          </li>
+          <li> <a href="/report"><span class="fa-stack fa-lg pull-left"><i
+                  class="fa fa-flag fa-stack-1x "></i></span>Ver
+              laudos disponíveis</a>
+          </li>
+          <li>
+            <a href="/record"><span class="fa-stack fa-lg pull-left"><i
+                  class="fa fa-cloud-download fa-stack-1x "></i></span>Histórico de Requisições</a>
+          </li>
+          <li>
+            <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Ver
+              Estatísticas</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>Ver
+              Equipe</a>
+          </li>
+          {{else}}
             <li class="active">
-              <a href="/homeAdmin"><span class="fa-stack fa-lg pull-left"><i class="fa fa-home fa-stack-1x "></i></span>Principal</a>
+              <a href="/homeAdmin"><span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-home fa-stack-1x "></i></span>Principal</a>
             </li>
-            {{/compare}}
-           {{#compare user.type "Produtor"}}
-              <li class="active">
-                <a href="/requisition/new"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span>Nova Requisição de Análise</a>
-              </li>
-           {{/compare}}
-
             <li>
-              {{#compare user.type "Produtor"}}
-                <a href="/report"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Ver laudos disponíveis</a>
-              {{else}}
-                <a href="/queue"><span class="fa-stack fa-lg pull-left"><i class="fa fa-columns fa-stack-1x "></i></span>Mapa de Trabalho</a>
-              {{/compare}}
+              <a href="/queue"><span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-columns fa-stack-1x "></i></span>Mapa de Trabalho</a>
             </li>
-
             <li>
-              {{#compare user.type "Produtor"}}
-                <a href="/record"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Histórico de Requisições</a>
-              {{else}}
-                <a href="/users"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Clientes</a>
-              {{/compare}}
+              <a href="/users"><span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-users fa-stack-1x "></i></span>Clientes</a>
             </li>
-
             <li>
-              {{#compare user.type "Produtor"}}
-                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Ver Estatísticas</a>
-              {{else}}
-                <a href="/users/managers"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-user fa-stack-1x "></i></span>Analistas</a>
-              {{/compare}}
+              <a href="/users/managers"> <span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-user fa-stack-1x "></i></span>Analistas</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-area-chart fa-stack-1x "></i></span>Dados estatísticos</a>
+            </li>
+            <li>
+              <a href="/report/admreport"><span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
+            </li>
+            <li>
+              <a href="/stock"><span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-truck fa-stack-1x "></i></span>Controle de estoque</a>
             </li>
 
             <li>
-              {{#compare user.type "Produtor"}}
-                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>Ver Equipe</a>
-              {{else}}
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-area-chart fa-stack-1x "></i></span>Dados estatísticos</a>
-              {{/compare}}
+              <a href="/users/pending"><span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-user-plus fa-stack-1x "></i></span>Usuários pendentes</a>
             </li>
+            <li>
+              <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i
+                    class="fa fa-envelope fa-stack-1x"></i></span>Resquisições Disponíveis</a>
+            </li>
+        {{/compare}}
 
-            {{#compare user.type "Produtor"}}
-              <li>
-              </li>
-            {{else}}
-              <li>
-                 <a href="/report/admreport"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
-              </li>
-            {{/compare}}
+      </ul>
+    </div>
 
-            {{#compare user.type "Produtor"}}
-              <li>
-              </li>
-            {{else}}
-              <li>
-                 <a href="/stock"><span class="fa-stack fa-lg pull-left"><i class="fa fa-truck fa-stack-1x "></i></span>Controle de estoque</a>
-              </li>
-            {{/compare}}
-
-            {{#compare user.type "Produtor"}}
-              <li>
-              </li>
-            {{else}}
-              <li>
-                 <a href="/users/pending"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user-plus fa-stack-1x "></i></span>Usuários pendentes</a>
-              </li>
-            {{/compare}}
-
-            {{#compare user.type "Produtor"}}
-              <li>
-              </li>
-            {{else}}
-              <li>
-                 <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope fa-stack-1x" ></i></span>Resquisições Disponíveis</a>
-              </li>
-            {{/compare}}
-
-         </ul>
+    <div id="page-content-wrapper">
+      <div class="container-fluid xyz">
+        {{{body}}}
       </div>
+    </div>
 
-      <div id="page-content-wrapper">
-         <div class="container-fluid xyz">
-           {{{body}}}
-         </div>
-      </div>
+  </div>
 
-     </div>
+  <div class="webvet-alert col-12 col-lg-4 col-md-6">
+    {{> messages}}
+  </div>
 
-     <div class="webvet-alert col-12 col-lg-4 col-md-6">
-       {{> messages}}
-     </div>
-
-     <script src="/javascripts/layoutDashboard.js"></script>
-     <script src="/javascripts/producerSearch.js"></script>
-     <script src="/javascripts/covenantSearch.js"></script>
-     <script src="/javascripts/managerSearch.js"></script>
-     <script src="/javascripts/users.js"></script>
+  <script src="/javascripts/layoutDashboard.js"></script>
+  <script src="/javascripts/producerSearch.js"></script>
+  <script src="/javascripts/covenantSearch.js"></script>
+  <script src="/javascripts/managerSearch.js"></script>
+  <script src="/javascripts/users.js"></script>
 
 
-  </body>
+</body>
+
 </html>

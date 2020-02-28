@@ -30,8 +30,8 @@
         class="requisition-text" placeholder="Nº">
     </div>
     <div class="requisition-text col-md-6">
-      <input required id="complement" type="text" name="requisition[address][complement]" value="{{user.address.complement}}"
-        class="requisition-text" placeholder="Complemento">
+      <input required id="complement" type="text" name="requisition[address][complement]"
+        value="{{user.address.complement}}" class="requisition-text" placeholder="Complemento">
     </div>
     <div class="requisition-text col-md-5">
       <input required id="neighborhood" type="text" name="requisition[address][neighborhood]"
@@ -42,28 +42,56 @@
         class="requisition-text" placeholder="Cidade">
     </div>
     <div class="requisition-text col-md-4">
-      <input required id="state" type="text" name="requisition[address][state]" value="{{user.address.state}}"
-        class="requisition-text" placeholder="Estado">
+      <select id="userstate" class="drowdownoptions" name="requisition[address][state]" required="required">
+        <option disabled selected value="">Estado</option>
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espirito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </select>
     </div>
     <div class="requisition-text col-md-3">
-      <input required id="cep" type="number" name="requisition[address][cep]" value="{{user.address.cep}}" class="requisition-text"
-        placeholder="CEP">
+      <input required id="cep" type="number" name="requisition[address][cep]" value="{{user.address.cep}}"
+        class="requisition-text" placeholder="CEP">
     </div>
     <div class="requisition-text col-md-11">
       <input required id="resposible" type="text" name="requisition[responsible]" class="requisition-text"
         placeholder="Responsável pela amostra">
     </div>
     <div class="requisition-text col-md-6">
-      <input required id="phone" type="text" name="requisition[client][phone]" value="{{user.phone}}" class="requisition-text"
-        placeholder="Tel. com DDD">
+      <input required id="phone" type="text" name="requisition[client][phone]" value="{{user.phone}}"
+        class="requisition-text" placeholder="Tel. com DDD">
     </div>
     <div class=" requisition-text col-md-5">
       <input required id="cellphone" type="text" name="requisition[client][cellphone]" value="{{user.cellphone}}"
         class="requisition-text" placeholder="Cel. com DDD">
     </div>
     <div class="requisition-text col-md-11">
-      <input required id="email" type="text" name="requisition[client][email]" value="{{user.email}}" class="requisition-text"
-        placeholder="Email">
+      <input required id="email" type="text" name="requisition[client][email]" value="{{user.email}}"
+        class="requisition-text" placeholder="Email">
     </div>
   </div>
   <br>
@@ -86,10 +114,40 @@
       <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município">
     </div>
     <div class="requisition-text col-md-4">
-      <input required type="text" name="requisition[state]" class="requisition-text" placeholder="Estado">
+       <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
+        <option disabled selected value="">Estado</option>
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espirito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </select>
     </div>
     <div class="requisition-text col-md-4">
-      <input required type="text" name="requisition[datecollection]" class="requisition-text" placeholder="Data de Coleta">
+      <input required type="text" name="requisition[datecollection]" class="requisition-text"
+        placeholder="Data de Coleta">
     </div>
   </div>
   <br>
@@ -98,8 +156,8 @@
   <div class="form-group d-flex flex-wrap text-left">
     <div class="column">
       <div class="form-check">
-        <input checked id="Aves" class="form-check-input required destination" type="radio" name="requisition[destination]"
-          value="Aves">
+        <input checked id="Aves" class="form-check-input required destination" type="radio"
+          name="requisition[destination]" value="Aves">
         <label for="Aves" class="radio-text form-check-label mr-3"> Aves </label>
       </div>
 
@@ -193,7 +251,8 @@
   </div>
   <div class="form-row">
     <div class="requisition-text col-md-8">
-      <input required type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text" placeholder="Amostra 1">
+      <input required type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text"
+        placeholder="Amostra 1">
     </div>
     <div class="checkbox">
       <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input>
@@ -218,8 +277,8 @@
   <div class="form-check form-check-inline">
     <p>
       <div class="micotoxina-options">
-        <label class="radio-text form-check-label"><input checked class="form-check-input position-static ml-1" type="checkbox"
-            name="requisition[mycotoxin]" value="Aflatoxinas">Aflatoxinas</label>
+        <label class="radio-text form-check-label"><input checked class="form-check-input position-static ml-1"
+            type="checkbox" name="requisition[mycotoxin]" value="Aflatoxinas">Aflatoxinas</label>
       </div>
       <div class="micotoxina-options">
         <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
@@ -254,5 +313,11 @@
   </div>
 </form>
 </div>
-
+<script>
+   $(document).ready(() => {
+     //Set select values
+    let userstate = "{{user.address.state}}";
+    $('select#userstate').val(userstate);
+  });
+</script>
 <script src="/javascripts/reqFunc.js"></script>
