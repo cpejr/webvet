@@ -232,9 +232,9 @@ class Requisition {
     });
   }
 
-  static getAllNewById(userId) {
+  static getAllByUserId(userId) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({ status: "Nova", user: userId}).then((results) => {
+      RequisitionModel.find({user: userId}).then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
