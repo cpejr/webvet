@@ -162,20 +162,26 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
       }
     }
     if (!alreadyExists) {
-      Kit.create(kit).then((id) => {
+      Kit.create(kit).then(async (id) => {
         console.log(kit);
         var size = req.body.kit.amount;
+
+        let promises = [];
+
         for (i = 0; i < size; i++) {
           const workmap = {
             productCode: req.body.kit.productCode,
+            mapID: i,
           }
-          Workmap.create(workmap).then((mapid) => {
-            Kit.addMap(id, mapid).catch((error) => {
-              console.log(error);
-              res.redirect('/error');
-            });
-          });
+          promises[i] = Workmap.create(workmap);
         }
+
+        let workmapIds = await Promise.all(promises);
+
+        Kit.addMaps(id, workmapIds).catch((error) => {
+          console.log(error);
+          res.redirect('/error');
+        });
 
       }).then(() => {
         req.flash('success', 'Kit adicionado com sucesso.');

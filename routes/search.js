@@ -221,7 +221,7 @@ router.get('/getSamplesActive/:toxin/:samples', auth.isAuthenticated, (req, res)
   });
 });
 
-router.get('/getSamplesActiveByWorkapArray/:mapidArray/:toxin', auth.isAuthenticated, (req, res) => {
+router.get('/getSamplesActiveByWorkmapArray/:mapidArray/:toxin', auth.isAuthenticated, (req, res) => {
   let workmapids = req.params.mapidArray.split(",");
   let toxin = req.params.toxin;
   Workmap.getByIdArray(workmapids).then(workmaps => {

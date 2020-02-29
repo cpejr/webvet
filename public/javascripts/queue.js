@@ -103,7 +103,7 @@ function createWormapKanban(toxinaFull) {
       const samplenumber = el.dataset.eid;
 
       if (target == '_scndTesting') {
-        var calibrator = el.dataset.eid;
+
         if (el.dataset.calibrator) {//cards P não se movem para em analise
           return false
         }
@@ -214,10 +214,9 @@ $('div[class="loteradio"]').each(function (index, group) {
             $.post(`/sample/setActiveKit/${toxina}/${kit._id}`);
 
           //remove boards
-          for (let i = workmapsStart; i <= workmapsEnd; i++) {//the map 0 was defined before
-            let board = "_workmap" + i;
+          for (let i = workmapsStart; i <= workmapsEnd; i++) //the map 0 was defined before
             Wormapskanbans[toxina].removeAllBoards("_scndTesting");
-          }
+          
 
           //Add boards
           for (let i = begin; i < kit.stripLength; i++) {//the map 0 was defined before
@@ -231,7 +230,7 @@ $('div[class="loteradio"]').each(function (index, group) {
           }
 
           //If there is workmaps
-          if (begin != kit.stripLength - 1) {
+          if (begin != kit.stripLength) {
             //ADD and DelETE calibradores
             for (let i = 1; i <= 5; i++) {
               Wormapskanbans[toxina].removeElement("P" + i);
@@ -248,7 +247,7 @@ $('div[class="loteradio"]').each(function (index, group) {
             workmapsEnd = kit.stripLength;
 
             //allocate the samples/calibrators that are in an workmap
-            $.get(`/search/getSamplesActiveByWorkapArray/${kit.mapArray}/${toxina}`).then(samples => {
+            $.get(`/search/getSamplesActiveByWorkmapArray/${kit.mapArray}/${toxina}`).then(samples => {
               for (let i = 0; i < samples.length; i++) {
                 const sample = samples[i];
                 console.log("sample[toxina].status");

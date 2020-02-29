@@ -308,7 +308,15 @@ class Kit {
         reject(err);
       });
     });
-  }  
+  }
+
+  static addMaps(id, mapArray) {
+    return new Promise((resolve, reject) => {
+      KitModel.findByIdAndUpdate(id, { $push: { mapArray: mapArray } })
+        .then(res => resolve(res))
+        .catch(err => reject(err));
+    });
+  }
 
   static getWorkmapsById(id) {
     return new Promise((resolve, reject) => {

@@ -58,7 +58,7 @@ class Workmap {
    */
   static addSample(id, sample) {
     return new Promise((resolve, reject) => {
-      WorkmapModel.findByIdAndUpdate(id, { $push: { samplesArray: sample }, $set: { mapID: id } }).catch((err) => {
+      WorkmapModel.findByIdAndUpdate(id, { $push: { samplesArray: sample } }).catch((err) => {
         reject(err);
       });
     });
