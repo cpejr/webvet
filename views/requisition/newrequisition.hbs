@@ -114,7 +114,7 @@
       <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município">
     </div>
     <div class="requisition-text col-md-4">
-       <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
+      <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
         <option disabled selected value="">Estado</option>
         <option value="AC">Acre</option>
         <option value="AL">Alagoas</option>
@@ -314,8 +314,8 @@
 </form>
 </div>
 <script>
-   $(document).ready(() => {
-     //Set select values
+  $(document).ready(function () {
+    //Set select values
     let userstate = "{{user.address.state}}";
     $('select#userstate').val(userstate);
   });
