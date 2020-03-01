@@ -257,8 +257,8 @@ router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, n
   var concentrations = req.body;
   var id = req.params.id;
   var info = {
-    description : req.body.sample.description,
-    parecer : req.body.sample.parecer
+    description: req.body.sample.description,
+    parecer: req.body.sample.parecer
   }
   // var description = req.body.sample.description;
   try {
@@ -322,6 +322,22 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
       result = result.reverse();
     }).then((params) => {
       res.render('report/admreport', { title: 'Laudos Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, laudos, result });
+    });
+  });
+
+  router.get('/finalize/:id', auth.isAuthenticated, function(req, res, next) {
+    let id = req.params.id;
+    const command = true;
+    Sample.finalizeReportById(id, command).then((params) =>{
+      res.redirect('../admreport');
+    });
+  });
+
+  router.get('/unfinalize/:id', auth.isAuthenticated, function(req, res, next) {
+    let id = req.params.id;
+    const command = false;
+    Sample.finalizeReportById(id, command).then((params) =>{
+      res.redirect('../admreport');
     });
   });
 });

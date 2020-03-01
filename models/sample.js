@@ -191,6 +191,10 @@ const sampleSchema = new mongoose.Schema({
   },
   description: String,
   parecer: String,
+  finalized: {
+    type: Boolean,
+    default: false
+  },
 }, { timestamps: true, strict: false });
 
 const SampleModel = mongoose.model('Sample', sampleSchema);
@@ -454,9 +458,29 @@ class Sample {
     });
   }
 
+  static finalizeReportById(id, command){
+    return new Promise((resolve, reject) =>{
+      SampleModel.update({ _id: id }, {$set: {finalized: command}}).then((result) =>{
+        resolve(result);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+
   static getByIdArray(id_array) {
     return new Promise((resolve, reject) => {
       SampleModel.find({ _id: { $in: id_array } }).then((map) => {
+        resolve(map);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getFinalizedByIdArray(id_array) {
+    return new Promise((resolve, reject) => {
+      SampleModel.find({ _id: { $in: id_array }, finalized: true}).then((map) => {
         resolve(map);
       }).catch((err) => {
         reject(err);

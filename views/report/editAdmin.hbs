@@ -67,7 +67,8 @@
     <textarea id="parecer" name="sample[parecer]" class="col-sm-12" readonly></textarea>
     <h4> 7. Comentários: </h4>
     <textarea name="sample[description]" cols="100" rows="7">{{sample.description}}</textarea>
-    <br><button type="submit">Atualizar</button>
+    <br>
+    <button type="submit">Salvar todas as alterações</button>
   </form>
   <h4> Belo Horizonte, </h4>
   <div class="laudo-assinatura">
@@ -84,8 +85,23 @@
     </p>
   </div>
   <center>
-    <button class="btn btn-primary hidden-print" onclick="location.href='/report/admreport'"><span class="glyphicon"
-        aria-hidden="true"></span> Voltar </button>
+    <div class="btn-group col-sm-12 justify-content-center">
+      <div class="row">
+        <div class="col-sm-6">
+          <button class="btn btn-primary" onclick="location.href='/report/admreport'"> Voltar </button>
+        </div>
+        {{#if sample.finalized}}
+          <div class="col-sm-6">
+            <button class="btn btn-success" onclick="location.href='/report/unfinalize/{{sample._id}}'">Cancelar
+              finalização</butt>
+          </div>
+        {{else}}
+          <div class="col-sm-6">
+            <button class="btn btn-success" onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</butt>
+          </div>
+        {{/if}}
+      </div>
+    </div>
   </center>
 </div>
 
