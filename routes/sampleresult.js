@@ -95,7 +95,7 @@ router.get('/', async function (req, res, next) {
         resolve(resultado);
       }
       else
-        reject(null);
+        resolve(null);
     });
   }
 
