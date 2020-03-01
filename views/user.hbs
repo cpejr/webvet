@@ -2,7 +2,7 @@
   <div class= "user-card" id="requisition-user">
     <h1>Requisições em Progresso</h1>
     {{#each data}}
-        <li>{{number}}/{{year}}</li>
+        <li>Requisição {{number}}/{{year}}</li>
     {{/each}}
   </div>
   <div class= "user-card" id="laudo-user">
@@ -11,7 +11,7 @@
         <li>Nenhum laudo disponível</li>
       {{/if}}
       {{#each laudos}}
-        <a href="../../report/show/{{_id}}"><li>Laudo {{samplenumber}}</li></a>
+        <a href="../../report/show/{{_id}}"><li>Laudo {{samplenumber}}/{{creationYear}}</li></a>
       {{/each}}
   </div>
 </div>

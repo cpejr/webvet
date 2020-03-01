@@ -5,6 +5,7 @@
     <thead>
       <tr>
         <th class = "th-name">Identificação</th>
+        <th class = "th-name">Finalização</th>
         <th class = "th-action">Laudos</th>
       </tr>
     </thead>
@@ -12,8 +13,13 @@
     {{#each laudos}}
       <tr>
       <th>{{samplenumber}}/{{creationYear}}</th>
+      {{#if finalized}}
+        <th>Disponível para o produtor</th>
+      {{else}}
+        <th>Não finalizado</th>
+      {{/if}}
       <th>
-          <a href="../../report/show/admin/{{_id}}"><button class="btn btn-success">Disponível</button></a>
+          <a href="../../report/show/admin/{{_id}}"><button class="btn btn-success">Editar laudo {{samplenumber}}/{{creationYear}}</button></a>
       </th>
     </tr>
     {{/each}}

@@ -23,7 +23,7 @@ router.get('/', auth.isAuthenticated, (req, res, next) => {
           samplesId.push(requisitions[i].samples[j]);
         }
       }
-      Samples.getByIdArray(samplesId).then((samples) => {
+      Samples.getFinalizedByIdArray(samplesId).then((samples) => {
         var laudos = [];
         for (let k = 0; k < samples.length; k++){
           console.log(samples[k].report);
