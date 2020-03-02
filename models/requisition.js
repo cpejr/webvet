@@ -248,16 +248,22 @@ class Requisition {
       RequisitionModel.aggregate([
         { $match: { status: "Aprovada" } },
         { $project: { state: 1, sampleVector: 1 } },
-        //{ $let: { vars: { total: { $sum: { $size: "$sampleVector" } } } } },
-          {
-            $group: {
-              _id: "$state",
-              frequency: { $sum: { $size: "$sampleVector" } },
-            }
-          },
-
+        {
+          $group: {
+            _id: "$state",
+            samples: { $sum: { $size: "$sampleVector" } },
+          }
+        },
       ]).then((result) => {
-        console.log(result);
+        let total = 0;
+
+        for (let i = 0; i < result.length; i++)
+          total += result[i].samples;
+
+        for (let j = 0; j < result.length; j++)
+          result[j].frequency = result[j].samples / total;
+
+
         resolve(result);
       }).catch(err => {
         console.log(err);

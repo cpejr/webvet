@@ -17,8 +17,9 @@ router.get('/boxcharts', auth.isAuthenticated, (req, res) => {
     res.render('statistics/boxcharts', { title: 'Gráficos', layout: 'layoutDashboard.hbs', ...req.session });
 });
 
-router.get('/statesData', (req, res)=>{
-    Requisition.getStateData();
+router.get('/statesData', async (req, res) => {
+    let data = await Requisition.getStateData();
+    res.send(data);
 });
 
 module.exports = router;
