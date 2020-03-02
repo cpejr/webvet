@@ -283,7 +283,23 @@
         <input type="text" id="OtherInput" class="input w-100" placeholder="Destinação">
       </div>
     </div>
-
+  </div> 
+  <br> 
+  <div class="requisition-titles"> 
+    <p> Identificação da Amostra</p> 
+  </div> 
+{{#each samples}} 
+<div class="form-row"> 
+    <div class="requisition-text col-md-11"> 
+      <input required type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text" 
+        placeholder="Amostra 1" value = "{{name}}"> 
+    </div> 
+    <div class="checkbox"> 
+      <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input> 
+</div> 
+</div> 
+{{/each}} 
+  <br> 
   </div>
 
   {{#if nova}}

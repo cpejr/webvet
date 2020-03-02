@@ -135,11 +135,14 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisition) => {
-    var nova = false;
-    if (requisition.status === "Nova") {
-      nova = true;
-    }
-    res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova, ...req.session });
+    Sample.getByIdArray(requisition.samples).then((samples) => {
+      var nova = false;
+      if (requisition.status === "Nova") {
+        nova = true;
+      }
+      res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova, ...req.session, samples });
+    });
+   
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
