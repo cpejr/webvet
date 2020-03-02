@@ -14,6 +14,13 @@ function arrayContains(needle, arrhaystack) {
   return (arrhaystack.indexOf(needle) > -1);
 }
 
+function round(value, decimalPlaces) {
+  if (value !== null && value !== undefined)
+    return value.toFixed(decimalPlaces);
+  else
+    return null;
+}   
+
 router.get('/', auth.isAuthenticated, function (req, res, next) {
   Requisition.getAll().then((requisitions) => {
     var user = req.session.user.register;
@@ -225,8 +232,12 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
               if (ToxinasLower[m] === orderedKits[k].name) {
                 Pair = orderedKits[k];
                 Name = ToxinasFormal[m];
+                if (sample[ToxinasLower[m]].result !== "ND"){
+                  var roundResult = Number(sample[ToxinasLower[m]].result);
+                  roundResult = round(roundResult, 2);
+                }
                 Values[m] = {
-                  Result: sample[ToxinasLower[m]].result,
+                  Result: roundResult,
                   Name,
                   Pair
                 };
