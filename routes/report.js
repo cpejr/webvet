@@ -14,6 +14,13 @@ function arrayContains(needle, arrhaystack) {
   return (arrhaystack.indexOf(needle) > -1);
 }
 
+function round(value, decimalPlaces) {
+  if (value !== null && value !== undefined)
+    return value.toFixed(decimalPlaces);
+  else
+    return null;
+}
+
 router.get('/', auth.isAuthenticated, function (req, res, next) {
   Requisition.getAll().then((requisitions) => {
     var user = req.session.user.register;
@@ -225,8 +232,12 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
               if (ToxinasLower[m] === orderedKits[k].name) {
                 Pair = orderedKits[k];
                 Name = ToxinasFormal[m];
+                if (sample[ToxinasLower[m]].result !== "ND" && sample[ToxinasLower[m]].result !== "NaN") {
+                  var roundResult = Number(sample[ToxinasLower[m]].result);
+                  roundResult = round(roundResult, 2);
+                }
                 Values[m] = {
-                  Result: sample[ToxinasLower[m]].result,
+                  Result: roundResult,
                   Name,
                   Pair
                 };
@@ -254,14 +265,30 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 });
 
 router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, next) {
-  var concentrations = req.body;
-  var id = req.params.id;
-  var info = {
-    description: req.body.sample.description,
-    parecer: req.body.sample.parecer
-  }
-  // var description = req.body.sample.description;
   try {
+    var id = req.params.id;
+    var info = {
+      description: req.body.sample.description,
+      parecer: req.body.sample.parecer,
+      aflatoxina: {
+        result: req.body.aflatoxina.result,
+      },
+      deoxinivalenol: {
+        result: req.body.deoxinivalenol.result,
+      },
+      fumonisina: {
+        result: req.body.fumonisina.result,
+      },
+      ocratoxina: {
+        result: req.body.ocratoxina.result,
+      },
+      t2toxina: {
+        result: req.body.t2toxina.result,
+      },
+      zearalenona: {
+        result: req.body.zearalenona.result,
+      },
+    };
     await Sample.updateDescription(id, info);
     req.flash('success', 'Atualizado com sucesso.');
     res.redirect('/report/show/admin/' + id);
@@ -325,18 +352,18 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
     });
   });
 
-  router.get('/finalize/:id', auth.isAuthenticated, function(req, res, next) {
+  router.get('/finalize/:id', auth.isAuthenticated, function (req, res, next) {
     let id = req.params.id;
     const command = true;
-    Sample.finalizeReportById(id, command).then((params) =>{
+    Sample.finalizeReportById(id, command).then((params) => {
       res.redirect('../admreport');
     });
   });
 
-  router.get('/unfinalize/:id', auth.isAuthenticated, function(req, res, next) {
+  router.get('/unfinalize/:id', auth.isAuthenticated, function (req, res, next) {
     let id = req.params.id;
     const command = false;
-    Sample.finalizeReportById(id, command).then((params) =>{
+    Sample.finalizeReportById(id, command).then((params) => {
       res.redirect('../admreport');
     });
   });

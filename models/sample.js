@@ -32,7 +32,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
-    result: Number,
+    result: String,
     active: {
       type: Boolean,
       default: false
@@ -59,7 +59,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
-    result: Number,
+    result: String,
     active: {
       type: Boolean,
       default: false
@@ -86,7 +86,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
-    result: Number,
+    result: String,
     active: {
       type: Boolean,
       default: false
@@ -113,7 +113,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
-    result: Number,
+    result: String,
     active: {
       type: Boolean,
       default: false
@@ -140,7 +140,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
-    result: Number,
+    result: String,
     active: {
       type: Boolean,
       default: false
@@ -167,7 +167,7 @@ const sampleSchema = new mongoose.Schema({
     date: String,
     absorbance: Number,
     absorbance2: Number,
-    result: Number,
+    result: String,
     active: {
       type: Boolean,
       default: false
