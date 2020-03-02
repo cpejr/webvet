@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const reportSchema = new mongoose.Schema({
   results: [{
     mycotoxin: String,
-    detectedConcentration: Number
+    detectedConcentration: String
   }],
   mycotoxins: [{
     type: mongoose.Schema.Types.ObjectId,
