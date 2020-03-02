@@ -27,9 +27,6 @@ function datavalida(d1, m1, a1, d2, m2, a2) {
   return false;
 }
 
-
-
-//É PARA MEXER NESSA
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res, next) {
   Kit.getAll().then((kits) => {

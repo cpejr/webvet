@@ -1,14 +1,9 @@
 const express = require('express');
-const firebase = require('firebase');
 const router = express.Router();
-const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
-const User = require('../models/user');
 const Requisition = require('../models/requisition');
 const Sample = require('../models/sample');
 const Kitstock = require('../models/kitstock');
-
-
 
 router.get('/new', auth.isAuthenticated, function (req, res) {
   Kitstock.getAll().then((kitstock) => {

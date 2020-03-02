@@ -39,6 +39,7 @@ const setstockRouter = require('./routes/setstock');
 const previousmapRouter = require('./routes/previousmap');
 const sampleresultRouter = require('./routes/sampleresult');
 const reportRouter = require('./routes/report');
+const statisticsRouter = require('./routes/statistics');
 const app = express();
 
 /**
@@ -182,7 +183,7 @@ app.use('/setstock', setstockRouter);
 app.use('/report', reportRouter);
 app.use('/previousmap', previousmapRouter);
 app.use('/sampleresult', sampleresultRouter);
-
+app.use('/statistics', statisticsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

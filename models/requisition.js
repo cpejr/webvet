@@ -235,9 +235,32 @@ class Requisition {
 
   static getAllByUserId(userId) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({user: userId}).then((results) => {
+      RequisitionModel.find({ user: userId }).then((results) => {
         resolve(results);
       }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getStateData() {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.aggregate([
+        { $match: { status: "Aprovada" } },
+        { $project: { state: 1, sampleVector: 1 } },
+        //{ $let: { vars: { total: { $sum: { $size: "$sampleVector" } } } } },
+          {
+            $group: {
+              _id: "$state",
+              frequency: { $sum: { $size: "$sampleVector" } },
+            }
+          },
+
+      ]).then((result) => {
+        console.log(result);
+        resolve(result);
+      }).catch(err => {
+        console.log(err);
         reject(err);
       });
     });
