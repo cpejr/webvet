@@ -290,10 +290,29 @@
   </div> 
 {{#each samples}} 
 <div class="form-row"> 
-    <div class="requisition-text col-md-11"> 
+    <div class="requisition-text col-md-6"> 
       <input required type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text" 
         placeholder="Amostra 1" value = "{{name}}"> 
     </div> 
+    
+<div class="requisition-text col-md-6">    
+        <select id="sampletype" class="drowdownoptions" name="requisition[sampleType]" required="required">
+        <option disabled selected value="">Tipo</option>
+        <option value="AC">Subprodutos</option>
+        <option value="AL">Dieta Total</option>
+        <option value="AP">Milho</option>
+        <option value="AM">Ração</option>
+        <option value="BA">Silagem</option>
+        <option value="CE">Soja</option>
+        <option value="DF">Trigo</option>
+        <option value="ES">Sorgo</option>
+        <option value="GO">Cevada</option>
+        <option value="MA">Radícula</option>
+        <option value="MS">Capim/Feno</option>
+        <option value="MT">Arroz</option>
+        <option value="MG">Aveia</option>
+      </select>
+    </div>
     <div class="checkbox"> 
       <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input> 
 </div> 
