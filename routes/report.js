@@ -235,6 +235,8 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
                 if (sample[ToxinasLower[m]].result !== "ND" && sample[ToxinasLower[m]].result !== "NaN") {
                   var roundResult = Number(sample[ToxinasLower[m]].result);
                   roundResult = round(roundResult, 2);
+                } else {
+                  roundResult = sample[ToxinasLower[m]].result;
                 }
                 Values[m] = {
                   Result: roundResult,
@@ -265,38 +267,25 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
 });
 
 router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, next) {
-  try {
-    var id = req.params.id;
-    var info = {
-      description: req.body.sample.description,
-      parecer: req.body.sample.parecer,
-      aflatoxina: {
-        result: req.body.aflatoxina.result,
-      },
-      deoxinivalenol: {
-        result: req.body.deoxinivalenol.result,
-      },
-      fumonisina: {
-        result: req.body.fumonisina.result,
-      },
-      ocratoxina: {
-        result: req.body.ocratoxina.result,
-      },
-      t2toxina: {
-        result: req.body.t2toxina.result,
-      },
-      zearalenona: {
-        result: req.body.zearalenona.result,
-      },
-    };
-    await Sample.updateDescription(id, info);
+
+  var id = req.params.id;
+  var info = {
+    description: req.body.sample.description,
+    parecer: req.body.sample.parecer,
+  };
+  for (let i = 0; i < ToxinasFull.length; i++) {
+    info[ToxinasFull[i]+".result"] = req.body[ToxinasFull[i]] ? req.body[ToxinasFull[i]].result : "NaN";
+  };
+
+  Sample.updateReportSpecific(id, info).then((report) => {
+    console.log(report);
     req.flash('success', 'Atualizado com sucesso.');
     res.redirect('/report/show/admin/' + id);
-  }
-  catch (err) {
-    req.flash('danger', 'Problema ao atualizar');
-    res.redirect('/report/show/admin/' + id);
-  }
+  }).catch((err) =>{
+    console.log(err);
+    res.redirect('/error');
+  });
+
 });
 
 router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
