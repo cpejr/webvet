@@ -3,9 +3,10 @@ var data = new Date();
 var yyyy = data.getFullYear();
 
 const counterSchema = new mongoose.Schema({
-    lastYear: Number,
-    sampleCount: Number,
-    requisitionCount: Number,
+    lastYear: Number, 
+    sampleCount: Number, //This number reset when change the year
+    requisitionCount: Number, //This number reset when change the year
+    finalizationCount: Number, //This number DOESN'T reset when change the year
     counterName: {
         type: String,
         default: 'Contador padrão'
@@ -44,6 +45,7 @@ class Counter {
             lastYear: yyyy,
             sampleCount: 1,
             requisitionCount: 1,
+            finalizationCount: 1,
             counterName: 'Contador padrão'
         }
 
@@ -56,11 +58,6 @@ class Counter {
         });
     }
 
-    static updateCounter(counter) {
-        var num = counter.sampleCount + 1;
-        CounterModel.update({ _id: counter._id }, { $set: { 'sampleCount': num } });
-    }
-
     static setSampleCount(num) {
         CounterModel.findOneAndUpdate({}, { $set: { 'sampleCount': num } }).exec().catch(err => console.log(err));
     }
@@ -69,10 +66,15 @@ class Counter {
         CounterModel.findOneAndUpdate({}, { $set: { 'requisitionCount': num } }).exec().catch(err => console.log(err));
     }
 
+    static setFinalizationCount(num) {
+        CounterModel.findOneAndUpdate({}, { $set: { 'finalizationCount': num } }).exec().catch(err => console.log(err));
+    }
+
     static getSampleCount() {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((result) => {
-
+                
+                //if doesn't exist a counter, will create a new one
                 if (result != null)
                     sendValue(result, this)
                 else
@@ -101,6 +103,7 @@ class Counter {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((result) => {
 
+                //if doesn't exist a counter, will create a new one
                 if (result != null)
                     sendValue(result, this)
                 else
@@ -118,6 +121,30 @@ class Counter {
                         counter.requisitionCount = 1;
 
                     resolve(counter.requisitionCount);
+                }
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    static getFinalizationCount() {
+        return new Promise((resolve, reject) => {
+            CounterModel.findOne({}).then((result) => {
+
+                //if doesn't exist a counter, will create a new one
+                if (result != null)
+                    sendValue(result, this)
+                else
+                    this.create().then((result) => sendValue(result, this));
+
+                function sendValue(counter) {
+
+                    //Previnir de erros
+                    if (Number.isNaN(counter.finalizationCount) || typeof counter.finalizationCount === "undefined")
+                        counter.finalizationCount = 1;
+
+                    resolve(counter.finalizationCount);
                 }
             }).catch((err) => {
                 reject(err);
