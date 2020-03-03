@@ -391,7 +391,7 @@ class Sample {
     });
   }
 
-  static updatereport(id, report) {
+  static updateReport(id, report) {
     return new Promise((resolve, reject) => {
       SampleModel.update({ _id: id }, { $set: { report: report } }).then((result) => {
         resolve(result);
@@ -401,17 +401,14 @@ class Sample {
     });
   }
 
-  static async updateDescription(id, info) {
-    try {
-      let result = await SampleModel.update(
-        { _id: id },
-        { description: info.description, parecer: info.parecer}
-      )
-      return result;
-    }
-    catch (err) {
-      throw err;
-    }
+  static async updateReportSpecific(id, info) {
+    return new Promise((resolve, reject) =>{
+      SampleModel.updateOne({ _id: id },{$set: info}).then((result) => {
+        resolve(result);
+      }).catch(err => {
+        reject(err);
+      });
+    });
   }
 
   static updateAbsorbances(toxina, id, abs, abs2) {
