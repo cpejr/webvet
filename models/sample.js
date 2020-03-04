@@ -10,6 +10,7 @@ const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina',
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
   name: String,
+  sampletype: String,
   report: {
     type: Boolean, //1 for available, 0 for not available
     default: 0
