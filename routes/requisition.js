@@ -142,6 +142,7 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
       }
       res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova, ...req.session, samples });
     });
+    
    
   }).catch((error) => {
     console.log(error);
