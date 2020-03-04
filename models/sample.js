@@ -24,7 +24,7 @@ const sampleSchema = new mongoose.Schema({
     default: yyyy,
   },
   description: String,
-  ocratoxina: {
+  aflatoxina: {
     status: {
       type: String,
       enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
@@ -43,12 +43,16 @@ const sampleSchema = new mongoose.Schema({
       type: String,
       default: 'Sem mapa'
     },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
     concentration: String,
     kitId: {
       type: mongoose.Schema.Types.ObjectId,
+    },
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    checked: {
+      type: Boolean,
+      default: false
     },
   },
   deoxinivalenol: {
@@ -77,32 +81,9 @@ const sampleSchema = new mongoose.Schema({
     kitId: {
       type: mongoose.Schema.Types.ObjectId,
     },
-  },
-  t2toxina: {
-    status: {
-      type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova'
-    },
-    date: String,
-    absorbance: Number,
-    absorbance2: Number,
-    result: String,
-    active: {
+    checked: {
       type: Boolean,
       default: false
-    },
-    contador: Number,
-    mapReference: {
-      type: String,
-      default: 'Sem mapa'
-    },
-    concentration: String,
-    kitId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
     },
   },
   fumonisina: {
@@ -131,6 +112,72 @@ const sampleSchema = new mongoose.Schema({
     workmapId: {
       type: mongoose.Schema.Types.ObjectId,
     },
+    checked: {
+      type: Boolean,
+      default: false
+    },
+  },
+  ocratoxina: {
+    status: {
+      type: String,
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
+      default: 'Nova'
+    },
+    date: String,
+    absorbance: Number,
+    absorbance2: Number,
+    result: String,
+    active: {
+      type: Boolean,
+      default: false
+    },
+    contador: Number,
+    mapReference: {
+      type: String,
+      default: 'Sem mapa'
+    },
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    concentration: String,
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    checked: {
+      type: Boolean,
+      default: false
+    },
+  },
+  t2toxina: {
+    status: {
+      type: String,
+      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
+      default: 'Nova'
+    },
+    date: String,
+    absorbance: Number,
+    absorbance2: Number,
+    result: String,
+    active: {
+      type: Boolean,
+      default: false
+    },
+    contador: Number,
+    mapReference: {
+      type: String,
+      default: 'Sem mapa'
+    },
+    concentration: String,
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    checked: {
+      type: Boolean,
+      default: false
+    },
   },
   zearalenona: {
     status: {
@@ -158,32 +205,9 @@ const sampleSchema = new mongoose.Schema({
     workmapId: {
       type: mongoose.Schema.Types.ObjectId,
     },
-  },
-  aflatoxina: {
-    status: {
-      type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova'
-    },
-    date: String,
-    absorbance: Number,
-    absorbance2: Number,
-    result: String,
-    active: {
+    checked: {
       type: Boolean,
       default: false
-    },
-    contador: Number,
-    mapReference: {
-      type: String,
-      default: 'Sem mapa'
-    },
-    concentration: String,
-    kitId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
     },
   },
   isCalibrator: {

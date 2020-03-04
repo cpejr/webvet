@@ -274,7 +274,8 @@ router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, n
     parecer: req.body.sample.parecer,
   };
   for (let i = 0; i < ToxinasFull.length; i++) {
-    info[ToxinasFull[i]+".result"] = req.body[ToxinasFull[i]] ? req.body[ToxinasFull[i]].result : "NaN";
+    info[ToxinasFull[i]+".result"] = req.body[ToxinasFull[i]].result ? req.body[ToxinasFull[i]].result : "NaN";
+    info[ToxinasFull[i]+".checked"] = req.body[ToxinasFull[i]].checked ? true : false;
   };
 
   Sample.updateReportSpecific(id, info).then((report) => {

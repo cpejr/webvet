@@ -50,7 +50,7 @@
               <th scope="row">{{Name}}</th>
               <td>
                 <input type="text" id="{{Pair.name}}Conc" value="{{Result}}" name = "{{Pair.name}}[result]">
-                <input type="checkbox" id="{{Pair.name}}Check" name="toxinaCheck" value="{{Name}}">
+                <input type="checkbox" name="{{Pair.name}}[checked]" id="toxinaCheck" value="{{Name}}">
               </td>
               <td>{{Pair.kit.Lod}}</td>
               <td>{{Pair.kit.Loq}}</td>
@@ -110,8 +110,7 @@
     var countChecked = function () {
       const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
       const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
-      var n = $('input[name="toxinaCheck"]:checked').length;
-      //var nTotal = $('input[name="toxinaCheck"]').length;
+      var n = $('input[id="toxinaCheck"]:checked').length;
       var listNames = [];
       var idName = {};
       var frase = "";
@@ -120,8 +119,9 @@
 
       // $('#allCheck').prop("checked", n === nTotal);
 
-      $('input[name="toxinaCheck"]:checked').each(function () {
+      $('input[id="toxinaCheck"]:checked').each(function () {
         listNames.push($(this).val());
+        console.log(listNames);
       });
 
       if (n > 0) { //Pedaço que analiza o vetor de nomes e escreve apropriadamente.
@@ -150,10 +150,10 @@
       }
     };
     countChecked();
-    $("input[type=checkbox][name=toxinaCheck]").change(countChecked);
+    $("input[type=checkbox][id=toxinaCheck]").change(countChecked);
 
     var checkAll = function () {
-      $('input[type=checkbox][name="toxinaCheck"]').each(function () {
+      $('input[type=checkbox][id="toxinaCheck"]').each(function () {
         $(this).prop("checked", $("#allCheck").is(":checked"));
         countChecked();
       });
