@@ -273,9 +273,15 @@ router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, n
     description: req.body.sample.description,
     parecer: req.body.sample.parecer,
   };
-  for (let i = 0; i < ToxinasFull.length; i++) {
-    info[ToxinasFull[i]+".result"] = req.body[ToxinasFull[i]].result ? req.body[ToxinasFull[i]].result : "NaN";
-    info[ToxinasFull[i]+".checked"] = req.body[ToxinasFull[i]].checked ? true : false;
+  for (let i = 0; i < ToxinasFormal.length; i++) {
+    if(req.body[ToxinasFormal[i]]){
+      info[ToxinasFull[i]+".result"] = req.body[ToxinasFormal[i]].result ? req.body[ToxinasFormal[i]].result : "NaN";
+      if(req.body[ToxinasFormal[i]].checked){
+        info[ToxinasFull[i]+".checked"] = true;
+      } else {
+        info[ToxinasFull[i]+".checked"] = false;
+      };
+    };
   };
 
   Sample.updateReportSpecific(id, info).then((report) => {

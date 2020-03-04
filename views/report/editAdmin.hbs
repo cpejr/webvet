@@ -49,8 +49,8 @@
             <tr>
               <th scope="row">{{Name}}</th>
               <td>
-                <input type="text" id="{{Pair.name}}Conc" value="{{Result}}" name = "{{Pair.name}}[result]">
-                <input type="checkbox" name="{{Pair.name}}[checked]" id="toxinaCheck" value="{{Name}}">
+                <input type="text" id="{{Pair.name}}Conc" value="{{Result}}" name="{{Name}}[result]">
+                <input type="checkbox" name="{{Name}}[checked]" id="toxinaCheck" value="{{Name}}">
               </td>
               <td>{{Pair.kit.Lod}}</td>
               <td>{{Pair.kit.Loq}}</td>
@@ -97,7 +97,7 @@
           </div>
         {{else}}
           <div class="col-sm-6">
-            <button class="btn btn-success" onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</butt>
+            <button class="btn btn-success" onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</button>
           </div>
         {{/if}}
       </div>
@@ -105,11 +105,31 @@
   </center>
 </div>
 
+<div>
+  {{#if sample.aflatoxina.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.aflatoxina.checked}}">afla</button>
+  {{/if}}
+  {{#if sample.deoxinivalenol.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.deoxinivalenol.checked}}">deox</button>
+  {{/if}}
+  {{#if sample.fumonisina.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.fumonisina.checked}}">fumo</button>
+  {{/if}}
+  {{#if sample.ocratoxina.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.ocratoxina.checked}}">ocra</button>
+  {{/if}}
+  {{#if sample.t2toxina.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.t2toxina.checked}}">t2</button>
+  {{/if}}
+  {{#if sample.zearalenona.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.zearalenona.checked}}">zea</button>
+  {{/if}}
+</div>
+
 <script>
   $(document).ready(function () {
+
     var countChecked = function () {
-      const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
-      const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
       var n = $('input[id="toxinaCheck"]:checked').length;
       var listNames = [];
       var idName = {};
@@ -120,8 +140,9 @@
       // $('#allCheck').prop("checked", n === nTotal);
 
       $('input[id="toxinaCheck"]:checked').each(function () {
-        listNames.push($(this).val());
+        console.log("Entrou no .each()");
         console.log(listNames);
+        listNames.push($(this).val());
       });
 
       if (n > 0) { //Pedaço que analiza o vetor de nomes e escreve apropriadamente.
@@ -149,6 +170,26 @@
         $("#parecer").text("Não foi detectada a presença de nenhuma toxina na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.");
       }
     };
+
+    var initialCheck = function () {
+      let checkNames = [];
+      $("button[id=previousChecked]").each(function () {
+        checkNames.push($(this).val());
+      });
+
+      /*ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+      ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisina', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
+      for (i = 0; i < ToxinasFull.length; i++) {
+        if (sample.ToxinasFull[i].checked) {
+          $("input[name=" + ToxinasFull[i] + "]").attr("checked", ToxinasFormal[i]);
+        }
+        console.log(ToxinasFull[i] + " esta marcado no back como checked!");
+      }*/
+      countChecked();
+    };
+
+    initialCheck();
+
     countChecked();
     $("input[type=checkbox][id=toxinaCheck]").change(countChecked);
 
@@ -157,7 +198,8 @@
         $(this).prop("checked", $("#allCheck").is(":checked"));
         countChecked();
       });
-    }
+    };
+
     $("#allCheck").change(checkAll);
   })
 </script>
