@@ -117,8 +117,14 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
               if (ToxinasFull[m] === orderedKits[k].name) {
                 Obj = orderedKits[k];
                 Name = ToxinasFormal[m];
+                if (sample[ToxinasFull[m]].result !== "ND" && sample[ToxinasFull[m]].result !== "NaN") {
+                  var roundResult = Number(sample[ToxinasFull[m]].result);
+                  roundResult = round(roundResult, 2);
+                } else {
+                  roundResult = sample[ToxinasFull[m]].result;
+                }
                 Values[m] = {
-                  Result: sample[ToxinasFull[m]].result,
+                  Result: roundResult,
                   Name,
                   Obj,
                 };
