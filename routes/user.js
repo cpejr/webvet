@@ -18,6 +18,7 @@ router.get('/', auth.isAuthenticated, (req, res, next) => {
         data[i] = {
           number: element.requisitionnumber,
           year: element.createdAt.getFullYear(),
+          _id: element._id,
         };
         for (let j = 0; j < requisitions[i].samples.length; j++) {
           samplesId.push(requisitions[i].samples[j]);
