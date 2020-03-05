@@ -49,12 +49,24 @@
             <tr>
               <th scope="row">{{Name}}</th>
               <td>
-                <input type="text" id="{{Pair.name}}Conc" value="{{Result}}" name = "{{Pair.name}}[result]">
-                <input type="checkbox" id="{{Pair.name}}Check" name="toxinaCheck" value="{{Name}}">
+                <input type="text" id="{{Pair.name}}Conc" value="{{Result}}" name="{{Pair.name}}[result]">
+                <input type="checkbox" name="{{Pair.name}}[checked]" id="toxinaCheck" value="{{Name}}">
+                <button class="btn btn-success" id="{{Pair.name}}" name="check[{{Pair.checked}}]">+</button>
               </td>
               <td>{{Pair.kit.Lod}}</td>
               <td>{{Pair.kit.Loq}}</td>
             </tr>
+            <script>
+              var initialCheck = function () {
+                console.log("{{Pair.name}}: {{Pair.checked}}");
+                if ($('button[name="check[true]"][id="{{Pair.name}}"]').length > 0) {
+                  console.log("{{Pair.name}} esta presente!");
+                  $('input[name="{{Pair.name}}[checked]"]').attr("checked", "{{Name}}");
+                }
+              };
+
+              initialCheck();
+            </script>
           {{/each}}
         </tbody>
       </table>
@@ -97,7 +109,7 @@
           </div>
         {{else}}
           <div class="col-sm-6">
-            <button class="btn btn-success" onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</butt>
+            <button class="btn btn-success" onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</button>
           </div>
         {{/if}}
       </div>
@@ -105,22 +117,39 @@
   </center>
 </div>
 
+{{!-- <div>
+  {{#if sample.aflatoxina.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.aflatoxina.checked}}">afla</button>
+  {{/if}}
+  {{#if sample.deoxinivalenol.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.deoxinivalenol.checked}}">deox</button>
+  {{/if}}
+  {{#if sample.fumonisina.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.fumonisina.checked}}">fumo</button>
+  {{/if}}
+  {{#if sample.ocratoxina.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.ocratoxina.checked}}">ocra</button>
+  {{/if}}
+  {{#if sample.t2toxina.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.t2toxina.checked}}">t2</button>
+  {{/if}}
+  {{#if sample.zearalenona.checked}}
+    <button class="btn btn-success" id="previousChecked" name="{{sample.zearalenona.checked}}">zea</button>
+  {{/if}}
+</div> --}}
+
 <script>
   $(document).ready(function () {
+
     var countChecked = function () {
-      const ToxinasLower = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
-      const ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisinas', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
-      var n = $('input[name="toxinaCheck"]:checked').length;
-      //var nTotal = $('input[name="toxinaCheck"]').length;
+      var n = $('input[id="toxinaCheck"]:checked').length;
       var listNames = [];
       var idName = {};
       var frase = "";
       var inicio = ""
       var fraseCompleta = "*inicio* a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
 
-      // $('#allCheck').prop("checked", n === nTotal);
-
-      $('input[name="toxinaCheck"]:checked').each(function () {
+      $('input[id="toxinaCheck"]:checked').each(function () {
         listNames.push($(this).val());
       });
 
@@ -149,15 +178,17 @@
         $("#parecer").text("Não foi detectada a presença de nenhuma toxina na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.");
       }
     };
+
     countChecked();
-    $("input[type=checkbox][name=toxinaCheck]").change(countChecked);
+    $("input[type=checkbox][id=toxinaCheck]").change(countChecked);
 
     var checkAll = function () {
-      $('input[type=checkbox][name="toxinaCheck"]').each(function () {
+      $('input[type=checkbox][id="toxinaCheck"]').each(function () {
         $(this).prop("checked", $("#allCheck").is(":checked"));
         countChecked();
       });
-    }
+    };
+
     $("#allCheck").change(checkAll);
   })
 </script>

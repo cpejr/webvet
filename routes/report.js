@@ -189,6 +189,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
         var kit = {};
         var name = {};
         var listNames = [];
+        var checked = false;
 
         for (i = 0; i < productCode.length; i++) {
           for (j = 0; j < kits.length; j++) {
@@ -196,7 +197,11 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
               kit = kits[j];
               name = ToxinasLower[i];
               listNames.push(ToxinasFormal[i]);
-              orderedKits.push({ kit, name });
+              checked = false;
+              if (sample[ToxinasLower[h]] && sample[ToxinasLower[h]].checked) {
+                checked = true;
+              }
+              orderedKits.push({ kit, name, checked });
             }
           }
         }
@@ -215,7 +220,11 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
               Lod: "Aguardando finalização",
             };
             name = ToxinasLower[h];
-            orderedKits.push({ kit, name });
+            checked = false;
+            if (sample[ToxinasLower[h]] && sample[ToxinasLower[h]].checked) {
+              checked = true;
+            }
+            orderedKits.push({ kit, name, checked });
           }
         }
 
@@ -273,15 +282,22 @@ router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, n
     description: req.body.sample.description,
     parecer: req.body.sample.parecer,
   };
-  for (let i = 0; i < ToxinasFull.length; i++) {
-    info[ToxinasFull[i]+".result"] = req.body[ToxinasFull[i]] ? req.body[ToxinasFull[i]].result : "NaN";
+  for (let i = 0; i < ToxinasFormal.length; i++) {
+    if (req.body[ToxinasFull[i]]) {
+      info[ToxinasFull[i] + ".result"] = req.body[ToxinasFull[i]].result ? req.body[ToxinasFull[i]].result : "NaN";
+      if (req.body[ToxinasFull[i]].checked) {
+        info[ToxinasFull[i] + ".checked"] = true;
+      } else {
+        info[ToxinasFull[i] + ".checked"] = false;
+      };
+    };
   };
 
   Sample.updateReportSpecific(id, info).then((report) => {
     console.log(report);
     req.flash('success', 'Atualizado com sucesso.');
     res.redirect('/report/show/admin/' + id);
-  }).catch((err) =>{
+  }).catch((err) => {
     console.log(err);
     res.redirect('/error');
   });
