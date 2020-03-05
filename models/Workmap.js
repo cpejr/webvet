@@ -1,7 +1,6 @@
 const express = require('express');
-const router = express.Router();
 const mongoose = require('mongoose');
-
+const Counter = require('../models/counter');
 
 
 const workmapSchema = new mongoose.Schema({
@@ -22,6 +21,11 @@ const workmapSchema = new mongoose.Schema({
     type: Boolean, //1 for active, 0 for not active
     default: 0
   },
+
+  finalizationNumber: {
+    type: Number,
+    default: -1
+  }
 });
 
 const WorkmapModel = mongoose.model('Workmap', workmapSchema);
@@ -90,15 +94,6 @@ class Workmap {
     });
   }
 
-
-  static setMapID(id, mapid) {
-    return new Promise((resolve, reject) => {
-      WorkmapModel.findByIdAndUpdate(id, { $set: { mapID: mapid } }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
   static delete(id) {
     return new Promise((resolve, reject) => {
       WorkmapModel.findOneAndDelete({ _id: id }).then(() => {
@@ -119,12 +114,56 @@ class Workmap {
       });
     });
   }
+
   static getByIdArray(id_array) {
     return new Promise((resolve, reject) => {
       WorkmapModel.find({ _id: { $in: id_array } }).then((map) => {
         resolve(map);
       }).catch((err) => {
         reject(err);
+      });
+    });
+  }
+
+  static setFinalizationNumber(id_array, finalizationNumber) {
+    return new Promise((resolve, reject) => {
+      WorkmapModel.update({ _id: { $in: id_array } },
+        { $set: { finalizationNumber: finalizationNumber } },
+      ).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getLastFinalizedSamples() {
+    return new Promise(async (resolve, reject) => {
+      let finalizationNumber = (await Counter.getFinalizationCount()) - 1;
+      WorkmapModel.aggregate([
+        { $match: { finalizationNumber: finalizationNumber } },
+        { $project: { samplesArray: 1, productCode: 1 } },
+        {
+          $lookup:
+          {
+            from: "samples",//collection to join
+            let: { 'array': '$samplesArray' },
+            pipeline: [ //field from the input documents
+              { $match: { $expr: { $in: ['$_id', '$$array'] } } }
+            ],
+            as: "samples",//output array field
+          }
+        },
+        { $unwind: "$samples" },
+        {
+          $group: {
+            _id: "$productCode",
+            samples: { $push: "$samples" },
+          }
+        },
+      ]).then(result => {
+        console.log(result);
+        resolve(result);
       });
     });
   }

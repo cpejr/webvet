@@ -1,24 +1,16 @@
 
-var express = require('express');
-var firebase = require('firebase');
-var router = express.Router();
-const auth = require('./middleware/auth');
-const User = require('../models/user');
-const Requisition = require('../models/requisition');
+const express = require('express');
+const router = express.Router();
 const Kit = require('../models/kit');
-const Mycotoxin = require('../models/mycotoxin');
-const Email = require('../models/email');
 const Workmap = require('../models/Workmap');
 const Sample = require('../models/sample');
+const Counter = require('../models/counter');
 
 router.get('/', (req, res) => {
 
   Sample.getAllActiveWithWorkmap().then((amostras) => {
     var today = new Date();
-    var hours = today.getHours();
-    var minutes = today.getMinutes();
-    var scnds = today.getSeconds();
-
+   
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
@@ -79,18 +71,28 @@ router.post('/', function (req, res, next) {
     });
   }
 
-  function updateKits(KitArray) {
+  async function updateKits(KitArray) {
+
+    let finalizationNumber = await Counter.getFinalizationCount();
+
     KitArray.forEach((kit) => {
       var new_toxinaStart = kit.toxinaStart;
 
-      Workmap.getByIdArray(kit.mapArray).then((workmaps) => {        
-        for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) //Ele confere de trás para frente
-          if (workmaps[i].samplesArray.length > 0)
-          {
+      Workmap.getByIdArray(kit.mapArray).then((workmaps) => {
+        //Order by mapID
+        workmaps.sort(function (a, b) {
+          return Number(a.mapID) - Number(b.mapID);
+        });
+
+        for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) { //Ele confere de trás para frente
+          if (workmaps[i].samplesArray.length > 0) {
             new_toxinaStart = Number(workmaps[i].mapID) + 1;
             break;
           }
-          
+        }
+
+        let WorkmapsToFinalize = kit.mapArray.slice(kit.toxinaStart, new_toxinaStart);
+        Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber);
 
         kit.amount = kit.stripLength - new_toxinaStart;
         kit.toxinaStart = new_toxinaStart;
@@ -99,6 +101,9 @@ router.post('/', function (req, res, next) {
         });
       });
     });
+
+    //Update Finalization Count
+    Counter.setFinalizationCount(finalizationNumber + 1);
   }
 
   function updateSample(name, obj) {

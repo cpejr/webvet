@@ -249,20 +249,6 @@ class Kit {
   }
 
   /**
-   * Set a vector of mycotoxins
-   * @param {string} id - Kit Id
-   * @param {Number} start - number of the first workmap empty
-   * @returns {null}
-   */
-  static setToxinaStart(id, start) {
-    return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { toxinaStart: start } }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
     * Change the amount
     * @param {string} id - Kit Id
     * @param {Number} newAmount-new amount value
