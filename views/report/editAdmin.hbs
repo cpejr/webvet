@@ -51,10 +51,22 @@
               <td>
                 <input type="text" id="{{Pair.name}}Conc" value="{{Result}}" name="{{Pair.name}}[result]">
                 <input type="checkbox" name="{{Pair.name}}[checked]" id="toxinaCheck" value="{{Name}}">
+                <button class="btn btn-success" id="{{Pair.name}}" name="check[{{Pair.checked}}]">+</button>
               </td>
               <td>{{Pair.kit.Lod}}</td>
               <td>{{Pair.kit.Loq}}</td>
             </tr>
+            <script>
+              var initialCheck = function () {
+                console.log("{{Pair.name}}: {{Pair.checked}}");
+                if ($('button[name="check[true]"][id="{{Pair.name}}"]').length > 0) {
+                  console.log("{{Pair.name}} esta presente!");
+                  $('input[name="{{Pair.name}}[checked]"]').attr("checked", "{{Name}}");
+                }
+              };
+
+              initialCheck();
+            </script>
           {{/each}}
         </tbody>
       </table>
@@ -105,7 +117,7 @@
   </center>
 </div>
 
-<div>
+{{!-- <div>
   {{#if sample.aflatoxina.checked}}
     <button class="btn btn-success" id="previousChecked" name="{{sample.aflatoxina.checked}}">afla</button>
   {{/if}}
@@ -124,7 +136,7 @@
   {{#if sample.zearalenona.checked}}
     <button class="btn btn-success" id="previousChecked" name="{{sample.zearalenona.checked}}">zea</button>
   {{/if}}
-</div>
+</div> --}}
 
 <script>
   $(document).ready(function () {
@@ -137,11 +149,7 @@
       var inicio = ""
       var fraseCompleta = "*inicio* a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
 
-      // $('#allCheck').prop("checked", n === nTotal);
-
       $('input[id="toxinaCheck"]:checked').each(function () {
-        console.log("Entrou no .each()");
-        console.log(listNames);
         listNames.push($(this).val());
       });
 
@@ -170,20 +178,6 @@
         $("#parecer").text("Não foi detectada a presença de nenhuma toxina na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.");
       }
     };
-
-    var initialCheck = function () {
-      /*ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
-      ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisina', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
-      for (i = 0; i < ToxinasFull.length; i++) {
-        if (sample.ToxinasFull[i].checked) {
-          $("input[name=" + ToxinasFull[i] + "]").attr("checked", ToxinasFormal[i]);
-        }
-        console.log(ToxinasFull[i] + " esta marcado no back como checked!");
-      }*/
-      countChecked();
-    };
-
-    initialCheck();
 
     countChecked();
     $("input[type=checkbox][id=toxinaCheck]").change(countChecked);
