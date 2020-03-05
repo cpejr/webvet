@@ -140,20 +140,21 @@ class Workmap {
   static getLastFinalizedSamples() {
     return new Promise(async (resolve, reject) => {
       let finalizationNumber = (await Counter.getFinalizationCount()) - 1;
-      console.log(finalizationNumber);
       WorkmapModel.aggregate([
         { $match: { finalizationNumber: finalizationNumber } },
-        { $project: { samplesArray: 1 } },
+        { $project: { samplesArray: 1, productCode: 1 } },
         {
           $lookup:
           {
             from: "samples",//collection to join
+            let: { 'array': '$samplesArray' },
             pipeline: [ //field from the input documents
-              { $match: { _id: { $in: "$$samplesArray" } } }
+              { $match: { $expr: { $in: ['$_id', '$$array'] } } }
             ],
             as: "samples",//output array field
           }
         },
+        { $unwind: "$samples" },
         {
           $group: {
             _id: "$productCode",
@@ -161,8 +162,8 @@ class Workmap {
           }
         },
       ]).then(result => {
-        resolve(result);
         console.log(result);
+        resolve(result);
       });
     });
   }

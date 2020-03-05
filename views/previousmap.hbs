@@ -3,28 +3,28 @@
     Mapas de Trabalho
   </div>
 </div>
-  <div class="container-fluid d-flex justify-content-between flex-wrap">
-    {{#each result}}
-      <table>
-        <thead>
-          <tr>
-            <th class="" scope="col">{{name}}</th>
-          </tr>
-        </thead>
+<div class="container-fluid d-flex d-flex justify-content-around flex-wrap">
+  {{#each result}}
+    <table class="flex-fill">
+      <thead>
+        <tr>
+          <th class="" scope="col">{{_id}}</th>
+        </tr>
+      </thead>
 
-        <tbody>
-          {{#each samples}}
-            {{#if changedworkmap}}
-              <tr>
-                <td><br></td>
-              </tr>
-            {{/if}}
+      <tbody>
+        {{#each samples}}
+          {{#if changedWorkmap}}
             <tr>
-              <th>{{samplenumber}}</th>
+              <td><br></td>
             </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    {{/each}}
-  </div>
+          {{/if}}
+          <tr>
+            <th>{{samplenumber}}</th>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/each}}
+</div>
 </div>
