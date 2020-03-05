@@ -22,8 +22,9 @@ router.get('/statesData', async (req, res) => {
     res.send(data);
 });
 router.get('/samplesData', async (req, res) => {
-    let data = await Requisition.getSampleData();
+    let data = await Sample.getSampleData();
     res.send(data);
 });
+
 
 module.exports = router;

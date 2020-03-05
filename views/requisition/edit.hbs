@@ -289,15 +289,19 @@
     <p> Identificação da Amostra</p> 
   </div> 
 {{#each samples}} 
+
+
 <div class="form-row"> 
     <div class="requisition-text col-md-6"> 
-      <input required type="text" name="requisition[sampleVector]" id="sample" class="requisition-text" 
+      <input required type="text" name="sample[name]" id="sample" class="requisition-text" 
         placeholder="Amostra" value = "{{name}}"> 
+      <input type="hidden" name="sample[_id]" id="sample" class="requisition-text" 
+        value = "{{_id}}"> 
     </div> 
     
 <div class="requisition-text col-md-6">    
-        <select id="sampletype" class="drowdownoptions" name="requisition[sampleVector]" required="required">
-        <option disabled selected value="{{sampletype}}">Tipo</option>
+        <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions" name="sample[sampletype]" required="required">
+        <option disabled selected value="">Tipo</option>
         <option value="subprodutos">Subprodutos</option>
         <option value="dietatotal">Dieta Total</option>
         <option value="milho">Milho</option>
@@ -317,6 +321,12 @@
       <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input> 
 </div> 
 </div> 
+<script>
+   $(document).ready(function () {
+  let reqtype = "{{sampletype}}";
+  $('select#{{_id}}').val(reqtype);
+  });
+</script>
 {{/each}} 
   <br> 
   </div>
@@ -357,6 +367,8 @@
 
     let reqstate = "{{requisition.state}}";
     $('select#requisitonstate').val(reqstate);
+
+    
   });
 
   $("#submitAlterations").click(function () {

@@ -142,8 +142,8 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
       }
       res.render('requisition/edit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, nova, ...req.session, samples });
     });
-    
-   
+
+
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -151,10 +151,23 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 router.post('/:id', auth.isAuthenticated, function (req, res, next) {
-  var { requisition } = req.body;
+  var { requisition, sample } = req.body;
   if (req.body.novaCheck === "isChecked") {
     console.log("Detectou que a checkbox esta marcada");
     requisition.status = "Aprovada";
+  }
+  console.log(sample);
+  for (let i = 0; i < sample._id.length; i++) {
+    let samples = {
+      name: sample.name[i],
+      sampletype: sample.sampletype[i],
+    };
+    Sample.update(sample._id[i], samples).then(() => {
+      console.log("Deveria ter dado update");
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }
   Requisition.update(req.params.id, requisition).then(() => {
     console.log("Deveria ter dado update");
@@ -164,6 +177,8 @@ router.post('/:id', auth.isAuthenticated, function (req, res, next) {
     console.log(error);
     res.redirect('/error');
   });
+  
+  
 });
 
 
