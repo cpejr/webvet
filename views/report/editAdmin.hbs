@@ -49,19 +49,19 @@
             <tr>
               <th scope="row">{{Name}}</th>
               <td>
-                <input type="text" id="{{Pair.name}}Conc" value="{{Result}}" name="{{Pair.name}}[result]">
-                <input type="checkbox" name="{{Pair.name}}[checked]" id="toxinaCheck" value="{{Name}}">
-                <button class="btn btn-success" id="{{Pair.name}}" name="check[{{Pair.checked}}]" hidden>+</button>
+                <input type="text" id="{{Obj.name}}Conc" value="{{Result}}" name="{{Obj.name}}[result]">
+                <input type="checkbox" name="{{Obj.name}}[checked]" id="toxinaCheck" value="{{Name}}">
+                <button class="btn btn-success" id="{{Obj.name}}" name="check[{{Obj.checked}}]" hidden>+</button>
               </td>
-              <td>{{Pair.kit.Lod}}</td>
-              <td>{{Pair.kit.Loq}}</td>
+              <td>{{Obj.kit.Lod}}</td>
+              <td>{{Obj.kit.Loq}}</td>
             </tr>
             <script>
               var initialCheck = function () {
-                console.log("{{Pair.name}}: {{Pair.checked}}");
-                if ($('button[name="check[true]"][id="{{Pair.name}}"]').length > 0) {
-                  console.log("{{Pair.name}} esta presente!");
-                  $('input[name="{{Pair.name}}[checked]"]').attr("checked", "{{Name}}");
+                console.log("{{Obj.name}}: {{Obj.checked}}");
+                if ($('button[name="check[true]"][id="{{Obj.name}}"]').length > 0) {
+                  console.log("{{Obj.name}} esta presente!");
+                  $('input[name="{{Obj.name}}[checked]"]').attr("checked", "{{Name}}");
                 }
               };
 
