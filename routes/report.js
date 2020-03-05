@@ -274,9 +274,9 @@ router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, n
     parecer: req.body.sample.parecer,
   };
   for (let i = 0; i < ToxinasFormal.length; i++) {
-    if(req.body[ToxinasFormal[i]]){
-      info[ToxinasFull[i]+".result"] = req.body[ToxinasFormal[i]].result ? req.body[ToxinasFormal[i]].result : "NaN";
-      if(req.body[ToxinasFormal[i]].checked){
+    if(req.body[ToxinasFull[i]]){
+      info[ToxinasFull[i]+".result"] = req.body[ToxinasFull[i]].result ? req.body[ToxinasFull[i]].result : "NaN";
+      if(req.body[ToxinasFull[i]].checked){
         info[ToxinasFull[i]+".checked"] = true;
       } else {
         info[ToxinasFull[i]+".checked"] = false;
