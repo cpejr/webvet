@@ -198,7 +198,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
               name = ToxinasLower[i];
               listNames.push(ToxinasFormal[i]);
               checked = false;
-              if (sample[ToxinasLower[h]] && sample[ToxinasLower[h]].checked) {
+              if (sample[ToxinasLower[i]] && sample[ToxinasLower[i]].checked) {
                 checked = true;
               }
               orderedKits.push({ kit, name, checked });
