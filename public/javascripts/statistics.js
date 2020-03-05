@@ -42,6 +42,14 @@ $(document).ready(() => {
             legend: {
                 display: false,
             },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 1,
+                        min: 0
+                    }
+                }]
+            },
             plugins: {
                 // Change options for ALL labels of THIS CHART
                 datalabels: {
@@ -69,7 +77,7 @@ $(document).ready(() => {
             eixo_x.push(element._id);
             eixo_y.push(element.frequency.toFixed(2));
         }
-        console.log(result);
+        //console.log(result);
 
         chart.data.labels = eixo_x;
         chart.data.datasets[0].data = eixo_y;
@@ -80,9 +88,9 @@ $(document).ready(() => {
 // --------------------------------------------------------
 // GRAFICO DO TIPO DE SAMPLES AQUI 
 $(document).ready(() => {
-    var ctx = $('#SampleFrequency');
+    var ctx2 = $('#SampleFrequency');
 
-    var chart = new Chart(ctx, {
+    var chart2 = new Chart(ctx2, {
         plugins: [ChartDataLabels],
         // The type of chart we want to create
         type: 'bar',
@@ -106,6 +114,14 @@ $(document).ready(() => {
             },
             legend: {
                 display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 1,
+                        min: 0
+                    }
+                }]
             },
             plugins: {
                 // Change options for ALL labels of THIS CHART
@@ -131,14 +147,14 @@ $(document).ready(() => {
 
         for (let i = 0; i < result.length; i++) {
             const element = result[i];
-            // eixo_x.push(element._id);
-            // eixo_y.push(element.frequency.toFixed(2));
+            eixo_x.push(element._id);
+            eixo_y.push(element.frequency.toFixed(2));
         }
         console.log(result);
 
-        chart.data.labels = eixo_x;
-        chart.data.datasets[0].data = eixo_y;
-        chart.update();
+        chart2.data.labels = eixo_x;
+        chart2.data.datasets[0].data = eixo_y;
+        chart2.update();
     });
 
 });

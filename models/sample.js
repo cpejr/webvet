@@ -734,6 +734,35 @@ class Sample {
 
     });
   }
+  static getSampleData() {
+    return new Promise((resolve, reject) => {
+      SampleModel.aggregate([
+        { $match: { finalized: true } },
+        { $project: { sampletype: 1 } },
+        {
+          $group: {
+            _id: "$sampletype",
+            samples: { $push: "$_id" },
+          }
+        },
+      ]).then((result) => {
+        console.log(result);
+        let total = 0;
+
+        for (let i = 0; i < result.length; i++)
+          total += result[i].samples.length;
+
+        for (let j = 0; j < result.length; j++)
+          result[j].frequency = result[j].samples.length / total;
+
+
+        resolve(result);
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
 }
 
 
