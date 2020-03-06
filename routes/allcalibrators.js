@@ -20,33 +20,46 @@ router.get('/', (req, res) => {
 
 router.post('/', function (req, res, next) {
 
-  Kit.getAllActive().then((activekits) => updateKitsCalibrators(activekits)).catch((error) => {
+  Kit.getAllActive().then(async (activekits) => {
+    updateKitsCalibrators(activekits).then(() => {
+      res.redirect("/calibrationcurves");
+    }).catch((error) => {
+      console.log(error);
+    });
+  }).catch((error) => {
     console.log(error);
-  }).then(() => {
-    res.redirect("/calibrationcurves");
   });
 
   function updateKitsCalibrators(kits) {
-    for (let j = 0; j < kits.length; j++) {
+    return new Promise((resolve, reject) => {
+      let promises = [];
+      for (let j = 0; j < kits.length; j++) {
 
-      var Current_kit = kits[j];
-      let sigla = Current_kit.productCode;
-      sigla = sigla.replace(" Romer", "");
+        var Current_kit = kits[j];
+        let sigla = Current_kit.productCode;
+        sigla = sigla.replace(" Romer", "");
 
-      //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
-      if (sigla === "FUMO")
-        sigla = "FBS";
+        //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
+        if (sigla === "FUMO")
+          sigla = "FBS";
 
-      Current_kit.calibrators.P1.absorbance = parseFloat(req.body[sigla + "Calibrator"].P1);
-      Current_kit.calibrators.P2.absorbance = parseFloat(req.body[sigla + "Calibrator"].P2);
-      Current_kit.calibrators.P3.absorbance = parseFloat(req.body[sigla + "Calibrator"].P3);
-      Current_kit.calibrators.P4.absorbance = parseFloat(req.body[sigla + "Calibrator"].P4);
-      Current_kit.calibrators.P5.absorbance = parseFloat(req.body[sigla + "Calibrator"].P5);
-      Kit.update(Current_kit._id, Current_kit).catch((err) => {
-        console.log(err);
+        Current_kit.calibrators.P1.absorbance = parseFloat(req.body[sigla + "Calibrator"].P1);
+        Current_kit.calibrators.P2.absorbance = parseFloat(req.body[sigla + "Calibrator"].P2);
+        Current_kit.calibrators.P3.absorbance = parseFloat(req.body[sigla + "Calibrator"].P3);
+        Current_kit.calibrators.P4.absorbance = parseFloat(req.body[sigla + "Calibrator"].P4);
+        Current_kit.calibrators.P5.absorbance = parseFloat(req.body[sigla + "Calibrator"].P5);
+
+        let promise = Kit.update(Current_kit._id, Current_kit).catch((err) => {
+          console.log(err);
+        });
+
+        promises.push(promise);
+      }
+
+      Promise.all(promises).then(() => {
+        resolve();
       });
-
-    }
+    });
   }
 });
 
