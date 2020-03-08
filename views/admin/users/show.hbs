@@ -70,7 +70,36 @@
         </div>
         <div class="requisition-text col-md-3">
           <label for="user[address][state]"></label>
-          <input type="text" value="{{actualUser.address.state}}" name="user[address][state]" placeholder="Estado">
+          <select id="userstate" class="drowdownoptions" name="requisition[state]" required="required">
+            <option disabled selected value="">Estado</option>
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espirito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+          </select>
         </div>
         <div class="requisition-text col-md-3">
           <label for="user[address][cep]"></label>
@@ -79,7 +108,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="form-row">
       <div id="box-radio" class="col-md-12 ml-3" align="left">
         <label class="form-show-label"></label>
@@ -159,6 +188,9 @@
 
     $(`input#${userType}-radio`).prop('checked', true);
     $('#box-radio').change();
+
+    let userstate = "{{actualUser.address.state}}";
+    $('select#userstate').val(userstate);
   });
 
 </script>
