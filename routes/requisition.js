@@ -177,8 +177,6 @@ router.post('/:id', auth.isAuthenticated, function (req, res, next) {
     console.log(error);
     res.redirect('/error');
   });
-  
-  
 });
 
 

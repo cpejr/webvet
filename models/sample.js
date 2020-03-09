@@ -11,12 +11,16 @@ const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
   name: String,
   sampletype: String,
+  approved: {
+    type: Boolean,
+    default: 0, 
+  },
   report: {
     type: Boolean, //1 for available, 0 for not available
     default: 0
   },
   requisitionId: {
-    type: mongoose.Schema.Types.ObjectId
+    type: mongoose.Schema.Types.ObjectId,
   },
   responsible: String,
   creationYear: {
@@ -28,7 +32,7 @@ const sampleSchema = new mongoose.Schema({
     status: {
       type: String,
       enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova'
+      default: 'Nova',
     },
     date: String,
     absorbance: Number,
@@ -36,12 +40,12 @@ const sampleSchema = new mongoose.Schema({
     result: String,
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
     contador: Number,
     mapReference: {
       type: String,
-      default: 'Sem mapa'
+      default: 'Sem mapa',
     },
     concentration: String,
     kitId: {
@@ -52,14 +56,14 @@ const sampleSchema = new mongoose.Schema({
     },
     checked: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   deoxinivalenol: {
     status: {
       type: String,
       enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova'
+      default: 'Nova',
     },
     date: String,
     absorbance: Number,
@@ -67,12 +71,12 @@ const sampleSchema = new mongoose.Schema({
     result: String,
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
     contador: Number,
     mapReference: {
       type: String,
-      default: 'Sem mapa'
+      default: 'Sem mapa',
     },
     workmapId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -83,14 +87,14 @@ const sampleSchema = new mongoose.Schema({
     },
     checked: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   fumonisina: {
     status: {
       type: String,
       enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova'
+      default: 'Nova',
     },
     date: String,
     absorbance: Number,
@@ -98,12 +102,12 @@ const sampleSchema = new mongoose.Schema({
     result: String,
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
     contador: Number,
     mapReference: {
       type: String,
-      default: 'Sem mapa'
+      default: 'Sem mapa',
     },
     concentration: String,
     kitId: {
@@ -114,14 +118,14 @@ const sampleSchema = new mongoose.Schema({
     },
     checked: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   ocratoxina: {
     status: {
       type: String,
       enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova'
+      default: 'Nova',
     },
     date: String,
     absorbance: Number,
@@ -129,12 +133,12 @@ const sampleSchema = new mongoose.Schema({
     result: String,
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
     contador: Number,
     mapReference: {
       type: String,
-      default: 'Sem mapa'
+      default: 'Sem mapa',
     },
     workmapId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -152,7 +156,7 @@ const sampleSchema = new mongoose.Schema({
     status: {
       type: String,
       enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova'
+      default: 'Nova',
     },
     date: String,
     absorbance: Number,
@@ -160,12 +164,12 @@ const sampleSchema = new mongoose.Schema({
     result: String,
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
     contador: Number,
     mapReference: {
       type: String,
-      default: 'Sem mapa'
+      default: 'Sem mapa',
     },
     concentration: String,
     kitId: {
@@ -176,14 +180,14 @@ const sampleSchema = new mongoose.Schema({
     },
     checked: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   zearalenona: {
     status: {
       type: String,
       enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova'
+      default: 'Nova',
     },
     date: String,
     absorbance: Number,
@@ -191,12 +195,12 @@ const sampleSchema = new mongoose.Schema({
     result: String,
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
     contador: Number,
     mapReference: {
       type: String,
-      default: 'Sem mapa'
+      default: 'Sem mapa',
     },
     concentration: String,
     kitId: {
@@ -207,18 +211,18 @@ const sampleSchema = new mongoose.Schema({
     },
     checked: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   isCalibrator: {
     type: Boolean,
-    default: false
+    default: false,
   },
   description: String,
   parecer: String,
   finalized: {
     type: Boolean,
-    default: false
+    default: false,
   },
 }, { timestamps: true, strict: false });
 
