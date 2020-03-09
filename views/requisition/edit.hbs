@@ -99,22 +99,22 @@
   </div>
   <br>
   <div class="form-row">
-  <div class="requisition-text col-md-6">
-    <input type="text" name="requisition[producer]" class="requisition-text"
-      placeholder="Nome do cliente | Fazenda | Produtor" value="{{requisition.producer}}">
-  </div>
-  <div class="requisition-text col-md-6">
-    <input type="text" name="requisition[autorizationnumber]" class="requisition-text"
-      placeholder="Número de Autorização" value="{{requisition.autorizationnumber}}">
-  </div>
+    <div class="requisition-text col-md-6">
+      <input type="text" name="requisition[producer]" class="requisition-text"
+        placeholder="Nome do cliente | Fazenda | Produtor" value="{{requisition.producer}}">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input type="text" name="requisition[autorizationnumber]" class="requisition-text"
+        placeholder="Número de Autorização" value="{{requisition.autorizationnumber}}">
+    </div>
   </div>
   <div class="form-row">
     <div class="requisition-text col-md-4">
       <input type="text" name="requisition[city]" class="requisition-text" placeholder="Município"
         value="{{requisition.city}}">
     </div>
-    <div class="requisition-text col-md-4">    
-        <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
+    <div class="requisition-text col-md-4">
+      <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
         <option disabled selected value="">Estado</option>
         <option value="AC">Acre</option>
         <option value="AL">Alagoas</option>
@@ -283,52 +283,52 @@
         <input type="text" id="OtherInput" class="input w-100" placeholder="Destinação">
       </div>
     </div>
-  </div> 
-  <br> 
-  <div class="requisition-titles"> 
-    <p> Identificação da Amostra</p> 
-  </div> 
-{{#each samples}} 
+  </div>
+  <br>
+  <div class="requisition-titles">
+    <p> Identificação da Amostra</p>
+  </div>
+  {{#each samples}}
 
 
-<div class="form-row"> 
-    <div class="requisition-text col-md-6"> 
-      <input required type="text" name="sample[name]" id="sample" class="requisition-text" 
-        placeholder="Amostra" value = "{{name}}"> 
-      <input type="hidden" name="sample[_id]" id="sample" class="requisition-text" 
-        value = "{{_id}}"> 
-    </div> 
-    
-<div class="requisition-text col-md-6">    
-        <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions" name="sample[sampletype]" required="required">
-        <option disabled selected value="">Tipo</option>
-        <option value="Subprodutos">Subprodutos</option>
-        <option value="Dieta total">Dieta Total</option>
-        <option value="Milho">Milho</option>
-        <option value="Ração">Ração</option>
-        <option value="Silagem">Silagem</option>
-        <option value="Soja">Soja</option>
-        <option value="Trigo">Trigo</option>
-        <option value="Sorgo">Sorgo</option>
-        <option value="Cevada">Cevada</option>
-        <option value="Radicula">Radícula</option>
-        <option value="Capim/Feno">Capim/Feno</option>
-        <option value="Arroz">Arroz</option>
-        <option value="Aveia">Aveia</option>
-      </select>
+    <div class="form-row">
+      <div class="requisition-text col-md-6">
+        <input required type="text" name="sample[name]" id="sample" class="requisition-text" placeholder="Amostra"
+          value="{{name}}">
+        <input type="hidden" name="sample[_id]" id="sample" class="requisition-text" value="{{_id}}">
+      </div>
+
+      <div class="requisition-text col-md-6">
+        <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions" name="sample[sampletype]"
+          required="required">
+          <option disabled selected value="">Tipo</option>
+          <option value="Subprodutos">Subprodutos</option>
+          <option value="Dieta total">Dieta Total</option>
+          <option value="Milho">Milho</option>
+          <option value="Ração">Ração</option>
+          <option value="Silagem">Silagem</option>
+          <option value="Soja">Soja</option>
+          <option value="Trigo">Trigo</option>
+          <option value="Sorgo">Sorgo</option>
+          <option value="Cevada">Cevada</option>
+          <option value="Radicula">Radícula</option>
+          <option value="Capim/Feno">Capim/Feno</option>
+          <option value="Arroz">Arroz</option>
+          <option value="Aveia">Aveia</option>
+        </select>
+      </div>
+      <div class="checkbox">
+        <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input>
+      </div>
     </div>
-    <div class="checkbox"> 
-      <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input> 
-</div> 
-</div> 
-<script>
-   $(document).ready(function () {
-  let reqtype = "{{sampletype}}";
-  $('select#{{_id}}').val(reqtype);
-  });
-</script>
-{{/each}} 
-  <br> 
+    <script>
+      $(document).ready(function () {
+        let reqtype = "{{sampletype}}";
+        $('select#{{_id}}').val(reqtype);
+      });
+    </script>
+  {{/each}}
+  <br>
   </div>
 
   {{#if nova}}
@@ -368,7 +368,7 @@
     let reqstate = "{{requisition.state}}";
     $('select#requisitonstate').val(reqstate);
 
-    
+
   });
 
   $("#submitAlterations").click(function () {

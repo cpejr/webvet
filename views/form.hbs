@@ -3,63 +3,102 @@
   <div class="signup">
     <h1> Formulário de Cadastro</h1>
     <div>
-        <div class="signup-text col-md-12">
-          <input type="text" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo" required = "required">
+      <div class="signup-text col-md-12">
+        <input type="text" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo"
+          required="required">
+      </div>
+      <div class="form-row">
+        <div class="signup-text col-md-6">
+          <input type="email" name="user[email]" class="input-placeholder-green" placeholder="Email"
+            required="required">
         </div>
-        <div class="form-row">
-          <div class="signup-text col-md-6">
-            <input type="email" name="user[email]" class="input-placeholder-green" placeholder="Email" required = "required">
-          </div>
-          <div class="signup-text col-md-3">
-            <input type="text" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular" required = "required">
-          </div>
-          <div class="signup-text col-md-3">
-            <input type="text" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
-          </div>
+        <div class="signup-text col-md-3">
+          <input type="text" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular"
+            required="required">
         </div>
-        <div class="signup-text col-md-12">
-          <input type="password" name="user[password]" class="input-placeholder-green" placeholder="Senha" required = "required">
-        </div>
-        <br>
-        <div class="form-row">
-          <div class="form-check form-check-inline">
-            <p>
-              <input class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
-              <label class="form-check-label">CPF</label>
-              <input class="form-check-input position-static" type="radio" name="user[persontype]" value="1">
-              <label class="form-check-label">CNPJ</label>
-            </p>
-          </div>
-          <div class="signup-text col-md-10">
-            <input type="text" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ" required = "required">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="signup-text col-md-6">
-            <input type="text" name="user[address][city]" class="input-placeholder-green" placeholder="Municipio" required = "required">
-          </div>
-          <div class="signup-text col-md-2">
-            <input type="text" name="user[address][state]" class="input-placeholder-green" placeholder="Estado" required = "required">
-          </div>
-          <div class="signup-text col-md-4">
-            <input type="text" name="user[address][cep]" class="input-placeholder-green" placeholder="CEP" required = "required">
-          </div>
-          <div class="signup-text col-md-4">
-            <input type="text" name="user[address][street]" class="input-placeholder-green" placeholder="Rua" required = "required">
-          </div>
-          <div class="signup-text col-md-3">
-            <input type="text" name="user[address][number]" class="input-placeholder-green" placeholder="Número" required = "required">
-          </div>
-          <div class="signup-text col-md-3">
-            <input type="text" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
-          </div>
-          <div class="signup-text col-md-2">
-            <input type="text" name="user[address][neighborhood]" class="input-placeholder-green" placeholder="Bairro" required = "required">
-          </div>
+        <div class="signup-text col-md-3">
+          <input type="text" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
         </div>
       </div>
+      <div class="signup-text col-md-12">
+        <input type="password" name="user[password]" class="input-placeholder-green" placeholder="Senha"
+          required="required">
+      </div>
+      <br>
+      <div class="form-row">
+        <div class="form-check form-check-inline">
+          <p>
+            <input class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
+            <label class="form-check-label">CPF</label>
+            <input class="form-check-input position-static" type="radio" name="user[persontype]" value="1">
+            <label class="form-check-label">CNPJ</label>
+          </p>
+        </div>
+        <div class="signup-text col-md-10">
+          <input type="text" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ"
+            required="required">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="signup-text col-md-6">
+          <input type="text" name="user[address][city]" class="input-placeholder-green" placeholder="Municipio"
+            required="required">
+        </div>
+        <div class="signup-text col-md-3">
+          <select id="userstate" class="drowdownoptions" name="user[address][state]" required="required">
+            <option disabled selected value="">Estado</option>
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espirito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+          </select>
+        </div>
+        <div class="signup-text col-md-3">
+          <input type="text" name="user[address][cep]" class="input-placeholder-green" placeholder="CEP"
+            required="required">
+        </div>
+        <div class="signup-text col-md-4">
+          <input type="text" name="user[address][street]" class="input-placeholder-green" placeholder="Rua"
+            required="required">
+        </div>
+        <div class="signup-text col-md-3">
+          <input type="text" name="user[address][number]" class="input-placeholder-green" placeholder="Número"
+            required="required">
+        </div>
+        <div class="signup-text col-md-3">
+          <input type="text" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
+        </div>
+        <div class="signup-text col-md-2">
+          <input type="text" name="user[address][neighborhood]" class="input-placeholder-green" placeholder="Bairro"
+            required="required">
+        </div>
+      </div>
+    </div>
     <br>
-    <div style = "text-align: center;"> {{error}} </div>
+    <div style="text-align: center;"> {{error}} </div>
     <button type="submit" class="btn-signup">Cadastrar</button>
   </div>
 </form>
