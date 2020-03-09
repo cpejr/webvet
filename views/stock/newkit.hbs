@@ -1,103 +1,114 @@
-<div class="requisition" >
+<div class="requisition">
   <h4 align="center"> Cadastro de Novo Kit </h4>
 </div>
 
 <form action="/stock/new" method="post">
-  <div class="new-kit">
-      <div class="form-row">
-        <div class="Addkit-text col-md-6">
-          <select id="productCode" class="drowdownoptions" name="kit[productCode]" required = "required">
-            <option value disabled selected> Código do Produto</option>
-            <option value="AFLA Romer">AFLA Romer</option>
-            <option value="DON Romer">DON Romer</option>
-            <option value="FUMO Romer">FUMO Romer</option>
-            <option value="OTA Romer">OTA Romer</option>
-            <option value="T2 Romer">T2 Romer</option>
-            <option value="ZEA Romer">ZEA Romer</option>
-          </select>
-        </div>
-        <div class="Addkit-text col-md-3">
-          <input type="number" name="kit[amount]" class="addkit-input" placeholder="Quantidade:" required>
-        </div>
-        <div class="Addkit-text col-3">
-          <input type="number" name="kit[stockMin]" class="addkit-input" placeholder="Estoque Minimo:" required>
-        </div>
+  <div class="new-kit d-flex flex-column">
+    <div class="d-flex flex-row justify-content-center">
+      <div class="Addkit-text col-md-4">
+        <select id="productCode" class="drowdownoptions" name="kit[productCode]" required="required">
+          <option value disabled selected> Código do Produto</option>
+          <option value="AFLA Romer">AFLA Romer</option>
+          <option value="DON Romer">DON Romer</option>
+          <option value="FUMO Romer">FUMO Romer</option>
+          <option value="OTA Romer">OTA Romer</option>
+          <option value="T2 Romer">T2 Romer</option>
+          <option value="ZEA Romer">ZEA Romer</option>
+        </select>
       </div>
-      <div class="form-row">
-        <div class="Addkit-text col-5">
-          <input type="text" name="kit[productDescription]" class="addkit-input" placeholder="Descrição do Produto:" required>
-        </div>
-        <div class="Addkit-text col-1">
-          <input class="addkit-input" type="text" name="kit[Lod]" placeholder="LoD:" required>
-        </div>
-        <div class="Addkit-text col-1">
-          <input class="addkit-input" type="text" name="kit[Loq]" placeholder="LoQ:" required>
-        </div>
-        <div class="Addkit-text col-1">
-         <input placeholder="Validade:" style = "min-width: 100px; "  class="addkit-input" type="text" name="kit[dayexpirationDate]" required>
-        </div>
-        <div class="Addkit-text" style="width: 10px;">
-          /
-        </div>
-        <div class="Addkit-text col-1" style="width: 100%;">
-         <input type="text" class="addkit-input" name="kit[monthexpirationDate]" required>
-        </div>
-        <div class="Addkit-text" style="width: 10px;">
-          /
-        </div>
-        <div class="Addkit-text col-1">
-         <input type="text"  name="kit[yearexpirationDate]" class="addkit-input" required>
-        </div>
+      <div class="Addkit-text col-md-3">
+        <input type="number" name="kit[amount]" class="addkit-input" placeholder="Quantidade:" required>
       </div>
-      <div class="form-row">
-        <div class="Addkit-text col-7">
-          <input class="addkit-input" type="text" name="kit[provider]" placeholder="Fornecedor:" required>
-        </div>
-        <div class="Addkit-text col-1">
-          <input class="addkit-input" type="number" step=any name="kit[calibrators][P1][concentration]" placeholder="P1:" required>
-        </div>
-        <div class="Addkit-text col-1">
-          <input class="addkit-input" type="number" step=any name="kit[calibrators][P2][concentration]" placeholder="P2:" required>
-        </div>
-        <div class="Addkit-text col-1">
-         <input class="addkit-input" type="number" step=any name="kit[calibrators][P3][concentration]" placeholder="P3:" required>
-        </div>
-        <div class="Addkit-text col-1">
-         <input class="addkit-input" type="number" step=any name="kit[calibrators][P4][concentration]" placeholder="P4:" required>
-        </div>
-        <div class="Addkit-text col-1">
-         <input class="addkit-input" type="number" step=any name="kit[calibrators][P5][concentration]" placeholder="P5:" required>
-        </div>
+      <div class="Addkit-text col-3">
+        <input type="number" name="kit[stockMin]" class="addkit-input" placeholder="Estoque Minimo:" required>
       </div>
-      <div id="radio-kit" class="form-check">
-        <div class="form-check form-check-inline">
-          <input checked class="form-check-input" type="radio" name="kit[kitType]" value="A">
-          <label class="form-check-label">A</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="kit[kitType]" value="B">
-          <label class="form-check-label">B</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="kit[kitType]" value="C">
-          <label class="form-check-label">C</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="kit[kitType]" value="D">
-          <label class="form-check-label">D</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="kit[kitType]" value="E">
-          <label class="form-check-label">E</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="kit[kitType]" value="F">
-          <label class="form-check-label">F</label>
-        </div>
-       </div>
-       <div class="text-center" id="btn-addkit">
-          <button type="submit" class="btn btn-outline-success">Criar novo kit</button>
-        </div>
+      <div class="Addkit-text" style="width: 20px;">
+      </div>
     </div>
-  </form>
+    <div class="d-flex flex-row justify-content-center">
+      <div class="Addkit-text col-5">
+        <input type="text" name="kit[productDescription]" class="addkit-input" placeholder="Descrição do Produto:"
+          required>
+      </div>
+      <div class="Addkit-text col-1">
+        <input class="addkit-input" type="text" name="kit[Lod]" placeholder="LoD:" required>
+      </div>
+      <div class="Addkit-text col-1">
+        <input class="addkit-input" type="text" name="kit[Loq]" placeholder="LoQ:" required>
+      </div>
+      <div class="Addkit-text col-1">
+        <input placeholder="Validade:" style="min-width: 100px; " class="addkit-input" type="text"
+          name="kit[dayexpirationDate]" required>
+      </div>
+      <div class="Addkit-text" style="width: 10px;">
+        /
+      </div>
+      <div class="Addkit-text col-1" style="width: 100%;">
+        <input type="text" class="addkit-input" name="kit[monthexpirationDate]" required>
+      </div>
+      <div class="Addkit-text" style="width: 10px;">
+        /
+      </div>
+      <div class="Addkit-text col-1">
+        <input type="text" name="kit[yearexpirationDate]" class="addkit-input" required>
+      </div>
+    </div>
+    <div class="d-flex flex-row justify-content-center">
+      <div class="Addkit-text col-5">
+        <input class="addkit-input" type="text" name="kit[provider]" placeholder="Fornecedor:" required>
+      </div>
+      <div class="Addkit-text col-1">
+        <input class="addkit-input" type="number" step=any name="kit[calibrators][P1][concentration]" placeholder="P1:"
+          required>
+      </div>
+      <div class="Addkit-text col-1">
+        <input class="addkit-input" type="number" step=any name="kit[calibrators][P2][concentration]" placeholder="P2:"
+          required>
+      </div>
+      <div class="Addkit-text col-1">
+        <input class="addkit-input" type="number" step=any name="kit[calibrators][P3][concentration]" placeholder="P3:"
+          required>
+      </div>
+      <div class="Addkit-text col-1">
+        <input class="addkit-input" type="number" step=any name="kit[calibrators][P4][concentration]" placeholder="P4:"
+          required>
+      </div>
+      <div class="Addkit-text col-1">
+        <input class="addkit-input" type="number" step=any name="kit[calibrators][P5][concentration]" placeholder="P5:"
+          required>
+      </div>
+      <div class="Addkit-text" style="width: 20px;">
+      </div>
+    </div>
+    <div id="radio-kit" class="form-check">
+      <div class="form-check form-check-inline">
+        <input checked class="form-check-input" type="radio" name="kit[kitType]" value="A">
+        <label class="form-check-label">A</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="kit[kitType]" value="B">
+        <label class="form-check-label">B</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="kit[kitType]" value="C">
+        <label class="form-check-label">C</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="kit[kitType]" value="D">
+        <label class="form-check-label">D</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="kit[kitType]" value="E">
+        <label class="form-check-label">E</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="kit[kitType]" value="F">
+        <label class="form-check-label">F</label>
+      </div>
+    </div>
+    <div class="text-center" id="btn-addkit">
+      <button type="submit" class="btn btn-outline-success">Criar novo kit</button>
+    </div>
+  </div>
+</form>
 <script src="/javascripts/newkit.js"></script>
