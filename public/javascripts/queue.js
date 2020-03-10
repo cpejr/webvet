@@ -114,7 +114,7 @@ function createWormapKanban(toxinaFull) {
         }
         else {
           $.post(`/sample/scndTesting/edit/${toxinaFull}/${samplenumber}`);
-          
+
           let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Em análise</span>`;
           badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
 
@@ -166,48 +166,46 @@ $.get('/search/samplesActiveWithUser', (samples) => {
     samples.forEach((item) => {
       let sample = item.sample;
 
-      if (!sample.isCalibrator) {
-        //Teste para cada toxina
-        ToxinasFull.forEach(toxina => {
-          if (sample[toxina].active == true) {
-            let status = sample[toxina].status;
-            let kanban = Analysiskanbans[toxina];
-            let debt = item.user.debt;
-            let approved = sample.approved;
+      //Teste para cada toxina
+      ToxinasFull.forEach(toxina => {
+        if (sample[toxina].active == true) {
+          let status = sample[toxina].status;
+          let kanban = Analysiskanbans[toxina];
+          let debt = item.user.debt;
+          let approved = sample.approved;
 
-            let element = {
-              id: sample.samplenumber,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsible,
-              status: status,
-              approved: sample.approved,
-              click: function (el) {
-                window.location.href = 'sample/edit/' + el.dataset.eid;
-              },
-            }
-
-            if (debt) {
-              element[id] = "owner";
-              element[owner] = "Devedor";
-            }
-
-            if (status == "Nova" || status == "Sem amostra" || status == "A corrigir" || status == "Aguardando amostra")
-              kanban.addElement('_waiting', element);
-
-            else if (status == "Mapa de Trabalho")
-              kanban.addElement('_testing', element);
-
-            else if (status == "Em análise") {
-              kanban.addElement('_testing', element);
-              if (!debt && approved)
-                Wormapskanbans[toxina].addElement('_scndTesting', element);
-            }
-            else if (status == "Aguardando pagamento")
-              kanban.addElement('_ownering', element);
-
+          let element = {
+            id: sample.samplenumber,
+            title: "Amostra " + sample.samplenumber,
+            analyst: sample.responsible,
+            status: status,
+            approved: sample.approved,
+            click: function (el) {
+              window.location.href = 'sample/edit/' + el.dataset.eid;
+            },
           }
-        });
-      }
+
+          if (debt) {
+            element[id] = "owner";
+            element[owner] = "Devedor";
+          }
+
+          if (status == "Nova" || status == "Sem amostra" || status == "A corrigir" || status == "Aguardando amostra")
+            kanban.addElement('_waiting', element);
+
+          else if (status == "Mapa de Trabalho")
+            kanban.addElement('_testing', element);
+
+          else if (status == "Em análise") {
+            kanban.addElement('_testing', element);
+            if (!debt && approved)
+              Wormapskanbans[toxina].addElement('_scndTesting', element);
+          }
+          else if (status == "Aguardando pagamento")
+            kanban.addElement('_ownering', element);
+
+        }
+      });
     });
   });
 });

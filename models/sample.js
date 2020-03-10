@@ -213,10 +213,6 @@ const sampleSchema = new mongoose.Schema({
       default: false,
     },
   },
-  isCalibrator: {
-    type: Boolean,
-    default: false,
-  },
   description: String,
   parecer: String,
   finalized: {
