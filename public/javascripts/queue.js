@@ -42,13 +42,14 @@ function createAnalysisKanban(toxinaFull) {
         case '_testing':
           text = 'Em análise';
 
-          //Se já não estiver lá
-          if (!Wormapskanbans[toxinaFull].findElement(samplenumber)) {
+          //Se está a provada e já não estiver lá
+          if (el.dataset.approved === 'true' && !Wormapskanbans[toxinaFull].findElement(samplenumber)) {
             Wormapskanbans[toxinaFull].addElement('_scndTesting', {
               id: samplenumber,
               title: el.dataset.title,
               analyst: el.dataset.analyst,
-              status: el.dataset.status,
+              status: "Em análise",
+              approved: el.dataset.approved,
               click: function (el) {
                 window.location.href = 'sample/edit/' + el.dataset.eid;
               },
@@ -66,10 +67,16 @@ function createAnalysisKanban(toxinaFull) {
 
       $.post(`sample/updatestatus/${target.replace("_", "")}/${toxinaFull}/${samplenumber}`);
 
-      if (el.dataset.eid == "owner")
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + text + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-      else
-        el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + text + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+      let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">${text}</span>`;
+      badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
+
+      if (el.dataset.eid === "owner")
+        badges += `<span  class="badge badge-danger">${el.dataset.owner}</span>`;
+
+      if (el.dataset.approved === 'false')
+        badges += `<span  class="badge badge-danger">Não aprovada</span>`
+
+      el.innerHTML = badges;
     }
   });
 }
@@ -98,8 +105,6 @@ function createWormapKanban(toxinaFull) {
       }
     ],
     dropEl: function (el, target, source, sibling) {
-      console.log(target)
-      console.log(source)
       const samplenumber = el.dataset.eid;
 
       if (target == '_scndTesting') {
@@ -109,7 +114,17 @@ function createWormapKanban(toxinaFull) {
         }
         else {
           $.post(`/sample/scndTesting/edit/${toxinaFull}/${samplenumber}`);
-          el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Em análise' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
+          
+          let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Em análise</span>`;
+          badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
+
+          if (el.dataset.eid === "owner")
+            badges += `<span  class="badge badge-danger">${el.dataset.owner}</span>`;
+
+          if (el.dataset.approved === 'false')
+            badges += `<span  class="badge badge-danger">Não aprovada</span>`
+
+          el.innerHTML = badges;
         }
       }
       else {
@@ -118,12 +133,16 @@ function createWormapKanban(toxinaFull) {
         else {
           $.post(`/sample/mapedit/${toxinaFull}/${samplenumber}/${target}`);
 
-          if (el.dataset.eid == "owner") {
-            el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + el.dataset.owner + '</span>';
-          }
-          else {
-            el.innerHTML = el.dataset.title + " " + '<br><span  class="badge badge-secondary">' + 'Mapa de trabalho' + '</span>' + " " + '<span  class="badge badge-primary">' + el.dataset.analyst + '</span>';
-          }
+          let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Mapa de trabalho</span>`;
+          badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
+
+          if (el.dataset.eid === "owner")
+            badges += `<span  class="badge badge-danger">${el.dataset.owner}</span>`;
+
+          if (el.dataset.approved === 'false')
+            badges += `<span  class="badge badge-danger">Não aprovada</span>`
+
+          el.innerHTML = badges;
         }
       }
     }
@@ -154,12 +173,14 @@ $.get('/search/samplesActiveWithUser', (samples) => {
             let status = sample[toxina].status;
             let kanban = Analysiskanbans[toxina];
             let debt = item.user.debt;
+            let approved = sample.approved;
 
             let element = {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
               analyst: sample.responsible,
               status: status,
+              approved: sample.approved,
               click: function (el) {
                 window.location.href = 'sample/edit/' + el.dataset.eid;
               },
@@ -178,7 +199,7 @@ $.get('/search/samplesActiveWithUser', (samples) => {
 
             else if (status == "Em análise") {
               kanban.addElement('_testing', element);
-              if (!debt)
+              if (!debt && approved)
                 Wormapskanbans[toxina].addElement('_scndTesting', element);
             }
             else if (status == "Aguardando pagamento")
@@ -216,7 +237,7 @@ $('div[class="loteradio"]').each(function (index, group) {
           //remove boards
           for (let i = workmapsStart; i <= workmapsEnd; i++) //the map 0 was defined before
             Wormapskanbans[toxina].removeAllBoards("_scndTesting");
-          
+
 
           //Add boards
           for (let i = begin; i < kit.stripLength; i++) {//the map 0 was defined before
@@ -250,8 +271,6 @@ $('div[class="loteradio"]').each(function (index, group) {
             $.get(`/search/getSamplesActiveByWorkmapArray/${kit.mapArray}/${toxina}`).then(samples => {
               for (let i = 0; i < samples.length; i++) {
                 const sample = samples[i];
-                console.log("sample[toxina].status");
-                console.log(sample[toxina].status);
                 if (sample[toxina].status === "Mapa de Trabalho") {
                   Wormapskanbans[toxina].addElement(sample[toxina].workmapId, {
                     id: sample.samplenumber,

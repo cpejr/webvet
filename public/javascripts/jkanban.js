@@ -189,6 +189,7 @@
             nodeItem.setAttribute("data-title", element.title);
             nodeItem.setAttribute("data-analyst", element.analyst)
             nodeItem.setAttribute("data-status", element.status);
+            nodeItem.setAttribute("data-approved", element.approved);
 
             let badges = `${element.title}<br><span  class="badge badge-secondary">${element.status}</span>`;
             badges += `<span  class="badge badge-primary">${element.analyst}</span>`;
@@ -200,10 +201,10 @@
               badges += `<span  class="badge badge-danger"${element.owner}</span>`
             }
 
-            console.log(element.approved);
-            if (!element.approved) 
+            console.log(element);
+            if (element.approved + "" === 'false')
               badges += `<span  class="badge badge-danger">Não aprovada</span>`
-            
+
 
             nodeItem.innerHTML = badges;
           }
