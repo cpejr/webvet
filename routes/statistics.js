@@ -25,6 +25,10 @@ router.get('/samplesData', async (req, res) => {
     let data = await Sample.getSampleData();
     res.send(data);
 });
+router.get('/animalsData', async (req, res) => {
+    let data = await Requisition.getAnimalData();
+    res.send(data);
+});
 
 
 module.exports = router;

@@ -158,3 +158,76 @@ $(document).ready(() => {
     });
 
 });
+// -------------------------------------------------------------------------
+// GRAFICO RAÇA ANIMAIS
+$(document).ready(() => {
+    var ctx3 = $('#AnimalsFrequency');
+
+    var chart3 = new Chart(ctx3, {
+        plugins: [ChartDataLabels],
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            datasets: [{
+                label: 'Frequencia',
+                backgroundColor: 'rgb(252, 186, 3)',
+                borderColor: 'rgb(252, 186, 3)',
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            title: {
+                fontSize: 20,
+                display: true,
+                text: 'Distribuição de frequência referente a destinação do alimento',
+                padding: 25,
+            },
+            legend: {
+                display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 1,
+                        min: 0
+                    }
+                }]
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    color: '#676767',
+                    font: {
+                        weight: "bold",
+                    }
+                }
+            }
+        }
+    });
+
+    $.get('/statistics/animalsData').then(result => {
+
+        let eixo_x = [];
+        let eixo_y = [];
+
+        //Order by the frenquecy
+        result.sort(dynamicSort('frequency')).reverse();
+
+        for (let i = 0; i < result.length; i++) {
+            const element = result[i];
+            eixo_x.push(element._id);
+            eixo_y.push(element.frequency.toFixed(2));
+        }
+        console.log(result);
+
+        chart3.data.labels = eixo_x;
+        chart3.data.datasets[0].data = eixo_y;
+        chart3.update();
+    });
+
+});
