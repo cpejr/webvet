@@ -270,6 +270,36 @@ class Requisition {
       });
     });
   }
+  // -------------------------------------------------------------------------
+
+  static getAnimalData() {
+    return new Promise((resolve, reject) => {
+      RequisitionModel.aggregate([
+        { $match: { status: "Aprovada" } },
+        { $project: { destination: 1, sampleVector: 1 } },
+        {
+          $group: {
+            _id: "$destination",
+            samples: { $sum: { $size: "$sampleVector" } },
+          }
+        },
+      ]).then((result) => {
+        let total = 0;
+
+        for (let i = 0; i < result.length; i++)
+          total += result[i].samples;
+
+        for (let j = 0; j < result.length; j++)
+          result[j].frequency = result[j].samples / total;
+
+
+        resolve(result);
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
   
 
 }
