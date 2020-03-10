@@ -7,7 +7,6 @@ const Sample = require('../models/sample');
 const Requisition = require('../models/requisition');
 const User = require('../models/user');
 const Kit = require('../models/kit');
-const Kitstock = require('../models/kitstock')
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res, next) {
@@ -16,7 +15,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
     Sample.count().then((countSamples) => {
       Requisition.getAll().then((Requisitions) => {
         Kit.getAll().then((kits) => {
-          Kitstock.getAll().then((kitstock) => {
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -57,12 +55,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
               }
             }
 
-            function outofStock(pname, amount, stockmin) {
-              this.productCode = pname;
-              this.amount = amount;
-              this.stockmin = stockmin;
-            }
-
             var stockMap = new Map();
 
             for (var i = 0; i < kits.length; i++) {
@@ -75,18 +67,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
               }
               else {
                 stockMap.set(kits[i].productCode, kits[i].amount);
-              }
-            }
-            //aqui em cima somou, agora falta compara os maps
-            //agora agnt compara com a quantidade minima e coloca num novo map
-            var cont_todos = 0;
-            var todos = new Object();
-            for (var i = 0; i < kitstock.length; i++) {
-              stockMap.get(kitstock[i].productcode);// retorna a quantidade
-              if (stockMap.get(kitstock[i].productcode) < kitstock[i].stockmin) { // sinal q ta faltando stock
-                todos[cont_todos] = new outofStock(kitstock[i].productcode, stockMap.get(kitstock[i].productcode), kitstock[i].stockmin);
-                cont_todos++;
-
               }
             }
 
@@ -109,12 +89,9 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
               gt1 = true;
             }
 
-            res.render('admin/homeAdmin', { title: 'Home', layout: 'layoutDashboard.hbs', countClients, outofStock, todos, vencidos, countSamples, Requisitions, novasReq, gt0, gt1, et1, ...req.session });
+            res.render('admin/homeAdmin', { title: 'Home', layout: 'layoutDashboard.hbs', countClients, vencidos, countSamples, Requisitions, novasReq, gt0, gt1, et1, ...req.session });
 
-          }).catch((error) => {
-            console.log(error);
-            res.redirect('/error');
-          });
+         
         }).catch((error) => {
           console.log(error);
           res.redirect('/error');

@@ -5,12 +5,15 @@ const Counter = require('../models/counter');
 const Workmap = require('./Workmap');
 var data = new Date();
 var yyyy = data.getFullYear();
-const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
 
 const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
   name: String,
   sampletype: String,
+  approved: {
+    type: Boolean,
+    default: false
+  },
   report: {
     type: Boolean, //1 for available, 0 for not available
     default: 0
@@ -583,8 +586,6 @@ class Sample {
   
   static getAllActive() {
     return new Promise((resolve, reject) => {
-
-      const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
 
       var querry = { $or: [] };
 
