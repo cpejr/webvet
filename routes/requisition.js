@@ -160,7 +160,7 @@ router.post('/:id', auth.isAuthenticated, function (req, res, next) {
     let samples = {
       name: sample.name[i],
       sampletype: sample.sampletype[i],
-      aproved: true
+      approved: true
     };
     Sample.update(sample._id[i], samples).then(() => {
       console.log("Deveria ter dado update");
