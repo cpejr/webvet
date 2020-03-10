@@ -258,6 +258,7 @@ $('div[class="loteradio"]').each(function (index, group) {
                     title: "Amostra " + sample.samplenumber,
                     analyst: sample.responsible,
                     status: sample[toxina].status,
+                    approved: sample.approved,
                     click: function (el) {
                       window.location.href = 'sample/edit/' + el.dataset.eid;
                     },

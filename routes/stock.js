@@ -3,7 +3,6 @@ const router = express.Router();
 const firebase = require('firebase');
 const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
-const Mycotoxin = require('../models/mycotoxin');
 const Kit = require('../models/kit');
 const User = require('../models/user');
 const Workmap = require('../models/Workmap');
