@@ -83,26 +83,9 @@ router.get('/samplesActive', auth.isAuthenticated, (req, res) => {
 });
 
 router.get('/samplesActiveWithUser', auth.isAuthenticated, (req, res) => {
-  let obj = [];
-
-  Sample.getAllActive().then((samples) => {
-    let itensprocessed = 0;
-    samples.forEach(sample => {
-      Requisition.getById(sample.requisitionId).then(requisition => {
-        if (requisition !== null)
-          User.getById(requisition.user).then((user) => {
-            itensprocessed++;
-            obj.push({ user, sample });
-
-            if (itensprocessed == samples.length)
-              res.send(obj);
-
-          }).catch((error) => {
-            console.log(error);
-            res.redirect('/error');
-          });
-      })
-    });
+  Sample.getAllActiveWithUser().then((objs) => {
+    console.log(objs)
+    res.send(objs);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');

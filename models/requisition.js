@@ -246,11 +246,11 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.aggregate([
         { $match: { status: "Aprovada" } },
-        { $project: { state: 1, sampleVector: 1 } },
+        { $project: { state: 1, samples: 1 } },
         {
           $group: {
             _id: "$state",
-            samples: { $sum: { $size: "$sampleVector" } },
+            samples: { $sum: { $size: "$samples" } },
           }
         },
       ]).then((result) => {
@@ -276,11 +276,11 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.aggregate([
         { $match: { status: "Aprovada" } },
-        { $project: { destination: 1, sampleVector: 1 } },
+        { $project: { destination: 1, samples: 1 } },
         {
           $group: {
             _id: "$destination",
-            samples: { $sum: { $size: "$sampleVector" } },
+            samples: { $sum: { $size: "$samples" } },
           }
         },
       ]).then((result) => {

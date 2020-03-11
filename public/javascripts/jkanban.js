@@ -201,7 +201,6 @@
               badges += `<span  class="badge badge-danger"${element.owner}</span>`
             }
 
-            console.log(element);
             if (element.approved + "" === 'false')
               badges += `<span  class="badge badge-danger">Não aprovada</span>`
 

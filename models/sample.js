@@ -12,7 +12,7 @@ const sampleSchema = new mongoose.Schema({
   sampletype: String,
   approved: {
     type: Boolean,
-    default: false, 
+    default: false,
   },
   report: {
     type: Boolean, //1 for available, 0 for not available
@@ -326,7 +326,7 @@ class Sample {
 
   static updateBySampleNumber(sampleNumber, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOneAndUpdate({samplenumber: sampleNumber}, sample).then((res) => {
+      SampleModel.findOneAndUpdate({ samplenumber: sampleNumber }, sample).then((res) => {
         resolve(res);
       }).catch((err) => {
         reject(err);
@@ -426,8 +426,8 @@ class Sample {
   }
 
   static async updateReportSpecific(id, info) {
-    return new Promise((resolve, reject) =>{
-      SampleModel.updateOne({ _id: id },{$set: info}).then((result) => {
+    return new Promise((resolve, reject) => {
+      SampleModel.updateOne({ _id: id }, { $set: info }).then((result) => {
         resolve(result);
       }).catch(err => {
         reject(err);
@@ -479,9 +479,9 @@ class Sample {
     });
   }
 
-  static finalizeReportById(id, command){
-    return new Promise((resolve, reject) =>{
-      SampleModel.update({ _id: id }, {$set: {finalized: command}}).then((result) =>{
+  static finalizeReportById(id, command) {
+    return new Promise((resolve, reject) => {
+      SampleModel.update({ _id: id }, { $set: { finalized: command } }).then((result) => {
         resolve(result);
       }).catch(err => {
         reject(err);
@@ -501,7 +501,7 @@ class Sample {
 
   static getFinalizedByIdArray(id_array) {
     return new Promise((resolve, reject) => {
-      SampleModel.find({ _id: { $in: id_array }, finalized: true}).then((map) => {
+      SampleModel.find({ _id: { $in: id_array }, finalized: true }).then((map) => {
         resolve(map);
       }).catch((err) => {
         reject(err);
@@ -566,7 +566,7 @@ class Sample {
         const toxina = ToxinasFull[index];
         var expression = {}
 
-        expression[toxina + '.status'] = { $eq: 'Mapa de Trabalho'  };
+        expression[toxina + '.status'] = { $eq: 'Mapa de Trabalho' };
         expression[toxina + '.active'] = true;
 
         querry.$or.push(expression);
@@ -579,7 +579,7 @@ class Sample {
       });
     });
   }
-  
+
   static getAllActive() {
     return new Promise((resolve, reject) => {
 
@@ -602,6 +602,79 @@ class Sample {
     });
   }
 
+  static getAllActiveWithUser() {
+    return new Promise((resolve, reject) => {
+
+      var querry = { $or: [] };
+
+      for (let index = 0; index < ToxinasFull.length; index++) {
+        const toxina = ToxinasFull[index];
+        var expression = {}
+
+        expression[toxina + '.active'] = true;
+
+        querry.$or.push(expression);
+      }
+
+      SampleModel.aggregate([
+        { $match: querry },
+        {
+          $group: {
+            _id: "$requisitionId",
+            samples: { $push: "$$ROOT" },
+          }
+        },
+        {
+          $lookup:
+          {
+            from: "requisitions",
+            localField: "_id",
+            foreignField: "_id",
+            as: "requisition",
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            samples: 1,
+            userId: { $arrayElemAt: ["$requisition.user", 0] }
+          }
+        },
+        {
+          $group: {
+            _id: "$userId",
+            samples: { $push: '$samples' },
+          }
+        },
+        {
+          $lookup:
+          {
+            from: "users",
+            localField: "_id",
+            foreignField: "_id",
+            as: "user",
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            samples: 1,
+            debt: { $arrayElemAt: ["$user.debt", 0] }
+          }
+        }
+      ]).then((result) => {
+        
+        for (let i = 0; i < result.length; i++)
+          for (let j = 0; j < result[i].samples.length; j++)
+            result[i].samples = result[i].samples.flat();
+
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   static getAllReport() {
     return new Promise((resolve, reject) => {
 
@@ -617,9 +690,9 @@ class Sample {
 
   /**
   * Create a new Sample
-  * @param {Object} project - Sample Document Data
-  * @returns {string} New Sample Id
-  */
+* @param {Object} project - Sample Document Data
+* @returns {string} New Sample Id
+        */
   static create(sample) {
     return new Promise((resolve, reject) => {
       Counter.getSampleCount().then(async sampleNumber => {
