@@ -5,14 +5,7 @@ const Requisition = require('../models/requisition');
 const Sample = require('../models/sample');
 
 router.get('/new', auth.isAuthenticated, function (req, res) {
-  Kitstock.getAll().then((kitstock) => {
-    console.log(kitstock);
     res.render('requisition/newrequisition', { title: 'Requisition', layout: 'layoutDashboard.hbs', ...req.session });
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-
 });
 
 router.post('/delete/:id', auth.isAuthenticated, (req, res) => {
