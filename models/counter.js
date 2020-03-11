@@ -132,7 +132,7 @@ class Counter {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((result) => {
 
-                //if doesn't exist a counter, will create a new one
+                //if a counter doesn't exist, will create a new one
                 if (result != null)
                     sendValue(result, this)
                 else
