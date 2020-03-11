@@ -235,7 +235,7 @@ $(document).ready(() => {
 // -------------------------------------------------------------------------
 // GRAFICO TOXINAS DETECTADAS
 $(document).ready(() => {
-    var ctx4 = $('FinalizedPorcentage');
+    var ctx4 = $('#FinalizedPorcentage');
 
     var chart4 = new Chart(ctx4, {
         plugins: [ChartDataLabels],
@@ -245,7 +245,7 @@ $(document).ready(() => {
         // The data for our dataset
         data: {
             datasets: [{
-                label: 'Frequencia',
+                label: 'Porcentagem de detecção',
                 backgroundColor: 'rgb(252, 186, 3)',
                 borderColor: 'rgb(252, 186, 3)',
             }]
@@ -256,7 +256,7 @@ $(document).ready(() => {
             title: {
                 fontSize: 20,
                 display: true,
-                text: 'Distribuição de frequência referente a deteccao de toxinas',
+                text: 'Distribuição de frequência referente a detecção de toxinas',
                 padding: 25,
             },
             legend: {
@@ -265,7 +265,7 @@ $(document).ready(() => {
             scales: {
                 yAxes: [{
                     ticks: {
-                        max: 1,
+                        max: 100,
                         min: 0
                     }
                 }]
@@ -290,9 +290,10 @@ $(document).ready(() => {
         let eixo_y = [];
         let eixo_Max = [];
         counterVector.forEach(element => {
+            let porcentage = (element.trueCounter*100)/(element.totalNumber);
             eixo_x.push(element.name);
-            eixo_y.push(element.trueCounter);
-            eixo_Max.push(element.totalNumber)
+            eixo_y.push(porcentage);
+            eixo_Max.push(100);
         });
 
         chart4.data.labels = eixo_x;
