@@ -89,17 +89,19 @@ router.get('/samplesActiveWithUser', auth.isAuthenticated, (req, res) => {
     let itensprocessed = 0;
     samples.forEach(sample => {
       Requisition.getById(sample.requisitionId).then(requisition => {
-        User.getById(requisition.user).then((user) => {
-          itensprocessed++;
-          obj.push({ user, sample });
-
-          if (itensprocessed == samples.length)
-            res.send(obj);
-
-        }).catch((error) => {
-          console.log(error);
-          res.redirect('/error');
-        });
+        if (requisition !== null){
+          User.getById(requisition.user).then((user) => {
+            itensprocessed++;
+            obj.push({ user, sample });
+  
+            if (itensprocessed == samples.length)
+              res.send(obj);
+  
+          }).catch((error) => {
+            console.log(error);
+            res.redirect('/error');
+          });
+        };
       })
     });
   }).catch((error) => {

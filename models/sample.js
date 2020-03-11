@@ -11,7 +11,7 @@ const sampleSchema = new mongoose.Schema({
   samplenumber: Number,
   name: String,
   sampletype: String,
-  approved: {
+  approved: { //A aprovacao da requisicao associada
     type: Boolean,
     default: 0, 
   },
@@ -220,7 +220,7 @@ const sampleSchema = new mongoose.Schema({
   },
   description: String,
   parecer: String,
-  finalized: {
+  finalized: { //Disponivel para o produtor ou nao.
     type: Boolean,
     default: false,
   },
@@ -762,6 +762,47 @@ class Sample {
 
         resolve(result);
       }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  static getFinalizationData() { //Desafio: descobrir como fazer isso aqui só com requisição do mongo.
+    return new Promise((resolve, reject) =>{
+      SampleModel.aggregate([
+        { $match: {finalized: true, report: true}},
+        { $project: { aflatoxina: 1, deoxinivalenol: 1, fumonisina: 1, ocratoxina: 1, t2toxina: 1, zearalenona: 1}},
+      ]).then((result) => {
+        console.log(result);
+        let allToxin = {};
+        for(let i = 0; i < ToxinasFull.length; i++){
+          let oneToxinArray = [];
+          let currentToxin = ToxinasFull[i];
+          for(let j = 0; j < result.length; j++){
+            oneToxinArray.push({
+              id: result[i]._id,
+              checked: result[i].currentToxin.checked ? result.toxin.checked : false,
+            });
+          }
+          console.log(oneToxinArray);
+          allToxin[currentToxin] = oneToxinArray;
+          oneToxinArray = [];
+        }
+        allToxin.forEach(element => {
+          let totalNumber = element.length;
+          let trueCounter = 0;
+          element.forEach(sample =>{
+            if(sample.checked = true){
+              trueCounter++;
+            }
+          });
+          let falseCounter = totalNumber - trueCounter;
+          element = {element, totalNumber, trueCounter, falseCounter};
+        });
+        console.log(allToxin);
+        resolve(allToxin);
+      }).catch(err =>{
         console.log(err);
         reject(err);
       });

@@ -29,6 +29,10 @@ router.get('/animalsData', async (req, res) => {
     let data = await Requisition.getAnimalData();
     res.send(data);
 });
+router.get('/finalizationData', async (req, res) =>{
+    let data = await Sample.getFinalizationData();
+    res.send(data);
+});
 
 
 module.exports = router;

@@ -231,3 +231,71 @@ $(document).ready(() => {
     });
 
 });
+
+// -------------------------------------------------------------------------
+// GRAFICO PORCENTAGEM FINALIZADA
+$(document).ready(() => {
+    var ctx4 = $('finalizedPorcentage');
+
+    var chart4 = new Chart(ctx4, {
+        plugins: [ChartDataLabels],
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            datasets: [{
+                label: 'Frequencia',
+                backgroundColor: 'rgb(252, 186, 3)',
+                borderColor: 'rgb(252, 186, 3)',
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            title: {
+                fontSize: 20,
+                display: true,
+                text: 'Distribuição de frequência referente a deteccao de toxinas',
+                padding: 25,
+            },
+            legend: {
+                display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 1,
+                        min: 0
+                    }
+                }]
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    color: '#676767',
+                    font: {
+                        weight: "bold",
+                    }
+                }
+            }
+        }
+    });
+
+    $.get('/statistics/finalizationData').then(allToxin => {
+
+        let eixo_x = [];
+        let eixo_y = [];
+        allToxin.forEach(element => {
+            eixo_x.push(element);
+            eixo_y.push(element.trueCounter);
+        });
+
+        chart4.data.labels = eixo_x;
+        chart4.data.datasets[0].data = eixo_y;
+        chart4.update();
+    });
+
+});
