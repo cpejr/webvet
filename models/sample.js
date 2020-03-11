@@ -780,28 +780,31 @@ class Sample {
           let oneToxinArray = [];
           let currentToxin = ToxinasFull[i];
           for(let j = 0; j < result.length; j++){
-            oneToxinArray.push({
-              id: result[i]._id,
-              checked: result[i].currentToxin.checked ? result.toxin.checked : false,
-            });
+            let sample = result[j];
+            if (sample[currentToxin].checked){
+              oneToxinArray.push(sample[currentToxin].checked);
+            } else {
+              oneToxinArray.push(false);
+            }
           }
           console.log(oneToxinArray);
           allToxin[currentToxin] = oneToxinArray;
-          oneToxinArray = [];
         }
-        allToxin.forEach(element => {
-          let totalNumber = element.length;
+        let counterVector = [];
+        for (let i = 0; i < ToxinasFull.length; i++){
+          let currentToxin = ToxinasFull[i];
+          let oneToxin = allToxin[currentToxin];
+          let totalNumber = oneToxin.length;
           let trueCounter = 0;
-          element.forEach(sample =>{
-            if(sample.checked = true){
+          for (let j = 0; j < oneToxin.length; j++){
+            if(oneToxin[j]){
               trueCounter++;
             }
-          });
+          }
           let falseCounter = totalNumber - trueCounter;
-          element = {element, totalNumber, trueCounter, falseCounter};
-        });
-        console.log(allToxin);
-        resolve(allToxin);
+          counterVector.push({name: currentToxin, totalNumber, trueCounter, falseCounter});
+        }
+        resolve(counterVector);
       }).catch(err =>{
         console.log(err);
         reject(err);

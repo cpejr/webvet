@@ -233,9 +233,9 @@ $(document).ready(() => {
 });
 
 // -------------------------------------------------------------------------
-// GRAFICO PORCENTAGEM FINALIZADA
+// GRAFICO TOXINAS DETECTADAS
 $(document).ready(() => {
-    var ctx4 = $('finalizedPorcentage');
+    var ctx4 = $('FinalizedPorcentage');
 
     var chart4 = new Chart(ctx4, {
         plugins: [ChartDataLabels],
@@ -284,17 +284,20 @@ $(document).ready(() => {
         }
     });
 
-    $.get('/statistics/finalizationData').then(allToxin => {
+    $.get('/statistics/finalizationData').then(counterVector => {
 
         let eixo_x = [];
         let eixo_y = [];
-        allToxin.forEach(element => {
-            eixo_x.push(element);
+        let eixo_Max = [];
+        counterVector.forEach(element => {
+            eixo_x.push(element.name);
             eixo_y.push(element.trueCounter);
+            eixo_Max.push(element.totalNumber)
         });
 
         chart4.data.labels = eixo_x;
         chart4.data.datasets[0].data = eixo_y;
+        chart4.data.datasets[1].data = eixo_Max;
         chart4.update();
     });
 
