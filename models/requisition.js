@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('./user');
-const Mycotoxin = require('./mycotoxin');
 const Counter = require('./counter')
 const Sample = require('./sample');
 
@@ -247,11 +246,11 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.aggregate([
         { $match: { status: "Aprovada" } },
-        { $project: { state: 1, sampleVector: 1 } },
+        { $project: { state: 1, samples: 1 } },
         {
           $group: {
             _id: "$state",
-            samples: { $sum: { $size: "$sampleVector" } },
+            samples: { $sum: { $size: "$samples" } },
           }
         },
       ]).then((result) => {
@@ -277,11 +276,11 @@ class Requisition {
     return new Promise((resolve, reject) => {
       RequisitionModel.aggregate([
         { $match: { status: "Aprovada" } },
-        { $project: { destination: 1, sampleVector: 1 } },
+        { $project: { destination: 1, samples: 1 } },
         {
           $group: {
             _id: "$destination",
-            samples: { $sum: { $size: "$sampleVector" } },
+            samples: { $sum: { $size: "$samples" } },
           }
         },
       ]).then((result) => {

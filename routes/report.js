@@ -5,7 +5,6 @@ const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
-const Mycotoxin = require('../models/mycotoxin');
 const Email = require('../models/email');
 const Workmap = require('../models/Workmap');
 const Sample = require('../models/sample');

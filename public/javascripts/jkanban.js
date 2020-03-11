@@ -52,8 +52,8 @@
           var allB = self.element.querySelectorAll(".kanban-board");
           if (allB.length > 0 && allB !== undefined)
             for (var i = 0; i < allB.length; i++)
-              if(allB[i].dataset.id !== filter)
-              this.removeBoard(allB[i].dataset.id);
+              if (allB[i].dataset.id !== filter)
+                this.removeBoard(allB[i].dataset.id);
         }
 
         this.init = function () {
@@ -173,29 +173,49 @@
           var board = self.element.querySelector(
             '[data-id="' + boardID + '"] .kanban-drag'
           );
+
           var nodeItem = document.createElement("div");
           nodeItem.classList.add("kanban-item");
-          if (typeof element.id !== "undefined" && element.id !== "" && element.id !== "owner" && element.calibrator != true) {
-            nodeItem.setAttribute("data-eid", element.id);
-            nodeItem.setAttribute("data-title", element.title);
-            nodeItem.setAttribute("data-analyst", element.analyst);
-            nodeItem.setAttribute("data-status", element.status);
-            nodeItem.innerHTML = element.title + " " + '<br><span  class="badge badge-secondary">' + element.status + '</span>' + " " + '<span  class="badge badge-primary">' + element.analyst + '</span>';
-          }
-          else if (element.id == "owner") {
-            nodeItem.setAttribute("data-eid", element.id);
-            nodeItem.setAttribute("data-title", element.title);
-            nodeItem.setAttribute("data-analyst", element.analyst);
-            nodeItem.setAttribute("data-owner", element.owner);
-            nodeItem.setAttribute("data-status", element.status);
-            nodeItem.innerHTML = element.title + " " + '<br><span  class="badge badge-secondary">' + element.status + '</span>' + " " + '<span  class="badge badge-primary">' + element.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + element.owner + '</span>';
-          }
-          else if (element.calibrator == true) {
+
+          if (element.calibrator == true) {
             nodeItem.setAttribute("data-eid", element.id);
             nodeItem.setAttribute("data-title", element.title);
             nodeItem.setAttribute("data-calibrator", element.calibrator);
             nodeItem.setAttribute("data-calid", element.calid);
             nodeItem.innerHTML = element.title;
+          }
+          else {
+            nodeItem.setAttribute("data-eid", element.id);
+            nodeItem.setAttribute("data-title", element.title);
+            nodeItem.setAttribute("data-analyst", element.analyst)
+            nodeItem.setAttribute("data-status", element.status);
+            nodeItem.setAttribute("data-approved", element.approved);
+
+            let badges = `${element.title}<br><span  class="badge badge-secondary">${element.status}</span>`;
+            badges += `<span  class="badge badge-primary">${element.analyst}</span>`;
+
+            if (element.id === "owner") {
+              nodeItem.setAttribute("data-owner", element.owner);
+              nodeItem.setAttribute("data-status", element.status);
+
+              badges += `<span  class="badge badge-danger"${element.owner}</span>`
+            }
+
+            if (element.approved + "" === 'false')
+              badges += `<span  class="badge badge-danger">Não aprovada</span>`
+
+
+            nodeItem.innerHTML = badges;
+          }
+
+          if (typeof element.id !== "undefined" && element.id !== "") {
+
+          }
+          else if (element.id == "owner") {
+
+          }
+          else if (element.calibrator == true) {
+
           }
           //add function
           nodeItem.clickfn = element.click;

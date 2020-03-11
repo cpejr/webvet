@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require('./middleware/auth');
 const Requisition = require('../models/requisition');
 const Sample = require('../models/sample');
-const Kitstock = require('../models/kitstock');
 
 router.get('/new', auth.isAuthenticated, function (req, res) {
   Kitstock.getAll().then((kitstock) => {
@@ -161,6 +160,7 @@ router.post('/:id', auth.isAuthenticated, function (req, res, next) {
     let samples = {
       name: sample.name[i],
       sampletype: sample.sampletype[i],
+      approved: true
     };
     Sample.update(sample._id[i], samples).then(() => {
       console.log("Deveria ter dado update");
