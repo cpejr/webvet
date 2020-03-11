@@ -45,8 +45,12 @@ $(document).ready(() => {
             scales: {
                 yAxes: [{
                     ticks: {
-                        max: 1,
+                        max: 100,
                         min: 0
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Frequência (%)',
                     }
                 }]
             },
@@ -75,7 +79,7 @@ $(document).ready(() => {
         for (let i = 0; i < result.length; i++) {
             const element = result[i];
             eixo_x.push(element._id);
-            eixo_y.push(element.frequency.toFixed(2));
+            eixo_y.push((element.frequency*100).toFixed(2));
         }
         //console.log(result);
 
@@ -118,8 +122,12 @@ $(document).ready(() => {
             scales: {
                 yAxes: [{
                     ticks: {
-                        max: 1,
+                        max: 100,
                         min: 0
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Frequência (%)',
                     }
                 }]
             },
@@ -148,7 +156,7 @@ $(document).ready(() => {
         for (let i = 0; i < result.length; i++) {
             const element = result[i];
             eixo_x.push(element._id);
-            eixo_y.push(element.frequency.toFixed(2));
+            eixo_y.push((element.frequency*100).toFixed(2));
         }
         console.log(result);
 
@@ -191,8 +199,12 @@ $(document).ready(() => {
             scales: {
                 yAxes: [{
                     ticks: {
-                        max: 1,
+                        max: 100,
                         min: 0
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Frequência (%)',
                     }
                 }]
             },
@@ -221,7 +233,7 @@ $(document).ready(() => {
         for (let i = 0; i < result.length; i++) {
             const element = result[i];
             eixo_x.push(element._id);
-            eixo_y.push(element.frequency.toFixed(2));
+            eixo_y.push((element.frequency*100).toFixed(2));
         }
         console.log(result);
 
@@ -267,6 +279,10 @@ $(document).ready(() => {
                     ticks: {
                         max: 100,
                         min: 0
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Frequência (%)',
                     }
                 }]
             },
