@@ -308,7 +308,7 @@ $(document).ready(() => {
         counterVector.forEach(element => {
             let porcentage = (element.trueCounter*100)/(element.totalNumber);
             eixo_x.push(element.name);
-            eixo_y.push(porcentage);
+            eixo_y.push(porcentage.toFixed(2));
             eixo_Max.push(100);
         });
 
