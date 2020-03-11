@@ -298,7 +298,6 @@ $(document).ready(() => {
 
         chart4.data.labels = eixo_x;
         chart4.data.datasets[0].data = eixo_y;
-        chart4.data.datasets[1].data = eixo_Max;
         chart4.update();
     });
 
