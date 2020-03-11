@@ -231,3 +231,75 @@ $(document).ready(() => {
     });
 
 });
+
+// -------------------------------------------------------------------------
+// GRAFICO TOXINAS DETECTADAS
+$(document).ready(() => {
+    var ctx4 = $('#FinalizedPorcentage');
+
+    var chart4 = new Chart(ctx4, {
+        plugins: [ChartDataLabels],
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            datasets: [{
+                label: 'Porcentagem de detecção',
+                backgroundColor: 'rgb(252, 186, 3)',
+                borderColor: 'rgb(252, 186, 3)',
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            title: {
+                fontSize: 20,
+                display: true,
+                text: 'Distribuição de frequência referente a detecção de toxinas',
+                padding: 25,
+            },
+            legend: {
+                display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 100,
+                        min: 0
+                    }
+                }]
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    color: '#676767',
+                    font: {
+                        weight: "bold",
+                    }
+                }
+            }
+        }
+    });
+
+    $.get('/statistics/finalizationData').then(counterVector => {
+
+        let eixo_x = [];
+        let eixo_y = [];
+        let eixo_Max = [];
+        counterVector.forEach(element => {
+            let porcentage = (element.trueCounter*100)/(element.totalNumber);
+            eixo_x.push(element.name);
+            eixo_y.push(porcentage);
+            eixo_Max.push(100);
+        });
+
+        chart4.data.labels = eixo_x;
+        chart4.data.datasets[0].data = eixo_y;
+        chart4.data.datasets[1].data = eixo_Max;
+        chart4.update();
+    });
+
+});
