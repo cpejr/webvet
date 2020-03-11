@@ -847,9 +847,9 @@ class Sample {
           let currentToxin = ToxinasFull[i];
           for(let j = 0; j < result.length; j++){
             let sample = result[j];
-            if (sample[currentToxin].checked){
+            if (sample[currentToxin].checked && sample[currentToxin].result){
               oneToxinArray.push(sample[currentToxin].checked);
-            } else {
+            } else if(sample[currentToxin].result){
               oneToxinArray.push(false);
             }
           }
