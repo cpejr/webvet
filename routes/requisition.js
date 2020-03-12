@@ -29,7 +29,9 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
     requisition.address = address;
   }
   if (typeof requisition.sampleVector === "string"){
-    requisition.sampleVector = requisition.sampleVector.split(' ');
+    let vetor = [];
+    vetor[0] = requisition.sampleVector;
+    requisition.sampleVector = vetor;
     console.log("PASSOU POR MIM");
   }
   //------------------------------------------------
@@ -160,16 +162,19 @@ router.post('/:id', auth.isAuthenticated, function (req, res, next) {
   }
   console.log(sample);
   if (typeof sample.sampletype === "string"){
-    sample.sampletype = sample.sampletype.split(' ');
-    console.log("PASSOU POR MIM NOVAMENTE");
+    let vetor = [];
+    vetor[0] = sample.sampletype;
+    sample.sampletype = vetor;
   }
   if (typeof sample._id === "string"){
-    sample._id = sample._id.split(' ');
-    console.log("PASSOU POR MIM NOVAMENTE");
+    let vetor = [];
+    vetor[0] = sample._id;
+    sample._id = vetor;
   }
   if (typeof sample.name === "string"){
-    sample.name = sample.name.split(' ');
-    console.log("PASSOU POR MIM NOVAMENTE");
+    let vetor = [];
+    vetor[0] = sample.name;
+    sample.name = vetor;
   }
   console.log(sample);
   //-----------------------------------------------------------------------------------
