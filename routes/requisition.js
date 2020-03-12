@@ -28,6 +28,11 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
     console.log(req.session.user.address);
     requisition.address = address;
   }
+  if (typeof requisition.sampleVector === "string"){
+    requisition.sampleVector = requisition.sampleVector.split(' ');
+    console.log("PASSOU POR MIM");
+  }
+  //------------------------------------------------
   console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
     var i;
@@ -43,7 +48,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
     else {
       size = 1;
     }
-
+    
     let sampleObjects = [];
     for (i = 0; i < size; i++) {
       const sample = {
@@ -124,11 +129,14 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
     res.redirect('/error');
   });
 });
-
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisition) => {
     Sample.getByIdArray(requisition.samples).then((samples) => {
       var nova = false;
+      if (typeof requisition.sampleVector === "string"){
+        requisition.sampleVector = requisition.sampleVector.split(' ');
+        console.log("PASSOU POR MIM OUTRA VEZ");
+      }
       if (requisition.status === "Nova") {
         nova = true;
       }
