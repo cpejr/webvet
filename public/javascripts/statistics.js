@@ -45,7 +45,7 @@ $(document).ready(() => {
             scales: {
                 yAxes: [{
                     ticks: {
-                        max: 100,
+                        //max: 100,
                         min: 0
                     },
                     scaleLabel: {
@@ -122,7 +122,7 @@ $(document).ready(() => {
             scales: {
                 yAxes: [{
                     ticks: {
-                        max: 100,
+                        // max: 100,
                         min: 0
                     },
                     scaleLabel: {
@@ -199,7 +199,7 @@ $(document).ready(() => {
             scales: {
                 yAxes: [{
                     ticks: {
-                        max: 100,
+                        // max: 100,
                         min: 0
                     },
                     scaleLabel: {

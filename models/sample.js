@@ -663,10 +663,9 @@ class Sample {
           }
         }
       ]).then((result) => {
-        
+
         for (let i = 0; i < result.length; i++)
-          for (let j = 0; j < result[i].samples.length; j++)
-            result[i].samples = result[i].samples.flat();
+          result[i].samples = result[i].samples.flat();
 
         resolve(result);
       }).catch((err) => {
@@ -835,21 +834,21 @@ class Sample {
   }
 
   static getFinalizationData() { //Desafio: descobrir como fazer isso aqui só com requisição do mongo.
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
       SampleModel.aggregate([
-        { $match: {finalized: true, report: true}},
-        { $project: { aflatoxina: 1, deoxinivalenol: 1, fumonisina: 1, ocratoxina: 1, t2toxina: 1, zearalenona: 1}},
+        { $match: { finalized: true, report: true } },
+        { $project: { aflatoxina: 1, deoxinivalenol: 1, fumonisina: 1, ocratoxina: 1, t2toxina: 1, zearalenona: 1 } },
       ]).then((result) => {
         console.log(result);
         let allToxin = {};
-        for(let i = 0; i < ToxinasFull.length; i++){
+        for (let i = 0; i < ToxinasFull.length; i++) {
           let oneToxinArray = [];
           let currentToxin = ToxinasFull[i];
-          for(let j = 0; j < result.length; j++){
+          for (let j = 0; j < result.length; j++) {
             let sample = result[j];
-            if (sample[currentToxin].checked && sample[currentToxin].result){
+            if (sample[currentToxin].checked && sample[currentToxin].result) {
               oneToxinArray.push(sample[currentToxin].checked);
-            } else if(sample[currentToxin].result){
+            } else if (sample[currentToxin].result) {
               oneToxinArray.push(false);
             }
           }
@@ -857,21 +856,21 @@ class Sample {
           allToxin[currentToxin] = oneToxinArray;
         }
         let counterVector = [];
-        for (let i = 0; i < ToxinasFull.length; i++){
+        for (let i = 0; i < ToxinasFull.length; i++) {
           let currentToxin = ToxinasFull[i];
           let oneToxin = allToxin[currentToxin];
           let totalNumber = oneToxin.length;
           let trueCounter = 0;
-          for (let j = 0; j < oneToxin.length; j++){
-            if(oneToxin[j]){
+          for (let j = 0; j < oneToxin.length; j++) {
+            if (oneToxin[j]) {
               trueCounter++;
             }
           }
           let falseCounter = totalNumber - trueCounter;
-          counterVector.push({name: currentToxin, totalNumber, trueCounter, falseCounter});
+          counterVector.push({ name: currentToxin, totalNumber, trueCounter, falseCounter });
         }
         resolve(counterVector);
-      }).catch(err =>{
+      }).catch(err => {
         console.log(err);
         reject(err);
       });
