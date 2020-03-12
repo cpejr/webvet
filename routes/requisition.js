@@ -129,14 +129,16 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
     res.redirect('/error');
   });
 });
+// if (typeof requisition.sampleVector === "string"){
+//   requisition.sampleVector = requisition.sampleVector.split(' ');
+//   console.log("PASSOU POR MIM OUTRA VEZ");
+// }
+
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisition) => {
     Sample.getByIdArray(requisition.samples).then((samples) => {
       var nova = false;
-      if (typeof requisition.sampleVector === "string"){
-        requisition.sampleVector = requisition.sampleVector.split(' ');
-        console.log("PASSOU POR MIM OUTRA VEZ");
-      }
+      
       if (requisition.status === "Nova") {
         nova = true;
       }
@@ -157,6 +159,20 @@ router.post('/:id', auth.isAuthenticated, function (req, res, next) {
     requisition.status = "Aprovada";
   }
   console.log(sample);
+  if (typeof sample.sampletype === "string"){
+    sample.sampletype = sample.sampletype.split(' ');
+    console.log("PASSOU POR MIM NOVAMENTE");
+  }
+  if (typeof sample._id === "string"){
+    sample._id = sample._id.split(' ');
+    console.log("PASSOU POR MIM NOVAMENTE");
+  }
+  if (typeof sample.name === "string"){
+    sample.name = sample.name.split(' ');
+    console.log("PASSOU POR MIM NOVAMENTE");
+  }
+  console.log(sample);
+  //-----------------------------------------------------------------------------------
   for (let i = 0; i < sample._id.length; i++) {
     let samples = {
       name: sample.name[i],
