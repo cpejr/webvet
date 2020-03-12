@@ -12,16 +12,14 @@
     </thead>
     <tbody>
       {{#each users}}
-          {{#compare type 'Gerencia'}}
-            <tr>
-              <th onClick="location.href='/users/producers/{{_id}}'" class="th-users"> {{fullname}}</th>
-              <th>{{cellphone}}</th>
-              <th>{{email}}</th>
-              <th>
-                <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn"></button>
-              </th>
-            </tr>
-          {{/compare}}
+        <tr>
+          <th onClick="location.href='/users/producers/{{_id}}'" class="th-users"> {{fullname}}</th>
+          <th>{{cellphone}}</th>
+          <th>{{email}}</th>
+          <th>
+            <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn"></button>
+          </th>
+        </tr>
       {{/each}}
     </tbody>
   </table>

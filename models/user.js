@@ -47,8 +47,8 @@ const userSchema = new mongoose.Schema({
   },
 
   debt: {
-   type: Boolean, //1 for debtor, 0 for not debtor
-   default: 0
+    type: Boolean, //1 for debtor, 0 for not debtor
+    default: 0
   },
 
   deleted: {
@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
     default: 0
   },
 
-  associatedProducers:[{ //pode dar ruim
+  associatedProducers: [{ //pode dar ruim
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
@@ -82,7 +82,7 @@ class User {
    */
   static getAll() {
     return new Promise((resolve, reject) => {
-      UserModel.find({}).sort( { fullname: 1 } ).exec().then((results) => {
+      UserModel.find({}).sort({ fullname: 1 }).exec().then((results) => {
         resolve(results);
       }).catch((err) => {
         reject(err);
@@ -144,13 +144,13 @@ class User {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findOneAndDelete({_id: id}).then(() => {
+      UserModel.findOneAndDelete({ _id: id }).then(() => {
         resolve();
       }).catch((err) => {
         reject(err);
       });
-   });
- }
+    });
+  }
 
   /**
    * Get a User by it's uid
@@ -166,19 +166,40 @@ class User {
       });
     });
   }
+
+  static getAllProducers() {
+    return new Promise((resolve, reject) => {
+      UserModel.find({ $or: [{ type: "Produtor" }, { type: "Convenio" }] }).exec().then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getAllManagers() {
+    return new Promise((resolve, reject) => {
+      UserModel.find({ type: "Gerencia" }).exec().then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   /**
   * Add Producer to associatedProducers
   * @param {string} id - User Id
   * @param {string} user - User Id
   * @returns {null}
   */
- static addProducer(id, user) {
-   return new Promise((resolve, reject) => {
-     UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user } }).catch((err) => {
-       reject(err);
-     });
-   });
- }
+  static addProducer(id, user) {
+    return new Promise((resolve, reject) => {
+      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
   /**
    * Remove Producer from associatedProducers
@@ -200,13 +221,13 @@ class User {
   * @param {string} user - User Id
   * @returns {null}
   */
- static addManager(id, user) {
-   return new Promise((resolve, reject) => {
-     UserModel.findByIdAndUpdate(id, { $push: { associatedManagers: user } }).catch((err) => {
-       reject(err);
-     });
-   });
- }
+  static addManager(id, user) {
+    return new Promise((resolve, reject) => {
+      UserModel.findByIdAndUpdate(id, { $push: { associatedManagers: user } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
   /**
    * Remove Manager from associatedProducers, user is added to id
@@ -228,13 +249,13 @@ class User {
   * @param {string} user - User Id
   * @returns {null}
   */
- static addCovenant(id, user) {
-   return new Promise((resolve, reject) => {
-     UserModel.findByIdAndUpdate(id, { $push: { associatedCovenant: user } }).catch((err) => {
-       reject(err);
-     });
-   });
- }
+  static addCovenant(id, user) {
+    return new Promise((resolve, reject) => {
+      UserModel.findByIdAndUpdate(id, { $push: { associatedCovenant: user } }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
   /**
    * Remove covenant from associatedCovenants
@@ -250,49 +271,49 @@ class User {
     });
   }
 
-/**
- * Get all producers from a object by its id
- * @param {string} id - User uid
- * @returns {Array} - Array of users
- */
-static getAssociatedProducersById(id) {
-  return new Promise((resolve, reject) => {
-    UserModel.findById(id).populate({ path: 'associatedProducers' }).exec().then((result) => {
-      resolve(result.associatedProducers);
-    }).catch((err) => {
-      reject(err);
+  /**
+   * Get all producers from a object by its id
+   * @param {string} id - User uid
+   * @returns {Array} - Array of users
+   */
+  static getAssociatedProducersById(id) {
+    return new Promise((resolve, reject) => {
+      UserModel.findById(id).populate({ path: 'associatedProducers' }).exec().then((result) => {
+        resolve(result.associatedProducers);
+      }).catch((err) => {
+        reject(err);
+      });
     });
-  });
-}
+  }
 
-/**
-* Get all managers from a object by its id
-* @param {string} id - User uid
-* @returns {Array} - Array of users
-*/
-static getAssociatedMaganersById(id) {
- return new Promise((resolve, reject) => {
-   UserModel.findById(id).populate({ path: 'associatedManagers' }).exec().then((result) => {
-     resolve(result.associatedManagers);
-   }).catch((err) => {
-     reject(err);
-   });
- });
-}
-
-/**
-  * Get the covenant from a object by its id
+  /**
+  * Get all managers from a object by its id
   * @param {string} id - User uid
   * @returns {Array} - Array of users
   */
- static getAssociatedCovenantById(id) {
-   return new Promise((resolve, reject) => {
-     UserModel.findById(id).populate({ path: 'associatedCovenant' }).exec().then((result) => {
-       resolve(result.associatedCovenant);
-     }).catch((err) => {
-       reject(err);
-     });
-   });
+  static getAssociatedMaganersById(id) {
+    return new Promise((resolve, reject) => {
+      UserModel.findById(id).populate({ path: 'associatedManagers' }).exec().then((result) => {
+        resolve(result.associatedManagers);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  /**
+    * Get the covenant from a object by its id
+    * @param {string} id - User uid
+    * @returns {Array} - Array of users
+    */
+  static getAssociatedCovenantById(id) {
+    return new Promise((resolve, reject) => {
+      UserModel.findById(id).populate({ path: 'associatedCovenant' }).exec().then((result) => {
+        resolve(result.associatedCovenant);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
   }
 
   /**
@@ -301,7 +322,7 @@ static getAssociatedMaganersById(id) {
    */
   static count() {
     return new Promise((resolve, reject) => {
-      UserModel.countDocuments({ $or: [ { type: 'Convenio' }, { type: 'Produtor' }, { type: 'Gerencia' } ] }).then((result) => {
+      UserModel.countDocuments({ $or: [{ type: 'Convenio' }, { type: 'Produtor' }, { type: 'Gerencia' }] }).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -315,44 +336,44 @@ static getAssociatedMaganersById(id) {
  * @param {Object} sort - Object that defines the sort method
  * @returns {Object} User Document Data
  */
- static getByQuerySorted(query, sort) {
-     return new Promise((resolve, reject) => {
-       UserModel.find(query).sort(sort).populate().exec().then((results) => {
-         resolve(results);
-       }).catch((err) => {
-         reject(err);
-       });
-     });
-   }
+  static getByQuerySorted(query, sort) {
+    return new Promise((resolve, reject) => {
+      UserModel.find(query).sort(sort).populate().exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
-   /**
-    * Get all Users from database
-    * @returns {Array} Array of Users
-    */
-   static getAdmin() {
-     return new Promise((resolve, reject) => {
-       UserModel.findOne({type: "Admin"}).exec().then((result) => {
-         resolve(result);
-       }).catch((err) => {
-         reject(err);
-       });
-     });
-   }
+  /**
+   * Get all Users from database
+   * @returns {Array} Array of Users
+   */
+  static getAdmin() {
+    return new Promise((resolve, reject) => {
+      UserModel.findOne({ type: "Admin" }).exec().then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
- /**
-  * Get a User name that match the desired query
-  * @param {Object} query - Object that defines the filter
-  * @returns {Object} User Document Data
-  */
- static getOneByQuery(query) {
-   return new Promise((resolve, reject) => {
-     UserModel.findOne(query).exec().then((results) => {
-       resolve(results);
-     }).catch((err) => {
-       reject(err);
-     });
-   });
- }
+  /**
+   * Get a User name that match the desired query
+   * @param {Object} query - Object that defines the filter
+   * @returns {Object} User Document Data
+   */
+  static getOneByQuery(query) {
+    return new Promise((resolve, reject) => {
+      UserModel.findOne(query).exec().then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 module.exports = User;

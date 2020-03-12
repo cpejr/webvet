@@ -9,7 +9,7 @@ const Requisition = require('../models/requisition');
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res, next) {
-  User.getAll().then((users) => {
+  User.getAllProducers().then((users) => {
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
@@ -58,7 +58,7 @@ router.get('/producers', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/managers', auth.isAuthenticated, function (req, res, next) {
 
-  User.getAll().then((users) => {
+  User.getAllManagers().then((users) => {
     const loggedID = req.session.user._id
     console.log(loggedID);
     res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session, loggedID });
@@ -142,7 +142,7 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 router.get('/show/:id', function (req, res, next) {
   User.getById(req.params.id).then((actualUser) => {
     User.getAll().then((users) => {
-      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', actualUser, users });
+      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', actualUser, users, ...req.session });
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');

@@ -42,14 +42,15 @@ function createAnalysisKanban(toxinaFull) {
         case '_testing':
           text = 'Em análise';
 
-          //Se está a provada e já não estiver lá
-          if (el.dataset.approved === 'true' && !Wormapskanbans[toxinaFull].findElement(samplenumber)) {
+          //Se está a provada, o usuário não é devedor e já não estiver lá
+          if (el.dataset.approved === 'true' && el.dataset.owner === 'false' && !Wormapskanbans[toxinaFull].findElement(samplenumber)) {
             Wormapskanbans[toxinaFull].addElement('_scndTesting', {
               id: samplenumber,
               title: el.dataset.title,
               analyst: el.dataset.analyst,
               status: "Em análise",
               approved: el.dataset.approved,
+              owner: el.dataset.owner,
               click: function (el) {
                 window.location.href = 'sample/edit/' + el.dataset.eid;
               },
@@ -70,8 +71,8 @@ function createAnalysisKanban(toxinaFull) {
       let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">${text}</span>`;
       badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
 
-      if (el.dataset.eid === "owner")
-        badges += `<span  class="badge badge-danger">${el.dataset.owner}</span>`;
+      if (el.dataset.owner + "" === "true")
+        badges += `<span  class="badge badge-danger">Devedor</span>`;
 
       if (el.dataset.approved === 'false')
         badges += `<span  class="badge badge-danger">Não aprovada</span>`
@@ -118,8 +119,8 @@ function createWormapKanban(toxinaFull) {
           let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Em análise</span>`;
           badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
 
-          if (el.dataset.eid === "owner")
-            badges += `<span  class="badge badge-danger">${el.dataset.owner}</span>`;
+          if (el.dataset.owner + "" === "true")
+            badges += `<span  class="badge badge-danger">Devedor</span>`;
 
           if (el.dataset.approved === 'false')
             badges += `<span  class="badge badge-danger">Não aprovada</span>`
@@ -136,8 +137,8 @@ function createWormapKanban(toxinaFull) {
           let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Mapa de trabalho</span>`;
           badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
 
-          if (el.dataset.eid === "owner")
-            badges += `<span  class="badge badge-danger">${el.dataset.owner}</span>`;
+          if (el.dataset.owner + "" === "true")
+            badges += `<span  class="badge badge-danger">Devedor</span>`;
 
           if (el.dataset.approved === 'false')
             badges += `<span  class="badge badge-danger">Não aprovada</span>`
@@ -167,7 +168,7 @@ $.get('/search/samplesActiveWithUser', (objects) => {
       let debt = user.debt;
 
       user.samples.forEach((sample) => {
-        
+
         //Teste para cada toxina
         ToxinasFull.forEach(toxina => {
           if (sample[toxina].active == true) {
@@ -181,14 +182,10 @@ $.get('/search/samplesActiveWithUser', (objects) => {
               analyst: sample.responsible,
               status: status,
               approved: sample.approved,
+              owner: debt,
               click: function (el) {
                 window.location.href = 'sample/edit/' + el.dataset.eid;
               },
-            }
-
-            if (debt) {
-              element[id] = "owner";
-              element[owner] = "Devedor";
             }
 
             if (status == "Nova" || status == "Sem amostra" || status == "A corrigir" || status == "Aguardando amostra")
@@ -272,7 +269,10 @@ $('div[class="loteradio"]').each(function (index, group) {
               for (let i = 0; i < samples.length; i++) {
                 const sample = samples[i];
                 if (sample[toxina].status === "Mapa de Trabalho") {
-                  Wormapskanbans[toxina].addElement(sample[toxina].workmapId, {
+
+                  let sampleAnalysis = Analysiskanbans[toxina].findElement(sample.samplenumber);
+
+                  let element = {
                     id: sample.samplenumber,
                     title: "Amostra " + sample.samplenumber,
                     analyst: sample.responsible,
@@ -281,7 +281,14 @@ $('div[class="loteradio"]').each(function (index, group) {
                     click: function (el) {
                       window.location.href = 'sample/edit/' + el.dataset.eid;
                     },
-                  });
+                  }
+
+                  if (sampleAnalysis)
+                    element.owner = sampleAnalysis.dataset.owner;
+                  else
+                    element.owner = 'false';
+
+                  Wormapskanbans[toxina].addElement(sample[toxina].workmapId, element);
                 }
               }
             });
