@@ -106,23 +106,15 @@ router.get('/producers/:id', auth.isAuthenticated, function (req, res, next) {
   });
 
 });
-// ----------------------------------------- AQUI ------------------------------------------
 router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   const { user } = req.body;
   const promises = [];
   const producersId = [];
-  // ----------------------------------------- AQUI ------------------------------------------
-  //req.body.producer.forEach((producerName) => {
-  // const regex = new RegExp(producerName, 'i');
-  //  const promise = User.getOneByQuery({ name: regex });
-  // promises.push(promise);
-  //});
-  // ----------------------------------------- AQUI ------------------------------------------
+
   Promise.all(promises).then((producers) => {
     producers.forEach((producer) => {
       producersId.push(producer.id);
     });
-    // ----------------------------------------- AQUI ------------------------------------------
     user.associatedProducers = producersId;
     console.log(user.fullname);
     User.update(req.params.id, user).then(() => {
@@ -141,12 +133,7 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/show/:id', function (req, res, next) {
   User.getById(req.params.id).then((actualUser) => {
-    User.getAll().then((users) => {
-      res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', actualUser, users, ...req.session });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
+    res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', actualUser, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
