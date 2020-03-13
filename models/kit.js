@@ -102,7 +102,7 @@ const kitSchema = new mongoose.Schema({
   },
   kitType: {
     type: String,
-    enum: ['A', 'B', 'C', 'D', 'E', 'F', 'VAZIO'],
+    enum: ['A', 'B', 'C', 'D', 'E', 'F', '-'],
     required: true
   },
   stripLength: Number,
@@ -196,8 +196,8 @@ class Kit {
    */
   static update(id, kit) {
     return new Promise((resolve, reject) => {
-      if(kit.mapArray.length - 1 === kit.toxinaStart){
-        kit.kitType = "VAZIO";
+      if (kit.mapArray.length === kit.toxinaStart) {
+        kit.kitType = "-";
       }
       KitModel.findByIdAndUpdate(id, kit).then((res) => {
         resolve(res);
@@ -393,6 +393,37 @@ class Kit {
         console.log("ValueObject esta pronto? ");
         console.log(valueObject);
         resolve(valueObject);
+      });
+    });
+  }
+
+  static getLowestAvailableKitType(productCode) {
+    return new Promise((resolve) => {
+      KitModel.find({ productCode: productCode }).then((results) => {
+        let controlVector = ['A', 'B', 'C', 'D', 'E', 'F'];
+        results.forEach((kit) => {
+          if (kit.kitType !== '-') {
+            controlVector = controlVector.filter(e => e !== kit.kitType);
+          };
+        });
+        if (controlVector.length > 0) {
+          resolve(controlVector[0]);
+        } else {
+          resolve("-");
+        }
+      }).catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  static findByIdAndEdit (id, kit) {
+    return new Promise((resolve) => {
+      KitModel.findByIdAndUpdate(id, kit).then((res) => {
+        resolve(res);
+      }).catch((err) => {
+        reject(err);
       });
     });
   }
