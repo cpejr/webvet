@@ -6,7 +6,7 @@ const User = require('../models/user');
 const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
 const Email = require('../models/email');
-const Workmap=require('../models/Workmap');
+const Workmap = require('../models/Workmap');
 
 
 /* GET home page. */
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-   res.render('login', { title: 'Login', layout: 'layout' });
+  res.render('login', { title: 'Login', layout: 'layout' });
 });
 
 router.get('/signup', (req, res) => {
@@ -28,37 +28,37 @@ router.get('/signup', (req, res) => {
 // });
 
 router.get('/forgotPassword', (req, res) => {
-  res.render('forgotPassword', {title:'Esqueci Minha Senha',layout:'layout'});
+  res.render('forgotPassword', { title: 'Esqueci Minha Senha', layout: 'layout' });
 });
 
 router.get('/requisition/show', (req, res) => {
-  res.render('record/show', {title:'show',layout:'layoutRecShow'});
+  res.render('record/show', { title: 'show', layout: 'layoutRecShow' });
 });
 
 router.get('/requisition/index', (req, res) => {
 
-  res.render('record/index', {title:'index',layout:'layoutDashboard'});
+  res.render('record/index', { title: 'index', layout: 'layoutDashboard' });
 });
 
 /**
  * POST LOGIN
  */
 
- router.post('/login',(req,res)=> {
-   const userData  = req.body.user;
-   firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
-     User.getByUid(userID.user.uid).then((currentLogged) =>   {
-       if (currentLogged) {
+router.post('/login', (req, res) => {
+  const userData = req.body.user;
+  firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
+    User.getByUid(userID.user.uid).then((currentLogged) => {
+      if (currentLogged) {
         // console.log(currentLogged);
-         const userR = {
-           type: currentLogged.type,
-           fullname: currentLogged.fullname,
-           userId: currentLogged._id,
-           uid: currentLogged.uid,
-           email: currentLogged.email,
-           status: currentLogged.status,
-           address:  currentLogged.address
-         };
+        const userR = {
+          type: currentLogged.type,
+          fullname: currentLogged.fullname,
+          userId: currentLogged._id,
+          uid: currentLogged.uid,
+          email: currentLogged.email,
+          status: currentLogged.status,
+          address: currentLogged.address
+        };
         req.session.user = currentLogged;
 
         if (userR.status == "Aguardando aprovação") {
@@ -79,7 +79,7 @@ router.get('/requisition/index', (req, res) => {
             }
             else {
               console.log("CLIENT");
-                res.redirect('/user');
+              res.redirect('/user');
             }
           }
         }
@@ -89,14 +89,14 @@ router.get('/requisition/index', (req, res) => {
           res.redirect('/login');
         }
       }
-       // else
-     }).catch((error) => {
-       // Handle Errors here.
-       var errorCode = error.code;
-       var errorMessage = error.message
-     });
-   }).catch((error) => {
-       switch (error.code) {
+      // else
+    }).catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message
+    });
+  }).catch((error) => {
+    switch (error.code) {
       case 'auth/wrong-password':
         req.flash('danger', 'Senha incorreta.');
         break;
@@ -113,8 +113,8 @@ router.get('/requisition/index', (req, res) => {
     console.log(`Error Message: ${error.message}`);
     res.redirect('/login');
 
-   });
- });
+  });
+});
 
 
 router.post('/signup', (req, res) => {
@@ -166,7 +166,7 @@ router.post('/signup', (req, res) => {
 router.post('/forgotPassword', (req, res) => {
   const emailAddress = req.body.user;
   console.log(emailAddress);
-  firebase.auth().sendPasswordResetEmail(emailAddress.email).then(function() {
+  firebase.auth().sendPasswordResetEmail(emailAddress.email).then(function () {
     res.redirect('/login');
     req.flash('success', 'Email enviado');
   }).catch((error) => {
@@ -178,15 +178,15 @@ router.post('/forgotPassword', (req, res) => {
 // GET /logout
 router.get('/logout', auth.isAuthenticated, (req, res, next) => {
   firebase.auth().signOut().then(() => {
-      delete req.session.fullname;
-      delete req.session.userId;
-      delete req.session.email;
-      res.redirect('/login');
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
+    delete req.session.fullname;
+    delete req.session.userId;
+    delete req.session.email;
+    res.redirect('/login');
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
   });
+});
 
 
 
