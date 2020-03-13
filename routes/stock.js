@@ -128,8 +128,8 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
-  const { kit } = req.body;
-  Kit.update(req.params.id, kit).then(() => {
+  const kit = req.body;
+  Kit.findByIdAndEdit(req.params.id, kit).then(() => {
     req.flash('success', 'Kit alterado com sucesso.');
     res.redirect(`/stock/show/${req.params.id}`);
   }).catch((error) => {
