@@ -29,6 +29,11 @@ function datavalida(d1, m1, a1, d2, m2, a2) {
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res, next) {
   Kit.getAll().then((kits) => {
+    if (kits && kits.length > 0){
+      kits.forEach(element => {
+        Kit.update(element._id, element);
+      });
+    }
     Kitstock.getAll().then((kitstocks) => {
       var today = new Date();
       var kit90 = new Array;

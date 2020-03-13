@@ -196,7 +196,7 @@ class Kit {
    */
   static update(id, kit) {
     return new Promise((resolve, reject) => {
-      if(kit.mapArray.length - 1 === kit.toxinaStart){
+      if(kit.mapArray.length === kit.toxinaStart){
         kit.kitType = "VAZIO";
       }
       KitModel.findByIdAndUpdate(id, kit).then((res) => {
