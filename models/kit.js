@@ -102,7 +102,7 @@ const kitSchema = new mongoose.Schema({
   },
   kitType: {
     type: String,
-    enum: ['A', 'B', 'C', 'D', 'E', 'F', 'VAZIO'],
+    enum: ['A', 'B', 'C', 'D', 'E', 'F', '-'],
     required: true
   },
   stripLength: Number,
@@ -197,7 +197,7 @@ class Kit {
   static update(id, kit) {
     return new Promise((resolve, reject) => {
       if(kit.mapArray.length === kit.toxinaStart){
-        kit.kitType = "VAZIO";
+        kit.kitType = "-";
       }
       KitModel.findByIdAndUpdate(id, kit).then((res) => {
         resolve(res);
