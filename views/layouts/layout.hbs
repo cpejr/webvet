@@ -2,28 +2,17 @@
 <html>
 
 <head>
-  <title>{{title}}</title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-
-  <link rel="stylesheet" href="/stylesheets/jkanban.min.css">
-  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="/javascripts/jquery.js" charset="utf-8"></script>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
 </head>
 
 <body>
-  <!-- {{{body}}} -->
-
-  <script src="/javascripts/jquery.js" charset="utf-8"></script>
-  <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
-  <script src="/javascripts/jkanban.min.js" charset="utf-8"></script>
-  {{{body}}}
-  <div class="webvet-alert col-12 col-lg-4 col-md-6">
-    {{> messages}}
-  </div>
-
-  <script src="/javascripts/layoutDashboard.js"></script>
-
-
+    {{{body}}}
+    <div class="webvet-alert col-12 col-lg-4 col-md-6">
+        {{> messages}}
+    </div>
 </body>
-
-</html>

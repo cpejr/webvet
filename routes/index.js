@@ -12,15 +12,14 @@ const Workmap = require('../models/Workmap');
 /* GET home page. */
 router.get('/', (req, res) => {
   res.redirect('/login');
-  //res.render('index', { title: 'Express' });
 });
 
 router.get('/login', (req, res) => {
-  res.render('login', { title: 'Login', layout: 'layout' });
+  res.render('index/login', { title: 'Login', layout: 'layoutIndex' });
 });
 
 router.get('/signup', (req, res) => {
-  res.render('form', { title: 'signup', layout: 'layout' });
+  res.render('index/form', { title: 'signup', layout: 'layoutIndex' });
 });
 
 // router.get('/requisition', (req, res) => {
@@ -28,7 +27,7 @@ router.get('/signup', (req, res) => {
 // });
 
 router.get('/forgotPassword', (req, res) => {
-  res.render('forgotPassword', { title: 'Esqueci Minha Senha', layout: 'layout' });
+  res.render('index/forgotPassword', { title: 'Esqueci Minha Senha', layout: 'layoutIndex' });
 });
 
 router.get('/requisition/show', (req, res) => {
@@ -138,11 +137,11 @@ router.post('/signup', (req, res) => {
       });
     }).catch((error) => {
       console.log(error);
-      res.render('form', { title: 'signup', layout: 'layout', error });
+      res.render('index/form', { title: 'signup', layout: 'layout', error });
     });
   }).catch((error) => {
     console.log(error);
-    res.render('form', { title: 'signup', layout: 'layout', error });
+    res.render('index/form', { title: 'signup', layout: 'layout', error });
   });
 });
 
