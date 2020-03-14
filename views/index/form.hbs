@@ -1,4 +1,4 @@
-<div class="boxes container-fluid index-faixa p-4 justify-content-center">
+<div class="container-fluid index-faixa p-4 d-flex justify-content-center">
   <form class="login-box1 col-10 col-lg-8" action="/signup" method="post">
     <h1> Formulário de Cadastro</h1>
     <div>
@@ -24,23 +24,21 @@
           required="required">
       </div>
       <br>
-      <div class="form-row">
+      <div class="d-flex">
         <div class="form-check form-check-inline">
-          <p>
-            <input class="form-check-input position-static" type="radio" name="user[persontype]" value="0">
-            <label class="form-check-label">CPF</label>
-            <input class="form-check-input position-static" type="radio" name="user[persontype]" value="1">
-            <label class="form-check-label">CNPJ</label>
-          </p>
+          <input class="form-check-input position-static" type="radio" name="user[persontype]" id="cpf" value="0">
+          <label class="form-check-label mr-3" for="cpf">CPF</label>
+          <input class="form-check-input position-static" type="radio" name="user[persontype]" id="cnpj" value="1">
+          <label class="form-check-label" for="cnpj">CNPJ</label>
         </div>
-        <div class="signup-text col-md-6">
+        <div class="signup-text flex-grow-1">
           <input type="text" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ"
             required="required">
         </div>
       </div>
       <div class="form-row">
-        <div class="signup-text col-md-6">
-          <input type="text" name="user[address][city]" class="input-placeholder-green" placeholder="Municipio"
+        <div class="signup-text col-md-3">
+          <input type="text" name="user[address][cep]" class="input-placeholder-green" placeholder="CEP"
             required="required">
         </div>
         <div class="signup-text col-md-3">
@@ -75,29 +73,37 @@
             <option value="TO">Tocantins</option>
           </select>
         </div>
+        <div class="signup-text col-md-6">
+          <input type="text" name="user[address][city]" class="input-placeholder-green" placeholder="Municipio"
+            required="required">
+        </div>
         <div class="signup-text col-md-3">
-          <input type="text" name="user[address][cep]" class="input-placeholder-green" placeholder="CEP"
+          <input type="text" name="user[address][neighborhood]" class="input-placeholder-green" placeholder="Bairro"
             required="required">
         </div>
         <div class="signup-text col-md-4">
           <input type="text" name="user[address][street]" class="input-placeholder-green" placeholder="Rua"
             required="required">
         </div>
-        <div class="signup-text col-md-3">
+        <div class="signup-text col-md-2">
           <input type="text" name="user[address][number]" class="input-placeholder-green" placeholder="Número"
             required="required">
         </div>
         <div class="signup-text col-md-3">
           <input type="text" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
         </div>
-        <div class="signup-text col-md-2">
-          <input type="text" name="user[address][neighborhood]" class="input-placeholder-green" placeholder="Bairro"
-            required="required">
-        </div>
       </div>
     </div>
     <br>
     <div style="text-align: center;"> {{error}} </div>
-    <button type="submit" class="btn-signup">Cadastrar</button>
+    <div class="mt-4 mb-2 d-flex">
+      <input id="btn-back" class="btn btn-login mx-2" type="button" value="Voltar" />
+      <input class="btn btn-login mx-2" type="submit" value="Cadastrar" />
+    </div>
   </form>
 </div>
+<script>
+  $('#btn-back').click(function () {
+    window.location.href = '/';
+  })
+</script>

@@ -30,6 +30,19 @@ router.get('/forgotPassword', (req, res) => {
   res.render('index/forgotPassword', { title: 'Esqueci Minha Senha', layout: 'layoutIndex' });
 });
 
+router.post('/forgotPassword', (req, res) => {
+  const emailAddress = req.body.user;
+  console.log(emailAddress);
+  firebase.auth().sendPasswordResetEmail(emailAddress.email).then(function () {
+    res.redirect('/login');
+    req.flash('success', 'Email enviado');
+  }).catch((error) => {
+    res.render('index/forgotPassword', { title: 'Esqueci Minha Senha', layout: 'layoutIndex', error });
+  });
+});
+
+
+
 router.get('/requisition/show', (req, res) => {
   res.render('record/show', { title: 'show', layout: 'layoutRecShow' });
 });
@@ -161,18 +174,6 @@ router.post('/signup', (req, res) => {
 //       });
 // });
 
-//POST password reset
-router.post('/forgotPassword', (req, res) => {
-  const emailAddress = req.body.user;
-  console.log(emailAddress);
-  firebase.auth().sendPasswordResetEmail(emailAddress.email).then(function () {
-    res.redirect('/login');
-    req.flash('success', 'Email enviado');
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-});
 
 // GET /logout
 router.get('/logout', auth.isAuthenticated, (req, res, next) => {
