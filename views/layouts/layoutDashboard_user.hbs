@@ -1,82 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="/stylesheets/jkanban.min.css">
-    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
-    <meta name="viewport" content ="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  </head>
-  <body>
+<head>
+  <title>{{title}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="/stylesheets/jkanban.min.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="/javascripts/jquery.js" charset="utf-8"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
+  <script src="/javascripts/layoutDashboard.js"></script>
+  <script src="/javascripts/jkanban.min.js" charset="utf-8"></script>
+  <script src="/javascripts/jquery.validate.min.js" charset="utf-8"></script>
 
-    <nav class="navbar fixed-top navbar-light bg-light">
-      <div class="navbar-header fixed-brand">
-        <button class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
-          <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
-        </button>
+</head>
+
+<body>
+
+  <nav class="navbar fixed-top navbar-light bg-light">
+    <div class="navbar-header fixed-brand">
+      <button class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
+        <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active">
+          <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2">
+            <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div id="dashboard-phone">
+      <p>(31) 3409-2113 </p>
+      <p>(31) 3409-2115 </p>
+    </div>
+
+    <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i> Usuário</a></div>
+    <a type="button" id="dashboard-logout" href="/logout" class="btn btn-primary btn-sm">Logout</a>
+  </nav>
+
+  <div id="wrapper">
+    <div id="sidebar-wrapper">
+      <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+        <li class="active">
+          <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i
+                class="fa fa-sign-in fa-stack-1x "></i></span>Nova Requisição de Análise</a>
+        </li>
+
+        <li>
+          <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text-o fa-stack-1x "></i></span>Ver
+            laudos disponíveis</a>
+        </li>
+
+        <li>
+          <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-book fa-stack-1x "></i></span>Ver Histórico
+            de Requisições</a>
+        </li>
+
+        <li>
+          <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-bar-chart fa-stack-1x "></i></span>Ver
+            Estatísticas</a>
+        </li>
+
+        <li>
+          <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user-circle-o fa-stack-1x "></i></span>Ver
+            Equipe</a>
+        </li>
+      </ul>
+    </div>
+
+    <div id="page-content-wrapper">
+      <div class="container-fluid xyz">
+        <div class="row">
+          <div class="col-lg-12">
+            {{{body}}}
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="active">
-            <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2">
-              <span class="fa fa-4x fa-bars" aria-hidden="true"></span>
-            </button>
-          </li>
-        </ul>
-      </div>
+  </div>
 
-      <div id="dashboard-phone">
-        <p>(31) 3409-2113 </p>
-        <p>(31) 3409-2115 </p>
-      </div>
 
-      <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i> Usuário</a></div>
-      <a type="button" id="dashboard-logout" href="/logout" class="btn btn-primary btn-sm">Logout</a>
-    </nav>
+</body>
 
-    <div id="wrapper">
-      <div id="sidebar-wrapper">
-         <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-            <li class="active">
-               <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i class="fa fa-sign-in fa-stack-1x "></i></span>Nova Requisição de Análise</a>
-            </li>
-
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-text-o fa-stack-1x "></i></span>Ver laudos disponíveis</a>
-            </li>
-
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-book fa-stack-1x "></i></span>Ver Histórico de Requisições</a>
-            </li>
-
-            <li>
-               <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-bar-chart fa-stack-1x "></i></span>Ver Estatísticas</a>
-            </li>
-
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user-circle-o fa-stack-1x "></i></span>Ver Equipe</a>
-            </li>
-         </ul>
-      </div>
-
-      <div id="page-content-wrapper">
-         <div class="container-fluid xyz">
-            <div class="row">
-               <div class="col-lg-12">
-                 {{{body}}}
-                </div>
-            </div>
-         </div>
-      </div>
-
-     </div>
-
-     <script src="/javascripts/jquery.js" charset="utf-8"></script>
-     <script src="/bootstrap/js/bootstrap.bundle.min.js" charset="utf-8"></script>
-     <script src="/javascripts/layoutDashboard.js"></script>
-     <script src="/javascripts/jkanban.min.js" charset="utf-8"></script>
-
-  </body>
 </html>
