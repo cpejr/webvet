@@ -13,7 +13,6 @@ function dynamicSort(property) {
     }
 }
 
-
 $(document).ready(() => {
     var ctx = $('#StateFrequency');
 
@@ -79,7 +78,7 @@ $(document).ready(() => {
         for (let i = 0; i < result.length; i++) {
             const element = result[i];
             eixo_x.push(element._id);
-            eixo_y.push((element.frequency*100).toFixed(2));
+            eixo_y.push((element.frequency * 100).toFixed(2));
         }
         //console.log(result);
 
@@ -88,10 +87,8 @@ $(document).ready(() => {
         chart.update();
     });
 
-});
-// --------------------------------------------------------
-// GRAFICO DO TIPO DE SAMPLES AQUI 
-$(document).ready(() => {
+
+    // GRAFICO DO TIPO DE SAMPLES
     var ctx2 = $('#SampleFrequency');
 
     var chart2 = new Chart(ctx2, {
@@ -156,7 +153,7 @@ $(document).ready(() => {
         for (let i = 0; i < result.length; i++) {
             const element = result[i];
             eixo_x.push(element._id);
-            eixo_y.push((element.frequency*100).toFixed(2));
+            eixo_y.push((element.frequency * 100).toFixed(2));
         }
         console.log(result);
 
@@ -165,10 +162,7 @@ $(document).ready(() => {
         chart2.update();
     });
 
-});
-// -------------------------------------------------------------------------
-// GRAFICO RAÇA ANIMAIS
-$(document).ready(() => {
+    // GRAFICO RAÇA ANIMAIS
     var ctx3 = $('#AnimalsFrequency');
 
     var chart3 = new Chart(ctx3, {
@@ -233,7 +227,7 @@ $(document).ready(() => {
         for (let i = 0; i < result.length; i++) {
             const element = result[i];
             eixo_x.push(element._id);
-            eixo_y.push((element.frequency*100).toFixed(2));
+            eixo_y.push((element.frequency * 100).toFixed(2));
         }
         console.log(result);
 
@@ -242,11 +236,7 @@ $(document).ready(() => {
         chart3.update();
     });
 
-});
-
-// -------------------------------------------------------------------------
-// GRAFICO TOXINAS DETECTADAS
-$(document).ready(() => {
+    // GRAFICO TOXINAS DETECTADAS
     var ctx4 = $('#FinalizedPorcentage');
 
     var chart4 = new Chart(ctx4, {
@@ -257,9 +247,14 @@ $(document).ready(() => {
         // The data for our dataset
         data: {
             datasets: [{
-                label: 'Porcentagem de detecção',
+                label: 'Contaminado',
                 backgroundColor: 'rgb(252, 186, 3)',
                 borderColor: 'rgb(252, 186, 3)',
+            },
+            {
+                label: 'Não contaminado',
+                backgroundColor: 'rgb(219, 140, 13)',
+                borderColor: 'rgb(219, 140, 13)',
             }]
         },
 
@@ -272,26 +267,31 @@ $(document).ready(() => {
                 padding: 25,
             },
             legend: {
-                display: false,
+                display: true,
+                position: 'bottom',
             },
             scales: {
+                xAxes: [{
+                    stacked: true,
+                }],
                 yAxes: [{
+                    stacked: true,
                     ticks: {
                         max: 100,
-                        min: 0
+                        min: 0,
                     },
                     scaleLabel: {
                         display: true,
                         labelString: 'Frequência (%)',
                     }
-                }]
+                }],
             },
             plugins: {
                 // Change options for ALL labels of THIS CHART
                 datalabels: {
-                    anchor: 'end',
-                    align: 'top',
-                    color: '#676767',
+                    anchor: 'center',
+                    align: 'center',
+                    color: '#ffffff',
                     font: {
                         weight: "bold",
                     }
@@ -304,16 +304,18 @@ $(document).ready(() => {
 
         let eixo_x = [];
         let eixo_y = [];
-        let eixo_Max = [];
+        let eixo2_y = [];
+
         counterVector.forEach(element => {
-            let porcentage = (element.trueCounter*100)/(element.totalNumber);
+            let porcentage = (element.trueCounter * 100) / (element.totalNumber);
             eixo_x.push(element.name);
             eixo_y.push(porcentage.toFixed(2));
-            eixo_Max.push(100);
+            eixo2_y.push((100 - porcentage.toFixed(2)).toFixed(2));
         });
 
         chart4.data.labels = eixo_x;
         chart4.data.datasets[0].data = eixo_y;
+        chart4.data.datasets[1].data = eixo2_y;
         chart4.update();
     });
 
