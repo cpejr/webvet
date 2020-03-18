@@ -4,7 +4,7 @@
 
 
 <form action="/sampleresult" method="post">
-  <div class="container-fluid d-flex justify-content-between flex-wrap">
+  <div class="container-fluid d-flex justify-content-around">
     {{#each resultados}}
       <table>
         <thead>
@@ -26,9 +26,13 @@
               <th class="some">
                 <input name="sample[{{../name}}][_id]" type="text" value="{{_id}}">
               </th>
-              <th scope="row">{{number}}</th>
-              <td><input readonly type="text" class="input-absorbance" value="{{round average 3}}"></td>
-              <td><input readonly type="text" class="input-absorbance" value="{{round compara 2}}"></td>
+              <th class="px-3">{{number}}</th>
+              <td class="input-group-sm" style="max-width: 100px;">
+                <input readonly type="text" class="form-control text-center" value="{{round average 3}}">
+              </td>
+              <td class="input-group-sm" style="max-width: 100px;">
+                <input readonly type="text" class="form-control text-center" value="{{round compara 2}}">
+              </td>
             </tr>
           {{/each}}
         </tbody>
@@ -36,6 +40,6 @@
     {{/each}}
   </div>
   <div class="d-flex flex-row-reverse px-3 py-1">
-      <button class="btn btn-success">Finalizar</button>
+    <button class="btn btn-success">Finalizar</button>
   </div>
 </form>

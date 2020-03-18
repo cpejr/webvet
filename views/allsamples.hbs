@@ -4,7 +4,7 @@
     <h4>Amostras</h4>
   </div>
 
-  <div class="container-fluid d-flex justify-content-between flex-wrap">
+  <div class="container-fluid d-flex justify-content-around">
     {{#each result}}
       <table>
         <thead>
@@ -23,13 +23,13 @@
             {{/if}}
             <tr>
               <th>{{samplenumber}}</th>
-              <div class="some">
-                <input name="sample[{{../name}}][_id]" type="text" value="{{_id}}">
-              </div>
-              <th>
-                <input type="text" name="sample[{{../name}}][absorbance]" class="input-absorbance">
-                <input type="text" name="sample[{{../name}}][absorbance2]" class="input-absorbance">
-              </th>
+              <td class="d-flex input-group-sm px-2" style="max-width: 200px;">
+                <div class="some">
+                  <input name="sample[{{../name}}][_id]" type="text" value="{{_id}}">
+                </div>
+                  <input type="text" name="sample[{{../name}}][absorbance]" class="form-control text-center">
+                  <input type="text" name="sample[{{../name}}][absorbance2]" class="form-control text-center">
+              </td>
             </tr>
           {{/each}}
         </tbody>
