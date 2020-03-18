@@ -19,6 +19,7 @@ router.get('/', async function (req, res, next) {
     return new Promise(async (resolve, reject) => {
       Kit.getActive(siglaToxina).then((kit) => {
         if (kit) {
+          let samples_id = []
           Workmap.getByIdArray(kit.mapArray).then((maps) => {
             for (let j = 0; j < maps.length; j++) {
               let actualMap = maps[j];
@@ -31,7 +32,7 @@ router.get('/', async function (req, res, next) {
               let p_concentration = [];
               let p_absorvance = [];
               let resultado = [];
-              let samples_id = []
+              
 
               for (let i = 0; i < allcalibrators.length; i++) {
                 let curCal = "P" + i;
@@ -68,13 +69,13 @@ router.get('/', async function (req, res, next) {
                 var avg = (samples[i][nomeToxina].absorbance + samples[i][nomeToxina].absorbance2) / 2;
                 var avgcompara = (comparara(log_b_b0[i], yIntercept, slope) + comparara(log_b_b0_2[i], yIntercept, slope)) / 2;
 
-                resultado.push({
+                resultado[i] = {
                   compara: avgcompara,
                   average: avg,
                   number: samples[i].samplenumber,
                   changed_workmap: i != 0 && samples[i - 1][nomeToxina].workmapId != samples[i][nomeToxina].workmapId,
                   _id: samples[i]._id
-                });
+                };
       
                 if (isNaN(resultado[i].compara)) {
                   resultado[i].compara = null;
@@ -112,9 +113,9 @@ router.get('/', async function (req, res, next) {
   //Finalizando a forma de como os dados serão enviados ao front
   var resultados = {}
 
-  for (let i = 0; i < ToxinasSigla.length; i++)
+  for (let i = 0; i < ToxinasSigla.length; i++){
     resultados[i] = { name: ToxinasSigla[i], result: results[i] };
-
+  }
   res.render('sampleresult', { title: 'Curvas de Calibração', resultados, ...req.session });
 });
 
