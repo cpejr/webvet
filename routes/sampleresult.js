@@ -18,13 +18,13 @@ router.get('/', async function (req, res, next) {
   function calcular(nomeToxina, siglaToxina) {
     return new Promise(async (resolve, reject) => {
       Kit.getActive(siglaToxina).then((kit) => {
-        if (kit) {
+        if (kit !== null){
           let samples_id = []
           Workmap.getByIdArray(kit.mapArray).then((maps) => {
             for (let j = 0; j < maps.length; j++) {
               let actualMap = maps[j];
-              for (let k = 0; k < actualMap.length; k++) {
-                samples_id.push(actualMap.sampleArray[k]);
+              for (let k = 0; k < actualMap.samplesArray.length; k++) {
+                samples_id.push(actualMap.samplesArray[k]);
               }
             }
             Sample.getActiveByIdArray(samples_id, nomeToxina).then((samples) => {
@@ -34,11 +34,11 @@ router.get('/', async function (req, res, next) {
               let resultado = [];
               
 
-              for (let i = 0; i < allcalibrators.length; i++) {
-                let curCal = "P" + i;
-                let actualCalib = allcalibrators.curCal
-                p_concentration.push(actualCalib.concentration);
-                p_absorvance.push(actualCalib.absorbance);
+              for (let i = 0; i < 5; i++) {
+                let curCal = "P" + (i + 1);
+                let actualCalib = allcalibrators[curCal];
+                p_concentration[i] = actualCalib.concentration;
+                p_absorvance[i] = actualCalib.absorbance;
               }
 
               let log_concentracao = [Math.log10(p_concentration[1]), Math.log10(p_concentration[2]), Math.log10(p_concentration[3]), Math.log10(p_concentration[4])]; //eixo x
@@ -46,7 +46,7 @@ router.get('/', async function (req, res, next) {
               let ln_b_b0 = [];
 
               for (let m = 0; m < 4; m++) {
-                b_b0.push(p_absorvance[m + 1] / p_absorvance[0]);
+                b_b0[m] = p_absorvance[m + 1] / p_absorvance[0];
               }
 
               for (let n = 0; n < b_b0.length; n++) {
