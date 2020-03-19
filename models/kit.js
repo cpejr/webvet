@@ -346,6 +346,87 @@ class Kit {
     });
   }
 
+  static getAllLastActiveWithSamples() {
+    return new Promise((resolve, reject) => {
+      KitModel.aggregate(
+        [{
+          $match: {
+            active: true
+          }
+        }, {
+          $project: {
+            calibrators: true,
+            productCode: true,
+          }
+        }, {
+          $lookup: {
+            from: 'counters',
+            pipeline: [{
+              $project: {
+                finalizationCount: { $add: ['$finalizationCount', -1] }
+              }
+            }],
+            as: 'counter'
+          }
+        }, {
+          $project: {
+            calibrators: true,
+            productCode: true,
+            finalizationCount: { $arrayElemAt: ["$counter", 0] }
+          }
+        }, {
+          $project: {
+            calibrators: true,
+            productCode: true,
+            finalizationCount: '$finalizationCount.finalizationCount'
+          }
+        }, {
+          $lookup: {
+            from: 'workmaps',
+            let: {
+              'productCode': '$productCode',
+              'finalizationCount': '$finalizationCount'
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ['$finalizationNumber', '$$finalizationCount'] },
+                      { $eq: ['$productCode', '$$productCode'] }
+                    ]
+                  }
+                }
+              },
+              {
+                $project: {
+                  samplesArray: true
+                }
+              }],
+            as: 'workmaps'
+          }
+        }, {
+          $lookup: {
+            from: 'samples',
+            localField: 'workmaps.samplesArray',
+            foreignField: '_id',
+            as: 'samples'
+          }
+        }, {
+          $project: {
+            productCode: true,
+            calibrators: true,
+            samples: true
+          }
+        }]
+      ).then((results) => {
+        resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   static getAllActive() {
     return new Promise((resolve, reject) => {
       KitModel.find({ active: true }).exec().then((results) => {
@@ -418,7 +499,7 @@ class Kit {
     });
   }
 
-  static findByIdAndEdit (id, kit) {
+  static findByIdAndEdit(id, kit) {
     return new Promise((resolve) => {
       KitModel.findByIdAndUpdate(id, kit).then((res) => {
         resolve(res);
