@@ -15,7 +15,7 @@
             <th>{{fullname}}</th>
             <th>
               <div class="d-flex flex-row justify-content-center">
-                <button onClick="location.href='show/{{_id}}'" class="fa fa-info btn m-1"></button>
+                <button onClick="location.href='show/{{_id}}/pending'" class="fa fa-info btn m-1"></button>
                 <form action="/users/approve/{{_id}}?_method=PUT" method="post">
                     <button type="submit" class="fa fa-thumbs-up btn btn-success m-1"></button>
                 </form>

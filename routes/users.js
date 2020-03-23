@@ -131,9 +131,9 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 
 });
 
-router.get('/show/:id', function (req, res, next) {
+router.get('/show/:id/:returnRoute', function (req, res, next) {
   User.getById(req.params.id).then((actualUser) => {
-    res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', actualUser, ...req.session });
+    res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', returnRoute: req.params.returnRoute, actualUser, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
