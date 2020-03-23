@@ -6,7 +6,6 @@ const auth = require('./middleware/auth');
 const Kit = require('../models/kit');
 const User = require('../models/user');
 const Workmap = require('../models/Workmap');
-const Kitstock = require('../models/kitstock');
 const Sample = require('../models/sample');
 
 
@@ -34,7 +33,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
         Kit.update(element._id, element);
       });
     }
-    Kitstock.getAll().then((kitstocks) => {
       var today = new Date();
       var kit90 = new Array;
       var kit60 = new Array;
@@ -65,8 +63,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
           cont30++;
         }
       }
-      res.render('stock/index', { title: 'Kits', kit30, kit60, kit90, kitstocks, layout: 'layoutDashboard.hbs', ...req.session, kits });
-    })
+      res.render('stock/index', { title: 'Kits', kit30, kit60, kit90, layout: 'layoutDashboard.hbs', ...req.session, kits });
   })
 });
 
