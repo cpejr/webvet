@@ -68,13 +68,8 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
 });
 
 
-
-
-
-
 router.get('/stock', auth.isAuthenticated, (req, res) => {
   Kit.getAll().then((kits) => {
-    Kitstock.getAll().then((kitstocks) => {
       var stockMap = new Map();
 
       for (var i = 0; i < kits.length; i++) {
@@ -94,8 +89,6 @@ router.get('/stock', auth.isAuthenticated, (req, res) => {
 
       res.send({ stockMap: [...stockMap] });
       // var a2 = ["oi", "tchau"];
-
-    });
   });
 });
 
