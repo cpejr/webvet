@@ -20,22 +20,26 @@
 {{#if gt0}}
   {{#if et1}}
     <div class="alertaa">
-      <div class="alert  alert-danger alert-dismissible fade show" role="alert">
-        Existe uma nova requisição aguardando avaliação!
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+      <a href="/requisition">
+        <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+          Existe uma nova requisição aguardando avaliação!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </a>
     </div>
   {{/if}}
   {{#if gt1}}
     <div class="alertaa">
-      <div class="alert  alert-danger alert-dismissible fade show" role="alert">
-        Existem {{novasReq}} novas requisições aguardando avaliação!
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+      <a href="/requisition">
+        <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+          Existem {{novasReq}} novas requisições aguardando avaliação!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </a>
     </div>
   {{/if}}
 {{/if}}
