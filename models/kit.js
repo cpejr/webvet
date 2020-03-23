@@ -501,7 +501,7 @@ class Kit {
 
   static findByIdAndEdit(id, kit) {
     return new Promise((resolve) => {
-      KitModel.findByIdAndUpdate(id, {$set: kit}).exec().then((res) => {
+      KitModel.findByIdAndUpdate(id, kit).then((res) => {
         resolve(res);
       }).catch((err) => {
         reject(err);

@@ -3,14 +3,14 @@
     <hr color="lightgray">
     <div class="showboxinfo">
       <form action="/stock/edit/{{kit._id}}" method="post">
-          <p><font size="4" color="black">Descrição do Produto: <input id="stock-edit" type="text" style="width: 400px" value= {{kit.productDescription}} name="kit[productDescription]"></p>
-          <p><font size="4" color="black">Lod: <input id="stock-edit" type="text" style="width: 50px" value= {{kit.Lod}} name="kit[Lod]"></p>
-          <p><font size="4" color="black">Loq: <input id="stock-edit" type="text" style="width: 50px" value= {{kit.Loq}} name="kit[LoQ]"></p>
-          <p><font size="4" color="black">Fornecedor: <input id="stock-edit" type="text" style="width: 200px" value= {{kit.provider}} name="kit[provider]"></p>
-          <p><font size="4" color="black">Data de Expiração: <input id="stock-edit" type="text" style="width: 30px" value= {{kit.dayexpirationDate}} name="kit[dayexpirationDate]">/
-          <input id="stock-edit" type="text" style="width: 30px" value= {{kit.monthexpirationDate}} name="kit[monthexpirationDate]">/
-          <input id="stock-edit" type="text" style="width: 50px" value= {{kit.yearexpirationDate}} name="kit[yearexpirationDate]"></p>
-          <p><font size="4" color="black">Estoque Mínimo:  <input id="stock-edit" type="text" style="width: 29px" value= {{kit.stockMin}} name="kit[stockMin]"></p>
+          <p><font size="4" color="black">Descrição do Produto: <input id="stock-edit" type="text" style="width: 400px" value= {{kit.productDescription}} name="productDescription"></p>
+          <p><font size="4" color="black">Lod: <input id="stock-edit" type="text" style="width: 50px" value= {{kit.Lod}} name="Lod"></p>
+          <p><font size="4" color="black">Loq: <input id="stock-edit" type="text" style="width: 50px" value= {{kit.Loq}} name="LoQ"></p>
+          <p><font size="4" color="black">Fornecedor: <input id="stock-edit" type="text" style="width: 200px" value= {{kit.provider}} name="provider"></p>
+          <p><font size="4" color="black">Data de Expiração: <input id="stock-edit" type="text" style="width: 30px" value= {{kit.dayexpirationDate}} name="dayexpirationDate">/
+          <input id="stock-edit" type="text" style="width: 30px" value= {{kit.monthexpirationDate}} name="monthexpirationDate">/
+          <input id="stock-edit" type="text" style="width: 50px" value= {{kit.yearexpirationDate}} name="yearexpirationDate"></p>
+          <p><font size="4" color="black">Estoque Mínimo:  <input id="stock-edit" type="text" style="width: 29px" value= {{kit.stockMin}} name="stockMin"></p>
           <div class="text-center">
             <button type="submit" align="center" class="btn btn-outline-success">Enviar Alterações</button>
           </div>
