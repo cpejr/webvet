@@ -116,7 +116,7 @@ router.get('/', async function (req, res, next) {
   for (let i = 0; i < ToxinasSigla.length; i++){
     resultados[i] = { name: ToxinasSigla[i], result: results[i] };
   }
-  res.render('sampleresult', { title: 'Curvas de Calibração', resultados, ...req.session });
+  res.render('sampleresult', { title: 'Curvas de Calibração', resultados, ...req.session, layout:"layoutFinalization.hbs" });
 });
 
 
