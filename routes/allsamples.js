@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
   Sample.getAllActiveWithWorkmap().then((amostras) => {
     var today = new Date();
-   
+
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
@@ -57,75 +57,114 @@ router.get('/', (req, res) => {
 
 router.post('/', function (req, res, next) {
   //Dando update em todos os kits ativos.
-  Kit.getAllActive().then(obj => updateKits(obj)).catch(error => { console.log(error); });
+  Kit.getAllActive().then(async activeKits => {
 
-  if (req.body.sample) {
-    let count = 0;
+    let toxinas = req.body.toxinas;
+    let promises = [];
 
-    ToxinasFull.forEach((toxina) => {
-      count++;
-      updateSample(toxina, req.body.sample[ToxinasAll[toxina].Sigla]);
+    promises.push(updateKits(activeKits));
 
-      if (count == ToxinasFull.length)
-        res.redirect('/sampleresult');
-    });
-  }
+    if (toxinas) {
+      for (let i = 0; i < ToxinasAll.length; i++) {
+        const toxinaFull = ToxinasAll[i].Full;
+        const toxinaSigla = ToxinasAll[i].Sigla;
 
-  async function updateKits(KitArray) {
+        let samples = toxinas[toxinaSigla];
 
-    let finalizationNumber = await Counter.getFinalizationCount();
+        let productCode = toxinaSigla;
+        //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
+        if (productCode === "FBS")
+          productCode = "FUMO";
+        productCode += " Romer"
 
-    KitArray.forEach((kit) => {
-      var new_toxinaStart = kit.toxinaStart;
+        //Encontrar kit correspondente da toxina
+        let kit = activeKits.find(x => x.productCode === productCode);
 
-      Workmap.getByIdArray(kit.mapArray).then((workmaps) => {
-        //Order by mapID
-        workmaps.sort(function (a, b) {
-          return Number(a.mapID) - Number(b.mapID);
-        });
-
-        for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) { //Ele confere de trás para frente
-          if (workmaps[i].samplesArray.length > 0) {
-            new_toxinaStart = Number(workmaps[i].mapID) + 1;
-            break;
-          }
+        let objUpdate = {
+          calibrators: kit.calibrators,
+          kitId: kit._id,
+          samples: samples,
+          toxinaFull: toxinaFull,
         }
 
-        let WorkmapsToFinalize = kit.mapArray.slice(kit.toxinaStart, new_toxinaStart);
-        Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber);
+        promises.push(updateSamplesByGroup(objUpdate));
+      }
 
-        kit.amount = kit.stripLength - new_toxinaStart;
-        kit.toxinaStart = new_toxinaStart;
-        Kit.update(kit._id, kit).catch((err) => {
-          console.log(err);
+      await Promise.all(promises)
+      res.redirect('/sampleresult');
+
+    }
+    else {
+      res.redirect('/sampleresult');
+    }
+
+
+
+  }).catch(error => {
+    console.log(error);
+  });
+
+
+  function updateKits(KitArray) {
+    return new Promise(async (resolve, reject) => {
+      let promises = [];
+      let finalizationNumber = await Counter.getFinalizationCount();
+
+      KitArray.forEach((kit) => {
+        var new_toxinaStart = kit.toxinaStart;
+
+        Workmap.getByIdArray(kit.mapArray).then((workmaps) => {
+          //Order by mapID
+          workmaps.sort(function (a, b) {
+            return Number(a.mapID) - Number(b.mapID);
+          });
+
+          for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) { //Ele confere de trás para frente
+            if (workmaps[i].samplesArray.length > 0) {
+              new_toxinaStart = Number(workmaps[i].mapID) + 1;
+              break;
+            }
+          }
+
+          let WorkmapsToFinalize = kit.mapArray.slice(kit.toxinaStart, new_toxinaStart);
+          Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber);
+
+          kit.amount = kit.stripLength - new_toxinaStart;
+          kit.toxinaStart = new_toxinaStart;
+          promises.push(Kit.update(kit._id, kit));
         });
       });
-    });
 
-    //Update Finalization Count
-    Counter.setFinalizationCount(finalizationNumber + 1);
+      //Update Finalization Count
+      promises.push(Counter.setFinalizationCount(finalizationNumber + 1));
+
+      await Promise.all(promises);
+      resolve();
+    });
   }
 
-  function updateSample(name, obj) {
-    if (typeof obj !== 'undefined') {
-      var id_tox = obj._id;
-      var abs_tox = obj.absorbance;
-      var abs2_tox = obj.absorbance2;
+  function updateSamplesByGroup(obj) {
 
-      if (Array.isArray(abs_tox)) {
-        for (let i = 0; i < abs_tox.length; i++) {
-          Sample.updateAbsorbances(name, id_tox[i], abs_tox[i], abs2_tox[i]).then(() => {
-          }).catch((error) => {
-            console.log(error);
-          });
+    return new Promise((resolve, reject) => {
+
+      let { samples, calibrators, toxinaFull, kitId } = obj;
+      let promises = [];
+
+      if (samples) {
+        for (let i = 0; i < samples.length; i++) {
+          let sample = samples[i];
+          promises.push(Sample.updateAbsorbancesAndFinalize(sample._id, toxinaFull, sample.absorbance, sample.absorbance2, calibrators, kitId));
         }
-      } else {
-        Sample.updateAbsorbances(name, id_tox, abs_tox, abs2_tox).then(() => {
-        }).catch((error) => {
-          console.log(error);
+
+        Promise.all(promises).then((test) => {
+          console.log(test);
+          resolve(test);
         });
       }
-    }
+      else {
+        resolve();
+      }
+    });
   }
 
 });

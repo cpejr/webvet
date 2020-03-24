@@ -19,6 +19,7 @@
         "express-handlebars": "^3.0.2",
         "express-session": "^1.16.1",
         "firebase": "^7.7.0",
+        "firebase-admin": "^8.10.0",
         "font-awesome": "^4.7.0",
         "gulp-sass": "^4.0.2",
         "hbs": "^4.1.0",

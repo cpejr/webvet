@@ -1,5 +1,6 @@
 const express = require('express');
 const firebase = require('firebase');
+var admin = require('firebase-admin');
 const router = express.Router();
 const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
@@ -140,7 +141,7 @@ router.get('/show/:id/:returnRoute', function (req, res, next) {
   });
 });
 
-router.put('/approve/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/approve/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     Email.userApprovedEmail(user).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário aprovado.');
@@ -158,7 +159,7 @@ router.put('/approve/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 
-router.put('/reject/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/reject/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     Email.userRejectedEmail(user).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
@@ -175,13 +176,17 @@ router.put('/reject/:id', auth.isAuthenticated, function (req, res, next) {
   res.redirect('/users/pending');
 });
 
-router.put('/block/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/block/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
+    admin.auth().deleteUser(user.uid).then(function () {
+      console.log('Successfully deleted user');
+    }).catch(function (error) {
+      console.log('Error deleting user:', error);
+    });;
     Email.userRejectedEmail(user).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
     });
   });
-
   User.delete(req.params.id).then(() => {
     req.flash('success', 'Usuário deletado com sucesso.');
     res.redirect('/users/pending');
@@ -202,7 +207,7 @@ router.get('/addManager', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.put('/approvepayment/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/approvepayment/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     if (user.debt) {
       const user2 = {

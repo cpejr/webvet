@@ -3,7 +3,7 @@ var data = new Date();
 var yyyy = data.getFullYear();
 
 const counterSchema = new mongoose.Schema({
-    lastYear: Number, 
+    lastYear: Number,
     sampleCount: Number, //This number reset when change the year
     requisitionCount: Number, //This number reset when change the year
     finalizationCount: Number, //This number DOESN'T reset when change the year
@@ -59,21 +59,39 @@ class Counter {
     }
 
     static setSampleCount(num) {
-        CounterModel.findOneAndUpdate({}, { $set: { 'sampleCount': num } }).exec().catch(err => console.log(err));
+        return new Promise((resolve, reject) => {
+            CounterModel.findOneAndUpdate({}, { $set: { 'sampleCount': num } }).exec()
+                .then(res => resolve(res)).catch(err => {
+                    reject(err);
+                    console.log(err);
+                });
+        });
     }
 
     static setRequisitionCount(num) {
-        CounterModel.findOneAndUpdate({}, { $set: { 'requisitionCount': num } }).exec().catch(err => console.log(err));
+        return new Promise((resolve, reject) => {
+            CounterModel.findOneAndUpdate({}, { $set: { 'requisitionCount': num } }).exec()
+                .then(res => resolve(res)).catch(err => {
+                    reject(err);
+                    console.log(err);
+                });
+        });
     }
 
     static setFinalizationCount(num) {
-        CounterModel.findOneAndUpdate({}, { $set: { 'finalizationCount': num } }).exec().catch(err => console.log(err));
+        return new Promise((resolve, reject) => {
+            CounterModel.findOneAndUpdate({}, { $set: { 'finalizationCount': num } }).exec()
+                .then(res => resolve(res)).catch(err => {
+                    reject(err);
+                    console.log(err);
+                });
+        });
     }
 
     static getSampleCount() {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((result) => {
-                
+
                 //if doesn't exist a counter, will create a new one
                 if (result != null)
                     sendValue(result, this)
