@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
   var names = ["AFLA", "DON", "FBS", "OTA", "T2", "ZEA"];
 
 
-  res.render('allcalibrators', { names, ...req.session });
+  res.render('allcalibrators', { names, ...req.session, layout:"layoutFinalization.hbs" });
 });
 
 router.post('/', function (req, res, next) {

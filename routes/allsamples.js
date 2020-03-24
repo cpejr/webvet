@@ -49,7 +49,7 @@ router.get('/', (req, res) => {
     Result é um vetor de 6 dimensões 
     e cada posição faz referência a uma toxina diferente   
     */
-    res.render('allsamples', { result, dd, mm, yyyy, today, ...req.session });
+    res.render('allsamples', { result, dd, mm, yyyy, today, ...req.session, layout:"layoutFinalization.hbs" });
   }).catch((error) => {
     console.log(error);
   });
