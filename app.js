@@ -63,7 +63,7 @@ for (let i = 0; i < ToxinasFull.length; i++) {
  *  Database setup
  */
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}?${process.env.MONGO_OPTIONS}`);
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}?${process.env.MONGO_OPTIONS}` , { useNewUrlParser: true });
 mongoose.connection.on('error', console.error.bind(console, 'connection error: '));
 mongoose.connection.once('open', () => {
   console.log('Database connect!');

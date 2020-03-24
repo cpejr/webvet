@@ -456,7 +456,7 @@ class Sample {
       updateVal[parameter6] = true;
 
 
-      SampleModel.update(
+      SampleModel.updateOne(
         { _id: id },
         { $set: updateVal }).then((result) => {
           resolve(result);

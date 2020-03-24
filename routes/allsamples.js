@@ -57,14 +57,14 @@ router.get('/', (req, res) => {
 
 router.post('/', function (req, res, next) {
   //Dando update em todos os kits ativos.
-  Kit.getAllActive().then(activeKits => {
-    updateKits(activeKits);
+  Kit.getAllActive().then(async activeKits => {
 
     let toxinas = req.body.toxinas;
     let promises = [];
 
-    if (toxinas) {
+    promises.push(updateKits(activeKits));
 
+    if (toxinas) {
       for (let i = 0; i < ToxinasAll.length; i++) {
         const toxinaFull = ToxinasAll[i].Full;
         const toxinaSigla = ToxinasAll[i].Sigla;
@@ -87,66 +87,83 @@ router.post('/', function (req, res, next) {
           toxinaFull: toxinaFull,
         }
 
-        promises.push(updateSamples(objUpdate));
+        promises.push(updateSamplesByGroup(objUpdate));
       }
+
+      await Promise.all(promises)
+      res.redirect('/sampleresult');
+
+    }
+    else {
+      res.redirect('/sampleresult');
     }
 
-    Promise.all(promises).then(() => {
-      res.redirect('/sampleresult');
-    });
-
-  }).catch(error => { console.log(error); });
 
 
-  async function updateKits(KitArray) {
+  }).catch(error => {
+    console.log(error);
+  });
 
-    let finalizationNumber = await Counter.getFinalizationCount();
 
-    KitArray.forEach((kit) => {
-      var new_toxinaStart = kit.toxinaStart;
+  function updateKits(KitArray) {
+    return new Promise(async (resolve, reject) => {
+      let promises = [];
+      let finalizationNumber = await Counter.getFinalizationCount();
 
-      Workmap.getByIdArray(kit.mapArray).then((workmaps) => {
-        //Order by mapID
-        workmaps.sort(function (a, b) {
-          return Number(a.mapID) - Number(b.mapID);
-        });
+      KitArray.forEach((kit) => {
+        var new_toxinaStart = kit.toxinaStart;
 
-        for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) { //Ele confere de trás para frente
-          if (workmaps[i].samplesArray.length > 0) {
-            new_toxinaStart = Number(workmaps[i].mapID) + 1;
-            break;
+        Workmap.getByIdArray(kit.mapArray).then((workmaps) => {
+          //Order by mapID
+          workmaps.sort(function (a, b) {
+            return Number(a.mapID) - Number(b.mapID);
+          });
+
+          for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) { //Ele confere de trás para frente
+            if (workmaps[i].samplesArray.length > 0) {
+              new_toxinaStart = Number(workmaps[i].mapID) + 1;
+              break;
+            }
           }
-        }
 
-        let WorkmapsToFinalize = kit.mapArray.slice(kit.toxinaStart, new_toxinaStart);
-        Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber);
+          let WorkmapsToFinalize = kit.mapArray.slice(kit.toxinaStart, new_toxinaStart);
+          Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber);
 
-        kit.amount = kit.stripLength - new_toxinaStart;
-        kit.toxinaStart = new_toxinaStart;
-        Kit.update(kit._id, kit).catch((err) => {
-          console.log(err);
+          kit.amount = kit.stripLength - new_toxinaStart;
+          kit.toxinaStart = new_toxinaStart;
+          promises.push(Kit.update(kit._id, kit));
         });
       });
-    });
 
-    //Update Finalization Count
-    Counter.setFinalizationCount(finalizationNumber + 1);
+      //Update Finalization Count
+      promises.push(Counter.setFinalizationCount(finalizationNumber + 1));
+
+      await Promise.all(promises);
+      resolve();
+    });
   }
 
-  function updateSamples(obj) {
-
-    let { samples, calibrators, toxinaFull, kitId } = obj;
-    let promises = [];
-
-    if (samples) {
-      for (let i = 0; i < samples.length; i++) {
-        let sample = samples[i];
-        promises.push(Sample.updateAbsorbancesAndFinalize(sample._id, toxinaFull, sample.absorbance, sample.absorbance2, calibrators, kitId));
-      }
-    }
+  function updateSamplesByGroup(obj) {
 
     return new Promise((resolve, reject) => {
-      Promise.all(promises).then(() => resolve());
+
+      let { samples, calibrators, toxinaFull, kitId } = obj;
+      let promises = [];
+
+      if (samples) {
+        for (let i = 0; i < samples.length; i++) {
+          let sample = samples[i];
+          promises.push(Sample.updateAbsorbancesAndFinalize(sample._id, toxinaFull, sample.absorbance, sample.absorbance2, calibrators, kitId));
+        }
+
+        Promise.all(promises).then((test) => {
+          console.log(test);
+          resolve(test);
+        });
+      }
+      else {
+        resolve();
+      }
     });
   }
 
