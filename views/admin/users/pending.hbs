@@ -16,13 +16,13 @@
             <th>
               <div class="d-flex flex-row justify-content-center">
                 <button onClick="location.href='show/{{_id}}/pending'" class="fa fa-info btn m-1"></button>
-                <form action="/users/approve/{{_id}}?_method=PUT" method="post">
+                <form action="/users/approve/{{_id}}" method="post">
                     <button type="submit" class="fa fa-thumbs-up btn btn-success m-1"></button>
                 </form>
-                <form action="/users/reject/{{_id}}?_method=PUT" method="post">
+                <form action="/users/reject/{{_id}}" method="post">
                     <button type="submit" class="fa fa-thumbs-down btn btn-danger m-1"></button>
                 </form>
-                <form action="/users/block/{{_id}}?_method=PUT" method="post">
+                <form action="/users/block/{{_id}}" method="post">
                     <button type="submit" class="fa fa-ban btn btn-default m-1" aria-hidden="true"></button>
                 </form>
               </div>

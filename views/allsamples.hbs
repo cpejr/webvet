@@ -25,10 +25,10 @@
               <th>{{samplenumber}}</th>
               <td class="d-flex input-group-sm px-2" style="max-width: 200px;">
                 <div class="some">
-                  <input name="sample[{{../name}}][_id]" type="text" value="{{_id}}">
+                  <input name="toxinas[{{../name}}][{{@index}}][_id]" type="text" value="{{_id}}">
                 </div>
-                  <input type="text" name="sample[{{../name}}][absorbance]" class="form-control text-center">
-                  <input type="text" name="sample[{{../name}}][absorbance2]" class="form-control text-center">
+                  <input type="text" name="toxinas[{{../name}}][{{@index}}][absorbance]" class="form-control text-center">
+                  <input type="text" name="toxinas[{{../name}}][{{@index}}][absorbance2]" class="form-control text-center">
               </td>
             </tr>
           {{/each}}

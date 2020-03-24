@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Counter = require('../models/counter');
 const Workmap = require('./Workmap');
+const regression = require('regression');
 var data = new Date();
 var yyyy = data.getFullYear();
 
@@ -435,15 +436,25 @@ class Sample {
     });
   }
 
-  static updateAbsorbances(toxina, id, abs, abs2) {
+  static updateAbsorbancesAndFinalize(id, toxinaFull, abs, abs2, calibrators, kitId) {
 
     return new Promise((resolve, reject) => {
-      var parameter = toxina + '.absorbance';
-      var parameter2 = toxina + '.absorbance2';
+      var parameter = toxinaFull + '.absorbance';
+      var parameter2 = toxinaFull + '.absorbance2';
+      var parameter3 = toxinaFull + '.result';
+      var parameter4 = toxinaFull + '.active';
+      var parameter5 = toxinaFull + '.kitId';
+      var parameter6 = 'report';
+
 
       var updateVal = {};
       updateVal[parameter] = abs;
       updateVal[parameter2] = abs2;
+      updateVal[parameter3] = this.calcularResult(abs, abs2, calibrators);
+      updateVal[parameter4] = false;
+      updateVal[parameter5] = kitId;
+      updateVal[parameter6] = true;
+
 
       SampleModel.update(
         { _id: id },
@@ -455,6 +466,48 @@ class Sample {
 
     });
   }
+
+  static calcularResult(abs, abs2, calibrators) {
+
+    let p_concentration = [];
+    let p_absorvance = [];
+
+    function compara(logb_bo_amostra, intercept, slope) {
+      return Math.pow(10, (logb_bo_amostra - intercept) / slope);
+    }
+
+    for (let i = 0; i < 5; i++) {
+      let currentCalibrator = "P" + (i + 1);
+      p_concentration[i] = calibrators[currentCalibrator].concentration;
+      p_absorvance[i] = calibrators[currentCalibrator].absorbance;
+    }
+
+    let log_concentracao = [];  //Eixo x
+    //Calcular log das concentracoes dos P's de 1 a 4 
+    for (let i = 1; i < 5; i++) {
+      log_concentracao.push(Math.log10(p_concentration[i]));
+    }
+
+    let b_b0 = [];
+    let ln_b_b0 = [];
+
+    for (let m = 0; m < 4; m++) {
+      b_b0[m] = p_absorvance[m + 1] / p_absorvance[0];
+      ln_b_b0[m] = Math.log10(b_b0[m] / (1 - b_b0[m]));
+    }
+
+    const result = regression.linear([[log_concentracao[0], ln_b_b0[0]], [log_concentracao[1], ln_b_b0[1]], [log_concentracao[2], ln_b_b0[2]]]);
+    const slope = result.equation[0];// slope
+    const yIntercept = result.equation[1];// intercept
+
+    let log_b_b0 = Math.log10((abs / p_absorvance[0]) / (1 - (abs / p_absorvance[0])));
+    let log_b_b0_2 = Math.log10((abs2 / p_absorvance[0]) / (1 - (abs2 / p_absorvance[0])));
+
+    var finalResult = (compara(log_b_b0, yIntercept, slope) + compara(log_b_b0_2, yIntercept, slope)) / 2;
+
+    return finalResult;
+  }
+
 
   static finalizeSample(id, toxina, kit_id) {
 

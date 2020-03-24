@@ -18,17 +18,17 @@
             <th>{{type}}</th>
             <th>
               {{#if debt}}
-                <form action="/users/approvepayment/{{_id}}?_method=PUT" method="post">
+                <form action="/users/approvepayment/{{_id}}" method="post">
                   <button type="submit" class="btn btn-danger" style="height: 20px;"></button>
                 </form>
               {{else}}
-                <form action="/users/approvepayment/{{_id}}?_method=PUT" method="post">
+                <form action="/users/approvepayment/{{_id}}" method="post">
                   <button type="submit" class="btn btn-success" style="height: 20px;"></button>
                 </form>
               {{/if}}
             </th>
             <th>
-              <button onClick="location.href='/users/show/{{_id}}/%20'" class="fa fa-info btn m-1"></button>
+              <button onClick="location.href='/users/show/{{_id}}/%20' class="fa fa-info btn m-1"></button>
             </th>
           </tr>
         {{/compare}}

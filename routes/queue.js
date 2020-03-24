@@ -24,7 +24,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
 
       let index = ToxinasSigla.indexOf(sigla);
 
-      copy[ToxinasFull[index]].active = kits[i].kitType;
+      copy[index].active = kits[i].kitType;
     }
     res.render('admin/queue', { toxinas: copy, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
   });

@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
   Sample.getAllActiveWithWorkmap().then((amostras) => {
     var today = new Date();
-   
+
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
@@ -57,19 +57,46 @@ router.get('/', (req, res) => {
 
 router.post('/', function (req, res, next) {
   //Dando update em todos os kits ativos.
-  Kit.getAllActive().then(obj => updateKits(obj)).catch(error => { console.log(error); });
+  Kit.getAllActive().then(activeKits => {
+    updateKits(activeKits);
 
-  if (req.body.sample) {
-    let count = 0;
+    let toxinas = req.body.toxinas;
+    let promises = [];
 
-    ToxinasFull.forEach((toxina) => {
-      count++;
-      updateSample(toxina, req.body.sample[ToxinasAll[toxina].Sigla]);
+    if (toxinas) {
 
-      if (count == ToxinasFull.length)
-        res.redirect('/sampleresult');
+      for (let i = 0; i < ToxinasAll.length; i++) {
+        const toxinaFull = ToxinasAll[i].Full;
+        const toxinaSigla = ToxinasAll[i].Sigla;
+
+        let samples = toxinas[toxinaSigla];
+
+        let productCode = toxinaSigla;
+        //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
+        if (productCode === "FBS")
+          productCode = "FUMO";
+        productCode += " Romer"
+
+        //Encontrar kit correspondente da toxina
+        let kit = activeKits.find(x => x.productCode === productCode);
+
+        let objUpdate = {
+          calibrators: kit.calibrators,
+          kitId: kit._id,
+          samples: samples,
+          toxinaFull: toxinaFull,
+        }
+
+        promises.push(updateSamples(objUpdate));
+      }
+    }
+
+    Promise.all(promises).then(() => {
+      res.redirect('/sampleresult');
     });
-  }
+
+  }).catch(error => { console.log(error); });
+
 
   async function updateKits(KitArray) {
 
@@ -106,26 +133,21 @@ router.post('/', function (req, res, next) {
     Counter.setFinalizationCount(finalizationNumber + 1);
   }
 
-  function updateSample(name, obj) {
-    if (typeof obj !== 'undefined') {
-      var id_tox = obj._id;
-      var abs_tox = obj.absorbance;
-      var abs2_tox = obj.absorbance2;
+  function updateSamples(obj) {
 
-      if (Array.isArray(abs_tox)) {
-        for (let i = 0; i < abs_tox.length; i++) {
-          Sample.updateAbsorbances(name, id_tox[i], abs_tox[i], abs2_tox[i]).then(() => {
-          }).catch((error) => {
-            console.log(error);
-          });
-        }
-      } else {
-        Sample.updateAbsorbances(name, id_tox, abs_tox, abs2_tox).then(() => {
-        }).catch((error) => {
-          console.log(error);
-        });
+    let { samples, calibrators, toxinaFull, kitId } = obj;
+    let promises = [];
+
+    if (samples) {
+      for (let i = 0; i < samples.length; i++) {
+        let sample = samples[i];
+        promises.push(Sample.updateAbsorbancesAndFinalize(sample._id, toxinaFull, sample.absorbance, sample.absorbance2, calibrators, kitId));
       }
     }
+
+    return new Promise((resolve, reject) => {
+      Promise.all(promises).then(() => resolve());
+    });
   }
 
 });
