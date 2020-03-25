@@ -97,7 +97,7 @@ router.get('/', async function (req, res, next) {
     //Check if is the last
     count++;
     if (count == ToxinasSigla.length)
-      res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas, ...req.session });
+      res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas, ...req.session, layout:"layoutFinalizationCC.hbs" });
   });
 })
 

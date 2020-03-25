@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-100">
+<html style="min-height: 100%;overflow:auto;">
 
 <head>
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -12,7 +12,7 @@
     <script src="/javascripts/jquery.validate.min.js" charset="utf-8"></script>
 </head>
 
-<body class="p-0 h-100 d-flex flex-column">
+<body class="d-flex flex-column" style="min-height: 100%;overflow:auto;">
     {{!-- <div class="d-flex align-items-center justify-content-around"> --}}
     <div class="d-flex align-items-center justify-content-center">
         <div style="height:100px;background-size:contain;" class="img-login mt-3 col-md-2 justify-content-center">
@@ -22,15 +22,14 @@
     {{!-- </div> --}}
     </br>
     </br>
-    {{{body}}}
-    <footer class="d-flex align-items-end justify-content-center mt-auto"  >
+    <div style="min-height: 100%;">
+        {{{body}}}
+    </div>
+    <footer class="d-flex align-self-end justify-content-center w-100">
         <div style="height:150px;background-size:contain;" class="img-footer mt-1 col-md-2">
         </div>
     </footer>
-
-
-
-
 </body>
+
 
 </html>
