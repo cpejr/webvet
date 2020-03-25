@@ -1,6 +1,6 @@
 <h4>Histórico de Requisições</h4>
 <p></p>
-<div class="table-responsive">
+<div class="d-flex justify-content-center">
   <table id="tb-user" class="table table-striped table-hover">
     <thead>
       <tr>
@@ -25,9 +25,6 @@
               {{#compare status 'Cancelada'}}
                 <span class="badge badge-pill badge-danger">Cancelada</span>
               {{/compare}}
-            </th>
-            <th>
-              <button class="fa fa-info btn"></button>
             </th>
             <th>
               <button onClick="location.href='requisition/show/{{_id}}'" class="fa fa-info btn m-1"></button>

@@ -3,7 +3,20 @@ var num = 2;
 function addInput() {
     if (num < 11) {
         var newInput = document.createElement("div");
-        newInput.innerHTML = '<div class="requisition-text col-md-8"><input type="text" name="requisition[sampleVector]" id="sample' + num + '" class="requisition-text" placeholder="Amostra ' + num + '"/></div><div class="checkbox"><input type="checkbox" id="polpa' + num + '" name="polpa" value="polpa"> Contém polpa cítrica</input></div>'
+
+        let html =
+            `<div class="requisition-text col-md-8">
+                <input required type="text" name="requisition[sampleVector]" id="sample${num}" class="requisition-text"
+                placeholder="Amostra ${num}">
+            </div>
+            <div class="checkbox col-md-2 d-flex pb-1">
+                <div class="align-self-end">
+                <input type="checkbox" id="polpa${num}" name="polpa" value="polpa" class="my-auto" />
+                <label for="polpa${num}" class="">Contém polpa cítrica</label>
+                </div>
+            </div>`;
+
+        newInput.innerHTML = html;
         newInput.className = "form-row";
         document.getElementById('samples').appendChild(newInput);
         num++;

@@ -8,9 +8,9 @@
   <button id="btn-new-address" class="btn btn-success" type="button">Cadastrar outros dados de cobrança</button>
 </div>
 
-<form action="/requisition/new" method="post">
-  <div id="keep-address" class="form-row">
-    <div class="requisition-text col-md-11">
+<form action="/requisition/new" method="post" class="d-flex flex-column align-items-center">
+  <div id="keep-address" class="form-row col-md-10">
+    <div class="requisition-text col-md-12">
       <input required id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}"
         class="requisition-text" placeholder="Razão Social/Nome Completo">
     </div>
@@ -18,14 +18,14 @@
       <input required id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}"
         class="requisition-text" placeholder="CNPJ/CPF">
     </div>
-    <div class="requisition-text col-md-5">
+    <div class="requisition-text col-md-6">
       <input required id="I.E" type="text" name="requisition[IE]" class="requisition-text" placeholder="I.E">
     </div>
     <div class="requisition-text col-md-6">
       <input required id="street" type="text" name="requisition[address][street]" value="{{user.address.street}}"
         class="requisition-text" placeholder="Rua de endereço de Faturamento">
     </div>
-    <div class="requisition-text col-md-5">
+    <div class="requisition-text col-md-6">
       <input required id="number" type="text" name="requisition[address][number]" value="{{user.address.number}}"
         class="requisition-text" placeholder="Nº">
     </div>
@@ -33,7 +33,7 @@
       <input required id="complement" type="text" name="requisition[address][complement]"
         value="{{user.address.complement}}" class="requisition-text" placeholder="Complemento">
     </div>
-    <div class="requisition-text col-md-5">
+    <div class="requisition-text col-md-6">
       <input required id="neighborhood" type="text" name="requisition[address][neighborhood]"
         value="{{user.address.neighborhood}}" class="requisition-text" placeholder="Bairro">
     </div>
@@ -73,11 +73,11 @@
         <option value="TO">Tocantins</option>
       </select>
     </div>
-    <div class="requisition-text col-md-3">
+    <div class="requisition-text col-md-4">
       <input required id="cep" type="number" name="requisition[address][cep]" value="{{user.address.cep}}"
         class="requisition-text" placeholder="CEP">
     </div>
-    <div class="requisition-text col-md-11">
+    <div class="requisition-text col-md-12">
       <input required id="resposible" type="text" name="requisition[responsible]" class="requisition-text"
         placeholder="Responsável pela amostra">
     </div>
@@ -85,11 +85,11 @@
       <input required id="phone" type="text" name="requisition[client][phone]" value="{{user.phone}}"
         class="requisition-text" placeholder="Tel. com DDD">
     </div>
-    <div class=" requisition-text col-md-5">
+    <div class=" requisition-text col-md-6">
       <input required id="cellphone" type="text" name="requisition[client][cellphone]" value="{{user.cellphone}}"
         class="requisition-text" placeholder="Cel. com DDD">
     </div>
-    <div class="requisition-text col-md-11">
+    <div class="requisition-text col-md-12">
       <input required id="email" type="text" name="requisition[client][email]" value="{{user.email}}"
         class="requisition-text" placeholder="Email">
     </div>
@@ -99,7 +99,7 @@
     <p> Requisição de Análise</p>
   </div>
   <br>
-  <div class="form-row">
+  <div class="form-row col-md-10">
     <div class="requisition-text col-md-6">
       <input required type="text" name="requisition[producer]" class="requisition-text"
         placeholder="Nome do cliente | Fazenda | Produtor">
@@ -108,8 +108,7 @@
       <input required type="text" name="requisition[autorizationnumber]" class="requisition-text"
         placeholder="Número de Autorização">
     </div>
-  </div>
-  <div class="form-row">
+
     <div class="requisition-text col-md-4">
       <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município">
     </div>
@@ -153,7 +152,7 @@
   <br>
   <h6 align="left"> Qual é a destinação do alimento?</h6>
 
-  <div class="form-group d-flex flex-wrap text-left">
+  <div class="form-group d-flex flex-wrap text-left justify-content-center">
     <div class="column">
       <div class="form-check">
         <input checked id="Aves" class="form-check-input required destination" type="radio"
@@ -233,39 +232,39 @@
 
   </div>
 
-
-
-
-  <!--  </div>-->
   <br>
   <br>
   <div class="requisition-titles">
     <p> Identificação da Amostra</p>
   </div>
+  <div class="d-flex flex-column col-md-10 justify-content-center">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não polpa cítrica na amostra
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="form-row">
+      <div class="requisition-text col-md-8">
+        <input required type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text"
+          placeholder="Amostra 1">
+      </div>
+      <div class="checkbox col-md-2 d-flex pb-1">
+        <div class="align-self-end">
+          <input type="checkbox" id="polpa" name="polpa" value="polpa" class="my-auto" />
+          <label for="polpa" class="">Contém polpa cítrica</label>
+        </div>
+      </div>
+      <div class="btn-polpa">
+        <a id="add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
+      </div>
+    </div>
+    <div id="samples" class="d-flex flex-column">
+    </div>
+  </div>
 
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não polpa cítrica na amostra
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="form-row">
-    <div class="requisition-text col-md-8">
-      <input required type="text" name="requisition[sampleVector]" id="sample1" class="requisition-text"
-        placeholder="Amostra 1">
-    </div>
-    <div class="checkbox">
-      <input type="checkbox" id="polpa1" name="polpa" value="polpa"> Contém polpa cítrica</input>
-    </div>
-    <div class="btn-polpa">
-      <a id="add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
-    </div>
-  </div>
-  <div id="samples">
-  </div>
-
-  <div class="requisition-text">
-    <textarea class="requisition-text" name="requisition[comment]" placeholder="Observações" rows="4"></textarea>
+  <div class="requisition-text col-md-10 mt-5">
+    <textarea class="requisition-text w-100" name="requisition[comment]" placeholder="Observações" rows="4"></textarea>
   </div>
 
   <br>
