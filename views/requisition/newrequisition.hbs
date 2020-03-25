@@ -41,7 +41,7 @@
       <input required id="city" type="text" name="requisition[address][city]" value="{{user.address.city}}"
         class="requisition-text" placeholder="Cidade">
     </div>
-    <div class="requisition-text col-md-4">
+    <div class="requisition-text col-md-4 d-flex align-items-center">
       <select id="userstate" class="drowdownoptions" name="requisition[address][state]" required="required">
         <option disabled selected value="">Estado</option>
         <option value="AC">Acre</option>
@@ -112,7 +112,7 @@
     <div class="requisition-text col-md-4">
       <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município">
     </div>
-    <div class="requisition-text col-md-4">
+    <div class="requisition-text col-md-4 d-flex align-items-center">
       <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
         <option disabled selected value="">Estado</option>
         <option value="AC">Acre</option>
@@ -320,3 +320,4 @@
   });
 </script>
 <script src="/javascripts/reqFunc.js"></script>
+<script src="/javascripts/dynamicPlaceHolder.js" />

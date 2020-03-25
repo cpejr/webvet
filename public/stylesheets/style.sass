@@ -7,6 +7,57 @@ $color3: #F7FCF2
 $color4 : #708074
 $color5: #2B2B2B
 
+//PARTE DO DYNAMIC PLACE HOLDER
+// https://w3bits.com/css-floating-labels/
+.floating-label-field 
+  border-width: 0
+  color: rgba(#2c3e50, .75)
+  &:focus 
+    outline: 0
+    box-shadow: 0  
+  &::placeholder 
+    color: transparent
+
+.floating-label-field 
+  &:focus,
+  &:not(:placeholder-shown) 
+    border-color: rgba(white, .1)
+    & + .floating-label 
+      transform: translate(1%, -30%) scale(.8)
+      opacity: .8
+    
+.floating-label-field 
+ & + .floating-label 
+   transition: transform .25s, opacity .25s ease-in-out
+   transform-origin: 0 0
+   opacity: .9
+ 
+
+.floating-label-field 
+  &,
+  & + .floating-label 
+    position: relative
+
+.floating-label-field 
+  & + .floating-label 
+    position: absolute
+    top: 0
+    left: 0
+    user-select: none
+  
+.floating-label-field 
+  &,
+  & + .floating-label 
+    line-height: 1
+    font: inherit
+    padding: 1.5em
+    padding-bottom: 1em
+    height: 4em
+  
+.floating-label-field 
+  background-color: transparent
+  color: rgba(white, .75)
+
 
 #aflatoxina
   display: flex
@@ -391,9 +442,9 @@ input.center
   width: 100%
   overflow: hidden
   font-size: 14px
-  padding: 6px 0
-  margin: 6px 0
   border-bottom: 1px solid #006400
+  margin-bottom: .7em
+  
 
 .requisition-text input
   border: none
@@ -403,7 +454,11 @@ input.center
   font-size: 13px
   width: 100%
   float: left
-  margin: 0 10px
+  margin: 0 0px
+  padding: 1.5em
+  padding-bottom: 1em
+  height: 4em
+    
 
 .requisition-text textarea
   border: none

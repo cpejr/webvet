@@ -42,7 +42,7 @@
         <input required id="city" type="text" name="requisition[address][city]" value="{{requisition.address.city}}"
           class="requisition-text" placeholder="Cidade">
       </div>
-      <div class="requisition-text col-md-4">
+      <div class="requisition-text col-md-4 d-flex align-items-center">
         <select id="userstate" class="drowdownoptions" name="requisition[address][state]" required="required">
           <option disabled selected value="">Estado</option>
           <option value="AC">Acre</option>
@@ -113,7 +113,7 @@
         <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município"
           value="{{requisition.city}}">
       </div>
-      <div class="requisition-text col-md-4">
+      <div class="requisition-text col-md-4 d-flex align-items-center">
         <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
           <option disabled selected value="">Estado</option>
           <option value="AC">Acre</option>
@@ -253,12 +253,12 @@
     <div class="d-flex form-row col-md-10 justify-content-center">
       {{#each samples}}
         <div class="requisition-text col-md-6">
-          <input required type="text" name="sample[name]" class="requisition-text" placeholder="Amostra"
+          <input required type="text" name="sample[name]" class="requisition-text" placeholder="Nome da amostra"
             value="{{name}}">
-          <input type="hidden" name="sample[_id]" class="requisition-text" value="{{_id}}">
         </div>
 
-        <div class="requisition-text col-md-4">
+        <div class="requisition-text col-md-4 d-flex align-items-center">
+          <input type="hidden" name="sample[_id]" class="requisition-text" value="{{_id}}">
           <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100" name="sample[sampletype]"
             required="required">
             <option disabled selected value="">Tipo</option>
@@ -340,7 +340,6 @@
 
     let reqdestination = "{{requisition.destination}}";
     $('select#requisitondestination').val(reqdestination);
-
   });
 
   $("#submitAlterations").click(function () {
@@ -364,3 +363,4 @@
     $('#Outros').val($(this).find('input').val());
   });
 </script>
+<script src="/javascripts/dynamicPlaceHolder.js" />

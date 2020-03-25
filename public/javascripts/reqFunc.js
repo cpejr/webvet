@@ -6,8 +6,9 @@ function addInput() {
 
         let html =
             `<div class="requisition-text col-md-8">
-                <input required type="text" name="requisition[sampleVector]" id="sample${num}" class="requisition-text"
+                <input required type="text" name="requisition[sampleVector]" id="sample${num}" class="requisition-text floating-label-field"
                 placeholder="Amostra ${num}">
+                <label for='sample${num}' class="floating-label">Amostra ${num}</label>
             </div>
             <div class="checkbox col-md-2 d-flex pb-1">
                 <div class="align-self-end">

@@ -6048,6 +6048,48 @@ a.text-dark:hover, a.text-dark:focus {
   .input-group span.twitter-typeahead .tt-menu, .input-group span.twitter-typeahead .tt-hint, .input-group span.twitter-typeahead .tt-input {
     width: 100%; }
 
+.floating-label-field {
+  border-width: 0;
+  color: rgba(44, 62, 80, 0.75); }
+  .floating-label-field:focus {
+    outline: 0;
+    box-shadow: 0; }
+  .floating-label-field::placeholder {
+    color: transparent; }
+
+.floating-label-field:focus, .floating-label-field:not(:placeholder-shown) {
+  border-color: rgba(255, 255, 255, 0.1); }
+  .floating-label-field:focus + .floating-label, .floating-label-field:not(:placeholder-shown) + .floating-label {
+    transform: translate(1%, -30%) scale(0.8);
+    opacity: .8; }
+
+.floating-label-field + .floating-label {
+  transition: transform .25s, opacity .25s ease-in-out;
+  transform-origin: 0 0;
+  opacity: .9; }
+
+.floating-label-field,
+.floating-label-field + .floating-label {
+  position: relative; }
+
+.floating-label-field + .floating-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  user-select: none; }
+
+.floating-label-field,
+.floating-label-field + .floating-label {
+  line-height: 1;
+  font: inherit;
+  padding: 1.5em;
+  padding-bottom: 1em;
+  height: 4em; }
+
+.floating-label-field {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.75); }
+
 #aflatoxina {
   display: flex;
   flex-wrap: wrap-reverse;
@@ -6342,9 +6384,8 @@ input.center {
   width: 100%;
   overflow: hidden;
   font-size: 14px;
-  padding: 6px 0;
-  margin: 6px 0;
-  border-bottom: 1px solid #006400; }
+  border-bottom: 1px solid #006400;
+  margin-bottom: .7em; }
 
 .requisition-text input {
   border: none;
@@ -6354,7 +6395,10 @@ input.center {
   font-size: 13px;
   width: 100%;
   float: left;
-  margin: 0 10px; }
+  margin: 0 0px;
+  padding: 1.5em;
+  padding-bottom: 1em;
+  height: 4em; }
 
 .requisition-text textarea {
   border: none;
