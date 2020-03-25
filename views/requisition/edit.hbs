@@ -297,7 +297,6 @@
       <textarea class="requisition-text w-100" name="requisition[comment]" placeholder="Observações"
         rows="4">{{requisition.comment}}</textarea>
     </div>
-  </form>
 </div>
 
 {{#if nova}}
@@ -318,7 +317,6 @@
 
     <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
   {{/if}}
-</div>
 </div>
 
 <script>
@@ -346,10 +344,12 @@
   });
 
   $("#submitAlterations").click(function () {
+    console.log("aaaaa")
     $("#submitButton").trigger("click");
   });
 
   $("#submitAproved").click(function () {
+    console.log("bbb")
     $('#novaCheckId').prop("checked", true);
     $("#submitButton").trigger("click");
   });
