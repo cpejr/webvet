@@ -1,12 +1,9 @@
 const express = require('express');
-const firebase = require('firebase');
 var admin = require('firebase-admin');
 const router = express.Router();
-const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const User = require('../models/user');
 const Email = require('../models/email');
-const Requisition = require('../models/requisition');
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res, next) {
@@ -209,29 +206,21 @@ router.get('/addManager', auth.isAuthenticated, function (req, res, next) {
 
 router.post('/approvepayment/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
-    if (user.debt) {
-      const user2 = {
-        debt: false
-      };
-      User.update(req.params.id, user2).then(() => {
-        req.flash('success', 'Pagamento aprovado com sucesso.');
-        res.redirect('/users');
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
-      });
-    } else {
-      const user2 = {
-        debt: true
-      };
-      User.update(req.params.id, user2).then(() => {
-        req.flash('success', 'Pagamento aprovado com sucesso.');
-        res.redirect('/users');
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
-      });
-    }
+
+    const userUpdate = {
+      debt: !user.debt,
+    };
+
+    let text = userUpdate.debt ? 'Pagamento reprovado com sucesso.' : 'Pagamento aprovado com sucesso.';
+    let type = userUpdate.debt ? 'danger' : 'success';
+
+    User.update(req.params.id, userUpdate).then(() => {
+      req.flash(type, text);
+      res.redirect('/users');
+    }).catch((error) => {
+      console.log(error);
+      res.redirect('/error');
+    });
   }).catch((error) => {
     res.redirect('/error');
     console.log(error);
