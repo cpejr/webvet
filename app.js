@@ -40,6 +40,7 @@ const previousmapRouter = require('./routes/previousmap');
 const sampleresultRouter = require('./routes/sampleresult');
 const reportRouter = require('./routes/report');
 const statisticsRouter = require('./routes/statistics');
+const setstockRouter = require('./routes/setstock');
 const app = express();
 
 /**
@@ -178,6 +179,7 @@ app.use('/allkits', allkitsRouter);
 app.use('/printtemplate', printtemplateRouter);
 app.use('/calibrationcurves', calibrationcurvesRouter);
 app.use('/allcalibrators', allcalibratorsRouter);
+app.use('/setstock', setstockRouter);
 app.use('/allsamples', allsamplesRouter)
 app.use('/report', reportRouter);
 app.use('/previousmap', previousmapRouter);
