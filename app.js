@@ -49,14 +49,14 @@ const app = express();
 ToxinasSigla = ['AFLA', 'DON', 'FBS', 'OTA', 'T2', 'ZEA'];
 ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
 ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisina', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
-ToxinasAll = []; 
+ToxinasAll = [];
 
 for (let i = 0; i < ToxinasFull.length; i++) {
   ToxinasAll[i] = {
     Full: ToxinasFull[i],
     Sigla: ToxinasSigla[i],
     Formal: ToxinasFormal[i]
-  }  
+  }
 }
 
 
@@ -64,7 +64,7 @@ for (let i = 0; i < ToxinasFull.length; i++) {
  *  Database setup
  */
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}?${process.env.MONGO_OPTIONS}` , { useNewUrlParser: true });
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}?${process.env.MONGO_OPTIONS}`, { useNewUrlParser: true });
 mongoose.connection.on('error', console.error.bind(console, 'connection error: '));
 mongoose.connection.once('open', () => {
   console.log('Database connect!');
@@ -82,7 +82,12 @@ const config = {
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
 };
 firebase.initializeApp(config);
-admin.initializeApp(config);
+
+const serviceAccont = require('./serviceAccountKey.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccont),
+  databaseURL: process.env.FIREBASE_DATABASE_URL
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

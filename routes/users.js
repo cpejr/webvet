@@ -176,20 +176,28 @@ router.post('/reject/:id', auth.isAuthenticated, function (req, res, next) {
 router.post('/block/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     admin.auth().deleteUser(user.uid).then(function () {
-      console.log('Successfully deleted user');
+
+      console.log('Successfully deleted user from firebase');
+
+      Email.userRejectedEmail(user).catch((error) => {
+        req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
+      });
+
+      User.delete(req.params.id).then(() => {
+        req.flash('success', 'Usuário deletado com sucesso.');
+        res.redirect('/users/pending');
+      }).catch((error) => {
+        res.redirect('/users/pending');
+      });
+
     }).catch(function (error) {
       console.log('Error deleting user:', error);
+      req.flash('danger', 'Error deleting user');
+      res.redirect('/users/pending');
     });;
-    Email.userRejectedEmail(user).catch((error) => {
-      req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
-    });
+
   });
-  User.delete(req.params.id).then(() => {
-    req.flash('success', 'Usuário deletado com sucesso.');
-    res.redirect('/users/pending');
-  }).catch((error) => {
-    res.redirect('/error');
-  });
+
 });
 
 

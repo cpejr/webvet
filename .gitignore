@@ -29,3 +29,5 @@ node_modules
 
 # dotenv enviroment variables file
 .env
+
+serviceAccountKey.json
