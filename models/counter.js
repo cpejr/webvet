@@ -2,11 +2,17 @@ const mongoose = require('mongoose');
 var data = new Date();
 var yyyy = data.getFullYear();
 
+const kitStock = new mongoose.Schema({
+    name: String,
+    maxStock: Number,
+})
+
 const counterSchema = new mongoose.Schema({
     lastYear: Number,
     sampleCount: Number, //This number reset when change the year
     requisitionCount: Number, //This number reset when change the year
     finalizationCount: Number, //This number DOESN'T reset when change the year
+    kitStocks: [kitStock],
     counterName: {
         type: String,
         default: 'Contador padrão'
@@ -41,12 +47,18 @@ class Counter {
     }
 
     static create() {
+        let kitStockVector = [];
+        for (i = 0; i < ToxinasFull.length; i++){
+            kitStockVector.push({name: ToxinasFull[i], maxStock: 0});
+        }
+
         const Contador = {
             lastYear: yyyy,
             sampleCount: 1,
             requisitionCount: 1,
             finalizationCount: 1,
-            counterName: 'Contador padrão'
+            counterName: 'Contador padrão',
+            kitStocks: kitStockVector,
         }
 
         return new Promise((resolve, reject) => {
@@ -165,6 +177,61 @@ class Counter {
                     resolve(counter.finalizationCount);
                 }
             }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    static addNewKitstock(newKitStock) {
+        return new Promise ((resolve, reject) => {
+            const newName = newKitStock.name;
+            CounterModel.findOne({}).then((counter) => {
+                if(counter === null){ //Counter doesn't exist in DB.
+                    this.create().then((newCounter) => {
+                        
+                        const elIndex = newCounter.kitStock.findIndex(element => (element.name === newName)); 
+                        newCounter.kitStock[elIndex] = newKitStock;
+                        newCounter.save();
+
+                        resolve(newCounter);
+                    });
+                } else if(counter.kitStock === undefined){ //Counter exists in DB but doesn't have kitStock array.
+                    counter.kitStock = [];
+                    counter.kitStock.push(newKitStock);
+                    counter.save();
+                } else { //Counter exists in DB and has a valid KitStock array.
+                    found = counter.kitStock.findIndex(element => (element.name === newName));
+                    if (found === undefined){
+                        counter.kitStock.push(newKitStock);
+                        counter.save();
+                    } else {
+                        counter.kitStock[found] = newKitStock;
+                        counter.save();
+                    }
+                }
+                resolve(counter);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    static getSpecificKitStock(name){
+        return new Promise((resolve, reject) => {
+            CounterModel.findOne({}).then((counter) => {
+                if (counter === null){
+                    this.create().then(() =>{
+                        resolve(0);
+                    });
+                } else {
+                    value = counter.kitStock.find(element => (element.name === name));
+                    if (value !== undefined){
+                        resolve(value);
+                    } else {
+                        resolve(undefined);
+                    }
+                }
+            }).catch((err) =>{
                 reject(err);
             });
         });
