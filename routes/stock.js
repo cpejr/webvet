@@ -67,7 +67,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   })
 });
 
-
 router.get('/stock', auth.isAuthenticated, (req, res) => {
   Kit.getAll().then((kits) => {
       var stockMap = new Map();
@@ -92,8 +91,10 @@ router.get('/stock', auth.isAuthenticated, (req, res) => {
   });
 });
 
-
-
+router.get('/setstock', function (req, res, next) {
+  console.log(req.session.user);
+  res.render('stock/setstock', { title: 'Stock Config', layout: 'layoutDashboard.hbs', ...req.session });
+});
 
 router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
@@ -103,8 +104,6 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
     console.log(error);
     res.redirect('/error');
   });
-
-
 });
 
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
@@ -127,7 +126,6 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
     res.redirect('/error');
   });
 });
-
 
 router.get('/new', auth.isAuthenticated, function (req, res) {
   console.log(req.session.user);
@@ -215,14 +213,6 @@ router.post('/increaseAmount/:kitid/', function (req, res, next) {
     res.redirect('/error');
   });
 });
-
-
-
-
-
-
-
-
 
 
 module.exports = router;
