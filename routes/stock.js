@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const firebase = require('firebase');
-const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const Kit = require('../models/kit');
-const User = require('../models/user');
 const Workmap = require('../models/Workmap');
-const Sample = require('../models/sample');
+const Counter = require('../models/counter')
 
 
 //a 1 é a data de validade e a 2 é a data de hoje
@@ -67,7 +64,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   })
 });
 
-
 router.get('/stock', auth.isAuthenticated, (req, res) => {
   Kit.getAll().then((kits) => {
       var stockMap = new Map();
@@ -85,17 +81,35 @@ router.get('/stock', auth.isAuthenticated, (req, res) => {
           }
         }
       }
-      console.log(stockMap);
 
       res.send({ stockMap: [...stockMap] });
       // var a2 = ["oi", "tchau"];
   });
 });
 
+router.get('/setstock', auth.isAuthenticated, function (req, res, next) {
+  console.log(req.session.user);
+  Counter.getEntireKitStock().then((kitstocks) => {
+    res.render('stock/setstock', { title: 'Stock Config', layout: 'layoutDashboard.hbs', kitstocks, ...req.session });
+  }).catch((err) => {
+    reject(err);
+  });
+});
 
+router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
+  let params = req.body;
+  console.log(req.body);
+  let kitstocks = [];
+  for(let i = 0; i < ToxinasFull.length; i++){
+    toxiName = ToxinasFull[i];
+    console.log(params[toxiName]);
+    kitstocks.push({name: toxiName, minStock: params[toxiName]});
+  }
+  await Counter.setKitStocks(kitstocks);
+  res.redirect('/stock/setstock');
+})
 
-
-router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/show/:id', function (req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
     //console.log(kit);
     res.render('stock/show', { title: 'Show Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
@@ -103,8 +117,6 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
     console.log(error);
     res.redirect('/error');
   });
-
-
 });
 
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
@@ -127,7 +139,6 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
     res.redirect('/error');
   });
 });
-
 
 router.get('/new', auth.isAuthenticated, function (req, res) {
   console.log(req.session.user);
@@ -215,14 +226,6 @@ router.post('/increaseAmount/:kitid/', function (req, res, next) {
     res.redirect('/error');
   });
 });
-
-
-
-
-
-
-
-
 
 
 module.exports = router;

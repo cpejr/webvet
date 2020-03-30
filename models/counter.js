@@ -2,11 +2,17 @@ const mongoose = require('mongoose');
 var data = new Date();
 var yyyy = data.getFullYear();
 
+const kitStock = new mongoose.Schema({
+    name: String,
+    minStock: Number,
+})
+
 const counterSchema = new mongoose.Schema({
     lastYear: Number,
     sampleCount: Number, //This number reset when change the year
     requisitionCount: Number, //This number reset when change the year
     finalizationCount: Number, //This number DOESN'T reset when change the year
+    kitStocks: [kitStock],
     counterName: {
         type: String,
         default: 'Contador padrão'
@@ -41,12 +47,18 @@ class Counter {
     }
 
     static create() {
+        let kitStockVector = [];
+        for (let i = 0; i < ToxinasFull.length; i++) {
+            kitStockVector.push({ name: ToxinasFull[i], minStock: 0 });
+        }
+
         const Contador = {
             lastYear: yyyy,
             sampleCount: 1,
             requisitionCount: 1,
             finalizationCount: 1,
-            counterName: 'Contador padrão'
+            counterName: 'Contador padrão',
+            kitStocks: kitStockVector,
         }
 
         return new Promise((resolve, reject) => {
@@ -166,6 +178,103 @@ class Counter {
                 }
             }).catch((err) => {
                 reject(err);
+            });
+        });
+    }
+
+    static setKitStocks(newKitStocks) {
+        function clearStocks(kitstocks, counter){
+            for (let i = 0; i < kitstocks.length; i++){
+                let actualMinStock = kitstocks[i].minStock;
+                let actualName = kitstocks[i].name;
+                let curresIndex = counter.kitStocks.findIndex(element => (element.name === actualName));
+                if(actualMinStock === ""){
+                    let currentKit = counter.kitStocks[curresIndex];
+                    kitstocks[i].minStock = currentKit.minStock;
+                }
+            }
+            return(kitstocks);
+        }
+
+        return new Promise(async (resolve, reject) => {
+            
+            CounterModel.findOne({}).then((counter) => {
+                if (counter === null) { //Counter doesn't exist in DB.
+                    this.create().then((newCounter) => {
+
+                        let updatedKitStocks = clearStocks(newKitStocks, newCounter);   
+                        newCounter.kitStocks = updatedKitStocks;
+                        newCounter.save();
+
+                        resolve(newCounter);
+                    });
+                } else if (counter.kitStocks === undefined) { //Counter exists in DB but doesn't have kitStock array.
+                    let nullKits = [];
+                    for (let j = 0; j < ToxinasFull; j++){
+                        nullKits.push({name: ToxinasFull[j], minStock: 0});
+                    }
+                    let fakeCounter = [];
+                    fakeCounter[kitstocks] = nullKits;
+                    let fakedKitStocks = clearStocks(newKitStocks, fakeCounter);
+
+                    counter.kitStocks = fakedKitStocks;
+                    counter.save();
+                } else { //Counter exists in DB and has a valid KitStock array.
+                    let clearedKitStocks = clearStocks(newKitStocks, counter);
+                    counter.kitStocks = clearedKitStocks;
+                    counter.save();
+                }
+                resolve(counter);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    static getSpecificKitStock(name) {
+        return new Promise((resolve, reject) => {
+            CounterModel.findOne({}).then((counter) => {
+                if (counter === null) {
+                    this.create().then(() => {
+                        resolve(0);
+                    });
+                } else {
+                    value = counter.kitStock.find(element => (element.name === name));
+                    if (value !== undefined) {
+                        resolve(value);
+                    } else {
+                        resolve(undefined);
+                    }
+                }
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    static getEntireKitStock() {
+        return new Promise((resolve, reject) => {
+            CounterModel.findOne({}).then((counter) => {
+                if (counter === null) { //Counter does not exist in DB
+                    this.create().then((newCounter) => {
+                        resolve(newCounter.kitStocks);
+                    });
+                } else {
+                    let notFound = [];
+                    for (let i = 0; i < ToxinasFull.length; i++) { //Check if all toxins are present in kitStocks of counter.
+                        let toxinName = ToxinasFull[i];
+                        if (counter.kitStocks.findIndex(element => (element.name === toxinName)) === undefined) {
+                            notFound.push(toxinName);
+                        }
+                    }
+                    if (notFound.length > 0) { //Essential toxins are missing in kitStocks
+                        console.log("Nao foram encontradas " + notFound.length);
+                        console.log(notFound);
+                        resolve(counter.kitStocks);
+                    } else {
+                        resolve(counter.kitStocks);
+                    }
+                }
             });
         });
     }
