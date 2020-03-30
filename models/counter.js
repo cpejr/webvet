@@ -48,8 +48,8 @@ class Counter {
 
     static create() {
         let kitStockVector = [];
-        for (let i = 0; i < ToxinasFull.length; i++){
-            kitStockVector.push({name: ToxinasFull[i], minStock: 0});
+        for (let i = 0; i < ToxinasFull.length; i++) {
+            kitStockVector.push({ name: ToxinasFull[i], minStock: 0 });
         }
 
         const Contador = {
@@ -183,29 +183,29 @@ class Counter {
     }
 
     static addNewKitstock(newKitStock) {
-        return new Promise ((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const newName = newKitStock.name;
             CounterModel.findOne({}).then((counter) => {
-                if(counter === null){ //Counter doesn't exist in DB.
+                if (counter === null) { //Counter doesn't exist in DB.
                     this.create().then((newCounter) => {
-                        
-                        const elIndex = newCounter.kitStock.findIndex(element => (element.name === newName)); 
+
+                        const elIndex = newCounter.kitStock.findIndex(element => (element.name === newName));
                         newCounter.kitStock[elIndex] = newKitStock;
                         newCounter.save();
 
                         resolve(newCounter);
                     });
-                } else if(counter.kitStock === undefined){ //Counter exists in DB but doesn't have kitStock array.
-                    counter.kitStock = [];
-                    counter.kitStock.push(newKitStock);
+                } else if (counter.kitStocks === undefined) { //Counter exists in DB but doesn't have kitStock array.
+                    counter.kitStocks = [];
+                    counter.kitStocks.push(newKitStock);
                     counter.save();
                 } else { //Counter exists in DB and has a valid KitStock array.
-                    found = counter.kitStock.findIndex(element => (element.name === newName));
-                    if (found === undefined){
-                        counter.kitStock.push(newKitStock);
+                    let found = counter.kitStocks.findIndex(element => (element.name === newName));
+                    if (found === undefined) {
+                        counter.kitStocks.push(newKitStock);
                         counter.save();
                     } else {
-                        counter.kitStock[found] = newKitStock;
+                        counter.kitStocks[found] = newKitStock;
                         counter.save();
                     }
                 }
@@ -216,43 +216,43 @@ class Counter {
         });
     }
 
-    static getSpecificKitStock(name){
+    static getSpecificKitStock(name) {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((counter) => {
-                if (counter === null){
-                    this.create().then(() =>{
+                if (counter === null) {
+                    this.create().then(() => {
                         resolve(0);
                     });
                 } else {
                     value = counter.kitStock.find(element => (element.name === name));
-                    if (value !== undefined){
+                    if (value !== undefined) {
                         resolve(value);
                     } else {
                         resolve(undefined);
                     }
                 }
-            }).catch((err) =>{
+            }).catch((err) => {
                 reject(err);
             });
         });
     }
 
-    static getEntireKitStock(){
+    static getEntireKitStock() {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((counter) => {
-                if (counter === null){ //Counter does not exist in DB
-                    this.create().then((newCounter) =>{
+                if (counter === null) { //Counter does not exist in DB
+                    this.create().then((newCounter) => {
                         resolve(newCounter.kitStocks);
                     });
                 } else {
                     let notFound = [];
-                    for (let i = 0; i < ToxinasFull.length; i++){ //Check if all toxins are present in kitStocks of counter.
+                    for (let i = 0; i < ToxinasFull.length; i++) { //Check if all toxins are present in kitStocks of counter.
                         let toxinName = ToxinasFull[i];
-                        if(counter.kitStocks.findIndex(element => (element.name === toxinName)) === undefined){
+                        if (counter.kitStocks.findIndex(element => (element.name === toxinName)) === undefined) {
                             notFound.push(toxinName);
                         }
                     }
-                    if(notFound.length > 0){ //Essential toxins are missing in kitStocks
+                    if (notFound.length > 0) { //Essential toxins are missing in kitStocks
                         console.log("Nao foram encontradas " + notFound.length);
                         console.log(notFound);
                         resolve(counter.kitStocks);

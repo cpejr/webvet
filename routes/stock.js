@@ -81,14 +81,13 @@ router.get('/stock', auth.isAuthenticated, (req, res) => {
           }
         }
       }
-      console.log(stockMap);
 
       res.send({ stockMap: [...stockMap] });
       // var a2 = ["oi", "tchau"];
   });
 });
 
-router.get('/setstock', function (req, res, next) {
+router.get('/setstock', auth.isAuthenticated, function (req, res, next) {
   console.log(req.session.user);
   Counter.getEntireKitStock().then((kitstocks) => {
     res.render('stock/setstock', { title: 'Stock Config', layout: 'layoutDashboard.hbs', kitstocks, ...req.session });
@@ -97,7 +96,21 @@ router.get('/setstock', function (req, res, next) {
   });
 });
 
-router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
+  let params = req.body;
+  console.log(req.body);
+  for(let i = 0; i < ToxinasFull.length; i++){
+    toxiName = ToxinasFull[i];
+    console.log(params[toxiName]);
+    if (params[toxiName] !== ""){
+      await Counter.addNewKitstock({name: toxiName, minStock: params[toxiName]});
+      console.log(toxiName + " Deveria ter sido atualizado!");
+    }
+  }
+  res.redirect('/stock/setstock');
+})
+
+router.get('/show/:id', function (req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
     //console.log(kit);
     res.render('stock/show', { title: 'Show Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
