@@ -2,46 +2,44 @@
   <form class="login-box1 col-10 col-lg-8" action="/signup" method="post">
     <h1> Formulário de Cadastro</h1>
     <div>
-      <div class="signup-text col-md-12">
-        <input type="text" name="user[fullname]" class="input-placeholder-green" placeholder="Nome Completo"
+      <div class="requisition-text col-md-12">
+        <input type="text" name="user[fullname]" class="requisition-text" placeholder="Nome Completo"
           required="required">
       </div>
       <div class="form-row">
-        <div class="signup-text col-md-6">
-          <input type="email" name="user[email]" class="input-placeholder-green" placeholder="Email"
-            required="required">
+        <div class="requisition-text col-md-6">
+          <input type="email" name="user[email]" class="requisition-text" placeholder="Email" required="required">
         </div>
-        <div class="signup-text col-md-3">
-          <input type="text" name="user[cellphone]" class="input-placeholder-green" placeholder="Celular"
-            required="required">
+        <div class="requisition-text col-md-3">
+          <input type="text" name="user[cellphone]" class="requisition-text" placeholder="Celular" required="required">
         </div>
-        <div class="signup-text col-md-3">
-          <input type="text" name="user[phone]" class="input-placeholder-green" placeholder="Telefone">
+        <div class="requisition-text col-md-3">
+          <input type="text" name="user[phone]" class="requisition-text" placeholder="Telefone">
         </div>
       </div>
-      <div class="signup-text col-md-12">
-        <input type="password" name="user[password]" class="input-placeholder-green" placeholder="Senha"
-          required="required">
+      <div class="requisition-text col-md-12">
+        <input type="password" name="user[password]" class="requisition-text" placeholder="Senha" required="required">
       </div>
-      <br>
-      <div class="d-flex">
-        <div class="form-check form-check-inline">
-          <input class="form-check-input position-static" type="radio" name="user[persontype]" id="cpf" value="0">
-          <label class="form-check-label mr-3" for="cpf">CPF</label>
-          <input class="form-check-input position-static" type="radio" name="user[persontype]" id="cnpj" value="1">
-          <label class="form-check-label" for="cnpj">CNPJ</label>
+      <div class="form-row d-flex">
+        <div class="d-flex justify-content-around align-items-center pb-md-3 col-md-3">
+          <div>
+            <input class="form-check-input position-static" type="radio" name="user[persontype]" id="cpf" value="0">
+            <label class="form-check-label mr-3" for="cpf">CPF</label>
+          </div>
+          <div>
+            <input class="form-check-input position-static" type="radio" name="user[persontype]" id="cnpj" value="1">
+            <label class="form-check-label" for="cnpj">CNPJ</label>
+          </div>
         </div>
-        <div class="signup-text flex-grow-1">
-          <input type="text" name="user[register]" class="input-placeholder-green" placeholder="CPF ou CNPJ"
-            required="required">
+        <div class="requisition-text col-md-9">
+          <input type="text" name="user[register]" class="" placeholder="CPF ou CNPJ" required="required">
         </div>
       </div>
       <div class="form-row">
-        <div class="signup-text col-md-3">
-          <input type="text" name="user[address][cep]" class="input-placeholder-green" placeholder="CEP"
-            required="required">
+        <div class="requisition-text col-md-3">
+          <input type="text" name="user[address][cep]" class="" placeholder="CEP" required="required">
         </div>
-        <div class="signup-text col-md-3">
+        <div class="requisition-text col-md-3 d-flex align-items-center">
           <select id="userstate" class="drowdownoptions" name="user[address][state]" required="required">
             <option disabled selected value="">Estado</option>
             <option value="AC">Acre</option>
@@ -73,35 +71,36 @@
             <option value="TO">Tocantins</option>
           </select>
         </div>
-        <div class="signup-text col-md-6">
-          <input type="text" name="user[address][city]" class="input-placeholder-green" placeholder="Municipio"
-            required="required">
-        </div>
-        <div class="signup-text col-md-3">
-          <input type="text" name="user[address][neighborhood]" class="input-placeholder-green" placeholder="Bairro"
-            required="required">
-        </div>
-        <div class="signup-text col-md-4">
-          <input type="text" name="user[address][street]" class="input-placeholder-green" placeholder="Rua"
-            required="required">
-        </div>
-        <div class="signup-text col-md-2">
-          <input type="text" name="user[address][number]" class="input-placeholder-green" placeholder="Número"
-            required="required">
-        </div>
-        <div class="signup-text col-md-3">
-          <input type="text" name="user[address][complement]" class="input-placeholder-green" placeholder="Complemento">
+        <div class="requisition-text col-md-6">
+          <input type="text" name="user[address][city]" class="" placeholder="Municipio" required="required">
         </div>
       </div>
-    </div>
-    <br>
-    <div style="text-align: center;"> {{error}} </div>
-    <div class="mt-4 mb-2 d-flex">
-      <input id="btn-back" class="btn btn-login mx-2" type="button" value="Voltar" />
-      <input class="btn btn-login mx-2" type="submit" value="Cadastrar" />
+      <div class="form-row">
+        <div class="requisition-text col-md-3">
+          <input type="text" name="user[address][neighborhood]" class="" placeholder="Bairro" required="required">
+        </div>
+        <div class="requisition-text col-md-4">
+          <input type="text" name="user[address][street]" class="" placeholder="Rua" required="required">
+        </div>
+        <div class="requisition-text col-md-2">
+          <input type="text" name="user[address][number]" class="" placeholder="Número" required="required">
+        </div>
+        <div class="requisition-text col-md-3">
+          <input type="text" name="user[address][complement]" class="" placeholder="Complemento">
+        </div>
+      </div>
+      <div class="form-row mt-3">
+        <div style="text-align: center;"> {{error}} </div>
+      </div>
+      <div class="d-flex mt-4 mb-2">
+        <input id="btn-back" class="btn btn-login mx-2" type="button" value="Voltar" />
+        <input class="btn btn-login mx-2" type="submit" value="Cadastrar" />
+      </div>
     </div>
   </form>
 </div>
+
+<script src="/javascripts/dynamicPlaceHolder.js"></script>
 <script>
   $('#btn-back').click(function () {
     window.location.href = '/';

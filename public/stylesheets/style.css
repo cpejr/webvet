@@ -6061,12 +6061,14 @@ a.text-dark:hover, a.text-dark:focus {
   border-color: rgba(255, 255, 255, 0.1); }
   .floating-label-field:focus + .floating-label, .floating-label-field:not(:placeholder-shown) + .floating-label {
     transform: translate(1%, -30%) scale(0.8);
-    opacity: .8; }
+    opacity: .8;
+    white-space: nowrap; }
 
 .floating-label-field + .floating-label {
   transition: transform .25s, opacity .25s ease-in-out;
   transform-origin: 0 0;
-  opacity: .9; }
+  opacity: .9;
+  white-space: nowrap; }
 
 .floating-label-field,
 .floating-label-field + .floating-label {
@@ -6076,7 +6078,8 @@ a.text-dark:hover, a.text-dark:focus {
   position: absolute;
   top: 0;
   left: 0;
-  user-select: none; }
+  user-select: none;
+  white-space: nowrap; }
 
 .floating-label-field,
 .floating-label-field + .floating-label {
@@ -6084,11 +6087,13 @@ a.text-dark:hover, a.text-dark:focus {
   font: inherit;
   padding: 1.5em;
   padding-bottom: 1em;
-  height: 4em; }
+  height: 4em;
+  white-space: nowrap; }
 
 .floating-label-field {
   background-color: transparent;
-  color: rgba(255, 255, 255, 0.75); }
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap; }
 
 #aflatoxina {
   display: flex;
@@ -6385,7 +6390,8 @@ input.center {
   overflow: hidden;
   font-size: 14px;
   border-bottom: 1px solid #006400;
-  margin-bottom: .7em; }
+  margin-bottom: .7em;
+  min-height: 3em; }
 
 .requisition-text input {
   border: none;

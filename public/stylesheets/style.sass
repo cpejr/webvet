@@ -25,12 +25,14 @@ $color5: #2B2B2B
     & + .floating-label 
       transform: translate(1%, -30%) scale(.8)
       opacity: .8
+      white-space: nowrap
     
 .floating-label-field 
- & + .floating-label 
-   transition: transform .25s, opacity .25s ease-in-out
-   transform-origin: 0 0
-   opacity: .9
+  & + .floating-label
+    transition: transform .25s, opacity .25s ease-in-out
+    transform-origin: 0 0
+    opacity: .9
+    white-space: nowrap
  
 
 .floating-label-field 
@@ -44,6 +46,7 @@ $color5: #2B2B2B
     top: 0
     left: 0
     user-select: none
+    white-space: nowrap
   
 .floating-label-field 
   &,
@@ -53,10 +56,12 @@ $color5: #2B2B2B
     padding: 1.5em
     padding-bottom: 1em
     height: 4em
+    white-space: nowrap
   
 .floating-label-field 
   background-color: transparent
   color: rgba(white, .75)
+  white-space: nowrap
 
 
 #aflatoxina
@@ -444,6 +449,7 @@ input.center
   font-size: 14px
   border-bottom: 1px solid #006400
   margin-bottom: .7em
+  min-height: 3em
   
 
 .requisition-text input

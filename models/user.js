@@ -167,9 +167,9 @@ class User {
     });
   }
 
-  static getAllProducers() {
+  static getAllActiveProducers() {
     return new Promise((resolve, reject) => {
-      UserModel.find({ $or: [{ type: "Produtor" }, { type: "Convenio" }] }).exec().then((result) => {
+      UserModel.find({ $or: [{ type: "Produtor", status: "Ativo" }, { type: "Convenio", status: "Ativo" }] }).exec().then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -369,6 +369,24 @@ class User {
     return new Promise((resolve, reject) => {
       UserModel.findOne(query).exec().then((results) => {
         resolve(results);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getPendingAndInactive() {
+    return new Promise((resolve, reject) => {
+      UserModel.aggregate([
+        { $match: { $or: [{ status: "Inativo" }, { status: "Aguardando aprovação" }] } },
+        {
+          $group: {
+            _id: "$status",
+            users: { $push: "$$ROOT" }
+          }
+        }
+      ]).then((result) => {
+        resolve(result);
       }).catch((err) => {
         reject(err);
       });
