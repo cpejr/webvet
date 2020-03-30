@@ -4,7 +4,7 @@ var yyyy = data.getFullYear();
 
 const kitStock = new mongoose.Schema({
     name: String,
-    maxStock: Number,
+    minStock: Number,
 })
 
 const counterSchema = new mongoose.Schema({
@@ -48,8 +48,8 @@ class Counter {
 
     static create() {
         let kitStockVector = [];
-        for (i = 0; i < ToxinasFull.length; i++){
-            kitStockVector.push({name: ToxinasFull[i], maxStock: 0});
+        for (let i = 0; i < ToxinasFull.length; i++){
+            kitStockVector.push({name: ToxinasFull[i], minStock: 0});
         }
 
         const Contador = {
