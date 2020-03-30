@@ -182,32 +182,46 @@ class Counter {
         });
     }
 
-    static addNewKitstock(newKitStock) {
+    static setKitStocks(newKitStocks) {
+        function clearStocks(kitstocks, counter){
+            for (let i = 0; i < kitstocks.length; i++){
+                let actualMinStock = kitstocks[i].minStock;
+                let actualName = kitstocks[i].name;
+                let curresIndex = counter.kitStocks.findIndex(element => (element.name === actualName));
+                if(actualMinStock === ""){
+                    actualMinStock = counter.kitStocks[curresIndex];
+                }
+            }
+            return(kitstocks);
+        }
+
         return new Promise(async (resolve, reject) => {
-            const newName = newKitStock.name;
+            
             CounterModel.findOne({}).then((counter) => {
                 if (counter === null) { //Counter doesn't exist in DB.
                     this.create().then((newCounter) => {
 
-                        const elIndex = newCounter.kitStock.findIndex(element => (element.name === newName));
-                        newCounter.kitStock[elIndex] = newKitStock;
+                        let updatedKitStocks = clearStocks(newKitStocks, newCounter);   
+                        newCounter.kitStocks = updatedKitStocks;
                         newCounter.save();
 
                         resolve(newCounter);
                     });
                 } else if (counter.kitStocks === undefined) { //Counter exists in DB but doesn't have kitStock array.
-                    counter.kitStocks = [];
-                    counter.kitStocks.push(newKitStock);
+                    let nullKits = [];
+                    for (let j = 0; j < ToxinasFull; j++){
+                        nullKits.push({name: ToxinasFull[j], minStock: 0});
+                    }
+                    let fakeCounter = [];
+                    fakeCounter[kitstocks] = nullKits;
+                    let fakedKitStocks = clearStocks(newKitStocks, fakeCounter);
+
+                    counter.kitStocks = fakedKitStocks;
                     counter.save();
                 } else { //Counter exists in DB and has a valid KitStock array.
-                    let found = counter.kitStocks.findIndex(element => (element.name === newName));
-                    if (found === undefined) {
-                        counter.kitStocks.push(newKitStock);
-                        counter.save();
-                    } else {
-                        counter.kitStocks[found] = newKitStock;
-                        counter.save();
-                    }
+                    let clearedKitStocks = clearStocks(newKitStocks, counter);
+                    counter.kitStocks = clearedKitStocks;
+                    counter.save();
                 }
                 resolve(counter);
             }).catch((err) => {

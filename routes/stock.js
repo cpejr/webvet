@@ -99,14 +99,13 @@ router.get('/setstock', auth.isAuthenticated, function (req, res, next) {
 router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
   let params = req.body;
   console.log(req.body);
+  let kitstocks = [];
   for(let i = 0; i < ToxinasFull.length; i++){
     toxiName = ToxinasFull[i];
     console.log(params[toxiName]);
-    if (params[toxiName] !== ""){
-      await Counter.addNewKitstock({name: toxiName, minStock: params[toxiName]});
-      console.log(toxiName + " Deveria ter sido atualizado!");
-    }
+    kitstocks.push({name: toxiName, minStock: params[toxiName]});
   }
+  await Counter.setKitStocks(kitstocks);
   res.redirect('/stock/setstock');
 })
 
