@@ -167,9 +167,9 @@ class User {
     });
   }
 
-  static getAllProducers() {
+  static getAllActiveProducers() {
     return new Promise((resolve, reject) => {
-      UserModel.find({ $or: [{ type: "Produtor" }, { type: "Convenio" }] }).exec().then((result) => {
+      UserModel.find({ $or: [{ type: "Produtor", status: "Ativo" }, { type: "Convenio", status: "Ativo" }] }).exec().then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);

@@ -132,12 +132,13 @@ router.post('/login', (req, res) => {
 router.post('/signup', (req, res) => {
   const { user } = req.body;
   console.log(user);
-  firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then((userF) => {
+  firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(function(userF) {
+
     user.uid = userF.user.uid;
     User.create(user).then((id) => {
       console.log(`Created new user with id: ${id}`);
       req.flash('success', 'Cadastrado com sucesso. Aguarde aprovação');
-     
+
 
       //Send emails
       Email.userWaitingForApproval(user.email, user.fullname.split(' ')[0]).catch(error);
@@ -153,11 +154,11 @@ router.post('/signup', (req, res) => {
 
 
       res.redirect('/login');
-    }).catch(er => {
-      console.log(er);
-      res.render('index/form', { title: 'signup', layout: 'layout', er });
+    }).catch(errror2 => {
+      console.log(error2);
+      res.render('index/form', { title: 'signup', layout: 'layout', error: error2 });
     });
-  }).catch((error) => {
+  }).catch(function (error) {
     console.log(error);
     res.render('index/form', { title: 'signup', layout: 'layout', error });
   });

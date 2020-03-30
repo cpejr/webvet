@@ -7,7 +7,7 @@ const Email = require('../models/email');
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res, next) {
-  User.getAllProducers().then((users) => {
+  User.getAllActiveProducers().then((users) => {
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
@@ -25,22 +25,20 @@ router.get('/pending', auth.isAuthenticated, function (req, res, next) {
     let inactives;
     let pending;
 
-    if(obj1)
-    {
-      if(obj1._id == "Inativo")
+    if (obj1) {
+      if (obj1._id == "Inativo")
         inactives = obj1.users;
       else
-        pending = obj1.users;    
+        pending = obj1.users;
     }
 
-    if(obj2)
-    {
-      if(obj2._id == "Inativo")
+    if (obj2) {
+      if (obj2._id == "Inativo")
         inactives = obj2.users;
       else
-        pending = obj2.users;    
+        pending = obj2.users;
     }
-    
+
     res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', inactives, pending, ...req.session });
   }).catch((error) => {
     console.log(error);
@@ -206,9 +204,10 @@ router.post('/reject/:id', auth.isAuthenticated, function (req, res, next) {
   User.update(req.params.id, user).catch((error) => {
     console.log(error);
     res.redirect('/error');
+  }).then(() => {
+    req.flash('success', 'Usuário Inativado com sucesso.');
+    res.redirect('/users/pending');
   });
-  req.flash('success', 'Usuário Inativado com sucesso.');
-  res.redirect('/users/pending');
 });
 
 router.post('/block/:id', auth.isAuthenticated, function (req, res, next) {
