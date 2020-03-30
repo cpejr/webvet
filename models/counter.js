@@ -236,6 +236,33 @@ class Counter {
             });
         });
     }
+
+    static getEntireKitStock(){
+        return new Promise((resolve, reject) => {
+            CounterModel.findOne({}).then((counter) => {
+                if (counter === null){ //Counter does not exist in DB
+                    this.create().then((newCounter) =>{
+                        resolve(newCounter.kitStocks);
+                    });
+                } else {
+                    let notFound = [];
+                    for (let i = 0; i < ToxinasFull.length; i++){ //Check if all toxins are present in kitStocks of counter.
+                        let toxinName = ToxinasFull[i];
+                        if(counter.kitStocks.findIndex(element => (element.name === toxinName)) === undefined){
+                            notFound.push(toxinName);
+                        }
+                    }
+                    if(notFound.length > 0){ //Essential toxins are missing in kitStocks
+                        console.log("Nao foram encontradas " + notFound.length);
+                        console.log(notFound);
+                        resolve(counter.kitStocks);
+                    } else {
+                        resolve(counter.kitStocks);
+                    }
+                }
+            });
+        });
+    }
 }
 
 module.exports = Counter;

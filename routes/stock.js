@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const firebase = require('firebase');
-const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 const Kit = require('../models/kit');
-const User = require('../models/user');
 const Workmap = require('../models/Workmap');
-const Sample = require('../models/sample');
+const Counter = require('../models/counter')
 
 
 //a 1 é a data de validade e a 2 é a data de hoje
@@ -93,7 +90,11 @@ router.get('/stock', auth.isAuthenticated, (req, res) => {
 
 router.get('/setstock', function (req, res, next) {
   console.log(req.session.user);
-  res.render('stock/setstock', { title: 'Stock Config', layout: 'layoutDashboard.hbs', ...req.session });
+  Counter.getEntireKitStock().then((kitstocks) => {
+    res.render('stock/setstock', { title: 'Stock Config', layout: 'layoutDashboard.hbs', kitstocks, ...req.session });
+  }).catch((err) => {
+    reject(err);
+  });
 });
 
 router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
