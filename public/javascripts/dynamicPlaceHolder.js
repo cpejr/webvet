@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //Add dynamic placeholder on top
     let idcount = 0;
-    $('input[type=text], input[type=number]').each((index, elem) => {  //All input elements with type="text" 
+    $('input[type=text], input[type=number], input[type=email], input[type=password]').each((index, elem) => {  //All input elements with type="text" 
 
         $(elem).addClass('floating-label-field')
         let id = elem.id;
