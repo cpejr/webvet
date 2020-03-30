@@ -134,13 +134,15 @@ router.post('/signup', (req, res) => {
   console.log(user);
   firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then((userF) => {
     user.uid = userF.user.uid;
-    console.log(userF);
     User.create(user).then((id) => {
       console.log(`Created new user with id: ${id}`);
       req.flash('success', 'Cadastrado com sucesso. Aguarde aprovação');
-      res.redirect('/login');
+     
+
+      //Send emails
+      Email.userWaitingForApproval(user.email, user.fullname.split(' ')[0]).catch(error);
       User.getAdmin().then((admin) => {
-        Email.notificationEmail(admin).catch((error) => {
+        Email.newUserNotificationEmail(admin.email).catch((error) => {
           res.redirect('/login');
         });
       }).catch((error) => {
@@ -148,9 +150,12 @@ router.post('/signup', (req, res) => {
         res.redirect('/error');
         return error;
       });
-    }).catch((error) => {
-      console.log(error);
-      res.render('index/form', { title: 'signup', layout: 'layout', error });
+
+
+      res.redirect('/login');
+    }).catch(er => {
+      console.log(er);
+      res.render('index/form', { title: 'signup', layout: 'layout', er });
     });
   }).catch((error) => {
     console.log(error);

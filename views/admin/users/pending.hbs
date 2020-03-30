@@ -1,35 +1,65 @@
-<h4>Requisição de Usuário</h4>
-<p></p>
-<div class="table-responsive">
-  <table id="tb-user" class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th class = "th-name">Nome</th>
-        <th class = "th-action">Ação</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each users}}
-        {{#compare status 'Aguardando aprovação'}}
+<div>
+  <div>
+    <h4>Requisição de Usuário</h4>
+    <p></p>
+    <table id="tb-user" class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="th-name">Nome</th>
+          <th class="th-action">Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each pending}}
           <tr>
             <th>{{fullname}}</th>
             <th>
               <div class="d-flex flex-row justify-content-center">
                 <button onClick="location.href='show/{{_id}}/pending'" class="fa fa-info btn m-1"></button>
                 <form action="/users/approve/{{_id}}" method="post">
-                    <button type="submit" class="fa fa-thumbs-up btn btn-success m-1"></button>
+                  <button type="submit" class="fa fa-thumbs-up btn btn-success m-1"></button>
                 </form>
                 <form action="/users/reject/{{_id}}" method="post">
-                    <button type="submit" class="fa fa-thumbs-down btn btn-danger m-1"></button>
+                  <button type="submit" class="fa fa-thumbs-down btn btn-danger m-1"></button>
                 </form>
                 <form action="/users/block/{{_id}}" method="post">
-                    <button type="submit" class="fa fa-ban btn btn-default m-1" aria-hidden="true"></button>
+                  <button type="submit" class="fa fa-trash btn btn-default m-1" aria-hidden="true"></button>
                 </form>
               </div>
             </th>
           </tr>
-        {{/compare}}
-      {{/each}}
-    </tbody>
-  </table>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="mt-5">
+    <h4>Usuários reprovados</h4>
+    <p></p>
+    <table id="tb-user" class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="th-name">Nome</th>
+          <th class="th-action">Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each inactives}}
+          <tr>
+            <th>{{fullname}}</th>
+            <th>
+              <div class="d-flex flex-row justify-content-center">
+                <button onClick="location.href='show/{{_id}}/pending'" class="fa fa-info btn m-1"></button>
+                <form action="/users/pending/{{_id}}" method="post">
+                  <button type="submit" class="fa fa-arrow-up btn btn-success m-1"></button>
+                </form>
+                <form action="/users/block/{{_id}}" method="post">
+                  <button type="submit" class="fa fa-trash btn btn-default m-1" aria-hidden="true"></button>
+                </form>
+              </div>
+            </th>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </div>

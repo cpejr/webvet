@@ -19,9 +19,29 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/pending', auth.isAuthenticated, function (req, res, next) {
 
-  User.getAll().then((users) => {
-    //console.log(users);
-    res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', users, ...req.session });
+  User.getPendingAndInactive().then((result) => {
+    let [obj1, obj2] = result;
+
+    let inactives;
+    let pending;
+
+    if(obj1)
+    {
+      if(obj1._id == "Inativo")
+        inactives = obj1.users;
+      else
+        pending = obj1.users;    
+    }
+
+    if(obj2)
+    {
+      if(obj2._id == "Inativo")
+        inactives = obj2.users;
+      else
+        pending = obj2.users;    
+    }
+    
+    res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', inactives, pending, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -140,36 +160,54 @@ router.get('/show/:id/:returnRoute', function (req, res, next) {
 
 router.post('/approve/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
-    Email.userApprovedEmail(user).catch((error) => {
+    Email.userApprovedEmail(user.email, user.fullname.split(' ')[0]).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário aprovado.');
     });
   });
+
   const user = {
     status: 'Ativo'
   };
+
   User.update(req.params.id, user).catch((error) => {
     console.log(error);
     res.redirect('/error');
+  }).then(() => {
+    req.flash('success', 'Usuário aprovado com sucesso.');
+    res.redirect('/users/pending');
   });
-  req.flash('success', 'Usuário aprovado com sucesso.');
-  res.redirect('/users/pending');
 });
 
 
+router.post('/pending/:id', auth.isAuthenticated, function (req, res, next) {
+
+  const user = {
+    status: 'Aguardando aprovação'
+  };
+
+  User.update(req.params.id, user).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  }).then(() => {
+    req.flash('success', 'Usuário ativado com sucesso.');
+    res.redirect('/users/pending');
+  });
+});
+
 router.post('/reject/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
-    Email.userRejectedEmail(user).catch((error) => {
+    Email.userRejectedEmail(user.email, user.fullname).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
     });
   });
   const user = {
-    status: 'Bloqueado'
+    status: 'Inativo'
   };
   User.update(req.params.id, user).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
-  req.flash('success', 'Usuário bloqueado com sucesso.');
+  req.flash('success', 'Usuário Inativado com sucesso.');
   res.redirect('/users/pending');
 });
 
@@ -179,7 +217,7 @@ router.post('/block/:id', auth.isAuthenticated, function (req, res, next) {
 
       console.log('Successfully deleted user from firebase');
 
-      Email.userRejectedEmail(user).catch((error) => {
+      Email.userRejectedEmail(user.email, user.fullname).catch((error) => {
         req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
       });
 

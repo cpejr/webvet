@@ -374,6 +374,24 @@ class User {
       });
     });
   }
+
+  static getPendingAndInactive() {
+    return new Promise((resolve, reject) => {
+      UserModel.aggregate([
+        { $match: { $or: [{ status: "Inativo" }, { status: "Aguardando aprovação" }] } },
+        {
+          $group: {
+            _id: "$status",
+            users: { $push: "$$ROOT" }
+          }
+        }
+      ]).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 module.exports = User;
