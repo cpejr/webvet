@@ -189,7 +189,8 @@ class Counter {
                 let actualName = kitstocks[i].name;
                 let curresIndex = counter.kitStocks.findIndex(element => (element.name === actualName));
                 if(actualMinStock === ""){
-                    actualMinStock = counter.kitStocks[curresIndex];
+                    let currentKit = counter.kitStocks[curresIndex];
+                    kitstocks[i].minStock = currentKit.minStock;
                 }
             }
             return(kitstocks);
