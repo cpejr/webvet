@@ -25,9 +25,9 @@ function dynamicSort(property) {
 const KITS_PER_PAGE = 12;
 router.get('/', auth.isAuthenticated, async function (req, res, next) {
 
-  let promises = [Kit.getAllForStock(), Kit.getAllArchived(0, KITS_PER_PAGE)];
+  let promises = [Kit.getAllForStock(), Kit.getAllArchived(0, KITS_PER_PAGE), Counter.getEntireKitStocks()];
 
-  [resultActivesKits, resultDisabledKits] = await Promise.all(promises);
+  [resultActivesKits, resultDisabledKits, kitstocks] = await Promise.all(promises);
 
   let number_of_pages = Math.ceil(resultDisabledKits[0].totalCount / KITS_PER_PAGE);
   number_of_pages++;
@@ -55,7 +55,7 @@ router.get('/', auth.isAuthenticated, async function (req, res, next) {
     return kit;
   }
 
-  res.render('stock/index', { title: 'Kits', disabledKits, activeKits, number_of_pages, layout: 'layoutDashboard.hbs', ...req.session });
+  res.render('stock/index', { title: 'Kits', disabledKits, activeKits, number_of_pages, layout: 'layoutDashboard.hbs', kitstocks, ...req.session });
 });
 
 router.get('/archived', async (req, res) => {
@@ -87,18 +87,8 @@ router.get('/stock', auth.isAuthenticated, (req, res) => {
   });
 });
 
-router.get('/setstock', auth.isAuthenticated, function (req, res, next) {
-  console.log(req.session.user);
-  Counter.getEntireKitStocks().then((kitstocks) => {
-    res.render('stock/setstock', { title: 'Stock Config', layout: 'layoutDashboard.hbs', kitstocks, ...req.session });
-  }).catch((err) => {
-    reject(err);
-  });
-});
-
 router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
   let params = req.body;
-  console.log(req.body);
   let kitstocks = [];
   for (let i = 0; i < ToxinasFull.length; i++) {
     toxiName = ToxinasFull[i];
@@ -106,7 +96,7 @@ router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
     kitstocks.push({ name: toxiName, minStock: params[toxiName] });
   }
   await Counter.setKitStocks(kitstocks);
-  res.redirect('/stock/setstock');
+  res.redirect('/stock');
 })
 
 router.get('/show/:id', function (req, res, next) {

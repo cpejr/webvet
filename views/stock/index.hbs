@@ -1,14 +1,10 @@
 <h4>Kits Disponíveis</h4>
 
 
-<div class="btn-group-justified col-sm-12 container-fluid mt-3">
-  <div class="btn btn-back">
-    <button onClick="location.href='/stock/setstock'" type="submit" id="btn-new-sample-stock"
-      class="btn btn-primary btn-sm">Configurar estoque mínimo</button>
-  </div>
+<div class="col-sm-12 container-fluid mt-3">
   <div class="btn btn-abs">
-    <button onClick="location.href='/stock/new'" type="submit" id="btn-new-sample-stock"
-      class="btn btn-primary btn-sm">Cadastrar novo Kit</button>
+    <button onClick="location.href='/stock/new'" type="submit"
+      class="btn btn-success btn-sm">Cadastrar novo Kit</button>
   </div>
 
   <div class="table-responsive">
@@ -44,19 +40,37 @@
       </tbody>
     </table>
   </div>
+  
   <div class="table-responsive mt-4">
-    <h4>Controle de estoque</h4>
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th class="th-name">Código Produto</th>
-          <th class="th-type">Quantidade</th>
-        </tr>
-      </thead>
-      <tbody id="table-body">
-
-      </tbody>
-    </table>
+    <form action="/stock/setstock" method="post">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="th-name">Toxina</th>
+            <th class="th-type">Estoque Minimo Atual</th>
+            <th class="th-action">Novo Estoque Mínimo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each kitstocks}}
+            <tr>
+              <th>{{name}}</th>
+              <th>{{minStock}}</th>
+              <th>
+                <input type="text" class="text-center" style="width: 90px" name={{name}} />
+              </th>
+            </tr>
+          {{/each}}
+          <tr>
+            <th></th>
+            <th></th>
+            <th>
+              <button type="submit" class="btn btn-success btn-sm">Enviar Alterações</button>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    </form>
   </div>
 
   <div class="table-responsive mt-4">
