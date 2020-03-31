@@ -8,13 +8,12 @@
   {{#if isLessThan}}
     <div class="alertaa">
       <div class="alert  alert-danger alert-dismissible fade show" role="alert{{name}}">
-        ALERTA DE ESTOQUE! - Os kits do tipo <strong>{{name}}</strong>
+        Estoque: Os kits do tipo <strong>{{name}}</strong>
         tem o valor de estoque mínimo igual <strong>{{minStock}}</strong> e a quantidade atual
         somada de workmaps do tipo <strong>{{name}}</strong> é <strong>{{count}}</strong>.
         <button type="button" class="close" data-dismiss="alert{{name}}" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <br>
         <button type="button" onclick="location.href='/stock'"
         class="btn btn-outline-danger btn-sm">Ver Estoque</button>
       </div>
@@ -27,7 +26,7 @@
     <div class="alertaa">
       <a href="/requisition">
         <div class="alert  alert-danger alert-dismissible fade show" role="alert">
-          Existe uma nova requisição aguardando avaliação!
+          Requisição: Existe uma nova requisição aguardando avaliação!
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -40,7 +39,7 @@
     <div class="alertaa">
       <a href="/requisition">
         <div class="alert  alert-danger alert-dismissible fade show" role="alert">
-          Existem {{novasReq}} novas requisições aguardando avaliação!
+          Requisição: Existem {{novasReq}} novas requisições aguardando avaliação!
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -54,12 +53,11 @@
   <div class="alertaa">
     <div class="alert  alert-danger alert-dismissible fade show" onclick="location.href='/stock/show/{{_id}}'"
       role="alert">
-      ALERTA DE VENCIMENTO! - O kit <strong>{{productCode}}</strong> venceu em
+      Vencimento: O kit <strong>{{productCode}}</strong> venceu em
       <strong>{{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}</strong> .
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-      <br>
       <button type="button" onclick="location.href='/stock/show/{{_id}}'"
         class="btn btn-outline-danger btn-sm">Ver Kit</button>
     </div>
