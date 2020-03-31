@@ -252,7 +252,7 @@ class Counter {
         });
     }
 
-    static getEntireKitStock() {
+    static getEntireKitStocks() {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((counter) => {
                 if (counter === null) { //Counter does not exist in DB

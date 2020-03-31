@@ -76,21 +76,21 @@ router.post('/login', (req, res) => {
         if (userR.status == "Aguardando aprovação") {
           req.flash('danger', 'Aguardando a aprovação do Administrador');
           res.redirect('/login')
-          console.log("AINDA NAO APROVADOOO");
+          console.log("Usuario nao aprovado");
         }
         if (userR.status == "Ativo") {
-          console.log("ATIVISTA");
+          console.log("Usuario esta Ativo");
           if (userR.type == "Admin") {
-            console.log("ADMINNNNNNNN");
+            console.log("Login como Admin");
             res.redirect('/homeAdmin');
           }
           else {
             if (userR.type == "Analista") {
-              console.log("ANALAISTAAAA");
+              console.log("Logado como Analista");
               res.redirect('/homeAdmin');
             }
             else {
-              console.log("CLIENT");
+              console.log("Logado como cliente");
               res.redirect('/user');
             }
           }
