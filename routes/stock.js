@@ -5,91 +5,91 @@ const Kit = require('../models/kit');
 const Workmap = require('../models/Workmap');
 const Counter = require('../models/counter')
 
-
-//a 1 é a data de validade e a 2 é a data de hoje
-//retorna falso  == da vermelho
-function datavalida(d1, m1, a1, d2, m2, a2) {
-
-  if (a1 > a2) {
-    return true;
+function dynamicSort(property) {
+  var sortOrder = 1;
+  if (property[0] === "-") {
+    sortOrder = -1;
+    property = property.substr(1);
   }
-  if (a1 >= a2 && m1 > m2) {
-    return true;
+  return function (a, b) {
+    /* next line works with strings and numbers, 
+     * and you may want to customize it to your needs
+     */
+    var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+    return result * sortOrder;
   }
-  if (a1 >= a2 && m1 == m2 && d1 >= d2) {
-    return true;
-  }
-  return false;
 }
 
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function (req, res, next) {
-  Kit.getAll().then((kits) => {
-    if (kits && kits.length > 0){
-      kits.forEach(element => {
-        Kit.update(element._id, element);
-      });
-    }
-      var today = new Date();
-      var kit90 = new Array;
-      var kit60 = new Array;
-      var kit30 = new Array;
-      var cont90 = 0;
-      var cont60 = 0;
-      var cont30 = 0;
-      var cont = 0;
-      var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      var yyyy = today.getFullYear();
-      var oneDay = 24 * 60 * 60 * 1000;
-      var stockMap = new Map();
-      for (var i = 0; i < kits.length; i++) {
-        var firstDate = new Date(yyyy, mm, dd);
-        var secondDate = new Date(kits[i].yearexpirationDate, kits[i].monthexpirationDate, kits[i].dayexpirationDate);
-        var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
-        if (diffDays > 90 && datavalida(kits[i].dayexpirationDate, kits[i].monthexpirationDate, kits[i].yearexpirationDate, dd, mm, yyyy) == true) {
-          kit90[cont90] = kits[i];
-          cont90++;
-        }
-        else if (diffDays <= 90 && diffDays >= 30) {
-          kit60[cont60] = kits[i];
-          cont60++;
-        }
-        else if (diffDays < 30 || datavalida(kits[i].dayexpirationDate, kits[i].monthexpirationDate, kits[i].yearexpirationDate, dd, mm, yyyy) == false) {
-          kit30[cont30] = kits[i];
-          cont30++;
-        }
-      }
-      res.render('stock/index', { title: 'Kits', kit30, kit60, kit90, layout: 'layoutDashboard.hbs', ...req.session, kits });
-  })
+
+const KITS_PER_PAGE = 12;
+router.get('/', auth.isAuthenticated, async function (req, res, next) {
+
+  let promises = [Kit.getAllForStock(), Kit.getAllArchived(0, KITS_PER_PAGE)];
+
+  [resultActivesKits, resultDisabledKits] = await Promise.all(promises);
+
+  let number_of_pages = Math.ceil(resultDisabledKits[0].totalCount / KITS_PER_PAGE);
+  number_of_pages++;
+
+  const oneDay = 24 * 60 * 60 * 1000;
+  const now = Date.now();
+
+  let activeKits = resultActivesKits.map(kit => processKit(kit));
+  activeKits = activeKits.sort(dynamicSort('productCode'));
+
+  let disabledKits = resultDisabledKits[0].kits.map(kit => processKit(kit))
+
+  function processKit(kit) {
+    let expirationDate = new Date(`${kit.monthexpirationDate}/${kit.dayexpirationDate}/${kit.yearexpirationDate}`);
+
+    let diffDays = Math.ceil((expirationDate - now) / oneDay);
+
+    if (diffDays > 90)
+      kit.color = "Green"
+    else if (diffDays >= 30)
+      kit.color = "Yellow"
+    else
+      kit.color = "Red"
+
+    return kit;
+  }
+
+  res.render('stock/index', { title: 'Kits', disabledKits, activeKits, number_of_pages, layout: 'layoutDashboard.hbs', ...req.session });
+});
+
+router.get('/archived', async (req, res) => {
+  let page = req.query.page
+
+  res.send((await Kit.getAllArchived(page, KITS_PER_PAGE))[0].kits);
 });
 
 router.get('/stock', auth.isAuthenticated, (req, res) => {
   Kit.getAll().then((kits) => {
-      var stockMap = new Map();
+    var stockMap = new Map();
 
-      for (var i = 0; i < kits.length; i++) {
-        if (stockMap.has(kits[i].productCode) == true) {
-          if (!(kits[i].deleted)) {
-            x = stockMap.get(kits[i].productCode);
-            stockMap.set(kits[i].productCode, kits[i].amount + x);
-          }
-        }
-        else {
-          if (!(kits[i].deleted)) {
-            stockMap.set(kits[i].productCode, kits[i].amount);
-          }
+    for (var i = 0; i < kits.length; i++) {
+      if (stockMap.has(kits[i].productCode) == true) {
+        if (!(kits[i].deleted)) {
+          x = stockMap.get(kits[i].productCode);
+          stockMap.set(kits[i].productCode, kits[i].amount + x);
         }
       }
+      else {
+        if (!(kits[i].deleted)) {
+          stockMap.set(kits[i].productCode, kits[i].amount);
+        }
+      }
+    }
 
-      res.send({ stockMap: [...stockMap] });
-      // var a2 = ["oi", "tchau"];
+    res.send({ stockMap: [...stockMap] });
+    // var a2 = ["oi", "tchau"];
   });
 });
 
 router.get('/setstock', auth.isAuthenticated, function (req, res, next) {
   console.log(req.session.user);
-  Counter.getEntireKitStock().then((kitstocks) => {
+  Counter.getEntireKitStocks().then((kitstocks) => {
     res.render('stock/setstock', { title: 'Stock Config', layout: 'layoutDashboard.hbs', kitstocks, ...req.session });
   }).catch((err) => {
     reject(err);
@@ -100,10 +100,10 @@ router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
   let params = req.body;
   console.log(req.body);
   let kitstocks = [];
-  for(let i = 0; i < ToxinasFull.length; i++){
+  for (let i = 0; i < ToxinasFull.length; i++) {
     toxiName = ToxinasFull[i];
     console.log(params[toxiName]);
-    kitstocks.push({name: toxiName, minStock: params[toxiName]});
+    kitstocks.push({ name: toxiName, minStock: params[toxiName] });
   }
   await Counter.setKitStocks(kitstocks);
   res.redirect('/stock/setstock');

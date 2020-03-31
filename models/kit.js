@@ -508,6 +508,50 @@ class Kit {
       });
     });
   }
+
+  static getAllForStock() {
+    return new Promise((resolve, reject) => {
+      KitModel.aggregate([
+        {
+          $match: {
+            kitType: { $not: { $eq: "-" } }
+          }
+        }
+      ])
+        .then(response => resolve(response))
+        .catch(err => reject(err));;
+    });
+  }
+
+  static getAllArchived(page, itens_per_page) {
+    return new Promise((resolve, reject) => {
+      KitModel.aggregate([
+        {
+          $match: {
+            kitType: { $eq: '-' }
+          }
+        }, {
+          $group: {
+            _id: null,
+            kits: { $push: '$$ROOT' }
+          }
+        }, {
+          $project: {
+            _id: 0,
+            totalCount: { $size: '$kits' },
+            kits: { '$reverseArray': '$kits' }
+          }
+        }, {
+          $project: {
+            totalCount: 1,
+            kits: { $slice: ['$kits', page * itens_per_page, itens_per_page] }
+          }
+        }
+      ])
+        .then(response => resolve(response))
+        .catch(err => reject(err));
+    });
+  }
 }
 
 
