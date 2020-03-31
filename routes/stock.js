@@ -25,9 +25,16 @@ function dynamicSort(property) {
 const KITS_PER_PAGE = 12;
 router.get('/', auth.isAuthenticated, async function (req, res, next) {
 
-  let promises = [Kit.getAllForStock(), Kit.getAllArchived(0, KITS_PER_PAGE), Counter.getEntireKitStocks()];
+  let promises = [Kit.getAllForStock(), Kit.getAllArchived(0, KITS_PER_PAGE), Kit.countAvailableWorkmaps(), Counter.getEntireKitStocks()];
 
-  [resultActivesKits, resultDisabledKits, kitstocks] = await Promise.all(promises);
+  [resultActivesKits, resultDisabledKits, sumAmounts, reqKitstocks] = await Promise.all(promises);
+
+  let kitstocks = [];
+  for (let i = 0; i < sumAmounts.length; i++){
+    let indSum = sumAmounts[i];
+    let indKit = reqKitstocks[i];
+    kitstocks[i] = {...indSum, minStock: indKit.minStock, name: indKit.name};
+  }
 
   let number_of_pages = Math.ceil(resultDisabledKits[0].totalCount / KITS_PER_PAGE);
   number_of_pages++;
@@ -62,29 +69,6 @@ router.get('/archived', async (req, res) => {
   let page = req.query.page
 
   res.send((await Kit.getAllArchived(page, KITS_PER_PAGE))[0].kits);
-});
-
-router.get('/stock', auth.isAuthenticated, (req, res) => {
-  Kit.getAll().then((kits) => {
-    var stockMap = new Map();
-
-    for (var i = 0; i < kits.length; i++) {
-      if (stockMap.has(kits[i].productCode) == true) {
-        if (!(kits[i].deleted)) {
-          x = stockMap.get(kits[i].productCode);
-          stockMap.set(kits[i].productCode, kits[i].amount + x);
-        }
-      }
-      else {
-        if (!(kits[i].deleted)) {
-          stockMap.set(kits[i].productCode, kits[i].amount);
-        }
-      }
-    }
-
-    res.send({ stockMap: [...stockMap] });
-    // var a2 = ["oi", "tchau"];
-  });
 });
 
 router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {

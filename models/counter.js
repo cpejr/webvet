@@ -254,7 +254,7 @@ class Counter {
 
     static getEntireKitStocks() {
         return new Promise((resolve, reject) => {
-            CounterModel.findOne({}).then((counter) => {
+            CounterModel.findOne({}, {kitStocks: 1}).then((counter) => {
                 if (counter === null) { //Counter does not exist in DB
                     this.create().then((newCounter) => {
                         resolve(newCounter.kitStocks);
