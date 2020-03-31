@@ -14,6 +14,9 @@
         <button type="button" class="close" data-dismiss="alert{{name}}" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+        <br>
+        <button type="button" onclick="location.href='/stock'"
+        class="btn btn-outline-danger btn-sm">Ver Estoque</button>
       </div>
     </div>
   {{/if}}
@@ -56,7 +59,8 @@
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-      <button type="button" data-dismiss="alert" onclick="location.href='/stock/show/{{_id}}'"
+      <br>
+      <button type="button" onclick="location.href='/stock/show/{{_id}}'"
         class="btn btn-outline-danger btn-sm">Ver Kit</button>
     </div>
   </div>
