@@ -11,7 +11,6 @@
       class="btn btn-primary btn-sm">Cadastrar novo Kit</button>
   </div>
 
-  <p></p>
   <div class="table-responsive">
     <table id="tb-user" class="table table-striped table-hover">
       <thead>
@@ -25,14 +24,14 @@
         </tr>
       </thead>
       <tbody>
-        {{#each kit30}}
+        {{#each activeKits}}
           {{#compare deleted '0'}}
             <tr>
               <th>{{productCode}}</th>
               <th>{{kitType}}</th>
               <th>{{productDescription}}</th>
               <th>
-                <div class="expirationDateRed">
+                <div class="expirationDate{{color}}">
                   {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
                 </div>
               <th>{{amount}}</th>
@@ -42,63 +41,61 @@
             </tr>
           {{/compare}}
         {{/each}}
-
-        {{#each kit60}}
-          {{#compare deleted '0'}}
-            <tr>
-              <th>{{productCode}}</th>
-              <th>{{kitType}}</th>
-              <th>{{productDescription}}</th>
-              <th>
-                <div class="expirationDateYellow">
-
-                  {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
-                </div>
-
-              <th>{{amount}}</th>
-
-              <th>
-                <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
-              </th>
-            </tr>
-          {{/compare}}
-        {{/each}}
-
-
-        {{#each kit90}}
-          {{#compare deleted '0'}}
-            <tr>
-              <th>{{productCode}}</th>
-              <th>{{kitType}}</th>
-              <th>{{productDescription}}</th>
-              <th>
-                <div class="expirationDateGreen">
-                  {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
-
-              <th>{{amount}}</th>
-
-              <th>
-                <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
-              </th>
+      </tbody>
+    </table>
   </div>
-  </tr>
-  {{/compare}}
-  {{/each}}
-  </tbody>
-  </table>
+  <div class="table-responsive mt-4">
+    <h4>Controle de estoque</h4>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="th-name">Código Produto</th>
+          <th class="th-type">Quantidade</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
 
-  <!-- NEW TABLE -->
-  <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th class="th-name">Código Produto</th>
-        <th class="th-type">Quantidade</th>
-      </tr>
-    </thead>
-    <tbody id="table-body">
+      </tbody>
+    </table>
+  </div>
 
-    </tbody>
-  </table>
-
+  <div class="table-responsive mt-4">
+    <h4>Kits arquivados</h4>
+    <table id="tb-archived" class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="th-name">Código Produto</th>
+          <th class="th-type">Descrição</th>
+          <th class="th-type">Validade</th>
+          <th class="th-type">Quantidade</th>
+          <th class="th-action"></th>
+        </tr>
+      </thead>
+      <tbody id='tb-body-archived'>
+        {{#each disabledKits}}
+          <tr>
+            <th>{{productCode}}</th>
+            <th>{{productDescription}}</th>
+            <th>
+              <div class="expirationDate{{color}}">
+                {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
+              </div>
+            <th>{{amount}}</th>
+            <th>
+              <button onClick="location.href='stock/show/{{_id}}'" class="fa fa-info btn m-1"></button>
+            </th>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      {{#for 1 number_of_pages 1}}
+        <label class="btn btn-secondary {{#compare this 1 }} active {{/compare}}">
+          <input type="radio" name="page" value="{{this}}" id="page{{this}}">
+          {{this}}
+        </label>
+      {{/for}}
+    </div>
+  </div>
 
   <script src="/javascripts/stock.js"></script>

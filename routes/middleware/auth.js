@@ -8,8 +8,11 @@ module.exports = {
 // A const user pega as informações do usuário que está logado no firebase e compara com o usuário que quer acessar as páginas
 // Caso não haja nenhum usuário logado, a página é redirecionada para o login. Caso haja um usuário logado, a página que o usuário quer acessar é carregada
   isAuthenticated: (req, res, next) => {
-    const user = firebase.auth().currentUser;
-    if(user!== null){
+    const test = firebase.auth();
+
+    const user = test.currentUser;
+
+    if(user !== null){
       next();
     }
     else {
@@ -60,6 +63,7 @@ module.exports = {
 
   isAnalyst: (req, res, next) => {
     const type = req.session.user;
+
     if(type === 'Analista'){
       next();
     }
