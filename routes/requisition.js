@@ -220,11 +220,7 @@ router.post('edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, 
 });
 
 router.post('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
-  var requisition = req.body;
-  if (req.body.novaCheck === "isChecked") {
-    console.log("Detectou que a checkbox esta marcada");
-    requisition.status = "Aprovada";
-  }
+  var requisition = req.body.requisition;
   Requisition.update(req.params.id, requisition).then(() => {
     console.log("Deveria ter dado update");
     req.flash('success', 'Requisição alterada com sucesso.');
