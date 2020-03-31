@@ -7,7 +7,7 @@
     </br>
   </div>
 
-  <form action="/requisition/{{requisition._id}}" id="reqEdit" method="post"
+  <form action="/requisition/useredit/{{requisition._id}}" id="reqEdit" method="post"
     class="d-flex flex-column align-items-center">
     <div id="keep-address" class="form-row col-md-10">
       <div class="requisition-text col-md-12">
@@ -145,95 +145,100 @@
           <option value="TO">Tocantins</option>
         </select>
       </div>
-    <br>
-    <h6 align="center"> Qual é a destinação do alimento?</h6>
-    <br>
+      <br>
+      <h6 align="center"> Qual é a destinação do alimento?</h6>
+      <br>
 
-    <div class="form-group d-flex flex-wrap text-left justify-content-center">
-      <div class="column">
-        <div class="form-check">
-          <input id="Aves" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Aves">
-          <label for="Aves" class="radio-text form-check-label mr-3"> Aves </label>
+      <div class="form-group d-flex flex-wrap text-left justify-content-center">
+        <div class="column">
+          <div class="form-check">
+            <input id="Aves" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Aves">
+            <label for="Aves" class="radio-text form-check-label mr-3"> Aves </label>
+          </div>
+
+          <div class="form-check">
+            <input id="Gado de Leite" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Gado de Leite">
+            <label for="Gado de Leite" class="radio-text form-check-label mr-3"> Gado de Leite </label>
+          </div>
         </div>
 
-        <div class="form-check">
-          <input id="Gado de Leite" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Gado de Leite">
-          <label for="Gado de Leite" class="radio-text form-check-label mr-3"> Gado de Leite </label>
+        <div class="column">
+          <div class="form-check">
+            <input id="Gado de Corte" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Gado de Corte">
+            <label for="Gado de Corte" class="radio-text form-check-label mr-3"> Gado de Corte </label>
+          </div>
+
+          <div class="form-check">
+            <input id="Suínos" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Suínos">
+            <label for="Suínos" class="radio-text form-check-label mr-3"> Suínos </label>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="form-check">
+            <input id="Equinos" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Equinos">
+            <label for="Equinos" class="radio-text form-check-label mr-3"> Equinos </label>
+          </div>
+
+          <div class="form-check">
+            <input id="Caprinos" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Caprinos">
+            <label for="Caprinos" class="radio-text form-check-label mr-3"> Caprinos </label>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="form-check">
+            <input id="Ovinos" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Ovinos">
+            <label for="Ovinos" class="radio-text form-check-label mr-3"> Ovinos </label>
+          </div>
+          <div class="form-check">
+            <input id="Peixes" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Peixes">
+            <label for="Peixes" class="radio-text form-check-label mr-3"> Peixes </label>
+          </div>
+        </div>
+        <div class="column">
+          <div class="form-check">
+            <input id="Pet" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Pet">
+            <label for="Pet" class="radio-text form-check-label mr-3"> Pet </label>
+          </div>
+
+          <div class="form-check">
+            <input id="Matéria-Prima" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="Matéria-Prima">
+            <label for="Matéria-Prima" class="radio-text form-check-label mr-3"> Matéria-Prima(Fábrica de
+              Ração) </label>
+          </div>
+        </div>
+        <div class="row ml-0">
+          <div class="form-check">
+            <input id="Outros" class="form-check-input destination" type="radio" name="requisition[destination]"
+              value="">
+            <label for="Outros" class="radio-text form-check-label mr-3"> Outros </label>
+          </div>
+          <div id="Other-destination" class="form-disabled form-row h-50">
+            <input type="text" id="OtherInput" class="input w-100" placeholder="Destinação">
+          </div>
         </div>
       </div>
-
-      <div class="column">
-        <div class="form-check">
-          <input id="Gado de Corte" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Gado de Corte">
-          <label for="Gado de Corte" class="radio-text form-check-label mr-3"> Gado de Corte </label>
-        </div>
-
-        <div class="form-check">
-          <input id="Suínos" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Suínos">
-          <label for="Suínos" class="radio-text form-check-label mr-3"> Suínos </label>
-        </div>
-      </div>
-
-      <div class="column">
-        <div class="form-check">
-          <input id="Equinos" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Equinos">
-          <label for="Equinos" class="radio-text form-check-label mr-3"> Equinos </label>
-        </div>
-
-        <div class="form-check">
-          <input id="Caprinos" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Caprinos">
-          <label for="Caprinos" class="radio-text form-check-label mr-3"> Caprinos </label>
-        </div>
-      </div>
-
-      <div class="column">
-        <div class="form-check">
-          <input id="Ovinos" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Ovinos">
-          <label for="Ovinos" class="radio-text form-check-label mr-3"> Ovinos </label>
-        </div>
-        <div class="form-check">
-          <input id="Peixes" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Peixes">
-          <label for="Peixes" class="radio-text form-check-label mr-3"> Peixes </label>
-        </div>
-      </div>
-      <div class="column">
-        <div class="form-check">
-          <input id="Pet" class="form-check-input destination" type="radio" name="requisition[destination]" value="Pet">
-          <label for="Pet" class="radio-text form-check-label mr-3"> Pet </label>
-        </div>
-
-        <div class="form-check">
-          <input id="Matéria-Prima" class="form-check-input destination" type="radio" name="requisition[destination]"
-            value="Matéria-Prima">
-          <label for="Matéria-Prima" class="radio-text form-check-label mr-3"> Matéria-Prima(Fábrica de
-            Ração) </label>
-        </div>
-      </div>
-      <div class="row ml-0">
-        <div class="form-check">
-          <input id="Outros" class="form-check-input destination" type="radio" name="requisition[destination]" value="">
-          <label for="Outros" class="radio-text form-check-label mr-3"> Outros </label>
-        </div>
-        <div id="Other-destination" class="form-disabled form-row h-50">
-          <input type="text" id="OtherInput" class="input w-100" placeholder="Destinação">
-        </div>
-      </div>
+      <br>
     </div>
-    <br>
+    <div class="text-center">
+      <button type="submit" id="submitAlterations" align="center" class="btn btn-outline-success">Salvar
+        alerações</button>
     </div>
+  </form>
 </div>
-<div class="text-center">
-    <button type="submit" id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
-</div>
-</form>
+
+
 
 <script>
   //SetCheckbox selected
@@ -256,10 +261,6 @@
 
     let reqdestination = "{{requisition.destination}}";
     $('select#requisitondestination').val(reqdestination);
-  });
-
-  $("#submitAlterations").click(function () {
-    $("#submitButton").trigger("click");
   });
 
   $('.destination').change(function () {

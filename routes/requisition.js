@@ -172,7 +172,7 @@ router.get('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req
   });
 });
 
-router.post('/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
+router.post('edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
   var { requisition, sample } = req.body;
   if (req.body.novaCheck === "isChecked") {
     console.log("Detectou que a checkbox esta marcada");
@@ -219,7 +219,7 @@ router.post('/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next
   });
 });
 
-router.post('/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
+router.post('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
   var requisition = req.body;
   if (req.body.novaCheck === "isChecked") {
     console.log("Detectou que a checkbox esta marcada");
