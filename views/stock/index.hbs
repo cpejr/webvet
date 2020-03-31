@@ -48,6 +48,7 @@
         <thead>
           <tr>
             <th class="th-name">Toxina</th>
+            <th class="th-type">Estoque Atual</th>
             <th class="th-type">Estoque Minimo Atual</th>
             <th class="th-action">Novo Estoque Mínimo</th>
           </tr>
@@ -56,6 +57,7 @@
           {{#each kitstocks}}
             <tr>
               <th>{{name}}</th>
+              <th>{{currentSum}}</th>
               <th>{{minStock}}</th>
               <th>
                 <input type="text" class="text-center" style="width: 90px" name={{name}} />
@@ -63,6 +65,7 @@
             </tr>
           {{/each}}
           <tr>
+            <th></th>
             <th></th>
             <th></th>
             <th>
