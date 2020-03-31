@@ -89,7 +89,7 @@ router.get('/stock', auth.isAuthenticated, (req, res) => {
 
 router.get('/setstock', auth.isAuthenticated, function (req, res, next) {
   console.log(req.session.user);
-  Counter.getEntireKitStock().then((kitstocks) => {
+  Counter.getEntireKitStocks().then((kitstocks) => {
     res.render('stock/setstock', { title: 'Stock Config', layout: 'layoutDashboard.hbs', kitstocks, ...req.session });
   }).catch((err) => {
     reject(err);
