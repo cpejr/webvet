@@ -123,9 +123,17 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/show/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisitions) => {
     res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+router.get('/usershow/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
+  Requisition.getById(req.params.id).then((requisitions) => {
+    res.render('requisition/usershow', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -136,7 +144,7 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
 //   console.log("PASSOU POR MIM OUTRA VEZ");
 // }
 
-router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisition) => {
     Sample.getByIdArray(requisition.samples).then((samples) => {
       var nova = false;
@@ -154,7 +162,17 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.post('/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
+  Requisition.getById(req.params.id).then((requisition) => {
+      res.render('requisition/useredit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, ...req.session });
+    
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.post('/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
   var { requisition, sample } = req.body;
   if (req.body.novaCheck === "isChecked") {
     console.log("Detectou que a checkbox esta marcada");
@@ -195,6 +213,22 @@ router.post('/:id', auth.isAuthenticated, function (req, res, next) {
     console.log("Deveria ter dado update");
     req.flash('success', 'Requisição alterada com sucesso.');
     res.redirect(`/requisition/show/${req.params.id}`);
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+});
+
+router.post('/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
+  var requisition = req.body;
+  if (req.body.novaCheck === "isChecked") {
+    console.log("Detectou que a checkbox esta marcada");
+    requisition.status = "Aprovada";
+  }
+  Requisition.update(req.params.id, requisition).then(() => {
+    console.log("Deveria ter dado update");
+    req.flash('success', 'Requisição alterada com sucesso.');
+    res.redirect(`/requisition/usershow/${req.params.id}`);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
