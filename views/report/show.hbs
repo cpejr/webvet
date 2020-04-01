@@ -80,23 +80,6 @@
   <center>
     <button class="btn btn-primary hidden-print" onclick="location.href='/user'"><span class="glyphicon"
         aria-hidden="true"></span> Voltar </button>
-    <button class="btn btn-primary hidden-print" onclick="print()"> Salvar como PDF </button>
+    <button class="btn btn-primary hidden-print" onclick="print()"> Imprimir </button>
   </center>
 </div>
-<script src="/javascripts/html2canvas.js"></script>
-<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
-<script src="jspdf.plugin.autotable.min.js"></script>
-<script>
-  function download(){
-    const input = document.getElementById('capture');
-    html2canvas(input,{allowTaint:true, useCORS:true}) 
-      .then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 0, 0, 200, 200);
-        pdf.save("download.pdf");
-      });
-    ;
-  };
-
-</script>
