@@ -1,120 +1,128 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<div class="logolaudo">
-  <img src="/images/logolaudo.jpg">
-</div>
-<p></p>
-<div class="title-laudo">
-  <h3>
-    <u> Laudo de Análise Micotoxicológica </u>
-  </h3>
-</div>
-<div class="laudo-text">
-  <h4> <b>Registro Lab.</b> MICOTOX {{Requisitiondata.requisitionnumber}}/{{Requisitiondata.year}}</h4>
-  <h4> <b>1. Laudo n°:</b> {{sample.samplenumber}}/{{Requisitiondata.year}}</h4>
-  <h4> <b>2. Descrição da Amostra:</b> </h4>
-  <div class="info-laudo">
-    <h4> 2.1 - Tipo de embalagem: {{Requisitiondata.packingtype}} </h4>
-    <h4> 2.2 - Quantidade recebida: {{Requisitiondata.receivedquantity}}</h4>
-    <h4> 2.3 - Produtor: {{Requisitiondata.producer}}</h4>
-    <div class="laudo-linha row">
-      <h4 class="mr-5"> 2.4 - Data de recebimento: {{Requisitiondata.datereceipt}}</h4>
-      <h4> N° autorização: {{Requisitiondata.autorizationnumber}}</h4>
-    </div>
+<div class="printLaudo">
+  <div class="logolaudo">
+    <img src="/images/logolaudo.jpg">
   </div>
-  <h4> <b>3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante:</b> </h4>
-  <div class="info-laudo">
-    <h4> 3.1 - Nome: {{Requisitiondata.clientName}}</h4>
-    <h4> 3.2 - Responsável pela entrega da amostra: {{Requisitiondata.responsible}} </h4>
+  <p></p>
+  <div class="title-laudo">
+    <h3>
+      <u> Laudo de Análise Micotoxicológica </u>
+    </h3>
   </div>
-  <h4> <b>4. Características das análises da amostra:</b> </h4>
-  <div class="info-laudo">
-    <h4> 4.1 - Detecção e quantificação de {{Requisitiondata.toxinas}} </h4>
-  </div>
-  <h4> <b>5. Resultados:</b> </h4>
-  <form action="/report/show/admin/{{sample._id}}" method="post">
+  <div class="laudo-text">
+    <h4> <b>Registro Lab.</b> MICOTOX {{Requisitiondata.requisitionnumber}}/{{Requisitiondata.year}}</h4>
+    <h4> <b>1. Laudo n°:</b> {{sample.samplenumber}}/{{Requisitiondata.year}}</h4>
+    <h4> <b>2. Descrição da Amostra:</b> </h4>
     <div class="info-laudo">
-      <table class="table text-center">
-        <caption>ND = Não Detectado *média de duas repetições </caption>
-        <thead>
-          <tr class="text-center">
-            <th scope="col">Micotoxinas</th>
-            <th scope="col" class="text-center">Concentração Detectada (ppb)* </th>
-            <th scope="col" class="text-center">Limite de Detecção -LoD (ppb) </th>
-            <th scope="col" class="text-center">Limite de Quantificação - LoQ (ppb)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each toxinaData.Values}}
-            <tr>
-              <th scope="row">{{Name}}</th>
-              <td>
-                <input type="text" id="{{Obj.name}}Conc" value="{{Result}}" name="{{Obj.name}}[result]">
-                <input type="checkbox" name="{{Obj.name}}[checked]" id="toxinaCheck" value="{{Name}}">
-                <button class="btn btn-success" id="{{Obj.name}}" name="check[{{Obj.checked}}]" hidden>+</button>
-              </td>
-              <td>{{Obj.kit.Lod}}</td>
-              <td>{{Obj.kit.Loq}}</td>
+      <h4> 2.1 - Tipo de embalagem: {{Requisitiondata.packingtype}} </h4>
+      <h4> 2.2 - Quantidade recebida: {{Requisitiondata.receivedquantity}}</h4>
+      <h4> 2.3 - Produtor: {{Requisitiondata.producer}}</h4>
+      <div class="laudo-linha row">
+        <h4 class="mr-5"> 2.4 - Data de recebimento: {{Requisitiondata.datereceipt}}</h4>
+        <h4> N° autorização: {{Requisitiondata.autorizationnumber}}</h4>
+      </div>
+    </div>
+    <h4> <b>3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante:</b> </h4>
+    <div class="info-laudo">
+      <h4> 3.1 - Nome: {{Requisitiondata.clientName}}</h4>
+      <h4> 3.2 - Responsável pela entrega da amostra: {{Requisitiondata.responsible}} </h4>
+    </div>
+    <h4> <b>4. Características das análises da amostra:</b> </h4>
+    <div class="info-laudo">
+      <h4> 4.1 - Detecção e quantificação de {{Requisitiondata.toxinas}} </h4>
+    </div>
+    <h4> <b>5. Resultados:</b> </h4>
+    <form action="/report/show/admin/{{sample._id}}" method="post">
+      <div class="info-laudo">
+        <table class="table text-center">
+          <caption>ND = Não Detectado *média de duas repetições </caption>
+          <thead>
+            <tr class="text-center">
+              <th scope="col">Micotoxinas</th>
+              <th scope="col" class="text-center">Concentração Detectada (ppb)* </th>
+              <th scope="col" class="text-center">Limite de Detecção -LoD (ppb) </th>
+              <th scope="col" class="text-center">Limite de Quantificação - LoQ (ppb)</th>
             </tr>
-            <script>
-              var initialCheck = function () {
-                console.log("{{Obj.name}}: {{Obj.checked}}");
-                if ($('button[name="check[true]"][id="{{Obj.name}}"]').length > 0) {
-                  console.log("{{Obj.name}} esta presente!");
-                  $('input[name="{{Obj.name}}[checked]"]').attr("checked", "{{Name}}");
-                }
-              };
+          </thead>
+          <tbody>
+            {{#each toxinaData.Values}}
+              <tr>
+                <th scope="row">{{Name}}</th>
+                <td>
+                  <input type="text" id="{{Obj.name}}Conc" value="{{Result}}" name="{{Obj.name}}[result]">
+                  <input type="checkbox" class="hidden-print" name="{{Obj.name}}[checked]" id="toxinaCheck" value="{{Name}}">
+                  <button class="btn btn-success hidden-print" id="{{Obj.name}}" name="check[{{Obj.checked}}]" hidden>+</button>
+                </td>
+                <td>{{Obj.kit.Lod}}</td>
+                <td>{{Obj.kit.Loq}}</td>
+              </tr>
+              <script>
+                var initialCheck = function () {
+                  console.log("{{Obj.name}}: {{Obj.checked}}");
+                  if ($('button[name="check[true]"][id="{{Obj.name}}"]').length > 0) {
+                    console.log("{{Obj.name}} esta presente!");
+                    $('input[name="{{Obj.name}}[checked]"]').attr("checked", "{{Name}}");
+                  }
+                };
 
-              initialCheck();
-            </script>
-          {{/each}}
-        </tbody>
-      </table>
-      <div>
-        <input type="checkbox" id="allCheck" value="checked">
-        <label for="allCheck">Todas as toxinas passaram</label><br>
-      </div>
-    </div>
-    <h4> 6. Parecer técnico: </h4>
-    <textarea id="parecer" name="sample[parecer]" class="col-sm-12" readonly></textarea>
-    <h4> 7. Comentários: </h4>
-    <textarea name="sample[description]" cols="100" rows="7">{{sample.description}}</textarea>
-    <br>
-    <button type="submit">Salvar todas as alterações</button>
-  </form>
-  <h4> Belo Horizonte, </h4>
-  <div class="laudo-assinatura">
-    <p><u> _________________________________ </u></p>
-    <p>Profa Dra Kelly Moura Keller</p>
-    <p>DMVP/EV-UFMG</p>
-    <p>Coordenadora LAMICO</p>
-  </div>
-
-  <div class="laudo-footer page-footer font small">
-    <h7 class="text-uppercase">Av. Antônio Carlos 6627 - Escola de Veterinária da UFMG - Belo Horizonte / MG - CEP
-      31270-901 - www.lamico.com.br</h7>
-    <p>Tels.: +55 (31) 3409-2098 Sala / 3409-2113 ou 2115 Lab. / Cel.: 98585-4965 Claro - Email: kelly.medvet@gmail.com
-    </p>
-  </div>
-  <center>
-    <div class="btn-group col-sm-12 justify-content-center">
-      <div class="row">
-        <div class="col-sm-6">
-          <button class="btn btn-primary" onclick="location.href='/report/admreport'"> Voltar </button>
+                initialCheck();
+              </script>
+            {{/each}}
+          </tbody>
+        </table>
+        <div>
+          <input type="checkbox" id="allCheck" value="checked">
+          <label for="allCheck">Todas as toxinas passaram</label><br>
         </div>
-        {{#if sample.finalized}}
-          <div class="col-sm-6">
-            <button class="btn btn-success" onclick="location.href='/report/unfinalize/{{sample._id}}'">Cancelar
-              finalização</butt>
-          </div>
-        {{else}}
-          <div class="col-sm-6">
-            <button class="btn btn-success" onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</button>
-          </div>
-        {{/if}}
       </div>
+      <h4> 6. Parecer técnico: </h4>
+      <textarea id="parecer" name="sample[parecer]" class="col-sm-12" readonly></textarea>
+      <h4> 7. Comentários: </h4>
+      <textarea name="sample[description]" cols="100" rows="7">{{sample.description}}</textarea>
+      <br>
+      <button class="btn btn-success hidden-print" type="submit">Salvar todas as alterações</button>
+    </form>
+    <h4> Belo Horizonte, </h4>
+    <div class="laudo-assinatura">
+      <p><u> _________________________________ </u></p>
+      <p>Profa Dra Kelly Moura Keller</p>
+      <p>DMVP/EV-UFMG</p>
+      <p>Coordenadora LAMICO</p>
     </div>
-  </center>
+
+    <div class="laudo-footer page-footer font small">
+      <h7 class="text-uppercase">Av. Antônio Carlos 6627 - Escola de Veterinária da UFMG - Belo Horizonte / MG - CEP
+        31270-901 - www.lamico.com.br</h7>
+      <p>Tels.: +55 (31) 3409-2098 Sala / 3409-2113 ou 2115 Lab. / Cel.: 98585-4965 Claro - Email:
+        kelly.medvet@gmail.com
+      </p>
+    </div>
+    <center>
+      <div class="btn-group col-sm-12 justify-content-center">
+        <div class="row">
+          <div class="col-sm-4">
+            <button class="btn btn-success hidden-print" onclick="location.href='/report/admreport'"> Voltar </button>
+          </div>
+          <div class="col-sm-4">
+            <button class="btn btn-success hidden-print" onclick="print()"> Imprimir </button>
+          </div>
+          {{#if sample.finalized}}
+            <div class="col-sm-4">
+              <button class="btn btn-success hidden-print" onclick="location.href='/report/unfinalize/{{sample._id}}'">Cancelar
+                finalização</butt>
+            </div>
+          {{else}}
+            <div class="col-sm-4">
+              <button class="btn btn-success hidden-print"
+                onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</button>
+                
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </center>
+  </div>
 </div>
 
 {{!-- <div>
