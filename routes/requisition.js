@@ -123,14 +123,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/show/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
-  Requisition.getById(req.params.id).then((requisitions) => {
-    res.render('requisition/show', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-});
 router.get('/usershow/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisitions) => {
     res.render('requisition/usershow', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions, ...req.session });

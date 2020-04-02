@@ -86,7 +86,7 @@ router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
 router.get('/show/:id', function (req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
     //console.log(kit);
-    res.render('stock/show', { title: 'Show Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
+    res.render('stock/edit', { title: 'Show Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -107,7 +107,7 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   const kit = req.body;
   Kit.findByIdAndEdit(req.params.id, kit).then((response) => {
     req.flash('success', 'Kit alterado com sucesso.');
-    res.redirect(`/stock/show/${req.params.id}`);
+    res.redirect(`/stock/edit/${req.params.id}`);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');

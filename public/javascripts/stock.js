@@ -35,7 +35,7 @@ function genkitrow(kit) {
       </div>
     <th>${amount}</th>
     <th>
-      <button onClick="location.href='stock/show/${_id}'" class="fa fa-info btn m-1"></button>
+      <button onClick="location.href='stock/edit/${_id}'" class="fa fa-info btn m-1"></button>
     </th>
   </tr>`
 
