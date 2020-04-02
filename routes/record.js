@@ -6,7 +6,9 @@ const auth = require('./middleware/auth');
 const Requisition = require('../models/requisition');
 
 router.get('/', auth.isAuthenticated, (req, res, next) => {
-  Requisition.getAll().then((requisitions) => {
+  let _id = req.session.user._id;
+
+  Requisition.getAllByUserId(_id).then((requisitions) => {
     console.log(requisitions.status);
     res.render('record/index', { title: 'Histórico', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
 
