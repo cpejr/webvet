@@ -123,11 +123,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-// if (typeof requisition.sampleVector === "string"){
-//   requisition.sampleVector = requisition.sampleVector.split(' ');
-//   console.log("PASSOU POR MIM OUTRA VEZ");
-// }
-
 router.get('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisition) => {
     Sample.getByIdArray(requisition.samples).then((samples) => {
