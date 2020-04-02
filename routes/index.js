@@ -1,12 +1,11 @@
 var express = require('express');
 var firebase = require('firebase');
+var admin = require('firebase-admin');
 var router = express.Router();
 const auth = require('./middleware/auth');
 const User = require('../models/user');
-const Requisition = require('../models/requisition');
-const Kit = require('../models/kit');
 const Email = require('../models/email');
-const Workmap = require('../models/Workmap');
+
 
 
 /* GET home page. */
@@ -152,10 +151,11 @@ router.post('/signup', (req, res) => {
         return error;
       });
 
-
       res.redirect('/login');
     }).catch(errror2 => {
-      console.log(error2);
+      console.log(errror2);
+      console.log("Nao foi possivel criar o usuario no mongo, deletando...");
+      admin.auth().deleteUser(userF.user.uid).then(() => {}).catch((err) => {console.log(err);});
       res.render('index/form', { title: 'signup', layout: 'layout', error: error2 });
     });
   }).catch(function (error) {
