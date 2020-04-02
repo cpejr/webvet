@@ -1,4 +1,10 @@
 <div>
+   <div class="d-flex justify-content-between">
+      <form class="col-2" action="/user" method="get">
+        <button type="submit" class="btn btn-outline-success">Voltar</button>
+      </form>
+    </div>
+
   <div class="edit-requisition">
     <hr color="lightgray">
     <div class="requisition-titles">
@@ -101,15 +107,15 @@
     </div>
     <br>
     <div class="form-row col-md-10">
-      <div class="requisition-text col-md-6">
+      <div class="requisition-text col-md-8">
         <input required type="text" name="requisition[producer]" class="requisition-text"
           placeholder="Nome do cliente | Fazenda | Produtor" value="{{requisition.producer}}">
       </div>
-      <div class="requisition-text col-md-6">
+      <div class="requisition-text col-md-4">
         <input required type="text" name="requisition[autorizationnumber]" class="requisition-text"
           placeholder="Número de Autorização" value="{{requisition.autorizationnumber}}">
       </div>
-      <div class="requisition-text col-md-4">
+      <div class="requisition-text col-md-8">
         <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município"
           value="{{requisition.city}}">
       </div>
@@ -145,9 +151,9 @@
           <option value="TO">Tocantins</option>
         </select>
       </div>
-      <br>
-      <h6 align="center"> Qual é a destinação do alimento?</h6>
-      <br>
+      
+      <h6 align="center" class="my-3"> Qual é a destinação do alimento?</h6>
+      
 
       <div class="form-group d-flex flex-wrap text-left justify-content-center">
         <div class="column">
@@ -231,7 +237,7 @@
       </div>
       <br>
     </div>
-    <div class="text-center">
+    <div class="text-center mt-2">
       <button type="submit" id="submitAlterations" align="center" class="btn btn-outline-success">Salvar
         alerações</button>
     </div>

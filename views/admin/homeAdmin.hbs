@@ -51,14 +51,14 @@
 
 {{#each vencidos}}
   <div class="alertaa">
-    <div class="alert  alert-danger alert-dismissible fade show" onclick="location.href='/stock/show/{{_id}}'"
+    <div class="alert  alert-danger alert-dismissible fade show" onclick="location.href='/stock/edit/{{_id}}'"
       role="alert">
       Vencimento: O kit <strong>{{productCode}}</strong> venceu em
       <strong>{{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}</strong> .
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-      <button type="button" onclick="location.href='/stock/show/{{_id}}'"
+      <button type="button" onclick="location.href='/stock/edit/{{_id}}'"
         class="btn btn-outline-danger btn-sm">Ver Kit</button>
     </div>
   </div>

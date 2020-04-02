@@ -1,17 +1,7 @@
 <div class="">
   <div class="">
     <br>
-    <div class="row">
-      <form class="col-2" action="/requisition" method="get">
-        <button type="submit" class="btn btn-outline-success">Voltar</button>
-      </form>
-      <div class="col-8">
-        <font color="gray" size="5"> Requisição {{requisitions.requisitionnumber}}
-      </div>
-      <form class="col-2" action="/requisition/delete/{{requisitions._id}}" method="post">
-        <button type="submit" class="btn btn-outline-danger">Apagar</button>
-      </form>
-    </div>
+    
     <hr color="lightgray">
     <form class="showboxinfo" action="/requisition/edit/{{requisitions._id}}" method="get">
       <p>
