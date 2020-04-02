@@ -123,19 +123,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/usershow/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
-  Requisition.getById(req.params.id).then((requisitions) => {
-    res.render('requisition/usershow', { title: 'Show ', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
-});
-// if (typeof requisition.sampleVector === "string"){
-//   requisition.sampleVector = requisition.sampleVector.split(' ');
-//   console.log("PASSOU POR MIM OUTRA VEZ");
-// }
-
 router.get('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
   Requisition.getById(req.params.id).then((requisition) => {
     Sample.getByIdArray(requisition.samples).then((samples) => {
@@ -204,7 +191,7 @@ router.post('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res,
   Requisition.update(req.params.id, requisition).then(() => {
     console.log("Deveria ter dado update");
     req.flash('success', 'Requisição alterada com sucesso.');
-    res.redirect(`/requisition/show/${req.params.id}`);
+    res.redirect(`/requisition/edit/${req.params.id}`);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -216,7 +203,7 @@ router.post('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (re
   Requisition.update(req.params.id, requisition).then(() => {
     console.log("Deveria ter dado update");
     req.flash('success', 'Requisição alterada com sucesso.');
-    res.redirect(`/requisition/usershow/${req.params.id}`);
+    res.redirect(`/requisition/useredit/${req.params.id}`);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
