@@ -1,6 +1,9 @@
-<div>
-    <form action="/statistics/barcharts" method="GET">
-        <p> Deseja gerar os gáficos? (esta operação pode ser demorada)</p>
-        <input type="submit" class="btn btn-success" value="Gerar" />
+<p> Qual gráfico deseja gerar? (esta operação pode ser demorada)</p>
+<div class="d-flex flex-row justify-content-center">
+    <form action="/statistics/barcharts" method="GET" class="mx-2">
+        <input type="submit" class="btn btn-success" value="Gráficos de barra" />
+    </form>
+    <form action="/statistics/boxcharts" method="GET" class="mx-2">
+        <input type="submit" class="btn btn-success" value="Gráficos BoxPlot" />
     </form>
 </div>
