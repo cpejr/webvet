@@ -1,228 +1,281 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const mongoose = require('mongoose');
-const Counter = require('../models/counter');
-const Workmap = require('./Workmap');
-const regression = require('regression');
+const mongoose = require("mongoose");
+const Counter = require("../models/counter");
+const Workmap = require("./Workmap");
+const regression = require("regression");
 var data = new Date();
 var yyyy = data.getFullYear();
 
-const sampleSchema = new mongoose.Schema({
-  samplenumber: Number,
-  name: String,
-  sampletype: String,
-  approved: { //A aprovacao da requisicao associada
-    type: Boolean,
-    default: false,
-  },
-  report: {
-    type: Boolean, //1 for available, 0 for not available
-    default: 0
-  },
-  requisitionId: {
-    type: mongoose.Schema.Types.ObjectId,
-  },
-  responsible: String,
-  creationYear: {
-    type: Number,
-    default: yyyy,
-  },
-  description: String,
-  aflatoxina: {
-    status: {
-      type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova',
-    },
-    date: String,
-    absorbance: Number,
-    absorbance2: Number,
-    result: String,
-    active: {
+const sampleSchema = new mongoose.Schema(
+  {
+    samplenumber: Number,
+    name: String,
+    sampletype: String,
+    approved: {
+      //A aprovacao da requisicao associada
       type: Boolean,
       default: false,
     },
-    contador: Number,
-    mapReference: {
-      type: String,
-      default: 'Sem mapa',
+    report: {
+      type: Boolean, //1 for available, 0 for not available
+      default: 0,
     },
-    concentration: String,
-    kitId: {
+    requisitionId: {
       type: mongoose.Schema.Types.ObjectId,
     },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
+    responsible: String,
+    creationYear: {
+      type: Number,
+      default: yyyy,
     },
-    checked: {
+    description: String,
+    aflatoxina: {
+      status: {
+        type: String,
+        enum: [
+          "Nova",
+          "Sem amostra",
+          "Em análise",
+          "A corrigir",
+          "Aguardando pagamento",
+          "Aguardando amostra",
+          " Mapa de Trabalho",
+        ],
+        default: "Nova",
+      },
+      date: String,
+      absorbance: Number,
+      absorbance2: Number,
+      result: String,
+      active: {
+        type: Boolean,
+        default: false,
+      },
+      contador: Number,
+      mapReference: {
+        type: String,
+        default: "Sem mapa",
+      },
+      concentration: String,
+      kitId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      workmapId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      checked: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    deoxinivalenol: {
+      status: {
+        type: String,
+        enum: [
+          "Nova",
+          "Sem amostra",
+          "Em análise",
+          "A corrigir",
+          "Aguardando pagamento",
+          "Aguardando amostra",
+          " Mapa de Trabalho",
+        ],
+        default: "Nova",
+      },
+      date: String,
+      absorbance: Number,
+      absorbance2: Number,
+      result: String,
+      active: {
+        type: Boolean,
+        default: false,
+      },
+      contador: Number,
+      mapReference: {
+        type: String,
+        default: "Sem mapa",
+      },
+      workmapId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      concentration: String,
+      kitId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      checked: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    fumonisina: {
+      status: {
+        type: String,
+        enum: [
+          "Nova",
+          "Sem amostra",
+          "Em análise",
+          "A corrigir",
+          "Aguardando pagamento",
+          "Aguardando amostra",
+          " Mapa de Trabalho",
+        ],
+        default: "Nova",
+      },
+      date: String,
+      absorbance: Number,
+      absorbance2: Number,
+      result: String,
+      active: {
+        type: Boolean,
+        default: false,
+      },
+      contador: Number,
+      mapReference: {
+        type: String,
+        default: "Sem mapa",
+      },
+      concentration: String,
+      kitId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      workmapId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      checked: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    ocratoxina: {
+      status: {
+        type: String,
+        enum: [
+          "Nova",
+          "Sem amostra",
+          "Em análise",
+          "A corrigir",
+          "Aguardando pagamento",
+          "Aguardando amostra",
+          " Mapa de Trabalho",
+        ],
+        default: "Nova",
+      },
+      date: String,
+      absorbance: Number,
+      absorbance2: Number,
+      result: String,
+      active: {
+        type: Boolean,
+        default: false,
+      },
+      contador: Number,
+      mapReference: {
+        type: String,
+        default: "Sem mapa",
+      },
+      workmapId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      concentration: String,
+      kitId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      checked: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    t2toxina: {
+      status: {
+        type: String,
+        enum: [
+          "Nova",
+          "Sem amostra",
+          "Em análise",
+          "A corrigir",
+          "Aguardando pagamento",
+          "Aguardando amostra",
+          " Mapa de Trabalho",
+        ],
+        default: "Nova",
+      },
+      date: String,
+      absorbance: Number,
+      absorbance2: Number,
+      result: String,
+      active: {
+        type: Boolean,
+        default: false,
+      },
+      contador: Number,
+      mapReference: {
+        type: String,
+        default: "Sem mapa",
+      },
+      concentration: String,
+      kitId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      workmapId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      checked: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    zearalenona: {
+      status: {
+        type: String,
+        enum: [
+          "Nova",
+          "Sem amostra",
+          "Em análise",
+          "A corrigir",
+          "Aguardando pagamento",
+          "Aguardando amostra",
+          " Mapa de Trabalho",
+        ],
+        default: "Nova",
+      },
+      date: String,
+      absorbance: Number,
+      absorbance2: Number,
+      result: String,
+      active: {
+        type: Boolean,
+        default: false,
+      },
+      contador: Number,
+      mapReference: {
+        type: String,
+        default: "Sem mapa",
+      },
+      concentration: String,
+      kitId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      workmapId: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      checked: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    description: String,
+    parecer: String,
+    finalized: {
+      //Disponivel para o produtor ou nao.
       type: Boolean,
       default: false,
     },
   },
-  deoxinivalenol: {
-    status: {
-      type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova',
-    },
-    date: String,
-    absorbance: Number,
-    absorbance2: Number,
-    result: String,
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    contador: Number,
-    mapReference: {
-      type: String,
-      default: 'Sem mapa',
-    },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    concentration: String,
-    kitId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    checked: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  fumonisina: {
-    status: {
-      type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova',
-    },
-    date: String,
-    absorbance: Number,
-    absorbance2: Number,
-    result: String,
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    contador: Number,
-    mapReference: {
-      type: String,
-      default: 'Sem mapa',
-    },
-    concentration: String,
-    kitId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    checked: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  ocratoxina: {
-    status: {
-      type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova',
-    },
-    date: String,
-    absorbance: Number,
-    absorbance2: Number,
-    result: String,
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    contador: Number,
-    mapReference: {
-      type: String,
-      default: 'Sem mapa',
-    },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    concentration: String,
-    kitId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    checked: {
-      type: Boolean,
-      default: false
-    },
-  },
-  t2toxina: {
-    status: {
-      type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova',
-    },
-    date: String,
-    absorbance: Number,
-    absorbance2: Number,
-    result: String,
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    contador: Number,
-    mapReference: {
-      type: String,
-      default: 'Sem mapa',
-    },
-    concentration: String,
-    kitId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    checked: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  zearalenona: {
-    status: {
-      type: String,
-      enum: ['Nova', 'Sem amostra', 'Em análise', 'A corrigir', 'Aguardando pagamento', 'Aguardando amostra', ' Mapa de Trabalho'],
-      default: 'Nova',
-    },
-    date: String,
-    absorbance: Number,
-    absorbance2: Number,
-    result: String,
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    contador: Number,
-    mapReference: {
-      type: String,
-      default: 'Sem mapa',
-    },
-    concentration: String,
-    kitId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    workmapId: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    checked: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  description: String,
-  parecer: String,
-  finalized: { //Disponivel para o produtor ou nao.
-    type: Boolean,
-    default: false,
-  },
-}, { timestamps: true, strict: false });
+  { timestamps: true, strict: false }
+);
 
-const SampleModel = mongoose.model('Sample', sampleSchema);
+const SampleModel = mongoose.model("Sample", sampleSchema);
 
 class Sample {
   /**
@@ -231,14 +284,17 @@ class Sample {
    */
   static getAll() {
     return new Promise((resolve, reject) => {
-      SampleModel.find({}).populate('sample').exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find({})
+        .populate("sample")
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
-
 
   /**
    * Get a Sample by it's id
@@ -247,11 +303,13 @@ class Sample {
    */
   static getById(id) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOne({ _id: id }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.findOne({ _id: id })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -262,11 +320,15 @@ class Sample {
    */
   static getBySampleNumber(samplenumber) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOne({ samplenumber: samplenumber }).populate('sample').exec().then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.findOne({ samplenumber: samplenumber })
+        .populate("sample")
+        .exec()
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -277,26 +339,33 @@ class Sample {
    */
   static getByIdRequisition(idrequisition) {
     return new Promise((resolve, reject) => {
-      SampleModel.findById(idrequisition).populate('sample').exec().then((result) => {
-        resolve(result.toObject());
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.findById(idrequisition)
+        .populate("sample")
+        .exec()
+        .then((result) => {
+          resolve(result.toObject());
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getMaxSampleNumber() {
     return new Promise((resolve, reject) => {
-      SampleModel.find({}, { samplenumber: 1, _id: 0 }).sort({ samplenumber: -1 }).limit(1).populate('sample').exec().then((result) => {
-
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find({}, { samplenumber: 1, _id: 0 })
+        .sort({ samplenumber: -1 })
+        .limit(1)
+        .populate("sample")
+        .exec()
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
-
-
 
   /**
    * Update a Sample
@@ -306,32 +375,38 @@ class Sample {
    */
   static update(id, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findByIdAndUpdate(id, sample).then((res) => {
-        resolve(res);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.findByIdAndUpdate(id, sample)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static updateCustom(id, params) {
     return new Promise((resolve, reject) => {
-      SampleModel.updateOne({ _id: id }, { $set: params }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        console.log(err);
-        reject(err);
-      });
+      SampleModel.updateOne({ _id: id }, { $set: params })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
     });
   }
 
   static updateBySampleNumber(sampleNumber, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOneAndUpdate({ samplenumber: sampleNumber }, sample).then((res) => {
-        resolve(res);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.findOneAndUpdate({ samplenumber: sampleNumber }, sample)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
   /**
@@ -350,41 +425,43 @@ class Sample {
 
   static deleteMany(id_array) {
     return new Promise((resolve, reject) => {
-      SampleModel.find({ _id: { $in: id_array } }).then(samples => {
-        let samplesToRemove = {};
+      SampleModel.find({ _id: { $in: id_array } })
+        .then((samples) => {
+          let samplesToRemove = {};
 
-        for (let j = 0; j < samples.length; j++) {
-          const sample = samples[j]
+          for (let j = 0; j < samples.length; j++) {
+            const sample = samples[j];
 
-          //Find samples in workmaps
-          for (let i = 0; i < ToxinasFull.length; i++) {
-            const toxina = ToxinasFull[i];
-            if (sample[toxina].status === "Mapa de Trabalho") {
-              let workmapIdStr = sample[toxina].workmapId.toString();
+            //Find samples in workmaps
+            for (let i = 0; i < ToxinasFull.length; i++) {
+              const toxina = ToxinasFull[i];
+              if (sample[toxina].status === "Mapa de Trabalho") {
+                let workmapIdStr = sample[toxina].workmapId.toString();
 
-              //Initialize
-              if (samplesToRemove[workmapIdStr] == undefined)
-                samplesToRemove[workmapIdStr] = [];
+                //Initialize
+                if (samplesToRemove[workmapIdStr] == undefined)
+                  samplesToRemove[workmapIdStr] = [];
 
-              samplesToRemove[workmapIdStr].push(sample._id);
+                samplesToRemove[workmapIdStr].push(sample._id);
+              }
             }
           }
-        }
 
-        //Atualizar os workmaps
-        let workmapsId = Object.keys(samplesToRemove);
-        for (let i = 0; i < workmapsId.length; i++)
-          Workmap.removeSamples(workmapsId[i], samplesToRemove[workmapsId[i]]);
-
-
-
-      }).then(() => {
-        SampleModel.deleteMany({ _id: { $in: id_array } }).then(
-          obj => resolve(obj)
-        ).catch((err) => {
-          reject(err);
+          //Atualizar os workmaps
+          let workmapsId = Object.keys(samplesToRemove);
+          for (let i = 0; i < workmapsId.length; i++)
+            Workmap.removeSamples(
+              workmapsId[i],
+              samplesToRemove[workmapsId[i]]
+            );
+        })
+        .then(() => {
+          SampleModel.deleteMany({ _id: { $in: id_array } })
+            .then((obj) => resolve(obj))
+            .catch((err) => {
+              reject(err);
+            });
         });
-      })
     });
   }
 
@@ -394,11 +471,13 @@ class Sample {
    */
   static clear() {
     return new Promise((resolve, reject) => {
-      SampleModel.deleteMany({}).then(() => {
-        resolve();
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.deleteMany({})
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -408,44 +487,55 @@ class Sample {
    */
   static count() {
     return new Promise((resolve, reject) => {
-      SampleModel.countDocuments({ isCalibrator: false }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.countDocuments({ isCalibrator: false })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static updateReport(id, report) {
     return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { report: report } }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
+      SampleModel.update({ _id: id }, { $set: { report: report } })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static async updateReportSpecific(id, info) {
     return new Promise((resolve, reject) => {
-      SampleModel.updateOne({ _id: id }, { $set: info }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
+      SampleModel.updateOne({ _id: id }, { $set: info })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
-  static updateAbsorbancesAndFinalize(id, toxinaFull, abs, abs2, calibrators, kitId) {
-
+  static updateAbsorbancesAndFinalize(
+    id,
+    toxinaFull,
+    abs,
+    abs2,
+    calibrators,
+    kitId
+  ) {
     return new Promise((resolve, reject) => {
-      var parameter = toxinaFull + '.absorbance';
-      var parameter2 = toxinaFull + '.absorbance2';
-      var parameter3 = toxinaFull + '.result';
-      var parameter4 = toxinaFull + '.active';
-      var parameter5 = toxinaFull + '.kitId';
-      var parameter6 = 'report';
-
+      var parameter = toxinaFull + ".absorbance";
+      var parameter2 = toxinaFull + ".absorbance2";
+      var parameter3 = toxinaFull + ".result";
+      var parameter4 = toxinaFull + ".active";
+      var parameter5 = toxinaFull + ".kitId";
+      var parameter6 = "report";
 
       var updateVal = {};
       updateVal[parameter] = abs;
@@ -455,20 +545,17 @@ class Sample {
       updateVal[parameter5] = kitId;
       updateVal[parameter6] = true;
 
-
-      SampleModel.updateOne(
-        { _id: id },
-        { $set: updateVal }).then((result) => {
+      SampleModel.updateOne({ _id: id }, { $set: updateVal })
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
 
   static calcularResult(abs, abs2, calibrators) {
-
     let p_concentration = [];
     let p_absorvance = [];
 
@@ -482,8 +569,8 @@ class Sample {
       p_absorvance[i] = calibrators[currentCalibrator].absorbance;
     }
 
-    let log_concentracao = [];  //Eixo x
-    //Calcular log das concentracoes dos P's de 1 a 4 
+    let log_concentracao = []; //Eixo x
+    //Calcular log das concentracoes dos P's de 1 a 4
     for (let i = 1; i < 5; i++) {
       log_concentracao.push(Math.log10(p_concentration[i]));
     }
@@ -496,175 +583,198 @@ class Sample {
       ln_b_b0[m] = Math.log10(b_b0[m] / (1 - b_b0[m]));
     }
 
-    const result = regression.linear([[log_concentracao[0], ln_b_b0[0]], [log_concentracao[1], ln_b_b0[1]], [log_concentracao[2], ln_b_b0[2]]]);
-    const slope = result.equation[0];// slope
-    const yIntercept = result.equation[1];// intercept
+    const result = regression.linear([
+      [log_concentracao[0], ln_b_b0[0]],
+      [log_concentracao[1], ln_b_b0[1]],
+      [log_concentracao[2], ln_b_b0[2]],
+    ]);
+    const slope = result.equation[0]; // slope
+    const yIntercept = result.equation[1]; // intercept
 
-    let log_b_b0 = Math.log10((abs / p_absorvance[0]) / (1 - (abs / p_absorvance[0])));
-    let log_b_b0_2 = Math.log10((abs2 / p_absorvance[0]) / (1 - (abs2 / p_absorvance[0])));
+    let log_b_b0 = Math.log10(
+      abs / p_absorvance[0] / (1 - abs / p_absorvance[0])
+    );
+    let log_b_b0_2 = Math.log10(
+      abs2 / p_absorvance[0] / (1 - abs2 / p_absorvance[0])
+    );
 
-    var finalResult = (compara(log_b_b0, yIntercept, slope) + compara(log_b_b0_2, yIntercept, slope)) / 2;
+    var finalResult =
+      (compara(log_b_b0, yIntercept, slope) +
+        compara(log_b_b0_2, yIntercept, slope)) /
+      2;
 
     return finalResult;
   }
 
-
   static finalizeSample(id, toxina, kit_id) {
-
     return new Promise((resolve, reject) => {
-      var parameter = toxina + '.active';
-      var parameter2 = toxina + '.kitId';
-      var parameter3 = 'report';
+      var parameter = toxina + ".active";
+      var parameter2 = toxina + ".kitId";
+      var parameter3 = "report";
       var updateVal = {};
 
       updateVal[parameter] = false;
       updateVal[parameter2] = kit_id;
       updateVal[parameter3] = true;
 
-      SampleModel.update(
-        { _id: id },
-        { $set: updateVal }).then((result) => {
+      SampleModel.update({ _id: id }, { $set: updateVal })
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
 
   static finalizeReportById(id, command) {
     return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { finalized: command } }).then((result) => {
-        resolve(result);
-      }).catch(err => {
-        reject(err);
-      });
+      SampleModel.update({ _id: id }, { $set: { finalized: command } })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getByIdArray(id_array) {
     return new Promise((resolve, reject) => {
-      SampleModel.find({ _id: { $in: id_array } }).then((map) => {
-        resolve(map);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find({ _id: { $in: id_array } })
+        .then((map) => {
+          resolve(map);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getFinalizedByIdArray(id_array) {
     return new Promise((resolve, reject) => {
-      SampleModel.find({ _id: { $in: id_array }, finalized: true }).then((map) => {
-        resolve(map);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find({ _id: { $in: id_array }, finalized: true })
+        .then((map) => {
+          resolve(map);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getByIdArrayWithQuery(id_array, query) {
-    querry['_id'] = { $in: id_array }
+    querry["_id"] = { $in: id_array };
     return new Promise((resolve, reject) => {
-      SampleModel.find(query).then((map) => {
-        resolve(map);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find(query)
+        .then((map) => {
+          resolve(map);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getActiveByIdArray(id_array, toxinafull) {
     return new Promise((resolve, reject) => {
-
       var querry = {};
-      querry['_id'] = { $in: id_array };
-      querry[toxinafull + '.active'] = true;
+      querry["_id"] = { $in: id_array };
+      querry[toxinafull + ".active"] = true;
 
-      SampleModel.find(querry).then((map) => {
-        resolve(map);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find(querry)
+        .then((map) => {
+          resolve(map);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static async updateResult(id, toxina_full, result) {
-
     return new Promise((resolve, reject) => {
-      var parameter = toxina_full + '.result';
+      var parameter = toxina_full + ".result";
 
       var updateVal = {};
 
       updateVal[parameter] = result;
 
-      SampleModel.update(
-        { _id: id },
-        { $set: updateVal }).then((result) => {
+      SampleModel.update({ _id: id }, { $set: updateVal })
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
 
   static getAllActiveWithWorkmap() {
     return new Promise((resolve, reject) => {
-
-      const ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+      const ToxinasFull = [
+        "aflatoxina",
+        "deoxinivalenol",
+        "fumonisina",
+        "ocratoxina",
+        "t2toxina",
+        "zearalenona",
+      ];
 
       var querry = { $or: [] };
 
       for (let index = 0; index < ToxinasFull.length; index++) {
         const toxina = ToxinasFull[index];
-        var expression = {}
+        var expression = {};
 
-        expression[toxina + '.status'] = { $eq: 'Mapa de Trabalho' };
-        expression[toxina + '.active'] = true;
+        expression[toxina + ".status"] = { $eq: "Mapa de Trabalho" };
+        expression[toxina + ".active"] = true;
 
         querry.$or.push(expression);
       }
 
-      SampleModel.find(querry).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find(querry)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllActive() {
     return new Promise((resolve, reject) => {
-
       var querry = { $or: [] };
 
       for (let index = 0; index < ToxinasFull.length; index++) {
         const toxina = ToxinasFull[index];
-        var expression = {}
+        var expression = {};
 
-        expression[toxina + '.active'] = true;
+        expression[toxina + ".active"] = true;
 
         querry.$or.push(expression);
       }
 
-      SampleModel.find(querry).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find(querry)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllActiveWithUser() {
     return new Promise((resolve, reject) => {
-
       var querry = { $or: [] };
 
       for (let index = 0; index < ToxinasFull.length; index++) {
         const toxina = ToxinasFull[index];
-        var expression = {}
+        var expression = {};
 
-        expression[toxina + '.active'] = true;
+        expression[toxina + ".active"] = true;
 
         querry.$or.push(expression);
       }
@@ -675,79 +785,92 @@ class Sample {
           $group: {
             _id: "$requisitionId",
             samples: { $push: "$$ROOT" },
-          }
+          },
         },
         {
-          $lookup:
-          {
+          $lookup: {
             from: "requisitions",
             localField: "_id",
             foreignField: "_id",
             as: "requisition",
-          }
+          },
         },
         {
           $project: {
             _id: 1,
             samples: 1,
-            userId: { $arrayElemAt: ["$requisition.user", 0] }
-          }
+            userId: { $arrayElemAt: ["$requisition.user", 0] },
+          },
         },
         {
           $group: {
             _id: "$userId",
-            samples: { $push: '$samples' },
-          }
+            samples: { $push: "$samples" },
+          },
         },
         {
-          $lookup:
-          {
+          $lookup: {
             from: "users",
             localField: "_id",
             foreignField: "_id",
             as: "user",
-          }
+          },
         },
         {
           $project: {
             _id: 1,
             samples: 1,
-            debt: { $arrayElemAt: ["$user.debt", 0] }
+            debt: { $arrayElemAt: ["$user.debt", 0] },
+          },
+        },
+      ])
+        .then((result) => {
+          function flat(input, depth = 1, stack = []) {
+            for (let item of input) {
+              if (item instanceof Array && depth > 0) {
+                flat(item, depth - 1, stack);
+              } else {
+                stack.push(item);
+              }
+            }
+
+            return stack;
           }
-        }
-      ]).then((result) => {
 
-        for (let i = 0; i < result.length; i++)
-          result[i].samples = result[i].samples.flat();
+          for (let i = 0; i < result.length; i++) {
+            result[i].samples = flat(result[i].samples);
+          }
 
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllReport() {
     return new Promise((resolve, reject) => {
-
       var querry = { report: true };
 
-      SampleModel.find(querry).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      SampleModel.find(querry)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   /**
-  * Create a new Sample
-* @param {Object} project - Sample Document Data
-* @returns {string} New Sample Id
-        */
+   * Create a new Sample
+   * @param {Object} project - Sample Document Data
+   * @returns {string} New Sample Id
+   */
   static create(sample) {
     return new Promise((resolve, reject) => {
-      Counter.getSampleCount().then(async sampleNumber => {
+      Counter.getSampleCount().then(async (sampleNumber) => {
         let count = sampleNumber;
         sample.samplenumber = count;
 
@@ -762,7 +885,7 @@ class Sample {
   static createMany(samples) {
     return new Promise((resolve, reject) => {
       let result = [];
-      Counter.getSampleCount().then(async sampleNumber => {
+      Counter.getSampleCount().then(async (sampleNumber) => {
         let count = sampleNumber;
         for (let index = 0; index < samples.length; index++) {
           const element = samples[index];
@@ -781,27 +904,25 @@ class Sample {
 
   static updateAflaWorkmap(id, cont) {
     return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'aflatoxina.contador': cont } }).then((result) => {
+      SampleModel.update({ _id: id }, { $set: { "aflatoxina.contador": cont } })
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
 
   static updateOcraWorkmap(id, cont) {
     return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'ocratoxina.contador': cont } }).then((result) => {
+      SampleModel.update({ _id: id }, { $set: { "ocratoxina.contador": cont } })
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
 
@@ -809,38 +930,38 @@ class Sample {
     return new Promise((resolve, reject) => {
       SampleModel.update(
         { _id: id },
-        { $set: { 'deoxinivalenol.contador': cont } }).then((result) => {
+        { $set: { "deoxinivalenol.contador": cont } }
+      )
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
 
   static updateT2Workmap(id, cont) {
     return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 't2toxina.contador': cont } }).then((result) => {
+      SampleModel.update({ _id: id }, { $set: { "t2toxina.contador": cont } })
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
 
   static updatefumWorkmap(id, cont) {
     return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { 'fumonisina.contador': cont } }).then((result) => {
+      SampleModel.update({ _id: id }, { $set: { "fumonisina.contador": cont } })
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
 
@@ -848,12 +969,14 @@ class Sample {
     return new Promise((resolve, reject) => {
       SampleModel.update(
         { _id: id },
-        { $set: { 'zearalenona.contador': cont } }).then((result) => {
+        { $set: { "zearalenona.contador": cont } }
+      )
+        .then((result) => {
           resolve(result);
-        }).catch(err => {
+        })
+        .catch((err) => {
           reject(err);
         });
-
     });
   }
   static getSampleData() {
@@ -865,73 +988,85 @@ class Sample {
           $group: {
             _id: "$sampletype",
             samples: { $push: "$_id" },
-          }
+          },
         },
-      ]).then((result) => {
-        console.log(result);
-        let total = 0;
+      ])
+        .then((result) => {
+          let total = 0;
 
-        for (let i = 0; i < result.length; i++)
-          total += result[i].samples.length;
+          for (let i = 0; i < result.length; i++)
+            total += result[i].samples.length;
 
-        for (let j = 0; j < result.length; j++)
-          result[j].frequency = result[j].samples.length / total;
+          for (let j = 0; j < result.length; j++)
+            result[j].frequency = result[j].samples.length / total;
 
-
-        resolve(result);
-      }).catch(err => {
-        console.log(err);
-        reject(err);
-      });
+          resolve(result);
+        })
+        .catch((err) => {
+          console.warn(err);
+          reject(err);
+        });
     });
   }
 
-  static getFinalizationData() { //Desafio: descobrir como fazer isso aqui só com requisição do mongo.
+  static getFinalizationData() {
+    //Desafio: descobrir como fazer isso aqui só com requisição do mongo.
     return new Promise((resolve, reject) => {
       SampleModel.aggregate([
         { $match: { finalized: true, report: true } },
-        { $project: { aflatoxina: 1, deoxinivalenol: 1, fumonisina: 1, ocratoxina: 1, t2toxina: 1, zearalenona: 1 } },
-      ]).then((result) => {
-        console.log(result);
-        let allToxin = {};
-        for (let i = 0; i < ToxinasFull.length; i++) {
-          let oneToxinArray = [];
-          let currentToxin = ToxinasFull[i];
-          for (let j = 0; j < result.length; j++) {
-            let sample = result[j];
-            if (sample[currentToxin].checked && sample[currentToxin].result) {
-              oneToxinArray.push(sample[currentToxin].checked);
-            } else if (sample[currentToxin].result) {
-              oneToxinArray.push(false);
+        {
+          $project: {
+            aflatoxina: 1,
+            deoxinivalenol: 1,
+            fumonisina: 1,
+            ocratoxina: 1,
+            t2toxina: 1,
+            zearalenona: 1,
+          },
+        },
+      ])
+        .then((result) => {
+          let allToxin = {};
+          for (let i = 0; i < ToxinasFull.length; i++) {
+            let oneToxinArray = [];
+            let currentToxin = ToxinasFull[i];
+            for (let j = 0; j < result.length; j++) {
+              let sample = result[j];
+              if (sample[currentToxin].checked && sample[currentToxin].result) {
+                oneToxinArray.push(sample[currentToxin].checked);
+              } else if (sample[currentToxin].result) {
+                oneToxinArray.push(false);
+              }
             }
+            allToxin[currentToxin] = oneToxinArray;
           }
-          console.log(oneToxinArray);
-          allToxin[currentToxin] = oneToxinArray;
-        }
-        let counterVector = [];
-        for (let i = 0; i < ToxinasFull.length; i++) {
-          let currentToxin = ToxinasFull[i];
-          let oneToxin = allToxin[currentToxin];
-          let totalNumber = oneToxin.length;
-          let trueCounter = 0;
-          for (let j = 0; j < oneToxin.length; j++) {
-            if (oneToxin[j]) {
-              trueCounter++;
+          let counterVector = [];
+          for (let i = 0; i < ToxinasFull.length; i++) {
+            let currentToxin = ToxinasFull[i];
+            let oneToxin = allToxin[currentToxin];
+            let totalNumber = oneToxin.length;
+            let trueCounter = 0;
+            for (let j = 0; j < oneToxin.length; j++) {
+              if (oneToxin[j]) {
+                trueCounter++;
+              }
             }
+            let falseCounter = totalNumber - trueCounter;
+            counterVector.push({
+              name: currentToxin,
+              totalNumber,
+              trueCounter,
+              falseCounter,
+            });
           }
-          let falseCounter = totalNumber - trueCounter;
-          counterVector.push({ name: currentToxin, totalNumber, trueCounter, falseCounter });
-        }
-        resolve(counterVector);
-      }).catch(err => {
-        console.log(err);
-        reject(err);
-      });
+          resolve(counterVector);
+        })
+        .catch((err) => {
+          console.warn(err);
+          reject(err);
+        });
     });
   }
 }
-
-
-
 
 module.exports = Sample;
