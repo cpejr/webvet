@@ -35,8 +35,11 @@ router.get('/', auth.isAuthenticated, async function (req, res, next) {
     let indKit = reqKitstocks[i];
     kitstocks[i] = {...indSum, minStock: indKit.minStock, name: indKit.name};
   }
-
-  let number_of_pages = Math.ceil(resultDisabledKits[0].totalCount / KITS_PER_PAGE);
+  
+  let number_of_pages = 0;
+  if (resultDisabledKits.length > 0 ){
+    number_of_pages = Math.ceil(resultDisabledKits[0].totalCount / KITS_PER_PAGE);
+  }
   number_of_pages++;
 
   const oneDay = 24 * 60 * 60 * 1000;
@@ -45,7 +48,10 @@ router.get('/', auth.isAuthenticated, async function (req, res, next) {
   let activeKits = resultActivesKits.map(kit => processKit(kit));
   activeKits = activeKits.sort(dynamicSort('productCode'));
 
-  let disabledKits = resultDisabledKits[0].kits.map(kit => processKit(kit))
+  let disabledKits = {};
+  if(resultDisabledKits.length > 0){
+    disabledKits = resultDisabledKits[0].kits.map(kit => processKit(kit));
+  }
 
   function processKit(kit) {
     let expirationDate = new Date(`${kit.monthexpirationDate}/${kit.dayexpirationDate}/${kit.yearexpirationDate}`);
