@@ -59,6 +59,19 @@ router.get('/associated', auth.isAuthenticated, function (req, res, next) {
 
 });
 
+router.get('/analysts', auth.isAuthenticated, function (req, res) {
+
+  User.getAllAnalysts().then((users) => {
+    console.log(users);
+    res.render('admin/users/analysts', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
+
+  }).catch((error) => {
+    console.log(error);
+    res.redirect('/error');
+  });
+
+});
+
 router.get('/producers', auth.isAuthenticated, function (req, res, next) {
 
   User.getAll().then((users) => {

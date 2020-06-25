@@ -187,6 +187,16 @@ class User {
     });
   }
 
+  static getAllAnalysts() {
+    return new Promise((resolve, reject) => {
+      UserModel.find({ type: "Analista" }).exec().then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   /**
   * Add Producer to associatedProducers
   * @param {string} id - User Id
