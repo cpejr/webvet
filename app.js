@@ -99,7 +99,7 @@ admin.initializeApp({
 });
 
 /**
- * Express setup
+ * Express-handlebars setup 
  */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -155,26 +155,38 @@ app.engine('hbs', exphbs({
   }
 }));
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(session({
-  secret: 'some-private-cpe-key',
-  resave: true,
-  saveUninitialized: true
-}));
+/**
+ * Arquivos estáticos e estilos
+ */
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   indentedSyntax: true, // true = .sass and false = .scss
   sourceMap: true
 }));
-app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use(logger('dev'));
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+app.use(session({
+  secret: 'some-private-cpe-key',
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(flash());
+// app.use(methodOverride('_method'));
+
+
+
+/**
+ * Express setup 
+ */
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
