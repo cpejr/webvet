@@ -5,8 +5,10 @@ const Requisition = require('../models/requisition');
 const Sample = require('../models/sample');
 const User = require('../models/user');
 
-router.get('/new', auth.isAuthenticated, function (req, res) {
-    res.render('requisition/newrequisition', { title: 'Requisition', layout: 'layoutDashboard.hbs', ...req.session });
+router.get('/new', auth.isAuthenticated, async function (req, res) {
+    let users = await User.getByQuery({status: "Ativo", deleted: "false"});
+    console.log(req.session);
+    res.render('requisition/newrequisition', { title: 'Requisition', layout: 'layoutDashboard.hbs', users, ...req.session });
 });
 
 router.post('/delete/:id', auth.isAuthenticated, (req, res) => {
@@ -17,8 +19,10 @@ router.post('/delete/:id', auth.isAuthenticated, (req, res) => {
 
 router.post('/new', auth.isAuthenticated, function (req, res) {
   const { requisition } = req.body;
-  if (req.session.user === "Analista" || req.session.user === "Admin")
-    requisition.user = req.session.user;
+  console.log(requisition);
+  if (req.session.user.type !== "Analista" && req.session.user.type !== "Admin"){
+    requisition.user = req.session.user._id;
+  }
 
   //CORREÇÃO PROVISÓRIA DO CAMPO DESTINATION
   if (Array.isArray(requisition.destination))
@@ -106,7 +110,11 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
 
 
     req.flash('success', 'Nova requisição enviada');
-    res.redirect('/user');
+    if (req.session.user.type === "Analista" || req.session.user.type === "Admin"){
+      res.redirect('/requisition');
+    } else {
+      res.redirect('/user');
+    }
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');//catch do create

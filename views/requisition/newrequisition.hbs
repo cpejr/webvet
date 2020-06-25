@@ -19,14 +19,22 @@
         <select required="required" id="adminUser" type="" name="requisition[user]" value="" class="drowdownoptions"
           placeholder="Selecione o Usuário">
           <option disabled selected value="">Selecione o Usuário</option>
-          <option value="AC">Fulano</option>
-          <option value="AC">Ciclano</option>
-          <option value="AC">Deltrano</option>
+          {{#each users}}
+          <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+          {{/each}}
         </select>
       </div>
     {{/compare}}
     {{#compare user.type "Analista"}}
-      <p>Esse cara ai e analista mesmo em!</p>
+      <div class="requisition-text col-md-12 d-flex align-items-center">
+        <select required="required" id="analystUser" type="" name="requisition[user]" value="" class="drowdownoptions"
+          placeholder="Selecione o Usuário">
+          <option disabled selected value="">Selecione o Usuário</option>
+          {{#each users}}
+          <option value="{{uid}}">{{fullname}} - {{type}} - {{email}}</option>
+          {{/each}}
+        </select>
+      </div>
     {{/compare}}
     <div class="requisition-text col-md-6">
       <input required id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}"
