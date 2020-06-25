@@ -17,7 +17,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
 
 router.post('/create', (req, res) => {
   const { sample } = req.body;
-  console.log("NA ROTA SAMPLE!");
   Sample.getMaxSampleNumber().then((maxSample) => {
 
     sample = {
@@ -175,12 +174,10 @@ router.get('/edit/:samplenumber', (req, res) => {
 
 router.post('/save', (req, res) => {
   const { sample } = req.body;
-  console.log(sample);
   Sample.updateBySampleNumber(sample.samplenumber + "", sample).then(() => {
     req.flash('success', 'Amostra alterada');
     res.redirect('/sample/edit/' + sample.samplenumber);
   }).catch((error) => {
-    console.log("AMIGO ESTOU AQUI");
     console.log(error);
     res.redirect('/error');
   });

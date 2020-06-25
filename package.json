@@ -10,6 +10,7 @@
     "node": "10.15.0"
   },
   "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
@@ -22,6 +23,7 @@
     "firebase-admin": "^8.10.0",
     "font-awesome": "^4.7.0",
     "gulp-sass": "^4.0.2",
+    "handlebars": "^4.7.6",
     "hbs": "^4.1.1",
     "http-errors": "~1.6.2",
     "jquery": "^3.5.1",

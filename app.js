@@ -101,12 +101,16 @@ admin.initializeApp({
 /**
  * Express-handlebars setup 
  */
+const Handlebars = require('handlebars')
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({
   defaultLayout: 'layout',
   extname: '.hbs',
   partialsDir: 'views/partials',
+  handlebars: allowInsecurePrototypeAccess(Handlebars),
   helpers: {
     // Here we're declaring the #section that appears in layout/layout.hbs
     section(name, options) {

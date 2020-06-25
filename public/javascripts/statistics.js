@@ -87,7 +87,6 @@ $(document).ready(() => {
             eixo_x.push(element._id);
             eixo_y.push((element.frequency * 100).toFixed(2));
         }
-        //console.log(result);
 
         chart.data.labels = eixo_x;
         chart.data.datasets[0].data = eixo_y;
@@ -162,7 +161,6 @@ $(document).ready(() => {
             eixo_x.push(element._id);
             eixo_y.push((element.frequency * 100).toFixed(2));
         }
-        console.log(result);
 
         chart2.data.labels = eixo_x;
         chart2.data.datasets[0].data = eixo_y;
@@ -236,7 +234,6 @@ $(document).ready(() => {
             eixo_x.push(element._id);
             eixo_y.push((element.frequency * 100).toFixed(2));
         }
-        console.log(result);
 
         chart3.data.labels = eixo_x;
         chart3.data.datasets[0].data = eixo_y;

@@ -56,7 +56,6 @@ router.post('/login', (req, res) => {
   firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
     User.getByUid(userID.user.uid).then((currentLogged) => {
       if (currentLogged) {
-        // console.log(currentLogged);
         const userR = {
           type: currentLogged.type,
           fullname: currentLogged.fullname,

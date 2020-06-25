@@ -22,8 +22,6 @@ router.post('/create', auth.isAuthenticated, function(req, res, next){
   user.status = 'Ativo';
   firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then((userF) => {
     user.uid = userF.user.uid;
-    console.log(user);console.log(user);
-    console.log(userF);
     User.create(user).then((id) => {
       console.log(`Created new user with id: ${id}`);
       req.flash('success', 'Cadastrado com sucesso.');
@@ -40,7 +38,6 @@ router.post('/create', auth.isAuthenticated, function(req, res, next){
 
 router.get('/show', auth.isAuthenticated, function(req, res, next) {
   User.getAll().then((users) => {
-    console.log(users);
     res.render('analyst/show', { title: 'Analistas', layout: 'layoutDashboard.hbs', users, ...req.session });
   }).catch((error) => {
     console.log(error);

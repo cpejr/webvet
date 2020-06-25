@@ -50,7 +50,6 @@ router.get('/pending', auth.isAuthenticated, function (req, res, next) {
 router.get('/associated', auth.isAuthenticated, function (req, res, next) {
 
   User.getAll().then((users) => {
-    console.log(users);
     res.render('admin/users/associated', { title: 'Conveniados', layout: 'layoutDashboard.hbs', users, ...req.session });
   }).catch((error) => {
     console.log(error);
@@ -62,7 +61,6 @@ router.get('/associated', auth.isAuthenticated, function (req, res, next) {
 router.get('/producers', auth.isAuthenticated, function (req, res, next) {
 
   User.getAll().then((users) => {
-    console.log(users);
     res.render('admin/users/producers', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
@@ -76,7 +74,6 @@ router.get('/managers', auth.isAuthenticated, function (req, res, next) {
 
   User.getAllManagers().then((users) => {
     const loggedID = req.session.user._id
-    console.log(loggedID);
     res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session, loggedID });
 
   }).catch((error) => {
@@ -89,9 +86,7 @@ router.get('/managers', auth.isAuthenticated, function (req, res, next) {
 router.get('/managers/:id', auth.isAuthenticated, function (req, res, next) {
 
   User.getAssociatedMaganersById(req.params.id).then((users) => {
-    console.log(users);
     User.getById(req.params.id).then((user) => {
-      console.log(user);
       res.render('admin/users/managers', { title: 'Gerentes Associados', layout: 'layoutDashboard.hbs', users, user, ...req.session });
     }).catch((error) => {
       console.log(error);
@@ -132,7 +127,6 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
       producersId.push(producer.id);
     });
     user.associatedProducers = producersId;
-    console.log(user.fullname);
     User.update(req.params.id, user).then(() => {
       req.flash('success', 'Usuário editado com sucesso.');
       res.redirect('/users/show/' + req.params.id);
@@ -213,8 +207,6 @@ router.post('/reject/:id', auth.isAuthenticated, function (req, res, next) {
 router.post('/block/:id', auth.isAuthenticated, function (req, res, next) {
   User.getById(req.params.id).then((user) => {
     admin.auth().deleteUser(user.uid).then(function () {
-
-      console.log('Successfully deleted user from firebase');
 
       Email.userRejectedEmail(user.email, user.fullname).catch((error) => {
         req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');

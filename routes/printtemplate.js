@@ -25,7 +25,6 @@ router.get('/', (req, res) => {
             calib_afla_id[2] = kit[i].calibrators.P3.sampleID;
             calib_afla_id[3] = kit[i].calibrators.P4.sampleID;
             calib_afla_id[4] = kit[i].calibrators.P5.sampleID;
-            //console.log(calib_afla_id);
           }
         }
       }
@@ -39,7 +38,6 @@ router.get('/', (req, res) => {
                 aflas_p[3] = p4;
                 Sample.getById(calib_afla_id[4]).then((p5)=>{
                     aflas_p[4]=p5;
-                    console.log(aflas_p);
                     
     
     var today = new Date();
@@ -50,14 +48,7 @@ router.get('/', (req, res) => {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
-    console.log(yyyy);
-    console.log(mm);
-    console.log(dd);
     
-    console.log('-------------------------------------------');
-    console.log(hours); 
-    console.log(minutes);
-    console.log(scnds);
     var afla1 = new Array;
     var don1 = new Array;
     var ota1 = new Array;
