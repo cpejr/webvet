@@ -17,7 +17,7 @@ function dynamicSort(property) {
   }
 }
 
-router.get('/', async function (req, res, next) {
+router.get('/', async function (req, res) {
   Kit.getAllLastActiveWithSamples().then((toxinas) => {
 
     //Finalizando a forma de como os dados serão enviados ao front

@@ -6,17 +6,17 @@ const auth = require('./middleware/auth');
 const User = require('../models/user');
 
 
-router.get('/', auth.isAuthenticated, function(req, res, next) {
+router.get('/', auth.isAuthenticated, function(req, res) {
   res.render('analyst/homeAnalyst', {title: 'Home', layout: 'layoutDashboard.hbs' });
 
 });
 
-router.get('/new', auth.isAuthenticated, function(req, res, next) {
+router.get('/new', auth.isAuthenticated, function(req, res) {
   res.render('analyst/new', {title: 'Novo analista', layout: 'layoutDashboard.hbs' });
 
 });
 
-router.post('/create', auth.isAuthenticated, function(req, res, next){
+router.post('/create', auth.isAuthenticated, function(req, res){
   const { user } = req.body;
   user.type = 'Analista';
   user.status = 'Ativo';
@@ -36,7 +36,7 @@ router.post('/create', auth.isAuthenticated, function(req, res, next){
   });
 });
 
-router.get('/show', auth.isAuthenticated, function(req, res, next) {
+router.get('/show', auth.isAuthenticated, function(req, res) {
   User.getAll().then((users) => {
     res.render('analyst/show', { title: 'Analistas', layout: 'layoutDashboard.hbs', users, ...req.session });
   }).catch((error) => {

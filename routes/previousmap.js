@@ -22,7 +22,7 @@ function dynamicSort(property) {
 }
 
 /* GET home page. */
-router.get('/', /*auth.isAuthenticated,*/ async function (req, res, next) {
+router.get('/', /*auth.isAuthenticated,*/ async function (req, res) {
   let result = await Workmap.getLastFinalizedSamples();
 
   for (let i = 0; i < result.length; i++) {

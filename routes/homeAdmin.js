@@ -8,7 +8,7 @@ const Kit = require('../models/kit');
 const Counter = require('../models/counter');
 
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function (req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res) {
 
   User.count().then((countClients) => {
     Sample.count().then((countSamples) => {

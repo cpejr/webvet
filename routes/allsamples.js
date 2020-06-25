@@ -55,7 +55,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', function (req, res) {
   //Dando update em todos os kits ativos.
   Kit.getAllActive().then(async activeKits => {
 
