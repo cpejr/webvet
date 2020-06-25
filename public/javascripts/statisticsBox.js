@@ -1,63 +1,73 @@
-
-function randomValues(count, min, max) {
-    const delta = max - min;
-    return Array.from({ length: count }).map(() => Math.random() * delta + min);
-};
-const boxplotData = {
-    // define label tree
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-        label: 'Dataset 1',
-        backgroundColor: 'rgba(255,0,0,0.5)',
-        borderColor: 'red',
-        borderWidth: 1,
-        outlierColor: '#999999',
-        padding: 10,
-        itemRadius: 0,
-        data: [
-            randomValues(100, 0, 100),
-            randomValues(100, 0, 20),
-            randomValues(100, 20, 70),
-            randomValues(100, 60, 100),
-            randomValues(40, 50, 100),
-            randomValues(100, 60, 120),
-            randomValues(100, 80, 100)
-        ]
-    }, {
-        label: 'Dataset 2',
-        backgroundColor: 'rgba(0,0,255,0.5)',
-        borderColor: 'blue',
-        borderWidth: 1,
-        outlierColor: '#999999',
-        padding: 10,
-        itemRadius: 0,
-        data: [
-            randomValues(100, 60, 100),
-            randomValues(100, 0, 100),
-            randomValues(100, 0, 20),
-            randomValues(100, 20, 70),
-            randomValues(40, 60, 120),
-            randomValues(100, 20, 100),
-            randomValues(100, 80, 100)
-        ]
-    }]
-};
 $(document).ready(() => {
-    //GRAFICO BOXPLOT
+    var ctx = $('#DotPlot');
 
-    let ctx5 = $('#BoxPlot');
+    var chart = new Chart(ctx, {
+        plugins: [ChartDataLabels],
+        // The type of chart we want to create
+        type: 'bar',
 
-    let chart5 = new Chart(ctx5, {
-        type: 'boxplot',
-        data: boxplotData,
+        // The data for our dataset
+        data: {
+            datasets: [{
+                label: 'Frequencia',
+                backgroundColor: 'rgb(252, 186, 3)',
+                borderColor: 'rgb(252, 186, 3)',
+            }]
+        },
+
+        // Configuration options go here
         options: {
-            responsive: true,
             title: {
+                fontSize: 20,
                 display: true,
-                text: 'Box Plot Chart'
+                text: 'Distribuição de frequência referente aos Estados brasileiros',
+                padding: 25,
+            },
+            legend: {
+                display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        //max: 100,
+                        min: 0
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Frequência (%)',
+                    }
+                }]
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    color: '#676767',
+                    font: {
+                        weight: "bold",
+                    }
+                }
             }
         }
     });
+    $.get('/statistics/statesData').then(result => {
 
-    chart5.update();
+        let eixo_x = [];
+        let eixo_y = [];
+
+        //Order by the frenquecy
+        result.sort(dynamicSort('frequency')).reverse();
+
+        for (let i = 0; i < result.length; i++) {
+            const element = result[i];
+            eixo_x.push(element._id);
+            eixo_y.push((element.frequency * 100).toFixed(2));
+        }
+        //console.log(result);
+
+        chart.data.labels = eixo_x;
+        chart.data.datasets[0].data = eixo_y;
+        chart.update();
+    });
 });
