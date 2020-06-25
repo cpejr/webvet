@@ -1067,6 +1067,26 @@ class Sample {
         });
     });
   }
+  static getResultData() {
+    return new Promise((resolve, reject) => {
+      SampleModel.find([
+        { $match: { finalized: true, report: true } },
+      ]).then((result) => {
+        // let total = 0;
+
+        // for (let i = 0; i < result.length; i++)
+        //   total += result[i].samples;
+
+        // for (let j = 0; j < result.length; j++)
+        //   result[j].frequency = result[j].samples / total;
+
+        resolve(result);
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
 }
 
 module.exports = Sample;
