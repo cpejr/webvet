@@ -177,9 +177,9 @@ class User {
     });
   }
 
-  static getAllManagers() {
+  static getByQuery(query) {
     return new Promise((resolve, reject) => {
-      UserModel.find({ type: "Gerencia" }).exec().then((result) => {
+      UserModel.find(query).exec().then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);

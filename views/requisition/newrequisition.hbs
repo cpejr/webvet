@@ -8,6 +8,13 @@
   <button id="btn-new-address" class="btn btn-success" type="button">Cadastrar outros dados de cobrança</button>
 </div>
 
+{{#compare user.type "Admin"}}
+<p>Esse cara ai e admin mesmo em!</p>
+{{/compare}}
+{{#compare user.type "Analista"}}
+<p>Esse cara ai e analista mesmo em!</p>
+{{/compare}}
+
 <form action="/requisition/new" method="post" class="d-flex flex-column align-items-center">
   <div id="keep-address" class="form-row col-md-10">
     <div class="requisition-text col-md-12">
