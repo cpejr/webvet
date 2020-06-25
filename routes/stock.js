@@ -23,7 +23,7 @@ function dynamicSort(property) {
 /* GET home page. */
 
 const KITS_PER_PAGE = 12;
-router.get('/', auth.isAuthenticated, async function (req, res, next) {
+router.get('/', auth.isAuthenticated, async function (req, res) {
 
   let promises = [Kit.getAllForStock(), Kit.getAllArchived(0, KITS_PER_PAGE), Kit.countAvailableWorkmaps(), Counter.getEntireKitStocks()];
 
@@ -77,7 +77,7 @@ router.get('/archived', async (req, res) => {
   res.send((await Kit.getAllArchived(page, KITS_PER_PAGE))[0].kits);
 });
 
-router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
+router.post('/setstock', auth.isAuthenticated, async function (req, res) {
   let params = req.body;
   let kitstocks = [];
   for (let i = 0; i < ToxinasFull.length; i++) {
@@ -88,7 +88,7 @@ router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
   res.redirect('/stock');
 })
 
-router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/edit/:id', auth.isAuthenticated, function (req, res) {
   Kit.getById(req.params.id).then((kit) => {
     res.render('stock/edit', { title: 'Edit Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
   }).catch((error) => {
@@ -97,7 +97,7 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
   const kit = req.body;
   Kit.findByIdAndEdit(req.params.id, kit).then((response) => {
     req.flash('success', 'Kit alterado com sucesso.');
@@ -178,14 +178,14 @@ router.post('/delete/:id', auth.isAuthenticated, function (req, res) {
   });
 });
 
-router.post('/decreaseAmount/:kitid/', function (req, res, next) {
+router.post('/decreaseAmount/:kitid/', function (req, res) {
   Kit.decreaseAmount(req.params.kitid).catch((error) => {
     console.log(error);
     res.redirect('/error');
   });
 });
 
-router.post('/increaseAmount/:kitid/', function (req, res, next) {
+router.post('/increaseAmount/:kitid/', function (req, res) {
   Kit.increaseAmount(req.params.kitid).catch((error) => {
     console.log(error);
     res.redirect('/error');

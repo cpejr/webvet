@@ -8,7 +8,7 @@ const Sample = require('../models/sample');
 const regression = require('regression');
 const Workmap = require('../models/Workmap');
 
-router.get('/', async function (req, res, next) {
+router.get('/', async function (req, res) {
   async function calcular(toxinafull, toxinasigla) {
 
     var kit = await Kit.getActive(toxinasigla);

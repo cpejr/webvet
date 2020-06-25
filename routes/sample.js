@@ -10,7 +10,7 @@ const Workmap = require('../models/Workmap');
 
 /* GET home page. */
 
-router.get('/', auth.isAuthenticated, function (req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res) {
   res.render('test', { title: 'Usuários', layout: 'layoutDashboard.hbs', ...req.session });
 
 });
@@ -36,7 +36,7 @@ router.post('/create', (req, res) => {
   });
 });
 
-router.post('/updatestatus/:status/:mycotoxin/:samplenumber', function (req, res, next) {
+router.post('/updatestatus/:status/:mycotoxin/:samplenumber', function (req, res) {
 
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     const sampleedit = sample;
@@ -91,7 +91,7 @@ router.post('/updatestatus/:status/:mycotoxin/:samplenumber', function (req, res
   });
 });
 
-router.post('/setActiveKit/:toxinafull/:kitActiveID', function (req, res, next) {
+router.post('/setActiveKit/:toxinafull/:kitActiveID', function (req, res) {
   //Set active to inactive
   let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)]
   //Correção provisória do problema com a sigla
@@ -115,7 +115,7 @@ router.post('/setActiveKit/:toxinafull/:kitActiveID', function (req, res, next) 
   });
 });
 
-router.post('/scndTesting/edit/:mycotoxin/:samplenumber', function (req, res, next) {//this function is for the second kanban
+router.post('/scndTesting/edit/:mycotoxin/:samplenumber', function (req, res) {//this function is for the second kanban
 
   let samplenumber = req.params.samplenumber;
   let toxina = req.params.mycotoxin;
@@ -138,7 +138,7 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber', function (req, res, ne
   });
 });
 
-router.post('/mapedit/:mycotoxin/:samplenumber/:mapID', function (req, res, next) {
+router.post('/mapedit/:mycotoxin/:samplenumber/:mapID', function (req, res) {
   let mapID = req.params.mapID;
   let samplenumber = req.params.samplenumber;
   let toxina = req.params.mycotoxin;

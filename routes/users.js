@@ -6,7 +6,7 @@ const User = require('../models/user');
 const Email = require('../models/email');
 
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function (req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res) {
   User.getAllActiveProducers().then((users) => {
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
@@ -17,7 +17,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
 
 });
 
-router.get('/pending', auth.isAuthenticated, function (req, res, next) {
+router.get('/pending', auth.isAuthenticated, function (req, res) {
 
   User.getPendingAndInactive().then((result) => {
     let [obj1, obj2] = result;
@@ -47,7 +47,7 @@ router.get('/pending', auth.isAuthenticated, function (req, res, next) {
 
 });
 
-router.get('/associated', auth.isAuthenticated, function (req, res, next) {
+router.get('/associated', auth.isAuthenticated, function (req, res) {
 
   User.getAll().then((users) => {
     res.render('admin/users/associated', { title: 'Conveniados', layout: 'layoutDashboard.hbs', users, ...req.session });
@@ -71,7 +71,7 @@ router.get('/analysts', auth.isAuthenticated, function (req, res) {
 
 });
 
-router.get('/producers', auth.isAuthenticated, function (req, res, next) {
+router.get('/producers', auth.isAuthenticated, function (req, res) {
 
   User.getAll().then((users) => {
     res.render('admin/users/producers', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
@@ -83,7 +83,7 @@ router.get('/producers', auth.isAuthenticated, function (req, res, next) {
 
 });
 
-router.get('/managers', auth.isAuthenticated, function (req, res, next) {
+router.get('/managers', auth.isAuthenticated, function (req, res) {
 
   User.getByQuery({type: "Gerencia"}).then((users) => {
     const loggedID = req.session.user._id
@@ -96,7 +96,7 @@ router.get('/managers', auth.isAuthenticated, function (req, res, next) {
 
 });
 
-router.get('/managers/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/managers/:id', auth.isAuthenticated, function (req, res) {
 
   User.getAssociatedMaganersById(req.params.id).then((users) => {
     User.getById(req.params.id).then((user) => {
@@ -113,7 +113,7 @@ router.get('/managers/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 
-router.get('/producers/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/producers/:id', auth.isAuthenticated, function (req, res) {
 
   User.getAssociatedProducersById(req.params.id).then((users) => {
     console.log(users);
@@ -130,7 +130,7 @@ router.get('/producers/:id', auth.isAuthenticated, function (req, res, next) {
   });
 
 });
-router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
   const { user } = req.body;
   const promises = [];
   const producersId = [];
@@ -154,7 +154,7 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 
 });
 
-router.get('/show/:id/:returnRoute', function (req, res, next) {
+router.get('/show/:id/:returnRoute', function (req, res) {
   User.getById(req.params.id).then((actualUser) => {
     res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', returnRoute: req.params.returnRoute, actualUser, ...req.session });
   }).catch((error) => {
@@ -163,7 +163,7 @@ router.get('/show/:id/:returnRoute', function (req, res, next) {
   });
 });
 
-router.post('/approve/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/approve/:id', auth.isAuthenticated, function (req, res) {
   User.getById(req.params.id).then((user) => {
     Email.userApprovedEmail(user.email, user.fullname.split(' ')[0]).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário aprovado.');
@@ -184,7 +184,7 @@ router.post('/approve/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 
-router.post('/pending/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/pending/:id', auth.isAuthenticated, function (req, res) {
 
   const user = {
     status: 'Aguardando aprovação'
@@ -199,7 +199,7 @@ router.post('/pending/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.post('/reject/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/reject/:id', auth.isAuthenticated, function (req, res) {
   User.getById(req.params.id).then((user) => {
     Email.userRejectedEmail(user.email, user.fullname).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário rejeitado.');
@@ -217,7 +217,7 @@ router.post('/reject/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.post('/block/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/block/:id', auth.isAuthenticated, function (req, res) {
   User.getById(req.params.id).then((user) => {
     admin.auth().deleteUser(user.uid).then(function () {
 
@@ -243,7 +243,7 @@ router.post('/block/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 
-router.get('/addManager', auth.isAuthenticated, function (req, res, next) {
+router.get('/addManager', auth.isAuthenticated, function (req, res) {
   User.getById("5ce8401566fee16478f3f43a").then((manager) => {
     // Adiciona o segundo id ao primeiro
     User.addManager("5ce8401566fee16478f3f43a", "5ce83ed566fee16478f3f435").catch((error) => {
@@ -254,7 +254,7 @@ router.get('/addManager', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.post('/approvepayment/:id', auth.isAuthenticated, function (req, res, next) {
+router.post('/approvepayment/:id', auth.isAuthenticated, function (req, res) {
   User.getById(req.params.id).then((user) => {
 
     const userUpdate = {

@@ -121,7 +121,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
   });
 });
 
-router.get('/', auth.isAuthenticated, function (req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res) {
   Requisition.getAll().then((requisitions) => {
     requisitions = requisitions.reverse();
     res.render('requisition/index', { title: 'Requisições Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, requisitions });
@@ -146,7 +146,7 @@ router.get('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res) 
   });
 });
 
-router.get('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
+router.get('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req, res) {
   Requisition.getById(req.params.id).then((requisition) => {
       res.render('requisition/useredit', { title: 'Edit Requisition', layout: 'layoutDashboard.hbs', requisition, ...req.session });
     
@@ -156,7 +156,7 @@ router.get('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req
   });
 });
 
-router.post('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
+router.post('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res) {
   var { requisition, sample } = req.body;
   if (req.body.novaCheck === "isChecked") {
     requisition.status = "Aprovada";
@@ -198,7 +198,7 @@ router.post('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res,
   });
 });
 
-router.post('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
+router.post('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req, res) {
   var requisition = req.body.requisition;
   Requisition.update(req.params.id, requisition).then(() => {
     req.flash('success', 'Requisição alterada com sucesso.');
