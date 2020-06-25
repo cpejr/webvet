@@ -261,46 +261,94 @@
     </div>
     <div class="d-flex form-row col-md-10 justify-content-center">
       {{#each samples}}
-        <div class="requisition-text col-md-6">
-          <input required type="text" name="sample[name]" class="requisition-text" placeholder="Nome da amostra"
-            value="{{name}}">
-        </div>
+      <div class="requisition-text col-md-6">
+        <input required type="text" name="sample[name]" class="requisition-text" placeholder="Nome da amostra"
+          value="{{name}}">
+      </div>
 
-        <div class="requisition-text col-md-4 d-flex align-items-center">
-          <input type="hidden" name="sample[_id]" class="requisition-text" value="{{_id}}">
-          <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100" name="sample[sampletype]"
-            required="required">
-            <option disabled selected value="">Tipo</option>
-            <option value="Subprodutos">Subprodutos</option>
-            <option value="Dieta total">Dieta Total</option>
-            <option value="Milho">Milho</option>
-            <option value="Ração">Ração</option>
-            <option value="Silagem">Silagem</option>
-            <option value="Soja">Soja</option>
-            <option value="Trigo">Trigo</option>
-            <option value="Sorgo">Sorgo</option>
-            <option value="Cevada">Cevada</option>
-            <option value="Radicula">Radícula</option>
-            <option value="Capim/Feno">Capim/Feno</option>
-            <option value="Arroz">Arroz</option>
-            <option value="Aveia">Aveia</option>
-          </select>
-        </div>
+      <div class="requisition-text col-md-4 d-flex align-items-center">
+        <input type="hidden" name="sample[_id]" class="requisition-text" value="{{_id}}">
+        <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100" name="sample[sampletype]"
+          required="required">
+          <option disabled selected value="">Tipo</option>
+          <option value="Subprodutos">Subprodutos</option>
+          <option value="Dieta total">Dieta Total</option>
+          <option value="Milho">Milho</option>
+          <option value="Ração">Ração</option>
+          <option value="Silagem">Silagem</option>
+          <option value="Soja">Soja</option>
+          <option value="Trigo">Trigo</option>
+          <option value="Sorgo">Sorgo</option>
+          <option value="Cevada">Cevada</option>
+          <option value="Radicula">Radícula</option>
+          <option value="Capim/Feno">Capim/Feno</option>
+          <option value="Arroz">Arroz</option>
+          <option value="Aveia">Aveia</option>
+        </select>
+      </div>
+      <script>
+        $(document).ready(function () {
+          let reqtype = "{{sampletype}}";
+          $('select#{{_id}}').val(reqtype);
+        });
+      </script>
 
-        <div class="checkbox col-md-2 d-flex pb-1">
-          <div class="align-self-end">
-            <input type="checkbox" id="polpa{{@index}}" name="polpa" value="polpa" class="my-auto" />
-            <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
-          </div>
+      <div class="checkbox col-md-2 d-flex pb-1">
+        <div class="align-self-end">
+          <input type="checkbox" id="polpa{{@index}}" name="polpa" value="polpa" class="my-auto" />
+          <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
         </div>
-
-        <script>
-          $(document).ready(function () {
-            let reqtype = "{{sampletype}}";
-            $('select#{{_id}}').val(reqtype);
-          });
-        </script>
+      </div>
       {{/each}}
+
+      <div class="requisition-titles mt-3">
+        <p> Análises Solicitadas</p>
+      </div>
+
+      <div class="d-flex flex-row flex-wrap justify-content-around w-100 ">
+        <div class="d-flex mx-1">
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Aflatoxinas"
+              value="Aflatoxinas">Aflatoxinas</label>
+        </div>
+        <div class="d-flex mx-1">
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Ocratoxina A"
+              value="Ocratoxina A">Ocratoxina A</label>
+        </div>
+        <div class="d-flex mx-1">
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Deoxinivalenol"
+              value="Deoxinivalenol">Deoxinivalenol*</label>
+        </div>
+        <div class="d-flex mx-1">
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="T-2 toxina" value="T-2 toxina">T-2
+            toxina</label>
+        </div>
+        <div class="d-flex mx-1">
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Fumonisina"
+              value="Fumonisina">Fumonisinas</label>
+        </div>
+        <div class="d-flex mx-1">
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Zearalenona"
+              value="Zearalenona">Zearalenona</label>
+        </div>
+      </div>
+
+      <script>
+        $(document).ready(function () {
+          const micotoxins = '{{requisition.mycotoxin}}'.split(',');
+
+          micotoxins.forEach(toxin => {
+            $(`input[id='${toxin}']`).prop("checked", true);
+          })
+        });
+      </script>
+
+
     </div>
     <div class="requisition-text col-md-10 mt-5 mb-5">
       <textarea class="requisition-text w-100" name="requisition[comment]" placeholder="Observações"
@@ -309,7 +357,7 @@
 </div>
 
 {{#if nova}}
-  <input type="checkbox" style="display: none;" id="novaCheckId" name="novaCheck" value="isChecked"></input>
+<input type="checkbox" style="display: none;" id="novaCheckId" name="novaCheck" value="isChecked"></input>
 {{/if}}
 <div>
   <input class="some" type="submit" id="submitButton"></input>
@@ -317,14 +365,14 @@
 </form>
 <div class="text-center">
   {{#unless nova}}
-    <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
+  <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
   {{/unless}}
 
   {{#if nova}}
-    <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
-      requisição</button>
+  <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
+    requisição</button>
 
-    <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
+  <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
   {{/if}}
 </div>
 
