@@ -21,10 +21,6 @@ router.get('/signup', (req, res) => {
   res.render('index/form', { title: 'signup', layout: 'layoutIndex' });
 });
 
-// router.get('/requisition', (req, res) => {
-//   res.render('requisition', {title:'requisition',layout:'layoutDashboard.hbs'});
-// });
-
 router.get('/forgotPassword', (req, res) => {
   res.render('index/forgotPassword', { title: 'Esqueci Minha Senha', layout: 'layoutIndex' });
 });
@@ -60,7 +56,6 @@ router.post('/login', (req, res) => {
   firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
     User.getByUid(userID.user.uid).then((currentLogged) => {
       if (currentLogged) {
-        // console.log(currentLogged);
         const userR = {
           type: currentLogged.type,
           fullname: currentLogged.fullname,
@@ -163,23 +158,6 @@ router.post('/signup', (req, res) => {
     res.render('index/form', { title: 'signup', layout: 'layout', error });
   });
 });
-
-//post / NovoRegistro
-// router.post('/requisition', (req,res) => {
-//
-//   const newRequisition = req.body;
-//
-//       console.log(newRequisition);
-//       Requisition.create(newRequisition).then((userID)=>{
-//         console.log(`New requisition with user id: ${userID}`);
-//         req.flash('success', 'Nova requisição enviada')
-//         res.redirect('/homeAdmin');
-//       }).catch((error) => {
-//         console.log(error);
-//         res.redirect('/error');
-//       });
-// });
-
 
 // GET /logout
 router.get('/logout', auth.isAuthenticated, (req, res, next) => {

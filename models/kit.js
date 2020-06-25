@@ -482,12 +482,8 @@ class Kit {
         } else {
           valueObject.push({ loq: "Numero nao declarado", log: "Numero nao declarado" });
         }
-        console.log("valueObject: ");
-        console.log(valueObject);
       }
       Promise.all(valueObject).then(function finalizar() {
-        console.log("ValueObject esta pronto? ");
-        console.log(valueObject);
         resolve(valueObject);
       });
     });

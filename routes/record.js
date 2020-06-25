@@ -9,7 +9,6 @@ router.get('/', auth.isAuthenticated, (req, res, next) => {
   let _id = req.session.user._id;
 
   Requisition.getAllByUserId(_id).then((requisitions) => {
-    console.log(requisitions.status);
     res.render('record/index', { title: 'Histórico', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
 
   }).catch((error) => {

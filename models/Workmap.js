@@ -162,7 +162,6 @@ class Workmap {
           }
         },
       ]).then(result => {
-        console.log(result);
         resolve(result);
       });
     });

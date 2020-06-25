@@ -60,9 +60,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
               if (stockMap.has(kits[i].productCode) == true) {
                 x = stockMap.get(kits[i].productCode);
                 stockMap.set(kits[i].productCode, kits[i].amount + x);
-                // console.log('qtde');
-                // console.log(kits[i].amount);
-                // console.log(x);
               }
               else {
                 stockMap.set(kits[i].productCode, kits[i].amount);
@@ -128,9 +125,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
                 totalKitCounter[countIndex].minStock = actualKitStock.minStock;
               }
             }
-
             res.render('admin/homeAdmin', { title: 'Home', layout: 'layoutDashboard.hbs', countClients, vencidos, countSamples, requisitions, novasReq, gt0, gt1, et1, ...req.session, totalKitCounter });
-
           }).catch((err) => {
             console.log(err);
             res.redirect('/error');

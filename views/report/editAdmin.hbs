@@ -59,9 +59,9 @@
               </tr>
               <script>
                 var initialCheck = function () {
-                  console.log("{{Obj.name}}: {{Obj.checked}}");
+                 // console.log("{{Obj.name}}: {{Obj.checked}}");
                   if ($('button[name="check[true]"][id="{{Obj.name}}"]').length > 0) {
-                    console.log("{{Obj.name}} esta presente!");
+                   // console.log("{{Obj.name}} esta presente!");
                     $('input[name="{{Obj.name}}[checked]"]').attr("checked", "{{Name}}");
                   }
                 };

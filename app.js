@@ -1,8 +1,9 @@
 require('dotenv').config();
 
-const createError = require('http-errors');
 const express = require('express');
 const exphbs = require('express-handlebars');
+
+const createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -18,7 +19,6 @@ const session = require('express-session');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const stockRouter = require('./routes/stock');
-const testRouter = require('./routes/test');
 const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const userRouter = require('./routes/user');
@@ -98,13 +98,19 @@ admin.initializeApp({
   databaseURL: process.env.FIREBASE_DATABASE_URL
 });
 
-// view engine setup
+/**
+ * Express-handlebars setup 
+ */
+const Handlebars = require('handlebars')
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({
   defaultLayout: 'layout',
   extname: '.hbs',
   partialsDir: 'views/partials',
+  handlebars: allowInsecurePrototypeAccess(Handlebars),
   helpers: {
     // Here we're declaring the #section that appears in layout/layout.hbs
     section(name, options) {
@@ -153,26 +159,38 @@ app.engine('hbs', exphbs({
   }
 }));
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(session({
-  secret: 'some-private-cpe-key',
-  resave: true,
-  saveUninitialized: true
-}));
+/**
+ * Arquivos estáticos e estilos
+ */
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   indentedSyntax: true, // true = .sass and false = .scss
   sourceMap: true
 }));
-app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use(logger('dev'));
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+app.use(session({
+  secret: 'some-private-cpe-key',
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(flash());
+// app.use(methodOverride('_method'));
+
+
+
+/**
+ * Express setup 
+ */
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
