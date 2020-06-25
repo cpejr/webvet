@@ -12,7 +12,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   const promises = [
     User.count(),
     Sample.count(),
-    Kit.getAll(),
+    Kit.getAllInStock(),
     Counter.getEntireKitStocks(),
     Requisition.countNew(),
     Requisition.countAll(),
