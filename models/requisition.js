@@ -1,60 +1,65 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const mongoose = require('mongoose');
-const User = require('./user');
-const Counter = require('./counter')
-const Sample = require('./sample');
+const mongoose = require("mongoose");
+const User = require("./user");
+const Counter = require("./counter");
+const Sample = require("./sample");
 
-const requisitionSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  requisitionnumber: Number,
-  receivedquantity: Number, //Quantidade recebida
-  autorizationnumber: String, //Controle interno do solicitante 
-  packingtype: String, //Tipo de embalagem
-  datecollection: String,
-  datereceipt: String, //Data de recebimento
-  comment: String,
-  IE: String,
-  city: String,
-  state: String,
-  producer: String,
-  destination: String,
-  farmname: String,
-  mycotoxin: [String],
-  responsible: String,
-  status: {
-    type: String,
-    enum: ['Nova', 'Aprovada', 'Em Progresso', 'Cancelada'],
-    default: 'Nova',
-    required: true
-  },
-  address: {
-    cep: Number,
-    street: String,
-    number: String,
-    complement: String,
+const requisitionSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    requisitionnumber: Number,
+    receivedquantity: Number, //Quantidade recebida
+    autorizationnumber: String, //Controle interno do solicitante
+    packingtype: String, //Tipo de embalagem
+    datecollection: String,
+    datereceipt: String, //Data de recebimento
+    comment: String,
+    IE: String,
     city: String,
     state: String,
-    neighborhood: String,
+    producer: String,
+    destination: String,
+    farmname: String,
+    mycotoxin: [String],
+    responsible: String,
+    status: {
+      type: String,
+      enum: ["Nova", "Aprovada", "Em Progresso", "Cancelada"],
+      default: "Nova",
+      required: true,
+    },
+    address: {
+      cep: Number,
+      street: String,
+      number: String,
+      complement: String,
+      city: String,
+      state: String,
+      neighborhood: String,
+    },
+    client: {
+      cep: Number,
+      fullname: String,
+      phone: String,
+      cellphone: String,
+      email: String,
+      register: String,
+    },
+    samples: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Sample",
+      },
+    ],
   },
-  client: {
-    cep: Number,
-    fullname: String,
-    phone: String,
-    cellphone: String,
-    email: String,
-    register: String,
-  },
-  samples: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Sample'
-  }]
-}, { timestamps: true, strict: false });
+  { timestamps: true, strict: false }
+);
 
-const RequisitionModel = mongoose.model('Requisition', requisitionSchema);
+const RequisitionModel = mongoose.model("Requisition", requisitionSchema);
 
 class Requisition {
   /**
@@ -63,14 +68,27 @@ class Requisition {
    */
   static getAll() {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({}).populate('user').exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.find({})
+        .populate("user")
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
+  static async countNew() {
+    const response = await RequisitionModel.count({ status: "Nova" });
+    return response;
+  }
+
+  static async countAll() {
+    const response = await RequisitionModel.count({});
+    return response;
+  }
 
   /**
    * Get a Requisitions by sample
@@ -78,21 +96,25 @@ class Requisition {
    */
   static getBySampleID(sampleid) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({ samples: { $in: sampleid } }).then((req) => {
-        resolve(req);
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.find({ samples: { $in: sampleid } })
+        .then((req) => {
+          resolve(req);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getByIdArray(reqidArray) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({ _id: { $in: reqidArray } }).then((req) => {
-        resolve(req);
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.find({ _id: { $in: reqidArray } })
+        .then((req) => {
+          resolve(req);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -103,11 +125,15 @@ class Requisition {
    */
   static getById(id) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.findById(id).populate('user').exec().then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.findById(id)
+        .populate("user")
+        .exec()
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -118,11 +144,15 @@ class Requisition {
    */
   static getByDestination(destination) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.findById(destination).populate('user').exec().then((result) => {
-        resolve(result.toObject());
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.findById(destination)
+        .populate("user")
+        .exec()
+        .then((result) => {
+          resolve(result.toObject());
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -133,7 +163,7 @@ class Requisition {
    */
   static create(requisition) {
     return new Promise((resolve, reject) => {
-      Counter.getRequisitionCount().then(async requisitionNumber => {
+      Counter.getRequisitionCount().then(async (requisitionNumber) => {
         let count = requisitionNumber;
         requisition.requisitionnumber = count;
 
@@ -152,11 +182,13 @@ class Requisition {
    */
   static update(id, requisition) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.findByIdAndUpdate(id, requisition).then((res) => {
-        resolve(res);
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.findByIdAndUpdate(id, requisition)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -168,15 +200,19 @@ class Requisition {
   static delete(id) {
     return new Promise((resolve, reject) => {
       //projection: -> Optional. A subset of fields to return.
-      RequisitionModel.findOneAndDelete({ _id: id }, { projection: { "samples": 1 } }).then(obj => {
-        var samples = obj.samples;
-        Sample.deleteMany(samples).then(result => {
-          resolve(result);
+      RequisitionModel.findOneAndDelete(
+        { _id: id },
+        { projection: { samples: 1 } }
+      )
+        .then((obj) => {
+          var samples = obj.samples;
+          Sample.deleteMany(samples).then((result) => {
+            resolve(result);
+          });
+        })
+        .catch((err) => {
+          reject(err);
         });
-      }).catch((err) => {
-        reject(err);
-      });
-
     });
   }
 
@@ -186,11 +222,13 @@ class Requisition {
    */
   static clear() {
     return new Promise((resolve, reject) => {
-      RequisitionModel.deleteMany({}).then(() => {
-        resolve();
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.deleteMany({})
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -200,23 +238,27 @@ class Requisition {
    */
   static count() {
     return new Promise((resolve, reject) => {
-      RequisitionModel.countDocuments({}).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.countDocuments({})
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   /**
-  * Add sample to samples
-  * @param {string} id - requisition Id
-  * @param {string} sample - Sample Id
-  * @returns {null}
-  */
+   * Add sample to samples
+   * @param {string} id - requisition Id
+   * @param {string} sample - Sample Id
+   * @returns {null}
+   */
   static addSample(id, sample) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.findByIdAndUpdate(id, { $push: { samples: sample } }).catch((err) => {
+      RequisitionModel.findByIdAndUpdate(id, {
+        $push: { samples: sample },
+      }).catch((err) => {
         reject(err);
       });
     });
@@ -224,21 +266,25 @@ class Requisition {
 
   static getAllInProgress() {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({ status: "Em Progresso" }).then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.find({ status: "Em Progresso" })
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllByUserId(userId) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({ user: userId }).then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      RequisitionModel.find({ user: userId })
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -251,23 +297,23 @@ class Requisition {
           $group: {
             _id: "$state",
             samples: { $sum: { $size: "$samples" } },
-          }
+          },
         },
-      ]).then((result) => {
-        let total = 0;
+      ])
+        .then((result) => {
+          let total = 0;
 
-        for (let i = 0; i < result.length; i++)
-          total += result[i].samples;
+          for (let i = 0; i < result.length; i++) total += result[i].samples;
 
-        for (let j = 0; j < result.length; j++)
-          result[j].frequency = result[j].samples / total;
+          for (let j = 0; j < result.length; j++)
+            result[j].frequency = result[j].samples / total;
 
-
-        resolve(result);
-      }).catch(err => {
-        console.log(err);
-        reject(err);
-      });
+          resolve(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
     });
   }
   // -------------------------------------------------------------------------
@@ -281,27 +327,25 @@ class Requisition {
           $group: {
             _id: "$destination",
             samples: { $sum: { $size: "$samples" } },
-          }
+          },
         },
-      ]).then((result) => {
-        let total = 0;
+      ])
+        .then((result) => {
+          let total = 0;
 
-        for (let i = 0; i < result.length; i++)
-          total += result[i].samples;
+          for (let i = 0; i < result.length; i++) total += result[i].samples;
 
-        for (let j = 0; j < result.length; j++)
-          result[j].frequency = result[j].samples / total;
+          for (let j = 0; j < result.length; j++)
+            result[j].frequency = result[j].samples / total;
 
-
-        resolve(result);
-      }).catch(err => {
-        console.log(err);
-        reject(err);
-      });
+          resolve(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
     });
   }
-  
-
 }
 
 module.exports = Requisition;

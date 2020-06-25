@@ -118,7 +118,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
+router.get('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res) {
   Requisition.getById(req.params.id).then((requisition) => {
     Sample.getByIdArray(requisition.samples).then((samples) => {
       var nova = false;
