@@ -61,7 +61,7 @@ router.get('/associated', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/analysts', auth.isAuthenticated, function (req, res) {
 
-  User.getAllAnalysts().then((users) => {
+  User.getByQuery({ type: "Analista" }).then((users) => {
     console.log(users);
     res.render('admin/users/analysts', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
 
@@ -87,7 +87,7 @@ router.get('/producers', auth.isAuthenticated, function (req, res, next) {
 
 router.get('/managers', auth.isAuthenticated, function (req, res, next) {
 
-  User.getAllManagers().then((users) => {
+  User.getByQuery({type: "Gerencia"}).then((users) => {
     const loggedID = req.session.user._id
     console.log(loggedID);
     res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session, loggedID });
