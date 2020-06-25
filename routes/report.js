@@ -30,7 +30,6 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
         logados[countlogados] = requisitions[i];
         countlogados++;
       } else {
-        console.log("nadinha");
       }
     }
     res.render('report/index', { title: 'Requisições Disponíveis', layout: 'layoutDashboard.hbs', ...req.session, logados });
@@ -60,9 +59,7 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
       var listIds = [];
 
       for (i = 0; i < ToxinasFull.length; i++) {  //
-        console.log(i + " KitId " + ToxinasFull[i]);
         toxiKit = sample[ToxinasFull[i]];
-        console.log(toxiKit);
         if (toxiKit.kitId !== null) {
           listIds.push(toxiKit.kitId);
         }
@@ -173,9 +170,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
       var listIds = [];
 
       for (i = 0; i < ToxinasFull.length; i++) {  //
-        console.log(i + " KitId " + ToxinasFull[i]);
         toxiKit = sample[ToxinasFull[i]];
-        console.log(toxiKit);
         if (toxiKit.kitId !== null) {
           listIds.push(toxiKit.kitId);
         }
@@ -253,7 +248,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
               }
             }
           } else {
-            console.log("Algo deu errado, o kit em orderedKits[k] nao deveria estar desse jeito, vai dar merda");
+            console.log("Algo deu errado, o kit em orderedKits[k] nao deveria estar desse jeito, vai dar ruim");
             Obj.name = orderedKits[k].name;
             Name = ToxinasFormal[k];
             Values.push({
@@ -310,8 +305,6 @@ router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
     Sample.getById(amostras).then((tututu) => {
       for (var i = 0; i < amostras.length; i++) {
         teste1[i] = tututu[i];
-        console.log("DEEEEEEEEEEEEEU");
-        console.log(teste1[i]);
       }
       res.render('report/samples', { title: 'Amostas', layout: 'layoutDashboard.hbs', teste1, ...req.session });
     });

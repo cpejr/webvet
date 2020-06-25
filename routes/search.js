@@ -19,7 +19,6 @@ router.get('/producers', auth.isAuthenticated, (req, res) => {
         names.push(producer.fullname);
       }
     });
-    console.log(names);
     res.send(names);
   }).catch((error) => {
     console.log(error);
@@ -37,7 +36,6 @@ router.get('/covenants', auth.isAuthenticated, (req, res) => {
         names.push(covenant.fullname);
       }
     });
-    console.log(names);
     res.send(names);
   }).catch((error) => {
     console.log(error);
@@ -55,7 +53,6 @@ router.get('/managers', auth.isAuthenticated, (req, res) => {
         names.push(manager.fullname);
       }
     });
-    console.log(names);
     res.send(names);
   }).catch((error) => {
     console.log(error);
@@ -66,7 +63,6 @@ router.get('/managers', auth.isAuthenticated, (req, res) => {
 router.get('/samples', auth.isAuthenticated, (req, res) => {
   Sample.getAll().then((samples) => {
     res.send(samples);
-    console.log(samples);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -84,7 +80,6 @@ router.get('/samplesActive', auth.isAuthenticated, (req, res) => {
 
 router.get('/samplesActiveWithUser', auth.isAuthenticated, (req, res) => {
   Sample.getAllActiveWithUser().then((objs) => {
-    console.log(objs)
     res.send(objs);
   }).catch((error) => {
     console.log(error);

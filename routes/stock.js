@@ -82,7 +82,6 @@ router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
   let kitstocks = [];
   for (let i = 0; i < ToxinasFull.length; i++) {
     toxiName = ToxinasFull[i];
-    console.log(params[toxiName]);
     kitstocks.push({ name: toxiName, minStock: params[toxiName] });
   }
   await Counter.setKitStocks(kitstocks);
@@ -91,7 +90,6 @@ router.post('/setstock', auth.isAuthenticated, async function (req, res, next) {
 
 router.get('/edit/:id', auth.isAuthenticated, function (req, res, next) {
   Kit.getById(req.params.id).then((kit) => {
-    console.log(kit);
     res.render('stock/edit', { title: 'Edit Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
   }).catch((error) => {
     console.log(error);
@@ -111,7 +109,6 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res, next) {
 });
 
 router.get('/new', auth.isAuthenticated, function (req, res) {
-  console.log(req.session.user);
   res.render('stock/newkit', { title: 'Novo Kit', layout: 'layoutDashboard.hbs', ...req.session });
 });
 
@@ -135,7 +132,6 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
     }
     if (!alreadyExists) {
       Kit.create(kit).then(async (id) => {
-        console.log(kit);
         var size = req.body.kit.amount;
 
         let promises = [];
@@ -175,7 +171,6 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
 
 router.post('/delete/:id', auth.isAuthenticated, function (req, res) {
   Kit.delete(req.params.id).then(() => {
-    console.log('ENTROOOUUUUU');
     res.redirect('/stock');
   }).catch((error) => {
     console.log(error);

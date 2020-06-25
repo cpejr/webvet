@@ -5,9 +5,7 @@ $("input[name='page']").change(function (e) {
     e.preventDefault();
 
   processing = true;
-  console.log($(this).val());
   $.get(`/stock/archived?page=${$(this).val() - 1}`).then(response => {
-    console.log(response);
 
     let newHtml = '';
     response.map(kit => {

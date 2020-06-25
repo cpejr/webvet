@@ -17,7 +17,5 @@ $(document).ready(function () {
             $(`<label for='${id}' class="floating-label">${$(elem).attr('placeholder')}</label>`)
         );
 
-        console.log(container.id);
-
     });
 });

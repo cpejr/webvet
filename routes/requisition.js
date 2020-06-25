@@ -23,19 +23,15 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
     requisition.destination = requisition.destination.toString();
 
   if (req.body.producerAddress == 0) {
-    console.log("MINI BOIIIII");
     const address = req.session.user.address;
-    console.log(req.session.user.address);
     requisition.address = address;
   }
   if (typeof requisition.sampleVector === "string"){
     let vetor = [];
     vetor[0] = requisition.sampleVector;
     requisition.sampleVector = vetor;
-    console.log("PASSOU POR MIM");
   }
   //------------------------------------------------
-  console.log(requisition);
   Requisition.create(requisition).then((reqid) => {
     var i;
     const samplesV = [];
@@ -107,7 +103,6 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
     });
 
 
-    console.log(`New requisition with id: ${reqid}`);
     req.flash('success', 'Nova requisição enviada');
     res.redirect('/user');
   }).catch((error) => {
@@ -154,10 +149,8 @@ router.get('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req
 router.post('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res, next) {
   var { requisition, sample } = req.body;
   if (req.body.novaCheck === "isChecked") {
-    console.log("Detectou que a checkbox esta marcada");
     requisition.status = "Aprovada";
   }
-  console.log(sample);
   if (typeof sample.sampletype === "string"){
     let vetor = [];
     vetor[0] = sample.sampletype;
@@ -173,7 +166,6 @@ router.post('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res,
     vetor[0] = sample.name;
     sample.name = vetor;
   }
-  console.log(sample);
   //-----------------------------------------------------------------------------------
   for (let i = 0; i < sample._id.length; i++) {
     let samples = {
@@ -182,14 +174,12 @@ router.post('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res,
       approved: true
     };
     Sample.update(sample._id[i], samples).then(() => {
-      console.log("Deveria ter dado update");
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
     });
   }
   Requisition.update(req.params.id, requisition).then(() => {
-    console.log("Deveria ter dado update");
     req.flash('success', 'Requisição alterada com sucesso.');
     res.redirect(`/requisition/edit/${req.params.id}`);
   }).catch((error) => {
@@ -201,7 +191,6 @@ router.post('/edit/:id', auth.isAuthenticated, auth.isAdmin, function (req, res,
 router.post('/useredit/:id', auth.isAuthenticated, auth.isProducer, function (req, res, next) {
   var requisition = req.body.requisition;
   Requisition.update(req.params.id, requisition).then(() => {
-    console.log("Deveria ter dado update");
     req.flash('success', 'Requisição alterada com sucesso.');
     res.redirect(`/requisition/useredit/${req.params.id}`);
   }).catch((error) => {

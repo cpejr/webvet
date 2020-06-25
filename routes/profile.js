@@ -12,7 +12,6 @@ const Email = require('../models/email');
 router.get('/show', auth.isAuthenticated, function(req, res, next) {
   const id = req.session.user._id;
   User.getById(id).then((user) => {
-    console.log(user);
     res.render('profile/show', { title: 'Perfil', layout: 'layoutDashboard.hbs', user});
 
   }).catch((error) => {
@@ -25,7 +24,6 @@ router.get('/show', auth.isAuthenticated, function(req, res, next) {
 //Rota GET da página edit - Usa o GetById para mostrar as informações do usuário logado
 router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {
   User.getById(req.params.id).then((user) => {
-    console.log(user);
     res.render('profile/edit', { title: 'Editar perfil', layout: 'layoutDashboard.hbs', user});
   }).catch((error) => {
     console.log(error);
@@ -44,7 +42,6 @@ router.put('/edit/:id', auth.isAuthenticated, function(req, res, next) {
           req.session.user = userF;
           req.flash('success', 'Alterações no perfil realizadas');
           res.redirect('/profile/show');
-          // console.log(useredit);
       }).catch((error) => {
         console.log(error);
         res.redirect('/error');
