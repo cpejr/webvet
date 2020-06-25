@@ -23,6 +23,7 @@ const sampleSchema = new mongoose.Schema(
     },
     requisitionId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Requisition"
     },
     responsible: String,
     creationYear: {
@@ -60,9 +61,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       checked: {
         type: Boolean,
@@ -98,10 +101,12 @@ const sampleSchema = new mongoose.Schema(
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       checked: {
         type: Boolean,
@@ -138,9 +143,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       checked: {
         type: Boolean,
@@ -176,10 +183,12 @@ const sampleSchema = new mongoose.Schema(
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       checked: {
         type: Boolean,
@@ -216,9 +225,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       checked: {
         type: Boolean,
@@ -255,9 +266,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       checked: {
         type: Boolean,
