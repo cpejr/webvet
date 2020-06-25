@@ -31,7 +31,7 @@
           placeholder="Selecione o Usuário">
           <option disabled selected value="">Selecione o Usuário</option>
           {{#each users}}
-          <option value="{{uid}}">{{fullname}} - {{type}} - {{email}}</option>
+          <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
           {{/each}}
         </select>
       </div>
