@@ -1,8 +1,9 @@
 require('dotenv').config();
 
-const createError = require('http-errors');
 const express = require('express');
 const exphbs = require('express-handlebars');
+
+const createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -18,7 +19,6 @@ const session = require('express-session');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const stockRouter = require('./routes/stock');
-const testRouter = require('./routes/test');
 const queueRouter = require('./routes/queue');
 const expandingdivsRouter = require('./routes/expandingDivs');
 const userRouter = require('./routes/user');
@@ -98,7 +98,9 @@ admin.initializeApp({
   databaseURL: process.env.FIREBASE_DATABASE_URL
 });
 
-// view engine setup
+/**
+ * Express setup
+ */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({

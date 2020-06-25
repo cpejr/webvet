@@ -128,7 +128,8 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
                 totalKitCounter[countIndex].minStock = actualKitStock.minStock;
               }
             }
-
+            console.log('pudim')
+            console.log({ title: 'Home', layout: 'layoutDashboard.hbs', countClients, vencidos, countSamples, requisitions, novasReq, gt0, gt1, et1, ...req.session, totalKitCounter })
             res.render('admin/homeAdmin', { title: 'Home', layout: 'layoutDashboard.hbs', countClients, vencidos, countSamples, requisitions, novasReq, gt0, gt1, et1, ...req.session, totalKitCounter });
 
           }).catch((err) => {
