@@ -8,19 +8,26 @@
   <button id="btn-new-address" class="btn btn-success" type="button">Cadastrar outros dados de cobrança</button>
 </div>
 
-{{#compare user.type "Admin"}}
-<p>Esse cara ai e admin mesmo em!</p>
-{{/compare}}
-{{#compare user.type "Analista"}}
-<p>Esse cara ai e analista mesmo em!</p>
-{{/compare}}
-
 <form action="/requisition/new" method="post" class="d-flex flex-column align-items-center">
   <div id="keep-address" class="form-row col-md-10">
     <div class="requisition-text col-md-12">
       <input required id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}"
         class="requisition-text" placeholder="Razão Social/Nome Completo">
     </div>
+    {{#compare user.type "Admin"}}
+      <div class="requisition-text col-md-12 d-flex align-items-center">
+        <select required="required" id="adminUser" type="" name="requisition[user]" value="" class="drowdownoptions"
+          placeholder="Selecione o Usuário">
+          <option disabled selected value="">Selecione o Usuário</option>
+          <option value="AC">Fulano</option>
+          <option value="AC">Ciclano</option>
+          <option value="AC">Deltrano</option>
+        </select>
+      </div>
+    {{/compare}}
+    {{#compare user.type "Analista"}}
+      <p>Esse cara ai e analista mesmo em!</p>
+    {{/compare}}
     <div class="requisition-text col-md-6">
       <input required id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}"
         class="requisition-text" placeholder="CNPJ/CPF">
@@ -282,30 +289,30 @@
   <br>
   <div class="form-check form-check-inline">
     <p>
-      <div class="micotoxina-options">
-        <label class="radio-text form-check-label"><input checked class="form-check-input position-static ml-1"
-            type="checkbox" name="requisition[mycotoxin]" value="Aflatoxinas">Aflatoxinas</label>
-      </div>
-      <div class="micotoxina-options">
-        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
-            name="requisition[mycotoxin]" value="Ocratoxina A">Ocratoxina A</label>
-      </div>
-      <div class="micotoxina-options">
-        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
-            name="requisition[mycotoxin]" value="Deoxinivalenol">Deoxinivalenol*</label>
-      </div>
-      <div class="micotoxina-options">
-        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
-            name="requisition[mycotoxin]" value="T-2 toxina">T-2 toxina</label>
-      </div>
-      <div class="micotoxina-options">
-        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
-            name="requisition[mycotoxin]" value="Fumonisina">Fumonisinas</label>
-      </div>
-      <div class="micotoxina-options">
-        <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
-            name="requisition[mycotoxin]" value="Zearalenona">Zearalenona</label>
-      </div>
+    <div class="micotoxina-options">
+      <label class="radio-text form-check-label"><input checked class="form-check-input position-static ml-1"
+          type="checkbox" name="requisition[mycotoxin]" value="Aflatoxinas">Aflatoxinas</label>
+    </div>
+    <div class="micotoxina-options">
+      <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
+          name="requisition[mycotoxin]" value="Ocratoxina A">Ocratoxina A</label>
+    </div>
+    <div class="micotoxina-options">
+      <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
+          name="requisition[mycotoxin]" value="Deoxinivalenol">Deoxinivalenol*</label>
+    </div>
+    <div class="micotoxina-options">
+      <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
+          name="requisition[mycotoxin]" value="T-2 toxina">T-2 toxina</label>
+    </div>
+    <div class="micotoxina-options">
+      <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
+          name="requisition[mycotoxin]" value="Fumonisina">Fumonisinas</label>
+    </div>
+    <div class="micotoxina-options">
+      <label class="radio-text form-check-label"><input class="form-check-input position-static ml-1" type="checkbox"
+          name="requisition[mycotoxin]" value="Zearalenona">Zearalenona</label>
+    </div>
     </p>
   </div>
   <br>

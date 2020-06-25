@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('./middleware/auth');
 const Requisition = require('../models/requisition');
 const Sample = require('../models/sample');
+const User = require('../models/user');
 
 router.get('/new', auth.isAuthenticated, function (req, res) {
     res.render('requisition/newrequisition', { title: 'Requisition', layout: 'layoutDashboard.hbs', ...req.session });
@@ -16,7 +17,8 @@ router.post('/delete/:id', auth.isAuthenticated, (req, res) => {
 
 router.post('/new', auth.isAuthenticated, function (req, res) {
   const { requisition } = req.body;
-  requisition.user = req.session.user;
+  if (req.session.user === "Analista" || req.session.user === "Admin")
+    requisition.user = req.session.user;
 
   //CORREÇÃO PROVISÓRIA DO CAMPO DESTINATION
   if (Array.isArray(requisition.destination))
