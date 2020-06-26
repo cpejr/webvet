@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("./middleware/auth");
-const Requisition = require("../models/requisition");
-const Sample = require("../models/sample");
-const User = require("../models/user");
+
+const auth = require('./middleware/auth');
+const Requisition = require('../models/requisition');
+const Sample = require('../models/sample');
+const User = require('../models/user');
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
@@ -16,7 +17,7 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
   });
 });
 
-router.post("/delete/:id", auth.isAuthenticated, (req, res) => {
+router.post('/delete/:id', auth.isAuthenticated, auth.isAdmin, (req, res) => {
   Requisition.delete(req.params.id).then(() => {
     res.redirect("/requisition");
   });

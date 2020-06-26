@@ -163,7 +163,7 @@ router.get('/show/:id/:returnRoute', function (req, res) {
   });
 });
 
-router.post('/approve/:id', auth.isAuthenticated, function (req, res) {
+router.post('/approve/:id', auth.isAuthenticated, auth.isFromLab, function (req, res) {
   User.getById(req.params.id).then((user) => {
     Email.userApprovedEmail(user.email, user.fullname.split(' ')[0]).catch((error) => {
       req.flash('danger', 'Não foi possível enviar o email para o usuário aprovado.');

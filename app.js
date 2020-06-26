@@ -1,44 +1,46 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const exphbs = require("express-handlebars");
+const express = require('express');
+const exphbs = require('express-handlebars');
 
-const createError = require("http-errors");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const sassMiddleware = require("node-sass-middleware");
-const bodyParser = require("body-parser");
-const methodOverride = require("method-override");
-const mongoose = require("mongoose");
-const firebase = require("firebase");
-const admin = require("firebase-admin");
-const flash = require("express-flash");
-const session = require("express-session");
+const createError = require('http-errors');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const sassMiddleware = require('node-sass-middleware');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const mongoose = require('mongoose');
+const firebase = require('firebase');
+const admin = require('firebase-admin');
+const flash = require('express-flash');
+const session = require('express-session');
 
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
-const stockRouter = require("./routes/stock");
-const queueRouter = require("./routes/queue");
-const expandingdivsRouter = require("./routes/expandingDivs");
-const userRouter = require("./routes/user");
-const cardsAdminRouter = require("./routes/cardsAdmin");
-const homeAdminRouter = require("./routes/homeAdmin");
-const searchRouter = require("./routes/search");
-const analystRouter = require("./routes/analyst");
-const recordRouter = require("./routes/record");
-const sampleRouter = require("./routes/sample");
-const requisitionRouter = require("./routes/requisition");
-const profileRouter = require("./routes/profile");
-const allkitsRouter = require("./routes/allkits");
-const printtemplateRouter = require("./routes/printtemplate");
-const calibrationcurvesRouter = require("./routes/calibrationcurves");
-const allcalibratorsRouter = require("./routes/allcalibrators");
-const allsamplesRouter = require("./routes/allsamples");
-const previousmapRouter = require("./routes/previousmap");
-const sampleresultRouter = require("./routes/sampleresult");
-const reportRouter = require("./routes/report");
-const statisticsRouter = require("./routes/statistics");
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const stockRouter = require('./routes/stock');
+const queueRouter = require('./routes/queue');
+const expandingdivsRouter = require('./routes/expandingDivs');
+const userRouter = require('./routes/user');
+const cardsAdminRouter = require('./routes/cardsAdmin');
+const homeAdminRouter = require('./routes/homeAdmin');
+const searchRouter = require('./routes/search');
+const analystRouter = require('./routes/analyst');
+const recordRouter = require('./routes/record');
+const sampleRouter = require('./routes/sample');
+const requisitionRouter = require('./routes/requisition');
+const profileRouter = require('./routes/profile');
+const allkitsRouter = require('./routes/allkits');
+const printtemplateRouter = require('./routes/printtemplate');
+const calibrationcurvesRouter = require('./routes/calibrationcurves');
+const allcalibratorsRouter = require('./routes/allcalibrators');
+const allsamplesRouter = require('./routes/allsamples');
+const previousmapRouter = require('./routes/previousmap');
+const sampleresultRouter = require('./routes/sampleresult');
+const reportRouter = require('./routes/report');
+const statisticsRouter = require('./routes/statistics');
+const covenantRouter = require('./routes/covenant');
+
 const app = express();
 
 /**
@@ -237,29 +239,32 @@ app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/expandingDivs", expandingdivsRouter);
-app.use("/cardsAdmin", cardsAdminRouter);
-app.use("/queue", queueRouter);
-app.use("/requisition", requisitionRouter);
-app.use("/stock", stockRouter);
-app.use("/user", userRouter);
-app.use("/homeAdmin", homeAdminRouter);
-app.use("/search", searchRouter);
-app.use("/analyst", analystRouter);
-app.use("/sample", sampleRouter);
-app.use("/record", recordRouter);
-app.use("/profile", profileRouter);
-app.use("/allkits", allkitsRouter);
-app.use("/printtemplate", printtemplateRouter);
-app.use("/calibrationcurves", calibrationcurvesRouter);
-app.use("/allcalibrators", allcalibratorsRouter);
-app.use("/allsamples", allsamplesRouter);
-app.use("/report", reportRouter);
-app.use("/previousmap", previousmapRouter);
-app.use("/sampleresult", sampleresultRouter);
-app.use("/statistics", statisticsRouter);
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/expandingDivs', expandingdivsRouter);
+app.use('/cardsAdmin', cardsAdminRouter);
+app.use('/queue', queueRouter);
+app.use('/requisition', requisitionRouter);
+app.use('/stock', stockRouter);
+app.use('/user', userRouter);
+app.use('/homeAdmin', homeAdminRouter);
+app.use('/search', searchRouter);
+app.use('/analyst', analystRouter);
+app.use('/sample', sampleRouter);
+app.use('/record', recordRouter);
+app.use('/profile', profileRouter);
+app.use('/allkits', allkitsRouter);
+app.use('/printtemplate', printtemplateRouter);
+app.use('/calibrationcurves', calibrationcurvesRouter);
+app.use('/allcalibrators', allcalibratorsRouter);
+app.use('/allsamples', allsamplesRouter)
+app.use('/report', reportRouter);
+app.use('/previousmap', previousmapRouter);
+app.use('/sampleresult', sampleresultRouter);
+app.use('/statistics', statisticsRouter);
+app.use('/covenant', covenantRouter);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
