@@ -50,4 +50,11 @@ router.post('/delete/:id', auth.isAuthenticated, auth.isAdmin, async function (r
     res.redirect('/covenant');
 });
 
+router.post('/addManagers/:id', auth.isAuthenticated, auth.isAdmin, async function (req, res){
+    let { id } = req.params;
+    let { managers } = req.body;
+    await Covenant.addManagers(id, managers);
+    res.redirect(`/covenant/edit/${id}`);
+})
+
 module.exports = router;
