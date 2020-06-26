@@ -190,6 +190,8 @@
             nodeItem.setAttribute("data-status", element.status);
             nodeItem.setAttribute("data-approved", element.approved);
             nodeItem.setAttribute("data-owner", element.owner);
+            nodeItem.setAttribute("data-iscitrus", element.iscitrus);
+
 
             let badges = `${element.title}<br><span  class="badge badge-secondary">${element.status}</span>`;
             badges += `<span  class="badge badge-primary">${element.analyst}</span>`;
@@ -201,6 +203,8 @@
             if (element.approved + "" === 'false')
               badges += `<span  class="badge badge-danger">Não aprovada</span>`
 
+            if (element.iscitrus + "" === 'true')
+              badges += `<span  class="badge badge-success">Polpa Cítrica</span>`
 
             nodeItem.innerHTML = badges;
           }

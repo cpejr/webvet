@@ -9,7 +9,7 @@ const Email = require('../models/email');
 /* GET home page. */
 
 //Rota GET da página show - Usa o GetById para mostrar as informações do usuário logado
-router.get('/show', auth.isAuthenticated, function(req, res, next) {
+router.get('/show', auth.isAuthenticated, function(req, res) {
   const id = req.session.user._id;
   User.getById(id).then((user) => {
     res.render('profile/show', { title: 'Perfil', layout: 'layoutDashboard.hbs', user});
@@ -22,7 +22,7 @@ router.get('/show', auth.isAuthenticated, function(req, res, next) {
 });
 
 //Rota GET da página edit - Usa o GetById para mostrar as informações do usuário logado
-router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {
+router.get('/edit/:id', auth.isAuthenticated, function(req, res) {
   User.getById(req.params.id).then((user) => {
     res.render('profile/edit', { title: 'Editar perfil', layout: 'layoutDashboard.hbs', user});
   }).catch((error) => {
@@ -32,7 +32,7 @@ router.get('/edit/:id', auth.isAuthenticated, function(req, res, next) {
 });
 
 //Rota PUT da página edit - rota que atualiza os dados do usuário
-router.put('/edit/:id', auth.isAuthenticated, function(req, res, next) {
+router.put('/edit/:id', auth.isAuthenticated, function(req, res) {
   const id = req.params.id;
   const { user } = req.body;
       User.update(id, user).then(() => {

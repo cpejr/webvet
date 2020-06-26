@@ -5,8 +5,9 @@ const Kit = require('../models/kit');
 const Workmap = require('../models/Workmap');
 const Sample = require('../models/sample');
 const Counter = require('../models/counter');
+const auth = require('./middleware/auth');
 
-router.get('/', (req, res) => {
+router.get('/', auth.isAuthenticated, auth.isFromLab, (req, res) => {
 
   Sample.getAllActiveWithWorkmap().then((amostras) => {
     var today = new Date();
@@ -55,7 +56,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', auth.isAuthenticated, auth.isFromLab, function (req, res) {
   //Dando update em todos os kits ativos.
   Kit.getAllActive().then(async activeKits => {
 

@@ -20,7 +20,7 @@ function round(value, decimalPlaces) {
     return null;
 }
 
-router.get('/', auth.isAuthenticated, function (req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res) {
   Requisition.getAll().then((requisitions) => {
     var user = req.session.user.register;
     var logados = new Array;
@@ -36,7 +36,7 @@ router.get('/', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/show/:id', auth.isAuthenticated, function (req, res) {
   Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
     var Requisitiondata;
     Requisition.getById(sample.requisitionId).then((requisition) => {
@@ -147,7 +147,7 @@ router.get('/show/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, next) {
+router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res) {
   Sample.getById(req.params.id).then((sample) => { //Função que busca os kits usando o kitId dos samples.
     var Requisitiondata;
     Requisition.getById(sample.requisitionId).then((requisition) => {
@@ -268,7 +268,7 @@ router.get('/show/admin/:id', /* auth.isAuthenticated, */ function (req, res, ne
   });
 });
 
-router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, next) {
+router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res) {
 
   var id = req.params.id;
   var info = {
@@ -297,7 +297,7 @@ router.post('/show/admin/:id', auth.isAuthenticated, async function (req, res, n
 
 });
 
-router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
+router.get('/samples/:id', auth.isAuthenticated, function (req, res) {
   var amostras = new Array;
   var teste1 = new Array;
   Requisition.getById(req.params.id).then((requisitions) => {
@@ -314,7 +314,7 @@ router.get('/samples/:id', auth.isAuthenticated, function (req, res, next) {
   });
 });
 
-router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, function (req, res, next) {
+router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, function (req, res) {
   var laudos = new Array;
   let result = [];
 
@@ -348,7 +348,7 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
     });
   });
 
-  router.get('/finalize/:id', auth.isAuthenticated, function (req, res, next) {
+  router.get('/finalize/:id', auth.isAuthenticated, function (req, res) {
     let id = req.params.id;
     const command = true;
     Sample.finalizeReportById(id, command).then((params) => {
@@ -356,7 +356,7 @@ router.get('/admreport', auth.isAuthenticated || is.Admin || is.Analista, functi
     });
   });
 
-  router.get('/unfinalize/:id', auth.isAuthenticated, function (req, res, next) {
+  router.get('/unfinalize/:id', auth.isAuthenticated, function (req, res) {
     let id = req.params.id;
     const command = false;
     Sample.finalizeReportById(id, command).then((params) => {

@@ -12,7 +12,7 @@ const Kit = require('../models/kit');
 
 
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function (req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res) {
   let copy = ToxinasAll;
   Kit.getAllActive().then((kits) => {
     for (let i = 0; i < kits.length; i++) {

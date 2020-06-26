@@ -61,16 +61,6 @@ const userSchema = new mongoose.Schema({
     ref: 'User'
   }],
 
-  associatedManagers: [{ //pode dar ruim
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-
-  associatedCovenant: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
-
 }, { timestamps: true, static: false });
 
 const UserModel = mongoose.model('User', userSchema);
@@ -177,9 +167,9 @@ class User {
     });
   }
 
-  static getAllManagers() {
+  static getByQuery(query) {
     return new Promise((resolve, reject) => {
-      UserModel.find({ type: "Gerencia" }).exec().then((result) => {
+      UserModel.find(query).exec().then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
