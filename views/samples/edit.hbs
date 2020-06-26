@@ -16,6 +16,10 @@
         <input type="text" value="{{sample.responsible}}" name="sample[responsible]">
       </div>
     </div>
+    <div class="mt-3">
+      <input type="checkbox" id="polpa" name="sample[isCitrus]" value="true" class="my-auto" {{#if sample.isCitrus}}checked{{/if}}/>
+      <label for="polpa" class="">Contém polpa cítrica</label>
+    </div>
     <div class="col-md-12 mt-3">
       <button class="btn mr-2" type="button" onclick="location.href='/queue'"><i class="fa fa-reply"></i>Voltar</button>
       <button class="btn ml-2" type="submit"><i class="fa fa-pencil"></i>Alterar</button>
