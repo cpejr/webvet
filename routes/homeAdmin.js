@@ -8,7 +8,7 @@ const Kit = require("../models/kit");
 const Counter = require("../models/counter");
 
 /* GET home page. */
-router.get("/", auth.isAuthenticated, async function (req, res) {
+router.get("/", auth.isAuthenticated, auth.isFromLab, async function (req, res) {
   const promises = [
     User.count(),
     Sample.count(),

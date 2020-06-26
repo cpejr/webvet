@@ -11,12 +11,12 @@ router.get('/', auth.isAuthenticated, function(req, res) {
 
 });
 
-router.get('/new', auth.isAuthenticated, function(req, res) {
+router.get('/new', auth.isAuthenticated, auth.isAdmin, function(req, res) {
   res.render('analyst/new', {title: 'Novo analista', layout: 'layoutDashboard.hbs' });
 
 });
 
-router.post('/create', auth.isAuthenticated, function(req, res){
+router.post('/create', auth.isAuthenticated, auth.isAdmin, function(req, res){
   const { user } = req.body;
   user.type = 'Analista';
   user.status = 'Ativo';

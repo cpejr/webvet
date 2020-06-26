@@ -11,7 +11,7 @@ router.get('/new', auth.isAuthenticated, async function (req, res) {
     res.render('requisition/newrequisition', { title: 'Requisition', layout: 'layoutDashboard.hbs', users, ...req.session });
 });
 
-router.post('/delete/:id', auth.isAuthenticated, (req, res) => {
+router.post('/delete/:id', auth.isAuthenticated, auth.isAdmin, (req, res) => {
   Requisition.delete(req.params.id).then(() => {
     res.redirect('/requisition');
   });

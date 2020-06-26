@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
   res.render('allcalibrators', { names, ...req.session, layout:"layoutFinalization.hbs" });
 });
 
-router.post('/', function (req, res) {
+router.post('/', auth.isAuthenticated, function (req, res) {
 
   Kit.getAllActive().then(async (activekits) => {
     updateKitsCalibrators(activekits).then(() => {
