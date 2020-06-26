@@ -61,16 +61,6 @@ const userSchema = new mongoose.Schema({
     ref: 'User'
   }],
 
-  associatedManagers: [{ //pode dar ruim
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-
-  associatedCovenant: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
-
 }, { timestamps: true, static: false });
 
 const UserModel = mongoose.model('User', userSchema);

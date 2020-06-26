@@ -27,4 +27,10 @@ router.get('/edit/:id', async function (req, res){
     res.render('covenant/show', { title: 'Convênios', layout: 'layoutDashboard.hbs', managers});
 });
 
+router.post('/delete/:id', async function (req, res){
+    let { id } = req.params;
+    await Covenant.delete(id);
+    res.redirect('/covenant');
+});
+
 module.exports = router;

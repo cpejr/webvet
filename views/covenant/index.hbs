@@ -6,6 +6,7 @@
             <tr>
                 <th class="th-name">Nome</th>
                 <th class="th-name">Visualizar Convênio</th>
+                <th class="th-name">Deletar Convênio</th>
             </tr>
         </thead>
         <tbody>
@@ -14,6 +15,11 @@
                     <th>{{name}}</th>
                     <th>
                         <button onClick="location.href='covenant/edit/{{_id}}'" class="fa fa-info btn m-1"></button>
+                    </th>
+                    <th>
+                        <form action="/covenant/delete/{{_id}}" method="post">
+                            <button type="submit" class="fa fa-trash btn btn-default m-1" aria-hidden="true"/>
+                        </form>
                     </th>
                 </tr>
             {{/each}}
