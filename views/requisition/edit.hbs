@@ -262,13 +262,13 @@
     <div class="d-flex form-row col-md-10 justify-content-center">
       {{#each samples}}
       <div class="requisition-text col-md-6">
-        <input required type="text" name="sample[name]" class="requisition-text" placeholder="Nome da amostra"
+        <input required type="text" name="sample[{{@index}}][name]" class="requisition-text" placeholder="Nome da amostra"
           value="{{name}}">
       </div>
 
       <div class="requisition-text col-md-4 d-flex align-items-center">
-        <input type="hidden" name="sample[_id]" class="requisition-text" value="{{_id}}">
-        <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100" name="sample[sampletype]"
+        <input type="hidden" name="sample[{{@index}}][_id]" class="requisition-text" value="{{_id}}">
+        <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100" name="sample[{{@index}}][sampletype]"
           required="required">
           <option disabled selected value="">Tipo</option>
           <option value="Subprodutos">Subprodutos</option>
@@ -295,7 +295,7 @@
 
       <div class="checkbox col-md-2 d-flex pb-1">
         <div class="align-self-end">
-          <input type="checkbox" id="polpa{{@index}}" name="polpa" value="polpa" class="my-auto" />
+          <input type="checkbox" id="polpa{{@index}}" name="sample[{{@index}}][isCitrus]" value="true" class="my-auto" {{#if isCitrus}}checked{{/if}}/>
           <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
         </div>
       </div>

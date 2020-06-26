@@ -6,13 +6,13 @@ function addInput() {
 
         let html =
             `<div class="requisition-text col-md-8">
-                <input required type="text" name="requisition[sampleVector]" id="sample${num}" class="requisition-text floating-label-field"
+                <input required type="text" name="requisition[sampleVector][${num}][name]" id="sample${num}" class="requisition-text floating-label-field"
                 placeholder="Amostra ${num}">
                 <label for='sample${num}' class="floating-label">Amostra ${num}</label>
             </div>
             <div class="checkbox col-md-2 d-flex pb-1">
                 <div class="align-self-end">
-                <input type="checkbox" id="polpa${num}" name="polpa" value="polpa" class="my-auto" />
+                <input type="checkbox" id="polpa${num}" name="requisition[sampleVector][${num}][citrus]"  value="true" class="my-auto" />
                 <label for="polpa${num}" class="">Contém polpa cítrica</label>
                 </div>
             </div>`;
