@@ -25,7 +25,7 @@ class Counter {
     /* Gets the current counter from database as a singular {object} of counter*/
     static getCounter() {
         return new Promise((resolve, reject) => {
-            CounterModel.findOne({}).populate('counter').exec().then((results) => {
+            CounterModel.findOne({}).exec().then((results) => {
                 resolve(results);
             }).catch((err) => {
                 reject(err);

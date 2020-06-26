@@ -6,7 +6,7 @@ const Sample = require('../models/sample');
 const User = require('../models/user');
 
 router.get('/new', auth.isAuthenticated, async function (req, res) {
-    let users = await User.getByQuery({status: "Ativo", deleted: "false"});
+    let users = await User.getByQuery({status: "Ativo", deleted: false});
     console.log(req.session);
     res.render('requisition/newrequisition', { title: 'Requisition', layout: 'layoutDashboard.hbs', users, ...req.session });
 });

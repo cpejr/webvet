@@ -39,6 +39,7 @@ const previousmapRouter = require('./routes/previousmap');
 const sampleresultRouter = require('./routes/sampleresult');
 const reportRouter = require('./routes/report');
 const statisticsRouter = require('./routes/statistics');
+const covenantRouter = require('./routes/covenant');
 const app = express();
 
 /**
@@ -215,6 +216,7 @@ app.use('/report', reportRouter);
 app.use('/previousmap', previousmapRouter);
 app.use('/sampleresult', sampleresultRouter);
 app.use('/statistics', statisticsRouter);
+app.use('/covenant', covenantRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
