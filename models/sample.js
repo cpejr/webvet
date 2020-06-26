@@ -1084,25 +1084,25 @@ class Sample {
         });
     });
   }
-  static getResultData() {
-    return new Promise((resolve, reject) => {
-      SampleModel.find([{ $match: { finalized: true, report: true } }])
-        .then((result) => {
-          // let total = 0;
 
-          // for (let i = 0; i < result.length; i++)
-          //   total += result[i].samples;
+  static async getResultData() {
+    const result = await SampleModel.aggregate([
+      { $match: { finalized: true, report: true } },
+      {
+        $project: {
+          aflatoxina: 1,
+          deoxinivalenol: 1,
+          fumonisina: 1,
+          ocratoxina: 1,
+          t2toxina: 1,
+          zearalenona: 1,
+          createdAt: 1
+        },
+      },
+      { $sort: { createdAt: 1 } },
+    ])
+    return result;
 
-          // for (let j = 0; j < result.length; j++)
-          //   result[j].frequency = result[j].samples / total;
-
-          resolve(result);
-        })
-        .catch((err) => {
-          console.log(err);
-          reject(err);
-        });
-    });
   }
 }
 

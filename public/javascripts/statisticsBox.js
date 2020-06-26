@@ -1,148 +1,97 @@
+ToxinasFull = ['aflatoxina', 'deoxinivalenol', 'fumonisina', 'ocratoxina', 't2toxina', 'zearalenona'];
+ToxinasFormal = ['Aflatoxinas', 'Deoxinivalenol', 'Fumonisina', 'Ocratoxina A', 'T-2 toxina', 'Zearalenona'];
+
 $(document).ready(() => {
-    var ctx = document.getElementById("DotPlot").getContext("2d");
-
-    // Define the data
-    $.get('/statisticsBox/resultsData').then(result => {
-        // let eixo_x = [];
-        // let eixo_y = [];
-
-        // for (let i = 0; i < result.length; i++) {
-        //     const element = result[i];
-        //     eixo_x.push(element._id);
-        //     eixo_y.push((element.frequency * 100).toFixed(2));
-        // }
-
-        chart.data.labels = eixo_x;
-        chart.data.datasets[0].data = eixo_y;
-        chart.update();
-    });
-    var options = {
-        responsive: true, // Instruct chart js to respond nicely.
-        maintainAspectRatio: false // Add to prevent default behaviour of full-width/height
-    };
-
-    // End Defining data
-    var DotPlot = new Chart(ctx, {
-        type: "scatter",
-        data: {
-            datasets: [
-                {
-                    label: "Population", // Name the series
-                    data: data, // Specify the data values array
-                    borderColor: "#6BA05C", // Add custom color border
-                    backgroundColor: "#6BA05C" // Add custom color background (Points and Fill)
-                }
-            ]
-        },
-        options: {
-            title: {
-                fontSize: 20,
-                display: true,
-                text: 'Distribuição de resultados das análises de Aflatoxina',
-                padding: 25,
-            },
-            legend: {
-                display: false,
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        // max: 100,
-                        // min: 0
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Resultados',
+    const charts = {}
+    for (let i = 0; i < ToxinasFull.length; i++) {
+        const toxina = ToxinasFull[i];
+        var ctx = document.getElementById(toxina).getContext("2d");
+        charts[toxina] = new Chart(ctx, {
+            type: "scatter",
+            data: {
+                datasets: [
+                    {
+                        label: "Resultado", // Name the series
+                        data: [],
+                        borderColor: "#6BA05C", // Add custom color border
+                        backgroundColor: "#6BA05C" // Add custom color background (Points and Fill)
                     }
-                }],
+                ]
             },
-            plugins: {
-                // Change options for ALL labels of THIS CHART
-                datalabels: {
-                    anchor: 'end',
-                    align: 'top',
-                    color: '#676767',
-                    font: {
-                        weight: "bold",
+            options: {
+                responsive: true, // Instruct chart js to respond nicely.
+                // maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+                title: {
+                    fontSize: 20,
+                    display: true,
+                    text: `Distribuição de resultados das análises de ${ToxinasFormal[i]}`,
+                    padding: 25,
+                },
+                legend: {
+                    display: false,
+                },
+                scales: {
+                    xAxes: [{
+                        display: false,
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            // max: 100,
+                            // min: 0
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Resultados',
+                        }
+                    }],
+                },
+                plugins: {
+                    // Change options for ALL labels of THIS CHART
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        color: '#676767',
+                        font: {
+                            weight: "bold",
+                        }
                     }
                 }
             }
+        });
+    }
+
+    // Define the data
+    $.get('/statistics/resultsData').then(result => {
+        console.log(result);
+        let data = {};
+        for (let j = 0; j < result.length; j++) {
+            for (let i = 0; i < ToxinasFull.length; i++) {
+                if (!data[ToxinasFull[i]]) {
+                    data[ToxinasFull[i]] = [];
+                }
+                let resultData = (result[j][ToxinasFull[i]].result);
+                if (isNaN(resultData)) {
+                    resultData = 0;
+                }
+                else {
+                    resultData = Number(resultData);
+                }
+                if (resultData) data[ToxinasFull[i]].push({ y: resultData, x: data[ToxinasFull[i]].length });
+            }
         }
+        for (let i = 0; i < ToxinasFull.length; i++) {
+            let chart = charts[ToxinasFull[i]];
+            // chart.data.labels = [...dates];
+            // chart.data.labels = [0,1,2,3];
+            chart.data.datasets[0].data = data[ToxinasFull[i]];
+            // chart.data.datasets[0].data = [0,1,2,3];
+            chart.update();
+        }
+
     });
+
+    // End Defining data
+
 });
 
 
-
-// $(document).ready(() => {
-//     var ctx = $('#DotPlot');
-
-//     var chart = new Chart(ctx, {
-//         plugins: [ChartDataLabels],
-//         // The type of chart we want to create
-//         type: 'bar',
-
-//         // The data for our dataset
-//         data: {
-//             datasets: [{
-//                 label: 'Frequencia',
-//                 backgroundColor: 'rgb(252, 186, 3)',
-//                 borderColor: 'rgb(252, 186, 3)',
-//             }]
-//         },
-
-//         // Configuration options go here
-//         options: {
-//             title: {
-//                 fontSize: 20,
-//                 display: true,
-//                 text: 'Distribuição de frequência referente aos Estados brasileiros',
-//                 padding: 25,
-//             },
-//             legend: {
-//                 display: false,
-//             },
-//             scales: {
-//                 yAxes: [{
-//                     ticks: {
-//                         //max: 100,
-//                         min: 0
-//                     },
-//                     scaleLabel: {
-//                         display: true,
-//                         labelString: 'Frequência (%)',
-//                     }
-//                 }]
-//             },
-//             plugins: {
-//                 // Change options for ALL labels of THIS CHART
-//                 datalabels: {
-//                     anchor: 'end',
-//                     align: 'top',
-//                     color: '#676767',
-//                     font: {
-//                         weight: "bold",
-//                     }
-//                 }
-//             }
-//         }
-//     });
-//     $.get('/statistics/statesData').then(result => {
-
-//         let eixo_x = [];
-//         let eixo_y = [];
-
-//         //Order by the frenquecy
-//         result.sort(dynamicSort('frequency')).reverse();
-
-//         for (let i = 0; i < result.length; i++) {
-//             const element = result[i];
-//             eixo_x.push(element._id);
-//             eixo_y.push((element.frequency * 100).toFixed(2));
-//         }
-//         //console.log(result);
-
-//         chart.data.labels = eixo_x;
-//         chart.data.datasets[0].data = eixo_y;
-//         chart.update();
-//     });
-// });

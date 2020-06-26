@@ -20,14 +20,22 @@ router.get('/statesData', auth.isAuthenticated, async (req, res) => {
     let data = await Requisition.getStateData();
     res.send(data);
 });
+
+router.get('/resultsData', async (req, res) => {
+    let data = await Sample.getResultData();
+    res.send(data);
+});
+
 router.get('/samplesData', auth.isAuthenticated, async (req, res) => {
     let data = await Sample.getSampleData();
     res.send(data);
 });
+
 router.get('/animalsData', auth.isAuthenticated, async (req, res) => {
     let data = await Requisition.getAnimalData();
     res.send(data);
 });
+
 router.get('/finalizationData', auth.isAuthenticated, async (req, res) =>{
     let data = await Sample.getFinalizationData();
     res.send(data);
