@@ -48,7 +48,7 @@ class Covenant {
 
     static addManagers(id, Managers) {
         return new Promise((resolve, reject) => {
-            CovenantModel.findByIdAndUpdate(id, { $push: { managers: Managers } }).then((result) => {
+            CovenantModel.findByIdAndUpdate(id, { $addToSet: { managers: Managers } }).then((result) => {
                 resolve(result);
             })
         }).catch((err) => {
