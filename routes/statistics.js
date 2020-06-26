@@ -20,6 +20,10 @@ router.get('/statesData', async (req, res) => {
     let data = await Requisition.getStateData();
     res.send(data);
 });
+router.get('/resultsData', async (req, res) => {
+    let data = await Sample.getResultData();
+    res.send(data);
+});
 router.get('/samplesData', async (req, res) => {
     let data = await Sample.getSampleData();
     res.send(data);
