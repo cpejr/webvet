@@ -174,6 +174,7 @@ router.get('/edit/:samplenumber', (req, res) => {
 
 router.post('/save', (req, res) => {
   const { sample } = req.body;
+  sample.isCitrus = sample.isCitrus ? true : false
   Sample.updateBySampleNumber(sample.samplenumber + "", sample).then(() => {
     req.flash('success', 'Amostra alterada');
     res.redirect('/sample/edit/' + sample.samplenumber);

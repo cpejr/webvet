@@ -2,41 +2,20 @@ $(document).ready(() => {
     var ctx = document.getElementById("DotPlot").getContext("2d");
 
     // Define the data
-    var data = [
-        {
-            x: 5,
-            y: 4
-        },
-        {
-            x: 2,
-            y: 14
-        },
-        {
-            x: 4,
-            y: 12
-        },
-        {
-            x: 2,
-            y: 10
-        },
-        {
-            x: 3,
-            y: 4
-        },
-        {
-            x: 3,
-            y: 5
-        },
-        {
-            x: 3,
-            y: 8
-        },
-        {
-            x: 6,
-            y: 12
-        }
-    ]; // Add data values to array
-    // End Defining data
+    $.get('/statisticsBox/resultsData').then(result => {
+        // let eixo_x = [];
+        // let eixo_y = [];
+
+        // for (let i = 0; i < result.length; i++) {
+        //     const element = result[i];
+        //     eixo_x.push(element._id);
+        //     eixo_y.push((element.frequency * 100).toFixed(2));
+        // }
+
+        chart.data.labels = eixo_x;
+        chart.data.datasets[0].data = eixo_y;
+        chart.update();
+    });
     var options = {
         responsive: true, // Instruct chart js to respond nicely.
         maintainAspectRatio: false // Add to prevent default behaviour of full-width/height
