@@ -51,6 +51,7 @@ function createAnalysisKanban(toxinaFull) {
               status: "Em análise",
               approved: el.dataset.approved,
               owner: el.dataset.owner,
+              iscitrus: el.dataset.iscitrus,
               click: function (el) {
                 window.location.href = 'sample/edit/' + el.dataset.eid;
               },
@@ -74,10 +75,13 @@ function createAnalysisKanban(toxinaFull) {
       if (el.dataset.owner + "" === "true")
         badges += `<span  class="badge badge-danger">Devedor</span>`;
 
-      if (el.dataset.approved === 'false')
+      if (el.dataset.approved == 'false')
         badges += `<span  class="badge badge-danger">Não aprovada</span>`
 
-      el.innerHTML = badges;
+      if (el.dataset.iscitrus == 'true')
+        badges += `<span  class="badge badge-success">Polpa Cítrica</span>`
+
+        el.innerHTML = badges;
     }
   });
 }
@@ -122,10 +126,13 @@ function createWormapKanban(toxinaFull) {
           if (el.dataset.owner + "" === "true")
             badges += `<span  class="badge badge-danger">Devedor</span>`;
 
-          if (el.dataset.approved === 'false')
+          if (el.dataset.approved == 'false')
             badges += `<span  class="badge badge-danger">Não aprovada</span>`
 
-          el.innerHTML = badges;
+          if (el.dataset.iscitrus + "" == 'true')
+            badges += `<span  class="badge badge-success">Polpa Cítrica</span>`
+
+            el.innerHTML = badges;
         }
       }
       else {
@@ -140,8 +147,11 @@ function createWormapKanban(toxinaFull) {
           if (el.dataset.owner + "" === "true")
             badges += `<span  class="badge badge-danger">Devedor</span>`;
 
-          if (el.dataset.approved === 'false')
+          if (el.dataset.approved == 'false')
             badges += `<span  class="badge badge-danger">Não aprovada</span>`
+          
+          if (el.dataset.iscitrus == 'true')
+            badges += `<span  class="badge badge-success">Polpa Cítrica</span>`
 
           el.innerHTML = badges;
         }
@@ -175,7 +185,7 @@ $.get('/search/samplesActiveWithUser', (objects) => {
             let status = sample[toxina].status;
             let kanban = Analysiskanbans[toxina];
             let approved = sample.approved;
-
+            
             let element = {
               id: sample.samplenumber,
               title: "Amostra " + sample.samplenumber,
@@ -183,6 +193,7 @@ $.get('/search/samplesActiveWithUser', (objects) => {
               status: status,
               approved: sample.approved,
               owner: debt,
+              iscitrus: sample.isCitrus,
               click: function (el) {
                 window.location.href = 'sample/edit/' + el.dataset.eid;
               },
@@ -278,6 +289,7 @@ $('div[class="loteradio"]').each(function (index, group) {
                     analyst: sample.responsible,
                     status: sample[toxina].status,
                     approved: sample.approved,
+                    iscitrus: sample.isCitrus,
                     click: function (el) {
                       window.location.href = 'sample/edit/' + el.dataset.eid;
                     },
