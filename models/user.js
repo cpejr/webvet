@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
     default: 0
   },
 
-  associatedProducers: [{ //pode dar ruim
+  associatedProducers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
@@ -159,7 +159,17 @@ class User {
 
   static getAllActiveProducers() {
     return new Promise((resolve, reject) => {
-      UserModel.find({ $or: [{ type: "Produtor", status: "Ativo" }, { type: "Convenio", status: "Ativo" }] }).exec().then((result) => {
+      UserModel.find({ type: "Produtor", status: "Ativo", deleted: false }).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  static getAllActiveManagers() {
+    return new Promise((resolve, reject) => {
+      UserModel.find({ type: "Gerencia", status: "Ativo", deleted: false }).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -206,34 +216,6 @@ class User {
   }
 
   /**
-  * Add Manager to associatedManagement
-  * @param {string} id - User Id
-  * @param {string} user - User Id
-  * @returns {null}
-  */
-  static addManager(id, user) {
-    return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $push: { associatedManagers: user } }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
-   * Remove Manager from associatedProducers, user is added to id
-   * @param {string} id - User Id
-   * @param {string} user - User Id
-   * @returns {null}
-   */
-  static removeManager(id, user) {
-    return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $pull: { associatedManagers: user } }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
   * Add covenant to associatedCovenant
   * @param {string} id - User Id
   * @param {string} user - User Id
@@ -270,21 +252,6 @@ class User {
     return new Promise((resolve, reject) => {
       UserModel.findById(id).populate({ path: 'associatedProducers' }).exec().then((result) => {
         resolve(result.associatedProducers);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
-  * Get all managers from a object by its id
-  * @param {string} id - User uid
-  * @returns {Array} - Array of users
-  */
-  static getAssociatedMaganersById(id) {
-    return new Promise((resolve, reject) => {
-      UserModel.findById(id).populate({ path: 'associatedManagers' }).exec().then((result) => {
-        resolve(result.associatedManagers);
       }).catch((err) => {
         reject(err);
       });

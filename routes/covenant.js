@@ -13,7 +13,6 @@ router.get('/', auth.isAuthenticated, async function (req, res){
 
 router.post('/new', auth.isAuthenticated, auth.isFromLab, async function (req, res){
     let { covenant } = req.body;
-    console.log(covenant);
 
     await Covenant.create(covenant);
 
@@ -22,9 +21,27 @@ router.post('/new', auth.isAuthenticated, auth.isFromLab, async function (req, r
 
 router.get('/edit/:id', auth.isAuthenticated, async function (req, res){
     let { id } = req.params;
-    let covenant = await Covenant.findById(id);
-    let managers = covenant.managers;
-    res.render('covenant/show', { title: 'Convênios', layout: 'layoutDashboard.hbs', managers});
+    console.log('Entrou na rota edit: ' + id);
+    const promises = [
+        Covenant.findById(id),
+        User.getAllActiveManagers(),
+    ]
+
+    const [
+        covenant,
+        allManagers,
+    ] = await Promise.all(promises);
+
+    let managers = [];
+    if(covenant.managers){
+        managers = covenant.managers;
+    }
+
+    managers.forEach((element) =>{
+        element.covId = covenant._id
+    })
+
+    res.render('covenant/show', { title: 'Convênios', layout: 'layoutDashboard.hbs', covenant, managers, allManagers});
 });
 
 router.post('/delete/:id', auth.isAuthenticated, auth.isAdmin, async function (req, res){
