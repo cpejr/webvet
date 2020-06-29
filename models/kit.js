@@ -1,25 +1,26 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 function dynamicSort(property) {
   var sortOrder = 1;
-  if(property[0] === "-") {
-      sortOrder = -1;
-      property = property.substr(1);
+  if (property[0] === "-") {
+    sortOrder = -1;
+    property = property.substr(1);
   }
-  return function (a,b) {
-      /* next line works with strings and numbers, 
-       * and you may want to customize it to your needs
-       */
-      var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-      return result * sortOrder;
-  }
+  return function (a, b) {
+    /* next line works with strings and numbers,
+     * and you may want to customize it to your needs
+     */
+    var result =
+      a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    return result * sortOrder;
+  };
 }
 
 const kitSchema = new mongoose.Schema({
   kitId: String,
   productCode: {
     type: String,
-    required: true
+    required: true,
   },
   productDescription: String,
   lot: String,
@@ -41,53 +42,53 @@ const kitSchema = new mongoose.Schema({
     P1: {
       absorbance: {
         type: Number,
-        default: 0
+        default: 0,
       },
       concentration: {
         type: Number,
-        default: 0
-      }
+        default: 0,
+      },
     },
     P2: {
       absorbance: {
         type: Number,
-        default: 0
+        default: 0,
       },
       concentration: {
         type: Number,
-        default: 0
-      }
+        default: 0,
+      },
     },
     P3: {
       absorbance: {
         type: Number,
-        default: 0
+        default: 0,
       },
       concentration: {
         type: Number,
-        default: 0
-      }
+        default: 0,
+      },
     },
     P4: {
       absorbance: {
         type: Number,
-        default: 0
+        default: 0,
       },
       concentration: {
         type: Number,
-        default: 0
-      }
+        default: 0,
+      },
     },
     P5: {
       absorbance: {
         type: Number,
-        default: 0
+        default: 0,
       },
       concentration: {
         type: Number,
-        default: 0
-      }
-    }
+        default: 0,
+      },
+    },
   },
   amount: Number,
   provider: String,
@@ -97,41 +98,43 @@ const kitSchema = new mongoose.Schema({
   r2: Number,
   status: {
     type: String,
-    enum: ['Suficiente', 'Próximo ao Vencimento', 'Kit Vencido']
+    enum: ["Suficiente", "Próximo ao Vencimento", "Kit Vencido"],
   },
   active: {
     type: Boolean, // 1 for active, 0 for not
-    default: 0
+    default: 0,
   },
   deleted: {
     type: Boolean, // 1 for deleted, 0 for not deleted
-    default: 0
+    default: 0,
   },
   semStock: {
     type: Boolean, // 1 for out of stock
-    default: 0
+    default: 0,
   },
   mycotoxin: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Mycotoxin'
+    ref: "Mycotoxin",
   },
   kitType: {
     type: String,
-    enum: ['A', 'B', 'C', 'D', 'E', 'F', '-'],
-    required: true
+    enum: ["A", "B", "C", "D", "E", "F", "-"],
+    required: true,
   },
   stripLength: Number,
   toxinaStart: {
     type: Number,
-    default: 0
+    default: 0,
   },
-  mapArray: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Workmap'
-  }]
+  mapArray: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Workmap",
+    },
+  ],
 });
 
-const KitModel = mongoose.model('Kit', kitSchema);
+const KitModel = mongoose.model("Kit", kitSchema);
 
 class Kit {
   /**
@@ -140,12 +143,23 @@ class Kit {
    */
   static getAll() {
     return new Promise((resolve, reject) => {
-      KitModel.find({}).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.find({})
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
+  }
+
+  static async getAllInStock() {
+    const results = await KitModel.find({
+      kitType: { $nin: ["-"] },
+      deleted: false,
+    });
+    return results;
   }
 
   /**
@@ -155,11 +169,14 @@ class Kit {
    */
   static getById(id) {
     return new Promise((resolve, reject) => {
-      KitModel.findById(id).exec().then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findById(id)
+        .exec()
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -170,21 +187,27 @@ class Kit {
    */
   static getByProductCode(code) {
     return new Promise((resolve, reject) => {
-      KitModel.find({ productCode: code }).exec().then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.find({ productCode: code })
+        .exec()
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getByCustomQuery(query) {
     return new Promise((resolve, reject) => {
-      KitModel.find(query).exec().then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.find(query)
+        .exec()
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -195,11 +218,13 @@ class Kit {
    */
   static create(kit) {
     return new Promise((resolve, reject) => {
-      KitModel.create(kit).then((result) => {
-        resolve(result._id);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.create(kit)
+        .then((result) => {
+          resolve(result._id);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -214,11 +239,13 @@ class Kit {
       if (kit.mapArray.length === kit.toxinaStart) {
         kit.kitType = "-";
       }
-      KitModel.findByIdAndUpdate(id, kit).then((res) => {
-        resolve(res);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findByIdAndUpdate(id, kit)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -230,18 +257,20 @@ class Kit {
    */
   static addMycotoxin(id, mycotoxin) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $push: { mycotoxins: mycotoxin } }).catch((err) => {
+      KitModel.findByIdAndUpdate(id, {
+        $push: { mycotoxins: mycotoxin },
+      }).catch((err) => {
         reject(err);
       });
     });
   }
 
   /**
-  * Set a vector of mycotoxins
-  * @param {string} id - Kit Id
-  * @param {string} mycotoxins - Mycotoxins Id
-  * @returns {null}
-  */
+   * Set a vector of mycotoxins
+   * @param {string} id - Kit Id
+   * @param {string} mycotoxins - Mycotoxins Id
+   * @returns {null}
+   */
   static setMycotoxin(id, mycotoxins) {
     return new Promise((resolve, reject) => {
       KitModel.findByIdAndUpdate(id, { $set: { mycotoxins } }).catch((err) => {
@@ -258,31 +287,35 @@ class Kit {
    */
   static setActiveStatus(id, status) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { active: status } }).then((res) => {
-        resolve(res)
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findByIdAndUpdate(id, { $set: { active: status } })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   /**
-    * Change the amount
-    * @param {string} id - Kit Id
-    * @param {Number} newAmount-new amount value
-    */
+   * Change the amount
+   * @param {string} id - Kit Id
+   * @param {Number} newAmount-new amount value
+   */
   static setAmount(id, newAmount) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $set: { amount: newAmount } }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findByIdAndUpdate(id, { $set: { amount: newAmount } }).catch(
+        (err) => {
+          reject(err);
+        }
+      );
     });
   }
 
   /**
-     * increases  the amount in 1
-     * @param {string} id - Kit Id
-     */
+   * increases  the amount in 1
+   * @param {string} id - Kit Id
+   */
   static increaseAmount(id, numDecrease) {
     return new Promise((resolve, reject) => {
       KitModel.findByIdAndUpdate(id, { $inc: { amount: 1 } }).catch((err) => {
@@ -292,173 +325,203 @@ class Kit {
   }
 
   /**
-  * Delete a Kit
-  * @param {string} id - Kit Id
-  * @returns {null}
-  */
+   * Delete a Kit
+   * @param {string} id - Kit Id
+   * @returns {null}
+   */
   static delete(id) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { deleted: 1 }).then(() => {
-        resolve();
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findByIdAndUpdate(id, { deleted: 1 })
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static addMap(id, mapwork) {
     return new Promise((resolve, reject) => {
-      KitModel.findByIdAndUpdate(id, { $push: { mapArray: mapwork } }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findByIdAndUpdate(id, { $push: { mapArray: mapwork } }).catch(
+        (err) => {
+          reject(err);
+        }
+      );
     });
   }
 
   static addMaps(id, mapArray) {
     return new Promise((resolve, reject) => {
       KitModel.findByIdAndUpdate(id, { $push: { mapArray: mapArray } })
-        .then(res => resolve(res))
-        .catch(err => reject(err));
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
     });
   }
 
   static getWorkmapsById(id) {
     return new Promise((resolve, reject) => {
-      KitModel.findById(id).then((result) => {
-        resolve(result.mapArray);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findById(id)
+        .then((result) => {
+          resolve(result.mapArray);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getActiveID(siglaToxina) {
     //Correção provisória do problema com a sigla
-    if (siglaToxina === "FBS")
-      siglaToxina = "FUMO"
+    if (siglaToxina === "FBS") siglaToxina = "FUMO";
 
     return new Promise((resolve, reject) => {
       //{ active: 1 } é somente para retornar o _id, economizar internet
-      KitModel.findOne({ active: true, productCode: siglaToxina + " Romer" }, { active: 1 }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findOne(
+        { active: true, productCode: siglaToxina + " Romer" },
+        { active: 1 }
+      )
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getActive(siglaToxina) {
     //Correção provisória do problema com a sigla
-    if (siglaToxina === "FBS")
-      siglaToxina = "FUMO"
+    if (siglaToxina === "FBS") siglaToxina = "FUMO";
 
     return new Promise((resolve, reject) => {
-      KitModel.findOne({ active: true, productCode: siglaToxina + " Romer" }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findOne({ active: true, productCode: siglaToxina + " Romer" })
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllLastActiveWithSamples() {
     return new Promise((resolve, reject) => {
-      KitModel.aggregate(
-        [{
+      KitModel.aggregate([
+        {
           $match: {
-            active: true
-          }
-        }, {
+            active: true,
+          },
+        },
+        {
           $project: {
             calibrators: true,
             productCode: true,
-          }
-        }, {
+          },
+        },
+        {
           $lookup: {
-            from: 'counters',
-            pipeline: [{
-              $project: {
-                finalizationCount: { $add: ['$finalizationCount', -1] }
-              }
-            }],
-            as: 'counter'
-          }
-        }, {
+            from: "counters",
+            pipeline: [
+              {
+                $project: {
+                  finalizationCount: { $add: ["$finalizationCount", -1] },
+                },
+              },
+            ],
+            as: "counter",
+          },
+        },
+        {
           $project: {
             calibrators: true,
             productCode: true,
-            finalizationCount: { $arrayElemAt: ["$counter", 0] }
-          }
-        }, {
+            finalizationCount: { $arrayElemAt: ["$counter", 0] },
+          },
+        },
+        {
           $project: {
             calibrators: true,
             productCode: true,
-            finalizationCount: '$finalizationCount.finalizationCount'
-          }
-        }, {
+            finalizationCount: "$finalizationCount.finalizationCount",
+          },
+        },
+        {
           $lookup: {
-            from: 'workmaps',
+            from: "workmaps",
             let: {
-              'productCode': '$productCode',
-              'finalizationCount': '$finalizationCount'
+              productCode: "$productCode",
+              finalizationCount: "$finalizationCount",
             },
             pipeline: [
               {
                 $match: {
                   $expr: {
                     $and: [
-                      { $eq: ['$finalizationNumber', '$$finalizationCount'] },
-                      { $eq: ['$productCode', '$$productCode'] }
-                    ]
-                  }
-                }
+                      { $eq: ["$finalizationNumber", "$$finalizationCount"] },
+                      { $eq: ["$productCode", "$$productCode"] },
+                    ],
+                  },
+                },
               },
               {
                 $project: {
-                  samplesArray: true
-                }
-              }],
-            as: 'workmaps'
-          }
-        }, {
+                  samplesArray: true,
+                },
+              },
+            ],
+            as: "workmaps",
+          },
+        },
+        {
           $lookup: {
-            from: 'samples',
-            localField: 'workmaps.samplesArray',
-            foreignField: '_id',
-            as: 'samples'
-          }
-        }, {
+            from: "samples",
+            localField: "workmaps.samplesArray",
+            foreignField: "_id",
+            as: "samples",
+          },
+        },
+        {
           $project: {
             productCode: true,
             calibrators: true,
-            samples: true
-          }
-        }]
-      ).then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+            samples: true,
+          },
+        },
+      ])
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllActive() {
     return new Promise((resolve, reject) => {
-      KitModel.find({ active: true }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.find({ active: true })
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getByIdArray(id_array) {
     return new Promise((resolve, reject) => {
-      KitModel.find({ _id: { $in: id_array } }).then((kit) => {
-        resolve(kit);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.find({ _id: { $in: id_array } })
+        .then((kit) => {
+          resolve(kit);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -472,15 +535,16 @@ class Kit {
             result = new Promise((resolve, reject) => {
               KitModel.findById(listIds[i]);
             });
-          }
-          catch (err) {
+          } catch (err) {
             console.log("Erro de sincronizacao");
-          }
-          finally {
+          } finally {
             valueObject.push({ loq: result.Loq, lod: result.Lod });
           }
         } else {
-          valueObject.push({ loq: "Numero nao declarado", log: "Numero nao declarado" });
+          valueObject.push({
+            loq: "Numero nao declarado",
+            log: "Numero nao declarado",
+          });
         }
       }
       Promise.all(valueObject).then(function finalizar() {
@@ -491,32 +555,36 @@ class Kit {
 
   static getLowestAvailableKitType(productCode) {
     return new Promise((resolve) => {
-      KitModel.find({ productCode: productCode }).then((results) => {
-        let controlVector = ['A', 'B', 'C', 'D', 'E', 'F'];
-        results.forEach((kit) => {
-          if (kit.kitType !== '-') {
-            controlVector = controlVector.filter(e => e !== kit.kitType);
-          };
+      KitModel.find({ productCode: productCode })
+        .then((results) => {
+          let controlVector = ["A", "B", "C", "D", "E", "F"];
+          results.forEach((kit) => {
+            if (kit.kitType !== "-") {
+              controlVector = controlVector.filter((e) => e !== kit.kitType);
+            }
+          });
+          if (controlVector.length > 0) {
+            resolve(controlVector[0]);
+          } else {
+            resolve("-");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
         });
-        if (controlVector.length > 0) {
-          resolve(controlVector[0]);
-        } else {
-          resolve("-");
-        }
-      }).catch((err) => {
-        console.log(err);
-        reject(err);
-      });
     });
   }
 
   static findByIdAndEdit(id, kit) {
     return new Promise((resolve) => {
-      KitModel.findByIdAndUpdate(id, kit).then((res) => {
-        resolve(res);
-      }).catch((err) => {
-        reject(err);
-      });
+      KitModel.findByIdAndUpdate(id, kit)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -525,37 +593,41 @@ class Kit {
       KitModel.aggregate([
         {
           $match: {
-            kitType: { $not: { $eq: "-" } }
-          }
-        }
+            kitType: { $not: { $eq: "-" } },
+          },
+        },
       ])
-        .then(response => resolve(response))
-        .catch(err => reject(err));;
+        .then((response) => resolve(response))
+        .catch((err) => reject(err));
     });
   }
 
-  static countAvailableWorkmaps(){
+  static countAvailableWorkmaps() {
     return new Promise((resolve, reject) => {
-        KitModel.aggregate([
-          {
-            $match: {
-              deleted: false,
-            }
-          }, {
-            $project: {
-              productCode: 1,
-              amount: 1,
-            }
-          }, {
-            $group: {
-              _id: "$productCode",
-              currentSum: {$sum: "$amount"},
-            }
+      KitModel.aggregate([
+        {
+          $match: {
+            deleted: false,
           },
-        ]).then((count) => {
-          count = count.sort(dynamicSort("_id")); 
+        },
+        {
+          $project: {
+            productCode: 1,
+            amount: 1,
+          },
+        },
+        {
+          $group: {
+            _id: "$productCode",
+            currentSum: { $sum: "$amount" },
+          },
+        },
+      ])
+        .then((count) => {
+          count = count.sort(dynamicSort("_id"));
           resolve(count);
-        }).catch((err) => {
+        })
+        .catch((err) => {
           reject(err);
         });
     });
@@ -566,33 +638,33 @@ class Kit {
       KitModel.aggregate([
         {
           $match: {
-            kitType: { $eq: '-' }
-          }
-        }, {
+            kitType: { $eq: "-" },
+          },
+        },
+        {
           $group: {
             _id: null,
-            kits: { $push: '$$ROOT' }
-          }
-        }, {
+            kits: { $push: "$$ROOT" },
+          },
+        },
+        {
           $project: {
             _id: 0,
-            totalCount: { $size: '$kits' },
-            kits: { '$reverseArray': '$kits' }
-          }
-        }, {
+            totalCount: { $size: "$kits" },
+            kits: { $reverseArray: "$kits" },
+          },
+        },
+        {
           $project: {
             totalCount: 1,
-            kits: { $slice: ['$kits', page * itens_per_page, itens_per_page] }
-          }
-        }
+            kits: { $slice: ["$kits", page * itens_per_page, itens_per_page] },
+          },
+        },
       ])
-        .then(response => resolve(response))
-        .catch(err => reject(err));
+        .then((response) => resolve(response))
+        .catch((err) => reject(err));
     });
   }
 }
-
-
-
 
 module.exports = Kit;

@@ -160,7 +160,7 @@ router.post('/signup', (req, res) => {
 });
 
 // GET /logout
-router.get('/logout', auth.isAuthenticated, (req, res, next) => {
+router.get('/logout', auth.isAuthenticated, (req, res) => {
   firebase.auth().signOut().then(() => {
     delete req.session.fullname;
     delete req.session.userId;

@@ -5,7 +5,7 @@ const mongoose = require('mongodb');
 const auth = require('./middleware/auth');
 
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function(req, res, next) {
+router.get('/', auth.isAuthenticated, function(req, res) {
   res.render('expandingDivs', { title: 'Expanding Divs', layout: 'layoutDashboard.hbs' });
 });
 

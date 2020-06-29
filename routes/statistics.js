@@ -8,7 +8,7 @@ router.get('/', auth.isAuthenticated, function (req, res) {
     res.render('statistics/index', { title: 'Gráficos', layout: 'layoutDashboard.hbs', ...req.session });
 });
 
-router.get('/barcharts'/*, auth.isAuthenticated*/, function (req, res) {
+router.get('/barcharts', auth.isAuthenticated, function (req, res) {
     res.render('statistics/barcharts', { title: 'Gráficos', layout: 'layoutDashboard.hbs', ...req.session });
 });
 
@@ -16,19 +16,27 @@ router.get('/boxcharts', auth.isAuthenticated, (req, res) => {
     res.render('statistics/boxcharts', { title: 'Gráficos', layout: 'layoutDashboard.hbs', ...req.session });
 });
 
-router.get('/statesData', async (req, res) => {
+router.get('/statesData', auth.isAuthenticated, async (req, res) => {
     let data = await Requisition.getStateData();
     res.send(data);
 });
-router.get('/samplesData', async (req, res) => {
+
+router.get('/resultsData', async (req, res) => {
+    let data = await Sample.getResultData();
+    res.send(data);
+});
+
+router.get('/samplesData', auth.isAuthenticated, async (req, res) => {
     let data = await Sample.getSampleData();
     res.send(data);
 });
-router.get('/animalsData', async (req, res) => {
+
+router.get('/animalsData', auth.isAuthenticated, async (req, res) => {
     let data = await Requisition.getAnimalData();
     res.send(data);
 });
-router.get('/finalizationData', async (req, res) =>{
+
+router.get('/finalizationData', auth.isAuthenticated, async (req, res) =>{
     let data = await Sample.getFinalizationData();
     res.send(data);
 });

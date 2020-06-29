@@ -7,7 +7,7 @@ const Requisition = require('../models/requisition');
 const User = require('../models/user');
 const Samples = require('../models/sample');
 
-router.get('/', auth.isAuthenticated, (req, res, next) => {
+router.get('/', auth.isAuthenticated, (req, res) => {
   const currentUser = firebase.auth().currentUser.uid;
   User.getOneByQuery({ uid: currentUser }).then((user) => {
     Requisition.getAllByUserId(user._id).then((requisitions) => {

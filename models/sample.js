@@ -23,6 +23,7 @@ const sampleSchema = new mongoose.Schema(
     },
     requisitionId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Requisition"
     },
     responsible: String,
     creationYear: {
@@ -60,9 +61,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       checked: {
         type: Boolean,
@@ -98,10 +101,12 @@ const sampleSchema = new mongoose.Schema(
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       checked: {
         type: Boolean,
@@ -138,9 +143,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       checked: {
         type: Boolean,
@@ -176,10 +183,12 @@ const sampleSchema = new mongoose.Schema(
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       checked: {
         type: Boolean,
@@ -216,9 +225,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       checked: {
         type: Boolean,
@@ -255,9 +266,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Kit"
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Workmap"
       },
       checked: {
         type: Boolean,
@@ -268,6 +281,10 @@ const sampleSchema = new mongoose.Schema(
     parecer: String,
     finalized: {
       //Disponivel para o produtor ou nao.
+      type: Boolean,
+      default: false,
+    },
+    isCitrus: {
       type: Boolean,
       default: false,
     },
@@ -1066,6 +1083,26 @@ class Sample {
           reject(err);
         });
     });
+  }
+
+  static async getResultData() {
+    const result = await SampleModel.aggregate([
+      { $match: { finalized: true, report: true } },
+      {
+        $project: {
+          aflatoxina: 1,
+          deoxinivalenol: 1,
+          fumonisina: 1,
+          ocratoxina: 1,
+          t2toxina: 1,
+          zearalenona: 1,
+          createdAt: 1
+        },
+      },
+      { $sort: { createdAt: 1 } },
+    ])
+    return result;
+
   }
 }
 
