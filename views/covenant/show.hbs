@@ -1,22 +1,23 @@
 <div>
-    <h2>{{covenant.name}}</h2>
-    <h3>Lista de Gerentes:</h3>
-    {{#each managers}}
-        <h4>{{fullname}}</h4>
-        <table id="tb-user" class="table table-striped table-hover">
-            <thead>
+    <h3>Convênio {{covenant.name}}</h3>
+    <h4 style="margin-top: 5vh">Lista de Gerentes:</h4>
+    <table id="tb-user" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="th-name">Nome do Gerente</th>
+                <th class="th-name">Status</th>
+                <th class="th-name">Email</th>
+                <th class="th-name">Telefone</th>
+                <th class="th-name">Celular</th>
+                <th class="th-name">CPF/CNPJ</th>
+                <th class="th-name">Produtores</th>
+                <th class="th-name">Remover</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each managers}}
                 <tr>
-                    <th class="th-name">Status</th>
-                    <th class="th-name">Email</th>
-                    <th class="th-name">Telefone</th>
-                    <th class="th-name">Celular</th>
-                    <th class="th-name">Registro</th>
-                    <th class="th-name">Produtores</th>
-                    <th class="th-name">Remover</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
+                    <th>{{fullname}}</th>
                     <th>{{status}}</th>
                     <th>{{email}}</th>
                     <th>{{phone}}</th>
@@ -29,18 +30,18 @@
                     </th>
                     <th>
                         <form action="/user/removeFromCovenant/{{_id}}" method="post">
-                            <input value="{{covId}}" name="covenant[id]" hidden="hidden"/>
-                            <button type="submit" class="fa fa-trash btn btn-default m-1" aria-hidden="true"/>
+                            <input value="{{covId}}" name="covenant[id]" hidden="hidden" />
+                            <button type="submit" class="fa fa-trash btn btn-default m-1" aria-hidden="true" />
                         </form>
                     </th>
                 </tr>
-            </tbody>
-        </table>
     {{/each}}
+            </tbody>
+    </table>
 </div>
 
 <div>
-    <h3>Adicionar Gerente - {{covenant.name}}:</h3>
+    <h4 style="margin-top: 5vh">Adicionar gerente ao convênio {{covenant.name}}:</h4>
     <form action="/covenant/addManagers/{{covenant._id}}" method="post" class="d-flex flex-column align-items-center">
         <div class="requisition-text col-md-12 d-flex align-items-center">
             <select multiple id="requisitonstate" class="drowdownoptions" name="managers" required="required">

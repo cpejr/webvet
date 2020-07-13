@@ -5,7 +5,11 @@ const covenantSchema = new mongoose.Schema({
     managers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    admin: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 
 const CovenantModel = mongoose.model('Covenant', covenantSchema);
@@ -15,6 +19,7 @@ class Covenant {
         return new Promise((resolve, reject) => {
             CovenantModel.find({})
                 .populate({ path: 'managers', model: 'User' })
+                .populate({ path: 'admin', model: 'User'})
                 .then((results) => {
                     resolve(results);
                 })

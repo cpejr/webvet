@@ -7,8 +7,10 @@ const User = require('../models/user');
 
 router.get('/', auth.isAuthenticated, async function (req, res){
     let covenants = await Covenant.getAll();
+    console.log(covenants);
+    let hasCovenant = (covenants.length > 0) ? true : false;
     let managers = await User.getByQuery({type: "Gerencia", status: "Ativo", deleted: false});
-    res.render('covenant', { title: 'Convênios', layout: 'layoutDashboard.hbs', covenants, managers });
+    res.render('covenant', { title: 'Convênios', layout: 'layoutDashboard.hbs', covenants, managers, hasCovenant });
 });
 
 router.post('/new', auth.isAuthenticated, auth.isFromLab, async function (req, res){
