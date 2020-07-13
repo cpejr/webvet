@@ -10,12 +10,12 @@
                 <th class="th-name">Telefone</th>
                 <th class="th-name">Celular</th>
                 <th class="th-name">CPF/CNPJ</th>
-                <th class="th-name">Produtores</th>
+                <th class="th-name">Editar gerente</th>
                 <th class="th-name">Remover</th>
             </tr>
         </thead>
         <tbody>
-        {{#each managers}}
+            {{#each managers}}
                 <tr>
                     <th>{{fullname}}</th>
                     <th>{{status}}</th>
@@ -24,9 +24,7 @@
                     <th>{{cellphone}}</th>
                     <th>{{register}}</th>
                     <th>
-                        {{#each associatedProducers}}
-                            <p>{{this}}</p>
-                        {{/each}}
+                        <button onClick="location.href=/users/show/{{_id}}'" class="fa fa-info btn m-1"></button>
                     </th>
                     <th>
                         <form action="/user/removeFromCovenant/{{_id}}" method="post">
@@ -35,8 +33,8 @@
                         </form>
                     </th>
                 </tr>
-    {{/each}}
-            </tbody>
+            {{/each}}
+        </tbody>
     </table>
 </div>
 

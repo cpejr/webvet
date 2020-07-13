@@ -63,7 +63,6 @@ class Covenant {
 
     static removeManager(covenantId, managerId) {
         return new Promise((resolve, reject) => {
-            console.log("entrou no delete");
             CovenantModel.findByIdAndUpdate(covenantId, { $pull: { managers: managerId } }).then((result) => {
                 resolve(result);
             }).catch((err) => {
@@ -74,8 +73,11 @@ class Covenant {
 
     static delete(id) {
         return new Promise((resolve, reject) => {
-            CovenantModel.findOneAndDelete(id).then((result) => {
-                resolve(result);
+            CovenantModel.findByIdAndDelete(id).then((result) => {
+                console.log("Resultado do delete: ", result);
+                let users = result.managers;
+                users.push(result.admin);
+                resolve(users);
             })
         })
     }
