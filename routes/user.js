@@ -59,6 +59,7 @@ router.post('/removeFromCovenant/:id', auth.isAuthenticated, auth.isAdmin, async
   const cId = req.body.covenant.id;
   console.log(cId);
   await Covenant.removeManager(cId, id);
+  await User.removeCovenant([id]);
   console.log("Convenio deletado!");
   res.redirect(`/covenant/edit/${cId}`)
 });

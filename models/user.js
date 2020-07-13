@@ -25,7 +25,6 @@ const userSchema = new mongoose.Schema({
     // unique: true
 
   },
-
   phone: String,
   cellphone: String,
   status: {
@@ -43,24 +42,23 @@ const userSchema = new mongoose.Schema({
     complement: String,
     city: String,
     state: String
-
   },
-
   debt: {
     type: Boolean, //1 for debtor, 0 for not debtor
     default: 0
   },
-
   deleted: {
     type: Boolean, // 1 for deleted, 0 for not deleted
     default: 0
   },
-
   associatedProducers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
-
+  isOnCovenant: {
+    Type: Boolean,
+    default: false
+  }
 }, { timestamps: true, static: false });
 
 const UserModel = mongoose.model('User', userSchema);
@@ -177,6 +175,16 @@ class User {
     });
   }
 
+  static getAllActiveUnaffiliatedManagers() {
+    return new Promise((resolve, reject) => {
+      UserModel.find({ type: "Gerencia", status: "Ativo", deleted: false, isOnCovenant: false}).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   static getByQuery(query) {
     return new Promise((resolve, reject) => {
       UserModel.find(query).exec().then((result) => {
@@ -190,12 +198,14 @@ class User {
   /**
   * Add Producer to associatedProducers
   * @param {string} id - User Id
-  * @param {string} user - User Id
+  * @param {string} user_id - User Id
   * @returns {null}
   */
-  static addProducer(id, user) {
+  static addProducer(id, user_id) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user } }).catch((err) => {
+      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user_id } }).then(result =>{
+        resolve(result);
+      }).catch((err) => {
         reject(err);
       });
     });
@@ -204,40 +214,36 @@ class User {
   /**
    * Remove Producer from associatedProducers
    * @param {string} id - User Id
-   * @param {string} user - User Id
+   * @param {string} user_id - User Id
    * @returns {null}
    */
-  static removeProducer(id, user) {
+  static removeProducer(id, user_id) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $pull: { associatedProducers: user } }).catch((err) => {
+      UserModel.findByIdAndUpdate(id, { $pull: { associatedProducers: user_id } }).then(result =>{
+        resolve(result);
+      }).catch((err) => {
         reject(err);
       });
     });
   }
 
-  /**
-  * Add covenant to associatedCovenant
-  * @param {string} id - User Id
-  * @param {string} user - User Id
-  * @returns {null}
-  */
-  static addCovenant(id, user) {
+  static addCovenant(id_array) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $push: { associatedCovenant: user } }).catch((err) => {
+      UserModel.updateMany({_id: {$in: id_array}}, {isOnCovenant: true}).then(result => {
+        console.log("Marcados como isOnCovenant");
+        resolve(result);
+      }).catch((err) => {
         reject(err);
       });
     });
   }
 
-  /**
-   * Remove covenant from associatedCovenants
-   * @param {string} id - User Id
-   * @param {string} user - User Id
-   * @returns {null}
-   */
-  static removeCovenant(id, user) {
+  static removeCovenant(id_array) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $pull: { associatedCovenant: user } }).catch((err) => {
+      UserModel.updateMany({_id: {$in: id_array}}, {isOnCovenant: false}).then(result => {
+        console.log("Desmarcados do isOnCovenant");
+        resolve(result);
+      }).catch((err) => {
         reject(err);
       });
     });
@@ -252,21 +258,6 @@ class User {
     return new Promise((resolve, reject) => {
       UserModel.findById(id).populate({ path: 'associatedProducers' }).exec().then((result) => {
         resolve(result.associatedProducers);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  /**
-    * Get the covenant from a object by its id
-    * @param {string} id - User uid
-    * @returns {Array} - Array of users
-    */
-  static getAssociatedCovenantById(id) {
-    return new Promise((resolve, reject) => {
-      UserModel.findById(id).populate({ path: 'associatedCovenant' }).exec().then((result) => {
-        resolve(result.associatedCovenant);
       }).catch((err) => {
         reject(err);
       });

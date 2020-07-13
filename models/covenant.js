@@ -5,7 +5,11 @@ const covenantSchema = new mongoose.Schema({
     managers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    admin: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 
 const CovenantModel = mongoose.model('Covenant', covenantSchema);
@@ -15,6 +19,7 @@ class Covenant {
         return new Promise((resolve, reject) => {
             CovenantModel.find({})
                 .populate({ path: 'managers', model: 'User' })
+                .populate({ path: 'admin', model: 'User'})
                 .then((results) => {
                     resolve(results);
                 })
@@ -27,7 +32,7 @@ class Covenant {
         return new Promise((resolve, reject) => {
             CovenantModel.findById(id)
                 .populate({ path: 'managers', model: 'User' })
-                .populate({ path: 'associatedProducers', model: 'User' })
+                .populate({ path: 'admin', model: 'User' })
                 .then((result) => {
                     resolve(result);
                 })
@@ -58,7 +63,6 @@ class Covenant {
 
     static removeManager(covenantId, managerId) {
         return new Promise((resolve, reject) => {
-            console.log("entrou no delete");
             CovenantModel.findByIdAndUpdate(covenantId, { $pull: { managers: managerId } }).then((result) => {
                 resolve(result);
             }).catch((err) => {
@@ -69,8 +73,11 @@ class Covenant {
 
     static delete(id) {
         return new Promise((resolve, reject) => {
-            CovenantModel.findOneAndDelete(id).then((result) => {
-                resolve(result);
+            CovenantModel.findByIdAndDelete(id).then((result) => {
+                console.log("Resultado do delete: ", result);
+                let users = result.managers;
+                users.push(result.admin);
+                resolve(users);
             })
         })
     }
