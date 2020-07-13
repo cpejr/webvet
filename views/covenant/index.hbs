@@ -33,31 +33,40 @@
     <h4 style="margin-top: 5vh">Não há nenhum convênio cadastrado</h4>
 {{/if}}
 
-<h4 style="margin-top: 5vh">Criar novo convênio</h4>
-<form action="/covenant/new" method="post" class="d-flex flex-column align-items-center">
-    <div class="requisition-text col-md-12">
-        <input required id="name" type="text" name="covenant[name]" class="requisition-text"
-            placeholder="Digite um nome para o novo convênio">
+{{#if canCreate}}
+    <div>
+        <h4 style="margin-top: 5vh">Criar novo convênio</h4>
+        <form action="/covenant/new" method="post" class="d-flex flex-column align-items-center">
+            <div class="requisition-text col-md-12">
+                <input required id="name" type="text" name="covenant[name]" class="requisition-text"
+                    placeholder="Digite um nome para o novo convênio">
+            </div>
+            <div class="requisition-text col-md-12 d-flex align-items-center">
+                <label for="admin">Selecione um administrador esse convênio</label>
+                <select id="admin" class="drowdownoptions" name="covenant[admin]" required="required">
+                    <option disabled selected value="">Gerentes</option>
+                    {{#each managers}}
+                        <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="requisition-text col-md-12 d-flex align-items-center">
+                <label for="admin">Selecione os gerentes pertencentes a esse convênio</label>
+                <select multiple id="managers" class="drowdownoptions" name="covenant[managers]" required="required">
+                    <option disabled selected value="">Gerentes</option>
+                    {{#each managers}}
+                        <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="btn-enviar">
+                <button type="submit" class="btn btn-success">Enviar</button>
+            </div>
+        </form>
     </div>
-    <div class="requisition-text col-md-12 d-flex align-items-center">
-        <label for="admin">Selecione um administrador esse convênio</label>
-        <select id="admin" class="drowdownoptions" name="covenant[admin]" required="required">
-            <option disabled selected value="">Gerentes</option>
-            {{#each managers}}
-                <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
-            {{/each}}
-        </select>
+{{else}}
+    <div>
+        <h4 style="margin-top: 5vh">Não é possível criar mais convênios (Não há mais gerentes disponíveis)</h4>
+        <h5>O número atual de gerentes ativos sem convênio é ( {{manaNumber}} )</h5>
     </div>
-    <div class="requisition-text col-md-12 d-flex align-items-center">
-        <label for="admin">Selecione os gerentes pertencentes a esse convênio</label>
-        <select multiple id="managers" class="drowdownoptions" name="covenant[managers]" required="required">
-            <option disabled selected value="">Gerentes</option>
-            {{#each managers}}
-                <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
-            {{/each}}
-        </select>
-    </div>
-    <div class="btn-enviar">
-        <button type="submit" class="btn btn-success">Enviar</button>
-    </div>
-</form>
+{{/if}}

@@ -32,7 +32,7 @@ class Covenant {
         return new Promise((resolve, reject) => {
             CovenantModel.findById(id)
                 .populate({ path: 'managers', model: 'User' })
-                .populate({ path: 'associatedProducers', model: 'User' })
+                .populate({ path: 'admin', model: 'User' })
                 .then((result) => {
                     resolve(result);
                 })

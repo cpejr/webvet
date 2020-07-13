@@ -175,6 +175,16 @@ class User {
     });
   }
 
+  static getAllActiveUnaffiliatedManagers() {
+    return new Promise((resolve, reject) => {
+      UserModel.find({ type: "Gerencia", status: "Ativo", deleted: false, isOnCovenant: false}).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   static getByQuery(query) {
     return new Promise((resolve, reject) => {
       UserModel.find(query).exec().then((result) => {
