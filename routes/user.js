@@ -6,6 +6,7 @@ const auth = require('./middleware/auth');
 const Requisition = require('../models/requisition');
 const User = require('../models/user');
 const Samples = require('../models/sample');
+const Covenant = require('../models/covenant');
 
 router.get('/', auth.isAuthenticated, (req, res) => {
   const currentUser = firebase.auth().currentUser.uid;
@@ -48,6 +49,19 @@ router.get('/', auth.isAuthenticated, (req, res) => {
     console.log(error);
     res.redirect('/error');
   });
+});
+
+router.post('/removeFromCovenant/:id', auth.isAuthenticated, auth.isAdmin, async function (req, res){
+  console.log('Entrou na rota delete');
+  console.log("req.params.id = " + req.params.id);
+  const { id } = req.params;
+  console.log("req.body.covenant = " + req.body.covenant);
+  const cId = req.body.covenant.id;
+  console.log(cId);
+  await Covenant.removeManager(cId, id);
+  await User.removeCovenant([id]);
+  console.log("Convenio deletado!");
+  res.redirect(`/covenant/edit/${cId}`)
 });
 
 module.exports = router;

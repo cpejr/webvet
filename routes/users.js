@@ -242,18 +242,6 @@ router.post('/block/:id', auth.isAuthenticated, function (req, res) {
 
 });
 
-
-router.get('/addManager', auth.isAuthenticated, function (req, res) {
-  User.getById("5ce8401566fee16478f3f43a").then((manager) => {
-    // Adiciona o segundo id ao primeiro
-    User.addManager("5ce8401566fee16478f3f43a", "5ce83ed566fee16478f3f435").catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
-    res.render('', { title: 'Usuários', layout: 'layoutDashboard.hbs' });
-  });
-});
-
 router.post('/approvepayment/:id', auth.isAuthenticated, function (req, res) {
   User.getById(req.params.id).then((user) => {
 
