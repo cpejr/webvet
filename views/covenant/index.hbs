@@ -42,11 +42,11 @@
                     placeholder="Digite um nome para o novo convênio">
             </div>
             <div class="requisition-text col-md-12 d-flex align-items-center">
-                <label for="admin">Selecione um administrador esse convênio</label>
+                <label for="admin">Selecione um administrador para esse convênio</label>
                 <select id="admin" class="drowdownoptions" name="covenant[admin]" required="required">
                     <option disabled selected value="">Gerentes</option>
                     {{#each managers}}
-                        <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+                        <option id="A_{{_id}}" value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -55,7 +55,7 @@
                 <select multiple id="managers" class="drowdownoptions" name="covenant[managers]" required="required">
                     <option disabled selected value="">Gerentes</option>
                     {{#each managers}}
-                        <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+                        <option id="M_{{_id}}" value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
                     {{/each}}
                 </select>
             </div>
