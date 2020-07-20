@@ -156,6 +156,7 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
 
 router.get('/show/:id/:returnRoute', function (req, res) {
   User.getById(req.params.id).then((actualUser) => {
+    console.log("Entrou");
     res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', returnRoute: req.params.returnRoute, actualUser, ...req.session });
   }).catch((error) => {
     console.log(error);

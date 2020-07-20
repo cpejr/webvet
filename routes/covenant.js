@@ -39,7 +39,7 @@ router.post('/new', auth.isAuthenticated, auth.isFromLab, async function (req, r
     })
 
     await Covenant.create(covenant);
-    console.log("Usuarios para adicionar convenio: ", objects);
+    //console.log("Usuarios para adicionar convenio: ", objects);
     await User.addCovenant(objects);
 
     res.redirect('/covenant');
