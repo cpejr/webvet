@@ -54,7 +54,7 @@ router.get('/requisition/index', (req, res) => {
 router.post('/login', (req, res) => {
   const userData = req.body.user;
   firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((userID) => {
-    User.getByUid(userID.user.uid).then((currentLogged) => {
+    User.getByFirebaseId(userID.user.uid).then((currentLogged) => {
       if (currentLogged) {
         const userR = {
           type: currentLogged.type,

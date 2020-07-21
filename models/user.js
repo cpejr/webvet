@@ -145,9 +145,9 @@ class User {
    * @param {string} id - User Uid
    * @returns {Object} - User Document Data
    */
-  static getByUid(id) {
+  static getByFirebaseId(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findOne({ uid: id }).exec().then((result) => {
+      UserModel.findOne({ uid: id }).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);

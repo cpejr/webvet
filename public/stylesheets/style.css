@@ -6608,6 +6608,7 @@ input.center {
 
 .btn-expand {
   background-color: #006600;
+  float: left;
   left: 10px;
   top: 2px;
   border: none;
@@ -7448,19 +7449,16 @@ li {
       background-size: auto 160px; }
 
 @-webkit-keyframes square {
-  0% { 
+  0% { }
   transform: translateY(0);
-  }
-  100% { 
-  transform: translateY(-700px) rotate(600deg); 
-  }
-}
+  100% { }
+  transform: translateY(-700px) rotate(600deg); }
+
 @keyframes square {
   0% {
     transform: translateY(0); }
   100% {
-    transform: translateY(-700px) rotate(600deg); } 
-}
+    transform: translateY(-700px) rotate(600deg); } }
 
 .empty-search {
   padding: 5px 10px;

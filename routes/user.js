@@ -8,7 +8,20 @@ const User = require('../models/user');
 const Samples = require('../models/sample');
 const Covenant = require('../models/covenant');
 
-router.get('/', auth.isAuthenticated, (req, res) => {
+router.get('/', auth.isAuthenticated, async function (req, res) {
+  const firebaseId = await firebase.auth().currentUser.uid;
+
+  let user = await User.getByFirebaseId(firebaseId);
+  let userIds = [user._id];
+  if(user.isOnCovenant){
+    userIds = await Covenant.getRelatedIds(user._id, user.associatedManagers);
+  }
+  let requisitions = await Requisition.getAllByUserId(userIds); //Fazer esta funcao receber um vetor de ids
+
+
+
+
+/* 
   const currentUser = firebase.auth().currentUser.uid;
   User.getOneByQuery({ uid: currentUser }).then((user) => {
     Requisition.getAllByUserId(user._id).then((requisitions) => {
@@ -48,7 +61,7 @@ router.get('/', auth.isAuthenticated, (req, res) => {
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
-  });
+  }); */
 });
 
 router.post('/removeFromCovenant/:id', auth.isAuthenticated, auth.isAdmin, async function (req, res){
