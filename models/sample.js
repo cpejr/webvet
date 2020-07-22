@@ -330,16 +330,9 @@ class Sample {
    * @param {string} id - Sample Id
    * @returns {Object} Sample Document Data
    */
-  static getById(id) {
-    return new Promise((resolve, reject) => {
-      SampleModel.findOne({ _id: id })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async getById(id) {
+    const result = await SampleModel.findOne({ _id: id });
+    return result;
   }
 
   /**
@@ -538,16 +531,12 @@ class Sample {
     });
   }
 
-  static async updateReportSpecific(id, info) {
-    return new Promise((resolve, reject) => {
-      SampleModel.updateOne({ _id: id }, { $set: info })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async updateReportSpecific(id, fieldsToUpdate) {
+    const result = await SampleModel.updateOne(
+      { _id: id },
+      { $set: fieldsToUpdate }
+    );
+    return result;
   }
 
   static async updateAbsorbancesAndFinalize(
@@ -643,18 +632,6 @@ class Sample {
       updateVal[parameter3] = true;
 
       SampleModel.update({ _id: id }, { $set: updateVal })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static finalizeReportById(id, command) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { finalized: command } })
         .then((result) => {
           resolve(result);
         })
@@ -874,18 +851,14 @@ class Sample {
     });
   }
 
-  static getAllReport() {
-    return new Promise((resolve, reject) => {
-      var querry = { report: true };
+  static async getAllReport() {
+    var querry = { report: true };
 
-      SampleModel.find(querry)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+    const result = await SampleModel.find(querry).populate({
+      path: "requisitionId",
+      select: "requisitionnumber createdAt _id",
     });
+    return result;
   }
 
   /**

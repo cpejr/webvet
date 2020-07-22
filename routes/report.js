@@ -1,12 +1,8 @@
 var express = require("express");
-var firebase = require("firebase");
 var router = express.Router();
 const auth = require("./middleware/auth");
-const User = require("../models/user");
 const Requisition = require("../models/requisition");
 const Kit = require("../models/kit");
-const Email = require("../models/email");
-const Workmap = require("../models/Workmap");
 const Sample = require("../models/sample");
 const { isNumeric } = require("jquery");
 const moment = require("moment");
@@ -313,10 +309,10 @@ router.get(
                   newResultText = kit.Loq;
                   resultChart = kit.Loq;
                 }
-                
+
                 if (!resultText) resultText = newResultText; //Essa condição é necessária para permitir a edição do campo
               }
-            //  console.log(sample[currentToxin]);
+              //  console.log(sample[currentToxin]);
 
               Values[m] = {
                 ResultText: resultText,
@@ -363,35 +359,47 @@ router.get(
   }
 );
 
-router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
-  try {
-    var id = req.params.id;
-    var info = {
-      description: req.body.sample.description,
-      parecer: req.body.sample.parecer,
-    };
-    console.log(req.body);
-    for (let i = 0; i < ToxinasFormal.length; i++) {
-      if (req.body[ToxinasFull[i]]) {
-        info[ToxinasFull[i] + ".resultText"] =
-          req.body[ToxinasFull[i]].resultText;
+router.post(
+  "/show/admin/:id",
+  /* auth.isAuthenticated, */ async function (req, res) {
+    try {
+      const sampleId = req.params.id;
+      const { finalized } = req.query;
 
-        if (req.body[ToxinasFull[i]].checked) {
-          info[ToxinasFull[i] + ".checked"] = true;
-        } else {
-          info[ToxinasFull[i] + ".checked"] = false;
+      const fieldsToUpdate = {
+        description: req.body.sample.description,
+        parecer: req.body.sample.parecer,
+      };
+
+      if (typeof finalized !== undefined) fieldsToUpdate.finalized = finalized;
+
+      console.log(req.body);
+
+      for (let i = 0; i < ToxinasFormal.length; i++) {
+        let toxin = ToxinasFull[i];
+        if (req.body[toxin]) {
+          fieldsToUpdate[`${toxin}.resultText`] = req.body[toxin].resultText;
+          fieldsToUpdate[`${toxin}.resultChart`] = req.body[toxin].resultChart;
+
+          /**
+           * Lembando que isso \/ é nessário porque esse campo somente exite se tiver marcado,
+           * caso não esteja marcado ele não é rertonado no body
+           */
+          if (req.body[toxin].checked)
+            fieldsToUpdate[`${toxin}.checked`] = true;
+          else fieldsToUpdate[`${toxin}.checked`] = false;
         }
       }
-    }
 
-    const report = await Sample.updateReportSpecific(id, info);
-    req.flash("success", "Atualizado com sucesso.");
-    res.redirect("/report/show/admin/" + id);
-  } catch (error) {
-    console.log(error);
-    res.redirect("/error");
+      await Sample.updateReportSpecific(sampleId, fieldsToUpdate);
+      req.flash("success", "Atualizado com sucesso.");
+      res.redirect("/report/show/admin/" + sampleId);
+    } catch (error) {
+      console.log(error);
+      res.redirect("/error");
+    }
   }
-});
+);
 
 router.get("/samples/:id", auth.isAuthenticated, function (req, res) {
   var amostras = new Array();
@@ -419,68 +427,34 @@ router.get("/samples/:id", auth.isAuthenticated, function (req, res) {
 
 router.get(
   "/admreport",
-  auth.isAuthenticated || is.Admin || is.Analista,
-  function (req, res) {
-    var laudos = new Array();
-    let result = [];
+  auth.isAuthenticated || auth.isAdmin || auth.isAnalyst,
+  async function (req, res) {
+    try {
+      const result = [];
 
-    Sample.getAllReport().then((amostras) => {
-      let reqids = [];
+      const amostras = await Sample.getAllReport();
+      console.log(amostras);
+
       for (var j = 0; j < amostras.length; j++) {
-        if (amostras[j].report) {
-          laudos.push(amostras[j]);
-        }
+        const amostra = amostras[j];
+        result[j] = {
+          number: amostra.requisitionId.requisitionnumber,
+          year: amostra.requisitionId.createdAt.getFullYear(),
+          _id: amostra.requisitionId._id,
+        };
       }
 
-      for (var i = 0; i < amostras.length; i++) {
-        reqids.push(amostras[i].requisitionId);
-      }
-
-      Requisition.getByIdArray(reqids)
-        .then((requisitions) => {
-          for (let j = 0; j < amostras.length; j++) {
-            for (let k = 0; k < requisitions.length; k++) {
-              if (
-                JSON.stringify(amostras[j].requisitionId) ===
-                JSON.stringify(requisitions[k]._id)
-              )
-                //Check if is equal
-                result[j] = {
-                  number: requisitions[k].requisitionnumber,
-                  year: requisitions[k].createdAt.getFullYear(),
-                  _id: amostras[j]._id,
-                };
-            }
-          }
-          laudos = laudos.reverse();
-          result = result.reverse();
-        })
-        .then((params) => {
-          res.render("report/admreport", {
-            title: "Laudos Disponíveis",
-            layout: "layoutDashboard.hbs",
-            ...req.session,
-            laudos,
-            result,
-          });
-        });
-    });
-
-    router.get("/finalize/:id", auth.isAuthenticated, function (req, res) {
-      let id = req.params.id;
-      const command = true;
-      Sample.finalizeReportById(id, command).then((params) => {
-        res.redirect("../admreport");
+      res.render("report/admreport", {
+        title: "Laudos Disponíveis",
+        layout: "layoutDashboard.hbs",
+        ...req.session,
+        laudos: amostras.reverse(),
+        result: result.reverse(),
       });
-    });
-
-    router.get("/unfinalize/:id", auth.isAuthenticated, function (req, res) {
-      let id = req.params.id;
-      const command = false;
-      Sample.finalizeReportById(id, command).then((params) => {
-        res.redirect("../admreport");
-      });
-    });
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
   }
 );
 
