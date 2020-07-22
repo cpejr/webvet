@@ -40,6 +40,7 @@
           <thead>
             <tr class="text-center">
               <th scope="col">Micotoxinas</th>
+              <th scope="col" class="text-center">Resultado</br>(visível somente para o lab)</th>
               <th scope="col" class="text-center">Concentração Detectada (ppb)* </th>
               <th scope="col" class="text-center">Limite de Detecção -LoD (ppb) </th>
               <th scope="col" class="text-center">Limite de Quantificação - LoQ (ppb)</th>
@@ -47,27 +48,33 @@
           </thead>
           <tbody>
             {{#each toxinaData.Values}}
-              <tr>
-                <th scope="row">{{Name}}</th>
-                <td>
-                  <input type="text" id="{{Obj.name}}Conc" value="{{Result}}" name="{{Obj.name}}[result]">
-                  <input type="checkbox" class="hidden-print" name="{{Obj.name}}[checked]" id="toxinaCheck" value="{{Name}}">
-                  <button class="btn btn-success hidden-print" id="{{Obj.name}}" name="check[{{Obj.checked}}]" hidden>+</button>
-                </td>
-                <td>{{Obj.kit.Lod}}</td>
-                <td>{{Obj.kit.Loq}}</td>
-              </tr>
-              <script>
-                var initialCheck = function () {
-                 // console.log("{{Obj.name}}: {{Obj.checked}}");
-                  if ($('button[name="check[true]"][id="{{Obj.name}}"]').length > 0) {
-                   // console.log("{{Obj.name}} esta presente!");
-                    $('input[name="{{Obj.name}}[checked]"]').attr("checked", "{{Name}}");
-                  }
-                };
+            <tr>
+              <th scope="row">{{Name}}</th>
+              <td class="d-flex flex-row justify-content-center">
+                <p>{{Result}} ({{ResultChart}}) </p>
+                <input readonly name="{{Obj.name}}[resultChart]" value="{{ResultChart}}" class="d-none" />
+              </td>
+              <td>
+                <input type="text" id="{{Obj.name}}Conc" value="{{ResultText}}" name="{{Obj.name}}[resultText]">
+                <input type="checkbox" class="hidden-print" name="{{Obj.name}}[checked]" id="toxinaCheck"
+                  value="{{Name}}">
+                <button class="btn btn-success hidden-print" id="{{Obj.name}}" name="check[{{Obj.checked}}]"
+                  hidden>+</button>
+              </td>
+              <td>{{Obj.kit.Lod}}</td>
+              <td>{{Obj.kit.Loq}}</td>
+            </tr>
+            <script>
+              var initialCheck = function () {
+                // console.log("{{Obj.name}}: {{Obj.checked}}");
+                if ($('button[name="check[true]"][id="{{Obj.name}}"]').length > 0) {
+                  // console.log("{{Obj.name}} esta presente!");
+                  $('input[name="{{Obj.name}}[checked]"]').attr("checked", "{{Name}}");
+                }
+              };
 
-                initialCheck();
-              </script>
+              initialCheck();
+            </script>
             {{/each}}
           </tbody>
         </table>
@@ -77,15 +84,15 @@
         </div>
       </div>
       <h4> 6. Parecer técnico: </h4>
-      <textarea id="parecer" name="sample[parecer]" class="col-sm-12" readonly></textarea>
+      <textarea style="border: none" id="parecer" name="sample[parecer]" class="col-sm-12 mb-3" readonly></textarea>
       <h4> 7. Comentários: </h4>
       <textarea name="sample[description]" cols="100" rows="7">{{sample.description}}</textarea>
       <br>
       <button class="btn btn-success hidden-print" type="submit">Salvar todas as alterações</button>
     </form>
-    <h4> Belo Horizonte, </h4>
+    <h4> Belo Horizonte, {{sample.date}} </h4>
     <div class="laudo-assinatura">
-      <p><u><img src="/images/assinatura.png" ></u></p>
+      <p><u><img src="/images/assinatura.png"></u></p>
       <p><u> _________________________________ </u></p>
       <p>Profa Dra Kelly Moura Keller</p>
       <p>DMVP/EV-UFMG</p>
@@ -109,16 +116,17 @@
             <button class="btn btn-success hidden-print" onclick="print()"> Imprimir </button>
           </div>
           {{#if sample.finalized}}
-            <div class="col-sm-4">
-              <button class="btn btn-success hidden-print" onclick="location.href='/report/unfinalize/{{sample._id}}'">Cancelar
-                finalização</butt>
-            </div>
+          <div class="col-sm-4">
+            <button class="btn btn-success hidden-print"
+              onclick="location.href='/report/unfinalize/{{sample._id}}'">Cancelar
+              finalização</butt>
+          </div>
           {{else}}
-            <div class="col-sm-4">
-              <button class="btn btn-success hidden-print"
-                onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</button>
-                
-            </div>
+          <div class="col-sm-4">
+            <button class="btn btn-success hidden-print"
+              onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</button>
+
+          </div>
           {{/if}}
         </div>
       </div>
