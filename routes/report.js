@@ -4,8 +4,8 @@ const auth = require("./middleware/auth");
 const Requisition = require("../models/requisition");
 const Kit = require("../models/kit");
 const Sample = require("../models/sample");
-const { isNumeric } = require("jquery");
 const moment = require("moment");
+const Email = require("../models/email");
 
 function arrayContains(needle, arrhaystack) {
   return arrhaystack.indexOf(needle) > -1;
@@ -370,10 +370,8 @@ router.post(
         description: req.body.sample.description,
         parecer: req.body.sample.parecer,
       };
-
-      if (typeof finalized !== undefined) fieldsToUpdate.finalized = finalized;
-
-      console.log(req.body);
+      
+      if (typeof finalized != "undefined") fieldsToUpdate.finalized = finalized;
 
       for (let i = 0; i < ToxinasFormal.length; i++) {
         let toxin = ToxinasFull[i];
@@ -390,10 +388,23 @@ router.post(
           else fieldsToUpdate[`${toxin}.checked`] = false;
         }
       }
-
+      console.log(fieldsToUpdate)
       await Sample.updateReportSpecific(sampleId, fieldsToUpdate);
       req.flash("success", "Atualizado com sucesso.");
       res.redirect("/report/show/admin/" + sampleId);
+
+      /**
+       * Lógica de envio de emails caso finalizado
+       */
+      if (fieldsToUpdate.finalized === true) {
+        const sampleData = await Sample.getRelatedEmails(sampleId);
+
+        console.log(sampleData);
+        const { createdAt, samplenumber, requisitionId } = sampleData;
+        const { email, fullname } = requisitionId.user;
+        const sampleCode = `${samplenumber}/${createdAt.getFullYear()}`;
+        Email.reportEmail(email, fullname, sampleCode);
+      }
     } catch (error) {
       console.log(error);
       res.redirect("/error");

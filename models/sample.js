@@ -852,12 +852,21 @@ class Sample {
   }
 
   static async getAllReport() {
-    var querry = { report: true };
-
+    let querry = { report: true };
     const result = await SampleModel.find(querry).populate({
       path: "requisitionId",
-      select: "requisitionnumber createdAt _id",
+      select: "requisitionnumber user createdAt _id",
     });
+    return result;
+  }
+
+  static async getRelatedEmails(id) {
+    const result = await SampleModel.findById(id, "requisitionId samplenumber createdAt").populate({
+      path: "requisitionId",
+      select: "user _id",
+      populate: { path: "user", select: "email fullname _id" },
+    });
+    
     return result;
   }
 
