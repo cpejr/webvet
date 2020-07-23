@@ -288,7 +288,10 @@ router.get(
                 //Não retornou resultado numérico
                 resultChart = kit.Lod;
                 roundResult = sample[currentToxin].result;
-                if (!resultText) resultText = "ND"; //Essa condição é necessária para permitir a edição do campo
+                if (!resultText) {
+                  resultText = "ND";
+                  Obj.checked = false;
+                } //Essa condição é necessária para permitir a edição do campo
               } else {
                 //Retornou um resultado numérico
                 roundResult = Number(sample[currentToxin].result);
@@ -310,9 +313,13 @@ router.get(
                   resultChart = kit.Loq;
                 }
 
-                if (!resultText) resultText = newResultText; //Essa condição é necessária para permitir a edição do campo
+                if (!resultText) { //Essa condição é necessária para permitir a edição do campo
+                  if (newResultText !== "ND") Obj.checked = true;
+                  else Obj.checked = false;
+
+                  resultText = newResultText;
+                } 
               }
-              //  console.log(sample[currentToxin]);
 
               Values[m] = {
                 ResultText: resultText,
@@ -370,7 +377,7 @@ router.post(
         description: req.body.sample.description,
         parecer: req.body.sample.parecer,
       };
-      
+
       if (typeof finalized != "undefined") fieldsToUpdate.finalized = finalized;
 
       for (let i = 0; i < ToxinasFormal.length; i++) {
@@ -388,7 +395,7 @@ router.post(
           else fieldsToUpdate[`${toxin}.checked`] = false;
         }
       }
-      console.log(fieldsToUpdate)
+      console.log(fieldsToUpdate);
       await Sample.updateReportSpecific(sampleId, fieldsToUpdate);
       req.flash("success", "Atualizado com sucesso.");
       res.redirect("/report/show/admin/" + sampleId);
