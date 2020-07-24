@@ -6,7 +6,7 @@
       <tr>
         <th class = "th-name">Requisição</th>
         <th class = "th-type">Status</th>
-        <th class = "th-action"></th>
+        <th class = "th-action">Mais informações</th>
       </tr>
     </thead>
     <tbody>
@@ -16,7 +16,7 @@
               {{requisitionnumber}}
             </th>
             <th>
-              {{#compare status 'Em Progresso'}}
+              {{#compare status 'Nova'}}
                 <span class="badge badge-pill badge-warning">Em Progresso</span>
               {{/compare}}
               {{#compare status 'Aprovada'}}

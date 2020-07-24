@@ -21,21 +21,19 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
       console.log("Está em um convênio");
       userIds = await Covenant.getRelatedIds(user._id, user.associatedProducers);
     }
+    console.log("Ids associados: ", userIds);
     const requisitions = await Requisition.getAllByUserId(userIds); //Fazer esta funcao receber um vetor de ids
-    console.log("Requisitions found!: ", requisitions);
 
     let data = new Array;
     let samplesId = new Array;
     let reports = new Array;
     for (const requi of requisitions) {
-      console.log("Requisicao: ", requi);
       data.push({
         number: requi.requisitionnumber,
         year: requi.createdAt.getFullYear(),
         _id: requi._id,
       });
       for (const sampleId of requi.samples) {
-        console.log("Id encontrado: ",sampleId);
         samplesId.push(ObjectId(sampleId));
       }
     }
