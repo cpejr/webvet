@@ -87,14 +87,19 @@ class Covenant {
             console.log("Imprimindo Id admin do convênio: ", _id);
             console.log("covenant: ", covenant);
             if (_id.equals(userId)) { //Is Admin
-                console.log("E admin");
-                let managedProducers = managers.associatedProducers;
-                result = [...result, ...managedProducers, ...admin.associatedProducers];
-                return result;
+                console.log("É admin");
+                //Vai percorrer todos os gerentes e concatenar os vetores de produtores associados.
+                //new Set([]) retira repetições
+                let managedProducers = new Array;  
+                for ( const manager in managers ){
+                    managedProducers = [...new Set([...managedProducers, manager.associatedProducers])]
+                }
+                //Concatena com os produtores diretamente associados ao admin e retorna.
+                return [...new Set([...managedProducers, ...admin.associatedProducers])];  
             } else { //Is not Admin
-                console.log("Nao e admin")
-                result = [...result, ...managedProducers];
-                return result;
+                console.log("Não é admin")
+                //Retorna o proprio ID e seus produtores associados, gerente nao tem acesso a outros gerentes nem admin.
+                return [...[userId], ...associated];
             }
         } catch (err) {
             console.log(err);

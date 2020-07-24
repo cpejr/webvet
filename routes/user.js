@@ -7,64 +7,60 @@ const Requisition = require('../models/requisition');
 const User = require('../models/user');
 const Samples = require('../models/sample');
 const Covenant = require('../models/covenant');
+const { getFinalizedByIdArray } = require('../models/sample');
+const ObjectId = require('mongodb').ObjectID
 
 router.get('/', auth.isAuthenticated, async function (req, res) {
-  const firebaseId = await firebase.auth().currentUser.uid;
+  try {
 
-  let user = await User.getByFirebaseId(firebaseId);
-  let userIds = [user._id];
-  if(user.isOnCovenant){
-    userIds = await Covenant.getRelatedIds(user._id, user.associatedManagers);
-  }
-  let requisitions = await Requisition.getAllByUserId(userIds); //Fazer esta funcao receber um vetor de ids
+    const firebaseId = await firebase.auth().currentUser.uid;
 
+    const user = await User.getByFirebaseId(firebaseId);
+    let userIds = [user._id];
+    if (user.isOnCovenant === true) {
+      console.log("Está em um convênio");
+      userIds = await Covenant.getRelatedIds(user._id, user.associatedProducers);
+    }
+    const requisitions = await Requisition.getAllByUserId(userIds); //Fazer esta funcao receber um vetor de ids
+    console.log("Requisitions found!: ", requisitions);
 
-
-
-/* 
-  const currentUser = firebase.auth().currentUser.uid;
-  User.getOneByQuery({ uid: currentUser }).then((user) => {
-    Requisition.getAllByUserId(user._id).then((requisitions) => {
-      var data = [];
-      var samplesId = [];
-      for (let i = 0; i < requisitions.length; i++) {
-        const element = requisitions[i];
-        data[i] = {
-          number: element.requisitionnumber,
-          year: element.createdAt.getFullYear(),
-          _id: element._id,
-        };
-        for (let j = 0; j < requisitions[i].samples.length; j++) {
-          samplesId.push(requisitions[i].samples[j]);
-        }
-      }
-      Samples.getFinalizedByIdArray(samplesId).then((samples) => {
-        var laudos = [];
-        for (let k = 0; k < samples.length; k++){
-          if(samples[k].report === true){
-            laudos.push(samples[k]);
-          }
-        }
-        var laudEmpty = true;
-        if (laudos.length > 0){
-          laudEmpty = false;
-        }
-        res.render('user', { title: 'Cliente', layout: 'layoutDashboard.hbs', data, laudos, laudEmpty,...req.session });
-      }).catch((error) => {
-        console.log(error);
-        res.redirect('/error');
+    let data = new Array;
+    let samplesId = new Array;
+    let reports = new Array;
+    for (const requi of requisitions) {
+      console.log("Requisicao: ", requi);
+      data.push({
+        number: requi.requisitionnumber,
+        year: requi.createdAt.getFullYear(),
+        _id: requi._id,
       });
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
-  }).catch((error) => {
-    console.log(error);
+      for (const sampleId of requi.samples) {
+        console.log("Id encontrado: ",sampleId);
+        samplesId.push(ObjectId(sampleId));
+      }
+    }
+
+    const samples = await getFinalizedByIdArray(samplesId);
+
+    for (const sample of samples) {
+      if (sample.report === true) {
+        reports.push(sample);
+      }
+    }
+    let repEmpty = true;
+    if (reports.length > 0) {
+      repEmpty = false;
+    }
+
+    res.render('user', { title: 'Cliente', layout: 'layoutDashboard.hbs', data, reports, repEmpty, ...req.session });
+
+  } catch (err) {
+    console.log(err);
     res.redirect('/error');
-  }); */
+  }
 });
 
-router.post('/removeFromCovenant/:id', auth.isAuthenticated, auth.isAdmin, async function (req, res){
+router.post('/removeFromCovenant/:id', auth.isAuthenticated, auth.isAdmin, async function (req, res) {
   console.log('Entrou na rota delete');
   console.log("req.params.id = " + req.params.id);
   const { id } = req.params;

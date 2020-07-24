@@ -5,7 +5,7 @@ const auth = require('./middleware/auth');
 const Covenant = require('../models/covenant');
 const User = require('../models/user');
 
-router.get('/', auth.isAuthenticated, async function (req, res) {
+router.get('/', auth.isAuthenticated, auth.isFromLab, async function (req, res) {
     const covenants = await Covenant.getAll();
     const hasCovenant = (covenants.length > 0) ? true : false;
 
