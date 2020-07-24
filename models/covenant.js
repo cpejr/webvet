@@ -80,22 +80,21 @@ class Covenant {
                 .populate({ path: 'managers', model: 'User' })
                 .populate({ path: 'admin', model: 'User' });
 
-            let result = [userId];
-
             const { admin, managers } = covenant;
             const { _id } = admin;
             console.log("Imprimindo Id admin do convênio: ", _id);
-            console.log("covenant: ", covenant);
             if (_id.equals(userId)) { //Is Admin
                 console.log("É admin");
                 //Vai percorrer todos os gerentes e concatenar os vetores de produtores associados.
                 //new Set([]) retira repetições
                 let managedProducers = new Array;  
-                for ( const manager in managers ){
-                    managedProducers = [...new Set([...managedProducers, manager.associatedProducers])]
+                for ( const manager of managers ){
+                    console.log("Manager encontrado!: ", manager.fullname);
+                    console.log("Produtores associados: ", manager.associatedProducers);
+                    managedProducers = managedProducers.concat(manager.associatedProducers);
                 }
-                //Concatena com os produtores diretamente associados ao admin e retorna.
-                return [...new Set([...managedProducers, ...admin.associatedProducers])];  
+                //Concatena com os produtores diretamente associados ao admin e retorna, somando o proprio Id.
+                return [...new Set([...managedProducers, ...associated, userId])];
             } else { //Is not Admin
                 console.log("Não é admin")
                 //Retorna o proprio ID e seus produtores associados, gerente nao tem acesso a outros gerentes nem admin.

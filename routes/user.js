@@ -17,11 +17,16 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
 
     const user = await User.getByFirebaseId(firebaseId);
     let userIds = [user._id];
-    if (user.isOnCovenant === true) {
+    if (user.type !== "Produtor") { //Produtor sé vê os proprios laudos
+      userIds =  [user._id, ...user.associatedProducers];
+    };
+    //POR ALGUM MOTIVO ESSA COMPARACAO NAO FUNCIONA SE NAO FIZER ZOADO ASSIM
+    if (user.isOnCovenant == "true") { //Se pertencente ao convenio vai puxar os ids relacionados.
       console.log("Está em um convênio");
       userIds = await Covenant.getRelatedIds(user._id, user.associatedProducers);
+      console.log("Puxou os associados do convenio");
     }
-    console.log("Ids associados: ", userIds);
+    console.log("Ids associados: ", userIds); 
     const requisitions = await Requisition.getAllByUserId(userIds); //Fazer esta funcao receber um vetor de ids
 
     let data = new Array;
