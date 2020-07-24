@@ -5,7 +5,7 @@ const auth = require('./middleware/auth');
 const Covenant = require('../models/covenant');
 const User = require('../models/user');
 
-router.get('/', auth.isAuthenticated, async function (req, res) {
+router.get('/', auth.isAuthenticated, auth.isFromLab, async function (req, res) {
     const covenants = await Covenant.getAll();
     const hasCovenant = (covenants.length > 0) ? true : false;
 
@@ -21,15 +21,17 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
             managers,
             hasCovenant,
             canCreate,
-            manaNumber
+            manaNumber,
+            ...req.session
         }
     );
 });
 
 router.post('/new', auth.isAuthenticated, auth.isFromLab, async function (req, res) {
     const { covenant } = req.body;
+    console.log("Convenio a ser criado:", covenant);
 
-    let users = covenant.managers;
+    let users = [...covenant.managers];
     if (!Array.isArray(covenant.managers)) users = [covenant.managers];
     users.push(covenant.admin);
 
@@ -37,9 +39,9 @@ router.post('/new', auth.isAuthenticated, auth.isFromLab, async function (req, r
     await users.forEach(user => {
         objects.push(mongoose.Types.ObjectId(user));
     })
-
+    console.log("Convenio a ser criado:", covenant);
     await Covenant.create(covenant);
-    //console.log("Usuarios para adicionar convenio: ", objects);
+    console.log("Usuarios para adicionar isOnCovenant: ", objects);
     await User.addCovenant(objects);
 
     res.redirect('/covenant');
@@ -78,7 +80,8 @@ router.get('/edit/:id', auth.isAuthenticated, async function (req, res) {
             managers,
             allManagers,
             hasManagers,
-            haveAvailable
+            haveAvailable,
+            ...req.session
         }
     );
 });

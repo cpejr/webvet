@@ -276,9 +276,9 @@ class Requisition {
     });
   }
 
-  static getAllByUserId(userId) {
+  static getAllByUserId(userIds) {
     return new Promise((resolve, reject) => {
-      RequisitionModel.find({ user: userId })
+      RequisitionModel.find({ user: userIds })
         .then((results) => {
           resolve(results);
         })
