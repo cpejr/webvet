@@ -335,6 +335,17 @@ class Sample {
     return result;
   }
 
+  static async getByIdAndPopulate(id) {
+    const result = await SampleModel.findById(id)
+      .populate(
+        "aflatoxina.kitId deoxinivalenol.kitId fumonisina.kitId ocratoxina.kitId t2toxina.kitId zearalenona.kitId"
+      )
+      .populate({
+        path: "requisitionId",
+      });
+    return result;
+  }
+
   /**
    * Get a Sample by it's numsample
    * @param {string} destination - Sample's Number
@@ -861,12 +872,15 @@ class Sample {
   }
 
   static async getRelatedEmails(id) {
-    const result = await SampleModel.findById(id, "requisitionId samplenumber createdAt").populate({
+    const result = await SampleModel.findById(
+      id,
+      "requisitionId samplenumber createdAt"
+    ).populate({
       path: "requisitionId",
       select: "user _id",
       populate: { path: "user", select: "email fullname _id" },
     });
-    
+
     return result;
   }
 
