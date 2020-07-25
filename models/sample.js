@@ -23,7 +23,7 @@ const sampleSchema = new mongoose.Schema(
     },
     requisitionId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Requisition"
+      ref: "Requisition",
     },
     responsible: String,
     creationYear: {
@@ -49,6 +49,8 @@ const sampleSchema = new mongoose.Schema(
       absorbance: Number,
       absorbance2: Number,
       result: String,
+      resultText: String,
+      resultChart: String,
       active: {
         type: Boolean,
         default: false,
@@ -61,11 +63,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit"
+        ref: "Kit",
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap"
+        ref: "Workmap",
       },
       checked: {
         type: Boolean,
@@ -90,6 +92,8 @@ const sampleSchema = new mongoose.Schema(
       absorbance: Number,
       absorbance2: Number,
       result: String,
+      resultText: String,
+      resultChart: String,
       active: {
         type: Boolean,
         default: false,
@@ -101,12 +105,12 @@ const sampleSchema = new mongoose.Schema(
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap"
+        ref: "Workmap",
       },
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit"
+        ref: "Kit",
       },
       checked: {
         type: Boolean,
@@ -131,6 +135,8 @@ const sampleSchema = new mongoose.Schema(
       absorbance: Number,
       absorbance2: Number,
       result: String,
+      resultText: String,
+      resultChart: String,
       active: {
         type: Boolean,
         default: false,
@@ -143,11 +149,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit"
+        ref: "Kit",
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit"
+        ref: "Kit",
       },
       checked: {
         type: Boolean,
@@ -172,6 +178,8 @@ const sampleSchema = new mongoose.Schema(
       absorbance: Number,
       absorbance2: Number,
       result: String,
+      resultText: String,
+      resultChart: String,
       active: {
         type: Boolean,
         default: false,
@@ -183,12 +191,12 @@ const sampleSchema = new mongoose.Schema(
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap"
+        ref: "Workmap",
       },
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit"
+        ref: "Kit",
       },
       checked: {
         type: Boolean,
@@ -213,6 +221,8 @@ const sampleSchema = new mongoose.Schema(
       absorbance: Number,
       absorbance2: Number,
       result: String,
+      resultText: String,
+      resultChart: String,
       active: {
         type: Boolean,
         default: false,
@@ -225,11 +235,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit"
+        ref: "Kit",
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap"
+        ref: "Workmap",
       },
       checked: {
         type: Boolean,
@@ -254,6 +264,8 @@ const sampleSchema = new mongoose.Schema(
       absorbance: Number,
       absorbance2: Number,
       result: String,
+      resultText: String,
+      resultChart: String,
       active: {
         type: Boolean,
         default: false,
@@ -266,11 +278,11 @@ const sampleSchema = new mongoose.Schema(
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit"
+        ref: "Kit",
       },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap"
+        ref: "Workmap",
       },
       checked: {
         type: Boolean,
@@ -318,16 +330,20 @@ class Sample {
    * @param {string} id - Sample Id
    * @returns {Object} Sample Document Data
    */
-  static getById(id) {
-    return new Promise((resolve, reject) => {
-      SampleModel.findOne({ _id: id })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async getById(id) {
+    const result = await SampleModel.findOne({ _id: id });
+    return result;
+  }
+
+  static async getByIdAndPopulate(id) {
+    const result = await SampleModel.findById(id)
+      .populate(
+        "aflatoxina.kitId deoxinivalenol.kitId fumonisina.kitId ocratoxina.kitId t2toxina.kitId zearalenona.kitId"
+      )
+      .populate({
+        path: "requisitionId",
+      });
+    return result;
   }
 
   /**
@@ -526,19 +542,15 @@ class Sample {
     });
   }
 
-  static async updateReportSpecific(id, info) {
-    return new Promise((resolve, reject) => {
-      SampleModel.updateOne({ _id: id }, { $set: info })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async updateReportSpecific(id, fieldsToUpdate) {
+    const result = await SampleModel.updateOne(
+      { _id: id },
+      { $set: fieldsToUpdate }
+    );
+    return result;
   }
 
-  static updateAbsorbancesAndFinalize(
+  static async updateAbsorbancesAndFinalize(
     id,
     toxinaFull,
     abs,
@@ -546,30 +558,26 @@ class Sample {
     calibrators,
     kitId
   ) {
-    return new Promise((resolve, reject) => {
-      var parameter = toxinaFull + ".absorbance";
-      var parameter2 = toxinaFull + ".absorbance2";
-      var parameter3 = toxinaFull + ".result";
-      var parameter4 = toxinaFull + ".active";
-      var parameter5 = toxinaFull + ".kitId";
-      var parameter6 = "report";
+    var parameter = toxinaFull + ".absorbance";
+    var parameter2 = toxinaFull + ".absorbance2";
+    var parameter3 = toxinaFull + ".result";
+    var parameter4 = toxinaFull + ".active";
+    var parameter5 = toxinaFull + ".kitId";
+    var parameter6 = "report";
 
-      var updateVal = {};
-      updateVal[parameter] = abs;
-      updateVal[parameter2] = abs2;
-      updateVal[parameter3] = this.calcularResult(abs, abs2, calibrators);
-      updateVal[parameter4] = false;
-      updateVal[parameter5] = kitId;
-      updateVal[parameter6] = true;
+    var updateVal = {};
+    updateVal[parameter] = abs;
+    updateVal[parameter2] = abs2;
+    updateVal[parameter3] = this.calcularResult(abs, abs2, calibrators);
+    updateVal[parameter4] = false;
+    updateVal[parameter5] = kitId;
+    updateVal[parameter6] = true;
 
-      SampleModel.updateOne({ _id: id }, { $set: updateVal })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    const result = await SampleModel.updateOne(
+      { _id: id },
+      { $set: updateVal }
+    );
+    return result;
   }
 
   static calcularResult(abs, abs2, calibrators) {
@@ -635,18 +643,6 @@ class Sample {
       updateVal[parameter3] = true;
 
       SampleModel.update({ _id: id }, { $set: updateVal })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static finalizeReportById(id, command) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { finalized: command } })
         .then((result) => {
           resolve(result);
         })
@@ -866,18 +862,26 @@ class Sample {
     });
   }
 
-  static getAllReport() {
-    return new Promise((resolve, reject) => {
-      var querry = { report: true };
-
-      SampleModel.find(querry)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+  static async getAllReport() {
+    let querry = { report: true };
+    const result = await SampleModel.find(querry).populate({
+      path: "requisitionId",
+      select: "requisitionnumber user createdAt _id",
     });
+    return result;
+  }
+
+  static async getRelatedEmails(id) {
+    const result = await SampleModel.findById(
+      id,
+      "requisitionId samplenumber createdAt"
+    ).populate({
+      path: "requisitionId",
+      select: "user _id",
+      populate: { path: "user", select: "email fullname _id" },
+    });
+
+    return result;
   }
 
   /**
@@ -1096,13 +1100,12 @@ class Sample {
           ocratoxina: 1,
           t2toxina: 1,
           zearalenona: 1,
-          createdAt: 1
+          createdAt: 1,
         },
       },
       { $sort: { createdAt: 1 } },
-    ])
+    ]);
     return result;
-
   }
 }
 
