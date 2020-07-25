@@ -2,14 +2,9 @@ var express = require("express");
 var router = express.Router();
 const auth = require("./middleware/auth");
 const Requisition = require("../models/requisition");
-const Kit = require("../models/kit");
 const Sample = require("../models/sample");
 const moment = require("moment");
 const Email = require("../models/email");
-
-function arrayContains(needle, arrhaystack) {
-  return arrhaystack.indexOf(needle) > -1;
-}
 
 function round(value, decimalPlaces) {
   if (value !== null && value !== undefined)
@@ -102,12 +97,12 @@ router.get("/show/:id", auth.isAuthenticated, async function (req, res) {
 
 router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
   try {
-    const sample = await Sample.getById(req.params.id); //Função que busca os kits usando o kitId dos samples.
-    const requisition = await Requisition.getById(sample.requisitionId);
+    const sample = await Sample.getByIdAndPopulate(req.params.id);
 
-    let Requisitiondata;
+    const requisition = sample.requisitionId;
+    const toxinVector = [];
 
-    Requisitiondata = {
+    const Requisitiondata = {
       listToxinas: requisition.mycotoxin,
       toxinas: requisition.mycotoxin.join(", "),
       requisitionnumber: requisition.requisitionnumber,
@@ -121,164 +116,91 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       responsible: requisition.responsible,
     };
 
-    const productCode = [
-      "AFLA Romer",
-      "DON Romer",
-      "FUMO Romer",
-      "OTA Romer",
-      "T2 Romer",
-      "ZEA Romer",
-    ];
-    var toxiKit = {};
-    var listIds = [];
-
-    for (i = 0; i < ToxinasFull.length; i++) {
-      //
-      toxiKit = sample[ToxinasFull[i]];
-      if (toxiKit.kitId !== null) {
-        listIds.push(toxiKit.kitId);
-      }
-    }
-    const kits = await Kit.getByIdArray(listIds);
-    var orderedKits = [];
-    var kit = {};
-    var name = {};
-    var listNames = [];
-    var checked = false;
-
-    for (i = 0; i < productCode.length; i++) {
-      for (j = 0; j < kits.length; j++) {
-        if (kits[j].productCode === productCode[i]) {
-          kit = kits[j];
-          name = ToxinasFull[i];
-          listNames.push(ToxinasFormal[i]);
-          checked = false;
-          if (sample[ToxinasFull[i]] && sample[ToxinasFull[i]].checked) {
-            checked = true;
-          }
-          orderedKits.push({ kit, name, checked });
-        }
-      }
-    }
-
-    var workedList = Requisitiondata.listToxinas;
-    var aux = [];
-    for (j = 0; j < listNames.length; j++) {
-      aux = workedList.filter((e) => e !== listNames[j]);
-      workedList = aux;
-    }
-
-    for (h = 0; h < ToxinasFormal.length; h++) {
-      if (arrayContains(ToxinasFormal[h], workedList)) {
-        kit = {
-          Loq: "Aguardando finalização",
-          Lod: "Aguardando finalização",
-        };
-        name = ToxinasFull[h];
-        checked = false;
-        if (sample[ToxinasFull[h]] && sample[ToxinasFull[h]].checked) {
-          checked = true;
-        }
-        orderedKits.push({ kit, name, checked });
-      }
-    }
-
-    var Values = {};
-    var toxinaData = {
-      Sample: sample,
-      Values,
-    };
-    var Name = {};
-    var Obj = {}; //kit
-
-    for (var k = 0; k < orderedKits.length; k++) {
-      if (orderedKits[k].kit !== undefined && orderedKits[k].kit !== null) {
-        for (m = 0; m < ToxinasFull.length; m++) {
-          let currentToxin = ToxinasFull[m];
-          if (currentToxin === orderedKits[k].name) {
-            //Formatar samples
-
-            Obj = orderedKits[k]; //Esse é o objeto traz a informação da toxina, do kit e se a toxina passou ou não.
-            let kit = Obj.kit; //Esse objeto traz somente os dados do kit
-            Name = ToxinasFormal[m]; //Esse é o nome da toxina atual ()
-
-            let roundResult; //Essa é a variável que receberá o valor final com duas casas decimais (que ficará salvo no mongo como valor resultado)
-            let resultChart; //Essa é a variável que vai receber o valor que irá para o gráfico final
-            let resultText = sample[currentToxin].resultText; //Essa é a variável que vai receber o texto que vai aparecer em cada toxina (Concentração Detectada)
-
-            // 1º Verificar se retornou um resultado
-            if (isNaN(sample[currentToxin].result)) {
-              //Não retornou resultado numérico
-              resultChart = kit.Lod;
-              roundResult = sample[currentToxin].result;
-              if (!resultText) {
-                resultText = "ND";
-                Obj.checked = false;
-              } //Essa condição é necessária para permitir a edição do campo
-            } else {
-              //Retornou um resultado numérico
-              roundResult = Number(sample[currentToxin].result);
-              roundResult = round(roundResult, 2);
-
-              let newResultText;
-
-              if (roundResult < kit.Lod) {
-                //Menor que lod
-                newResultText = "ND";
-                resultChart = kit.Lod;
-              } else if (roundResult < kit.Loq) {
-                //Maior que o lod e Menor que loq
-                newResultText = "< LoQ";
-                resultChart = kit.Loq;
-              } else if (roundResult > kit.Loq) {
-                //Maior loq
-                newResultText = kit.Loq;
-                resultChart = kit.Loq;
-              }
-
-              if (!resultText) {
-                //Essa condição é necessária para permitir a edição do campo
-                if (newResultText !== "ND") Obj.checked = true;
-                else Obj.checked = false;
-
-                resultText = newResultText;
-              }
-            }
-
-            Values[m] = {
-              ResultText: resultText,
-              ResultChart: resultChart,
-              Result: roundResult,
-              Name,
-              Obj,
-            };
-          }
-        }
-      } else {
-        console.log(
-          "Algo deu errado, o kit em orderedKits[k] nao deveria estar desse jeito, vai dar ruim"
-        );
-        Obj.name = orderedKits[k].name;
-        Name = ToxinasFormal[k];
-        Values.push({
-          Result: sample[ToxinasFull[m]].result,
-          Name,
-          Obj,
-        });
-      }
-    }
-
-    if (!sample.description) {
+    if (!sample.description)
       sample.description = `Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:\nníveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.`;
-    }
 
+    ToxinasFull.forEach((toxinFull, index) => {
+      const toxinInfo = sample[toxinFull];
+      const toxinFormal = ToxinasFormal[index];
+
+      if (requisition.mycotoxin.includes(toxinFormal)) {
+        const kit = toxinInfo.kitId;
+
+        const toxinData = {
+          toxinDisplayName: toxinFormal,
+          toxinFull,
+          result: "-",
+          resultChart: 0,
+          resultText: "Aguardando finalização",
+          lod: "Aguardando finalização",
+          loq: "Aguardando finalização",
+          checked: false,
+        };
+
+        if (kit) {
+          toxinData.lod = kit.Lod;
+          toxinData.loq = kit.Loq;
+
+          const result = toxinInfo.result;
+          let resultChart; //Essa é a variável que vai receber o valor que irá para o gráfico final
+          let roundResult; //Essa é a variável que receberá o valor final com duas casas decimais (que ficará salvo no mongo como valor resultado)
+          let resultText = toxinInfo.resultText; //Essa é a variável que vai receber o texto que vai aparecer em cada toxina (Concentração Detectada)
+
+          // Essas variaveis vão recever o valor padrão de acordo com o resultado
+          // Caso esses valores forem modificados pelo usuário, não vão ser alterados
+          let newResultText;
+
+          // 1º Verificar se retornou um resultado
+          if (isNaN(result)) {
+            resultChart = kit.Lod;
+            roundResult = result;
+            newResultText = "ND";
+          } else {
+            roundResult = Number(result);
+            roundResult = round(roundResult, 2);
+
+            if (roundResult < kit.Lod) {
+              //Menor que lod
+              newResultText = "ND";
+              resultChart = kit.Lod;
+            } else if (roundResult < kit.Loq) {
+              //Maior que o lod e Menor que loq
+              newResultText = "< LoQ";
+              resultChart = kit.Loq;
+            } else if (roundResult > kit.Loq) {
+              //Maior loq
+              newResultText = kit.Loq;
+              resultChart = kit.Loq;
+            }
+          }
+
+          if (!resultText) {
+            // Esse código sera acionado na primeira vez que o usuário
+            // abrir o laudo
+
+            if (newResultText !== "ND") toxinInfo.checked = true;
+            else toxinInfo.checked = false;
+
+            resultText = newResultText;
+          }
+
+          toxinData.result = result;
+          toxinData.resultText = resultText;
+          toxinData.resultChart = resultChart;
+          toxinData.checked = toxinInfo.checked;
+          toxinData.roundResult = roundResult;
+        }
+        toxinVector.push(toxinData);
+      }
+    });
+    console.log(toxinVector);
     moment.locale("pt-br");
     sample.date = moment(sample.updatedAt).format("LL");
 
     res.render("report/editAdmin", {
-      title: "Show ",
+      title: "Edição de laudo",
       sample,
-      toxinaData,
+      toxinVector,
       Requisitiondata,
       ...req.session,
     });

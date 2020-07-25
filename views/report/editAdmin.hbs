@@ -47,29 +47,29 @@
             </tr>
           </thead>
           <tbody>
-            {{#each toxinaData.Values}}
+            {{#each toxinVector}}
             <tr>
-              <th scope="row">{{Name}}</th>
+              <th scope="row">{{toxinDisplayName}}</th>
               <td class="d-flex flex-row justify-content-center">
-                <p>{{Result}} ({{ResultChart}}) </p>
-                <input readonly name="{{Obj.name}}[resultChart]" value="{{ResultChart}}" class="d-none" />
+                <p>{{roundResult}} ({{resultChart}}) </p>
+                <input readonly name="{{toxinFull}}[resultChart]" value="{{resultChart}}" class="d-none" />
               </td>
               <td>
-                <input type="text" id="{{Obj.name}}Conc" value="{{ResultText}}" name="{{Obj.name}}[resultText]">
-                <input type="checkbox" class="hidden-print" name="{{Obj.name}}[checked]" id="toxinaCheck"
-                  value="{{Name}}">
-                <button class="btn btn-success hidden-print" id="{{Obj.name}}" name="check[{{Obj.checked}}]"
+                <input type="text" id="{{toxinFull}}Conc" value="{{resultText}}" name="{{toxinFull}}[resultText]">
+                <input type="checkbox" class="hidden-print" name="{{toxinFull}}[checked]" id="toxinaCheck"
+                  value="{{toxinDisplayName}}">
+                <button class="btn btn-success hidden-print" id="{{toxinFull}}" name="check[{{checked}}]"
                   hidden>+</button>
               </td>
-              <td>{{Obj.kit.Lod}}</td>
-              <td>{{Obj.kit.Loq}}</td>
+              <td>{{lod}}</td>
+              <td>{{loq}}</td>
             </tr>
             <script>
               var initialCheck = function () {
-                 console.log("{{Obj.name}}: {{Obj.checked}}");
-                if ($('button[name="check[true]"][id="{{Obj.name}}"]').length > 0) {
-                  // console.log("{{Obj.name}} esta presente!");
-                  $('input[name="{{Obj.name}}[checked]"]').attr("checked", "{{Name}}");
+                 console.log("{{toxinFull}}: {{Obj.checked}}");
+                if ($('button[name="check[true]"][id="{{toxinFull}}"]').length > 0) {
+                  // console.log("{{toxinFull}} esta presente!");
+                  $('input[name="{{toxinFull}}[checked]"]').attr("checked", "{{toxinDisplayName}}");
                 }
               };
 
