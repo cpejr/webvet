@@ -17,7 +17,7 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
 
     const user = await User.getByFirebaseId(firebaseId);
     let userIds = [user._id];
-    if (user.type !== "Produtor") { //Produtor sé vê os proprios laudos
+    if (user.type !== "Produtor") { //Produtor só pode ver os proprios laudos
       userIds =  [user._id, ...user.associatedProducers];
     };
     //POR ALGUM MOTIVO ESSA COMPARACAO NAO FUNCIONA SE NAO FIZER ZOADO ASSIM
@@ -27,7 +27,7 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
       console.log("Puxou os associados do convenio");
     }
     console.log("Ids associados: ", userIds); 
-    const requisitions = await Requisition.getAllByUserId(userIds); //Fazer esta funcao receber um vetor de ids
+    const requisitions = await Requisition.getAllByUserId(userIds); //É só passar os Ids certos pra esse cara.
 
     let data = new Array;
     let samplesId = new Array;
