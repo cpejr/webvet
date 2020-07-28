@@ -145,9 +145,9 @@ class User {
    * @param {string} id - User Uid
    * @returns {Object} - User Document Data
    */
-  static getByUid(id) {
+  static getByFirebaseId(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findOne({ uid: id }).exec().then((result) => {
+      UserModel.findOne({ uid: id }).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -230,7 +230,7 @@ class User {
   static addCovenant(id_array) {
     return new Promise((resolve, reject) => {
       UserModel.updateMany({_id: {$in: id_array}}, {isOnCovenant: true}).then(result => {
-        console.log("Marcados como isOnCovenant");
+        //console.log("Marcados como isOnCovenant");
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -241,7 +241,7 @@ class User {
   static removeCovenant(id_array) {
     return new Promise((resolve, reject) => {
       UserModel.updateMany({_id: {$in: id_array}}, {isOnCovenant: false}).then(result => {
-        console.log("Desmarcados do isOnCovenant");
+        //console.log("Desmarcados do isOnCovenant");
         resolve(result);
       }).catch((err) => {
         reject(err);

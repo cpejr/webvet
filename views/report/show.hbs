@@ -43,15 +43,15 @@
           </tr>
         </thead>
         <tbody>
-          {{#each toxinaData.Values}}
-            <tr>
-              <th scope="row">{{Name}}</th>
-              <td>
-                <a type="text" id="{{Obj.name}}Conc">{{Result}}</a>
-              </td>
-              <td>{{Obj.kit.Lod}}</td>
-              <td>{{Obj.kit.Loq}}</td>
-            </tr>
+          {{#each toxinVector}}
+          <tr>
+            <th scope="row">{{toxinDisplayName}}</th>
+            <td>
+              <a type="text" id="{{toxinFull}}Conc">{{resultText}}</a>
+            </td>
+            <td>{{lod}}</td>
+            <td>{{loq}}</td>
+          </tr>
           {{/each}}
         </tbody>
       </table>
@@ -61,9 +61,9 @@
     <div name="sample[parecer]" class="col-sm-12">{{sample.parecer}}</div>
     <h4> 7. Comentários: </h4>
     <textarea name="sample[description]" cols="100" rows="7" readonly>{{sample.description}}</textarea>
-    <h4> Belo Horizonte, </h4>
+    <h4> Belo Horizonte, {{sample.date}}</h4>
     <div class="laudo-assinatura">
-      <p><u><img src="/images/assinatura.png" ></u></p>
+      <p><u><img src="/images/assinatura.png"></u></p>
       <p><u> _________________________________ </u></p>
       <p>Profa Dra Kelly Moura Keller</p>
       <p>DMVP/EV-UFMG</p>

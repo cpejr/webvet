@@ -33,41 +33,48 @@
       <h4> 4.1 - Detecção e quantificação de {{Requisitiondata.toxinas}} </h4>
     </div>
     <h4> <b>5. Resultados:</b> </h4>
-    <form action="/report/show/admin/{{sample._id}}" method="post">
+    <form action="/report/show/admin/{{sample._id}}" method="post" id="formReport">
       <div class="info-laudo">
         <table class="table text-center">
           <caption>ND = Não Detectado *média de duas repetições </caption>
           <thead>
             <tr class="text-center">
               <th scope="col">Micotoxinas</th>
+              <th scope="col" class="text-center">Resultado</br>(visível somente para o lab)</th>
               <th scope="col" class="text-center">Concentração Detectada (ppb)* </th>
               <th scope="col" class="text-center">Limite de Detecção -LoD (ppb) </th>
               <th scope="col" class="text-center">Limite de Quantificação - LoQ (ppb)</th>
             </tr>
           </thead>
           <tbody>
-            {{#each toxinaData.Values}}
-              <tr>
-                <th scope="row">{{Name}}</th>
-                <td>
-                  <input type="text" id="{{Obj.name}}Conc" value="{{Result}}" name="{{Obj.name}}[result]">
-                  <input type="checkbox" class="hidden-print" name="{{Obj.name}}[checked]" id="toxinaCheck" value="{{Name}}">
-                  <button class="btn btn-success hidden-print" id="{{Obj.name}}" name="check[{{Obj.checked}}]" hidden>+</button>
-                </td>
-                <td>{{Obj.kit.Lod}}</td>
-                <td>{{Obj.kit.Loq}}</td>
-              </tr>
-              <script>
-                var initialCheck = function () {
-                 // console.log("{{Obj.name}}: {{Obj.checked}}");
-                  if ($('button[name="check[true]"][id="{{Obj.name}}"]').length > 0) {
-                   // console.log("{{Obj.name}} esta presente!");
-                    $('input[name="{{Obj.name}}[checked]"]').attr("checked", "{{Name}}");
-                  }
-                };
+            {{#each toxinVector}}
+            <tr>
+              <th scope="row">{{toxinDisplayName}}</th>
+              <td class="d-flex flex-row justify-content-center">
+                <p>{{roundResult}} ({{resultChart}}) </p>
+                <input readonly name="{{toxinFull}}[resultChart]" value="{{resultChart}}" class="d-none" />
+              </td>
+              <td>
+                <input type="text" id="{{toxinFull}}Conc" value="{{resultText}}" name="{{toxinFull}}[resultText]">
+                <input type="checkbox" class="hidden-print" name="{{toxinFull}}[checked]" id="toxinaCheck"
+                  value="{{toxinDisplayName}}">
+                <button class="btn btn-success hidden-print" id="{{toxinFull}}" name="check[{{checked}}]"
+                  hidden>+</button>
+              </td>
+              <td>{{lod}}</td>
+              <td>{{loq}}</td>
+            </tr>
+            <script>
+              var initialCheck = function () {
+                 console.log("{{toxinFull}}: {{Obj.checked}}");
+                if ($('button[name="check[true]"][id="{{toxinFull}}"]').length > 0) {
+                  // console.log("{{toxinFull}} esta presente!");
+                  $('input[name="{{toxinFull}}[checked]"]').attr("checked", "{{toxinDisplayName}}");
+                }
+              };
 
-                initialCheck();
-              </script>
+              initialCheck();
+            </script>
             {{/each}}
           </tbody>
         </table>
@@ -77,30 +84,34 @@
         </div>
       </div>
       <h4> 6. Parecer técnico: </h4>
-      <textarea id="parecer" name="sample[parecer]" class="col-sm-12" readonly></textarea>
+      <textarea style="border: none" id="parecer" name="sample[parecer]" class="col-sm-12 mb-3" readonly></textarea>
       <h4> 7. Comentários: </h4>
       <textarea name="sample[description]" cols="100" rows="7">{{sample.description}}</textarea>
       <br>
-      <button class="btn btn-success hidden-print" type="submit">Salvar todas as alterações</button>
-    </form>
-    <h4> Belo Horizonte, </h4>
-    <div class="laudo-assinatura">
-      <p><u><img src="/images/assinatura.png" ></u></p>
-      <p><u> _________________________________ </u></p>
-      <p>Profa Dra Kelly Moura Keller</p>
-      <p>DMVP/EV-UFMG</p>
-      <p>Coordenadora LAMICO</p>
-    </div>
 
-    <div class="laudo-footer page-footer font small">
-      <h7 class="text-uppercase">Av. Antônio Carlos 6627 - Escola de Veterinária da UFMG - Belo Horizonte / MG - CEP
-        31270-901 - www.lamico.com.br</h7>
-      <p>Tels.: +55 (31) 3409-2098 Sala / 3409-2113 ou 2115 Lab. / Cel.: 98585-4965 Claro - Email:
-        kelly.medvet@gmail.com
-      </p>
-    </div>
+      <h4> Belo Horizonte, {{sample.date}} </h4>
+      <div class="laudo-assinatura">
+        <p><u><img src="/images/assinatura.png"></u></p>
+        <p><u> _________________________________ </u></p>
+        <p>Profa Dra Kelly Moura Keller</p>
+        <p>DMVP/EV-UFMG</p>
+        <p>Coordenadora LAMICO</p>
+      </div>
+
+      <div class="laudo-footer page-footer font small">
+        <h7 class="text-uppercase">Av. Antônio Carlos 6627 - Escola de Veterinária da UFMG - Belo Horizonte / MG - CEP
+          31270-901 - www.lamico.com.br</h7>
+        <p>Tels.: +55 (31) 3409-2098 Sala / 3409-2113 ou 2115 Lab. / Cel.: 98585-4965 Claro - Email:
+          kelly.medvet@gmail.com
+        </p>
+      </div>
+
+      <div class="d-flex flex-row justify-content-center my-3">
+        <button class="btn btn-success hidden-print" type="submit">Salvar todas as alterações</button>
+      </div>
+    </form>
     <center>
-      <div class="btn-group col-sm-12 justify-content-center">
+      <div class="btn-group col-sm-12 justify-content-center mb-3">
         <div class="row">
           <div class="col-sm-4">
             <button class="btn btn-success hidden-print" onclick="location.href='/report/admreport'"> Voltar </button>
@@ -109,16 +120,13 @@
             <button class="btn btn-success hidden-print" onclick="print()"> Imprimir </button>
           </div>
           {{#if sample.finalized}}
-            <div class="col-sm-4">
-              <button class="btn btn-success hidden-print" onclick="location.href='/report/unfinalize/{{sample._id}}'">Cancelar
-                finalização</butt>
-            </div>
+          <div class="col-sm-4">
+            <button class="btn btn-success hidden-print" id="unfinalize">Cancelar finalização</butt>
+          </div>
           {{else}}
-            <div class="col-sm-4">
-              <button class="btn btn-success hidden-print"
-                onclick="location.href='/report/finalize/{{sample._id}}'">Finalizar</button>
-                
-            </div>
+          <div class="col-sm-4">
+            <button class="btn btn-success hidden-print" id="finalize">Finalizar</button>
+          </div>
           {{/if}}
         </div>
       </div>

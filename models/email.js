@@ -106,6 +106,24 @@ class Email {
     });
   }
 
+  static reportEmail(to, firstName, sampleCode) {
+    console.log("Enviando email de laudo...");
+    const content = `Prezado(a) ${firstName},
+    O laudo referente a amostra ${sampleCode} já está disponível na plataforma.
+    www.micotoxinasbrasil.com.br`;
+    const subject = "LAMICO: Laudo disponível";
+    const emailContent = {
+      to: to,
+      subject: subject,
+      text: content,
+    };
+    return new Promise((resolve) => {
+      Email.sendEmail(emailContent).then((info) => {
+        resolve(info);
+      });
+    });
+  }
+
   static userRejectedEmail(to, fullname) {
     console.log("Cadastro de usuário reprovado");
     const content = `Prezado(a) ${fullname},

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const UserModel = require("./user");
+
 const covenantSchema = new mongoose.Schema({
     name: String,
     managers: [{
@@ -19,7 +21,7 @@ class Covenant {
         return new Promise((resolve, reject) => {
             CovenantModel.find({})
                 .populate({ path: 'managers', model: 'User' })
-                .populate({ path: 'admin', model: 'User'})
+                .populate({ path: 'admin', model: 'User' })
                 .then((results) => {
                     resolve(results);
                 })
@@ -69,6 +71,39 @@ class Covenant {
                 reject(err);
             });
         });
+    }
+
+    static async getRelatedIds(userId, associated) {
+        try {
+            console.log("Imprimindo Id do usuario que logou: ", userId);
+            const covenant = await CovenantModel.findOne({ $or: [{ admin: userId }, {managers: {$all: [userId] }}] })
+                .populate({ path: 'managers', model: 'User' })
+                .populate({ path: 'admin', model: 'User' });
+
+            const { admin, managers } = covenant;
+            const { _id } = admin;
+            console.log("Imprimindo Id admin do convênio: ", _id);
+            if (_id.equals(userId)) { //Is Admin
+                console.log("É admin");
+                //Vai percorrer todos os gerentes e concatenar os vetores de produtores associados.
+                //new Set([]) retira repetições
+                let managedProducers = new Array;  
+                for ( const manager of managers ){
+                    console.log("Manager encontrado!: ", manager.fullname);
+                    console.log("Produtores associados: ", manager.associatedProducers);
+                    managedProducers = managedProducers.concat(manager.associatedProducers);
+                }
+                //Concatena com os produtores diretamente associados ao admin e retorna, somando o proprio Id.
+                return [...new Set([...managedProducers, ...associated, userId])];
+            } else { //Is not Admin
+                console.log("Não é admin")
+                //Retorna o proprio ID e seus produtores associados, gerente nao tem acesso a outros gerentes nem admin.
+                return [...[userId], ...associated];
+            }
+        } catch (err) {
+            console.log(err);
+            return null;
+        }
     }
 
     static delete(id) {

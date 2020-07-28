@@ -41,8 +41,11 @@
 
 
     <div id="dashboard-social-media">
-      <button id="btn-facebook" class="btn" onClick="location.href='https://www.facebook.com/lamicoufmg/'"><i class="fa fa-facebook fa-lg"></i></button>
-      <button id="btn-instagram" class="btn" onClick="location.href='https://instagram.com/lamicoufmg?igshid=zqf2z5pmt8nl'"><i class="fa fa-instagram fa-lg"></i></button>
+      <button id="btn-facebook" class="btn" onClick="location.href='https://www.facebook.com/lamicoufmg/'"><i
+          class="fa fa-facebook fa-lg"></i></button>
+      <button id="btn-instagram" class="btn"
+        onClick="location.href='https://instagram.com/lamicoufmg?igshid=zqf2z5pmt8nl'"><i
+          class="fa fa-instagram fa-lg"></i></button>
     </div>
 
     <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i>{{user.fullname}}</a></div>
@@ -72,52 +75,72 @@
               Estatísticas</a>
           </li>
           {{else}}
-            <li class="active">
-              <a href="/homeAdmin"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-home fa-stack-1x "></i></span>Principal</a>
-            </li>
-            <li>
-              <a href="/queue"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-columns fa-stack-1x "></i></span>Mapa de Trabalho</a>
-            </li>
-            <li>
-              <a href="/users"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-users fa-stack-1x "></i></span>Clientes</a>
-            </li>
-            <li>
-              <a href="/covenant"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-users fa-stack-1x "></i></span>Administrar Convênios</a>
-            </li>
-            <li>
-              <a href="/users/analysts"> <span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-user fa-stack-1x "></i></span>Lista de Analistas</a>
-            </li>
-            <li>
-              <a href="/statistics/"> <span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-bar-chart fa-stack-1x "></i></span>Dados estatísticos</a>
-            </li>
-            <li>
-              <a href="/report/admreport"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
-            </li>
-            <li>
-              <a href="/stock"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-truck fa-stack-1x "></i></span>Controle de estoque</a>
-            </li>
+            {{#compare user.type "Gerencia"}}
+              <li class="active">
+                <a href="/user"><span class="fa-stack fa-lg pull-left"><i
+                      class="fa fa-home fa-stack-1x "></i></span>Principal</a>
+              </li>
+              <li class="active">
+                <a href="/requisition/new"><span class="fa-stack fa-lg pull-left"><i
+                      class="fa fa-file-text-o fa-stack-1x"></i></span>Nova Requisição de Análise</a>
+              </li>
+              <li>
+                <a href="/record"><span class="fa-stack fa-lg pull-left"><i
+                      class="fa fa-archive fa-stack-1x "></i></span>Histórico de Requisições</a>
+              </li>
+              <li>
+                <a href="/statistics"> <span class="fa-stack fa-lg pull-left"><i
+                      class="fa fa-bar-chart fa-stack-1x "></i></span>Ver
+                  Estatísticas</a>
+              </li>
+              {{else}}
+                <li class="active">
+                  <a href="/homeAdmin"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-home fa-stack-1x "></i></span>Principal</a>
+                </li>
+                <li>
+                  <a href="/queue"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-columns fa-stack-1x "></i></span>Mapa de Trabalho</a>
+                </li>
+                <li>
+                  <a href="/users"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-users fa-stack-1x "></i></span>Clientes</a>
+                </li>
+                <li>
+                  <a href="/covenant"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-user-circle-o fa-stack-1x "></i></span>Administrar Convênios</a>
+                </li>
+                <li>
+                  <a href="/users/analysts"> <span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-user fa-stack-1x "></i></span>Lista de Analistas</a>
+                </li>
+                <li>
+                  <a href="/statistics/"> <span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-bar-chart fa-stack-1x "></i></span>Dados estatísticos</a>
+                </li>
+                <li>
+                  <a href="/report/admreport"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
+                </li>
+                <li>
+                  <a href="/stock"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-truck fa-stack-1x "></i></span>Controle de estoque</a>
+                </li>
 
-            <li>
-              <a href="/users/pending"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-user-plus fa-stack-1x "></i></span>Usuários pendentes</a>
-            </li>
-            <li>
-              <a href="/requisition/new"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-file-text-o fa-stack-1x"></i></span>Nova Requisição de Análise</a>
-            </li>
-            <li>
-              <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i
-                    class="fa fa-envelope fa-stack-1x"></i></span>Resquisições Disponíveis</a>
-            </li>
-        {{/compare}}
+                <li>
+                  <a href="/users/pending"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-user-plus fa-stack-1x "></i></span>Usuários pendentes</a>
+                </li>
+                <li>
+                  <a href="/requisition/new"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-file-text-o fa-stack-1x"></i></span>Nova Requisição de Análise</a>
+                </li>
+                <li>
+                  <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i
+                        class="fa fa-envelope fa-stack-1x"></i></span>Requisições Disponíveis</a>
+                </li>
+                {{/compare}}
+            {{/compare}}
 
       </ul>
     </div>

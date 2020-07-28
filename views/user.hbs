@@ -9,13 +9,14 @@
   </div>
   <div class="user-card mx-auto mx-md-5 mb-3" id="laudo-user">
     <h1>Laudos disponíveis</h1>
-    {{#if laudEmpty}}
+    {{#if repEmpty}}
       <li>Nenhum laudo disponível</li>
+    {{else}}
+      {{#each reports}}
+        <a href="../../report/show/{{_id}}">
+          <li>Laudo {{samplenumber}}/{{creationYear}}</li>
+        </a>
+      {{/each}}
     {{/if}}
-    {{#each laudos}}
-      <a href="../../report/show/{{_id}}">
-        <li>Laudo {{samplenumber}}/{{creationYear}}</li>
-      </a>
-    {{/each}}
   </div>
 </div>
