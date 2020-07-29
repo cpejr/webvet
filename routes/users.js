@@ -7,7 +7,7 @@ const Email = require('../models/email');
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res) {
-  User.getAllActiveProducers().then((users) => {
+  User.getByQuery({ type: {$in: ["Gerencia", "Produtor"]}, deleted: false}).then((users) => {
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
