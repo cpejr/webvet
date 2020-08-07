@@ -7,7 +7,7 @@ const Email = require('../models/email');
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res) {
-  User.getByQuery({ type: {$in: ["Gerencia", "Produtor"]}, deleted: false}).then((users) => {
+  User.getByQuery({ type: { $in: ["Gerencia", "Produtor"] }, deleted: false }).then((users) => {
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
@@ -85,7 +85,7 @@ router.get('/producers', auth.isAuthenticated, function (req, res) {
 
 router.get('/managers', auth.isAuthenticated, function (req, res) {
 
-  User.getByQuery({type: "Gerencia"}).then((users) => {
+  User.getByQuery({ type: "Gerencia" }).then((users) => {
     const loggedID = req.session.user._id
     res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session, loggedID });
 
@@ -154,13 +154,50 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
 
 });
 
-router.get('/show/:id/:returnRoute', function (req, res) {
-  User.getById(req.params.id).then((actualUser) => {
-    res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', returnRoute: req.params.returnRoute, actualUser, ...req.session });
-  }).catch((error) => {
+router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, res) {
+  const { id } = req.params;
+  function existsInArray(element, array) {
+    if (array.indexOf(element) === -1) {
+      //console.log(element, "nao pertence");
+      return false;
+    } else {
+      //console.log(element, " pertence");
+      return true;
+    }
+  }
+  
+  try {
+    const actualUser = await User.getById(id);
+    const producers = await User.getAllActiveProducers();
+
+    const associated = actualUser ? actualUser.associatedProducers : [];
+
+    let associatedList = new Array; //Will contain objects that will be used to render associated products
+    if (producers) {
+      producers.forEach((producer, index) => {
+        if (existsInArray(producer._id, associated)) {
+          //console.log("Adding true");
+          associatedList = [...associatedList, { producer: producers[index], isChecked: true }];
+        } else {
+          //console.log("Adding false");
+          associatedList = [...associatedList, { producer: producers[index], isChecked: false }];
+        };
+      });
+    }
+
+    res.render('admin/users/show', { 
+        title: 'Perfil do usuário', 
+        layout: 'layoutDashboard.hbs', 
+        returnRoute: req.params.returnRoute, 
+        actualUser, 
+        associatedList, 
+        ...req.session 
+    });
+
+  } catch (error) {
     console.log(error);
     res.redirect('/error');
-  });
+  };
 });
 
 router.post('/approve/:id', auth.isAuthenticated, auth.isFromLab, function (req, res) {
