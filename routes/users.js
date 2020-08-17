@@ -165,33 +165,42 @@ router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, 
       return true;
     }
   }
-  
+
   try {
-    const actualUser = await User.getById(id);
-    const producers = await User.getAllActiveProducers();
+    const actualUser = await User.getByIdAndPopulate(id);
+    let producers = await User.getAllActiveProducers();
 
     const associated = actualUser ? actualUser.associatedProducers : [];
 
-    let associatedList = new Array; //Will contain objects that will be used to render associated products
-    if (producers) {
-      producers.forEach((producer, index) => {
-        if (existsInArray(producer._id, associated)) {
-          //console.log("Adding true");
-          associatedList = [...associatedList, { producer: producers[index], isChecked: true }];
-        } else {
-          //console.log("Adding false");
-          associatedList = [...associatedList, { producer: producers[index], isChecked: false }];
-        };
-      });
-    }
+    const hasAssociated = (associated.length > 0) ? true : false;
 
-    res.render('admin/users/show', { 
-        title: 'Perfil do usuário', 
-        layout: 'layoutDashboard.hbs', 
-        returnRoute: req.params.returnRoute, 
-        actualUser, 
-        associatedList, 
-        ...req.session 
+    //Remove associated producers from the main list
+    producers = producers.filter(function (producer) {
+      console.log("Entrou no filtro - ", producer);
+      if (existsInArray(producer._id, associated)) {
+        console.log("Filtrou ", producer.fullname);
+        return true;
+      }
+      if (producer._id === actualUser._id) {
+        console.log("Filtrou ", producer.fullname);
+        return true;
+      }
+      return false;
+    })
+
+    const haveAvailable = (producers.length > 0) ? true : false;
+    console.log(producers, haveAvailable);
+
+    res.render('admin/users/show', {
+      title: 'Perfil do usuário',
+      layout: 'layoutDashboard.hbs',
+      returnRoute: req.params.returnRoute,
+      actualUser,
+      associated,
+      producers,
+      hasAssociated,
+      haveAvailable,
+      ...req.session
     });
 
   } catch (error) {

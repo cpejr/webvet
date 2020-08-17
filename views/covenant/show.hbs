@@ -14,17 +14,18 @@
             </tr>
         </thead>
         <tbody>
-                <tr>
-                    <th>{{covenant.admin.fullname}}</th>
-                    <th>{{covenant.admin.status}}</th>
-                    <th>{{covenant.admin.email}}</th>
-                    <th>{{covenant.admin.phone}}</th>
-                    <th>{{covenant.admin.cellphone}}</th>
-                    <th>{{covenant.admin.register}}</th>
-                    <th>
-                        <button onClick="location.href='/users/show/{{covenant.admin._id}}/%20'" class="fa fa-info btn m-1"/>
-                    </th>
-                </tr>
+            <tr>
+                <th>{{covenant.admin.fullname}}</th>
+                <th>{{covenant.admin.status}}</th>
+                <th>{{covenant.admin.email}}</th>
+                <th>{{covenant.admin.phone}}</th>
+                <th>{{covenant.admin.cellphone}}</th>
+                <th>{{covenant.admin.register}}</th>
+                <th>
+                    <button onClick="location.href='/users/show/{{covenant.admin._id}}/%20'"
+                        class="fa fa-info btn m-1" />
+                </th>
+            </tr>
         </tbody>
     </table>
     {{#if hasManagers}}
@@ -52,7 +53,7 @@
                         <th>{{cellphone}}</th>
                         <th>{{register}}</th>
                         <th>
-                            <button onClick="location.href='../../users/show/{{_id}}/%20'" class="fa fa-info btn m-1"/>
+                            <button onClick="location.href='../../users/show/{{_id}}/%20'" class="fa fa-info btn m-1" />
                         </th>
                         <th>
                             <form action="/user/removeFromCovenant/{{_id}}" method="post">
