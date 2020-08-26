@@ -90,10 +90,10 @@ router.post('/associateProducers/:id', isAuthenticated, auth.isFromLab, async fu
     return producer;
   })
 
-  console.log("produtores: ", producers);
+  //console.log("produtores: ", producers);
   
   await User.addProducers(id, producers);
-  console.log("Produtores associados!");
+  //console.log("Produtores associados!");
 
   res.redirect(`/users/show/${id}/%20`);
 })

@@ -213,7 +213,7 @@ class User {
   */
   static addProducers(id, user_ids) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user_ids } }).then(result => {
+      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user_ids }, type : "Gerencia" }).then(result => {
         resolve(result);
       }).catch((err) => {
         reject(err);

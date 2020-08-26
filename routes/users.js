@@ -132,21 +132,14 @@ router.get('/producers/:id', auth.isAuthenticated, function (req, res) {
 });
 router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
   const { user } = req.body;
-  const promises = [];
-  const producersId = [];
+  
+  if (user && user.type !== "Gerencia"){
+    user.associatedProducers = [];
+  }
 
-  Promise.all(promises).then((producers) => {
-    producers.forEach((producer) => {
-      producersId.push(producer.id);
-    });
-    user.associatedProducers = producersId;
-    User.update(req.params.id, user).then(() => {
-      req.flash('success', 'Usuário editado com sucesso.');
-      res.redirect(`/users/show/${req.params.id}/%20`);
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
+  User.update(req.params.id, user).then(() => {
+    req.flash('success', 'Usuário editado com sucesso.');
+    res.redirect(`/users/show/${req.params.id}/%20`);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -157,12 +150,15 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
 router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, res) {
   const { id } = req.params;
   function existsInArray(element, array) {
-    console.log("Vetor de associados: ", array);
+    array = array.map((user) => {
+      return user._id;
+    })
+    //console.log("Vetor de associados: ", array);
     if (array.indexOf(element) === -1) {
-      console.log(element, "nao pertence");
+      //console.log(element, "nao pertence");
       return false;
     } else {
-      console.log(element, " pertence");
+      //console.log(element, " pertence");
       return true;
     }
   }
@@ -173,8 +169,8 @@ router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, 
 
     const associated = actualUser ? actualUser.associatedProducers : [];
 
-    associated.forEach((user) =>{
-      user.actualUser = {_id: id};
+    associated.forEach((user) => {
+      user.actualUser = { _id: id };
     });
 
     const hasAssociated = (associated.length > 0) ? true : false;
