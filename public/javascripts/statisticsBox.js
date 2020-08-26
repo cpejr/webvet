@@ -26,9 +26,6 @@ const ANNOTATION_DEFAULT = {
 };
 
 const LABEL_DEFAULT = {
-  enabled: true,
-  content: "",
-
   // Background color of label, default below
   backgroundColor: "rgba(0,0,0,0)",
 
