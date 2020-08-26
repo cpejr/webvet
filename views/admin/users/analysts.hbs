@@ -7,15 +7,19 @@
         <th>Nome</th>
         <th>Telefone</th>
         <th>Email</th>
+        <th>Editar</th>
       </tr>
     </thead>
     <tbody>
       {{#each users}}
-        <tr>
-          <th>{{fullname}}</th>
-          <th>{{cellphone}}</th>
-          <th>{{email}}</th>
-        </tr>
+      <tr>
+        <th>{{fullname}}</th>
+        <th>{{cellphone}}</th>
+        <th>{{email}}</th>
+        <th>
+          <button onClick="location.href='/users/show/{{_id}}/analysts'" class="fa fa-info btn m-1"></button>
+        </th>
+      </tr>
       {{/each}}
     </tbody>
   </table>
