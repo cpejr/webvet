@@ -142,7 +142,7 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
     user.associatedProducers = producersId;
     User.update(req.params.id, user).then(() => {
       req.flash('success', 'Usuário editado com sucesso.');
-      res.redirect('/users/show/' + req.params.id);
+      res.redirect(`/users/show/${req.params.id}/%20`);
     }).catch((error) => {
       console.log(error);
       res.redirect('/error');
@@ -176,20 +176,19 @@ router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, 
 
     //Remove associated producers from the main list
     producers = producers.filter(function (producer) {
-      console.log("Entrou no filtro - ", producer);
       if (existsInArray(producer._id, associated)) {
-        console.log("Filtrou ", producer.fullname);
-        return true;
+        //console.log("Não passou ", producer.fullname);
+        return false;
       }
-      if (producer._id === actualUser._id) {
-        console.log("Filtrou ", producer.fullname);
-        return true;
+      if (producer._id == id) {
+        //console.log("Não passou ", producer.fullname);
+        return false;
       }
-      return false;
+      //console.log("Passou ", producer.fullname);
+      return true;
     })
 
     const haveAvailable = (producers.length > 0) ? true : false;
-    console.log(producers, haveAvailable);
 
     res.render('admin/users/show', {
       title: 'Perfil do usuário',

@@ -105,73 +105,6 @@
         </div>
       </div>
 
-
-      <div class="d-flex flex-column" id="producer-div">
-        {{#if hasAssociated}}
-          <div class="form-show-typeahead col-md-15 form-disabled" id="producer-form">
-            <h6 style="margin-top: 5vh">Produtores atualmente associados:</h6>
-
-            <table id="tb-admin" class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>Nome do Produtor</th>
-                  <th>Status</th>
-                  <th>Email</th>
-                  <th>Telefone</th>
-                  <th>Celular</th>
-                  <th>CPF/CNPJ</th>
-                  <th>Remover</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each associated}}
-                  <tr>
-                    <th>{{fullname}}</th>
-                    <th>{{status}}</th>
-                    <th>{{email}}</th>
-                    <th>{{phone}}</th>
-                    <th>{{cellphone}}</th>
-                    <th>{{register}}</th>
-                    <th>
-                      <form action="/user/removeFromCovenant/{{_id}}" method="post">
-                        <input value="{{covId}}" name="covenant[id]" hidden="hidden" />
-                        <button type="submit" class="fa fa-trash btn btn-default m-1" aria-hidden="true" />
-                      </form>
-                    </th>
-                  </tr>
-                {{/each}}
-              </tbody>
-            </table>
-          </div>
-        {{else}}
-          <h6 style="margin-top: 5vh">Nenhum produtor associado a esse gerente.</h6>
-        {{/if}}
-
-      <div>
-        {{#if haveAvailable}}
-          <div>
-            <h4 style="margin-top: 5vh">Associar produtores a {{actualUser.fullname}}:</h4>
-            <form action="" method="post" class="d-flex flex-column align-items-center">
-              <div class="col-md-12 d-flex align-items-center">
-                <select multiple id="selectmanagers" class="drowdownoptions" name="managers" required="required">
-                  <option disabled selected value="">Produtores</option>
-                  {{#each producers}}
-                    <option id="{{_id}}" value="{{_id}}">{{fullname}} - {{cellphone}} - {{email}}</option>
-                  {{/each}}
-                </select>
-              </div>
-              <div class="btn-enviar">
-                <button type="submit" class="btn btn-success">Enviar</button>
-              </div>
-            </form>
-          </div>
-        {{else}}
-          <div>
-            <h4 style="margin-top: 5vh">Não há produtores disponíveis para associar</h4>
-          </div>
-        {{/if}}
-      </div>
-
       <div class="d-flex">
         <div class="col-md-12 mt-3">
           <button class="btn mr-2" type="button" onclick="location.href='/users/{{returnRoute}}'"><i
@@ -181,32 +114,98 @@
         </div>
       </div>
   </form>
-</div>
 
-<script>
-  $('#box-radio').change(function () {
+  <div class="d-flex flex-column" id="producer-div">
+    {{#if hasAssociated}}
+      <div class="form-show-typeahead col-md-15 form-disabled" id="producer-form">
+        <h6 style="margin-top: 5vh">Produtores atualmente associados:</h6>
 
-    $('#manager-form').addClass('form-disabled');
-    $('#producer-form').addClass('form-disabled');
-    $("#producer-div").children().hide();
+        <table id="tb-admin" class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Nome do Produtor</th>
+              <th>Status</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Celular</th>
+              <th>CPF/CNPJ</th>
+              <th>Remover</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each associated}}
+              <tr>
+                <th>{{fullname}}</th>
+                <th>{{status}}</th>
+                <th>{{email}}</th>
+                <th>{{phone}}</th>
+                <th>{{cellphone}}</th>
+                <th>{{register}}</th>
+                <th>
+                  <form action="/user/removeProducer/{{actualUser._id}}" method="post">
+                    <input value="{{_id}}" name="producer[id]" hidden="hidden" />
+                    <button type="submit" class="fa fa-trash btn btn-default m-1" aria-hidden="true" />
+                  </form>
+                </th>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <h6 style="margin-top: 5vh">Nenhum produtor associado a esse gerente.</h6>
+    {{/if}}
 
-    if ($('#Gerencia-radio').is(':checked')) {
-      $('#producer-div').children().show();
-      $('#producer-form').removeClass('form-disabled');
-    }
-    else if ($('#Convenio-radio').is(':checked'))
-      $('#manager-form').removeClass('form-disabled');
+    <div>
+      {{#if haveAvailable}}
+        <div>
+          <h4 style="margin-top: 5vh">Associar produtores a {{actualUser.fullname}}:</h4>
+          <form action="/user/associateProducers/{{actualUser._id}}" method="post"
+            class="d-flex flex-column align-items-center">
+            <div class="col-md-12 d-flex align-items-center">
+              <select multiple id="selectproducers" class="drowdownoptions" name="producers" required="required">
+                {{#each producers}}
+                  <option id="{{_id}}" value="{{_id}}">{{fullname}} - {{cellphone}} - {{email}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="btn-enviar">
+              <button type="submit" class="btn btn-success">Enviar</button>
+            </div>
+          </form>
+        </div>
+      {{else}}
+        <div>
+          <h4 style="margin-top: 5vh">Não há produtores disponíveis para associar</h4>
+        </div>
+      {{/if}}
+    </div>
+  </div>
 
-  });
+  <script>
+    $('#box-radio').change(function () {
 
-  $(document).ready(function () {
-    let userType = "{{actualUser.type}}";
+      $('#manager-form').addClass('form-disabled');
+      $('#producer-form').addClass('form-disabled');
+      $("#producer-div").children().hide();
 
-    $(`input#${userType}-radio`).prop('checked', true);
-    $('#box-radio').change();
+      if ($('#Gerencia-radio').is(':checked')) {
+        $('#producer-div').children().show();
+        $('#producer-form').removeClass('form-disabled');
+      }
+      else if ($('#Convenio-radio').is(':checked'))
+        $('#manager-form').removeClass('form-disabled');
 
-    let userstate = "{{actualUser.address.state}}";
-    $('select#userstate').val(userstate);
-  });
+    });
 
-</script>
+    $(document).ready(function () {
+      let userType = "{{actualUser.type}}";
+
+      $(`input#${userType}-radio`).prop('checked', true);
+      $('#box-radio').change();
+
+      let userstate = "{{actualUser.address.state}}";
+      $('select#userstate').val(userstate);
+    });
+
+  </script>

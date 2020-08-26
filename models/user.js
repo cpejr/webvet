@@ -95,7 +95,7 @@ class User {
 
   static getByIdAndPopulate(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findById(id).populate({path: 'associatedProducers', model: 'User'}).then((result) => {
+      UserModel.findById(id).populate({ path: 'associatedProducers', model: 'User' }).then((result) => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -211,9 +211,9 @@ class User {
   * @param {string} user_id - User Id
   * @returns {null}
   */
-  static addProducer(id, user_id) {
+  static addProducers(id, user_ids) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user_id } }).then(result => {
+      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: { $in: user_ids } } }).then(result => {
         resolve(result);
       }).catch((err) => {
         reject(err);
