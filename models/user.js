@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['Admin', 'Analista', 'Produtor', 'Gerencia', 'Convenio'],
+    enum: ['Admin', 'Analista', 'Produtor', 'Gerencia'],
     default: 'Produtor'
 
   },
@@ -213,7 +213,7 @@ class User {
   */
   static addProducers(id, user_ids) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: { $in: user_ids } } }).then(result => {
+      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user_ids } }).then(result => {
         resolve(result);
       }).catch((err) => {
         reject(err);
@@ -229,7 +229,8 @@ class User {
    */
   static removeProducer(id, user_id) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $pull: { associatedProducers: user_id } }).then(result => {
+      console.log("Ids: ", user_id);
+      UserModel.findByIdAndUpdate(id, { $pull: { "associatedProducers": user_id } }).then(result => {
         resolve(result);
       }).catch((err) => {
         reject(err);

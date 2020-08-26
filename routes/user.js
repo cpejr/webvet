@@ -81,6 +81,10 @@ router.post('/associateProducers/:id', isAuthenticated, auth.isFromLab, async fu
   const { id } = req.params;
   let { producers } = req.body;
 
+  if (!Array.isArray(producers)){
+    producers = [producers];
+  }
+
   producers = producers.map((producer) =>{
     producer = mongoose.ObjectId(producer);
     return producer;
@@ -98,13 +102,10 @@ router.post('/removeProducer/:id', isAuthenticated, auth.isFromLab, async functi
   const { id } = req.params;
   let { producer } = req.body;
 
-  producer = producer.map((selected) =>{
-    selected = mongoose.ObjectId(selected);
-    return selected;
-  })
+  producer = mongoose.ObjectId(producer);
   
   await User.removeProducer(id, producer);
-  console.log("Produtor removido!");
+  console.log("Produtores removidos!");
 
   res.redirect(`/users/show/${id}/%20`);
 })

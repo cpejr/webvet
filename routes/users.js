@@ -157,11 +157,12 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
 router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, res) {
   const { id } = req.params;
   function existsInArray(element, array) {
+    console.log("Vetor de associados: ", array);
     if (array.indexOf(element) === -1) {
-      //console.log(element, "nao pertence");
+      console.log(element, "nao pertence");
       return false;
     } else {
-      //console.log(element, " pertence");
+      console.log(element, " pertence");
       return true;
     }
   }
@@ -171,6 +172,10 @@ router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, 
     let producers = await User.getAllActiveProducers();
 
     const associated = actualUser ? actualUser.associatedProducers : [];
+
+    associated.forEach((user) =>{
+      user.actualUser = {_id: id};
+    });
 
     const hasAssociated = (associated.length > 0) ? true : false;
 
