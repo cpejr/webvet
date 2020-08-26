@@ -12,7 +12,7 @@ router.get('/barcharts', auth.isAuthenticated, function (req, res) {
     res.render('statistics/barcharts', { title: 'Gráficos', layout: 'layoutDashboard.hbs', ...req.session });
 });
 
-router.get('/boxcharts', auth.isAuthenticated, (req, res) => {
+router.get('/boxcharts',/* auth.isAuthenticated,*/ (req, res) => {
     res.render('statistics/boxcharts', { title: 'Gráficos', layout: 'layoutDashboard.hbs', ...req.session });
 });
 

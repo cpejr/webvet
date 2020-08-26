@@ -15,6 +15,67 @@ ToxinasFormal = [
   "Zearalenona",
 ];
 
+const ANNOTATION_DEFAULT = {
+  type: "line",
+  mode: "horizontal",
+  scaleID: "y-axis-1",
+  value: 0,
+  borderColor: "#111",
+  borderWidth: 1,
+  label: {},
+};
+
+const LABEL_DEFAULT = {
+  enabled: true,
+  content: "",
+
+  // Background color of label, default below
+  backgroundColor: "rgba(0,0,0,0)",
+
+  // Font family of text, inherits from global
+  fontFamily: "sans-serif",
+
+  // Font size of text, inherits from global
+  fontSize: 12,
+
+  // Font style of text, default below
+  fontStyle: "bold",
+
+  // Font color of text, default below
+  fontColor: "#000",
+
+  // Padding of label to add left/right, default below
+  xPadding: 6,
+
+  // Padding of label to add top/bottom, default below
+  yPadding: 6,
+
+  // Radius of label rectangle, default below
+  cornerRadius: 0,
+
+  // Anchor position of label on line, can be one of: top, bottom, left, right, center. Default below.
+  position: "left",
+
+  // Adjustment along x-axis (left-right) of label relative to above number (can be negative)
+  // For horizontal lines positioned left or right, negative values move
+  // the label toward the edge, and positive values toward the center.
+  xAdjust: 0,
+
+  // Adjustment along y-axis (top-bottom) of label relative to above number (can be negative)
+  // For vertical lines positioned top or bottom, negative values move
+  // the label toward the edge, and positive values toward the center.
+  yAdjust: 8,
+
+  // Whether the label is enabled and should be displayed
+  enabled: true,
+
+  // Text to display in label - default is null. Provide an array to display values on a new line
+  content: "Test label",
+
+  // Rotation of label, in degrees, default is 0
+  rotation: 90,
+};
+
 $(document).ready(() => {
   const charts = {};
   for (let i = 0; i < ToxinasFull.length; i++) {
@@ -63,16 +124,32 @@ $(document).ready(() => {
             },
           ],
         },
-        plugins: {
-          // Change options for ALL labels of THIS CHART
-          datalabels: {
-            anchor: "end",
-            align: "top",
-            color: "#676767",
-            font: {
-              weight: "bold",
+        annotation: {
+          annotations: [
+            {
+              ...ANNOTATION_DEFAULT,
+              value: 12000,
+              label: { ...LABEL_DEFAULT, content: "Milho e derivados" },
             },
-          },
+            {
+              ...ANNOTATION_DEFAULT,
+              value: 8000,
+              label: {
+                ...LABEL_DEFAULT,
+                content: "Cereais e derivados, exceto milho",
+              },
+            },
+            {
+              ...ANNOTATION_DEFAULT,
+              value: 5000,
+              label: { ...LABEL_DEFAULT, content: "Ingredientes da dieta" },
+            },
+            {
+              ...ANNOTATION_DEFAULT,
+              value: 2000,
+              label: { ...LABEL_DEFAULT, content: "Bezerros(as)" },
+            },
+          ],
         },
       },
     });
