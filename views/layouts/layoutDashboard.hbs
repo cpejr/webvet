@@ -52,19 +52,23 @@
     </div>
 
     <div class="d-flex align-items-center">
-      <div class="dashboard-user mr-2" class="navbar-brand" href="#">
+      <div class="dashboard-user mr-2 d-flex flex-column" class="navbar-brand" href="#">
         <a>
           <i class="fa fa-user fa-4"></i>
           {{user.fullname}}
         </a>
+        <a>
+          {{user.type}}
+        </a>
       </div>
 
-      <button type="button" class="btn dashboard-logout" class="btn btn-primary btn-sm" onClick="location.href='/logout'">Logout</button>
+      <button type="button" class="btn dashboard-logout" class="btn btn-primary btn-sm"
+        onClick="location.href='/logout'">Logout</button>
     </div>
 
 
   </nav>
-  
+
   <div id="wrapper">
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
@@ -83,7 +87,7 @@
         {{> menuItem text="Ver Estatísticas" icon="fa-bar-chart" href="/statistics" }}
 
         {{else}}
-        
+
         {{> menuItem text="Principal" icon="fa-home" href="/homeAdmin" }}
         {{> menuItem text="Mapa de Trabalho" icon="fa-columns" href="/queue" }}
         {{> menuItem text="Clientes" icon="fa-users" href="/users" }}
