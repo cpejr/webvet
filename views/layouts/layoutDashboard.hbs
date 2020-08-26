@@ -34,22 +34,34 @@
       </ul>
     </div>
 
-    <div id="dashboard-phone">
-      <p>(31) 3409-2113 </p>
-      <p>(31) 3409-2115 </p>
+    <div class="d-none d-sm-flex">
+      <div class="flex-column">
+        <p class="m-0">(31) 3409-2113 </p>
+        <p class="m-0">(31) 3409-2115 </p>
+      </div>
+
+      <div class="d-md-flex d-none ml-2">
+        <button class="btn btn-social-media ml-2" onClick="location.href='https://www.facebook.com/lamicoufmg/'">
+          <i class="fa fa-facebook fa-lg"></i>
+        </button>
+        <button class="btn btn-social-media ml-2"
+          onClick="location.href='https://instagram.com/lamicoufmg?igshid=zqf2z5pmt8nl'">
+          <i class="fa fa-instagram fa-lg"></i>
+        </button>
+      </div>
     </div>
 
+    <div class="d-flex align-items-center">
+      <div class="dashboard-user mr-2" class="navbar-brand" href="#">
+        <a>
+          <i class="fa fa-user fa-4"></i>
+          {{user.fullname}}
+        </a>
+      </div>
 
-    <div id="dashboard-social-media">
-      <button id="btn-facebook" class="btn" onClick="location.href='https://www.facebook.com/lamicoufmg/'"><i
-          class="fa fa-facebook fa-lg"></i></button>
-      <button id="btn-instagram" class="btn"
-        onClick="location.href='https://instagram.com/lamicoufmg?igshid=zqf2z5pmt8nl'"><i
-          class="fa fa-instagram fa-lg"></i></button>
+      <button type="button" class="btn dashboard-logout" class="btn btn-primary btn-sm" href="/logout">Logout</button>
     </div>
 
-    <div id="dashboard-user" class="navbar-brand" href="#"><a><i class="fa fa-user fa-4"></i>{{user.fullname}}</a></div>
-    <a type="button" id="dashboard-logout" class="btn btn-primary btn-sm" href="/logout">Logout</a>
 
   </nav>
 
@@ -57,105 +69,51 @@
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
         {{#compare user.type "Produtor"}}
-          <li class="active">
-            <a href="/user"><span class="fa-stack fa-lg pull-left"><i
-                  class="fa fa-home fa-stack-1x "></i></span>Principal</a>
-          </li>
-          <li class="active">
-            <a href="/requisition/new"><span class="fa-stack fa-lg pull-left"><i
-                  class="fa fa-file-text-o fa-stack-1x"></i></span>Nova Requisição de Análise</a>
-          </li>
-          <li>
-            <a href="/record"><span class="fa-stack fa-lg pull-left"><i
-                  class="fa fa-archive fa-stack-1x "></i></span>Histórico de Requisições</a>
-          </li>
-          <li>
-            <a href="/statistics"> <span class="fa-stack fa-lg pull-left"><i
-                  class="fa fa-bar-chart fa-stack-1x "></i></span>Ver
-              Estatísticas</a>
-          </li>
-          {{else}}
-            {{#compare user.type "Gerencia"}}
-              <li class="active">
-                <a href="/user"><span class="fa-stack fa-lg pull-left"><i
-                      class="fa fa-home fa-stack-1x "></i></span>Principal</a>
-              </li>
-              <li class="active">
-                <a href="/requisition/new"><span class="fa-stack fa-lg pull-left"><i
-                      class="fa fa-file-text-o fa-stack-1x"></i></span>Nova Requisição de Análise</a>
-              </li>
-              <li>
-                <a href="/record"><span class="fa-stack fa-lg pull-left"><i
-                      class="fa fa-archive fa-stack-1x "></i></span>Histórico de Requisições</a>
-              </li>
-              <li>
-                <a href="/statistics"> <span class="fa-stack fa-lg pull-left"><i
-                      class="fa fa-bar-chart fa-stack-1x "></i></span>Ver
-                  Estatísticas</a>
-              </li>
-              {{else}}
-                <li class="active">
-                  <a href="/homeAdmin"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-home fa-stack-1x "></i></span>Principal</a>
-                </li>
-                <li>
-                  <a href="/queue"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-columns fa-stack-1x "></i></span>Mapa de Trabalho</a>
-                </li>
-                <li>
-                  <a href="/users"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-users fa-stack-1x "></i></span>Clientes</a>
-                </li>
-                <li>
-                  <a href="/covenant"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-user-circle-o fa-stack-1x "></i></span>Administrar Convênios</a>
-                </li>
-                <li>
-                  <a href="/users/analysts"> <span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-user fa-stack-1x "></i></span>Lista de Analistas</a>
-                </li>
-                <li>
-                  <a href="/statistics/"> <span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-bar-chart fa-stack-1x "></i></span>Dados estatísticos</a>
-                </li>
-                <li>
-                  <a href="/report/admreport"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-file-text fa-stack-1x "></i></span>Laudos</a>
-                </li>
-                <li>
-                  <a href="/stock"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-truck fa-stack-1x "></i></span>Controle de estoque</a>
-                </li>
+        {{> menuItem text="Principal" icon="fa-home" href="/user" }}
+        {{> menuItem text="Nova Requisição" icon="fa-file-text-o" href="/requisition/new" }}
+        {{> menuItem text="Histórico de Requisições" icon="fa-archive" href="/record" }}
+        {{> menuItem text="Ver Estatísticas" icon="fa-bar-chart" href="/statistics" }}
 
-                <li>
-                  <a href="/users/pending"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-user-plus fa-stack-1x "></i></span>Usuários pendentes</a>
-                </li>
-                <li>
-                  <a href="/requisition/new"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-file-text-o fa-stack-1x"></i></span>Nova Requisição de Análise</a>
-                </li>
-                <li>
-                  <a href="/requisition"><span class="fa-stack fa-lg pull-left"><i
-                        class="fa fa-envelope fa-stack-1x"></i></span>Requisições Disponíveis</a>
-                </li>
-                {{/compare}}
-            {{/compare}}
+        {{else}}
 
+        {{#compare user.type "Gerencia"}}
+        {{> menuItem text="Principal" icon="fa-home" href="/user" }}
+        {{> menuItem text="Nova Requisição" icon="fa-file-text-o" href="/requisition/new" }}
+        {{> menuItem text="Histórico de Requisições" icon="fa-archive" href="/record" }}
+        {{> menuItem text="Ver Estatísticas" icon="fa-bar-chart" href="/statistics" }}
+
+        {{else}}
+        
+        {{> menuItem text="Principal" icon="fa-home" href="/homeAdmin" }}
+        {{> menuItem text="Mapa de Trabalho" icon="fa-columns" href="/queue" }}
+        {{> menuItem text="Clientes" icon="fa-users" href="/users" }}
+        {{> menuItem text="Ver Estatísticas" icon="fa-bar-chart" href="/statistics" }}
+        {{> menuItem text="Administrar Convênios" icon="fa-user-circle-o" href="/covenant" }}
+        {{> menuItem text="Lista de Analistas" icon="fa-user" href="/users/analysts" }}
+        {{> menuItem text="Dados estatísticos" icon="fa-bar-chart" href="/statistics/" }}
+        {{> menuItem text="Laudos" icon="fa-file-text" href="/report/admreport" }}
+        {{> menuItem text="Controle de estoque" icon="fa-truck" href="/stock" }}
+        {{> menuItem text="Usuários pendentes" icon="fa-user-plus" href="/users/pending" }}
+        {{> menuItem text="Nova Requisição" icon="fa-file-text-o" href="/requisition/new" }}
+        {{> menuItem text="Requisições Disponíveis" icon="fa-envelope" href="/requisition" }}
+
+        {{/compare}}
+        {{/compare}}
       </ul>
     </div>
 
+    <div class="webvet-alert col-12 col-lg-4 col-md-6">
+      {{> messages}}
+    </div>
     <div id="page-content-wrapper">
       <div class="container-fluid xyz">
+
         {{{body}}}
       </div>
     </div>
 
   </div>
 
-  <div class="webvet-alert col-12 col-lg-4 col-md-6">
-    {{> messages}}
-  </div>
 
 
   <script src="/javascripts/layoutDashboard.js"></script>
