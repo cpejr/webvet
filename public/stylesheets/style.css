@@ -6725,6 +6725,7 @@ li {
   position: absolute; }
 
 #wrapper {
+  margin-top: 65px;
   padding-left: 0;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6741,7 +6742,6 @@ li {
   position: fixed;
   left: 250px;
   width: 0;
-  margin-top: 35px;
   height: 100%;
   margin-left: -250px;
   overflow: hidden;
@@ -6839,8 +6839,7 @@ li {
 
 @media (max-width: 768px) {
   #wrapper.toggled #sidebar-wrapper {
-    width: 100vw;
-    margin-top: 10px; }
+    width: 100vw; }
   #wrapper.toggled .sidebar-nav li a {
     width: 100vw;
     position: relative; } }
@@ -6862,7 +6861,6 @@ li {
     width: 250px; }
   #page-content-wrapper {
     padding: 20px;
-    padding-top: 50px;
     position: relative;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -7501,16 +7499,6 @@ li {
 
 #radio-kit {
   padding-top: 20px; }
-
-body {
-  padding-top: 30px; }
-
-body {
-  padding-top: 30px; }
-
-@media (max-width: 600px) {
-  body {
-    padding-top: 55px; } }
 
 .stock-falta {
   text-align: left;
