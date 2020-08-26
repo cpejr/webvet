@@ -161,7 +161,7 @@ router.get("/edit/:id", auth.isAuthenticated, auth.isAdmin, function (
     });
 });
 
-router.get("/useredit/:id", auth.isAuthenticated, auth.isProducer, function (
+router.get("/useredit/:id", auth.isAuthenticated , function (
   req,
   res
 ) {
@@ -225,7 +225,7 @@ router.post("/edit/:id", auth.isAuthenticated, auth.isAdmin, function (
     });
 });
 
-router.post("/useredit/:id", auth.isAuthenticated, auth.isProducer, function (
+router.post("/useredit/:id", auth.isAuthenticated, function (
   req,
   res
 ) {

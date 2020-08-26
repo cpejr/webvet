@@ -36,17 +36,6 @@ router.post('/forgotPassword', (req, res) => {
   });
 });
 
-
-
-router.get('/requisition/show', (req, res) => {
-  res.render('record/show', { title: 'show', layout: 'layoutRecShow' });
-});
-
-router.get('/requisition/index', (req, res) => {
-
-  res.render('record/index', { title: 'index', layout: 'layoutDashboard' });
-});
-
 /**
  * POST LOGIN
  */

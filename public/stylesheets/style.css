@@ -6724,38 +6724,8 @@ li {
   top: 30%;
   position: absolute; }
 
-#dashboard-social-media {
-  right: 36%;
-  top: 20%;
-  position: absolute;
-  font-size: 1.1em; }
-
-#btn-facebook {
-  background-color: transparent;
-  border: 1px solid #113619;
-  color: #113619; }
-
-#btn-facebook:focus {
-  outline: thin dotted;
-  outline: 0px auto -webkit-focus-ring-color;
-  outline-offset: 0px; }
-
-#btn-instagram {
-  background-color: transparent;
-  border: 1px solid #113619;
-  color: #113619; }
-
-#btn-instagram:focus {
-  outline: thin dotted;
-  outline: 0px auto -webkit-focus-ring-color;
-  outline-offset: 0px; }
-
-#dashboard-user {
-  color: #2B2B2B;
-  right: 5%;
-  position: absolute; }
-
 #wrapper {
+  margin-top: 65px;
   padding-left: 0;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6772,7 +6742,6 @@ li {
   position: fixed;
   left: 250px;
   width: 0;
-  margin-top: 35px;
   height: 100%;
   margin-left: -250px;
   overflow: hidden;
@@ -6847,11 +6816,20 @@ li {
   color: #fff;
   background: none; }
 
-.no-margin {
-  margin: 0; }
+.btn-social-media {
+  background-color: transparent;
+  border: 1px solid #113619;
+  color: #113619;
+  display: flex;
+  height: 38px;
+  width: 38px;
+  align-items: center;
+  justify-content: center; }
 
-#dashboard-user {
-  font-size: 0.9em; }
+.dashboard-logout {
+  color: #fff;
+  border-style: none;
+  background-color: #113619; }
 
 .webvet-alert {
   position: fixed;
@@ -6861,17 +6839,10 @@ li {
 
 @media (max-width: 768px) {
   #wrapper.toggled #sidebar-wrapper {
-    width: 100vw;
-    margin-top: 10px; }
+    width: 100vw; }
   #wrapper.toggled .sidebar-nav li a {
     width: 100vw;
-    position: relative; }
-  #dashboard-phone {
-    display: none; }
-  #dashboard-social-media {
-    display: none; }
-  #dashboard-user {
-    right: 20%; } }
+    position: relative; } }
 
 @media (min-width: 769px) {
   #wrapper {
@@ -6890,7 +6861,6 @@ li {
     width: 250px; }
   #page-content-wrapper {
     padding: 20px;
-    padding-top: 50px;
     position: relative;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -7530,16 +7500,6 @@ li {
 #radio-kit {
   padding-top: 20px; }
 
-body {
-  padding-top: 30px; }
-
-body {
-  padding-top: 30px; }
-
-@media (max-width: 600px) {
-  body {
-    padding-top: 55px; } }
-
 .stock-falta {
   text-align: left;
   background: #6BA05C;
@@ -7639,12 +7599,6 @@ th.absorbance {
   margin-top: 7px;
   background: #6BA05C;
   border: green; }
-
-.logolaudo {
-  position: center;
-  height: 100px;
-  margin-top: -30px;
-  background-color: white; }
 
 .title-laudo {
   margin-top: 30px;

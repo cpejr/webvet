@@ -1,7 +1,7 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <div class="printLaudo">
-  <div class="logolaudo">
+  <div class="d-flex justify-content-center w-100">
     <img src="/images/logolaudo.jpg">
   </div>
   <p></p>
@@ -66,7 +66,7 @@
             </tr>
             <script>
               var initialCheck = function () {
-                 console.log("{{toxinFull}}: {{Obj.checked}}");
+                console.log("{{toxinFull}}: {{Obj.checked}}");
                 if ($('button[name="check[true]"][id="{{toxinFull}}"]').length > 0) {
                   // console.log("{{toxinFull}} esta presente!");
                   $('input[name="{{toxinFull}}[checked]"]').attr("checked", "{{toxinDisplayName}}");
