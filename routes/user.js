@@ -8,6 +8,7 @@ const User = require('../models/user');
 const Samples = require('../models/sample');
 const Covenant = require('../models/covenant');
 const { getFinalizedByIdArray } = require('../models/sample');
+const { isAuthenticated } = require('./middleware/auth');
 const ObjectId = require('mongodb').ObjectID
 
 router.get('/', auth.isAuthenticated, async function (req, res) {
@@ -18,7 +19,7 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
     const user = await User.getByFirebaseId(firebaseId);
     let userIds = [user._id];
     if (user.type !== "Produtor") { //Produtor só pode ver os proprios laudos
-      userIds =  [user._id, ...user.associatedProducers];
+      userIds = [user._id, ...user.associatedProducers];
     };
     //POR ALGUM MOTIVO ESSA COMPARACAO NAO FUNCIONA SE NAO FIZER ZOADO ASSIM
     if (user.isOnCovenant == "true") { //Se pertencente ao convenio vai puxar os ids relacionados.
@@ -26,7 +27,7 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
       userIds = await Covenant.getRelatedIds(user._id, user.associatedProducers);
       console.log("Puxou os associados do convenio");
     }
-    console.log("Ids associados: ", userIds); 
+    console.log("Ids associados: ", userIds);
     const requisitions = await Requisition.getAllByUserId(userIds); //É só passar os Ids certos pra esse cara.
 
     let data = new Array;
@@ -75,5 +76,38 @@ router.post('/removeFromCovenant/:id', auth.isAuthenticated, auth.isAdmin, async
   console.log("Convenio deletado!");
   res.redirect(`/covenant/edit/${cId}`)
 });
+
+router.post('/associateProducers/:id', isAuthenticated, auth.isFromLab, async function (req, res) {
+  const { id } = req.params;
+  let { producers } = req.body;
+
+  if (!Array.isArray(producers)){
+    producers = [producers];
+  }
+
+  producers = producers.map((producer) =>{
+    producer = mongoose.ObjectId(producer);
+    return producer;
+  })
+
+  //console.log("produtores: ", producers);
+  
+  await User.addProducers(id, producers);
+  //console.log("Produtores associados!");
+
+  res.redirect(`/users/show/${id}/%20`);
+})
+
+router.post('/removeProducer/:id', isAuthenticated, auth.isFromLab, async function (req, res) {
+  const { id } = req.params;
+  let { producer } = req.body;
+
+  producer = mongoose.ObjectId(producer);
+  
+  await User.removeProducer(id, producer);
+  console.log("Produtores removidos!");
+
+  res.redirect(`/users/show/${id}/%20`);
+})
 
 module.exports = router;
