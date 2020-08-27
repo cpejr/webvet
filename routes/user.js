@@ -7,16 +7,13 @@ const Requisition = require('../models/requisition');
 const User = require('../models/user');
 const Samples = require('../models/sample');
 const Covenant = require('../models/covenant');
-const { getFinalizedByIdArray } = require('../models/sample');
 const { isAuthenticated } = require('./middleware/auth');
 const ObjectId = require('mongodb').ObjectID
 
 router.get('/', auth.isAuthenticated, async function (req, res) {
   try {
+    const user = req.session.user;
 
-    const firebaseId = await firebase.auth().currentUser.uid;
-
-    const user = await User.getByFirebaseId(firebaseId);
     let userIds = [user._id];
     if (user.type !== "Produtor") { //Produtor só pode ver os proprios laudos
       userIds = [user._id, ...user.associatedProducers];
@@ -28,13 +25,14 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
       console.log("Puxou os associados do convenio");
     }
     console.log("Ids associados: ", userIds);
-    const requisitions = await Requisition.getAllByUserId(userIds); //É só passar os Ids certos pra esse cara.
+    const requisitions = await Requisition.getAllByUserIdWithUser(userIds); //É só passar os Ids certos pra esse cara.
 
     let data = new Array;
     let samplesId = new Array;
     let reports = new Array;
     for (const requi of requisitions) {
       data.push({
+        name: requi.user.fullname,
         number: requi.requisitionnumber,
         year: requi.createdAt.getFullYear(),
         _id: requi._id,
@@ -44,10 +42,11 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
       }
     }
 
-    const samples = await getFinalizedByIdArray(samplesId);
+    const samples = await Samples.getFinalizedByIdArrayWithUser(samplesId);
 
     for (const sample of samples) {
       if (sample.report === true) {
+        sample.name = sample.requisitionId.user.fullname;
         reports.push(sample);
       }
     }

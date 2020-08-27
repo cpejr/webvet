@@ -462,13 +462,19 @@ input.center
   justify-content: center
 
 .user-card
-  width: 35%
+  min-width: 320px
+  max-width: 400px
+  width: 100%
   min-height: 350px
   transform-style: preserve-3d
   box-shadow: 1px 1px 10px #f0f0f0
   align-items: center
   cursor: pointer
   transition: all 0.3s cubic-bezier(1, 1, 1, 1)
+
+.user-card table
+  table-layout: fixed
+  word-wrap: break-word
 
 .user-card h1
   font-size: 20px
@@ -477,21 +483,21 @@ input.center
   margin-top: 10px
   padding: 13px 0
 
-.user-card li
+.user-card tr
   box-sizing: border-box
   color: #6ba05c
   cursor: pointer
   font-size: 15px
   padding: 10px 13px
   position: relative
-  border-bottom: 1px solid  #6ba05c
-  margin-bottom: 0px
-  margin-top: 0px
 
-.user-card li:hover
+.user-card th
+  border-top: 1px solid  #6ba05c !important
+  border-bottom: 1px solid  #6ba05c !important
+
+.user-card tr:hover
   background-color: #DCDCDC
   color: #1C1C1C
-  width: 100%
 
 .box
   width: 300px

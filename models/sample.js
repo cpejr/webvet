@@ -664,15 +664,17 @@ class Sample {
     });
   }
 
-  static getFinalizedByIdArray(id_array) {
-    return new Promise((resolve, reject) => {
-      SampleModel.find({ _id: { $in: id_array }, finalized: true })
-        .then((map) => {
-          resolve(map);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+  static async getFinalizedByIdArrayWithUser(id_array) {
+    return await SampleModel.find({
+      _id: { $in: id_array },
+      finalized: true,
+    }).populate({
+      path: "requisitionId",
+      select: "user",
+      populate: {
+        path: "user",
+        select: "fullname",
+      },
     });
   }
 

@@ -1,22 +1,36 @@
-<div class="d-flex justify-content-center flex-md-row flex-column flex-wrap" id="user-box-device">
-  <div class="user-card mx-auto mx-md-5 mb-3" id="requisition-user">
+<div class="d-flex justify-content-center flex-row flex-wrap" id="user-box-device">
+  <div class="user-card mb-3 mx-md-3" id="requisition-user">
     <h1>Requisições em Progresso</h1>
-    {{#each data}}
-      <a href="../../requisition/useredit/{{_id}}">
-        <li>Requisição {{number}}/{{year}}</li>
-      </a>
-    {{/each}}
+    <table class="w-100 table">
+      {{#each data}}
+      <tr onClick="location.href='../../requisition/useredit/{{_id}}'">
+        <th>
+          <li>Requisição {{number}}/{{year}}</li>
+        </th>
+        <th>
+          <li>{{name}}</li>
+        </th>
+      </tr>
+      {{/each}}
+    </table>
   </div>
-  <div class="user-card mx-auto mx-md-5 mb-3" id="laudo-user">
+  <div class="user-card mb-3 mx-md-3" id="laudo-user">
     <h1>Laudos disponíveis</h1>
     {{#if repEmpty}}
-      <li>Nenhum laudo disponível</li>
+    <li>Nenhum laudo disponível</li>
     {{else}}
+    <table class="w-100 table">
       {{#each reports}}
-        <a href="../../report/show/{{_id}}">
+      <tr onClick="location.href='../../report/show/{{_id}}'">
+        <th>
           <li>Laudo {{samplenumber}}/{{creationYear}}</li>
-        </a>
+        </th>
+        <th>
+          <li>{{name}}</li>
+        </th>
+      </tr>
       {{/each}}
+    </table>
     {{/if}}
   </div>
 </div>
