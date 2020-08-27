@@ -7156,7 +7156,8 @@ li {
   opacity: 0.06; }
 
 .form-show-title {
-  width: 870px;
+  max-width: 870px;
+  width: 80%;
   font-size: 22px;
   padding-bottom: 2px;
   font-family: 'ProzaLibre';
@@ -7232,7 +7233,6 @@ li {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center; }
   .form-show-box .input-placeholder-green::placeholder {
