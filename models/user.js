@@ -351,6 +351,10 @@ class User {
       });
     });
   }
+
+  static async getManagersOfUserById(userId) {
+    return await UserModel.find({associatedProducers: userId});
+  }
 }
 
 module.exports = User;
