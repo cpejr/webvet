@@ -124,7 +124,7 @@ router.post('/signup', (req, res) => {
 
 
       //Send emails
-      Email.userWaitingForApproval(user.email, user.fullname.split(' ')[0]).catch(error);
+      Email.userWaitingForApproval(user.email, user.fullname.split(' ')[0]).catch(error => console.log(error));
       User.getAdmin().then((admin) => {
         Email.newUserNotificationEmail(admin.email).catch((error) => {
           res.redirect('/login');
@@ -136,8 +136,8 @@ router.post('/signup', (req, res) => {
       });
 
       res.redirect('/login');
-    }).catch(errror2 => {
-      console.log(errror2);
+    }).catch(error2 => {
+      console.log(error2);
       console.log("Nao foi possivel criar o usuario no mongo, deletando...");
       admin.auth().deleteUser(userF.user.uid).then(() => {}).catch((err) => {console.log(err);});
       res.render('index/form', { title: 'signup', layout: 'layout', error: error2 });
