@@ -229,7 +229,7 @@ class User {
    */
   static removeProducer(id, user_id) {
     return new Promise((resolve, reject) => {
-      console.log("Ids: ", user_id);
+      // console.log("Ids: ", user_id);
       UserModel.findByIdAndUpdate(id, { $pull: { "associatedProducers": user_id } }).then(result => {
         resolve(result);
       }).catch((err) => {

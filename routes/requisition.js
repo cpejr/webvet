@@ -8,7 +8,7 @@ const User = require('../models/user');
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-  console.log(req.session);
+  // console.log(req.session);
   res.render("requisition/newrequisition", {
     title: "Requisition",
     layout: "layoutDashboard.hbs",
@@ -185,7 +185,7 @@ router.post("/edit/:id", auth.isAuthenticated, auth.isAdmin, function (
   res
 ) {
   var { requisition, sample } = req.body;
-  console.log(sample);
+  // console.log(sample);
   const isApproved = req.body.novaCheck === "isChecked";
 
   if (isApproved) {

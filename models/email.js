@@ -28,7 +28,7 @@ class Email {
           console.log(error);
           reject(error);
         } else {
-          console.log(`Email enviado ${info.response}`);
+          // console.log(`Email enviado ${info.response}`);
           resolve(info);
         }
       });
@@ -50,7 +50,7 @@ class Email {
         if (error) {
           resolve(error);
         } else {
-          console.log(`Email enviado ${info.response}`);
+          // console.log(`Email enviado ${info.response}`);
           resolve(info);
         }
       });
@@ -74,7 +74,7 @@ class Email {
   }
 
   static newUserNotificationEmail(to) {
-    console.log("Email enviado");
+    // console.log("Email enviado");
     const content = `Prezada Kelly, novo cadastro a ser aprovado na plataforma`;
     const subject = "Novo cadastro";
     const emailContent = {
@@ -90,7 +90,7 @@ class Email {
   }
 
   static userApprovedEmail(to, firstName) {
-    console.log("Cadastro de usuário aprovado");
+    // console.log("Cadastro de usuário aprovado");
     const content = `Prezado(a) ${firstName},
     Seu cadastro foi realizado e aprovado com sucesso. Entre na plataforma com seu email e senha`;
     const subject = "LAMICO: Cadastro ativado com sucesso";
@@ -107,7 +107,7 @@ class Email {
   }
 
   static reportEmail(to, firstName, sampleCode) {
-    console.log("Enviando email de laudo...");
+    // console.log("Enviando email de laudo...");
     const content = `Prezado(a) ${firstName},
     O laudo referente a amostra ${sampleCode} já está disponível na plataforma.
     www.micotoxinasbrasil.com.br`;
@@ -125,7 +125,7 @@ class Email {
   }
 
   static userRejectedEmail(to, fullname) {
-    console.log("Cadastro de usuário reprovado");
+    // console.log("Cadastro de usuário reprovado");
     const content = `Prezado(a) ${fullname},
     Seu cadastro foi reprovado. Entre em contato com o admin para maiores informações.`;
     const subject = "LAMICO: Cadastro reprovado";

@@ -31,16 +31,16 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     //POR ALGUM MOTIVO ESSA COMPARACAO NAO FUNCIONA SE NAO FIZER ZOADO ASSIM
     if (user.isOnCovenant == true) {
       //Se pertencente ao convenio vai puxar os ids relacionados.
-      console.log("Está em um convênio");
+      // console.log("Está em um convênio");
       const convenant = await Covenant.getRelatedIdsAndConvName(
         user._id,
         user.associatedProducers
       );
       userIds = convenant.ids;
       generalData.convenant = convenant.name;
-      console.log("Puxou os associados do convenio");
+      // console.log("Puxou os associados do convenio");
     }
-    console.log("Ids associados: ", userIds);
+    // console.log("Ids associados: ", userIds);
     const requisitions = await Requisition.getAllByUserIdWithUser(userIds); //É só passar os Ids certos pra esse cara.
 
     let data = new Array();
@@ -82,7 +82,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
       managers.forEach(element => {
         managersName.push(element.fullname);
       });
-      console.log(managersName)
+      // console.log(managersName)
       generalData.manager = managersName.join(', ');
     }
 
@@ -109,15 +109,15 @@ router.post(
   auth.isAuthenticated,
   auth.isAdmin,
   async function (req, res) {
-    console.log("Entrou na rota delete");
-    console.log("req.params.id = " + req.params.id);
+    // console.log("Entrou na rota delete");
+    // console.log("req.params.id = " + req.params.id);
     const { id } = req.params;
-    console.log("req.body.covenant = " + req.body.covenant);
+    // console.log("req.body.covenant = " + req.body.covenant);
     const cId = req.body.covenant.id;
-    console.log(cId);
+    // console.log(cId);
     await Covenant.removeManager(cId, id);
     await User.removeCovenant([id]);
-    console.log("Convenio deletado!");
+    // console.log("Convenio deletado!");
     res.redirect(`/covenant/edit/${cId}`);
   }
 );
