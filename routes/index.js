@@ -27,24 +27,13 @@ router.get('/forgotPassword', (req, res) => {
 
 router.post('/forgotPassword', (req, res) => {
   const emailAddress = req.body.user;
-  console.log(emailAddress);
+  // console.log(emailAddress);
   firebase.auth().sendPasswordResetEmail(emailAddress.email).then(function () {
     res.redirect('/login');
     req.flash('success', 'Email enviado');
   }).catch((error) => {
     res.render('index/forgotPassword', { title: 'Esqueci Minha Senha', layout: 'layoutIndex', error });
   });
-});
-
-
-
-router.get('/requisition/show', (req, res) => {
-  res.render('record/show', { title: 'show', layout: 'layoutRecShow' });
-});
-
-router.get('/requisition/index', (req, res) => {
-
-  res.render('record/index', { title: 'index', layout: 'layoutDashboard' });
 });
 
 /**
@@ -70,27 +59,27 @@ router.post('/login', (req, res) => {
         if (userR.status == "Aguardando aprovação") {
           req.flash('danger', 'Aguardando a aprovação do Administrador');
           res.redirect('/login')
-          console.log("Usuario nao aprovado");
+          // console.log("Usuario nao aprovado");
         }
         if (userR.status == "Ativo") {
-          console.log("Usuario esta Ativo");
+          // console.log("Usuario esta Ativo");
           if (userR.type == "Admin") {
-            console.log("Login como Admin");
+            // console.log("Login como Admin");
             res.redirect('/homeAdmin');
           }
           else {
             if (userR.type == "Analista") {
-              console.log("Logado como Analista");
+              // console.log("Logado como Analista");
               res.redirect('/homeAdmin');
             }
             else {
-              console.log("Logado como cliente");
+              // console.log("Logado como cliente");
               res.redirect('/user');
             }
           }
         }
         if (userR.status == "Bloqueado") {
-          console.log("Esse esta bloqueado");
+          // console.log("Esse esta bloqueado");
           req.flash('danger', 'Essa conta foi bloqueada pelo Administrador');
           res.redirect('/login');
         }
@@ -125,7 +114,7 @@ router.post('/login', (req, res) => {
 
 router.post('/signup', (req, res) => {
   const { user } = req.body;
-  console.log(user);
+  // console.log(user);
   firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(function(userF) {
 
     user.uid = userF.user.uid;
@@ -135,7 +124,7 @@ router.post('/signup', (req, res) => {
 
 
       //Send emails
-      Email.userWaitingForApproval(user.email, user.fullname.split(' ')[0]).catch(error);
+      Email.userWaitingForApproval(user.email, user.fullname.split(' ')[0]).catch(error => console.log(error));
       User.getAdmin().then((admin) => {
         Email.newUserNotificationEmail(admin.email).catch((error) => {
           res.redirect('/login');
@@ -147,8 +136,8 @@ router.post('/signup', (req, res) => {
       });
 
       res.redirect('/login');
-    }).catch(errror2 => {
-      console.log(errror2);
+    }).catch(error2 => {
+      console.log(error2);
       console.log("Nao foi possivel criar o usuario no mongo, deletando...");
       admin.auth().deleteUser(userF.user.uid).then(() => {}).catch((err) => {console.log(err);});
       res.render('index/form', { title: 'signup', layout: 'layout', error: error2 });

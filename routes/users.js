@@ -7,7 +7,7 @@ const Email = require('../models/email');
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res) {
-  User.getAllActiveProducers().then((users) => {
+  User.getByQuery({ type: { $in: ["Gerencia", "Produtor"] }, deleted: false }).then((users) => {
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
@@ -85,7 +85,7 @@ router.get('/producers', auth.isAuthenticated, function (req, res) {
 
 router.get('/managers', auth.isAuthenticated, function (req, res) {
 
-  User.getByQuery({type: "Gerencia"}).then((users) => {
+  User.getByQuery({ type: "Gerencia" }).then((users) => {
     const loggedID = req.session.user._id
     res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session, loggedID });
 
@@ -132,21 +132,14 @@ router.get('/producers/:id', auth.isAuthenticated, function (req, res) {
 });
 router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
   const { user } = req.body;
-  const promises = [];
-  const producersId = [];
+  
+  if (user && user.type !== "Gerencia"){
+    user.associatedProducers = [];
+  }
 
-  Promise.all(promises).then((producers) => {
-    producers.forEach((producer) => {
-      producersId.push(producer.id);
-    });
-    user.associatedProducers = producersId;
-    User.update(req.params.id, user).then(() => {
-      req.flash('success', 'Usuário editado com sucesso.');
-      res.redirect('/users/show/' + req.params.id);
-    }).catch((error) => {
-      console.log(error);
-      res.redirect('/error');
-    });
+  User.update(req.params.id, user).then(() => {
+    req.flash('success', 'Usuário editado com sucesso.');
+    res.redirect(`/users/show/${req.params.id}/%20`);
   }).catch((error) => {
     console.log(error);
     res.redirect('/error');
@@ -154,14 +147,66 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
 
 });
 
-router.get('/show/:id/:returnRoute', function (req, res) {
-  User.getById(req.params.id).then((actualUser) => {
-    console.log("Entrou");
-    res.render('admin/users/show', { title: 'Perfil do usuário', layout: 'layoutDashboard.hbs', returnRoute: req.params.returnRoute, actualUser, ...req.session });
-  }).catch((error) => {
+router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, res) {
+  const { id } = req.params;
+  function existsInArray(element, array) {
+    array = array.map((user) => {
+      return user._id;
+    })
+    //console.log("Vetor de associados: ", array);
+    if (array.indexOf(element) === -1) {
+      //console.log(element, "nao pertence");
+      return false;
+    } else {
+      //console.log(element, " pertence");
+      return true;
+    }
+  }
+
+  try {
+    const actualUser = await User.getByIdAndPopulate(id);
+    let producers = await User.getAllActiveProducers();
+
+    const associated = actualUser ? actualUser.associatedProducers : [];
+
+    associated.forEach((user) => {
+      user.actualUser = { _id: id };
+    });
+
+    const hasAssociated = (associated.length > 0) ? true : false;
+
+    //Remove associated producers from the main list
+    producers = producers.filter(function (producer) {
+      if (existsInArray(producer._id, associated)) {
+        //console.log("Não passou ", producer.fullname);
+        return false;
+      }
+      if (producer._id == id) {
+        //console.log("Não passou ", producer.fullname);
+        return false;
+      }
+      //console.log("Passou ", producer.fullname);
+      return true;
+    })
+
+    const haveAvailable = (producers.length > 0) ? true : false;
+
+    res.render('admin/users/show', {
+      title: 'Perfil do usuário',
+      layout: 'layoutDashboard.hbs',
+      returnRoute: req.params.returnRoute,
+      actualUser,
+      associated,
+      producers,
+      hasAssociated,
+      haveAvailable,
+      ...req.session
+    });
+
+  } catch (error) {
     console.log(error);
     res.redirect('/error');
-  });
+  };
 });
 
 router.post('/approve/:id', auth.isAuthenticated, auth.isFromLab, function (req, res) {

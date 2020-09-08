@@ -8,7 +8,7 @@ const Requisition = require('../models/requisition');
 router.get('/', auth.isAuthenticated, (req, res) => {
   let _id = req.session.user._id;
 
-  Requisition.getAllByUserId(_id).then((requisitions) => {
+  Requisition.getAllByUserIdWithUser(_id).then((requisitions) => {
     res.render('record/index', { title: 'Histórico', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
 
   }).catch((error) => {

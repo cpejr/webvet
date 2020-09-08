@@ -178,7 +178,7 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, function (req, res) {
         }
 
         Promise.all(promises).then((test) => {
-          console.log(test);
+          // console.log(test);
           resolve(test);
         });
       } else {

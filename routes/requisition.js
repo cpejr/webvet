@@ -8,7 +8,7 @@ const User = require('../models/user');
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-  console.log(req.session);
+  // console.log(req.session);
   res.render("requisition/newrequisition", {
     title: "Requisition",
     layout: "layoutDashboard.hbs",
@@ -161,7 +161,7 @@ router.get("/edit/:id", auth.isAuthenticated, auth.isAdmin, function (
     });
 });
 
-router.get("/useredit/:id", auth.isAuthenticated, auth.isProducer, function (
+router.get("/useredit/:id", auth.isAuthenticated , function (
   req,
   res
 ) {
@@ -185,7 +185,7 @@ router.post("/edit/:id", auth.isAuthenticated, auth.isAdmin, function (
   res
 ) {
   var { requisition, sample } = req.body;
-  console.log(sample);
+  // console.log(sample);
   const isApproved = req.body.novaCheck === "isChecked";
 
   if (isApproved) {
@@ -225,7 +225,7 @@ router.post("/edit/:id", auth.isAuthenticated, auth.isAdmin, function (
     });
 });
 
-router.post("/useredit/:id", auth.isAuthenticated, auth.isProducer, function (
+router.post("/useredit/:id", auth.isAuthenticated, function (
   req,
   res
 ) {

@@ -4,10 +4,12 @@
   <table id="tb-user" class="table table-striped table-hover">
     <thead>
       <tr>
-        <th class="th-name">Nome</th>
-        <th class="th-type">Tipo</th>
-        <th class="th-dept">Devedor</th>
-        <th class="th-action"></th>
+        <th>Nome</th>
+        <th>Tipo</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Devedor</th>
+        <th>Editar</th>
       </tr>
     </thead>
     <tbody>
@@ -15,6 +17,8 @@
         <tr>
           <th>{{fullname}}</th>
           <th>{{type}}</th>
+          <th>{{email}}</th>
+          <th>{{phone}}</th>
           <th>
             {{#if debt}}
               <form action="/users/approvepayment/{{_id}}" method="post">

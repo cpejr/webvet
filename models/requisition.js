@@ -276,16 +276,8 @@ class Requisition {
     });
   }
 
-  static getAllByUserId(userIds) {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.find({ user: userIds })
-        .then((results) => {
-          resolve(results);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async getAllByUserIdWithUser(userIds) {
+    return await RequisitionModel.find({ user: userIds }).populate("user", "fullname");
   }
 
   static getStateData() {

@@ -193,7 +193,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
         toxinVector.push(toxinData);
       }
     });
-    console.log(toxinVector);
+    // console.log(toxinVector);
     moment.locale("pt-br");
     sample.date = moment(sample.updatedAt).format("LL");
 
@@ -236,7 +236,7 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
         else fieldsToUpdate[`${toxin}.checked`] = false;
       }
     }
-    console.log(fieldsToUpdate);
+    // console.log(fieldsToUpdate);
     await Sample.updateReportSpecific(sampleId, fieldsToUpdate);
     req.flash("success", "Atualizado com sucesso.");
     res.redirect("/report/show/admin/" + sampleId);
@@ -247,7 +247,7 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
     if (fieldsToUpdate.finalized === true) {
       const sampleData = await Sample.getRelatedEmails(sampleId);
 
-      console.log(sampleData);
+      // console.log(sampleData);
       const { createdAt, samplenumber, requisitionId } = sampleData;
       const { email, fullname } = requisitionId.user;
       const sampleCode = `${samplenumber}/${createdAt.getFullYear()}`;
@@ -291,7 +291,7 @@ router.get(
       const result = [];
 
       const amostras = await Sample.getAllReport();
-      console.log(amostras);
+      // console.log(amostras);
 
       for (var j = 0; j < amostras.length; j++) {
         const amostra = amostras[j];

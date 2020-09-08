@@ -8,56 +8,45 @@ const Sample = require('../models/sample');
 const Kit = require('../models/kit');
 const Requisition = require('../models/requisition');
 const Workmap = require('../models/Workmap');
+const Covenant = require('../models/covenant');
 
 router.get('/producers', auth.isAuthenticated, (req, res) => {
-  const names = [];
-  const query = { active: true };
-  const sort = { name: 1 };
-  User.getAll().then((producers) => {
-    producers.forEach((producer) => {
-      if (producer.type == "Produtor") {
-        names.push(producer.fullname);
-      }
-    });
-    res.send(names);
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
+  async function getProducers() {
+    try {
+      return (await User.getAllActiveProducers())
+    } catch (error) {
+      console.log(error);
+      res.redirect('/error');
+    }
+  }
+  const producers = getProducers();
+  res.send(producers);
 });
 
 router.get('/covenants', auth.isAuthenticated, (req, res) => {
-  const names = [];
-  const query = { active: true };
-  const sort = { name: 1 };
-  User.getAll().then((covenants) => {
-    covenants.forEach((covenant) => {
-      if (covenant.type == "Convenio") {
-        names.push(covenant.fullname);
-      }
-    });
-    res.send(names);
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
+  async function getCovenants() {
+    try {
+      return (await Covenant.getAll());
+    } catch (error) {
+      console.log(error);
+      res.redirect('/error');
+    }
+  }
+  const covenants = getCovenants();
+  res.send(covenants);
 });
 
 router.get('/managers', auth.isAuthenticated, (req, res) => {
-  const names = [];
-  const query = { active: true };
-  const sort = { name: 1 };
-  User.getAll().then((managers) => {
-    managers.forEach((manager) => {
-      if (manager.type == "Gerencia") {
-        names.push(manager.fullname);
-      }
-    });
-    res.send(names);
-  }).catch((error) => {
-    console.log(error);
-    res.redirect('/error');
-  });
+  async function getManagers() {
+    try {
+      return (await User.getAllActiveManagers());
+    } catch (error) {
+      console.log(error);
+      res.redirect('/error');
+    }
+  }
+  const managers = getManagers();
+  res.send(managers);
 });
 
 router.get('/samples', auth.isAuthenticated, (req, res) => {

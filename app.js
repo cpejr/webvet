@@ -9,7 +9,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const firebase = require('firebase');
 const admin = require('firebase-admin');
@@ -20,7 +19,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const stockRouter = require('./routes/stock');
 const queueRouter = require('./routes/queue');
-const expandingdivsRouter = require('./routes/expandingDivs');
 const userRouter = require('./routes/user');
 const cardsAdminRouter = require('./routes/cardsAdmin');
 const homeAdminRouter = require('./routes/homeAdmin');
@@ -242,7 +240,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/expandingDivs', expandingdivsRouter);
 app.use('/cardsAdmin', cardsAdminRouter);
 app.use('/queue', queueRouter);
 app.use('/requisition', requisitionRouter);
@@ -277,9 +274,15 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+  if (err.status !== 404) {
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
+  }else{
+    res.status(err.status || 500);
+    res.render("notFound");
+  }
+
 });
 
 module.exports = app;
