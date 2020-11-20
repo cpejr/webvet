@@ -1,7 +1,7 @@
 const express = require('express');
 var admin = require('firebase-admin');
 const router = express.Router();
-const auth = require('./middleware/auth');
+const auth = require('../middlewares/auth');
 const User = require('../models/user');
 const Email = require('../models/email');
 

@@ -2,7 +2,7 @@ const express = require('express');
 const firebase = require('firebase');
 const router = express.Router();
 const mongoose = require('mongodb');
-const auth = require('./middleware/auth');
+const auth = require('../middlewares/auth');
 const Kit = require('../models/kit');
 
 

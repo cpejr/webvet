@@ -4,7 +4,7 @@ const Kit = require("../models/kit");
 const Workmap = require("../models/Workmap");
 const Sample = require("../models/sample");
 const Counter = require("../models/counter");
-const auth = require("./middleware/auth");
+const auth = require("../middlewares/auth");
 
 router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
   Sample.getAllActiveWithWorkmap()
