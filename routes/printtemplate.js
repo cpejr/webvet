@@ -633,27 +633,27 @@ router.get('/', (req, res) => {
 
                 res.render('printtemplate', { amostras, afla1, aflas_p, fbs, don1, zea, ota1, dd, mm, yyyy, today, t2, ...req.session });
               }).catch((error) => {
-                console.log(error);
+                console.warn(error);
                 res.redirect('/error');
               });
 
             }).catch((error) => {
-              console.log(error);
+              console.warn(error);
             });
           }).catch((error) => {
-            console.log(error);
+            console.warn(error);
           });
         }).catch((error) => {
-          console.log(error);
+          console.warn(error);
         });
       }).catch((error) => {
-        console.log(error);
+        console.warn(error);
       });
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
     });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
   });
 
 

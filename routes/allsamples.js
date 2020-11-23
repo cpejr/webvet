@@ -65,7 +65,7 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
       });
     })
     .catch((error) => {
-      console.log(error);
+      console.warn(error);
     });
 });
 
@@ -112,7 +112,7 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, function (req, res) {
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.warn(error);
     });
 
   function updateKits(KitArray) {

@@ -20,7 +20,7 @@
           placeholder="Selecione o Usuário">
           <option disabled selected value="">Selecione o Usuário</option>
           {{#each users}}
-          <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+            <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
           {{/each}}
         </select>
       </div>
@@ -31,7 +31,7 @@
           placeholder="Selecione o Usuário">
           <option disabled selected value="">Selecione o Usuário</option>
           {{#each users}}
-          <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+            <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
           {{/each}}
         </select>
       </div>
@@ -341,5 +341,5 @@
     $('select#userstate').val(userstate);
   });
 </script>
-<script src="/javascripts/reqFunc.js"></script>
+<script src="/javascripts/reqFunc.js" />
 <script src="/javascripts/dynamicPlaceHolder.js" />

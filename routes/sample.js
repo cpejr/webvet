@@ -27,11 +27,11 @@ router.post('/create', (req, res) => {
     Sample.create(sample).then(() => {
       req.flash('success', 'Cadastrado com sucesso.');
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -81,12 +81,12 @@ router.post('/updatestatus/:status/:mycotoxin/:samplenumber', function (req, res
     Sample.update(sampleedit._id, sampleedit).then((response) => {
       res.send(response)
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
 
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -106,11 +106,11 @@ router.post('/setActiveKit/:toxinafull/:kitActiveID', function (req, res) {
     Kit.setActiveStatus(req.params.kitActiveID, true).then((response) => {
       res.send(response);
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -134,7 +134,7 @@ router.post('/scndTesting/edit/:mycotoxin/:samplenumber', function (req, res) {/
     res.send();
 
   }).catch(err => {
-    console.log(err);
+    console.warn(err);
   });
 });
 
@@ -159,7 +159,7 @@ router.post('/mapedit/:mycotoxin/:samplenumber/:mapID', function (req, res) {
     res.send();
 
   }).catch(err => {
-    console.log(err);
+    console.warn(err);
   });
 });
 
@@ -167,7 +167,7 @@ router.get('/edit/:samplenumber', (req, res) => {
   Sample.getBySampleNumber(req.params.samplenumber).then((sample) => {
     res.render('samples/edit', { title: 'Editar amostra', layout: 'layoutDashboard.hbs', sample });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -179,7 +179,7 @@ router.post('/save', (req, res) => {
     req.flash('success', 'Amostra alterada');
     res.redirect('/sample/edit/' + sample.samplenumber);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });

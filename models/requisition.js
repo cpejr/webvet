@@ -303,7 +303,7 @@ class Requisition {
           resolve(result);
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           reject(err);
         });
     });
@@ -333,7 +333,7 @@ class Requisition {
           resolve(result);
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           reject(err);
         });
     });

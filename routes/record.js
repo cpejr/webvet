@@ -12,7 +12,7 @@ router.get('/', auth.isAuthenticated, (req, res) => {
     res.render('record/index', { title: 'Histórico', layout: 'layoutDashboard.hbs', requisitions, ...req.session });
 
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 

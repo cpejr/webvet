@@ -15,7 +15,7 @@ router.get('/producers', auth.isAuthenticated, (req, res) => {
     try {
       return (await User.getAllActiveProducers())
     } catch (error) {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     }
   }
@@ -28,7 +28,7 @@ router.get('/covenants', auth.isAuthenticated, (req, res) => {
     try {
       return (await Covenant.getAll());
     } catch (error) {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     }
   }
@@ -41,7 +41,7 @@ router.get('/managers', auth.isAuthenticated, (req, res) => {
     try {
       return (await User.getAllActiveManagers());
     } catch (error) {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     }
   }
@@ -53,7 +53,7 @@ router.get('/samples', auth.isAuthenticated, (req, res) => {
   Sample.getAll().then((samples) => {
     res.send(samples);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -62,7 +62,7 @@ router.get('/samplesActive', auth.isAuthenticated, (req, res) => {
   Sample.getAllActive().then((samples) => {
     res.send(samples);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -71,7 +71,7 @@ router.get('/samplesActiveWithUser', auth.isAuthenticated, (req, res) => {
   Sample.getAllActiveWithUser().then((objs) => {
     res.send(objs);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -81,12 +81,12 @@ router.get('/userFromSample/:sampleID', auth.isAuthenticated, (req, res) => {
     User.getById(requisition.user).then((user) => {
       res.send(user);
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
 
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -96,11 +96,11 @@ router.get('/userFromRequisiton/:requisitonID', auth.isAuthenticated, (req, res)
     User.getById(requisition.user).then((user) => {
       res.send(user);
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -109,7 +109,7 @@ router.get('/kits', auth.isAuthenticated, (req, res) => {
   Kit.getAll().then((kits) => {
     res.send(kits);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -125,7 +125,7 @@ router.get('/kits/:toxinafull', auth.isAuthenticated, (req, res) => {
   Kit.getByProductCode(sigla + " Romer").then((kits) => {
     res.send(kits);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -144,7 +144,7 @@ router.get('/kits/:toxinafull/:kittype', auth.isAuthenticated, (req, res) => {
   }).then((kits) => {
     res.send(kits);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -161,7 +161,7 @@ router.get('/getWorkmap/:workmapid', auth.isAuthenticated, (req, res) => {
   Workmap.getOneMap(req.params.workmapid).then((workmap) => {
     res.send(workmap);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -170,7 +170,7 @@ router.get('/getOneSample/:sampleID', auth.isAuthenticated, (req, res) => {
   Sample.getById(req.params.sampleID).then((sample) => {
     res.send(sample);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -184,7 +184,7 @@ router.get('/getSamplesActive/:toxin/:samples', auth.isAuthenticated, (req, res)
   Sample.getByIdArrayWithQuery(samples, query).then((res) => {
     res.send(res);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -201,11 +201,11 @@ router.get('/getSamplesActiveByWorkmapArray/:mapidArray/:toxin', auth.isAuthenti
     Sample.getActiveByIdArray(samples, toxin).then(samplesobj => {
       res.send(samplesobj);
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });

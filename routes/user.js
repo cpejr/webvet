@@ -99,7 +99,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
       ...req.session,
     });
   } catch (err) {
-    console.log(err);
+    console.warn(err);
     res.redirect("/error");
   }
 });

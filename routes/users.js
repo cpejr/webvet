@@ -11,7 +11,7 @@ router.get('/', auth.isAuthenticated, function (req, res) {
     res.render('admin/users/index', { title: 'Usuários', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -41,7 +41,7 @@ router.get('/pending', auth.isAuthenticated, function (req, res) {
 
     res.render('admin/users/pending', { title: 'Usuários pendentes', layout: 'layoutDashboard.hbs', inactives, pending, ...req.session });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -52,7 +52,7 @@ router.get('/associated', auth.isAuthenticated, function (req, res) {
   User.getAll().then((users) => {
     res.render('admin/users/associated', { title: 'Conveniados', layout: 'layoutDashboard.hbs', users, ...req.session });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -61,11 +61,11 @@ router.get('/associated', auth.isAuthenticated, function (req, res) {
 router.get('/analysts', auth.isAuthenticated, function (req, res) {
 
   User.getByQuery({ type: "Analista" }).then((users) => {
-    console.log(users);
+    //console.log(users);
     res.render('admin/users/analysts', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -77,7 +77,7 @@ router.get('/producers', auth.isAuthenticated, function (req, res) {
     res.render('admin/users/producers', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -90,7 +90,7 @@ router.get('/managers', auth.isAuthenticated, function (req, res) {
     res.render('admin/users/managers', { title: 'Gerentes', layout: 'layoutDashboard.hbs', users, ...req.session, loggedID });
 
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -102,11 +102,11 @@ router.get('/managers/:id', auth.isAuthenticated, function (req, res) {
     User.getById(req.params.id).then((user) => {
       res.render('admin/users/managers', { title: 'Gerentes Associados', layout: 'layoutDashboard.hbs', users, user, ...req.session });
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -116,16 +116,16 @@ router.get('/managers/:id', auth.isAuthenticated, function (req, res) {
 router.get('/producers/:id', auth.isAuthenticated, function (req, res) {
 
   User.getAssociatedProducersById(req.params.id).then((users) => {
-    console.log(users);
+    //console.log(users);
     User.getById(req.params.id).then((user) => {
-      console.log(user);
+      //console.log(user);
       res.render('admin/users/producers', { title: 'Produtores Associados', layout: 'layoutDashboard.hbs', users, user, ...req.session });
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -141,7 +141,7 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
     req.flash('success', 'Usuário editado com sucesso.');
     res.redirect(`/users/show/${req.params.id}/%20`);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -204,7 +204,7 @@ router.get('/show/:id/:returnRoute', auth.isAuthenticated, async function (req, 
     });
 
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   };
 });
@@ -221,7 +221,7 @@ router.post('/approve/:id', auth.isAuthenticated, auth.isFromLab, function (req,
   };
 
   User.update(req.params.id, user).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   }).then(() => {
     req.flash('success', 'Usuário aprovado com sucesso.');
@@ -237,7 +237,7 @@ router.post('/pending/:id', auth.isAuthenticated, function (req, res) {
   };
 
   User.update(req.params.id, user).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   }).then(() => {
     req.flash('success', 'Usuário ativado com sucesso.');
@@ -255,7 +255,7 @@ router.post('/reject/:id', auth.isAuthenticated, function (req, res) {
     status: 'Inativo'
   };
   User.update(req.params.id, user).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   }).then(() => {
     req.flash('success', 'Usuário Inativado com sucesso.');
@@ -302,12 +302,12 @@ router.post('/approvepayment/:id', auth.isAuthenticated, function (req, res) {
       req.flash(type, text);
       res.redirect('/users');
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect('/error');
     });
   }).catch((error) => {
     res.redirect('/error');
-    console.log(error);
+    console.warn(error);
   });
 });
 
