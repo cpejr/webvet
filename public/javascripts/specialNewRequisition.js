@@ -1,5 +1,6 @@
 let users = JSON.parse($("#users").val());
 
+// Logica para setar os dados do endereço ao selecionar o usuário no select
 $("#adminUser").on("change", function (event) {
     let selectedUser = users.find(user => user._id === event.target.value);
     $("#fullname").attr("value", selectedUser.fullname !== undefined ? selectedUser.fullname : "Indefinido");
