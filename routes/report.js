@@ -90,7 +90,7 @@ router.get("/show/:id", auth.isAuthenticated, async function (req, res) {
       ...req.session,
     });
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.redirect("/error");
   }
 });
@@ -205,7 +205,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       ...req.session,
     });
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.redirect("/error");
   }
 });
@@ -254,7 +254,7 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       Email.reportEmail(email, fullname, sampleCode);
     }
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.redirect("/error");
   }
 });
@@ -278,7 +278,7 @@ router.get("/samples/:id", auth.isAuthenticated, function (req, res) {
       });
     })
     .catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect("/error");
     });
 });

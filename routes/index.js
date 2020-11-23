@@ -124,26 +124,26 @@ router.post('/signup', (req, res) => {
 
 
       //Send emails
-      Email.userWaitingForApproval(user.email, user.fullname.split(' ')[0]).catch(error => console.log(error));
+      Email.userWaitingForApproval(user.email, user.fullname.split(' ')[0]).catch(error => console.warn(error));
       User.getAdmin().then((admin) => {
         Email.newUserNotificationEmail(admin.email).catch((error) => {
           res.redirect('/login');
         });
       }).catch((error) => {
-        console.log(error);
+        console.warn(error);
         res.redirect('/error');
         return error;
       });
 
       res.redirect('/login');
     }).catch(error2 => {
-      console.log(error2);
+      console.warn(error2);
       console.log("Nao foi possivel criar o usuario no mongo, deletando...");
-      admin.auth().deleteUser(userF.user.uid).then(() => {}).catch((err) => {console.log(err);});
+      admin.auth().deleteUser(userF.user.uid).then(() => {}).catch((err) => {console.warn(err);});
       res.render('index/form', { title: 'signup', layout: 'layout', error: error2 });
     });
   }).catch(function (error) {
-    console.log(error);
+    console.warn(error);
     res.render('index/form', { title: 'signup', layout: 'layout', error });
   });
 });
@@ -156,7 +156,7 @@ router.get('/logout', auth.isAuthenticated, (req, res) => {
     delete req.session.email;
     res.redirect('/login');
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });

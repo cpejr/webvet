@@ -92,7 +92,7 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res) {
   Kit.getById(req.params.id).then((kit) => {
     res.render('stock/edit', { title: 'Edit Kit', layout: 'layoutDashboard.hbs', kit, ...req.session });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -103,7 +103,7 @@ router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
     req.flash('success', 'Kit alterado com sucesso.');
     res.redirect(`/stock/edit/${req.params.id}`);
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -147,7 +147,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
         let workmapIds = await Promise.all(promises);
 
         Kit.addMaps(id, workmapIds).catch((error) => {
-          console.log(error);
+          console.warn(error);
           res.redirect('/error');
         });
 
@@ -155,7 +155,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
         req.flash('success', 'Kit adicionado com sucesso.');
         res.redirect('/stock');
       }).catch((error) => {
-        console.log(error);
+        console.warn(error);
         res.redirect('/error');
       });
 
@@ -173,21 +173,21 @@ router.post('/delete/:id', auth.isAuthenticated, function (req, res) {
   Kit.delete(req.params.id).then(() => {
     res.redirect('/stock');
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
 
 router.post('/decreaseAmount/:kitid/', function (req, res) {
   Kit.decreaseAmount(req.params.kitid).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
 
 router.post('/increaseAmount/:kitid/', function (req, res) {
   Kit.increaseAmount(req.params.kitid).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });

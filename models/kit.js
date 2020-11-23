@@ -570,7 +570,7 @@ class Kit {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           reject(err);
         });
     });

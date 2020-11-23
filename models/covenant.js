@@ -115,7 +115,7 @@ class Covenant {
         return { ids: [userId, ...associated], name };
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       return null;
     }
   }
