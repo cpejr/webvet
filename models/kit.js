@@ -536,7 +536,7 @@ class Kit {
               KitModel.findById(listIds[i]);
             });
           } catch (err) {
-            console.log("Erro de sincronizacao");
+            console.log("Erro de sincronização");
           } finally {
             valueObject.push({ loq: result.Loq, lod: result.Lod });
           }

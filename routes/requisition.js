@@ -17,6 +17,18 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
   });
 });
 
+//Rota para o admin criar várias requisições facilmente
+router.get("/specialnew", /*auth.isAuthenticated, auth.isFromLab,*/ async function (req, res) {
+  let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+  stringUsers = JSON.stringify(users);
+  res.render("requisition/specialnew", {
+    title: "Criar requisição",
+    layout: "layoutDashboard.hbs",
+    users,
+    stringUsers
+  });
+});
+
 router.post("/delete/:id", auth.isAuthenticated, auth.isAdmin, (req, res) => {
   Requisition.delete(req.params.id).then(() => {
     res.redirect("/requisition");
@@ -235,13 +247,6 @@ router.post("/useredit/:id", auth.isAuthenticated, function (req, res) {
       console.warn(error);
       res.redirect("/error");
     });
-});
-
-router.get("/specialnew", auth.isFromLab, function (req, res) {
-  res.render("requisition/specialNew", {
-    title: "Criar requisição",
-    layout: "layoutDashboard.hbs",
-  });
 });
 
 module.exports = router;

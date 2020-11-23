@@ -61,7 +61,7 @@ router.get('/associated', auth.isAuthenticated, function (req, res) {
 router.get('/analysts', auth.isAuthenticated, function (req, res) {
 
   User.getByQuery({ type: "Analista" }).then((users) => {
-    console.log(users);
+    //console.log(users);
     res.render('admin/users/analysts', { title: 'Produdores', layout: 'layoutDashboard.hbs', users, ...req.session });
 
   }).catch((error) => {
@@ -116,9 +116,9 @@ router.get('/managers/:id', auth.isAuthenticated, function (req, res) {
 router.get('/producers/:id', auth.isAuthenticated, function (req, res) {
 
   User.getAssociatedProducersById(req.params.id).then((users) => {
-    console.log(users);
+    //console.log(users);
     User.getById(req.params.id).then((user) => {
-      console.log(user);
+      //console.log(user);
       res.render('admin/users/producers', { title: 'Produtores Associados', layout: 'layoutDashboard.hbs', users, user, ...req.session });
     }).catch((error) => {
       console.warn(error);
