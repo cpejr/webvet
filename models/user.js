@@ -41,7 +41,8 @@ const userSchema = new mongoose.Schema({
     neighborhood: String,
     complement: String,
     city: String,
-    state: String
+    state: String,
+    IE: String,
   },
   debt: {
     type: Boolean, //1 for debtor, 0 for not debtor

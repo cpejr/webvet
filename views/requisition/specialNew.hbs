@@ -4,77 +4,137 @@
 <form action="/requisition/specialnew" method="post" class="d-flex flex-column align-items-center">
     <div class="col-md-10 d-flex flex-column m-3">
         <h5 class="mb-4">Selecione o Usuário</h5>
-        <select required="required" id="adminUser" type="" name="requisition[user]" value=""
-            class="drowdownoptions col-md-12" placeholder="Selecione o Usuário">
-            <option disabled selected value="">Selecione o Usuário que vai fazer a requisição</option>
-            {{#each users}}
-                <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
-            {{/each}}
-        </select>
+        <div class="requisition-text col-md-12 d-flex align-items-center">
+            <select required="required" id="adminUser" type="" name="requisition[user]" value=""
+                class="drowdownoptions col-md-12" placeholder="Selecione o Usuário">
+                <option disabled selected value="">Selecione o Usuário que vai fazer a requisição</option>
+                {{#each users}}
+                    <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+                {{/each}}
+            </select>
+        </div>
     </div>
-    <div class="col-md-10">
-        <h5 class="mb-4">Dados de endereço</h5>
+    <div class="col-md-10 m-3">
+        <h5 class="mb-4">Dados de cobrança</h5>
         <div class="d-flex flex-row">
             <div class="col-md-6 requisition-text">
-                <h6 class="col-md-10 d-flex flex-row"> 
+                <h6 class="col-md-10 d-flex flex-row">
                     Razão Social/Nome Completo
                 </h6>
-                <input required id="fullname" type="text" name="requisition[client][fullname]" value=""
+                <input required id="fullname" type="text" name="requisition[client][fullname]" 
                     class="col-md-10" placeholder="Razão Social/Nome Completo">
             </div>
             <div class="col-md-6 requisition-text">
-                <h6 class="col-md-10 d-flex flex-row"> 
+                <h6 class="col-md-10 d-flex flex-row">
                     CNPJ/CPF
                 </h6>
-                <input required id="register" type="text" name="requisition[client][register]" value=""
+                <input required id="register" type="text" name="requisition[client][register]"
                     class="col-md-10" placeholder="CNPJ/CPF">
             </div>
         </div>
         <div class="d-flex flex-row">
             <div class="col-md-6 requisition-text">
-                <h6 class="col-md-10 d-flex flex-row"> 
+                <h6 class="col-md-10 d-flex flex-row">
                     I.E:
                 </h6>
                 <input required id="IE" type="text" name="requisition[IE]" class="col-md-10" placeholder="I.E">
             </div>
             <div class="col-md-6 requisition-text">
-                <h6 class="col-md-10 d-flex flex-row"> 
+                <h6 class="col-md-10 d-flex flex-row">
                     Rua de endereço de Faturamento
                 </h6>
-                <input required id="street" type="text" name="requisition[address][street]" value="" class="col-md-12"
+                <input required id="street" type="text" name="requisition[address][street]" class="col-md-10"
                     placeholder="Rua de endereço de Faturamento">
             </div>
         </div>
         <div class="d-flex flex-row">
             <div class="col-md-6 requisition-text">
-                <h6 class="col-md-10 d-flex flex-row"> 
+                <h6 class="col-md-10 d-flex flex-row">
                     Nº
                 </h6>
-                <input required id="number" type="text" name="requisition[address][number]" value="" class="col-md-12"
+                <input required id="number" type="text" name="requisition[address][number]" value="" class="col-md-10"
                     placeholder="Nº">
             </div>
             <div class="col-md-6 requisition-text">
-                <h6 class="col-md-10 d-flex flex-row"> 
+                <h6 class="col-md-10 d-flex flex-row">
                     Complemento
                 </h6>
-                <input id="complement" type="text" name="requisition[address][complement]" value=""
-                    class="col-md-10" placeholder="Complemento">
+                <input id="complement" type="text" name="requisition[address][complement]" value="" class="col-md-10"
+                    placeholder="Complemento">
             </div>
         </div>
         <div class="d-flex flex-row">
             <div class="col-md-6 requisition-text">
-                <h6 class="col-md-10 d-flex flex-row"> 
+                <h6 class="col-md-10 d-flex flex-row">
                     Bairro:
                 </h6>
                 <input required id="neighborhood" type="text" name="requisition[address][neighborhood]" value=""
                     class="col-md-10" placeholder="Bairro">
             </div>
             <div class="col-md-6 requisition-text">
-                <h6 class="col-md-10 d-flex flex-row"> 
-                    Cidade
+                <h6 class="col-md-10 d-flex flex-row">
+                    Cidade:
                 </h6>
                 <input required id="city" type="text" name="requisition[address][city]" value="" class="col-md-12"
                     placeholder="Cidade">
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="col-md-6 requisition-text">
+                <h6 class="col-md-10 d-flex flex-row">
+                    Estado:
+                </h6>
+                <div class="col-md-12 d-flex align-items-center">
+                    <select id="state" class="drowdownoptions mt-3" name="requisition[address][state]"
+                        required="required">
+                        <option disabled selected value="" id="defaultStateOption">Estado</option>
+                        {{#each allStates}}
+                            <option value="{{initials}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 requisition-text">
+                <h6 class="col-md-10 d-flex flex-row">
+                    CEP:
+                </h6>
+                <input required id="cep" type="text" name="requisition[address][cep]" value="" class="col-md-12"
+                    placeholder="CEP">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10 m-3">
+        <h5 class="mb-4">Dados de contato</h5>
+        <div class="d-flex flex-row">
+            <div class="col-md-6 requisition-text">
+                <h6 class="col-md-10 d-flex flex-row">
+                    Responsável pela amostra
+                </h6>
+                <input required id="responsible" type="text" name="requisition[responsible]" 
+                    class="col-md-10" placeholder="Responsável pela amostra">
+            </div>
+            <div class="col-md-6 requisition-text">
+                <h6 class="col-md-10 d-flex flex-row">
+                    Email
+                </h6>
+                <input required id="email" type="email" name="requisition[client][email]"
+                    class="col-md-10" placeholder="Email">
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="col-md-6 requisition-text">
+                <h6 class="col-md-10 d-flex flex-row">
+                    Telefone
+                </h6>
+                <input required id="phone" type="text" name="requisition[client][phone]" 
+                    class="col-md-10" placeholder="Telefone com DDD">
+            </div>
+            <div class="col-md-6 requisition-text">
+                <h6 class="col-md-10 d-flex flex-row">
+                    Celular
+                </h6>
+                <input required id="cellphone" type="text" name="requisition[client][cellphone]"
+                    class="col-md-10" placeholder="Celular com DDD">
             </div>
         </div>
     </div>
