@@ -15,6 +15,8 @@ const admin = require('firebase-admin');
 const flash = require('express-flash');
 const session = require('express-session');
 
+require('./models/email').config();
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const stockRouter = require('./routes/stock');

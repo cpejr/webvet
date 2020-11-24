@@ -1,0 +1,33 @@
+const mongoose = require("mongoose");
+
+const tokenSchema = new mongoose.Schema({
+  service: {
+    type: String,
+    default: "google_mail",
+  },
+  token: {
+    type: Object,
+    required: true,
+  },
+});
+
+const Token = mongoose.model("Token", tokenSchema);
+let token;
+
+const TokenActions = {
+  async getToken(service) {
+    const result = await Token.findOne({ service });
+    return result;
+  },
+
+  async updateToken(service, newFields) {
+    const result = await Token.findOneAndUpdate(
+      { service },
+      { token: newFields }
+    );
+    if (!result) return await Token.create({ service, token: newFields });
+    else return result;
+  },
+};
+
+module.exports = TokenActions;

@@ -19,7 +19,7 @@ function dynamicSort(property) {
 
 router.get('/', async function (req, res) {
   Kit.getAllLastActiveWithSamples().then((toxinas) => {
-
+    console.log(toxinas)
     //Finalizando a forma de como os dados serão enviados ao front
     var displayInfo = [];
 
@@ -49,7 +49,7 @@ router.get('/', async function (req, res) {
       }
       displayInfo.sort(dynamicSort('name'));
     }
-    res.render('sampleresult', { title: 'Curvas de Calibração', displayInfo, ...req.session });
+    res.render('sampleresult', { title: 'Curvas de Calibração', displayInfo, ...req.session, layout:"layoutFinalization.hbs"  });
   });
 });
 
