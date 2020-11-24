@@ -21,15 +21,15 @@
                 <h6 class="col-md-10 d-flex flex-row">
                     Razão Social/Nome Completo
                 </h6>
-                <input required id="fullname" type="text" name="requisition[client][fullname]" 
-                    class="col-md-10" placeholder="Razão Social/Nome Completo">
+                <input required id="fullname" type="text" name="requisition[client][fullname]" class="col-md-10"
+                    placeholder="Razão Social/Nome Completo">
             </div>
             <div class="col-md-6 requisition-text">
                 <h6 class="col-md-10 d-flex flex-row">
                     CNPJ/CPF
                 </h6>
-                <input required id="register" type="text" name="requisition[client][register]"
-                    class="col-md-10" placeholder="CNPJ/CPF">
+                <input required id="register" type="text" name="requisition[client][register]" class="col-md-10"
+                    placeholder="CNPJ/CPF">
             </div>
         </div>
         <div class="d-flex flex-row">
@@ -85,9 +85,8 @@
                     Estado:
                 </h6>
                 <div class="col-md-12 d-flex align-items-center">
-                    <select id="state" class="drowdownoptions mt-3" name="requisition[address][state]"
-                        required="required">
-                        <option disabled selected value="" id="defaultStateOption">Estado</option>
+                    <select required id="state" class="drowdownoptions mt-3" name="requisition[address][state]">
+                        <option disabled selected value="" id="defaultStateOption">Selecione um Estado</option>
                         {{#each allStates}}
                             <option value="{{initials}}">{{name}}</option>
                         {{/each}}
@@ -110,15 +109,15 @@
                 <h6 class="col-md-10 d-flex flex-row">
                     Responsável pela amostra
                 </h6>
-                <input required id="responsible" type="text" name="requisition[responsible]" 
-                    class="col-md-10" placeholder="Responsável pela amostra">
+                <input required id="responsible" type="text" name="requisition[responsible]" class="col-md-10"
+                    placeholder="Responsável pela amostra">
             </div>
             <div class="col-md-6 requisition-text">
                 <h6 class="col-md-10 d-flex flex-row">
                     Email
                 </h6>
-                <input required id="email" type="email" name="requisition[client][email]"
-                    class="col-md-10" placeholder="Email">
+                <input required id="email" type="email" name="requisition[client][email]" class="col-md-10"
+                    placeholder="Email">
             </div>
         </div>
         <div class="d-flex flex-row">
@@ -126,17 +125,66 @@
                 <h6 class="col-md-10 d-flex flex-row">
                     Telefone
                 </h6>
-                <input required id="phone" type="text" name="requisition[client][phone]" 
-                    class="col-md-10" placeholder="Telefone com DDD">
+                <input required id="phone" type="text" name="requisition[client][phone]" class="col-md-10"
+                    placeholder="Telefone com DDD">
             </div>
             <div class="col-md-6 requisition-text">
                 <h6 class="col-md-10 d-flex flex-row">
                     Celular
                 </h6>
-                <input required id="cellphone" type="text" name="requisition[client][cellphone]"
-                    class="col-md-10" placeholder="Celular com DDD">
+                <input required id="cellphone" type="text" name="requisition[client][cellphone]" class="col-md-10"
+                    placeholder="Celular com DDD">
             </div>
         </div>
+    </div>
+    <div class="col-md-10 m-3">
+        <h5 class="mb-4">Requisição de Análise</h5>
+        <div class="d-flex flex-row">
+            <div class="col-md-6 requisition-text">
+                <h6 class="col-md-10 d-flex flex-row">
+                    Nome do cliente | Fazenda | Produtor
+                </h6>
+                <input required id="producer" type="text" name="requisition[producer]" class="col-md-10"
+                    placeholder="Nome do cliente | Fazenda | Produtor">
+            </div>
+            <div class="col-md-6 requisition-text">
+                <h6 class="col-md-10 d-flex flex-row">
+                    Numero de Autorização
+                </h6>
+                <input required id="autorizationumber" type="text" name="requisition[autorizationumber]"
+                    class="col-md-10" placeholder="Numero de Autorização">
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="col-md-4 requisition-text">
+                <h6 class="col-md-12 d-flex flex-row">
+                    Município
+                </h6>
+                <input required id="reqCity" type="text" name="requisition[city]" class="col-md-10"
+                    placeholder="Município">
+            </div>
+            <div class="col-md-4 requisition-text">
+                <h6 class="col-md-12 d-flex flex-row">
+                    Estado
+                </h6>
+                <div class="col-md-12 d-flex align-items-center">
+                    <select required id="reqState" class="drowdownoptions mt-3" name="requisition[state]">
+                        <option disabled selected value="" id="defaultStateReqOption">Selecione um Estado</option>
+                        {{#each allStates}}
+                            <option value="{{initials}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 requisition-text">
+                <h6 class="col-md-12 d-flex flex-row">
+                    Data de Coleta
+                </h6>
+                <input required id="datecollection" type="text" name="requisition[datecollection]" class="col-md-10"
+                    placeholder="Data de Coleta">
+            </div>
+        </div>
+        <h5 class="mb-4">Identificação de amostra</h5>
     </div>
 </form>
 {{!-- Input usado para buscar o vetor de usuários no JQuery depois --}}
