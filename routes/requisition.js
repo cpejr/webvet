@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const auth = require("../middlewares/auth");
 const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
@@ -18,18 +17,54 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
 });
 
 //Rota para o admin criar várias requisições facilmente
-router.get("/specialnew", /*auth.isAuthenticated, auth.isFromLab,*/ async function (req, res) {
-  let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-  const stringUsers = JSON.stringify(users);
-  res.render("requisition/specialnew", {
-    title: "Criar requisição",
-    layout: "layoutDashboard.hbs",
-    users,
-    stringUsers,
-    allStates,
-    allDestinations,
-    ToxinasAll
-  });
+router.get(
+  "/specialnew",
+  /*auth.isAuthenticated, auth.isFromLab,*/ async function (req, res) {
+    let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+    const stringUsers = JSON.stringify(users);
+    res.render("requisition/specialnew", {
+      title: "Criar requisição",
+      layout: "layoutDashboard.hbs",
+      users,
+      stringUsers,
+      allStates,
+      allDestinations,
+      ToxinasAll,
+    });
+  }
+);
+
+router.post("/specialnewrequisition", async function (req, res) {
+  const { requisition } = req.body;
+  console.log("Nova requisição: ", newRequisition);
+
+  const sampleVector = [...requisition.sampleVector];
+  delete requisition.sampleVector;
+
+  const requisitionId = await Requisition.create(requisition);
+  let sampleObjects = new Array();
+  sampleVector &&
+    sampleVector.forEach((sampleInfo) => {
+      const { name, citrus } = sampleInfo;
+      let sample = {
+        name,
+        sampleNumber: -1,
+        requisitionId,
+        responsible: requisition.responsible,
+        requisitionId: NaN,
+        isCitrus: citrus ? true : false,
+      };
+      ToxinasAll.forEach((toxina)=>{
+        const value = requisition.mycotoxin.includes(toxina.Formal) ? true : false;
+        sample[toxina.Full] = {active: value};
+      })
+      sampleObjects.push(sample);
+    });
+  
+    const sample_ids = await Sample.createMany(sampleObjects);
+    
+
+  res.redirect("/requisition/specialnew");
 });
 
 router.post("/delete/:id", auth.isAuthenticated, auth.isAdmin, (req, res) => {
@@ -52,6 +87,7 @@ router.post("/new", auth.isAuthenticated, function (req, res) {
     requisition.destination = requisition.destination.toString();
 
   if (req.body.producerAddress == 0) {
+    //Provavelmente está errado. Tá substituindo o que a pessoa digitou
     const address = req.session.user.address;
     requisition.address = address;
   }

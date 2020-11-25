@@ -2,7 +2,7 @@
     <h4>Formulário facilitado de registro de requisição e amostras</h4>
     <h5 class="mt-4">Parte 1: Criar requisição</h5>
 </div>
-<form action="/requisition/specialnew" method="post" class="d-flex flex-column align-items-center">
+<form action="/requisition/specialnewrequisition" method="post" class="d-flex flex-column align-items-center">
 
     <div class="col-md-10 d-flex flex-column m-3">
         <h5 class="mb-4">Selecione o Usuário</h5>
@@ -226,7 +226,7 @@
             </div>
         </div>
     </div>
-    <div class="requisition-text col-md-12 mt-4">
+    <div class="requisition-text col-md-10 mt-3">
         <textarea class="requisition-text w-100" name="requisition[comment]" placeholder="Observações"
             rows="4" /></textarea>
     </div>
@@ -248,6 +248,10 @@
                 composição)
                 requer purificação adicional - Destacar esta informação na amostra enviada!</strong>
         </div>
+    </div>
+    <div class="col-md-10 m-3">
+        <button type="button" class="btn btn-primary">Ir para Parte 2 sem criar requisição</button>
+        <button type="submit" class="btn btn-success">Criar nova requisição</button>
     </div>
 </form>
 {{!-- Input usado para buscar o vetor de usuários no JQuery depois --}}
