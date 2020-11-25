@@ -200,7 +200,7 @@
         </div>
     </div>
 
-    <div class="col-md-10 m-3">
+    <div class="col-md-10 m-3" id="samples">
         <h5 class="mb-4">Identificação de Amostra</h5>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não <strong>polpa
@@ -225,10 +225,10 @@
                 </div>
             </div>
         </div>
-        <div class="requisition-text col-md-12 mt-4">
-            <textarea class="requisition-text w-100" name="requisition[comment]" placeholder="Observações"
-                rows="4" /></textarea>
-        </div>
+    </div>
+    <div class="requisition-text col-md-12 mt-4">
+        <textarea class="requisition-text w-100" name="requisition[comment]" placeholder="Observações"
+            rows="4" /></textarea>
     </div>
 
     <div class="col-md-10 m-3">
@@ -249,7 +249,6 @@
                 requer purificação adicional - Destacar esta informação na amostra enviada!</strong>
         </div>
     </div>
-
 </form>
 {{!-- Input usado para buscar o vetor de usuários no JQuery depois --}}
 <input hidden id="users" value="{{stringUsers}}" type="text/javascript" />
