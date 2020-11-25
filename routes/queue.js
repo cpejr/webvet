@@ -1,15 +1,7 @@
 const express = require('express');
-const firebase = require('firebase');
 const router = express.Router();
-const mongoose = require('mongodb');
 const auth = require('../middlewares/auth');
-const Sample = require('../models/sample');
-const Requisition = require('../models/requisition');
-const User = require('../models/user');
 const Kit = require('../models/kit');
-
-// O IS isAuthenticated TA COMENTADO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 /* GET home page. */
 router.get('/', auth.isAuthenticated, function (req, res) {
