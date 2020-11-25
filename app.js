@@ -91,6 +91,19 @@ allStates = [
   {name: "Sergipe", initials: "SE"},
   {name: "Tocantins", initials: "TO"}
 ];
+allDestinations = [
+  "Aves",
+  "Gado de Leite",
+  "Gado de Corte",
+  "Suínos",
+  "Equinos",
+  "Caprinos",
+  "Ovinos",
+  "Peixes",
+  "Pet",
+  "Matéria Prima",
+  "Outros"
+]
 
 for (let i = 0; i < ToxinasFull.length; i++) {
   ToxinasAll[i] = {

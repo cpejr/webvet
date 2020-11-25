@@ -21,16 +21,37 @@ $("#adminUser").on("change", function (event) {
   let selectedUser = users.find((user) => user._id === event.target.value);
   findAndUpdateValue("#fullname", selectedUser.fullname);
   findAndUpdateValue("#register", selectedUser.register);
-  findAndUpdateValue("#IE", selectedUser.address.ie);
-  findAndUpdateValue("#street", selectedUser.address.street);
-  findAndUpdateValue("#number", selectedUser.address.number);
-  findAndUpdateValue("#complement", selectedUser.address.complement);
-  findAndUpdateValue("#neighborhood", selectedUser.address.neighborhood);
-  findAndUpdateValue("#city", selectedUser.address.city);
-  findAndUpdateValue("#cep", selectedUser.address.cep);
+  findAndUpdateValue(
+    "#IE",
+    selectedUser.address ? selectedUser.address.ie : undefined
+  );
+  findAndUpdateValue(
+    "#street",
+    selectedUser.address ? selectedUser.address.street : undefined
+  );
+  findAndUpdateValue(
+    "#number",
+    selectedUser.address ? selectedUser.address.number : undefined
+  );
+  findAndUpdateValue(
+    "#complement",
+    selectedUser.address ? selectedUser.address.complement : undefined
+  );
+  findAndUpdateValue(
+    "#neighborhood",
+    selectedUser.address ? selectedUser.address.neighborhood : undefined
+  );
+  findAndUpdateValue(
+    "#city",
+    selectedUser.address ? selectedUser.address.city : undefined
+  );
+  findAndUpdateValue(
+    "#cep",
+    selectedUser.address ? selectedUser.address.cep : undefined
+  );
   findAndSelectCorrectly(
     "#state",
-    selectedUser.address.state,
+    selectedUser.address ? selectedUser.address.state : undefined,
     "#defaultStateOption"
   );
 
@@ -41,6 +62,13 @@ $("#adminUser").on("change", function (event) {
   findAndUpdateValue("#cellphone", selectedUser.cellphone);
 
   //Requisição de Análise
-  findAndUpdateValue("#reqCity", selectedUser.address.city);
-  findAndSelectCorrectly("#reqState", selectedUser.address.state, "#defaultStateReqOption");
+  findAndUpdateValue(
+    "#reqCity",
+    selectedUser.address ? selectedUser.address.city : undefined
+  );
+  findAndSelectCorrectly(
+    "#reqState",
+    selectedUser.address ? selectedUser.address.state : undefined,
+    "#defaultStateReqOption"
+  );
 });
