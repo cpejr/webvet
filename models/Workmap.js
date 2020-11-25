@@ -1,7 +1,5 @@
-const express = require('express');
 const mongoose = require('mongoose');
 const Counter = require('../models/counter');
-
 
 const workmapSchema = new mongoose.Schema({
   mapID: String,

@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const firebase = require('firebase');
-const mongoose = require('mongodb');
 const auth = require('../middlewares/auth');
 const User = require('../models/user');
 const Sample = require('../models/sample');

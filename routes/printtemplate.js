@@ -1,13 +1,7 @@
 
 var express = require('express');
-var firebase = require('firebase');
 var router = express.Router();
-const auth = require('../middlewares/auth');
-const User = require('../models/user');
-const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
-const Email = require('../models/email');
-const Workmap = require('../models/Workmap');
 const Sample = require('../models/sample');
 
 
