@@ -26,7 +26,9 @@ router.get("/specialnew", /*auth.isAuthenticated, auth.isFromLab,*/ async functi
     layout: "layoutDashboard.hbs",
     users,
     stringUsers,
-    allStates
+    allStates,
+    allDestinations,
+    ToxinasAll
   });
 });
 
