@@ -27,6 +27,7 @@ router.get('/', async function (req, res) {
       let { calibrators, samples, productCode } = toxinas[i];
 
       let toxinaSigla = productCode.replace(" Romer", "");
+      
       //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
       if (toxinaSigla === "FUMO")
         toxinaSigla = "FBS";

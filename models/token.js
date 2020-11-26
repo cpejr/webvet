@@ -20,12 +20,18 @@ const TokenActions = {
     return result;
   },
 
-  async updateToken(service, newFields) {
+  async updateOrCreateToken(service, newTokenFields) {
+
+    const newFieldsToUpdate = {};
+    Object.keys(newTokenFields).forEach((key) => {
+      newFieldsToUpdate[`token.${key}`] = newTokenFields[key];
+    });
+
     const result = await Token.findOneAndUpdate(
       { service },
-      { token: newFields }
+      { $set: newFieldsToUpdate }
     );
-    if (!result) return await Token.create({ service, token: newFields });
+    if (!result) return await Token.create({ service, token: newTokenFields });
     else return result;
   },
 };

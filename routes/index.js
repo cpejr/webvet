@@ -5,15 +5,10 @@ var router = express.Router();
 const auth = require("./middleware/auth");
 const User = require("../models/user");
 const Email = require("../models/email");
+const GmailOAuth = require("../utils/GmailOAuth");
 
 /* GET home page. */
 router.get("/", (req, res) => {
-  console.log("alo")
-  Email.userWaitingForApproval(
-    "arthurbraga@cpejr.com.br",
-    "Arthur Braga"
-  ).catch((error) => console.log(error));
-
   res.redirect("/login");
 });
 
@@ -214,11 +209,11 @@ router.get("/validateCredentials", async (request, response) => {
     const code = decodeURI(request.query.code);
     const scope = decodeURI(request.query.scope);
 
-    await Email.validateCredentials(code, scope);
+    await GmailOAuth.validateCredentials(code, scope);
 
     response.status(200).json({ response: "ok" });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     response.status(400).json({ error: "Invalid data" });
   }
 });

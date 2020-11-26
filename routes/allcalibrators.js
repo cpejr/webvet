@@ -1,14 +1,8 @@
 
 var express = require('express');
-var firebase = require('firebase');
 var router = express.Router();
 const auth = require('./middleware/auth');
-const User = require('../models/user');
-const Requisition = require('../models/requisition');
 const Kit = require('../models/kit');
-const Email = require('../models/email');
-const Workmap = require('../models/Workmap');
-const Sample = require('../models/sample');
 
 router.get('/', (req, res) => {
   var names = ["AFLA", "DON", "FBS", "OTA", "T2", "ZEA"];
