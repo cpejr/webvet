@@ -195,7 +195,30 @@
                     Data de Coleta:
                 </h6>
                 <input required id="datecollection" type="text" name="requisition[datecollection]" class="col-md-10"
-                    placeholder="Data de Coleta">
+                    placeholder="dd/mm/aa">
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="col-md-4 requisition-text">
+                <h6 class="col-md-12 d-flex flex-row">
+                    Tipo de embalagem:
+                </h6>
+                <input required id="packingtype" type="text" name="requisition[packingtype]" class="col-md-10"
+                    placeholder="Tipo de embalagem:">
+            </div>
+            <div class="col-md-4 requisition-text">
+                <h6 class="col-md-12 d-flex flex-row">
+                    Quantidade recebida:
+                </h6>
+                <input required id="receivedquantity" type="number" name="requisition[receivedquantity]" class="col-md-10"
+                    placeholder="Quantidade recebida">
+            </div>
+            <div class="col-md-4 requisition-text">
+                <h6 class="col-md-12 d-flex flex-row">
+                    Data de Recebimento:
+                </h6>
+                <input required id="datereceipt" type="text" name="requisition[datereceipt]" class="col-md-10"
+                    placeholder="dd/mm/aa">
             </div>
         </div>
     </div>
@@ -227,7 +250,7 @@
         </div>
     </div>
     <div class="requisition-text col-md-10 mt-3">
-        <textarea class="requisition-text w-100" name="requisition[comment]" placeholder="Observações"
+        <textarea class="requisition-text w-100" id="observations" name="requisition[comment]" placeholder="Observações"
             rows="4" /></textarea>
     </div>
 

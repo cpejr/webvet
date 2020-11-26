@@ -19,7 +19,9 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
 //Rota para o admin criar várias requisições facilmente
 router.get(
   "/specialnew",
-  /*auth.isAuthenticated, auth.isFromLab,*/ async function (req, res) {
+  auth.isAuthenticated,
+  auth.isFromLab,
+  async function (req, res) {
     let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
     const stringUsers = JSON.stringify(users);
     res.render("requisition/specialnew", {
@@ -30,42 +32,59 @@ router.get(
       allStates,
       allDestinations,
       ToxinasAll,
+      ...req.session,
     });
   }
 );
 
-router.post("/specialnewrequisition", async function (req, res) {
-  const { requisition } = req.body;
-  console.log("Nova requisição: ", newRequisition);
+router.post(
+  "/specialnewrequisition",
+  auth.isAuthenticated,
+  auth.isFromLab,
+  async function (req, res) {
+    const { requisition } = req.body;
 
-  const sampleVector = [...requisition.sampleVector];
-  delete requisition.sampleVector;
+    const sampleVector = [...requisition.sampleVector];
+    delete requisition.sampleVector;
 
-  const requisitionId = await Requisition.create(requisition);
-  let sampleObjects = new Array();
-  sampleVector &&
-    sampleVector.forEach((sampleInfo) => {
-      const { name, citrus } = sampleInfo;
-      let sample = {
-        name,
-        sampleNumber: -1,
-        requisitionId,
-        responsible: requisition.responsible,
-        requisitionId: NaN,
-        isCitrus: citrus ? true : false,
-      };
-      ToxinasAll.forEach((toxina)=>{
-        const value = requisition.mycotoxin.includes(toxina.Formal) ? true : false;
-        sample[toxina.Full] = {active: value};
-      })
-      sampleObjects.push(sample);
-    });
-  
-    const sample_ids = await Sample.createMany(sampleObjects);
-    
+    try {
+      const requisitionId = await Requisition.create(requisition);
+      let sampleObjects = new Array();
+      sampleVector &&
+        sampleVector.forEach((sampleInfo) => {
+          const { name, citrus } = sampleInfo;
+          let sample = {
+            name,
+            sampleNumber: -1,
+            requisitionId,
+            responsible: requisition.responsible,
+            isCitrus: citrus ? true : false,
+          };
+          ToxinasAll.forEach((toxina) => {
+            const value = requisition.mycotoxin.includes(toxina.Formal)
+              ? true
+              : false;
+            sample[toxina.Full] = { active: value };
+          });
+          sampleObjects.push(sample);
+        });
 
-  res.redirect("/requisition/specialnew");
-});
+      const newSamples = await Sample.createMany(sampleObjects);
+      let promiseVector = new Array();
+      newSamples.forEach((sample) => {
+        const id = sample.id;
+        promiseVector.push(Requisition.addSample(requisitionId, id));
+      });
+      await Promise.all(promiseVector);
+
+      req.flash("success", "Nova requisição enviada");
+      res.redirect("/requisition");
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
+  }
+);
 
 router.post("/delete/:id", auth.isAuthenticated, auth.isAdmin, (req, res) => {
   Requisition.delete(req.params.id).then(() => {
