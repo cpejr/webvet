@@ -186,7 +186,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
 
           toxinData.result = result;
           toxinData.resultText = resultText;
-          toxinData.resultChart = resultChart;
+          toxinData.resultChart = Number(resultChart);
           toxinData.checked = toxinInfo.checked;
           toxinData.roundResult = roundResult;
         }

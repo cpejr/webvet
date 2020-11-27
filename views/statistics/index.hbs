@@ -7,3 +7,54 @@
         <input type="submit" class="btn btn-success" value="Gráficos DotPlot" />
     </form>
 </div>
+<table class="table table-striped mt-5">
+    <thead>
+        <tr>
+            <th scope="col">Total de amostras</th>
+            <th scope="col">Aflatoxinas</th>
+            <th scope="col">Deoxinivalenol</th>
+            <th scope="col">Fumonisinas</th>
+            <th scope="col">Ocratoxina A</th>
+            <th scope="col">T-2 toxina</th>
+            <th scope="col">Zearalenona</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each tableRows}}
+        <tr>
+            {{#each this}}
+                {{#if @first}}
+                    <th scope="row" class="text-left">{{this}}</th>
+                {{else}}
+                    <td>{{this}}</td>
+                {{/if}}
+            {{/each}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<table class="table table-striped mt-5">
+    <thead>
+        <tr>
+            <th scope="row" colspan="6">Limiar de risco</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Aflatoxinas</th>
+            <th scope="row">Deoxinivalenol</th>
+            <th scope="row">Fumonisinas</th>
+            <th scope="row">Ocratoxina A</th>
+            <th scope="row">T-2 toxina</th>
+            <th scope="row">Zearalenona</th>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>150</td>
+            <td>500</td>
+            <td>10</td>
+            <td>50</td>
+            <td>50</td>
+        </tr>
+    </tbody>
+</table>
