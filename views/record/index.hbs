@@ -11,25 +11,25 @@
     </thead>
     <tbody>
       {{#each requisitions}}
-          <tr>
-            <th>
-              {{requisitionnumber}}
-            </th>
-            <th>
-              {{#compare status 'Nova'}}
-                <span class="badge badge-pill badge-warning">Em Progresso</span>
-              {{/compare}}
-              {{#compare status 'Aprovada'}}
-                <span class="badge badge-pill badge-success">Aprovada</span>
-              {{/compare}}
-              {{#compare status 'Cancelada'}}
-                <span class="badge badge-pill badge-danger">Cancelada</span>
-              {{/compare}}
-            </th>
-            <th>
-              <button onClick="location.href='requisition/useredit/{{_id}}'" class="fa fa-info btn m-1"></button>
-            </th>
-          </tr>
+        <tr>
+          <th>
+            {{requisitionnumber}}
+          </th>
+          <th>
+            {{#compare status 'Nova'}}
+              <span class="badge badge-pill badge-warning">Em Progresso</span>
+            {{/compare}}
+            {{#compare status 'Aprovada'}}
+              <span class="badge badge-pill badge-success">Aprovada</span>
+            {{/compare}}
+            {{#compare status 'Cancelada'}}
+              <span class="badge badge-pill badge-danger">Cancelada</span>
+            {{/compare}}
+          </th>
+          <th>
+            <button onClick="location.href='requisition/useredit/{{_id}}'" class="fa fa-info btn m-1"></button>
+          </th>
+        </tr>
       {{/each}}
     </tbody>
   </table>

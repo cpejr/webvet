@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-
 const auth = require("../middlewares/auth");
 const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
 const User = require("../models/user");
+const Kit = require("../models/kit");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
@@ -18,19 +18,101 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
 });
 
 //Rota para o admin criar várias requisições facilmente
-router.get("/specialnew", /*auth.isAuthenticated, auth.isFromLab,*/ async function (req, res) {
-  let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-  const stringUsers = JSON.stringify(users);
-  res.render("requisition/specialnew", {
-    title: "Criar requisição",
-    layout: "layoutDashboard.hbs",
-    users,
-    stringUsers,
-    allStates,
-    allDestinations,
-    ToxinasAll
-  });
-});
+router.get(
+  "/specialnew",
+  auth.isAuthenticated,
+  auth.isFromLab,
+  async function (req, res) {
+    try {
+      let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+      const stringUsers = JSON.stringify(users);
+      res.render("requisition/specialnew", {
+        title: "Criar requisição",
+        layout: "layoutDashboard.hbs",
+        users,
+        stringUsers,
+        allStates,
+        allDestinations,
+        ToxinasAll,
+        ...req.session,
+      });
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
+  }
+);
+
+router.get(
+  "/specialpanel",
+  auth.isAuthenticated,
+  auth.isAdmin,
+  async function (req, res) {
+    try {
+      const allKits = await Kit.getAllForSpecialPanel();
+      const allSamples = await Sample.getAll();
+      console.log(allKits);
+      res.render("requisition/specialpanel", {
+        title: "Painél de administração de amostras",
+        layout: "layoutDashboard.hbs",
+        ...req.session,
+        allKits,
+      })
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
+  }
+);
+
+router.post(
+  "/specialnewrequisition",
+  auth.isAuthenticated,
+  auth.isFromLab,
+  async function (req, res) {
+    const { requisition } = req.body;
+
+    const sampleVector = [...requisition.sampleVector];
+    delete requisition.sampleVector;
+
+    try {
+      const requisitionId = await Requisition.create(requisition);
+      let sampleObjects = new Array();
+      sampleVector &&
+        sampleVector.forEach((sampleInfo) => {
+          const { name, citrus } = sampleInfo;
+          let sample = {
+            name,
+            sampleNumber: -1,
+            requisitionId,
+            responsible: requisition.responsible,
+            isCitrus: citrus ? true : false,
+          };
+          ToxinasAll.forEach((toxina) => {
+            const value = requisition.mycotoxin.includes(toxina.Formal)
+              ? true
+              : false;
+            sample[toxina.Full] = { active: value };
+          });
+          sampleObjects.push(sample);
+        });
+
+      const newSamples = await Sample.createMany(sampleObjects);
+      let promiseVector = new Array();
+      newSamples.forEach((sample) => {
+        const id = sample.id;
+        promiseVector.push(Requisition.addSample(requisitionId, id));
+      });
+      await Promise.all(promiseVector);
+
+      req.flash("success", "Nova requisição enviada");
+      res.redirect("/requisition");
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
+  }
+);
 
 router.post("/delete/:id", auth.isAuthenticated, auth.isAdmin, (req, res) => {
   Requisition.delete(req.params.id).then(() => {
@@ -52,6 +134,7 @@ router.post("/new", auth.isAuthenticated, function (req, res) {
     requisition.destination = requisition.destination.toString();
 
   if (req.body.producerAddress == 0) {
+    //Provavelmente está errado. Tá substituindo o que a pessoa digitou
     const address = req.session.user.address;
     requisition.address = address;
   }

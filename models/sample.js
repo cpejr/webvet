@@ -727,15 +727,6 @@ class Sample {
 
   static getAllActiveWithWorkmap() {
     return new Promise((resolve, reject) => {
-      const ToxinasFull = [
-        "aflatoxina",
-        "deoxinivalenol",
-        "fumonisina",
-        "ocratoxina",
-        "t2toxina",
-        "zearalenona",
-      ];
-
       var querry = { $or: [] };
 
       for (let index = 0; index < ToxinasFull.length; index++) {
@@ -891,38 +882,36 @@ class Sample {
    * @param {Object} project - Sample Document Data
    * @returns {string} New Sample Id
    */
-  static create(sample) {
-    return new Promise((resolve, reject) => {
-      Counter.getSampleCount().then(async (sampleNumber) => {
-        let count = sampleNumber;
-        sample.samplenumber = count;
-
-        var value = await SampleModel.create(sample);
-        count++;
-        Counter.setSampleCount(count);
-        resolve(value);
-      });
-    });
+  static async create(sample) {
+    try {
+      let sampleNumber = await Counter.getSampleCount();
+      sample.sampleNumber = sampleNumber;
+      const result = await SampleModel.create(sample);
+      sampleNumber++;
+      await Counter.setSampleCount(sampleNumber);
+      return result;
+    } catch (error) {
+      console.warn(error);
+      return error;
+    }
   }
 
-  static createMany(samples) {
-    return new Promise((resolve, reject) => {
-      let result = [];
-      Counter.getSampleCount().then(async (sampleNumber) => {
-        let count = sampleNumber;
-        for (let index = 0; index < samples.length; index++) {
-          const element = samples[index];
-          element.samplenumber = count;
-
-          var value = await SampleModel.create(element);
-
-          result.push(value);
-          count++;
-        }
-        Counter.setSampleCount(count);
-        resolve(result);
+  static async createMany(samples) {
+    let manySamples = [];
+    try {
+      let sampleNumber = await Counter.getSampleCount();
+      samples.forEach((sample) => {
+        sample.samplenumber = sampleNumber;
+        manySamples.push(sample);
+        sampleNumber++;
       });
-    });
+      const result = await SampleModel.create(manySamples);
+      await Counter.setSampleCount(sampleNumber);
+      return result;
+    } catch (error) {
+      console.warn(error);
+      return error;
+    }
   }
 
   static updateAflaWorkmap(id, cont) {
