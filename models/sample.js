@@ -727,15 +727,6 @@ class Sample {
 
   static getAllActiveWithWorkmap() {
     return new Promise((resolve, reject) => {
-      const ToxinasFull = [
-        "aflatoxina",
-        "deoxinivalenol",
-        "fumonisina",
-        "ocratoxina",
-        "t2toxina",
-        "zearalenona",
-      ];
-
       var querry = { $or: [] };
 
       for (let index = 0; index < ToxinasFull.length; index++) {

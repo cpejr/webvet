@@ -602,6 +602,27 @@ class Kit {
     });
   }
 
+  static async getAllForSpecialPanel(){
+    try {
+      const result = KitModel.aggregate([
+        {$match: {
+          deleted: false
+        }},
+        {$project: {
+          Lod: 1,
+          Loq: 1,
+          provider: 1,
+          productCode: 1,
+          productDescription: 1
+        }},
+      ])
+      return result;
+    } catch (error) {
+      console.warn(error);
+      return error;
+    }
+  }
+
   static countAvailableWorkmaps() {
     return new Promise((resolve, reject) => {
       KitModel.aggregate([

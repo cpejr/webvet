@@ -4,6 +4,7 @@ const auth = require("../middlewares/auth");
 const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
 const User = require("../models/user");
+const Kit = require("../models/kit");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
@@ -22,18 +23,45 @@ router.get(
   auth.isAuthenticated,
   auth.isFromLab,
   async function (req, res) {
-    let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-    const stringUsers = JSON.stringify(users);
-    res.render("requisition/specialnew", {
-      title: "Criar requisição",
-      layout: "layoutDashboard.hbs",
-      users,
-      stringUsers,
-      allStates,
-      allDestinations,
-      ToxinasAll,
-      ...req.session,
-    });
+    try {
+      let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+      const stringUsers = JSON.stringify(users);
+      res.render("requisition/specialnew", {
+        title: "Criar requisição",
+        layout: "layoutDashboard.hbs",
+        users,
+        stringUsers,
+        allStates,
+        allDestinations,
+        ToxinasAll,
+        ...req.session,
+      });
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
+  }
+);
+
+router.get(
+  "/specialpanel",
+  auth.isAuthenticated,
+  auth.isAdmin,
+  async function (req, res) {
+    try {
+      const allKits = await Kit.getAllForSpecialPanel();
+      const allSamples = await Sample.getAll();
+      console.log(allKits);
+      res.render("requisition/specialpanel", {
+        title: "Painél de administração de amostras",
+        layout: "layoutDashboard.hbs",
+        ...req.session,
+        allKits,
+      })
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
   }
 );
 
