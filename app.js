@@ -56,7 +56,7 @@ ToxinasFull = [
 ToxinasFormal = [
   "Aflatoxinas",
   "Deoxinivalenol",
-  "Fumonisina",
+  "Fumonisinas",
   "Ocratoxina A",
   "T-2 toxina",
   "Zearalenona",

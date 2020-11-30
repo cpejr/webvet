@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const UserModel = require("./user");
-
 const covenantSchema = new mongoose.Schema({
   name: String,
   managers: [
