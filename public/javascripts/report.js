@@ -52,7 +52,7 @@ $(document).ready(function () {
       $("#parecer").text(fraseCompleta);
     } else {
       $("#parecer").text(
-        "Não foi detectada a presença de nenhuma toxina na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
+        "Não foi detectada a presença destas micotoxinas na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
       );
     }
   };

@@ -42,7 +42,7 @@ router.get("/show/:id", auth.isAuthenticated, async function (req, res) {
 
     const Requisitiondata = {
       listToxinas: requisition.mycotoxin,
-      toxinas: requisition.mycotoxin.join(", "),
+      toxinas: requisition.mycotoxin.sort().join(", "),
       requisitionnumber: requisition.requisitionnumber,
       year: requisition.createdAt.getFullYear(),
       producer: requisition.producer,
@@ -104,7 +104,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
 
     const Requisitiondata = {
       listToxinas: requisition.mycotoxin,
-      toxinas: requisition.mycotoxin.join(", "),
+      toxinas: requisition.mycotoxin.sort().join(", "),
       requisitionnumber: requisition.requisitionnumber,
       year: requisition.createdAt.getFullYear(),
       producer: requisition.producer,
