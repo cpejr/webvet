@@ -1,7 +1,4 @@
-const express = require("express");
-const router = express.Router();
 const mongoose = require("mongoose");
-const User = require("./user");
 const Counter = require("./counter");
 const Sample = require("./sample");
 
