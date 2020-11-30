@@ -234,7 +234,7 @@ router.get("/", auth.isAuthenticated, function (req, res) {
 router.get(
   "/edit/:id",
   auth.isAuthenticated,
-  auth.isAdmin,
+  auth.isFromLab,
   function (req, res) {
     Requisition.getById(req.params.id)
       .then((requisition) => {
@@ -280,7 +280,7 @@ router.get("/useredit/:id", auth.isAuthenticated, function (req, res) {
 router.post(
   "/edit/:id",
   auth.isAuthenticated,
-  auth.isAdmin,
+  auth.isFromLab,
   function (req, res) {
     var { requisition, sample } = req.body;
     // console.log(sample);
