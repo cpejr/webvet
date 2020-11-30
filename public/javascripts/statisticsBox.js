@@ -73,8 +73,9 @@ const LABEL_DEFAULT = {
   rotation: 90,
 };
 
+const charts = {};
+
 $(document).ready(() => {
-  const charts = {};
   for (let i = 0; i < ToxinasFull.length; i++) {
     const toxina = ToxinasFull[i];
     var ctx = document.getElementById(toxina).getContext("2d");
@@ -152,6 +153,15 @@ $(document).ready(() => {
     });
   }
 
+  LoadChart();
+});
+
+$("#clearStartDate").on("click", function () {
+  console.log("adasd");
+  $("#startDateFilter").reset();
+});
+
+function LoadChart() {
   // Define the data
   $.get("/statistics/resultsData").then((result) => {
     let data = {};
@@ -184,4 +194,4 @@ $(document).ready(() => {
   });
 
   // End Defining data
-});
+}
