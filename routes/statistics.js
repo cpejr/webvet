@@ -22,7 +22,8 @@ router.get('/statesData', auth.isAuthenticated, async (req, res) => {
 });
 
 router.get('/resultsData', async (req, res) => {
-    let data = await Sample.getResultData();
+    const filters = req.query;
+    let data = await Sample.getResultData(filters);
     res.send(data);
 });
 

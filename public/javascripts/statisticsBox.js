@@ -6,6 +6,7 @@ ToxinasFull = [
   "t2toxina",
   "zearalenona",
 ];
+
 ToxinasFormal = [
   "Aflatoxinas",
   "Deoxinivalenol",
@@ -75,7 +76,24 @@ const LABEL_DEFAULT = {
 
 const charts = {};
 
-$(document).ready(() => {
+$(() => {
+  buildCharts();
+  populateCharts();
+
+  $("#clearStartDate").on("click", () => {
+    $("#startDateFilter").val("");
+  });
+
+  $("#clearEndDate").on("click", () => {
+    $("#limitDateFilter").val("");
+  });
+
+  $("#applyFilter").on("click", () => {
+    populateCharts();
+  });
+});
+
+function buildCharts() {
   for (let i = 0; i < ToxinasFull.length; i++) {
     const toxina = ToxinasFull[i];
     var ctx = document.getElementById(toxina).getContext("2d");
@@ -152,18 +170,27 @@ $(document).ready(() => {
       },
     });
   }
+}
 
-  LoadChart();
-});
+function populateCharts() {
+  function buildQueryParams() {
+    const queryParams = [];
 
-$("#clearStartDate").on("click", function () {
-  console.log("adasd");
-  $("#startDateFilter").reset();
-});
+    const startDate = $("#startDateFilter").val();
+    const endDate = $("#limitDateFilter").val();
+    const state = $("#stateFilter").val();
+    const typeFilter = $("#typeFilter").val();
 
-function LoadChart() {
+    if (startDate) queryParams.push(`startDate=${startDate}`);
+    if (endDate) queryParams.push(`endDate=${endDate}`);
+    if (state) queryParams.push(`state=${state}`);
+    if (typeFilter) queryParams.push(`type=${typeFilter}`);
+
+    return queryParams.join("&");
+  }
+
   // Define the data
-  $.get("/statistics/resultsData").then((result) => {
+  $.get(`/statistics/resultsData?${buildQueryParams()}`).then((result) => {
     let data = {};
     for (let j = 0; j < result.length; j++) {
       for (let i = 0; i < ToxinasFull.length; i++) {

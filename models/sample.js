@@ -1080,9 +1080,58 @@ class Sample {
     });
   }
 
-  static async getResultData() {
+  static async getResultData(filters) {
+    const extraOperations = [];
+
+    if (filters) {
+      const { startDate, endDate, state, type } = filters;
+      console.log(type);
+      extraOperations.push({
+        $lookup: {
+          from: "requisitions",
+          localField: "requisitionId",
+          foreignField: "_id",
+          as: "requisitionData",
+        },
+      });
+
+      extraOperations.push({ $unwind: "$requisitionData" });
+
+      if (startDate || endDate) {
+        extraOperations.push({
+          $addFields: {
+            date: {
+              $dateFromString: {
+                dateString: "$requisitionData.datecollection",
+                format: "%d/%m/%Y",
+              },
+            },
+          },
+        });
+      }
+
+      const match = {};
+
+      if (state) match["requisitionData.state"] = state;
+      if (type)
+        match["sampletype"] = {
+          $regex: new RegExp("^" + type.toLowerCase(), "i"),
+        };
+      if (startDate || endDate) {
+        const filter = {};
+
+        if (startDate) filter["$gte"] = new Date(startDate);
+        if (endDate) filter["$lte"] =  new Date(endDate);
+
+        match["date"] = filter;
+      }
+
+      extraOperations.push({ $match: match });
+    }
+
     const result = await SampleModel.aggregate([
       { $match: { finalized: true, report: true } },
+      ...extraOperations,
       {
         $project: {
           aflatoxina: 1,
@@ -1096,6 +1145,7 @@ class Sample {
       },
       { $sort: { createdAt: 1 } },
     ]);
+
     return result;
   }
 }
