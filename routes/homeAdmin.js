@@ -74,10 +74,7 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, async function (req, res) 
 
       for (let j = 0; j < ToxinasSigla.length; j++) {
         let currentTox = ToxinasSigla[j];
-        if (ToxinasSigla[j] === "FBS") {
-          currentTox = "FUMO";
-        }
-        if (productC === ToxinasSigla[j] + " Romer") {
+        if (productC === (ToxinasSigla[j] === 'FBS' ? 'FUMO' : ToxinasSigla[j]) + " Romer") {
           pointIndex = totalKitCounter.findIndex(
             (element) => element.name === currentTox
           );
