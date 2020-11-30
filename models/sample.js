@@ -48,7 +48,7 @@ const sampleSchema = new mongoose.Schema(
       absorbance2: Number,
       result: String,
       resultText: String,
-      resultChart: String,
+      resultChart: Number,
       active: {
         type: Boolean,
         default: false,
@@ -91,7 +91,7 @@ const sampleSchema = new mongoose.Schema(
       absorbance2: Number,
       result: String,
       resultText: String,
-      resultChart: String,
+      resultChart: Number,
       active: {
         type: Boolean,
         default: false,
@@ -134,7 +134,7 @@ const sampleSchema = new mongoose.Schema(
       absorbance2: Number,
       result: String,
       resultText: String,
-      resultChart: String,
+      resultChart: Number,
       active: {
         type: Boolean,
         default: false,
@@ -177,7 +177,7 @@ const sampleSchema = new mongoose.Schema(
       absorbance2: Number,
       result: String,
       resultText: String,
-      resultChart: String,
+      resultChart: Number,
       active: {
         type: Boolean,
         default: false,
@@ -220,7 +220,7 @@ const sampleSchema = new mongoose.Schema(
       absorbance2: Number,
       result: String,
       resultText: String,
-      resultChart: String,
+      resultChart: Number,
       active: {
         type: Boolean,
         default: false,
@@ -263,7 +263,7 @@ const sampleSchema = new mongoose.Schema(
       absorbance2: Number,
       result: String,
       resultText: String,
-      resultChart: String,
+      resultChart: Number,
       active: {
         type: Boolean,
         default: false,
@@ -305,24 +305,6 @@ const sampleSchema = new mongoose.Schema(
 const SampleModel = mongoose.model("Sample", sampleSchema);
 
 class Sample {
-  /**
-   * Get all Samples from database
-   * @returns {Array} Array of Samples
-   */
-  static getAll() {
-    return new Promise((resolve, reject) => {
-      SampleModel.find({})
-        .populate("sample")
-        .exec()
-        .then((results) => {
-          resolve(results);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
   /**
    * Get a Sample by it's id
    * @param {string} id - Sample Id
@@ -1144,6 +1126,30 @@ class Sample {
       { $sort: { createdAt: 1 } },
     ]);
 
+    return result;
+  }
+
+  static async getStatisticTableData() {
+    const result = await SampleModel.aggregate([
+      { $match: { finalized: true, report: true } },
+      {
+        $project: {
+          "aflatoxina.checked": 1,
+          "aflatoxina.resultChart": 1,
+          "deoxinivalenol.checked": 1,
+          "deoxinivalenol.resultChart": 1,
+          "fumonisina.checked": 1,
+          "fumonisina.resultChart": 1,
+          "ocratoxina.checked": 1,
+          "ocratoxina.resultChart": 1,
+          "t2toxina.checked": 1,
+          "t2toxina.resultChart": 1,
+          "zearalenona.checked": 1,
+          "zearalenona.resultChart": 1,
+        },
+      },
+      { $sort: { createdAt: 1 } },
+    ]);
     return result;
   }
 }
