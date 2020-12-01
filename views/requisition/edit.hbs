@@ -261,48 +261,51 @@
     </div>
     <div class="d-flex form-row col-md-10 justify-content-center">
       {{#each samples}}
-      <div class="requisition-text col-md-6">
-        <input required type="text" name="sample[{{@index}}][name]" class="requisition-text"
-          placeholder="Nome da amostra" value="{{name}}">
-      </div>
-
-      <div class="requisition-text col-md-4 d-flex align-items-center">
-        <input type="hidden" name="sample[{{@index}}][_id]" class="requisition-text" value="{{_id}}">
-        <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100" name="sample[{{@index}}][sampletype]"
-          required="required">
-          <option value="Algodão / Subprodutos">Algodão / Subprodutos</option>
-          <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>
-          <option value="Arroz">Arroz</option>
-          <option value="Aveia">Aveia</option>
-          <option value="Capim / Feno">Capim / Feno</option>
-          <option value="Cevada /Subprodutos">Cevada /Subprodutos</option>
-          <option value="Dieta Total">Dieta Total</option>
-          <option value="Feijão">Feijão</option>
-          <option value="Milho / Subprodutos">Milho / Subprodutos</option>
-          <option value="Outros">Outros</option>
-          <option value="Polpa Cítrica">Polpa Cítrica</option>
-          <option value="Ração">Ração</option>
-          <option value="Silagem">Silagem</option>
-          <option value="Soja / Subprodutos">Soja / Subprodutos</option>
-          <option value="Sorgo / Subprodutos">Sorgo / Subprodutos</option>
-          <option value="Subprodutos">Subprodutos</option>
-          <option value="Trigo / Subprodutos">Trigo / Subprodutos</option>
-        </select>
-      </div>
-      <script>
-        $(document).ready(function () {
-          let reqtype = "{{sampletype}}";
-          $('select#{{_id}}').val(reqtype);
-        });
-      </script>
-
-      <div class="checkbox col-md-2 d-flex pb-1">
-        <div class="align-self-end">
-          <input type="checkbox" id="polpa{{@index}}" name="sample[{{@index}}][isCitrus]" value="true" class="my-auto"
-            {{#if isCitrus}}checked{{/if}} />
-          <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
+        <div class="requisition-text col-md-3">
+          <input required type="text" name="sample[{{@index}}][name]" class="requisition-text"
+            placeholder="Nome da amostra" value="{{name}}">
         </div>
-      </div>
+        <div class="requisition-text col-md-3">
+          <input required type="text" name="sample[{{@index}}][description]"
+            class="requisition-text" value="{{description}}" placeholder="Descrição">
+        </div>
+        <div class="requisition-text col-md-3 d-flex align-items-center">
+          <input type="hidden" name="sample[{{@index}}][_id]" class="requisition-text" value="{{_id}}">
+          <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100"
+            name="sample[{{@index}}][sampletype]" required="required">
+            <option value="Algodão / Subprodutos">Algodão / Subprodutos</option>
+            <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>
+            <option value="Arroz">Arroz</option>
+            <option value="Aveia">Aveia</option>
+            <option value="Capim / Feno">Capim / Feno</option>
+            <option value="Cevada /Subprodutos">Cevada /Subprodutos</option>
+            <option value="Dieta Total">Dieta Total</option>
+            <option value="Feijão">Feijão</option>
+            <option value="Milho / Subprodutos">Milho / Subprodutos</option>
+            <option value="Outros">Outros</option>
+            <option value="Polpa Cítrica">Polpa Cítrica</option>
+            <option value="Ração">Ração</option>
+            <option value="Silagem">Silagem</option>
+            <option value="Soja / Subprodutos">Soja / Subprodutos</option>
+            <option value="Sorgo / Subprodutos">Sorgo / Subprodutos</option>
+            <option value="Subprodutos">Subprodutos</option>
+            <option value="Trigo / Subprodutos">Trigo / Subprodutos</option>
+          </select>
+        </div>
+        <script>
+          $(document).ready(function () {
+            let reqtype = "{{sampletype}}";
+            $('select#{{_id}}').val(reqtype);
+          });
+        </script>
+
+        <div class="checkbox col-md-3 d-flex pb-1">
+          <div class="align-self-end">
+            <input type="checkbox" id="polpa{{@index}}" name="sample[{{@index}}][isCitrus]" value="true" class="my-auto"
+              {{#if isCitrus}}checked{{/if}} />
+            <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
+          </div>
+        </div>
       {{/each}}
 
       <div class="requisition-titles mt-3">
@@ -371,14 +374,14 @@
 </form>
 <div class="text-center">
   {{#unless nova}}
-  <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
+    <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
   {{/unless}}
 
   {{#if nova}}
-  <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
-    requisição</button>
+    <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
+      requisição</button>
 
-  <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
+    <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
   {{/if}}
 </div>
 

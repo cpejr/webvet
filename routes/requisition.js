@@ -80,9 +80,10 @@ router.post(
       let sampleObjects = new Array();
       sampleVector &&
         sampleVector.forEach((sampleInfo) => {
-          const { name, citrus } = sampleInfo;
+          const { name, citrus, description } = sampleInfo;
           let sample = {
             name,
+            description,
             sampleNumber: -1,
             requisitionId,
             responsible: requisition.responsible,
@@ -296,6 +297,7 @@ router.post(
         sampletype: sample[i].sampletype,
         approved: isApproved,
         isCitrus: sample[i].isCitrus ? true : false,
+        description: sample[i].description,
       };
 
 
