@@ -52,7 +52,7 @@ var email = document.getElementById("email").value;
 
 
 var firstClick = 1;
-$('#btn-new-address').click(function () {
+function clearData(){
 
     if (firstClick) {
         $('#fullname').each(function () {
