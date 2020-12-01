@@ -805,6 +805,11 @@ class Sample {
             debt: { $arrayElemAt: ["$user.debt", 0] },
           },
         },
+        {
+          $sort: {
+            samplenumber: 1,
+          },
+        },
       ])
         .then((result) => {
           function flat(input, depth = 1, stack = []) {
