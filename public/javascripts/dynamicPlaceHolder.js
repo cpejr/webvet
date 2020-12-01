@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
     //Add dynamic placeholder on top
     let idcount = 0;
     $('input[type=text], input[type=number], input[type=email], input[type=password]').each((index, elem) => {  //All input elements with type="text" 
