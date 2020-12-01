@@ -6,23 +6,21 @@ function submitForm(finalized) {
   $("#formReport").submit();
 }
 
-$("#finalize").click(function () {
+$("#finalize").on('click', function () {
   submitForm(true);
 });
 
-$("#unfinalize").click(function () {
+$("#unfinalize").on('click', function () {
   submitForm(false);
 });
 
-$(document).ready(function () {
+$(function () {
   var countChecked = function () {
     var n = $('input[id="toxinaCheck"]:checked').length;
     var listNames = [];
-    var idName = {};
     var frase = "";
-    var inicio = "";
     var fraseCompleta =
-      "*inicio* a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.";
+      "Foi detectada a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.";
 
     $('input[id="toxinaCheck"]:checked').each(function () {
       listNames.push($(this).val());
@@ -36,19 +34,15 @@ $(document).ready(function () {
         }
         frase = frase + " " + listNames[listNames.length - 2];
         frase = frase + " e " + listNames[listNames.length - 1];
-        inicio = "Foram detectadas";
       } else if (listNames.length == 1) {
         frase = frase + listNames[0];
-        inicio = "Foi detectada";
       } else {
         for (i = 0; i < listNames.length - 1; i++) {
           frase = frase + " " + listNames[i];
         }
         frase = frase + " e " + listNames[listNames.length - 1];
-        inicio = "Foram detectadas";
       }
       fraseCompleta = fraseCompleta.replace("*frase*", frase);
-      fraseCompleta = fraseCompleta.replace("*inicio*", inicio);
       $("#parecer").text(fraseCompleta);
     } else {
       $("#parecer").text(
@@ -58,7 +52,7 @@ $(document).ready(function () {
   };
 
   countChecked();
-  $("input[type=checkbox][id=toxinaCheck]").change(countChecked);
+  $("input[type=checkbox][id=toxinaCheck]").on('change',countChecked);
 
   var checkAll = function () {
     $('input[type=checkbox][id="toxinaCheck"]').each(function () {
@@ -67,5 +61,5 @@ $(document).ready(function () {
     });
   };
 
-  $("#allCheck").change(checkAll);
-});
+  $("#allCheck").on('change',checkAll);
+}); 
