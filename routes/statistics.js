@@ -26,8 +26,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   // Group by finalized Toxins
   finalizedSamples.forEach((sample) => {
     ToxinasFull.forEach((toxin) => {
-      if (sample[toxin].resultChart)
-        finalizedByToxin[toxin].push(sample[toxin]);
+      if (sample[toxin].resultChart) finalizedByToxin[toxin].push(sample[toxin]);
     });
   });
 
@@ -102,10 +101,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   Object.entries(tableDataRows).forEach(([key, value]) => {
     const row = [];
     row.push(value);
-    ToxinasFull.forEach((toxin) => {
-      const value = tableData[toxin][key];
-      if (value) row.push(value.toFixed(2));
-    });
+    ToxinasFull.forEach((toxin) => row.push(tableData[toxin][key] ? tableData[toxin][key].toFixed(2): NaN));
 
     tableRows.push(row);
   });
@@ -142,10 +138,10 @@ router.get("/statesData", auth.isAuthenticated, async (req, res) => {
   res.send(data);
 });
 
-router.get("/resultsData", async (req, res) => {
-  const filters = req.query;
-  let data = await Sample.getResultData(filters);
-  res.send(data);
+router.get('/resultsData', async (req, res) => {
+    const filters = req.query;
+    let data = await Sample.getResultData(filters);
+    res.send(data);
 });
 
 router.get("/samplesData", auth.isAuthenticated, async (req, res) => {
