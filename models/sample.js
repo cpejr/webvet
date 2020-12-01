@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const Counter = require("../models/counter");
 const Workmap = require("./Workmap");
-const regression = require("regression");
+const SimpleLinearRegression = require("ml-regression-simple-linear");
+
 var data = new Date();
 var yyyy = data.getFullYear();
 
@@ -588,13 +589,8 @@ class Sample {
       ln_b_b0[m] = Math.log10(b_b0[m] / (1 - b_b0[m]));
     }
 
-    const result = regression.linear([
-      [log_concentracao[0], ln_b_b0[0]],
-      [log_concentracao[1], ln_b_b0[1]],
-      [log_concentracao[2], ln_b_b0[2]],
-    ]);
-    const slope = result.equation[0]; // slope
-    const yIntercept = result.equation[1]; // intercept
+    const result = new SimpleLinearRegression(log_concentracao, ln_b_b0);
+    const { slope, intercept } = result;
 
     let log_b_b0 = Math.log10(
       abs / p_absorvance[0] / (1 - abs / p_absorvance[0])
@@ -604,8 +600,8 @@ class Sample {
     );
 
     var finalResult =
-      (compara(log_b_b0, yIntercept, slope) +
-        compara(log_b_b0_2, yIntercept, slope)) /
+      (compara(log_b_b0, intercept, slope) +
+        compara(log_b_b0_2, intercept, slope)) /
       2;
 
     return finalResult;
@@ -1101,7 +1097,7 @@ class Sample {
         const filter = {};
 
         if (startDate) filter["$gte"] = new Date(startDate);
-        if (endDate) filter["$lte"] =  new Date(endDate);
+        if (endDate) filter["$lte"] = new Date(endDate);
 
         match["date"] = filter;
       }
