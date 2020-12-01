@@ -11,6 +11,8 @@ const sampleSchema = new mongoose.Schema(
     samplenumber: Number,
     name: String,
     sampletype: String,
+    receivedquantity: Number, //Quantidade recebida
+    packingtype: String, //Tipo de embalagem
     approved: {
       //A aprovacao da requisicao associada
       type: Boolean,

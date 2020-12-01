@@ -297,6 +297,8 @@ router.post(
         sampletype: sample[i].sampletype,
         approved: isApproved,
         isCitrus: sample[i].isCitrus ? true : false,
+        receivedquantity: sample[i].receivedquantity,
+        packingtype: sample[i].packingtype,
         description: sample[i].description,
       };
 
