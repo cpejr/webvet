@@ -21,7 +21,7 @@ function addInput() {
     var newInput = document.createElement("div");
 
     let html = `
-    <div class="requisition-text col-md-8">
+    <div class="requisition-text col-md-4">
         <input required type="text" name="requisition[sampleVector][${numInput}][name]" id="sample${numInput}"
             class="requisition-text" placeholder="Amostra ${numInput}">
     </div>
