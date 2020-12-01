@@ -22,7 +22,7 @@ router.get("/", async function (req, res) {
   Kit.getAllLastActiveWithSamples().then((toxinas) => {
     //Finalizando a forma de como os dados serão enviados ao front
     var displayInfo = [];
-    console.log(toxinas)
+
     for (let i = 0; i < toxinas.length; i++) {
       let { calibrators, samples, productCode } = toxinas[i];
 

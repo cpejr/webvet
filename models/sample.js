@@ -541,20 +541,15 @@ class Sample {
     calibrators,
     kitId
   ) {
-    var parameter = toxinaFull + ".absorbance";
-    var parameter2 = toxinaFull + ".absorbance2";
-    var parameter3 = toxinaFull + ".result";
-    var parameter4 = toxinaFull + ".active";
-    var parameter5 = toxinaFull + ".kitId";
-    var parameter6 = "report";
-
-    var updateVal = {};
-    updateVal[parameter] = abs;
-    updateVal[parameter2] = abs2;
-    updateVal[parameter3] = this.calcularResult(abs, abs2, calibrators);
-    updateVal[parameter4] = false;
-    updateVal[parameter5] = kitId;
-    updateVal[parameter6] = true;
+  
+    let updateVal = {
+      [`${toxinaFull}.absorbance`]: abs,
+      [`${toxinaFull}.absorbance2`]: abs2,
+      [`${toxinaFull}.result`]: this.calcularResult(abs, abs2, calibrators),
+      [`${toxinaFull}.active`]: false,
+      [`${toxinaFull}.kitId`]: kitId,
+      [`report`]: true,
+    };
 
     const result = await SampleModel.updateOne(
       { _id: id },

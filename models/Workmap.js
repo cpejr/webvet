@@ -142,7 +142,7 @@ class Workmap {
 
   static setFinalizationNumber(id_array, finalizationNumber) {
     return new Promise((resolve, reject) => {
-      WorkmapModel.update(
+      WorkmapModel.updateMany(
         { _id: { $in: id_array } },
         { $set: { finalizationNumber: finalizationNumber } }
       )

@@ -324,33 +324,34 @@
       <div class="d-flex flex-row flex-wrap justify-content-around w-100 ">
         <div class="d-flex mx-1">
           <label class="radio-text form-check-label">
-            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Aflatoxinas"
-              value="Aflatoxinas">Aflatoxinas</label>
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Aflatoxinas" value="Aflatoxinas"
+              {{#if requisitionExtra.aflatoxina_hasResult}}disabled{{/if}}>Aflatoxinas</label>
         </div>
         <div class="d-flex mx-1">
           <label class="radio-text form-check-label">
-            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Ocratoxina A"
-              value="Ocratoxina A">Ocratoxina A</label>
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Deoxinivalenol" value="Deoxinivalenol"
+              {{#if requisitionExtra.deoxinivalenol_hasResult}}disabled{{/if}}>Deoxinivalenol*</label>
         </div>
         <div class="d-flex mx-1">
           <label class="radio-text form-check-label">
-            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Deoxinivalenol"
-              value="Deoxinivalenol">Deoxinivalenol*</label>
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Fumonisina" value="Fumonisina"
+              {{#if requisitionExtra.fumonisina_hasResult}}disabled{{/if}}>Fumonisinas</label>
         </div>
         <div class="d-flex mx-1">
           <label class="radio-text form-check-label">
-            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="T-2 toxina" value="T-2 toxina">T-2
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Ocratoxina A" value="Ocratoxina A"
+              {{#if requisitionExtra.ocratoxina_hasResult}}disabled{{/if}}>Ocratoxina A</label>
+        </div>
+        <div class="d-flex mx-1">
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="T-2 toxina" value="T-2 toxina"
+              {{#if requisitionExtra.t2toxina_hasResult}}disabled{{/if}}>T-2
             toxina</label>
         </div>
         <div class="d-flex mx-1">
           <label class="radio-text form-check-label">
-            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Fumonisina"
-              value="Fumonisina">Fumonisinas</label>
-        </div>
-        <div class="d-flex mx-1">
-          <label class="radio-text form-check-label">
-            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Zearalenona"
-              value="Zearalenona">Zearalenona</label>
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Zearalenona" value="Zearalenona"
+              {{#if requisitionExtra.zearalenona.result}}disabled{{/if}}>Zearalenona</label>
         </div>
       </div>
 

@@ -57,7 +57,7 @@ router.get(
         layout: "layoutDashboard.hbs",
         ...req.session,
         allKits,
-      })
+      });
     } catch (error) {
       console.warn(error);
       res.redirect("/error");
@@ -240,15 +240,29 @@ router.get(
     Requisition.getById(req.params.id)
       .then((requisition) => {
         Sample.getByIdArray(requisition.samples).then((samples) => {
-          var nova = false;
+          let nova = false;
+          const requisitionExtra = {};
 
           if (requisition.status === "Nova") {
             nova = true;
           }
+
+          ToxinasFull.forEach((toxin) => {
+            let hasResult = false;
+            for (let i = 0; i < samples.length; i++)
+              if (samples[i][toxin].result) {
+                hasResult = true;
+                break;
+              }
+
+            requisitionExtra[`${toxin}_hasResult`] = hasResult;
+          });
+
           res.render("requisition/edit", {
             title: "Edit Requisition",
             layout: "layoutDashboard.hbs",
             requisition,
+            requisitionExtra,
             nova,
             ...req.session,
             samples,
@@ -285,7 +299,8 @@ router.post(
   function (req, res) {
     var { requisition, sample } = req.body;
 
-    const isApproved = req.body.toApprove === "toApprove" || req.body.toApprove === "approved" ;
+    const isApproved =
+      req.body.toApprove === "toApprove" || req.body.toApprove === "approved";
 
     if (isApproved) {
       requisition.status = "Aprovada";
@@ -302,10 +317,9 @@ router.post(
         description: sample[i].description,
       };
 
-
       ToxinasAll.forEach((toxina) => {
-        const contaisToxin = requisition.mycotoxin.includes(toxina.Formal);
-        samples[`${toxina.Full}.active`] = contaisToxin;
+        const containsToxin = requisition.mycotoxin.includes(toxina.Formal);
+        samples[`${toxina.Full}.active`] = containsToxin;
       });
 
       Sample.update(sample[i]._id, samples)
