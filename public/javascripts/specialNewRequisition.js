@@ -25,6 +25,10 @@ function addInput() {
         <input required type="text" name="requisition[sampleVector][${numInput}][name]" id="sample${numInput}"
             class="requisition-text" placeholder="Amostra ${numInput}">
     </div>
+    <div class="requisition-text col-md-4">
+        <input required type="text" name="requisition[sampleVector][${numInput}][description]" class="requisition-text"
+            placeholder="Descrição ${numInput}">
+    </div>
     <div class="col-md-4 d-flex flex-row">
         <div class="checkbox col-md-4 d-flex align-items-center m-0">
             <input type="checkbox" id="polpa" name="requisition[sampleVector][${numInput}][citrus]" value="true"
