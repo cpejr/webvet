@@ -11,7 +11,7 @@
                 class="drowdownoptions col-md-12" placeholder="Selecione o Usuário">
                 <option disabled selected value="">Selecione o Usuário que vai fazer a requisição</option>
                 {{#each users}}
-                    <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+                <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
                 {{/each}}
             </select>
         </div>
@@ -64,7 +64,7 @@
                     <select required id="state" class="drowdownoptions mt-3" name="requisition[address][state]">
                         <option disabled selected value="" id="defaultStateOption">Selecione um Estado</option>
                         {{#each allStates}}
-                            <option value="{{initials}}">{{name}}</option>
+                        <option value="{{initials}}">{{name}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -103,55 +103,47 @@
     <div class="col-md-10 m-3">
         <h5 class="mb-4">Requisição de Análise</h5>
         <div class="d-flex flex-row">
-            <div class="col-md-4 requisition-text">
+            <div class="col-md-6 requisition-text">
                 <input required id="producer" type="text" name="requisition[producer]" class="col-md-10"
                     placeholder="Nome do produtor">
             </div>
-            <div class="col-md-4 requisition-text">
+            <div class="col-md-3 requisition-text">
                 <input required id="autorizationumber" type="text" name="requisition[autorizationumber]"
                     class="col-md-10" placeholder="Numero de Autorização">
             </div>
-            <div class="requisition-text col-md-4">
+            <div class="requisition-text col-md-3">
                 <select required id="destination" class="drowdownoptions mt-3" name="requisition[destination]">
                     <option disabled selected value="" id="defaultDestOption">Escolha a destinação do alimento</option>
                     {{#each allDestinations}}
-                        <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
             </div>
         </div>
         <div class="d-flex flex-row">
-            <div class="col-md-4 requisition-text">
+            <div class="col-md-6 requisition-text">
                 <input required id="reqCity" type="text" name="requisition[city]" class="col-md-10"
                     placeholder="Município">
             </div>
-            <div class="col-md-4 requisition-text">
+            <div class="col-md-6 requisition-text">
                 <div class="col-md-12 d-flex align-items-center">
                     <select required id="reqState" class="drowdownoptions mt-3" name="requisition[state]">
                         <option disabled selected value="" id="defaultStateReqOption">Selecione um Estado</option>
                         {{#each allStates}}
-                            <option value="{{initials}}">{{name}}</option>
+                        <option value="{{initials}}">{{name}}</option>
                         {{/each}}
                     </select>
                 </div>
             </div>
-            <div class="col-md-4 requisition-text">
-                <input required id="datecollection" type="text" name="requisition[datecollection]" class="col-md-10"
-                    placeholder="dd/mm/aa">
-            </div>
         </div>
         <div class="d-flex flex-row">
-            <div class="col-md-4 requisition-text">
-                <input required id="packingtype" type="text" name="requisition[packingtype]" class="col-md-10"
-                    placeholder="Tipo de embalagem:">
+            <div class="col-md-6 requisition-text">
+                <input required id="datecollection" type="text" name="requisition[datecollection]" class="col-md-10"
+                    placeholder="Data de coleta (dd/mm/aaaa)">
             </div>
-            <div class="col-md-4 requisition-text">
-                <input required id="receivedquantity" type="number" name="requisition[receivedquantity]"
-                    class="col-md-10" placeholder="XXX (gramas)">
-            </div>
-            <div class="col-md-4 requisition-text">
+            <div class="col-md-6 requisition-text">
                 <input required id="datereceipt" type="text" name="requisition[datereceipt]" class="col-md-10"
-                    placeholder="dd/mm/aa">
+                    placeholder="Data de recebimento (dd/mm/aaaa)">
             </div>
         </div>
     </div>
@@ -196,11 +188,11 @@
         <div class=" d-flex flex-wrap col-md-12 align-items-center justify-content-center">
             <p>
                 {{#each ToxinasAll}}
-                    <div class="col-md-4 d-flex flex-row m-1">
-                        <input class="mr-3" type="checkbox" name="requisition[mycotoxin]" value="{{Formal}}">
-                        <h6>{{Formal}}</h6>
-                    </div>
-                {{/each}}
+            <div class="col-md-4 d-flex flex-row m-1">
+                <input class="mr-3" type="checkbox" name="requisition[mycotoxin]" value="{{Formal}}">
+                <h6>{{Formal}}</h6>
+            </div>
+            {{/each}}
             </p>
         </div>
         <div class="col-md-12 mt-3">
