@@ -13,14 +13,14 @@
   <div class="laudo-text">
     <h4> <b>Registro Lab.</b> MICOTOX {{Requisitiondata.requisitionnumber}}/{{Requisitiondata.year}}</h4>
     <h4> <b>1. Laudo n°:</b> {{sample.samplenumber}}/{{Requisitiondata.year}}</h4>
-    <h4> <b>2. Descrição da Amostra:</b> </h4>
+    <h4> <b>2. Descrição da Amostra:</b> {{sample.description}}</h4>
     <div class="info-laudo">
       <h4> 2.1 - Tipo de embalagem: {{sample.packingtype}} </h4>
       <h4> 2.2 - Quantidade recebida: {{sample.receivedquantity}} g</h4>
       <h4> 2.3 - Produtor: {{Requisitiondata.producer}}</h4>
-      <div class="laudo-linha row">
-        <h4 class="mr-5"> 2.4 - Data de recebimento: {{Requisitiondata.datereceipt}}</h4>
-        <h4> N° autorização: {{Requisitiondata.autorizationnumber}}</h4>
+      <div class="laudo-linha d-flex flex-row m-0">
+        <h4 class="mr-5 m-0"> 2.4 - Data de recebimento: {{Requisitiondata.datereceipt}}</h4>
+        <h4 class="m-0"> N° autorização: {{Requisitiondata.autorizationnumber}}</h4>
       </div>
     </div>
     <h4> <b>3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante:</b> </h4>
@@ -86,7 +86,7 @@
       <h4><b> 6. Parecer técnico: </b></h4>
       <textarea style="border: none" id="parecer" name="sample[parecer]" class="col-sm-12 mb-3" readonly></textarea>
       <h4><b> 7. Comentários: </b></h4>
-      <textarea name="sample[description]" cols="100" rows="7">{{sample.description}}</textarea>
+      <textarea name="sample[comment]" cols="100" rows="7">{{sample.comment}}</textarea>
       <br>
 
       <h4> Belo Horizonte, {{sample.date}} </h4>

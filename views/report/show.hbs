@@ -13,13 +13,15 @@
   <div class="laudo-text">
     <h4> <b>Registro Lab.</b> MICOTOX {{Requisitiondata.requisitionnumber}}/{{Requisitiondata.year}}</h4>
     <h4> <b>1. Laudo n°:</b> {{sample.samplenumber}}/{{Requisitiondata.year}}</h4>
-    <h4> <b>2. Descrição da Amostra:</b> </h4>
+    <h4> <b>2. Descrição da Amostra:</b> {{sample.description}}</h4>
     <div class="info-laudo">
       <h4> 2.1 - Tipo de embalagem: {{sample.packingtype}}</h4>
       <h4> 2.2 - Quantidade recebida: {{sample.receivedquantity}} g</h4>
       <h4> 2.3 - Produtor: {{Requisitiondata.producer}}</h4>
-      <h4> 2.4 - Data de recebimento: {{Requisitiondata.datereceipt}}</h4>
-      <h4>&nbsp&nbsp&nbsp&nbsp&nbsp - N° autorização: {{Requisitiondata.autorizationnumber}} </h4>
+      <div class="laudo-linha d-flex flex-row m-0">
+        <h4 class="mr-5 m-0"> 2.4 - Data de recebimento: {{Requisitiondata.datereceipt}}</h4>
+        <h4 class="m-0"> N° autorização: {{Requisitiondata.autorizationnumber}}</h4>
+      </div>
     </div>
     <h4> <b>3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante:</b> </h4>
     <div class="info-laudo">
@@ -44,14 +46,14 @@
         </thead>
         <tbody>
           {{#each toxinVector}}
-          <tr>
-            <th scope="row">{{toxinDisplayName}}</th>
-            <td>
-              <a type="text" id="{{toxinFull}}Conc">{{resultText}}</a>
-            </td>
-            <td>{{lod}}</td>
-            <td>{{loq}}</td>
-          </tr>
+            <tr>
+              <th scope="row">{{toxinDisplayName}}</th>
+              <td>
+                <a type="text" id="{{toxinFull}}Conc">{{resultText}}</a>
+              </td>
+              <td>{{lod}}</td>
+              <td>{{loq}}</td>
+            </tr>
           {{/each}}
         </tbody>
       </table>
@@ -60,7 +62,7 @@
     <div id="parecer"></div>
     <div name="sample[parecer]" class="col-sm-12">{{sample.parecer}}</div>
     <h4><b> 7. Comentários: </b></h4>
-    <textarea name="sample[description]" cols="100" rows="7" readonly>{{sample.description}}</textarea>
+    <textarea name="sample[comment]" cols="100" rows="7" readonly>{{sample.comment}}</textarea>
     <h4> Belo Horizonte, {{sample.date}}</h4>
     <div class="laudo-assinatura">
       <p><u><img src="/images/assinatura.png"></u></p>

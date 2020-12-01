@@ -32,6 +32,7 @@ const sampleSchema = new mongoose.Schema(
       default: yyyy,
     },
     description: String,
+    comment: String,
     aflatoxina: {
       status: {
         type: String,
@@ -290,7 +291,6 @@ const sampleSchema = new mongoose.Schema(
         default: false,
       },
     },
-    description: String,
     parecer: String,
     finalized: {
       //Disponivel para o produtor ou nao.
@@ -1131,6 +1131,20 @@ class Sample {
 
     return result;
   }
+
+  // static async rename() {
+  //   await SampleModel.update(
+  //     {},
+  //     { $rename: { description: "comment" } },
+  //     { multi: true },
+  //     function (err, blocks) {
+  //       if (err) {
+  //         throw err;
+  //       }
+  //       console.log("done!");
+  //     }
+  //   );
+  // }
 
   static async getStatisticTableData() {
     const result = await SampleModel.aggregate([

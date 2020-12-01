@@ -92,11 +92,11 @@
           placeholder="Responsável pela amostra" value="{{requisition.responsible}}">
       </div>
       <div class="requisition-text col-md-6">
-        <input required id="phone" type="number" name="requisition[client][phone]" value="{{requisition.client.phone}}"
+        <input required id="phone" type="text" name="requisition[client][phone]" value="{{requisition.client.phone}}"
           class="requisition-text" placeholder="Tel. com DDD">
       </div>
       <div class=" requisition-text col-md-6">
-        <input required id="cellphone" type="number" name="requisition[client][cellphone]"
+        <input required id="cellphone" type="text" name="requisition[client][cellphone]"
           value="{{requisition.client.cellphone}}" class="requisition-text" placeholder="Cel. com DDD">
       </div>
       <div class="requisition-text col-md-12">
@@ -254,11 +254,32 @@
       {{#each samples}}
       <div class="container-fluid card my-2 p-4">
         <div class="row">
-          <div class="requisition-text col-md-6">
+          <div class="requisition-text col-md-4">
             <input required type="text" name="sample[{{@index}}][name]" class="requisition-text"
               placeholder="Nome da amostra" value="{{name}}">
           </div>
+          <div class="requisition-text col-md-6">
+            <input required type="text" name="sample[{{@index}}][description]" class="requisition-text"
+              value="{{description}}" placeholder="Descrição">
+          </div>
 
+
+          <script>
+            $(document).ready(function () {
+              let reqtype = "{{sampletype}}";
+              $('select#{{_id}}').val(reqtype);
+            });
+          </script>
+
+          <div class="checkbox col-md-2 d-flex pb-1">
+            <div class="align-self-end">
+              <input type="checkbox" id="polpa{{@index}}" name="sample[{{@index}}][isCitrus]" value="true"
+                class="my-auto" {{#if isCitrus}}checked{{/if}} />
+              <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="requisition-text col-md-4 d-flex align-items-center">
             <input type="hidden" name="sample[{{@index}}][_id]" class="requisition-text" value="{{_id}}">
             <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100"
@@ -282,32 +303,16 @@
               <option value="Trigo / Subprodutos">Trigo / Subprodutos</option>
             </select>
           </div>
-
-          <script>
-            $(document).ready(function () {
-              let reqtype = "{{sampletype}}";
-              $('select#{{_id}}').val(reqtype);
-            });
-          </script>
-
-          <div class="checkbox col-md-2 d-flex pb-1">
-            <div class="align-self-end">
-              <input type="checkbox" id="polpa{{@index}}" name="sample[{{@index}}][isCitrus]" value="true"
-                class="my-auto" {{#if isCitrus}}checked{{/if}} />
-              <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="requisition-text col-md-5">
-            <input required type="text" name="sample[{{@index}}][receivedquantity]" class="requisition-text"
-              placeholder="Quantidade recebida (gramas)" value="{{receivedquantity}}">
-          </div>
-
-          <div class="requisition-text col-md-5">
+          <div class="requisition-text col-md-3">
             <input required type="text" name="sample[{{@index}}][packingtype]" class="requisition-text"
               placeholder="Tipo de embalagem" value="{{packingtype}}">
           </div>
+          <div class="requisition-text col-md-3">
+            <input required type="text" name="sample[{{@index}}][receivedquantity]" class="requisition-text"
+              placeholder="Quantidade recebida (g)" value="{{receivedquantity}}">
+          </div>
+
+
         </div>
       </div>
       {{/each}}
