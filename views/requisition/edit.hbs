@@ -361,7 +361,9 @@
 </div>
 
 {{#if nova}}
-<input type="checkbox" style="display: none;" id="novaCheckId" name="novaCheck" value="isChecked"></input>
+<input type="checkbox" style="display: none;" id="toApprove" name="toApprove" value="toApprove" />
+{{else}}
+<input type="checkbox" style="display: none;" id="toApprove" name="toApprove" value="approved" checked />
 {{/if}}
 <div>
   <input class="some" type="submit" id="submitButton"></input>
@@ -408,7 +410,7 @@
   });
 
   $("#submitAproved").click(function () {
-    $('#novaCheckId').prop("checked", true);
+    $('#toApprove').prop("checked", true);
     $("#submitButton").trigger("click");
   });
 

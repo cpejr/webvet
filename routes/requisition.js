@@ -283,8 +283,8 @@ router.post(
   auth.isFromLab,
   function (req, res) {
     var { requisition, sample } = req.body;
-    // console.log(sample);
-    const isApproved = req.body.novaCheck === "isChecked";
+
+    const isApproved = req.body.toApprove === "toApprove" || req.body.toApprove === "approved" ;
 
     if (isApproved) {
       requisition.status = "Aprovada";
@@ -297,6 +297,7 @@ router.post(
         approved: isApproved,
         isCitrus: sample[i].isCitrus ? true : false,
       };
+
 
       ToxinasAll.forEach((toxina) => {
         const contaisToxin = requisition.mycotoxin.includes(toxina.Formal);
