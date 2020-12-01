@@ -140,7 +140,7 @@ function clearData(){
 
     }
 
-});
+};
 
 $('.destination').change(function () {
     if ($('#Others').is(':checked')) {
