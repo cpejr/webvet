@@ -33,7 +33,8 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
   for (let i = 0; i < sumAmounts.length; i++){
     let indSum = sumAmounts[i];
     let indKit = reqKitstocks[i];
-    kitstocks[i] = {...indSum, minStock: indKit.minStock, name: indKit.name};
+    let upperKitName = indKit.name[0].toUpperCase() + indKit.name.substr(1);
+    kitstocks[i] = {...indSum, minStock: indKit.minStock, name: upperKitName};
   }
   
   let number_of_pages = 0;
