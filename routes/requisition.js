@@ -50,13 +50,15 @@ router.get(
   async function (req, res) {
     try {
       const allKits = await Kit.getAllForSpecialPanel();
-      const allSamples = await Sample.getAll();
+      const allSamples = await Sample.getAllActive();
       console.log(allKits);
+      console.log(allSamples);
       res.render("requisition/specialpanel", {
         title: "Painél de administração de amostras",
         layout: "layoutDashboard.hbs",
         ...req.session,
         allKits,
+        allSamples
       });
     } catch (error) {
       console.warn(error);

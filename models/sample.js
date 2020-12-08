@@ -724,7 +724,7 @@ class Sample {
 
   static getAllActive() {
     return new Promise((resolve, reject) => {
-      var querry = { $or: [] };
+      var query = { $or: [] };
 
       for (let index = 0; index < ToxinasFull.length; index++) {
         const toxina = ToxinasFull[index];
@@ -732,10 +732,10 @@ class Sample {
 
         expression[toxina + ".active"] = true;
 
-        querry.$or.push(expression);
+        query.$or.push(expression);
       }
 
-      SampleModel.find(querry)
+      SampleModel.find(query)
         .then((result) => {
           resolve(result);
         })
