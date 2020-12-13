@@ -3,17 +3,14 @@
     <h5 class="mt-4">Parte 2: Administrar amostras</h5>
 </div>
 
-<form action="/requisition/specialpanel" method="post" class="d-flex flex-column align-items-center">
+<div class="col-md-12 d-flex flex-column align-items-center">
+
     <div class="col-md-10 d-flex flex-column m-3">
         <h5 class="mb-4">Selecione um Kit</h5>
         <div class="requisition-text col-md-12 d-flex align-items-center">
             <select required="required" id="adminKit" type="" value="" class="drowdownoptions col-md-12"
                 placeholder="Selecione o kit">
                 <option disabled selected value="">Selecione um Kit para configurar valores de Lod e Loq</option>
-                {{#each allKits}}
-                    <option value="{{_id}}">[Lod: {{Lod}}; Loc: {{Loq}}] - {{productCode}} - {{productDescription}} -
-                        {{provider}}</option>
-                {{/each}}
             </select>
         </div>
     </div>
@@ -24,14 +21,27 @@
             {{#each allSamples}}
                 <div class="container-fluid card col-md-5 my-2 p-4">
                     <h6>Amostra: {{name}}</h6>
+                    {{#each toxins}}
+                        <h6>{{name}}</h6>
+                        <select required="required" id="adminKit" type="" value="" class=""
+                            placeholder="Selecione o kit">
+                            <option disabled selected value="">Selecione um Kit para {{name}}
+                            </option>
+                            {{#each kits}}
+                                <option value="{{_id}}">[Lod: {{Lod}}; Loc: {{Loq}}] - {{productCode}} -
+                                    {{productDescription}} -
+                                    {{provider}}</option>
+                            {{/each}}
+                        </select>
+                    {{/each}}
                     <div class="requisition-text col-md-12">
-                        <input type="text" name="sample[comment]" id="sampleComment"
-                            class="requisition-text" placeholder="Comentário" value="{{comment}}">
+                        <input type="text" name="sample[comment]" id="sampleComment" class="requisition-text"
+                            placeholder="Comentário" value="{{comment}}">
                     </div>
                 </div>
             {{/each}}
         </div>
     </div>
-</form>
+</div>
 
 <script src="/javascripts/dynamicPlaceHolder.js"></script>

@@ -50,14 +50,26 @@ router.get(
   async function (req, res) {
     try {
       const allKits = await Kit.getAllForSpecialPanel();
-      const allSamples = await Sample.getAllActive();
-      console.log(allKits);
-      console.log(allSamples);
+      let allSamples = await Sample.getAllActive();
+      allSamples.forEach((sample) => {
+        sample.toxins = new Array;
+        ToxinasAll.forEach((toxina) =>{
+          let aux = sample[toxina.Full];
+          aux.name = toxina.Full;
+          const availableKits = allKits.find((element) => element.name === toxina.Full).kits;
+          aux["kits"] = availableKits;
+          // auxconsole.log("Aux: ", aux);
+          if(aux.active){
+            sample.toxins.push(aux);
+          }
+          delete sample[toxina.Full];
+        })
+      });
+      //console.log("Samples: ", allSamples);
       res.render("requisition/specialpanel", {
         title: "Painél de administração de amostras",
         layout: "layoutDashboard.hbs",
         ...req.session,
-        allKits,
         allSamples
       });
     } catch (error) {
@@ -109,7 +121,7 @@ router.post(
       await Promise.all(promiseVector);
 
       req.flash("success", "Nova requisição enviada");
-      res.redirect("/requisition");
+      res.redirect("/requisition/specialpanel");
     } catch (error) {
       console.warn(error);
       res.redirect("/error");

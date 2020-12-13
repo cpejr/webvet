@@ -862,11 +862,11 @@ class Sample {
    */
   static async create(sample) {
     try {
-      let sampleNumber = await Counter.getSampleCount();
-      sample.sampleNumber = sampleNumber;
+      let samplenumber = await Counter.getSampleCount();
+      sample.samplenumber = samplenumber;
       const result = await SampleModel.create(sample);
-      sampleNumber++;
-      await Counter.setSampleCount(sampleNumber);
+      samplenumber++;
+      await Counter.setSampleCount(samplenumber);
       return result;
     } catch (error) {
       console.warn(error);
@@ -877,14 +877,14 @@ class Sample {
   static async createMany(samples) {
     let manySamples = [];
     try {
-      let sampleNumber = await Counter.getSampleCount();
+      let samplenumber = await Counter.getSampleCount();
       samples.forEach((sample) => {
-        sample.samplenumber = sampleNumber;
+        sample.samplenumber = samplenumber;
         manySamples.push(sample);
-        sampleNumber++;
+        samplenumber++;
       });
       const result = await SampleModel.create(manySamples);
-      await Counter.setSampleCount(sampleNumber);
+      await Counter.setSampleCount(samplenumber);
       return result;
     } catch (error) {
       console.warn(error);
