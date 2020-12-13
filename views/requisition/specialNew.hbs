@@ -2,7 +2,7 @@
     <h4>Formulário facilitado de registro de requisição e amostras</h4>
     <h5 class="mt-4">Parte 1: Criar requisição</h5>
 </div>
-<form action="/requisition/specialnewrequisition" method="post" class="d-flex flex-column align-items-center">
+<form action="/requisition/specialnew" method="post" class="d-flex flex-column align-items-center">
 
     <div class="col-md-10 d-flex flex-column m-3">
         <h5 class="mb-4">Selecione o Usuário</h5>
@@ -11,7 +11,7 @@
                 class="drowdownoptions col-md-12" placeholder="Selecione o Usuário">
                 <option disabled selected value="">Selecione o Usuário que vai fazer a requisição</option>
                 {{#each users}}
-                <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+                    <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
                 {{/each}}
             </select>
         </div>
@@ -64,7 +64,7 @@
                     <select required id="state" class="drowdownoptions mt-3" name="requisition[address][state]">
                         <option disabled selected value="" id="defaultStateOption">Selecione um Estado</option>
                         {{#each allStates}}
-                        <option value="{{initials}}">{{name}}</option>
+                            <option value="{{initials}}">{{name}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -115,7 +115,7 @@
                 <select required id="destination" class="drowdownoptions mt-3" name="requisition[destination]">
                     <option disabled selected value="" id="defaultDestOption">Escolha a destinação do alimento</option>
                     {{#each allDestinations}}
-                    <option value="{{this}}">{{this}}</option>
+                        <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -130,7 +130,7 @@
                     <select required id="reqState" class="drowdownoptions mt-3" name="requisition[state]">
                         <option disabled selected value="" id="defaultStateReqOption">Selecione um Estado</option>
                         {{#each allStates}}
-                        <option value="{{initials}}">{{name}}</option>
+                            <option value="{{initials}}">{{name}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -188,11 +188,11 @@
         <div class=" d-flex flex-wrap col-md-12 align-items-center justify-content-center">
             <p>
                 {{#each ToxinasAll}}
-            <div class="col-md-4 d-flex flex-row m-1">
-                <input class="mr-3" type="checkbox" name="requisition[mycotoxin]" value="{{Formal}}">
-                <h6>{{Formal}}</h6>
-            </div>
-            {{/each}}
+                    <div class="col-md-4 d-flex flex-row m-1">
+                        <input class="mr-3" type="checkbox" name="requisition[mycotoxin]" value="{{Formal}}">
+                        <h6>{{Formal}}</h6>
+                    </div>
+                {{/each}}
             </p>
         </div>
         <div class="col-md-12 mt-3">
@@ -202,7 +202,8 @@
         </div>
     </div>
     <div class="col-md-10 m-3">
-        <a type="button" class="btn btn-primary" href="/requisition/specialpanel">Ir para Parte 2 sem criar requisição</a>
+        <a type="button" class="btn btn-primary" href="/requisition/specialpanel">Ir para Parte 2 sem criar
+            requisição</a>
         <button type="submit" class="btn btn-success">Criar nova requisição</button>
     </div>
 </form>

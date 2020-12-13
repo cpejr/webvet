@@ -636,7 +636,7 @@ class Kit {
         }
         obj.push(aux);
       });
-      console.log("New object: ", obj);
+      //console.log("New object: ", obj);
       return obj;
     } catch (error) {
       console.warn(error);

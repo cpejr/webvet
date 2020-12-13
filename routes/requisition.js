@@ -52,25 +52,27 @@ router.get(
       const allKits = await Kit.getAllForSpecialPanel();
       let allSamples = await Sample.getAllActive();
       allSamples.forEach((sample) => {
-        sample.toxins = new Array;
-        ToxinasAll.forEach((toxina) =>{
+        sample.toxins = new Array();
+        ToxinasAll.forEach((toxina) => {
           let aux = sample[toxina.Full];
           aux.name = toxina.Full;
-          const availableKits = allKits.find((element) => element.name === toxina.Full).kits;
+          const availableKits = allKits.find(
+            (element) => element.name === toxina.Full
+          ).kits;
           aux["kits"] = availableKits;
           // auxconsole.log("Aux: ", aux);
-          if(aux.active){
+          if (aux.active) {
             sample.toxins.push(aux);
           }
           delete sample[toxina.Full];
-        })
+        });
       });
       //console.log("Samples: ", allSamples);
       res.render("requisition/specialpanel", {
         title: "Painél de administração de amostras",
         layout: "layoutDashboard.hbs",
         ...req.session,
-        allSamples
+        allSamples,
       });
     } catch (error) {
       console.warn(error);
@@ -80,7 +82,18 @@ router.get(
 );
 
 router.post(
-  "/specialnewrequisition",
+  "/specialpanel",
+  auth.isAuthenticated,
+  auth.isFromLab,
+  async function (req, res) {
+    const { sample } = req.body;
+    console.log("Sample:", sample);
+    res.redirect("/requisition/specialpanel");
+  }
+);
+
+router.post(
+  "/specialnew",
   auth.isAuthenticated,
   auth.isFromLab,
   async function (req, res) {
