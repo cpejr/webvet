@@ -51,6 +51,7 @@ router.get(
     try {
       const allKits = await Kit.getAllForSpecialPanel();
       let allSamples = await Sample.getAllActive();
+      allSamples = allSamples.reverse();
       allSamples.forEach((sample) => {
         sample.toxins = new Array();
         ToxinasAll.forEach((toxina) => {

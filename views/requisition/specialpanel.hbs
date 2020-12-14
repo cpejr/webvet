@@ -5,16 +5,6 @@
 
 <div class="col-md-12 d-flex flex-column align-items-center">
 
-    <div class="col-md-10 d-flex flex-column m-3">
-        <h5 class="mb-4">Selecione um Kit</h5>
-        <div class="requisition-text col-md-12 d-flex align-items-center">
-            <select required="required" id="adminKit" type="" value="" class="drowdownoptions col-md-12"
-                placeholder="Selecione o kit">
-                <option disabled selected value="">Selecione um Kit para configurar valores de Lod e Loq</option>
-            </select>
-        </div>
-    </div>
-
     <div class="d-flex form-row col-md-12 justify-content-center">
         <h5 class="mb-4 col-md-12">Preencha os valores e finalize as amostras</h5>
         <div class="col-md-12 d-flex flex-wrap">
@@ -22,42 +12,45 @@
                 <form action="/requisition/specialpanel" method="post" class="container-fluid col-md-5 my-1 p-2">
                     <h6>Amostra: {{name}}</h6>
                     {{#each toxins}}
-                        <h6>{{name}}</h6>
-                        <select required id="sample[{{name}}][kitId]" name="sample[{{name}}][kitId]"
-                            class="drowdownoptions" placeholder="Selecione o kit">
-                            <option disabled selected value="">Selecione um Kit para {{name}}
-                            </option>
-                            {{#each kits}}
-                                <option value="{{_id}}">[Lod: {{Lod}}; Loc: {{Loq}}] - {{productCode}} -
-                                    {{productDescription}} -
-                                    {{provider}}</option>
-                            {{/each}}
-                        </select>
-                        <div class="col-md-12 d-flex">
-                            <div class="requisition-text col-md-6">
-                                <input required type="text" name="sample[{{name}}][absorbance]"
-                                    id="sample[{{name}}][absorbance]" class="requisition-text"
-                                    placeholder="Absorvância 1" value="{{absorbance}}">
+                        <div class="col-md-12 card d-flex flex-column">
+                            <h6 class="align-self-start">{{name}}</h6>
+                            <select required id="sample[{{name}}][kitId]" name="sample[{{name}}][kitId]"
+                                class="drowdownoptions" placeholder="Selecione o kit">
+                                <option disabled selected value="">Selecione um Kit para {{name}}
+                                </option>
+                                {{#each kits}}
+                                    <option value="{{_id}}">[Lod: {{Lod}}; Loc: {{Loq}}] - {{productCode}} -
+                                        {{productDescription}} -
+                                        {{provider}}</option>
+                                {{/each}}
+                            </select>
+                            <div class="col-md-12 d-flex">
+                                <div class="requisition-text col-md-6">
+                                    <input required type="text" name="sample[{{name}}][absorbance]"
+                                        id="sample[{{name}}][absorbance]" class="requisition-text"
+                                        placeholder="Absorvância 1" value="{{absorbance}}">
+                                </div>
+                                <div class="requisition-text col-md-6">
+                                    <input required type="text" name="sample[{{name}}][absorbance2]"
+                                        id="sample[{{name}}][absorbance2]" class="requisition-text"
+                                        placeholder="Absorvância 2" value="{{absorbance2}}">
+                                </div>
                             </div>
-                            <div class="requisition-text col-md-6">
-                                <input required type="text" name="sample[{{name}}][absorbance2]"
-                                    id="sample[{{name}}][absorbance2]" class="requisition-text"
-                                    placeholder="Absorvância 2" value="{{absorbance2}}">
+                            <div class="requisition-text col-md-12">
+                                <input required type="text" name="sample[{{name}}][result]"
+                                    id="sample[{{name}}][result]" class="requisition-text" placeholder="Resultado"
+                                    value="{{result}}">
                             </div>
-                        </div>
-                        <div class="requisition-text col-md-12">
-                            <input required type="text" name="sample[{{name}}][result]" id="sample[{{name}}][result]"
-                                class="requisition-text" placeholder="Resultado" value="{{result}}">
-                        </div>
-                        <div class="requisition-text col-md-12">
-                            <input required type="text" name="sample[{{name}}][resultChart]"
-                                id="sample[{{name}}][resultChart]" class="requisition-text"
-                                placeholder="Resultado no gráfico" value="{{resultChart}}">
-                        </div>
-                        <div class="requisition-text col-md-12">
-                            <input required type="text" name="sample[{{name}}][resultText]"
-                                id="sample[{{name}}][resultText]" class="requisition-text" placeholder="Resultado Final"
-                                value="{{resultText}}">
+                            <div class="requisition-text col-md-12">
+                                <input required type="text" name="sample[{{name}}][resultChart]"
+                                    id="sample[{{name}}][resultChart]" class="requisition-text"
+                                    placeholder="Resultado no gráfico" value="{{resultChart}}">
+                            </div>
+                            <div class="requisition-text col-md-12">
+                                <input required type="text" name="sample[{{name}}][resultText]"
+                                    id="sample[{{name}}][resultText]" class="requisition-text"
+                                    placeholder="Resultado Final" value="{{resultText}}">
+                            </div>
                         </div>
                     {{/each}}
                     <div class="requisition-text col-md-12">
