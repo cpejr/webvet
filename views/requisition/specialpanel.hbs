@@ -12,7 +12,7 @@
                 <form action="/requisition/specialpanel" method="post" class="container-fluid col-md-5 my-1 p-2">
                     <h6 class="mt-3">Amostra: {{name}}</h6>
                     {{#each toxins}}
-                        <div class="col-md-12 card d-flex flex-column">
+                        <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
                             <h6 class="align-self-start">{{name}}</h6>
                             <select required id="sample[{{name}}][kitId]" name="sample[{{name}}][kitId]"
                                 class="drowdownoptions" placeholder="Selecione o kit">
@@ -21,7 +21,8 @@
                                 {{#each kits}}
                                     <option value="{{_id}}">[Lod: {{Lod}}; Loc: {{Loq}}] - {{productCode}} -
                                         {{productDescription}} -
-                                        {{provider}}</option>
+                                        {{provider}}
+                                    </option>
                                 {{/each}}
                             </select>
                             <div class="col-md-12 d-flex">
@@ -53,12 +54,15 @@
                             </div>
                         </div>
                     {{/each}}
-                    <div class="requisition-text col-md-12">
-                        <input required type="text" name="sample[comment]" id="sampleComment" class="requisition-text"
-                            placeholder="Comentário" value="{{comment}}">
+                    <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
+                        <h6 class="align-self-start">Configurações adicionais</h6>
+                        <div class="requisition-text col-md-12">
+                            <input type="text" name="sample[comment]" id="sampleComment"
+                                class="requisition-text" placeholder="Comentário" value="{{comment}}">
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Fazer alterações</button>
+                    <button type="submit" class="btn btn-success">Finalizar amostra</button>
                 </form>
             {{/each}}
         </div>

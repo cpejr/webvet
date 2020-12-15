@@ -61,7 +61,6 @@ ToxinasFormal = [
   "T-2 toxina",
   "Zearalenona",
 ];
-ToxinasAll = [];
 allStates = [
   {name: "Acre" , initials: "AC"},
   {name: "Alagoas", initials: "AL"},
@@ -103,8 +102,27 @@ allDestinations = [
   "Pet",
   "Matéria Prima",
   "Outros"
+];
+allSampleTypes = [
+  "Algodão / Subprodutos",
+  "Amendoim / Subprodutos",
+  "Arroz",
+  "Aveia",
+  "Capim / Feno",
+  "Cevada /Subprodutos",
+  "Dieta Total",
+  "Feijão",
+  "Milho / Subprodutos",
+  "Outros",
+  "Polpa Cítrica",
+  "Ração",
+  "Silagem",
+  "Soja / Subprodutos",
+  "Sorgo / Subprodutos",
+  "Subprodutos",
+  "Trigo / Subprodutos"
 ]
-
+ToxinasAll = [];
 for (let i = 0; i < ToxinasFull.length; i++) {
   ToxinasAll[i] = {
     Full: ToxinasFull[i],

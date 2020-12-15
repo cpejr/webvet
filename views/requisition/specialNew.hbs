@@ -136,16 +136,6 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex flex-row">
-            <div class="col-md-6 requisition-text">
-                <input required id="datecollection" type="text" name="requisition[datecollection]" class="col-md-10"
-                    placeholder="Data de coleta (dd/mm/aaaa)">
-            </div>
-            <div class="col-md-6 requisition-text">
-                <input required id="datereceipt" type="text" name="requisition[datereceipt]" class="col-md-10"
-                    placeholder="Data de recebimento (dd/mm/aaaa)">
-            </div>
-        </div>
     </div>
 
     <div class="col-md-10 m-3" id="samples">
@@ -157,23 +147,43 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="d-flex flex-row col-md-12">
-            <div class="requisition-text col-md-4">
-                <input required type="text" name="requisition[sampleVector][1][name]" id="sample1"
-                    class="requisition-text" placeholder="Amostra 1">
-            </div>
-            <div class="requisition-text col-md-4">
-                <input required type="text" name="requisition[sampleVector][1][description]" class="requisition-text"
-                    placeholder="Descrição 1">
-            </div>
-            <div class="col-md-4 d-flex flex-row">
-                <div class="checkbox col-md-4 d-flex align-items-center m-0">
-                    <input type="checkbox" id="polpa" name="requisition[sampleVector][1][citrus]" value="true"
-                        class="my-auto" />
-                    Contém polpa cítrica
+        <div class="d-flex flex-column card col-md-12">
+            <div class="col-md-12 d-flex flex-row">
+                <div class="requisition-text col-md-4">
+                    <input required type="text" name="requisition[sampleVector][1][name]" id="sample1"
+                        class="requisition-text" placeholder="Amostra 1">
                 </div>
-                <div class="btn-polpa col-md-8 d-flex align-items-center justify-content-center">
-                    <a id="add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
+                <div class="requisition-text col-md-4">
+                    <input required type="text" name="requisition[sampleVector][1][description]"
+                        class="requisition-text" placeholder="Descrição 1">
+                </div>
+                <div class="col-md-4 d-flex flex-row">
+                    <div class="checkbox col-md-6 d-flex align-items-center m-0">
+                        <input type="checkbox" id="polpa" name="requisition[sampleVector][1][citrus]" value="true"
+                            class="my-auto" />
+                        Contém polpa cítrica
+                    </div>
+                    <div class="btn-polpa col-md-6 d-flex align-items-center justify-content-center">
+                        <a id="add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex flex-row">
+                <div class="col-md-6 d-flex requisition-text align-items-center">
+                    <select id="sampletype" class="drowdownoptions w-100"
+                        name="requisition[sampleVector][1][sampletype]" required>
+                        {{#each allSampleTypes}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col-md-3 requisition-text">
+                    <input required id="packingtype" type="text" name="requisition[sampleVector][1][packingtype]"
+                        class="col-md-10" placeholder="Tipo de embalagem">
+                </div>
+                <div class="requisition-text col-md-3">
+                    <input required type="text" name="requisition[sampleVector][1][receivedquantity]" class="requisition-text"
+                        placeholder="Quantidade recebida (g)" value="{{receivedquantity}}">
                 </div>
             </div>
         </div>

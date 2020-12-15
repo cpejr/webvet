@@ -33,6 +33,7 @@ router.get(
         stringUsers,
         allStates,
         allDestinations,
+        allSampleTypes,
         ToxinasAll,
         ...req.session,
       });
