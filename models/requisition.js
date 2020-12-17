@@ -158,11 +158,11 @@ class Requisition {
    */
   static async create(requisition) {
     try {
-      let requisitionNumber = await Counter.getRequisitionCount();
-      requisition.requisitionNumber = requisitionNumber;
+      let requisitionnumber = await Counter.getRequisitionCount();
+      requisition.requisitionnumber = requisitionnumber;
       const result = await RequisitionModel.create(requisition);
-      requisitionNumber++;
-      Counter.setRequisitionCount(requisitionNumber);
+      requisitionnumber++;
+      Counter.setRequisitionCount(requisitionnumber);
       return result;
     } catch (error) {
       console.warn(error);
