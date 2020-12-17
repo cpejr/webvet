@@ -71,7 +71,7 @@ router.get(
       });
       //console.log("Samples: ", allSamples);
       res.render("requisition/specialpanel", {
-        title: "Painél de administração de amostras",
+        title: "Painel de Amostras",
         layout: "layoutDashboard.hbs",
         ...req.session,
         allSamples,
@@ -89,32 +89,42 @@ router.post(
   auth.isFromLab,
   async function (req, res) {
     const { sample } = req.body;
-    let toxinArray = new Array();
-    ToxinasAll.forEach((toxina) => {
-      sample[toxina.Full] && toxinArray.push(toxina.Full);
-    });
-    let frase = "";
-    let fraseCompleta =
-      "Foi detectada a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.";
+    const { _id } = sample;
+    delete sample._id;
 
-    toxinArray.forEach((name, index) => {
-      if (index === 0) {
-        frase = name;
-      } else if (index === toxinArray.length - 1) {
-        frase = frase + ` e ${name}`;
-      } else {
-        frase = frase + `, ${name}`;
-      }
-    });
-    console.log("🚀 ~ file: requisition.js ~ line 101 ~ toxinArray.forEach ~ toxinArray", toxinArray);
+    try {
+      let toxinArray = new Array();
+      ToxinasAll.forEach((toxina) => {
+        sample[toxina.Full] && toxinArray.push(toxina.Full);
+      });
+      let frase = "";
+      let fraseCompleta =
+        "Foi detectada a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.";
 
-    sample.parecer = fraseCompleta = fraseCompleta.replace("*frase*", frase);
-    sample.comment = "Amostra finalizada pelo painél especial";
+      toxinArray.forEach((name, index) => {
+        if (index === 0) {
+          frase = name;
+        } else if (index === toxinArray.length - 1) {
+          frase = frase + ` e ${name}`;
+        } else {
+          frase = frase + `, ${name}`;
+        }
+      });
 
-    console.log("🚀 ~ file: requisition.js ~ line 92 ~ sample", sample);
+      sample.parecer = fraseCompleta = fraseCompleta.replace("*frase*", frase);
+      if (sample.comment === '')
+        sample.comment =
+          "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.";
+      sample.report = true;
 
-    const result = await Sample.update
-    res.redirect("/requisition/specialpanel");
+      await Sample.updateCustom(_id, sample);
+
+      req.flash("success", "Amostra finalizada com sucesso!");
+      res.redirect("/requisition/specialpanel");
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
   }
 );
 
@@ -160,7 +170,7 @@ router.post(
       await Promise.all(promiseVector);
 
       req.flash("success", "Nova requisição enviada");
-      res.redirect("/requisition/specialpanel");
+      res.redirect("/requisition/specialnew");
     } catch (error) {
       console.warn(error);
       res.redirect("/error");

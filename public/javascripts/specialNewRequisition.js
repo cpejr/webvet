@@ -21,27 +21,61 @@ function addInput() {
     var newInput = document.createElement("div");
 
     let html = `
-    <div class="requisition-text col-md-4">
-        <input required type="text" name="requisition[sampleVector][${numInput}][name]" id="sample${numInput}"
-            class="requisition-text" placeholder="Amostra ${numInput}">
-    </div>
-    <div class="requisition-text col-md-4">
-        <input required type="text" name="requisition[sampleVector][${numInput}][description]" class="requisition-text"
-            placeholder="Descrição ${numInput}">
-    </div>
-    <div class="col-md-4 d-flex flex-row">
-        <div class="checkbox col-md-4 d-flex align-items-center m-0">
-            <input type="checkbox" id="polpa" name="requisition[sampleVector][${numInput}][citrus]" value="true"
-                class="my-auto" />
-            Contém polpa cítrica
-        </div>
-        <div class="btn-polpa col-md-8 d-flex align-items-center justify-content-center">
-            <a id="add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
-        </div>
-    </div>`;
+      <div class="col-md-12 d-flex flex-row">
+          <div class="requisition-text col-md-4">
+              <input required type="text" name="requisition[sampleVector][${numInput}][name]" id="sample1"
+                  class="requisition-text" placeholder="Amostra ${numInput}">
+          </div>
+          <div class="requisition-text col-md-4">
+              <input required type="text" name="requisition[sampleVector][${numInput}][description]"
+                  class="requisition-text" placeholder="Descrição ${numInput}">
+          </div>
+          <div class="col-md-4 d-flex flex-row">
+              <div class="checkbox col-md-6 d-flex align-items-center m-0">
+                  <input type="checkbox" id="polpa" name="requisition[sampleVector][${numInput}][citrus]" value="true"
+                      class="my-auto" />
+                  Contém polpa cítrica
+              </div>
+              <div class="btn-polpa col-md-6 d-flex align-items-center justify-content-center">
+                  <a id="add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-12 d-flex flex-row">
+          <div class="col-md-6 d-flex requisition-text align-items-center">
+              <select id="sampletype" class="drowdownoptions w-100"
+                  name="requisition[sampleVector][${numInput}][sampletype]" required>
+                  <option value="Algodão / Subprodutos">Algodão / Subprodutos</option>
+                  <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>
+                  <option value="Arroz">Arroz</option>
+                  <option value="Aveia">Aveia</option>
+                  <option value="Capim / Feno">Capim / Feno</option>
+                  <option value="Cevada /Subprodutos">Cevada /Subprodutos</option>
+                  <option value="Dieta Total">Dieta Total</option>
+                  <option value="Feijão">Feijão</option>
+                  <option value="Milho / Subprodutos">Milho / Subprodutos</option>
+                  <option value="Outros">Outros</option>
+                  <option value="Polpa Cítrica">Polpa Cítrica</option>
+                  <option value="Ração">Ração</option>
+                  <option value="Silagem">Silagem</option>
+                  <option value="Soja / Subprodutos">Soja / Subprodutos</option>
+                  <option value="Sorgo / Subprodutos">Sorgo / Subprodutos</option>
+                  <option value="Subprodutos">Subprodutos</option>
+                  <option value="Trigo / Subprodutos">Trigo / Subprodutos</option>
+              </select>
+          </div>
+          <div class="col-md-3 requisition-text">
+              <input required id="packingtype" type="text" name="requisition[sampleVector][${numInput}][packingtype]"
+                  class="col-md-10" placeholder="Tipo de embalagem">
+          </div>
+          <div class="requisition-text col-md-3">
+              <input required type="text" name="requisition[sampleVector][${numInput}][receivedquantity]" class="requisition-text"
+                  placeholder="Quantidade recebida (g)">
+          </div>
+      </div>`;
 
     newInput.innerHTML = html;
-    newInput.className = "d-flex flex-row col-md-12";
+    newInput.className = "d-flex flex-column card col-md-12 mt-2";
     $("#samples").append(newInput);
     numInput++;
   } else {

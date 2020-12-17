@@ -1,6 +1,9 @@
 <div class="requisition">
     <h4>Formulário facilitado de registro de requisição e amostras</h4>
     <h5 class="mt-4">Parte 1: Criar requisição</h5>
+    <div class="col-md-12 mb-3 d-flex align-items-center justify-content-center">
+        <a type="button" class="btn btn-primary" href="/requisition/specialpanel">Ir para parte 2</a>
+    </div>
 </div>
 <form action="/requisition/specialnew" method="post" class="d-flex flex-column align-items-center">
 
@@ -183,7 +186,7 @@
                 </div>
                 <div class="requisition-text col-md-3">
                     <input required type="text" name="requisition[sampleVector][1][receivedquantity]" class="requisition-text"
-                        placeholder="Quantidade recebida (g)" value="{{receivedquantity}}">
+                        placeholder="Quantidade recebida (g)">
                 </div>
             </div>
         </div>
@@ -212,8 +215,6 @@
         </div>
     </div>
     <div class="col-md-10 m-3">
-        <a type="button" class="btn btn-primary" href="/requisition/specialpanel">Ir para Parte 2 sem criar
-            requisição</a>
         <button type="submit" class="btn btn-success">Criar nova requisição</button>
     </div>
 </form>
