@@ -29,30 +29,36 @@
                                 </select>
                                 <div class="col-md-12 d-flex">
                                     <div class="requisition-text col-md-6">
-                                        <input required type="text" name="sample[{{name}}][absorbance]"
+                                        <input required type="number" name="sample[{{name}}][absorbance]"
                                             id="sample[{{name}}][absorbance]" class="requisition-text"
                                             placeholder="Absorvância 1" value="{{absorbance}}">
                                     </div>
                                     <div class="requisition-text col-md-6">
-                                        <input required type="text" name="sample[{{name}}][absorbance2]"
+                                        <input required type="number" name="sample[{{name}}][absorbance2]"
                                             id="sample[{{name}}][absorbance2]" class="requisition-text"
                                             placeholder="Absorvância 2" value="{{absorbance2}}">
                                     </div>
                                 </div>
                                 <div class="requisition-text col-md-12">
                                     <input required type="text" name="sample[{{name}}][result]"
-                                        id="sample[{{name}}][result]" class="requisition-text" placeholder="Resultado"
-                                        value="{{result}}">
+                                        id="sample[{{name}}][result]" class="requisition-text"
+                                        placeholder="Resultado (Número ou NaN)" value="{{result}}">
                                 </div>
                                 <div class="requisition-text col-md-12">
-                                    <input required type="text" name="sample[{{name}}][resultChart]"
+                                    <input required type="number" name="sample[{{name}}][resultChart]"
                                         id="sample[{{name}}][resultChart]" class="requisition-text"
-                                        placeholder="Resultado no gráfico" value="{{resultChart}}">
+                                        placeholder="Valor no gráfico" value="{{resultChart}}">
                                 </div>
                                 <div class="requisition-text col-md-12">
                                     <input required type="text" name="sample[{{name}}][resultText]"
                                         id="sample[{{name}}][resultText]" class="requisition-text"
-                                        placeholder="Resultado Final" value="{{resultText}}">
+                                        placeholder="Resultado no relatório" value="{{resultText}}">
+                                </div>
+                                <div
+                                    class="requisition-text d-flex align-items-center justify-content-space-between col-md-12">
+                                    <h6 class="m-0">Toxina detectada? </h6>
+                                    <input type="checkbox" name="sample[{{name}}][checked]"
+                                        id="sample[{{name}}][checked]" value="true" class="checkbox col-md-4">
                                 </div>
                             </div>
                         {{/each}}
@@ -64,6 +70,7 @@
                                 placeholder="Comentário" value="{{comment}}">
                         </div>
                     </div>
+                    <input hidden name="sample[_id]" id="_id" value={{_id}}>
 
                     <button type="submit" class="btn btn-success">Finalizar amostra</button>
                 </form>

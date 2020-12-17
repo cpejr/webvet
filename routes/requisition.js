@@ -89,7 +89,31 @@ router.post(
   auth.isFromLab,
   async function (req, res) {
     const { sample } = req.body;
-    console.log("Sample:", sample);
+    let toxinArray = new Array();
+    ToxinasAll.forEach((toxina) => {
+      sample[toxina.Full] && toxinArray.push(toxina.Full);
+    });
+    let frase = "";
+    let fraseCompleta =
+      "Foi detectada a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.";
+
+    toxinArray.forEach((name, index) => {
+      if (index === 0) {
+        frase = name;
+      } else if (index === toxinArray.length - 1) {
+        frase = frase + ` e ${name}`;
+      } else {
+        frase = frase + `, ${name}`;
+      }
+    });
+    console.log("🚀 ~ file: requisition.js ~ line 101 ~ toxinArray.forEach ~ toxinArray", toxinArray);
+
+    sample.parecer = fraseCompleta = fraseCompleta.replace("*frase*", frase);
+    sample.comment = "Amostra finalizada pelo painél especial";
+
+    console.log("🚀 ~ file: requisition.js ~ line 92 ~ sample", sample);
+
+    const result = await Sample.update
     res.redirect("/requisition/specialpanel");
   }
 );

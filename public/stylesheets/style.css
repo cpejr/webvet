@@ -7690,11 +7690,14 @@ input#OtherInput {
   width: 50%; }
 
 .panelCard {
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 3px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem; }
 
 .scroll {
   overflow-y: scroll;
   height: 50vh; }
+
+input[type="number"] {
+  -moz-appearance: textfield; }
 
 /*# sourceMappingURL=style.css.map */
