@@ -1,7 +1,4 @@
-const express = require("express");
-const router = express.Router();
 const mongoose = require("mongoose");
-const User = require("./user");
 const Counter = require("./counter");
 const Sample = require("./sample");
 
@@ -12,9 +9,7 @@ const requisitionSchema = new mongoose.Schema(
       ref: "User",
     },
     requisitionnumber: Number,
-    receivedquantity: Number, //Quantidade recebida
     autorizationnumber: String, //Controle interno do solicitante
-    packingtype: String, //Tipo de embalagem
     datecollection: String,
     datereceipt: String, //Data de recebimento
     comment: String,
@@ -161,18 +156,18 @@ class Requisition {
    * @param {Object} project - Requisition Document Data
    * @returns {string} New Requisition Id
    */
-  static create(requisition) {
-    return new Promise((resolve, reject) => {
-      Counter.getRequisitionCount().then(async (requisitionNumber) => {
-        let count = requisitionNumber;
-        requisition.requisitionnumber = count;
-
-        var value = await RequisitionModel.create(requisition);
-        count++;
-        Counter.setRequisitionCount(count);
-        resolve(value);
-      });
-    });
+  static async create(requisition) {
+    try {
+      let requisitionnumber = await Counter.getRequisitionCount();
+      requisition.requisitionnumber = requisitionnumber;
+      const result = await RequisitionModel.create(requisition);
+      requisitionnumber++;
+      Counter.setRequisitionCount(requisitionnumber);
+      return result;
+    } catch (error) {
+      console.warn(error);
+      return error;
+    }
   }
 
   /**
@@ -254,14 +249,15 @@ class Requisition {
    * @param {string} sample - Sample Id
    * @returns {null}
    */
-  static addSample(id, sample) {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.findByIdAndUpdate(id, {
+  static async addSample(id, sample) {
+    try {
+      await RequisitionModel.findByIdAndUpdate(id, {
         $push: { samples: sample },
-      }).catch((err) => {
-        reject(err);
       });
-    });
+    } catch (error) {
+      console.warn(error);
+      return error;
+    }
   }
 
   static getAllInProgress() {
@@ -277,7 +273,10 @@ class Requisition {
   }
 
   static async getAllByUserIdWithUser(userIds) {
-    return await RequisitionModel.find({ user: userIds }).populate("user", "fullname");
+    return await RequisitionModel.find({ user: userIds }).populate(
+      "user",
+      "fullname"
+    );
   }
 
   static getStateData() {
@@ -303,7 +302,7 @@ class Requisition {
           resolve(result);
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           reject(err);
         });
     });
@@ -333,7 +332,7 @@ class Requisition {
           resolve(result);
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           reject(err);
         });
     });

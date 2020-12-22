@@ -1,13 +1,12 @@
 const express = require("express");
-const firebase = require("firebase");
 const router = express.Router();
 const mongoose = require("mongodb");
-const auth = require("./middleware/auth");
+const auth = require("../middlewares/auth");
 const Requisition = require("../models/requisition");
 const User = require("../models/user");
 const Samples = require("../models/sample");
 const Covenant = require("../models/covenant");
-const { isAuthenticated } = require("./middleware/auth");
+const { isAuthenticated } = require("../middlewares/auth");
 const ObjectId = require("mongodb").ObjectID;
 
 router.get("/", auth.isAuthenticated, async function (req, res) {
@@ -99,7 +98,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
       ...req.session,
     });
   } catch (err) {
-    console.log(err);
+    console.warn(err);
     res.redirect("/error");
   }
 });

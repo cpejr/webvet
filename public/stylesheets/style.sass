@@ -9,60 +9,58 @@ $color5: #2B2B2B
 
 //PARTE DO DYNAMIC PLACE HOLDER
 // https://w3bits.com/css-floating-labels/
-.floating-label-field 
+.floating-label-field
   border-width: 0
   color: rgba(#2c3e50, .75)
-  &:focus 
+  &:focus
     outline: 0
-    box-shadow: 0  
-  &::placeholder 
+    box-shadow: 0
+  &::placeholder
     color: transparent
 
-.floating-label-field 
+.floating-label-field
   &:focus,
-  &:not(:placeholder-shown) 
+  &:not(:placeholder-shown)
     border-color: rgba(white, .1)
-    & + .floating-label 
+    & + .floating-label
       transform: translate(1%, -30%) scale(.8)
       opacity: .8
       white-space: nowrap
-    
-.floating-label-field 
+
+.floating-label-field
   & + .floating-label
     transition: transform .25s, opacity .25s ease-in-out
     transform-origin: 0 0
     opacity: .9
     white-space: nowrap
- 
 
-.floating-label-field 
+.floating-label-field
   &,
-  & + .floating-label 
+  & + .floating-label
     position: relative
 
-.floating-label-field 
-  & + .floating-label 
+.floating-label-field
+  & + .floating-label
     position: absolute
     top: 0
     left: 0
     user-select: none
     white-space: nowrap
-  
-.floating-label-field 
+
+.floating-label-field
   &,
-  & + .floating-label 
+  & + .floating-label
     line-height: 1
     font: inherit
     padding: 1.5em
     padding-bottom: 1em
     height: 4em
     white-space: nowrap
-  
-.floating-label-field 
+
+.floating-label-field
   background-color: transparent
   color: rgba(white, .75)
   white-space: nowrap
-
 
 #aflatoxina
   display: flex
@@ -124,7 +122,6 @@ $color5: #2B2B2B
   flex-wrap: wrap-reverse
   justify-content: flex-start
 
-
 @font-face
   font-family: 'OpenSans'
   src: url('../fonts/OpenSans-Regular.ttf') format('truetype')
@@ -145,7 +142,6 @@ $color5: #2B2B2B
   font-family: 'ProzaLibre-Bold'
   src: url("../fonts/ProzaLibre-Bold.ttf")
   font-weight: bold
-
 
 body
   padding: 0px
@@ -178,7 +174,6 @@ header
 .index-faixa
   color: #6ba05c
   background-color: #6ba05c
-
 
 .index-branco
   background-color: white
@@ -319,7 +314,6 @@ input.center
   float: left
   margin: 0 10px
 
-
 .signup-box
   width: 800px
   height: 800px
@@ -370,7 +364,6 @@ input.center
   border-bottom: 1px solid #006400
   margin-bottom: .7em
   min-height: 3em
-  
 
 .requisition-text input
   border: none
@@ -384,7 +377,6 @@ input.center
   padding: 1.5em
   padding-bottom: 1em
   height: 4em
-    
 
 .requisition-text textarea
   border: none
@@ -410,10 +402,8 @@ input.center
   margin: 52px 14px 0px 27px
   padding: 0px 13px 0px 5px
 
-
 .btn-enviar
   padding-top: 20px
-
 
 .form-conf
   margin-left: 3px
@@ -435,7 +425,6 @@ input.center
   text-align: center
   font-weight: bold
   text-decoration: underline
-
 
 .btn-destination
   text-align-last: left
@@ -508,7 +497,6 @@ input.center
   transform: translate(-50%,-50%)
   background: #000000
   text-align: center
-
 
 .user-box-device
   width: 100%
@@ -634,7 +622,6 @@ input.center
   cursor: pointer
   text-align: left
 
-
 //RECORD/show
 
 .showHeader
@@ -684,7 +671,6 @@ input.center
     font-size: 2em
     color: #2B2B2B
     padding-bottom: 1em
-
 
 //DASHBOARD-ADMIN
 
@@ -750,7 +736,6 @@ li
   -moz-transition: all 0.5s ease
   -o-transition: all 0.5s ease
   transition: all 0.5s ease
-
 
 #wrapper.toggled #sidebar-wrapper
   width: 250px
@@ -838,6 +823,7 @@ li
   top: 80px
   right: 10px
   margin-left: 10px
+  z-index: 10
 
 @media (max-width: 768px)
   #wrapper.toggled #sidebar-wrapper
@@ -994,9 +980,6 @@ li
   button:hover
     background-color: rgb(160, 170, 150)
 
-
-
-
 //CARDS-MYCOTOXINS
 
 .cards-container
@@ -1050,7 +1033,6 @@ li
   font-size: 42px
   text-align: center
 
-
 .cards-back
   transform: rotateY( 180deg ) translateZ( 0px )
   display: flex
@@ -1090,9 +1072,6 @@ li
   padding: 0.5rem
   background: $color3
 
-
-
-
 .queue-tab
   margin-top: -8px
 
@@ -1104,8 +1083,6 @@ li
 
 .queue-tabs input[type="radio"]:checked + label[class="Main"] + .queue-tab
   display: block
-
-
 
 @media (max-width: 45em)
   .tabs .tab,
@@ -1158,7 +1135,6 @@ li
   position: fixed
   text-align: center
 
-
 .showbox
   width: 660px
   height: 450px
@@ -1172,7 +1148,6 @@ li
   padding-left: 10px
   padding-right: 10px
   opacity: 0.85
-
 
 .showboxinfo
   text-align: left
@@ -1354,8 +1329,6 @@ li
 // BENZENO - INDEX
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300)
 
-
-
 .index-body
   font-family: 'Source Sans Pro', sans-serif
   color: white
@@ -1383,9 +1356,6 @@ li
     color: white
     font-weight: 300
 
-
-
-
 // 	background: #98FB98
 //   background: -webkit-linear-gradient(top left, #98FB98 0%, #98FB98 100%)
 //   background: -moz-linear-gradient(top left, #98FB98 0%, #98FB98 100%)
@@ -1399,11 +1369,6 @@ li
 // 	height: 58vh
 // 	margin-top: -400px
 // 	overflow: hidden
-
-
-
-
-
 
 .bg-bubbles
   position: absolute
@@ -1433,7 +1398,6 @@ li
       background-image: url("/images/benzeno.png")
       background-size: auto 150px
 
-
     &:nth-child(2)
       left: 20%
 
@@ -1445,15 +1409,11 @@ li
       background-image: url("/images/benzeno.png")
       background-size: auto 100px
 
-
-
     &:nth-child(3)
       left: 25%
       animation-delay: 4s
       background-image: url("/images/benzeno.png")
       background-size: auto 150px
-
-
 
     &:nth-child(4)
       left: 40%
@@ -1464,13 +1424,10 @@ li
       background-image: url("/images/benzeno.png")
       background-size: auto 80px
 
-
-
     &:nth-child(5)
       left: 70%
       background-image: url("/images/benzeno.png")
       background-size: auto 150px
-
 
     &:nth-child(6)
       left: 80%
@@ -1481,8 +1438,6 @@ li
       background-image: url("/images/benzeno.png")
       background-size: auto 170px
 
-
-
     &:nth-child(7)
       left: 32%
       width: 200px
@@ -1491,7 +1446,6 @@ li
       animation-delay: 7s
       background-image: url("/images/benzeno.png")
       background-size: auto 200px
-
 
     &:nth-child(8)
       left: 55%
@@ -1503,7 +1457,6 @@ li
       background-image: url("/images/benzeno.png")
       background-size: auto 40px
 
-
     &:nth-child(9)
       left: 25%
       width: 50px
@@ -1514,7 +1467,6 @@ li
       background-image: url("/images/benzeno.png")
       background-size: auto 50px
 
-
     &:nth-child(10)
       left: 90%
       width: 160px
@@ -1523,8 +1475,6 @@ li
       animation-delay: 11s
       background-image: url("/images/benzeno.png")
       background-size: auto 160px
-
-
 
 @-webkit-keyframes square
   0%
@@ -1600,8 +1550,7 @@ li
   background: none
   color: #696969
   font-size: 13px
-  width: 80%
-  margin: 0 10px
+  width: 100%
 
 .addkitothers-input
   display: none
@@ -1621,7 +1570,6 @@ li
 
 .alertaa
   margin-bottom: -11px
-
 
 //ALL KITS page
 
@@ -1739,14 +1687,12 @@ th.absorbance
   margin-top: -15px
 
 .btn-scnd-print
-  margin-left: 10px
   margin-top: 10px
 
 #btn-new-requisition
   border-style: none
   background-color: #6BA05C
   margin-top: -63px
-
 
 .data-atual
   margin-left: auto
@@ -1757,7 +1703,6 @@ th.absorbance
   font-weight: bold
   font-size: 17px
 
-
 .table-afla
   width: 10px
   margin-right: 57px
@@ -1765,7 +1710,6 @@ th.absorbance
 .table-afla-child
   margin-left: 25px
   margin-right: 57px
-
 
 .btn-count
   margin-left: -258px
@@ -1812,3 +1756,14 @@ input#OtherInput
   margin-right: auto
   margin-left: auto
   width: 50%
+
+.panelCard
+  border: 3px solid rgba(0, 0, 0, 0.125)
+  border-radius: 0.25rem
+
+.scroll
+  overflow-y: scroll
+  height: 50vh
+
+input[type="number"]
+  -moz-appearance: textfield

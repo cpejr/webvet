@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const auth = require("./middleware/auth");
+const auth = require("../middlewares/auth");
 const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
 const moment = require("moment");
@@ -42,7 +42,7 @@ router.get("/show/:id", auth.isAuthenticated, async function (req, res) {
 
     const Requisitiondata = {
       listToxinas: requisition.mycotoxin,
-      toxinas: requisition.mycotoxin.join(", "),
+      toxinas: requisition.mycotoxin.sort().join(", "),
       requisitionnumber: requisition.requisitionnumber,
       year: requisition.createdAt.getFullYear(),
       producer: requisition.producer,
@@ -90,7 +90,7 @@ router.get("/show/:id", auth.isAuthenticated, async function (req, res) {
       ...req.session,
     });
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.redirect("/error");
   }
 });
@@ -104,7 +104,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
 
     const Requisitiondata = {
       listToxinas: requisition.mycotoxin,
-      toxinas: requisition.mycotoxin.join(", "),
+      toxinas: requisition.mycotoxin.sort().join(", "),
       requisitionnumber: requisition.requisitionnumber,
       year: requisition.createdAt.getFullYear(),
       producer: requisition.producer,
@@ -116,8 +116,8 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       responsible: requisition.responsible,
     };
 
-    if (!sample.description)
-      sample.description = `Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:\nníveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.`;
+    if (!sample.comment)
+      sample.comment = `Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:\nníveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.`;
 
     ToxinasFull.forEach((toxinFull, index) => {
       const toxinInfo = sample[toxinFull];
@@ -169,8 +169,8 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
               resultChart = kit.Loq;
             } else if (roundResult > kit.Loq) {
               //Maior loq
-              newResultText = kit.Loq;
-              resultChart = kit.Loq;
+              newResultText = roundResult;
+              resultChart = roundResult;
             }
           }
 
@@ -186,7 +186,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
 
           toxinData.result = result;
           toxinData.resultText = resultText;
-          toxinData.resultChart = resultChart;
+          toxinData.resultChart = Number(resultChart);
           toxinData.checked = toxinInfo.checked;
           toxinData.roundResult = roundResult;
         }
@@ -196,7 +196,6 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
     // console.log(toxinVector);
     moment.locale("pt-br");
     sample.date = moment(sample.updatedAt).format("LL");
-
     res.render("report/editAdmin", {
       title: "Edição de laudo",
       sample,
@@ -205,7 +204,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       ...req.session,
     });
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.redirect("/error");
   }
 });
@@ -216,11 +215,11 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
     const { finalized } = req.query;
 
     const fieldsToUpdate = {
-      description: req.body.sample.description,
+      comment: req.body.sample.comment,
       parecer: req.body.sample.parecer,
     };
 
-    if (typeof finalized != "undefined") fieldsToUpdate.finalized = finalized;
+    if (finalized) fieldsToUpdate.finalized = finalized;
 
     for (let i = 0; i < ToxinasFormal.length; i++) {
       let toxin = ToxinasFull[i];
@@ -244,7 +243,7 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
     /**
      * Lógica de envio de emails caso finalizado
      */
-    if (fieldsToUpdate.finalized === true) {
+    if (fieldsToUpdate.finalized === "Disponivel") {
       const sampleData = await Sample.getRelatedEmails(sampleId);
 
       // console.log(sampleData);
@@ -254,7 +253,7 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       Email.reportEmail(email, fullname, sampleCode);
     }
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.redirect("/error");
   }
 });
@@ -278,7 +277,7 @@ router.get("/samples/:id", auth.isAuthenticated, function (req, res) {
       });
     })
     .catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect("/error");
     });
 });
@@ -291,7 +290,6 @@ router.get(
       const result = [];
 
       const amostras = await Sample.getAllReport();
-      // console.log(amostras);
 
       for (var j = 0; j < amostras.length; j++) {
         const amostra = amostras[j];

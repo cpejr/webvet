@@ -3,6 +3,82 @@
 <script type="text/javascript" src="/javascripts/statisticsBox.js"></script>
 <script type="text/javascript" src="/javascripts/Chart.BoxPlot.js"></script>
 
+<div>
+    <div class="container text-left card p-3">
+        <h5 class="card-title">Fitros:</h5>
+        <div class="row my-1 mx-0">
+            <label class="col-2">Data de início:</label>
+            <input id="startDateFilter" class="col" type="date" name="myDate" min="2000-01-01">
+            <button id="clearStartDate" class="col-1 btn btn-dark btn-sm ml-1">Limpar</button>
+        </div>
+        <div class="row my-1 mx-0">
+            <label class="col-2">Data Limite:</label>
+            <input id="limitDateFilter" class="col" type="date" name="myDate">
+            <button id="clearEndDate" class="col-1 btn btn-dark btn-sm ml-1">Limpar</button>
+        </div>
+        <div class="row my-1 mx-0">
+            <label class="col-2">Estado:</label>
+            <select id="stateFilter" class="col drowdownoptions" name="requisition[address][state]" required="required">
+                <option selected value="">Estado</option>
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espirito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+            </select>
+        </div>
+
+        <div class="row my-1 mx-0">
+            <label class="col-2">Tipo de amostra:</label>
+            <select id="typeFilter" class="drowdownoptions col" required="required">
+                <option selected value="">Tipo de amostra</option>
+                <option value="Algodão / Subprodutos">Algodão / Subprodutos</option>
+                <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>
+                <option value="Arroz">Arroz</option>
+                <option value="Aveia">Aveia</option>
+                <option value="Capim / Feno">Capim / Feno</option>
+                <option value="Cevada /Subprodutos">Cevada /Subprodutos</option>
+                <option value="Dieta Total">Dieta Total</option>
+                <option value="Feijão">Feijão</option>
+                <option value="Milho / Subprodutos">Milho / Subprodutos</option>
+                <option value="Outros">Outros</option>
+                <option value="Polpa Cítrica">Polpa Cítrica</option>
+                <option value="Ração">Ração</option>
+                <option value="Silagem">Silagem</option>
+                <option value="Soja / Subprodutos">Soja / Subprodutos</option>
+                <option value="Sorgo / Subprodutos">Sorgo / Subprodutos</option>
+                <option value="Subprodutos">Subprodutos</option>
+                <option value="Trigo / Subprodutos">Trigo / Subprodutos</option>
+            </select>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button id="applyFilter" class="btn success">Aplicar</button>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
     <div>
         <canvas id="aflatoxina"></canvas>

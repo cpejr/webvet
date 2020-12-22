@@ -1,67 +1,69 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
+    persontype: Boolean, // 0 = pessoa fisica, 1 = pessoa juridica
+    fullname: String,
+    firstname: String,
+    uid: {
+      type: String,
+    },
+    register: {
+      type: String, // CPF ou CNPJ
+      // unique: true
+    },
+    type: {
+      type: String,
+      enum: ["Admin", "Analista", "Produtor", "Gerencia"],
+      default: "Produtor",
+    },
+    email: {
+      type: String,
 
-  persontype: Boolean, // 0 = pessoa fisica, 1 = pessoa juridica
-  fullname: String,
-  firstname: String,
-  uid: {
-    type: String
+      lowercase: true,
+      // unique: true
+    },
+    phone: String,
+    cellphone: String,
+    status: {
+      type: String,
+      enum: ["Inativo", "Bloqueado", "Aguardando aprovação", "Ativo"],
+      default: "Aguardando aprovação",
+      required: true,
+    },
+    address: {
+      cep: Number,
+      street: String,
+      number: String,
+      neighborhood: String,
+      complement: String,
+      city: String,
+      state: String,
+      IE: String,
+    },
+    debt: {
+      type: Boolean, //1 for debtor, 0 for not debtor
+      default: 0,
+    },
+    deleted: {
+      type: Boolean, // 1 for deleted, 0 for not deleted
+      default: 0,
+    },
+    associatedProducers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    isOnCovenant: {
+      Type: Boolean,
+      default: false,
+    },
   },
-  register: {
-    type: String // CPF ou CNPJ
-    // unique: true
-  },
-  type: {
-    type: String,
-    enum: ['Admin', 'Analista', 'Produtor', 'Gerencia'],
-    default: 'Produtor'
+  { timestamps: true, static: false }
+);
 
-  },
-  email: {
-    type: String,
-
-    lowercase: true
-    // unique: true
-
-  },
-  phone: String,
-  cellphone: String,
-  status: {
-    type: String,
-    enum: ['Inativo', 'Bloqueado', 'Aguardando aprovação', 'Ativo'],
-    default: 'Aguardando aprovação',
-    required: true
-
-  },
-  address: {
-    cep: Number,
-    street: String,
-    number: String,
-    neighborhood: String,
-    complement: String,
-    city: String,
-    state: String
-  },
-  debt: {
-    type: Boolean, //1 for debtor, 0 for not debtor
-    default: 0
-  },
-  deleted: {
-    type: Boolean, // 1 for deleted, 0 for not deleted
-    default: 0
-  },
-  associatedProducers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-  isOnCovenant: {
-    Type: Boolean,
-    default: false
-  }
-}, { timestamps: true, static: false });
-
-const UserModel = mongoose.model('User', userSchema);
+const UserModel = mongoose.model("User", userSchema);
 
 class User {
   /**
@@ -70,11 +72,15 @@ class User {
    */
   static getAll() {
     return new Promise((resolve, reject) => {
-      UserModel.find({}).sort({ fullname: 1 }).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.find({})
+        .sort({ fullname: 1 })
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -83,23 +89,20 @@ class User {
    * @param {string} id - User Id
    * @returns {Object} - User Document Data
    */
-  static getById(id) {
-    return new Promise((resolve, reject) => {
-      UserModel.findById(id).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
+  static async getById(id) {
+    return await UserModel.findById(id);
   }
 
   static getByIdAndPopulate(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findById(id).populate({ path: 'associatedProducers', model: 'User' }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findById(id)
+        .populate({ path: "associatedProducers", model: "User" })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -110,11 +113,13 @@ class User {
    */
   static create(user) {
     return new Promise((resolve, reject) => {
-      UserModel.create(user).then((result) => {
-        resolve(result._id);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.create(user)
+        .then((result) => {
+          resolve(result._id);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -126,27 +131,31 @@ class User {
    */
   static update(id, user) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, user).then(() => {
-        resolve();
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findByIdAndUpdate(id, user)
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   /**
-  * Delete a User
-  * @param {string} id - User Id
-  * @returns {null}
-  */
+   * Delete a User
+   * @param {string} id - User Id
+   * @returns {null}
+   */
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findOneAndDelete({ _id: id }).then(() => {
-        resolve();
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findOneAndDelete({ _id: id })
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -157,67 +166,88 @@ class User {
    */
   static getByFirebaseId(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findOne({ uid: id }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findOne({ uid: id })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllActiveProducers() {
     return new Promise((resolve, reject) => {
-      UserModel.find({ type: "Produtor", status: "Ativo", deleted: false }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.find({ type: "Produtor", status: "Ativo", deleted: false })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllActiveManagers() {
     return new Promise((resolve, reject) => {
-      UserModel.find({ type: "Gerencia", status: "Ativo", deleted: false }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.find({ type: "Gerencia", status: "Ativo", deleted: false })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getAllActiveUnaffiliatedManagers() {
     return new Promise((resolve, reject) => {
-      UserModel.find({ type: "Gerencia", status: "Ativo", deleted: false, isOnCovenant: false }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.find({
+        type: "Gerencia",
+        status: "Ativo",
+        deleted: false,
+        isOnCovenant: false,
+      })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getByQuery(query) {
     return new Promise((resolve, reject) => {
-      UserModel.find(query).exec().then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.find(query)
+        .exec()
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   /**
-  * Add Producer to associatedProducers
-  * @param {string} id - User Id
-  * @param {string} user_id - User Id
-  * @returns {null}
-  */
+   * Add Producer to associatedProducers
+   * @param {string} id - User Id
+   * @param {string} user_id - User Id
+   * @returns {null}
+   */
   static addProducers(id, user_ids) {
     return new Promise((resolve, reject) => {
-      UserModel.findByIdAndUpdate(id, { $push: { associatedProducers: user_ids }, type : "Gerencia" }).then(result => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findByIdAndUpdate(id, {
+        $push: { associatedProducers: user_ids },
+        type: "Gerencia",
+      })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -230,33 +260,41 @@ class User {
   static removeProducer(id, user_id) {
     return new Promise((resolve, reject) => {
       // console.log("Ids: ", user_id);
-      UserModel.findByIdAndUpdate(id, { $pull: { "associatedProducers": user_id } }).then(result => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findByIdAndUpdate(id, {
+        $pull: { associatedProducers: user_id },
+      })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static addCovenant(id_array) {
     return new Promise((resolve, reject) => {
-      UserModel.updateMany({ _id: { $in: id_array } }, { isOnCovenant: true }).then(result => {
-        //console.log("Marcados como isOnCovenant");
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.updateMany({ _id: { $in: id_array } }, { isOnCovenant: true })
+        .then((result) => {
+          //console.log("Marcados como isOnCovenant");
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static removeCovenant(id_array) {
     return new Promise((resolve, reject) => {
-      UserModel.updateMany({ _id: { $in: id_array } }, { isOnCovenant: false }).then(result => {
-        //console.log("Desmarcados do isOnCovenant");
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.updateMany({ _id: { $in: id_array } }, { isOnCovenant: false })
+        .then((result) => {
+          //console.log("Desmarcados do isOnCovenant");
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -267,11 +305,15 @@ class User {
    */
   static getAssociatedProducersById(id) {
     return new Promise((resolve, reject) => {
-      UserModel.findById(id).populate({ path: 'associatedProducers' }).exec().then((result) => {
-        resolve(result.associatedProducers);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findById(id)
+        .populate({ path: "associatedProducers" })
+        .exec()
+        .then((result) => {
+          resolve(result.associatedProducers);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -281,27 +323,36 @@ class User {
    */
   static count() {
     return new Promise((resolve, reject) => {
-      UserModel.countDocuments({ $or: [{ type: 'Convenio' }, { type: 'Produtor' }, { type: 'Gerencia' }] }).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.countDocuments({
+        $or: [{ type: "Convenio" }, { type: "Produtor" }, { type: "Gerencia" }],
+      })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   /**
- * Get all Users that match the desired query
- * @param {Object} query - Object that defines the filter
- * @param {Object} sort - Object that defines the sort method
- * @returns {Object} User Document Data
- */
+   * Get all Users that match the desired query
+   * @param {Object} query - Object that defines the filter
+   * @param {Object} sort - Object that defines the sort method
+   * @returns {Object} User Document Data
+   */
   static getByQuerySorted(query, sort) {
     return new Promise((resolve, reject) => {
-      UserModel.find(query).sort(sort).populate().exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.find(query)
+        .sort(sort)
+        .populate()
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -311,11 +362,14 @@ class User {
    */
   static getAdmin() {
     return new Promise((resolve, reject) => {
-      UserModel.findOne({ type: "Admin" }).exec().then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findOne({ type: "Admin" })
+        .exec()
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -326,34 +380,47 @@ class User {
    */
   static getOneByQuery(query) {
     return new Promise((resolve, reject) => {
-      UserModel.findOne(query).exec().then((results) => {
-        resolve(results);
-      }).catch((err) => {
-        reject(err);
-      });
+      UserModel.findOne(query)
+        .exec()
+        .then((results) => {
+          resolve(results);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static getPendingAndInactive() {
     return new Promise((resolve, reject) => {
       UserModel.aggregate([
-        { $match: { $or: [{ status: "Inativo" }, { status: "Aguardando aprovação" }] } },
+        {
+          $match: {
+            $or: [{ status: "Inativo" }, { status: "Aguardando aprovação" }],
+          },
+        },
         {
           $group: {
             _id: "$status",
-            users: { $push: "$$ROOT" }
-          }
-        }
-      ]).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+            users: { $push: "$$ROOT" },
+          },
+        },
+      ])
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   static async getManagersOfUserById(userId) {
-    return await UserModel.find({associatedProducers: userId});
+    return await UserModel.find({ associatedProducers: userId });
+  }
+
+  static async getOneByFields(fields) {
+    return await UserModel.findOne({ ...fields });
   }
 }
 

@@ -5,7 +5,6 @@
     <p> Dados de Cobrança</p>
   </div>
   </br>
-  <button id="btn-new-address" class="btn btn-success" type="button">Cadastrar outros dados de cobrança</button>
 </div>
 
 <form action="/requisition/new" method="post" class="d-flex flex-column align-items-center">
@@ -20,7 +19,7 @@
           placeholder="Selecione o Usuário">
           <option disabled selected value="">Selecione o Usuário</option>
           {{#each users}}
-          <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+            <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
           {{/each}}
         </select>
       </div>
@@ -31,7 +30,7 @@
           placeholder="Selecione o Usuário">
           <option disabled selected value="">Selecione o Usuário</option>
           {{#each users}}
-          <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+            <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
           {{/each}}
         </select>
       </div>
@@ -127,7 +126,7 @@
         placeholder="Nome do cliente | Fazenda | Produtor">
     </div>
     <div class="requisition-text col-md-6">
-      <input required type="text" name="requisition[autorizationnumber]" class="requisition-text"
+      <input type="text" name="requisition[autorizationnumber]" class="requisition-text"
         placeholder="Número de Autorização">
     </div>
 
@@ -177,13 +176,13 @@
   <div class="form-group d-flex flex-wrap text-left justify-content-center">
     <div class="column">
       <div class="form-check">
-        <input checked id="Aves" class="form-check-input required destination" type="radio"
+        <input checked id="Aves" class="form-check-input" type="radio"
           name="requisition[destination]" value="Aves">
         <label for="Aves" class="radio-text form-check-label mr-3"> Aves </label>
       </div>
 
       <div class="form-check">
-        <input id="leite" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="leite" class="form-check-input" type="radio" name="requisition[destination]"
           value="Gado de Leite">
         <label for="leite" class="radio-text form-check-label mr-3"> Gado de Leite </label>
       </div>
@@ -191,13 +190,13 @@
 
     <div class="column">
       <div class="form-check">
-        <input id="corte" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="corte" class="form-check-input" type="radio" name="requisition[destination]"
           value="Gado de Corte">
         <label for="corte" class="radio-text form-check-label mr-3"> Gado de Corte </label>
       </div>
 
       <div class="form-check">
-        <input id="Pig" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Pig" class="form-check-input" type="radio" name="requisition[destination]"
           value="Suínos">
         <label for="Pig" class="radio-text form-check-label mr-3"> Suínos </label>
       </div>
@@ -205,13 +204,13 @@
 
     <div class="column">
       <div class="form-check">
-        <input id="Horse" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Horse" class="form-check-input" type="radio" name="requisition[destination]"
           value="Equinos">
         <label for="Horse" class="radio-text form-check-label mr-3"> Equinos </label>
       </div>
 
       <div class="form-check">
-        <input id="Goat" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Goat" class="form-check-input" type="radio" name="requisition[destination]"
           value="Caprinos">
         <label for="Goat" class="radio-text form-check-label mr-3"> Caprinos </label>
       </div>
@@ -219,24 +218,24 @@
 
     <div class="column">
       <div class="form-check">
-        <input id="Sheep" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Sheep" class="form-check-input" type="radio" name="requisition[destination]"
           value="Ovinos">
         <label for="Sheep" class="radio-text form-check-label mr-3"> Ovinos </label>
       </div>
       <div class="form-check">
-        <input id="Fish" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Fish" class="form-check-input" type="radio" name="requisition[destination]"
           value="Peixes">
         <label for="Fish" class="radio-text form-check-label mr-3"> Peixes </label>
       </div>
     </div>
     <div class="column">
       <div class="form-check">
-        <input id="Pet" class="form-check-input destination" type="radio" name="requisition[destination]" value="Pet">
+        <input id="Pet" class="form-check-input" type="radio" name="requisition[destination]" value="Pet">
         <label for="Pet" class="radio-text form-check-label mr-3"> Pet </label>
       </div>
 
       <div class="form-check">
-        <input id="Matéria-Prima" class="form-check-input destination" type="radio" name="requisition[destination]"
+        <input id="Matéria-Prima" class="form-check-input" type="radio" name="requisition[destination]"
           value="Matéria-Prima">
         <label for="Matéria-Prima" class="radio-text form-check-label mr-3"> Matéria-Prima(Fábrica de Ração) </label>
       </div>
@@ -261,7 +260,8 @@
   </div>
   <div class="d-flex flex-column col-md-10 justify-content-center">
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-      <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não polpa cítrica na amostra
+      <strong>Atenção!</strong> Deve ser informado junto ao nome da identificação se há ou não <strong>polpa
+        cítrica</strong> na amostra
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -341,5 +341,5 @@
     $('select#userstate').val(userstate);
   });
 </script>
-<script src="/javascripts/reqFunc.js"></script>
+<script src="/javascripts/reqFunc.js" />
 <script src="/javascripts/dynamicPlaceHolder.js" />

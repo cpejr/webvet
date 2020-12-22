@@ -1,10 +1,7 @@
 const express = require('express');
-const firebase = require('firebase');
 const router = express.Router();
-const mongoose = require('mongodb');
-const auth = require('./middleware/auth');
+const auth = require('../middlewares/auth');
 const User = require('../models/user');
-const Email = require('../models/email');
 
 /* GET home page. */
 
@@ -15,7 +12,7 @@ router.get('/show', auth.isAuthenticated, function(req, res) {
     res.render('profile/show', { title: 'Perfil', layout: 'layoutDashboard.hbs', user});
 
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 
@@ -26,7 +23,7 @@ router.get('/edit/:id', auth.isAuthenticated, function(req, res) {
   User.getById(req.params.id).then((user) => {
     res.render('profile/edit', { title: 'Editar perfil', layout: 'layoutDashboard.hbs', user});
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
     res.redirect('/error');
   });
 });
@@ -43,11 +40,11 @@ router.put('/edit/:id', auth.isAuthenticated, function(req, res) {
           req.flash('success', 'Alterações no perfil realizadas');
           res.redirect('/profile/show');
       }).catch((error) => {
-        console.log(error);
+        console.warn(error);
         res.redirect('/error');
       });
      }).catch((error) => {
-       console.log(error);
+       console.warn(error);
        res.redirect('/error');
      });
   });

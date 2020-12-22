@@ -4,7 +4,7 @@ const Kit = require("../models/kit");
 const Workmap = require("../models/Workmap");
 const Sample = require("../models/sample");
 const Counter = require("../models/counter");
-const auth = require("./middleware/auth");
+const auth = require("../middlewares/auth");
 
 router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
   Sample.getAllActiveWithWorkmap()
@@ -65,9 +65,15 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
       });
     })
     .catch((error) => {
-      console.log(error);
+      console.warn(error);
     });
 });
+
+// router.get('/renameSample', async function(req, res){
+//   await Sample.rename();
+//   console.log("Ta feita a merda");
+//   res.redirect("/")
+// });
 
 router.post("/", auth.isAuthenticated, auth.isFromLab, function (req, res) {
   //Dando update em todos os kits ativos.
@@ -112,7 +118,7 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, function (req, res) {
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.warn(error);
     });
 
   function updateKits(KitArray) {

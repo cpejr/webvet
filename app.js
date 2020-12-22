@@ -15,6 +15,8 @@ const admin = require('firebase-admin');
 const flash = require('express-flash');
 const session = require('express-session');
 
+require('./models/email').config();
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const stockRouter = require('./routes/stock');
@@ -56,13 +58,73 @@ ToxinasFull = [
 ToxinasFormal = [
   "Aflatoxinas",
   "Deoxinivalenol",
-  "Fumonisina",
+  "Fumonisinas",
   "Ocratoxina A",
   "T-2 toxina",
   "Zearalenona",
 ];
+allStates = [
+  {name: "Acre" , initials: "AC"},
+  {name: "Alagoas", initials: "AL"},
+  {name: "Amapá", initials: "AP"},
+  {name: "Amazonas", initials: "AM"},
+  {name: "Bahia", initials: "BA"},
+  {name: "Ceará", initials: "CE"},
+  {name: "Distrito Federal", initials: "DF"},
+  {name: "Espírito Santo", initials: "ES"},
+  {name: "Goiás", initials: "GO"},
+  {name: "Maranhão", initials: "MA"},
+  {name: "Mato Grosso do Sul", initials: "MS"},
+  {name: "Mato Grosso", initials: "MT"},
+  {name: "Minas Gerais", initials: "MG"},
+  {name: "Pará", initials: "PA"},
+  {name: "Paraíba", initials: "PB"},
+  {name: "Paraná", initials: "PR"},
+  {name: "Pernambuco", initials: "PE"},
+  {name: "Piauí", initials: "PI"},
+  {name: "Rio de Janeiro", initials: "RJ"},
+  {name: "Rio Grande do Norte", initials: "RN"},
+  {name: "Rio Grande do Sul", initials: "RS"},
+  {name: "Rondônia", initials: "RO"},
+  {name: "Roraima", initials: "RR"},
+  {name: "Santa Catarina", initials: "SC"},
+  {name: "São Paulo", initials: "SP"},
+  {name: "Sergipe", initials: "SE"},
+  {name: "Tocantins", initials: "TO"}
+];
+allDestinations = [
+  "Aves",
+  "Gado de Leite",
+  "Gado de Corte",
+  "Suínos",
+  "Equinos",
+  "Caprinos",
+  "Ovinos",
+  "Peixes",
+  "Pet",
+  "Matéria Prima",
+  "Outros"
+];
+allSampleTypes = [
+  "Algodão / Subprodutos",
+  "Amendoim / Subprodutos",
+  "Arroz",
+  "Aveia",
+  "Capim / Feno",
+  "Cevada /Subprodutos",
+  "Dieta Total",
+  "Feijão",
+  "Milho / Subprodutos",
+  "Outros",
+  "Polpa Cítrica",
+  "Ração",
+  "Silagem",
+  "Soja / Subprodutos",
+  "Sorgo / Subprodutos",
+  "Subprodutos",
+  "Trigo / Subprodutos"
+]
 ToxinasAll = [];
-
 for (let i = 0; i < ToxinasFull.length; i++) {
   ToxinasAll[i] = {
     Full: ToxinasFull[i],

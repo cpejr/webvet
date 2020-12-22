@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const UserModel = require("./user");
-
 const covenantSchema = new mongoose.Schema({
   name: String,
   managers: [
@@ -115,7 +113,7 @@ class Covenant {
         return { ids: [userId, ...associated], name };
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       return null;
     }
   }

@@ -1,9 +1,5 @@
 const express = require('express');
-const firebase = require('firebase');
 const router = express.Router();
-const mongoose = require('mongodb');
-const auth = require('./middleware/auth');
-const Sample = require('../models/sample');
 const Workmap = require('../models/Workmap');
 
 function dynamicSort(property) {

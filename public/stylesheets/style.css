@@ -6842,7 +6842,8 @@ li {
   position: fixed;
   top: 80px;
   right: 10px;
-  margin-left: 10px; }
+  margin-left: 10px;
+  z-index: 10; }
 
 @media (max-width: 768px) {
   #wrapper.toggled #sidebar-wrapper {
@@ -7498,8 +7499,7 @@ li {
   background: none;
   color: #696969;
   font-size: 13px;
-  width: 80%;
-  margin: 0 10px; }
+  width: 100%; }
 
 .addkitothers-input {
   display: none; }
@@ -7634,7 +7634,6 @@ th.absorbance {
   margin-top: -15px; }
 
 .btn-scnd-print {
-  margin-left: 10px;
   margin-top: 10px; }
 
 #btn-new-requisition {
@@ -7690,5 +7689,16 @@ input#OtherInput {
   margin-right: auto;
   margin-left: auto;
   width: 50%; }
+
+.panelCard {
+  border: 3px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem; }
+
+.scroll {
+  overflow-y: scroll;
+  height: 50vh; }
+
+input[type="number"] {
+  -moz-appearance: textfield; }
 
 /*# sourceMappingURL=style.css.map */

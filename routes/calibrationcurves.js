@@ -1,74 +1,68 @@
-const express = require('express');
-const firebase = require('firebase');
+const express = require("express");
 const router = express.Router();
-const mongoose = require('mongodb');
-const auth = require('./middleware/auth');
-const Kit = require('../models/kit');
-const Sample = require('../models/sample');
-const regression = require('regression');
-const Workmap = require('../models/Workmap');
+const auth = require("../middlewares/auth");
+const Kit = require("../models/kit");
+const Sample = require("../models/sample");
+const Workmap = require("../models/Workmap");
+const SimpleLinearRegression = require("ml-regression-simple-linear");
 
-router.get('/', auth.isAuthenticated, async function (req, res) {
+router.get("/", auth.isAuthenticated, async function (req, res) {
   async function calcular(toxinafull, toxinasigla) {
+    let kit = await Kit.getActive(toxinasigla);
 
-    var kit = await Kit.getActive(toxinasigla);
+    let mapas = [];
+    let p_concentration = [];
+    let p_absorvance = [];
+    let resultado = {};
+
+    const P = ["P1", "P2", "P3", "P4", "P5"];
     if (kit !== null) {
-      var mapas = [];
-      var p_concentration = [];
-      var p_absorvance = [];
-      var resultado = {};
-
       //Parte responsável por pegar a concentracao e absorvancia settadas no kit ativo
-      p_concentration[0] = kit.calibrators.P1.concentration;
-      p_concentration[1] = kit.calibrators.P2.concentration;
-      p_concentration[2] = kit.calibrators.P3.concentration;
-      p_concentration[3] = kit.calibrators.P4.concentration;
-      p_concentration[4] = kit.calibrators.P5.concentration;
-
-      p_absorvance[0] = kit.calibrators.P1.absorbance;
-      p_absorvance[1] = kit.calibrators.P2.absorbance;
-      p_absorvance[2] = kit.calibrators.P3.absorbance;
-      p_absorvance[3] = kit.calibrators.P4.absorbance;
-      p_absorvance[4] = kit.calibrators.P5.absorbance;
+      p_concentration = P.map((p) => kit.calibrators[p].concentration);
+      p_absorvance = P.map((p) => kit.calibrators[p].absorbance);
 
       //parte responsável por pegar as amostras do kit, logo  através do kit ativo de afla pega na variável mapArray o id dos mapas que estão sendo utilizados naqueles kits
       mapas = await Workmap.getByIdArray(kit.mapArray);
       var samples_id = [];
 
       //Após ter os ids dos mapas de trabalho que estão sendo utilizados roda um for para percorrer todos os mapas e um for dentro desse para acessar todas as amostras em cada mapa
-      const promises = mapas.map(async (map) =>
-        samples_id = samples_id.concat(map.samplesArray)
+      const promises = mapas.map(
+        async (map) => (samples_id = samples_id.concat(map.samplesArray))
       );
 
       await Promise.all(promises);
 
       amostras = await Sample.getActiveByIdArray(samples_id, toxinafull);
 
-      var log_concentracao = [Math.log10(p_concentration[1]), Math.log10(p_concentration[2]), Math.log10(p_concentration[3]), Math.log10(p_concentration[4])]; //eixo x
+      var log_concentracao = [
+        Math.log10(p_concentration[1]),
+        Math.log10(p_concentration[2]),
+        Math.log10(p_concentration[3]),
+        Math.log10(p_concentration[4]),
+      ]; //eixo x
+
       var b_b0 = [];
       var ln_b_b0 = [];
 
       for (var i = 0; i < 4; i++)
         b_b0[i] = p_absorvance[i + 1] / p_absorvance[0];
 
-
       for (var i = 0; i < b_b0.length; i++)
         ln_b_b0[i] = Math.log10(b_b0[i] / (1 - b_b0[i]));
 
-      const result = regression.linear([[log_concentracao[0], ln_b_b0[0]], [log_concentracao[1], ln_b_b0[1]], [log_concentracao[2], ln_b_b0[2]]]);
-      const slope = result.equation[0];// slope
-      const yIntercept = result.equation[1];// intercept
-
+      const result = new SimpleLinearRegression(log_concentracao, ln_b_b0);
+      const { slope, intercept } = result;
+      const score = result.score(log_concentracao, ln_b_b0);
 
       resultado.parte1 = {
-        intercept: yIntercept,
-        resultado: result.r2,
+        intercept: intercept,
+        resultado: score.r * -1,
         slope: slope,
       };
 
       resultado.parte2 = {
         absorbance: p_absorvance,
-        concentration: p_concentration
+        concentration: p_concentration,
       };
     }
     return resultado;
@@ -86,20 +80,25 @@ router.get('/', auth.isAuthenticated, async function (req, res) {
         valores: resultado.parte1,
       };
 
-      for (let jcali = 0; jcali < 5; jcali++) { //5 calibradores
+      for (let jcali = 0; jcali < 5; jcali++) {
+        //5 calibradores
         toxinas[index].calibradores[jcali] = {
           concentracao: resultado.parte2.concentration[jcali],
           absorvancia: resultado.parte2.absorbance[jcali],
-          calname: "P" + (jcali + 1)
+          calname: "P" + (jcali + 1),
         };
       }
     }
     //Check if is the last
     count++;
     if (count == ToxinasSigla.length)
-      res.render('calibrationcurves', { title: 'Curvas de Calibração', toxinas, ...req.session, layout:"layoutFinalization.hbs" });
+      res.render("calibrationcurves", {
+        title: "Curvas de Calibração",
+        toxinas,
+        ...req.session,
+        layout: "layoutFinalization.hbs",
+      });
   });
-})
-
+});
 
 module.exports = router;

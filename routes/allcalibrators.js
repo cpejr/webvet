@@ -1,14 +1,8 @@
-
 var express = require('express');
-var firebase = require('firebase');
 var router = express.Router();
-const auth = require('./middleware/auth');
-const User = require('../models/user');
-const Requisition = require('../models/requisition');
+const auth = require('../middlewares/auth');
 const Kit = require('../models/kit');
-const Email = require('../models/email');
-const Workmap = require('../models/Workmap');
-const Sample = require('../models/sample');
+
 
 router.get('/', (req, res) => {
   var names = ["AFLA", "DON", "FBS", "OTA", "T2", "ZEA"];
@@ -23,10 +17,10 @@ router.post('/', auth.isAuthenticated, function (req, res) {
     updateKitsCalibrators(activekits).then(() => {
       res.redirect("/calibrationcurves");
     }).catch((error) => {
-      console.log(error);
+      console.warn(error);
     });
   }).catch((error) => {
-    console.log(error);
+    console.warn(error);
   });
 
   function updateKitsCalibrators(kits) {
@@ -49,7 +43,7 @@ router.post('/', auth.isAuthenticated, function (req, res) {
         Current_kit.calibrators.P5.absorbance = parseFloat(req.body[sigla + "Calibrator"].P5);
 
         let promise = Kit.update(Current_kit._id, Current_kit).catch((err) => {
-          console.log(err);
+          console.warn(err);
         });
 
         promises.push(promise);

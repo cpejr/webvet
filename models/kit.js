@@ -536,7 +536,7 @@ class Kit {
               KitModel.findById(listIds[i]);
             });
           } catch (err) {
-            console.log("Erro de sincronizacao");
+            console.log("Erro de sincronização");
           } finally {
             valueObject.push({ loq: result.Loq, lod: result.Lod });
           }
@@ -570,7 +570,7 @@ class Kit {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           reject(err);
         });
     });
@@ -600,6 +600,48 @@ class Kit {
         .then((response) => resolve(response))
         .catch((err) => reject(err));
     });
+  }
+
+  static async getAllForSpecialPanel() {
+    try {
+      const result = await KitModel.aggregate([
+        {
+          $match: {
+            deleted: false,
+          },
+        },
+        {
+          $project: {
+            Lod: 1,
+            Loq: 1,
+            provider: 1,
+            productCode: 1,
+            productDescription: 1,
+          },
+        },
+      ]);
+      //console.log("Result: ", result);
+      const obj = new Array;
+      ToxinasAll.forEach((toxin) => {
+        const filteredKits = result.filter(
+          (aux) =>
+            aux.productCode ===
+            (toxin.Sigla === "FBS" ? "FUMO Romer" : toxin.Sigla + " Romer")
+        )
+        let aux = {name: toxin.Full}
+        if(filteredKits.length > 0){
+          aux.kits = filteredKits
+        }else{
+          aux.kits = false
+        }
+        obj.push(aux);
+      });
+      //console.log("New object: ", obj);
+      return obj;
+    } catch (error) {
+      console.warn(error);
+      return error;
+    }
   }
 
   static countAvailableWorkmaps() {

@@ -75,7 +75,7 @@ class Counter {
             CounterModel.findOneAndUpdate({}, { $set: { 'sampleCount': num } }).exec()
                 .then(res => resolve(res)).catch(err => {
                     reject(err);
-                    console.log(err);
+                    console.warn(err);
                 });
         });
     }
@@ -85,7 +85,7 @@ class Counter {
             CounterModel.findOneAndUpdate({}, { $set: { 'requisitionCount': num } }).exec()
                 .then(res => resolve(res)).catch(err => {
                     reject(err);
-                    console.log(err);
+                    console.warn(err);
                 });
         });
     }
@@ -95,7 +95,7 @@ class Counter {
             CounterModel.findOneAndUpdate({}, { $set: { 'finalizationCount': num } }).exec()
                 .then(res => resolve(res)).catch(err => {
                     reject(err);
-                    console.log(err);
+                    console.warn(err);
                 });
         });
     }
@@ -133,7 +133,7 @@ class Counter {
         return new Promise((resolve, reject) => {
             CounterModel.findOne({}).then((result) => {
 
-                //if doesn't exist a counter, will create a new one
+                //if a counter doesn't exist, will create a new one
                 if (result != null)
                     sendValue(result, this)
                 else

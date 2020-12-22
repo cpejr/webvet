@@ -1,31 +1,75 @@
 const nodemailer = require("nodemailer");
+const tokenModel = require("./token");
+const GmailOAuth = require("../utils/GmailOAuth");
 
-const transporter = nodemailer.createTransport({
-  host: `${process.env.EMAIL_HOST}`,
-  port: `${process.env.EMAIL_PORT}`,
-  secure: false,
-  auth: {
-    user: `${process.env.EMAIL_USER}`,
-    pass: `${process.env.EMAIL_PASS}`,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+/**
+ * This function will generate a link to get the new credentials.
+ */
+function getAccessTokenURL() {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: "offline",
+    scope: SCOPES,
+  });
+  return authUrl;
+}
 
+let transporter;
+let token;
+let TransportConfig;
 class Email {
-  static sendEmail(data) {
+  static async config() {
+    const gmailOAuth = new GmailOAuth();
+    token = await gmailOAuth.config();
+
+    if (token) {
+      const credentials = token.token;
+
+      TransportConfig = {
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          type: "OAuth2",
+          user: `${process.env.EMAIL_USER}`,
+          clientId: `${process.env.EMAIL_CLIENT_ID}`,
+          clientSecret: `${process.env.EMAIL_CLIENT_SECRET}`,
+          refreshToken: credentials.refresh_token,
+          accessToken: credentials.access_token,
+          expires: credentials.expiry_date,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      };
+
+      console.log(TransportConfig);
+      transporter = nodemailer.createTransport(TransportConfig);
+
+      transporter.on("token", (token) => {
+        // Store the token in to the database
+        console.log(token);
+        gmailOAuth.updateToken({
+          access_token: token.accessToken,
+          expiry_date: token.expires,
+        });
+      });
+    }
+  }
+
+  static async sendEmail(data) {
     const config = {
       from: `${process.env.EMAIL_USER}`,
       to: data.to,
       subject: data.subject,
       text: data.text,
       attachments: data.attachments,
+      auth: { user: `${process.env.EMAIL_USER}` },
     };
+    console.log(config);
     return new Promise((resolve, reject) => {
       transporter.sendMail(config, (error, info) => {
         if (error) {
-          console.log(error);
+          console.warn(error);
           reject(error);
         } else {
           // console.log(`Email enviado ${info.response}`);
@@ -35,29 +79,7 @@ class Email {
     });
   }
 
-  static contactEmail(to, subject, name) {
-    // Função Estragada
-    const config = {
-      from: `${process.env.EMAIL_USER}`,
-      to: to,
-      subject: subject,
-      text: `Mensagem enviada por: ${name}
-
-      ${data.content}`,
-    };
-    return new Promise((resolve) => {
-      transporter.sendMail(config, (error, info) => {
-        if (error) {
-          resolve(error);
-        } else {
-          // console.log(`Email enviado ${info.response}`);
-          resolve(info);
-        }
-      });
-    });
-  }
-
-  static userWaitingForApproval(to, firstName) {
+  static async userWaitingForApproval(to, firstName) {
     const content = `Prezado(a) ${firstName},
     Você acabou de cadastrar na plataforma Lamico. Aguarde a ativação do seu cadastro para começar a utilizar o sistema.`;
     const subject = "LAMICO: Aguardando ativação de cadastro";
@@ -66,15 +88,11 @@ class Email {
       subject: subject,
       text: content,
     };
-    return new Promise((resolve) => {
-      Email.sendEmail(emailContent).then((info) => {
-        resolve(info);
-      });
-    });
+
+    return await Email.sendEmail(emailContent);
   }
 
-  static newUserNotificationEmail(to) {
-    // console.log("Email enviado");
+  static async newUserNotificationEmail(to) {
     const content = `Prezada Kelly, novo cadastro a ser aprovado na plataforma`;
     const subject = "Novo cadastro";
     const emailContent = {
@@ -82,14 +100,11 @@ class Email {
       subject: subject,
       text: content,
     };
-    return new Promise((resolve) => {
-      Email.sendEmail(emailContent).then((info) => {
-        resolve(info);
-      });
-    });
+
+    return await Email.sendEmail(emailContent);
   }
 
-  static userApprovedEmail(to, firstName) {
+  static async userApprovedEmail(to, firstName) {
     // console.log("Cadastro de usuário aprovado");
     const content = `Prezado(a) ${firstName},
     Seu cadastro foi realizado e aprovado com sucesso. Entre na plataforma com seu email e senha`;
@@ -99,14 +114,11 @@ class Email {
       subject: subject,
       text: content,
     };
-    return new Promise((resolve) => {
-      Email.sendEmail(emailContent).then((info) => {
-        resolve(info);
-      });
-    });
+
+    return await Email.sendEmail(emailContent);
   }
 
-  static reportEmail(to, firstName, sampleCode) {
+  static async reportEmail(to, firstName, sampleCode) {
     // console.log("Enviando email de laudo...");
     const content = `Prezado(a) ${firstName},
     O laudo referente a amostra ${sampleCode} já está disponível na plataforma.
@@ -117,14 +129,11 @@ class Email {
       subject: subject,
       text: content,
     };
-    return new Promise((resolve) => {
-      Email.sendEmail(emailContent).then((info) => {
-        resolve(info);
-      });
-    });
+
+    return await Email.sendEmail(emailContent);
   }
 
-  static userRejectedEmail(to, fullname) {
+  static async userRejectedEmail(to, fullname) {
     // console.log("Cadastro de usuário reprovado");
     const content = `Prezado(a) ${fullname},
     Seu cadastro foi reprovado. Entre em contato com o admin para maiores informações.`;
@@ -134,11 +143,7 @@ class Email {
       subject: subject,
       text: content,
     };
-    return new Promise((resolve) => {
-      Email.sendEmail(emailContent).then((info) => {
-        resolve(info);
-      });
-    });
+    return await Email.sendEmail(emailContent);
   }
 }
 

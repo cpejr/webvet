@@ -13,11 +13,15 @@
     {{#each laudos}}
       <tr>
       <th>{{samplenumber}}/{{creationYear}}</th>
-      {{#if finalized}}
+      {{#compare finalized "Disponivel"}}
         <th>Disponível para o produtor</th>
-      {{else}}
+      {{/compare}}
+      {{#compare finalized "Não finalizada"}}
         <th>Não finalizado</th>
-      {{/if}}
+      {{/compare}}
+      {{#compare finalized "Analisada"}}
+        <th>Revisada por um analista</th>
+      {{/compare}}
       <th>
           <a href="../../report/show/admin/{{_id}}"><button class="btn btn-success">Editar laudo {{samplenumber}}/{{creationYear}}</button></a>
       </th>
