@@ -1,10 +1,6 @@
 const express = require('express');
 const router = express.Router();
-<<<<<<< HEAD
 const auth = require('../middlewares/auth');
-=======
-const auth = require('./middleware/auth');
->>>>>>> Email
 const User = require('../models/user');
 
 /* GET home page. */
