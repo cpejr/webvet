@@ -503,7 +503,7 @@ class Sample {
    */
   static count() {
     return new Promise((resolve, reject) => {
-      SampleModel.countDocuments({ isCalibrator: false })
+      SampleModel.countDocuments({})
         .then((result) => {
           resolve(result);
         })
