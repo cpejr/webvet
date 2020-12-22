@@ -79,7 +79,7 @@ class Email {
     });
   }
 
-  static userWaitingForApproval(to, firstName) {
+  static async userWaitingForApproval(to, firstName) {
     const content = `Prezado(a) ${firstName},
     Você acabou de cadastrar na plataforma Lamico. Aguarde a ativação do seu cadastro para começar a utilizar o sistema.`;
     const subject = "LAMICO: Aguardando ativação de cadastro";
@@ -88,11 +88,62 @@ class Email {
       subject: subject,
       text: content,
     };
-    return new Promise((resolve) => {
-      Email.sendEmail(emailContent).then((info) => {
-        resolve(info);
-      });
-    });
+
+    return await Email.sendEmail(emailContent);
+  }
+
+  static async newUserNotificationEmail(to) {
+    const content = `Prezada Kelly, novo cadastro a ser aprovado na plataforma`;
+    const subject = "Novo cadastro";
+    const emailContent = {
+      to: to,
+      subject: subject,
+      text: content,
+    };
+
+    return await Email.sendEmail(emailContent);
+  }
+
+  static async userApprovedEmail(to, firstName) {
+    // console.log("Cadastro de usuário aprovado");
+    const content = `Prezado(a) ${firstName},
+    Seu cadastro foi realizado e aprovado com sucesso. Entre na plataforma com seu email e senha`;
+    const subject = "LAMICO: Cadastro ativado com sucesso";
+    const emailContent = {
+      to: to,
+      subject: subject,
+      text: content,
+    };
+
+    return await Email.sendEmail(emailContent);
+  }
+
+  static async reportEmail(to, firstName, sampleCode) {
+    // console.log("Enviando email de laudo...");
+    const content = `Prezado(a) ${firstName},
+    O laudo referente a amostra ${sampleCode} já está disponível na plataforma.
+    www.micotoxinasbrasil.com.br`;
+    const subject = "LAMICO: Laudo disponível";
+    const emailContent = {
+      to: to,
+      subject: subject,
+      text: content,
+    };
+
+    return await Email.sendEmail(emailContent);
+  }
+
+  static async userRejectedEmail(to, fullname) {
+    // console.log("Cadastro de usuário reprovado");
+    const content = `Prezado(a) ${fullname},
+    Seu cadastro foi reprovado. Entre em contato com o admin para maiores informações.`;
+    const subject = "LAMICO: Cadastro reprovado";
+    const emailContent = {
+      to: to,
+      subject: subject,
+      text: content,
+    };
+    return await Email.sendEmail(emailContent);
   }
 }
 
