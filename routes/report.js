@@ -220,7 +220,7 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       parecer: req.body.sample.parecer,
     };
 
-    if (typeof finalized != "undefined") fieldsToUpdate.finalized = finalized;
+    if (typeof finalized != "undefined") fieldsToUpdate.finalized = "Disponivel";
 
     for (let i = 0; i < ToxinasFormal.length; i++) {
       let toxin = ToxinasFull[i];
@@ -244,7 +244,7 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
     /**
      * Lógica de envio de emails caso finalizado
      */
-    if (fieldsToUpdate.finalized === true) {
+    if (fieldsToUpdate.finalized === "Disponivel") {
       const sampleData = await Sample.getRelatedEmails(sampleId);
 
       // console.log(sampleData);
@@ -291,7 +291,6 @@ router.get(
       const result = [];
 
       const amostras = await Sample.getAllReport();
-      // console.log(amostras);
 
       for (var j = 0; j < amostras.length; j++) {
         const amostra = amostras[j];

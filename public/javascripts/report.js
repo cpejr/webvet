@@ -7,11 +7,15 @@ function submitForm(finalized) {
 }
 
 $("#finalize").on('click', function () {
-  submitForm(true);
+  submitForm("Disponivel");
+});
+
+$("#analize").on('click', function () {
+  submitForm("Analisada");
 });
 
 $("#unfinalize").on('click', function () {
-  submitForm(false);
+  submitForm("Não finalizada");
 });
 
 $(function () {

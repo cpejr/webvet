@@ -294,8 +294,9 @@ const sampleSchema = new mongoose.Schema(
     parecer: String,
     finalized: {
       //Disponivel para o produtor ou nao.
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ['Não finalizada', 'Analisada', 'Disponivel'],
+      default: 'Não finalizada',
     },
     isCitrus: {
       type: Boolean,
@@ -640,7 +641,7 @@ class Sample {
   static async getFinalizedByIdArrayWithUser(id_array) {
     return await SampleModel.find({
       _id: { $in: id_array },
-      finalized: true,
+      finalized: 'Disponivel',
     }).populate({
       path: "requisitionId",
       select: "user",
@@ -972,7 +973,7 @@ class Sample {
   static getSampleData() {
     return new Promise((resolve, reject) => {
       SampleModel.aggregate([
-        { $match: { finalized: true } },
+        { $match: { finalized: "Disponivel" } },
         { $project: { sampletype: 1 } },
         {
           $group: {
@@ -1003,7 +1004,7 @@ class Sample {
     //Desafio: descobrir como fazer isso aqui só com requisição do mongo.
     return new Promise((resolve, reject) => {
       SampleModel.aggregate([
-        { $match: { finalized: true, report: true } },
+        { $match: { finalized: "Disponivel", report: true } },
         {
           $project: {
             aflatoxina: 1,
@@ -1108,7 +1109,7 @@ class Sample {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: true, report: true } },
+      { $match: { finalized: "Disponivel", report: true } },
       ...extraOperations,
       {
         $project: {
@@ -1143,7 +1144,7 @@ class Sample {
 
   static async getStatisticTableData() {
     const result = await SampleModel.aggregate([
-      { $match: { finalized: true, report: true } },
+      { $match: { finalized: "Disponivel", report: true } },
       {
         $project: {
           "aflatoxina.checked": 1,
