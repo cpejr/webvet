@@ -48,33 +48,33 @@
           </thead>
           <tbody>
             {{#each toxinVector}}
-            <tr>
-              <th scope="row">{{toxinDisplayName}}</th>
-              <td class="d-flex flex-row justify-content-center">
-                <p>{{roundResult}} ({{resultChart}}) </p>
-                <input readonly name="{{toxinFull}}[resultChart]" value="{{resultChart}}" class="d-none" />
-              </td>
-              <td>
-                <input type="text" id="{{toxinFull}}Conc" value="{{resultText}}" name="{{toxinFull}}[resultText]">
-                <input type="checkbox" class="hidden-print" name="{{toxinFull}}[checked]" id="toxinaCheck"
-                  value="{{toxinDisplayName}}">
-                <button class="btn btn-success hidden-print" id="{{toxinFull}}" name="check[{{checked}}]"
-                  hidden>+</button>
-              </td>
-              <td>{{lod}}</td>
-              <td>{{loq}}</td>
-            </tr>
-            <script>
-              var initialCheck = function () {
-                console.log("{{toxinFull}}: {{Obj.checked}}");
-                if ($('button[name="check[true]"][id="{{toxinFull}}"]').length > 0) {
-                  // console.log("{{toxinFull}} esta presente!");
-                  $('input[name="{{toxinFull}}[checked]"]').attr("checked", "{{toxinDisplayName}}");
-                }
-              };
+              <tr>
+                <th scope="row">{{toxinDisplayName}}</th>
+                <td class="d-flex flex-row justify-content-center">
+                  <p>{{roundResult}} ({{resultChart}}) </p>
+                  <input readonly name="{{toxinFull}}[resultChart]" value="{{resultChart}}" class="d-none" />
+                </td>
+                <td>
+                  <input type="text" id="{{toxinFull}}Conc" value="{{resultText}}" name="{{toxinFull}}[resultText]">
+                  <input type="checkbox" class="hidden-print" name="{{toxinFull}}[checked]" id="toxinaCheck"
+                    value="{{toxinDisplayName}}">
+                  <button class="btn btn-success hidden-print" id="{{toxinFull}}" name="check[{{checked}}]"
+                    hidden>+</button>
+                </td>
+                <td>{{lod}}</td>
+                <td>{{loq}}</td>
+              </tr>
+              <script>
+                var initialCheck = function () {
+                  console.log("{{toxinFull}}: {{Obj.checked}}");
+                  if ($('button[name="check[true]"][id="{{toxinFull}}"]').length > 0) {
+                    // console.log("{{toxinFull}} esta presente!");
+                    $('input[name="{{toxinFull}}[checked]"]').attr("checked", "{{toxinDisplayName}}");
+                  }
+                };
 
-              initialCheck();
-            </script>
+                initialCheck();
+              </script>
             {{/each}}
           </tbody>
         </table>
@@ -119,15 +119,16 @@
           <div class="col-sm-4">
             <button class="btn btn-success hidden-print" onclick="print()"> Imprimir </button>
           </div>
-          {{#if sample.finalized}}
-          <div class="col-sm-4">
-            <button class="btn btn-success hidden-print" id="unfinalize">Cancelar finalização</butt>
-          </div>
-          {{else}}
-          <div class="col-sm-4">
-            <button class="btn btn-success hidden-print" id="finalize">Finalizar</button>
-          </div>
-          {{/if}}
+          {{#compare sample.finalized 'Disponivel'}}
+            <div class="col-sm-4">
+              <button class="btn btn-success hidden-print" id="unfinalize">Cancelar finalização</butt>
+            </div>
+          {{/compare}}
+          {{#compare sample.finalized 'Não Finalizada'}}
+            <div class="col-sm-4">
+              <button class="btn btn-success hidden-print" id="finalize">Finalizar</button>
+            </div>
+          {{/compare}}
         </div>
       </div>
     </center>
