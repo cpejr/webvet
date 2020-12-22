@@ -14,9 +14,14 @@ $("#analize").on('click', function () {
   submitForm("Analisada");
 });
 
+$("#unanalize").on('click', function () {
+  submitForm("Não finalizada");
+});
+
 $("#unfinalize").on('click', function () {
   submitForm("Não finalizada");
 });
+
 
 $(function () {
   var countChecked = function () {

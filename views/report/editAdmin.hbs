@@ -119,15 +119,34 @@
           <div class="col-sm-4">
             <button class="btn btn-success hidden-print" onclick="print()"> Imprimir </button>
           </div>
-          {{#compare sample.finalized 'Disponivel'}}
-            <div class="col-sm-4">
-              <button class="btn btn-success hidden-print" id="unfinalize">Cancelar finalização</butt>
-            </div>
+          {{#compare user.type 'Admin'}}
+            {{#compare sample.finalized 'Disponivel'}}
+              <div class="col-sm-4">
+                <button class="btn btn-success hidden-print" id="unfinalize">Cancelar finalização</butt>
+              </div>
+            {{/compare}}
+            {{#compare sample.finalized 'Não finalizada'}}
+              <div class="col-sm-4">
+                <button class="btn btn-success hidden-print" id="finalize">Finalizar</button>
+              </div>
+            {{/compare}}
+             {{#compare sample.finalized 'Analisada'}}
+              <div class="col-sm-4">
+                <button class="btn btn-success hidden-print" id="finalize">Finalizar</button>
+              </div>
+            {{/compare}}
           {{/compare}}
-          {{#compare sample.finalized 'Não Finalizada'}}
-            <div class="col-sm-4">
-              <button class="btn btn-success hidden-print" id="finalize">Finalizar</button>
-            </div>
+          {{#compare user.type 'Analista'}}
+            {{#compare sample.finalized 'Não finalizada'}}
+              <div class="col-sm-4">
+                <button class="btn btn-success hidden-print" id="analize">Marcar como Analisada</button>
+              </div>
+            {{/compare}}
+            {{#compare sample.finalized 'Analisada'}}
+              <div class="col-sm-4">
+                <button class="btn btn-success hidden-print" id="unanalize">Cancelar análise</button>
+              </div>
+            {{/compare}}
           {{/compare}}
         </div>
       </div>

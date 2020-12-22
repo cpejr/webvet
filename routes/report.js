@@ -196,7 +196,6 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
     // console.log(toxinVector);
     moment.locale("pt-br");
     sample.date = moment(sample.updatedAt).format("LL");
-
     res.render("report/editAdmin", {
       title: "Edição de laudo",
       sample,
@@ -220,7 +219,7 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       parecer: req.body.sample.parecer,
     };
 
-    if (typeof finalized != "undefined") fieldsToUpdate.finalized = "Disponivel";
+    if (finalized) fieldsToUpdate.finalized = finalized;
 
     for (let i = 0; i < ToxinasFormal.length; i++) {
       let toxin = ToxinasFull[i];
