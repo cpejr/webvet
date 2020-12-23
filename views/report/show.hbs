@@ -46,14 +46,14 @@
         </thead>
         <tbody>
           {{#each toxinVector}}
-            <tr>
-              <th scope="row">{{toxinDisplayName}}</th>
-              <td>
-                <a type="text" id="{{toxinFull}}Conc">{{resultText}}</a>
-              </td>
-              <td>{{lod}}</td>
-              <td>{{loq}}</td>
-            </tr>
+          <tr>
+            <th scope="row">{{toxinDisplayName}}</th>
+            <td>
+              <a type="text" id="{{toxinFull}}Conc">{{resultText}}</a>
+            </td>
+            <td>{{lod}}</td>
+            <td>{{loq}}</td>
+          </tr>
           {{/each}}
         </tbody>
       </table>
@@ -85,4 +85,8 @@
         aria-hidden="true"></span> Voltar </button>
     <button class="btn btn-primary hidden-print" onclick="print()"> Imprimir </button>
   </center>
+  <h3>Anexo</h3>
+  <iframe src="https://drive.google.com/file/d/1MFjIN6qTi6soknhyJx9d1VFFyyrnSOEd/preview" width="718"
+    height="800"></iframe>
+
 </div>

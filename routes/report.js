@@ -167,7 +167,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
               //Maior que o lod e Menor que loq
               newResultText = "< LoQ";
               resultChart = kit.Loq;
-            } else if (roundResult > kit.Loq) {
+            } else if (roundResult >= kit.Loq) {
               //Maior loq
               newResultText = roundResult;
               resultChart = roundResult;

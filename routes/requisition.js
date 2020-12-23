@@ -112,7 +112,7 @@ router.post(
       });
 
       sample.parecer = fraseCompleta = fraseCompleta.replace("*frase*", frase);
-      if (sample.comment === '')
+      if (sample.comment === "")
         sample.comment =
           "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.";
       sample.report = true;
@@ -134,13 +134,14 @@ router.post(
   auth.isFromLab,
   async function (req, res) {
     const { requisition } = req.body;
+    requisition.status = "Aprovada";
 
     const sampleVector = [...requisition.sampleVector];
     delete requisition.sampleVector;
 
     try {
       const requisitionId = await Requisition.create(requisition);
-      let sampleObjects = new Array();
+      let sampleObjects = [];
       sampleVector &&
         sampleVector.forEach((sampleInfo) => {
           const { name, citrus, description } = sampleInfo;
@@ -152,11 +153,13 @@ router.post(
             responsible: requisition.responsible,
             isCitrus: citrus ? true : false,
           };
+
+          if (!requisition.mycotoxin) requisition.mycotoxin = [];
+
           ToxinasAll.forEach((toxina) => {
-            const value = requisition.mycotoxin.includes(toxina.Formal)
-              ? true
-              : false;
-            sample[toxina.Full] = { active: value };
+            let containsToxin = false;
+            containsToxin = requisition.mycotoxin.includes(toxina.Formal);
+            sample[toxina.Full] = { active: containsToxin };
           });
           sampleObjects.push(sample);
         });
@@ -380,8 +383,11 @@ router.post(
         description: sample[i].description,
       };
 
+      if (!requisition.mycotoxin) requisition.mycotoxin = [];
+
       ToxinasAll.forEach((toxina) => {
-        const containsToxin = requisition.mycotoxin.includes(toxina.Formal);
+        let containsToxin = false;
+        containsToxin = requisition.mycotoxin.includes(toxina.Formal);
         samples[`${toxina.Full}.active`] = containsToxin;
       });
 
