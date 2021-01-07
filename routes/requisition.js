@@ -241,13 +241,10 @@ router.post("/new", auth.isAuthenticated, function (req, res) {
           },
         };
 
-        for (let i = 0; i < ToxinasFormal.length; i++) {
-          const formal = ToxinasFormal[i];
-          const full = ToxinasFull[i];
-
-          if (req.body.requisition.mycotoxin.includes(formal))
-            sample[full].active = true;
-        }
+        ToxinasAll.forEach((toxin) => {
+          if (req.body.requisition.mycotoxin.includes(toxin.Formal))
+            sample[toxin.Full].active = true;
+        });
 
         sample.requisitionId = reqid;
         sampleObjects.push(sample);
