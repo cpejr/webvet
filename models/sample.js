@@ -1081,7 +1081,7 @@ class Sample {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$requisitionData.datecollection",
+                dateString: "$requisitionData.datereceipt",
                 format: "%d/%m/%Y",
               },
             },
