@@ -285,6 +285,16 @@ router.post("/new", auth.isAuthenticated, function (req, res) {
 
 router.get("/", auth.isAuthenticated, function (req, res) {
   Requisition.getAll().then((requisitions) => {
+    requisitions = requisitions.map((requisition) => {
+      const req = requisition.toJSON();
+      const date = new Date(requisition.createdAt);
+      const year = date.getFullYear();
+
+      req.year = year;
+
+      return req;
+    });
+
     requisitions = requisitions.reverse();
     res.render("requisition/index", {
       title: "Requisições Disponíveis",
