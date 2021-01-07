@@ -115,7 +115,6 @@ router.post(
       if (sample.comment === "")
         sample.comment =
           "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.";
-      sample.report = true;
 
       await Sample.updateCustom(_id, sample);
 
@@ -144,14 +143,16 @@ router.post(
       let sampleObjects = [];
       sampleVector &&
         sampleVector.forEach((sampleInfo) => {
-          const { name, citrus, description } = sampleInfo;
+          const { name, citrus, description, receivedquantity, packingtype } = sampleInfo;
           let sample = {
             name,
             description,
-            sampleNumber: -1,
+            approved: true,
             requisitionId,
             responsible: requisition.responsible,
             isCitrus: citrus ? true : false,
+            receivedquantity,
+            packingtype,
           };
 
           if (!requisition.mycotoxin) requisition.mycotoxin = [];
@@ -182,9 +183,15 @@ router.post(
 );
 
 router.post("/delete/:id", auth.isAuthenticated, auth.isAdmin, (req, res) => {
-  Requisition.delete(req.params.id).then(() => {
-    res.redirect("/requisition");
-  });
+  Requisition.delete(req.params.id)
+    .then(() => {
+      res.redirect("/requisition");
+      req.flash("success", "Requisição deletada com sucesso!");
+    })
+    .catch((error) => {
+      console.warn(error);
+      res.redirect("/error");
+    });
 });
 
 router.post("/new", auth.isAuthenticated, function (req, res) {
