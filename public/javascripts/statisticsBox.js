@@ -180,11 +180,15 @@ function populateCharts() {
     const endDate = $("#limitDateFilter").val();
     const state = $("#stateFilter").val();
     const typeFilter = $("#typeFilter").val();
+    const destinationFilter = $("#destinationFilter").val();
+    const userFilter = $("#userFilter").val();
 
     if (startDate) queryParams.push(`startDate=${startDate}`);
     if (endDate) queryParams.push(`endDate=${endDate}`);
     if (state) queryParams.push(`state=${state}`);
     if (typeFilter) queryParams.push(`type=${typeFilter}`);
+    if (destinationFilter) queryParams.push(`destination=${destinationFilter}`);
+    if (userFilter) queryParams.push(`user=${userFilter}`);
 
     return queryParams.join("&");
   }

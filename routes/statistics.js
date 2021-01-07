@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
+const User = require("../models/user");
 
 router.get("/", auth.isAuthenticated, async function (req, res) {
   const finalizedSamples = await Sample.getStatisticTableData();
@@ -149,11 +150,24 @@ router.get("/barcharts", auth.isAuthenticated, function (req, res) {
 
 router.get(
   "/boxcharts",
-  /* auth.isAuthenticated,*/ (req, res) => {
+  /* auth.isAuthenticated,*/ async (req, res) => {
+    let enableUserFilter = false;
+    const user = req.session.user;
+    let users;
+
+    if (user && (user.type === "Admin" || user.type === "Analista")) {
+      users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+      enableUserFilter = true;
+    }
+
     res.render("statistics/boxcharts", {
       title: "Gráficos",
       layout: "layoutDashboard.hbs",
       ...req.session,
+      allDestinations,
+      allSampleTypes,
+      users,
+      enableUserFilter,
     });
   }
 );
