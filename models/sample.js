@@ -415,9 +415,9 @@ class Sample {
     });
   }
 
-  static updateBySampleNumber(sampleNumber, sample) {
+  static updateBySampleNumber(samplenumber, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOneAndUpdate({ samplenumber: sampleNumber }, sample)
+      SampleModel.findOneAndUpdate({ samplenumber: samplenumber }, sample)
         .then((res) => {
           resolve(res);
         })
