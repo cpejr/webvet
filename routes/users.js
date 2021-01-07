@@ -170,6 +170,7 @@ router.get("/producers/:id", auth.isAuthenticated, function (req, res) {
       res.redirect("/error");
     });
 });
+
 router.post("/edit/:id", auth.isAuthenticated, function (req, res) {
   const { user } = req.body;
 
@@ -244,6 +245,7 @@ router.get(
         producers,
         hasAssociated,
         haveAvailable,
+        allStates,
         ...req.session,
       });
     } catch (error) {
