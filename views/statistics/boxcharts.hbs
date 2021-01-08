@@ -54,25 +54,34 @@
             <label class="col-2">Tipo de amostra:</label>
             <select id="typeFilter" class="drowdownoptions col" required="required">
                 <option selected value="">Tipo de amostra</option>
-                <option value="Algodão / Subprodutos">Algodão / Subprodutos</option>
-                <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>
-                <option value="Arroz">Arroz</option>
-                <option value="Aveia">Aveia</option>
-                <option value="Capim / Feno">Capim / Feno</option>
-                <option value="Cevada /Subprodutos">Cevada /Subprodutos</option>
-                <option value="Dieta Total">Dieta Total</option>
-                <option value="Feijão">Feijão</option>
-                <option value="Milho / Subprodutos">Milho / Subprodutos</option>
-                <option value="Outros">Outros</option>
-                <option value="Polpa Cítrica">Polpa Cítrica</option>
-                <option value="Ração">Ração</option>
-                <option value="Silagem">Silagem</option>
-                <option value="Soja / Subprodutos">Soja / Subprodutos</option>
-                <option value="Sorgo / Subprodutos">Sorgo / Subprodutos</option>
-                <option value="Subprodutos">Subprodutos</option>
-                <option value="Trigo / Subprodutos">Trigo / Subprodutos</option>
+                {{#each allSampleTypes}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
             </select>
         </div>
+
+        <div class="row my-1 mx-0">
+            <label class="col-2">Tipo de destinação:</label>
+            <select id="destinationFilter" class="drowdownoptions col" required="required">
+                <option selected value="">Tipo de destinação</option>
+                {{#each allDestinations}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        {{#if enableUserFilter}}
+        <div class="row my-1 mx-0">
+            <label class="col-2">Usuário:</label>
+            <select id="userFilter" class="drowdownoptions col" required="required">
+                <option selected value="">Usuário</option>
+                {{#each users}}
+                <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+                {{/each}}
+            </select>
+        </div>
+        {{/if}}
+
         <div class="d-flex justify-content-center">
             <button id="applyFilter" class="btn success">Aplicar</button>
         </div>

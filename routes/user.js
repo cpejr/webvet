@@ -143,6 +143,7 @@ router.post(
     await User.addProducers(id, producers);
     //console.log("Produtores associados!");
 
+    req.flash("success", "Produtor asassociado com sucesso.");
     res.redirect(`/users/show/${id}/%20`);
   }
 );
@@ -158,8 +159,8 @@ router.post(
     producer = mongoose.ObjectId(producer);
 
     await User.removeProducer(id, producer);
-    console.log("Produtores removidos!");
 
+    req.flash("success", "Produtor desassociado com sucesso.");
     res.redirect(`/users/show/${id}/%20`);
   }
 );

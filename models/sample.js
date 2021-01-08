@@ -295,8 +295,8 @@ const sampleSchema = new mongoose.Schema(
     finalized: {
       //Disponivel para o produtor ou nao.
       type: String,
-      enum: ['Não finalizada', 'Analisada', 'Disponivel'],
-      default: 'Não finalizada',
+      enum: ["Não finalizada", "Analisada", "Disponivel"],
+      default: "Não finalizada",
     },
     isCitrus: {
       type: Boolean,
@@ -415,9 +415,9 @@ class Sample {
     });
   }
 
-  static updateBySampleNumber(sampleNumber, sample) {
+  static updateBySampleNumber(samplenumber, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOneAndUpdate({ samplenumber: sampleNumber }, sample)
+      SampleModel.findOneAndUpdate({ samplenumber: samplenumber }, sample)
         .then((res) => {
           resolve(res);
         })
@@ -542,7 +542,6 @@ class Sample {
     calibrators,
     kitId
   ) {
-  
     let updateVal = {
       [`${toxinaFull}.absorbance`]: abs,
       [`${toxinaFull}.absorbance2`]: abs2,
@@ -641,7 +640,7 @@ class Sample {
   static async getFinalizedByIdArrayWithUser(id_array) {
     return await SampleModel.find({
       _id: { $in: id_array },
-      finalized: 'Disponivel',
+      finalized: "Disponivel",
     }).populate({
       path: "requisitionId",
       select: "user",
@@ -1061,9 +1060,9 @@ class Sample {
 
   static async getResultData(filters) {
     const extraOperations = [];
-
+    console.log(filters);
     if (filters) {
-      const { startDate, endDate, state, type } = filters;
+      const { startDate, endDate, state, type, destination, user } = filters;
       console.log(type);
       extraOperations.push({
         $lookup: {
@@ -1081,7 +1080,7 @@ class Sample {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$requisitionData.datecollection",
+                dateString: "$requisitionData.datereceipt",
                 format: "%d/%m/%Y",
               },
             },
@@ -1091,6 +1090,8 @@ class Sample {
 
       const match = {};
 
+      if (user) match["requisitionData.user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["requisitionData.destination"] = destination;
       if (state) match["requisitionData.state"] = state;
       if (type)
         match["sampletype"] = {
@@ -1104,7 +1105,7 @@ class Sample {
 
         match["date"] = filter;
       }
-
+      console.log(match);
       extraOperations.push({ $match: match });
     }
 

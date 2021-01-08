@@ -107,7 +107,7 @@ class Email {
   static async userApprovedEmail(to, firstName) {
     // console.log("Cadastro de usuário aprovado");
     const content = `Prezado(a) ${firstName},
-    Seu cadastro foi realizado e aprovado com sucesso. Entre na plataforma com seu email e senha`;
+    Seu cadastro foi realizado e aprovado com sucesso. Entre na plataforma com seu email e senha.`;
     const subject = "LAMICO: Cadastro ativado com sucesso";
     const emailContent = {
       to: to,

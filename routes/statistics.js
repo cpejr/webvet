@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
+const User = require("../models/user");
 
 router.get("/", auth.isAuthenticated, async function (req, res) {
   const finalizedSamples = await Sample.getStatisticTableData();
@@ -26,7 +27,8 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   // Group by finalized Toxins
   finalizedSamples.forEach((sample) => {
     ToxinasFull.forEach((toxin) => {
-      if (sample[toxin].resultChart) finalizedByToxin[toxin].push(sample[toxin]);
+      if (sample[toxin].resultChart)
+        finalizedByToxin[toxin].push(sample[toxin]);
     });
   });
 
@@ -70,11 +72,25 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
 
     let contaminatedPercent = (contaminatedCount * 100) / testedAmount;
     let positiveAverage = positiveSum / contaminatedCount;
+    let averageDeviation = 0;
+
+    samples.forEach((sample) => {
+      const contaminated = sample.checked;
+
+      if (contaminated) {
+        const result = Number(sample.resultChart);
+        averageDeviation += Math.pow(result - positiveAverage, 2);
+      }
+    });
+    averageDeviation /= contaminatedCount;
+    averageDeviation = Math.sqrt(averageDeviation);
 
     return {
       testedAmount,
       contaminatedPercent,
-      positiveAverage,
+      positiveAverageWithAD: `${positiveAverage.toFixed(
+        2
+      )} - ${averageDeviation}`,
       positiveMedian,
       max,
     };
@@ -93,7 +109,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   const tableDataRows = {
     testedAmount: "Nº de amostras testadas",
     contaminatedPercent: "% de amostras contaminadas",
-    positiveAverage: "Média de positivos (ppb - desvio padrão)",
+    positiveAverageWithAD: "Média de positivos (ppb - desvio padrão)",
     positiveMedian: "Mediana de positivos (ppb)",
     max: "Máximo (ppb)",
   };
@@ -101,7 +117,17 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   Object.entries(tableDataRows).forEach(([key, value]) => {
     const row = [];
     row.push(value);
-    ToxinasFull.forEach((toxin) => row.push(tableData[toxin][key] ? tableData[toxin][key].toFixed(2): NaN));
+    ToxinasFull.forEach((toxin) => {
+      const value = tableData[toxin][key];
+      let pushValue;
+
+      if (value)
+        if (typeof value === "number") pushValue = value.toFixed(2);
+        else pushValue = value;
+      else pushValue = NaN;
+
+      row.push(pushValue);
+    });
 
     tableRows.push(row);
   });
@@ -124,11 +150,24 @@ router.get("/barcharts", auth.isAuthenticated, function (req, res) {
 
 router.get(
   "/boxcharts",
-  /* auth.isAuthenticated,*/ (req, res) => {
+  /* auth.isAuthenticated,*/ async (req, res) => {
+    let enableUserFilter = false;
+    const user = req.session.user;
+    let users;
+
+    if (user && (user.type === "Admin" || user.type === "Analista")) {
+      users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+      enableUserFilter = true;
+    }
+
     res.render("statistics/boxcharts", {
       title: "Gráficos",
       layout: "layoutDashboard.hbs",
       ...req.session,
+      allDestinations,
+      allSampleTypes,
+      users,
+      enableUserFilter,
     });
   }
 );
@@ -138,10 +177,10 @@ router.get("/statesData", auth.isAuthenticated, async (req, res) => {
   res.send(data);
 });
 
-router.get('/resultsData', async (req, res) => {
-    const filters = req.query;
-    let data = await Sample.getResultData(filters);
-    res.send(data);
+router.get("/resultsData", async (req, res) => {
+  const filters = req.query;
+  let data = await Sample.getResultData(filters);
+  res.send(data);
 });
 
 router.get("/samplesData", auth.isAuthenticated, async (req, res) => {

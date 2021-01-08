@@ -1,183 +1,30 @@
 <div class="printtemplate">
   <div class="title-print">
-    Mapas de Trabalho
+    Mapas de Trabalho atuais
   </div>
 </div>
+<div class="container-fluid d-flex d-flex justify-content-around flex-wrap">
+  {{#each result}}
+    <table class="flex-fill">
+      <thead>
+        <tr>
+          <th class="" scope="col">{{_id}}</th>
+        </tr>
+      </thead>
 
-<div class="templateprint row">
-  <table class="table-zea col-2">
-    <thead>
-      <tr>
-        <th>AFLA</th>
-      </tr>
-    </thead>
-
-    <tr>
-      <th>P1</th>
-    </tr>
-    <tr>
-      <th>P2</th>
-    </tr>
-
-    <tr>
-      <th>P3</th>
-    </tr>
-
-    <tr>
-      <th>P4</th>
-    </tr>
-
-    <tr>
-      <th>P5</th>
-    </tr>
-
-
-  </table>
-
-
-
-  <table class="table-t2 col-2">
-    <thead>
-      <tr>
-        <th>DON</th>
-      </tr>
-    </thead>
-
-    <tr>
-      <th>P1</th>
-    </tr>
-    <tr>
-      <th>P2</th>
-    </tr>
-    <tr>
-      <th>P3</th>
-    </tr>
-    <tr>
-      <th>P4</th>
-    </tr>
-    <tr>
-      <th>P5</th>
-    </tr>
-
-
-
-  </table>
-
-
-
-  <table class="table-ota col-2">
-    <thead>
-      <tr>
-        <th>OTA</th>
-      </tr>
-    </thead>
-
-    <tr>
-      <th>P1</th>
-    </tr>
-    <tr>
-      <th>P2</th>
-    </tr>
-    <tr>
-      <th>P3</th>
-    </tr>
-    <tr>
-      <th>P4</th>
-    </tr>
-    <tr>
-      <th>P5</th>
-    </tr>
-
-  </table>
-
-
-
-
-
-
-  <table class="table-t2 col-2">
-    <thead>
-      <tr>
-        <th>T2</th>
-      </tr>
-    </thead>
-
-    <tr>
-      <th>P1</th>
-    </tr>
-    <tr>
-      <th>P2</th>
-    </tr>
-    <tr>
-      <th>P3</th>
-    </tr>
-    <tr>
-      <th>P4</th>
-    </tr>
-    <tr>
-      <th>P5</th>
-    </tr>
-
-  </table>
-
-
-
-
-
-
-
-  <table class="table-zea col-2">
-    <thead>
-      <tr>
-        <th>ZEA</th>
-      </tr>
-    </thead>
-
-    <tr>
-      <th>P1</th>
-    </tr>
-    <tr>
-      <th>P2</th>
-    </tr>
-    <tr>
-      <th>P3</th>
-    </tr>
-    <tr>
-      <th>P4</th>
-    </tr>
-    <tr>
-      <th>P5</th>
-    </tr>
-
-
-
-  </table>
-
-
-
-
-  <table class="table-fbs col-2">
-    <thead>
-      <tr>
-        <th>FBs</th>
-      </tr>
-    </thead>
-
-    <tr>
-      <th>P1</th>
-    </tr>
-    <tr>
-      <th>P2</th>
-    </tr>
-    <tr>
-      <th>P3</th>
-    </tr>
-    <tr>
-      <th>P4</th>
-    </tr>
-    <tr>
-      <th>P5</th>
-    </tr>
-
-  </table>
+      <tbody>
+        {{#each samples}}
+          {{#if changedWorkmap}}
+            <tr>
+              <td><br></td>
+            </tr>
+          {{/if}}
+          <tr>
+            <th>{{samplenumber}}</th>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/each}}
+</div>
 </div>

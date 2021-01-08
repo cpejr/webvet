@@ -621,18 +621,18 @@ class Kit {
         },
       ]);
       //console.log("Result: ", result);
-      const obj = new Array;
+      const obj = new Array();
       ToxinasAll.forEach((toxin) => {
         const filteredKits = result.filter(
           (aux) =>
             aux.productCode ===
             (toxin.Sigla === "FBS" ? "FUMO Romer" : toxin.Sigla + " Romer")
-        )
-        let aux = {name: toxin.Full}
-        if(filteredKits.length > 0){
-          aux.kits = filteredKits
-        }else{
-          aux.kits = false
+        );
+        let aux = { name: toxin.Full };
+        if (filteredKits.length > 0) {
+          aux.kits = filteredKits;
+        } else {
+          aux.kits = false;
         }
         obj.push(aux);
       });
@@ -705,6 +705,81 @@ class Kit {
       ])
         .then((response) => resolve(response))
         .catch((err) => reject(err));
+    });
+  }
+
+  static getCurrentWorkmapsSamples() {
+    return new Promise(async (resolve, reject) => {
+      KitModel.aggregate([
+        {
+          $match: {
+            active: true,
+          },
+        },
+        {
+          $lookup: {
+            from: "workmaps",
+            localField: "mapArray",
+            foreignField: "_id",
+            as: "workmaps",
+          },
+        },
+        { $unwind: "$workmaps" },
+        {
+          $addFields: {
+            "workmaps.toxinaStart": "$toxinaStart",
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: "$workmaps",
+          },
+        },
+        {
+          $addFields: {
+            mapNumber: { $toInt: "$mapID" },
+          },
+        },
+        {
+          $match: {
+            $and: [
+              { finalizationNumber: -1 },
+              { $expr: { $gte: ["$mapNumber", "$toxinaStart"] } },
+            ],
+          },
+        },
+        {
+          $project: {
+            samplesArray: 1,
+            productCode: 1,
+            mapID: 1,
+          },
+        },
+        {
+          $sort: {
+            productCode: 1,
+            mapNumber: 1,
+          },
+        },
+        {
+          $lookup: {
+            from: "samples",
+            let: { array: "$samplesArray" },
+            pipeline: [{ $match: { $expr: { $in: ["$_id", "$$array"] } } }],
+            as: "samples",
+          },
+        },
+        { $unwind: "$samples" },
+        {
+          $group: {
+            _id: "$productCode",
+            samples: { $push: "$samples" },
+          },
+        },
+      ]).then((result) => {
+        console.log(result);
+        resolve(result);
+      });
     });
   }
 }
