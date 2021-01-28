@@ -45,7 +45,7 @@ function addInput() {
                   <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>
                   <option value="Arroz">Arroz</option>
                   <option value="Aveia">Aveia</option>
-                  <option value="Capim / Feno">Capim / Feno</option>
+                  <option value="Gramíneas / Leguminosas">Gramíneas / Leguminosas</option>
                   <option value="Cevada /Subprodutos">Cevada /Subprodutos</option>
                   <option value="Dieta Total">Dieta Total</option>
                   <option value="Feijão">Feijão</option>

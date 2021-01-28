@@ -110,7 +110,7 @@ allSampleTypes = [
   "Amendoim / Subprodutos",
   "Arroz",
   "Aveia",
-  "Capim / Feno",
+  "Gramíneas / Leguminosas",
   "Cevada /Subprodutos",
   "Dieta Total",
   "Feijão",
