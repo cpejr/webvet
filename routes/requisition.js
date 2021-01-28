@@ -143,10 +143,9 @@ router.post(
       let sampleObjects = [];
       sampleVector &&
         sampleVector.forEach((sampleInfo) => {
-          const { name, citrus, description, receivedquantity, packingtype } = sampleInfo;
+          const { name, citrus, receivedquantity, packingtype } = sampleInfo;
           let sample = {
             name,
-            description,
             approved: true,
             requisitionId,
             responsible: requisition.responsible,
@@ -346,6 +345,7 @@ router.get(
             nova,
             ...req.session,
             samples,
+            allSampleTypes
           });
         });
       })
@@ -394,7 +394,6 @@ router.post(
         isCitrus: sample[i].isCitrus ? true : false,
         receivedquantity: sample[i].receivedquantity,
         packingtype: sample[i].packingtype,
-        description: sample[i].description,
       };
 
       if (!requisition.mycotoxin) requisition.mycotoxin = [];
