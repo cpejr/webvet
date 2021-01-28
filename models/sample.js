@@ -31,7 +31,6 @@ const sampleSchema = new mongoose.Schema(
       type: Number,
       default: yyyy,
     },
-    description: String,
     comment: String,
     aflatoxina: {
       status: {
@@ -1128,20 +1127,6 @@ class Sample {
 
     return result;
   }
-
-  // static async rename() {
-  //   await SampleModel.update(
-  //     {},
-  //     { $rename: { description: "comment" } },
-  //     { multi: true },
-  //     function (err, blocks) {
-  //       if (err) {
-  //         throw err;
-  //       }
-  //       console.log("done!");
-  //     }
-  //   );
-  // }
 
   static async getStatisticTableData() {
     const result = await SampleModel.aggregate([
