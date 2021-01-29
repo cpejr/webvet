@@ -185,34 +185,31 @@ router.get(
   }
 );
 
-router.get(
-  "/statesData",
-  /*auth.isAuthenticated,*/ async (req, res) => {
-    const filters = req.query;
-    let data = await Requisition.getStateData(filters);
-    res.send(data);
-  }
-);
+router.get("/statesData", auth.isAuthenticated, async (req, res) => {
+  const filters = req.query;
+  let data = await Requisition.getStateData(filters);
+  res.send(data);
+});
 
-router.get("/samplesData", async (req, res) => {
+router.get("/samplesData", auth.isAuthenticated, async (req, res) => {
   const filters = req.query;
   let data = await Sample.getSampleData(filters);
   res.send(data);
 });
 
-router.get("/animalsData", async (req, res) => {
+router.get("/animalsData", auth.isAuthenticated, async (req, res) => {
   const filters = req.query;
   let data = await Requisition.getAnimalData(filters);
   res.send(data);
 });
 
-router.get("/finalizationData", async (req, res) => {
+router.get("/finalizationData", auth.isAuthenticated, async (req, res) => {
   const filters = req.query;
   let data = await Sample.getFinalizationData(filters);
   res.send(data);
 });
 
-router.get("/resultsData", async (req, res) => {
+router.get("/resultsData", auth.isAuthenticated, async (req, res) => {
   const filters = req.query;
   let data = await Sample.getResultData(filters);
   res.send(data);

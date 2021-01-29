@@ -91,6 +91,28 @@ $(() => {
   $("#applyFilter").on("click", () => {
     populateCharts();
   });
+
+  $("#print").on("click", () => {
+    for (let i = 0; i < ToxinasFull.length; i++) {
+      const toxina = ToxinasFull[i];
+      charts[toxina].canvas.parentNode.style.width = "800px";
+    }
+    print();
+  });
+
+  window.onbeforeprint = function () {
+    for (let i = 0; i < ToxinasFull.length; i++) {
+      const toxina = ToxinasFull[i];
+      charts[toxina].resize();
+    }
+  };
+
+  window.onafterprint = function () {
+    for (let i = 0; i < ToxinasFull.length; i++) {
+      const toxina = ToxinasFull[i];
+      charts[toxina].canvas.parentNode.style.width = "auto";
+    }
+  };
 });
 
 function buildCharts() {

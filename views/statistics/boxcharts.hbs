@@ -4,7 +4,7 @@
 <script type="text/javascript" src="/javascripts/Chart.BoxPlot.js"></script>
 
 <div>
-    <div class="container text-left card p-3">
+    <div class="container text-left card p-3 d-print-none">
         <h5 class="card-title">Fitros:</h5>
         <div class="row my-1 mx-0">
             <label class="col-2">Data de início:</label>
@@ -84,11 +84,12 @@
 
         <div class="d-flex justify-content-center">
             <button id="applyFilter" class="btn success">Aplicar</button>
+            <button id="print" class="btn success hidden-print ml-4"> Imprimir </button>
         </div>
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid charts-print-resize">
     <div>
         <canvas id="aflatoxina"></canvas>
     </div>

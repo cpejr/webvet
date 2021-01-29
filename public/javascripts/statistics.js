@@ -393,4 +393,26 @@ $(() => {
   $("#applyFilter").on("click", () => {
     populateCharts();
   });
+
+  $("#print").on("click", () => {
+    chart1.canvas.parentNode.style.width = "800px";
+    chart2.canvas.parentNode.style.width = "800px";
+    chart3.canvas.parentNode.style.width = "800px";
+    chart4.canvas.parentNode.style.width = "800px";
+    print();
+  });
+
+  window.onbeforeprint = function () {
+    chart1.resize();
+    chart2.resize();
+    chart3.resize();
+    chart4.resize();
+  };
+
+  window.onafterprint = function () {
+    chart1.canvas.parentNode.style.width = "auto";
+    chart2.canvas.parentNode.style.width = "auto";
+    chart3.canvas.parentNode.style.width = "auto";
+    chart4.canvas.parentNode.style.width = "auto";
+  };
 });

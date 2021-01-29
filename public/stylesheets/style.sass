@@ -2,9 +2,9 @@
 @import ../bootstrap/scss/typeaheadjs.scss
 
 $color1: #113619
-$color2 : #6BA05C
+$color2: #6BA05C
 $color3: #F7FCF2
-$color4 : #708074
+$color4: #708074
 $color5: #2B2B2B
 
 //PARTE DO DYNAMIC PLACE HOLDER
@@ -291,7 +291,7 @@ input.center
   font-size: 18px
   padding: 8px 0
   margin: 8px 06
-  border-bottom: 1px solid   #006400
+  border-bottom: 1px solid #006400
 
 .signup-text input
   border: none
@@ -467,7 +467,7 @@ input.center
 
 .user-card h1
   font-size: 20px
-  border-bottom: 4px solid   #6ba05c
+  border-bottom: 4px solid #6ba05c
   margin-bottom: 0px
   margin-top: 10px
   padding: 13px 0
@@ -481,8 +481,8 @@ input.center
   position: relative
 
 .user-card th
-  border-top: 1px solid  #6ba05c !important
-  border-bottom: 1px solid  #6ba05c !important
+  border-top: 1px solid #6ba05c !important
+  border-bottom: 1px solid #6ba05c !important
 
 .user-card tr.hover:hover
   background-color: #DCDCDC
@@ -519,7 +519,7 @@ input.center
 
 .user-card-device h1
   font-size: 20px
-  border-bottom: 4px solid   #6ba05c
+  border-bottom: 4px solid #6ba05c
   margin-bottom: 0px
   margin-top: 10px
   padding: 13px 0
@@ -530,7 +530,7 @@ input.center
   font-size: 15px
   padding: 10px 13px
   position: relative
-  border-bottom: 1px solid  #6ba05c
+  border-bottom: 1px solid #6ba05c
   margin-bottom: 0px
   margin-top: 0px
 
@@ -1585,7 +1585,7 @@ li
 
 .user-card-kits h1
   font-size: 20px
-  border-bottom: 4px solid   #6ba05c
+  border-bottom: 4px solid #6ba05c
   margin-bottom: -5px
   margin-top: 10px
   padding: 13px 0
@@ -1597,7 +1597,7 @@ li
   font-size: 15px
   padding: 10px 13px
   position: relative
-  border-bottom: 1px solid  #6ba05c
+  border-bottom: 1px solid #6ba05c
   margin-bottom: 0px
   margin-top: 0px
 
@@ -1767,3 +1767,23 @@ input#OtherInput
 
 input[type="number"]
   -moz-appearance: textfield
+
+@media print
+  .charts-print-resize
+    margin: 0
+    width: 50%
+
+  .chartjs-render-monitor
+    display: none
+
+  #wrapper
+    padding: 0
+
+@media print 
+    canvas.chart-canvas 
+        min-height: 100%
+        max-width: 100%
+        max-height: 100%
+        height: auto!important
+        width: auto!important
+    
