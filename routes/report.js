@@ -117,7 +117,7 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
     };
 
     if (!sample.comment)
-      sample.comment = `Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:\nníveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.`;
+      sample.comment = `Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:\n níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça, ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.`;
 
     ToxinasFull.forEach((toxinFull, index) => {
       const toxinInfo = sample[toxinFull];
