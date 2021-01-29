@@ -140,11 +140,24 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   });
 });
 
-router.get("/barcharts", auth.isAuthenticated, function (req, res) {
+router.get("/barcharts", auth.isAuthenticated, async function (req, res) {
+  let enableUserFilter = false;
+  const user = req.session.user;
+  let users;
+
+  if (user && (user.type === "Admin" || user.type === "Analista")) {
+    users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+    enableUserFilter = true;
+  }
+
   res.render("statistics/barcharts", {
     title: "Gráficos",
     layout: "layoutDashboard.hbs",
     ...req.session,
+    allDestinations,
+    allSampleTypes,
+    users,
+    enableUserFilter,
   });
 });
 
@@ -172,29 +185,36 @@ router.get(
   }
 );
 
-router.get("/statesData", auth.isAuthenticated, async (req, res) => {
-  let data = await Requisition.getStateData();
+router.get(
+  "/statesData",
+  /*auth.isAuthenticated,*/ async (req, res) => {
+    const filters = req.query;
+    let data = await Requisition.getStateData(filters);
+    res.send(data);
+  }
+);
+
+router.get("/samplesData", async (req, res) => {
+  const filters = req.query;
+  let data = await Sample.getSampleData(filters);
+  res.send(data);
+});
+
+router.get("/animalsData", async (req, res) => {
+  const filters = req.query;
+  let data = await Requisition.getAnimalData(filters);
+  res.send(data);
+});
+
+router.get("/finalizationData", async (req, res) => {
+  const filters = req.query;
+  let data = await Sample.getFinalizationData(filters);
   res.send(data);
 });
 
 router.get("/resultsData", async (req, res) => {
   const filters = req.query;
   let data = await Sample.getResultData(filters);
-  res.send(data);
-});
-
-router.get("/samplesData", auth.isAuthenticated, async (req, res) => {
-  let data = await Sample.getSampleData();
-  res.send(data);
-});
-
-router.get("/animalsData", auth.isAuthenticated, async (req, res) => {
-  let data = await Requisition.getAnimalData();
-  res.send(data);
-});
-
-router.get("/finalizationData", auth.isAuthenticated, async (req, res) => {
-  let data = await Sample.getFinalizationData();
   res.send(data);
 });
 

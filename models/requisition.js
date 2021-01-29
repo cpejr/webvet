@@ -279,63 +279,163 @@ class Requisition {
     );
   }
 
-  static getStateData() {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.aggregate([
-        { $match: { status: "Aprovada" } },
-        { $project: { state: 1, samples: 1 } },
-        {
-          $group: {
-            _id: "$state",
-            samples: { $sum: { $size: "$samples" } },
+  static async getStateData(filters) {
+    const extraOperations = [];
+
+    if (filters) {
+      const { startDate, endDate, state, type, destination, user } = filters;
+
+      if (startDate || endDate) {
+        extraOperations.push({
+          $addFields: {
+            date: {
+              $dateFromString: {
+                dateString: "$datereceipt",
+                format: "%d/%m/%Y",
+              },
+            },
           },
-        },
-      ])
-        .then((result) => {
-          let total = 0;
-
-          for (let i = 0; i < result.length; i++) total += result[i].samples;
-
-          for (let j = 0; j < result.length; j++)
-            result[j].frequency = result[j].samples / total;
-
-          resolve(result);
-        })
-        .catch((err) => {
-          console.warn(err);
-          reject(err);
         });
-    });
+      }
+
+      const match = {};
+
+      if (user) match["user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["destination"] = destination;
+      if (state) match["state"] = state;
+      if (type) {
+        extraOperations.push({
+          $lookup: {
+            from: "samples",
+            localField: "samples",
+            foreignField: "_id",
+            as: "samplesObject",
+          },
+        });
+
+        extraOperations.push({
+          $match: {
+            samplesObject: {
+              $elemMatch: {
+                sampletype: {
+                  $regex: new RegExp("^" + type.toLowerCase(), "i"),
+                },
+              },
+            },
+          },
+        });
+      }
+
+      if (startDate || endDate) {
+        const filter = {};
+
+        if (startDate) filter["$gte"] = new Date(startDate);
+        if (endDate) filter["$lte"] = new Date(endDate);
+
+        match["date"] = filter;
+      }
+      extraOperations.push({ $match: match });
+    }
+
+    const result = await RequisitionModel.aggregate([
+      { $match: { status: "Aprovada" } },
+      ...extraOperations,
+      { $project: { state: 1, samples: 1 } },
+      {
+        $group: {
+          _id: "$state",
+          samples: { $sum: { $size: "$samples" } },
+        },
+      },
+    ]);
+    let total = 0;
+
+    for (let i = 0; i < result.length; i++) total += result[i].samples;
+
+    for (let j = 0; j < result.length; j++)
+      result[j].frequency = result[j].samples / total;
+
+    return result;
   }
   // -------------------------------------------------------------------------
 
-  static getAnimalData() {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.aggregate([
-        { $match: { status: "Aprovada" } },
-        { $project: { destination: 1, samples: 1 } },
-        {
-          $group: {
-            _id: "$destination",
-            samples: { $sum: { $size: "$samples" } },
+  static async getAnimalData(filters) {
+    const extraOperations = [];
+
+    if (filters) {
+      const { startDate, endDate, state, type, destination, user } = filters;
+
+      if (startDate || endDate) {
+        extraOperations.push({
+          $addFields: {
+            date: {
+              $dateFromString: {
+                dateString: "$datereceipt",
+                format: "%d/%m/%Y",
+              },
+            },
           },
-        },
-      ])
-        .then((result) => {
-          let total = 0;
-
-          for (let i = 0; i < result.length; i++) total += result[i].samples;
-
-          for (let j = 0; j < result.length; j++)
-            result[j].frequency = result[j].samples / total;
-
-          resolve(result);
-        })
-        .catch((err) => {
-          console.warn(err);
-          reject(err);
         });
-    });
+      }
+
+      const match = {};
+
+      if (user) match["user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["destination"] = destination;
+      if (state) match["state"] = state;
+      if (type) {
+        extraOperations.push({
+          $lookup: {
+            from: "samples",
+            localField: "samples",
+            foreignField: "_id",
+            as: "samplesObject",
+          },
+        });
+
+        extraOperations.push({
+          $match: {
+            samplesObject: {
+              $elemMatch: {
+                sampletype: {
+                  $regex: new RegExp("^" + type.toLowerCase(), "i"),
+                },
+              },
+            },
+          },
+        });
+      }
+
+      if (startDate || endDate) {
+        const filter = {};
+
+        if (startDate) filter["$gte"] = new Date(startDate);
+        if (endDate) filter["$lte"] = new Date(endDate);
+
+        match["date"] = filter;
+      }
+      extraOperations.push({ $match: match });
+    }
+
+    const result = await RequisitionModel.aggregate([
+      { $match: { status: "Aprovada" } },
+      ...extraOperations,
+      { $project: { destination: 1, samples: 1 } },
+      {
+        $group: {
+          _id: "$destination",
+          samples: { $sum: { $size: "$samples" } },
+        },
+      },
+    ]);
+    let total = 0;
+
+    for (let i = 0; i < result.length; i++) total += result[i].samples;
+
+    for (let j = 0; j < result.length; j++)
+      result[j].frequency = result[j].samples / total;
+
+    return result;
   }
 }
 

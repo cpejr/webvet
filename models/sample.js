@@ -968,98 +968,184 @@ class Sample {
         });
     });
   }
-  static getSampleData() {
-    return new Promise((resolve, reject) => {
-      SampleModel.aggregate([
-        { $match: { finalized: "Disponivel" } },
-        { $project: { sampletype: 1 } },
-        {
-          $group: {
-            _id: "$sampletype",
-            samples: { $push: "$_id" },
-          },
+  static async getSampleData(filters) {
+    const extraOperations = [];
+
+    if (filters) {
+      const { startDate, endDate, state, type, destination, user } = filters;
+      console.log(type);
+      extraOperations.push({
+        $lookup: {
+          from: "requisitions",
+          localField: "requisitionId",
+          foreignField: "_id",
+          as: "requisitionData",
         },
-      ])
-        .then((result) => {
-          let total = 0;
+      });
 
-          for (let i = 0; i < result.length; i++)
-            total += result[i].samples.length;
+      extraOperations.push({ $unwind: "$requisitionData" });
 
-          for (let j = 0; j < result.length; j++)
-            result[j].frequency = result[j].samples.length / total;
-
-          resolve(result);
-        })
-        .catch((err) => {
-          console.warn(err);
-          reject(err);
+      if (startDate || endDate) {
+        extraOperations.push({
+          $addFields: {
+            date: {
+              $dateFromString: {
+                dateString: "$requisitionData.datereceipt",
+                format: "%d/%m/%Y",
+              },
+            },
+          },
         });
-    });
+      }
+
+      const match = {};
+
+      if (user) match["requisitionData.user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["requisitionData.destination"] = destination;
+      if (state) match["requisitionData.state"] = state;
+      if (type)
+        match["sampletype"] = {
+          $regex: new RegExp("^" + type.toLowerCase(), "i"),
+        };
+      if (startDate || endDate) {
+        const filter = {};
+
+        if (startDate) filter["$gte"] = new Date(startDate);
+        if (endDate) filter["$lte"] = new Date(endDate);
+
+        match["date"] = filter;
+      }
+      console.log(match);
+      extraOperations.push({ $match: match });
+    }
+
+    let result = await SampleModel.aggregate([
+      { $match: { finalized: "Disponivel" } },
+      ...extraOperations,
+      { $project: { sampletype: 1 } },
+      {
+        $group: {
+          _id: "$sampletype",
+          samples: { $push: "$_id" },
+        },
+      },
+    ]);
+    let total = 0;
+
+    for (let i = 0; i < result.length; i++) total += result[i].samples.length;
+
+    for (let j = 0; j < result.length; j++)
+      result[j].frequency = result[j].samples.length / total;
+
+    return result;
   }
 
-  static getFinalizationData() {
+  static async getFinalizationData(filters) {
     //Desafio: descobrir como fazer isso aqui só com requisição do mongo.
-    return new Promise((resolve, reject) => {
-      SampleModel.aggregate([
-        { $match: { finalized: "Disponivel", report: true } },
-        {
-          $project: {
-            aflatoxina: 1,
-            deoxinivalenol: 1,
-            fumonisina: 1,
-            ocratoxina: 1,
-            t2toxina: 1,
-            zearalenona: 1,
-          },
+    const extraOperations = [];
+
+    if (filters) {
+      const { startDate, endDate, state, type, destination, user } = filters;
+
+      extraOperations.push({
+        $lookup: {
+          from: "requisitions",
+          localField: "requisitionId",
+          foreignField: "_id",
+          as: "requisitionData",
         },
-      ])
-        .then((result) => {
-          let allToxin = {};
-          for (let i = 0; i < ToxinasFull.length; i++) {
-            let oneToxinArray = [];
-            let currentToxin = ToxinasFull[i];
-            for (let j = 0; j < result.length; j++) {
-              let sample = result[j];
-              if (sample[currentToxin].checked && sample[currentToxin].result) {
-                oneToxinArray.push(sample[currentToxin].checked);
-              } else if (sample[currentToxin].result) {
-                oneToxinArray.push(false);
-              }
-            }
-            allToxin[currentToxin] = oneToxinArray;
-          }
-          let counterVector = [];
-          for (let i = 0; i < ToxinasFull.length; i++) {
-            let currentToxin = ToxinasFull[i];
-            let oneToxin = allToxin[currentToxin];
-            let totalNumber = oneToxin.length;
-            let trueCounter = 0;
-            for (let j = 0; j < oneToxin.length; j++) {
-              if (oneToxin[j]) {
-                trueCounter++;
-              }
-            }
-            let falseCounter = totalNumber - trueCounter;
-            counterVector.push({
-              name: currentToxin,
-              totalNumber,
-              trueCounter,
-              falseCounter,
-            });
-          }
-          resolve(counterVector);
-        })
-        .catch((err) => {
-          console.warn(err);
-          reject(err);
+      });
+
+      extraOperations.push({ $unwind: "$requisitionData" });
+
+      if (startDate || endDate) {
+        extraOperations.push({
+          $addFields: {
+            date: {
+              $dateFromString: {
+                dateString: "$requisitionData.datereceipt",
+                format: "%d/%m/%Y",
+              },
+            },
+          },
         });
-    });
+      }
+
+      const match = {};
+
+      if (user) match["requisitionData.user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["requisitionData.destination"] = destination;
+      if (state) match["requisitionData.state"] = state;
+      if (type)
+        match["sampletype"] = {
+          $regex: new RegExp("^" + type.toLowerCase(), "i"),
+        };
+      if (startDate || endDate) {
+        const filter = {};
+
+        if (startDate) filter["$gte"] = new Date(startDate);
+        if (endDate) filter["$lte"] = new Date(endDate);
+
+        match["date"] = filter;
+      }
+      console.log(match);
+      extraOperations.push({ $match: match });
+    }
+
+    const result = await SampleModel.aggregate([
+      { $match: { finalized: "Disponivel", report: true } },
+      ...extraOperations,
+      {
+        $project: {
+          aflatoxina: 1,
+          deoxinivalenol: 1,
+          fumonisina: 1,
+          ocratoxina: 1,
+          t2toxina: 1,
+          zearalenona: 1,
+        },
+      },
+    ]);
+
+    let allToxin = {};
+    for (let i = 0; i < ToxinasFull.length; i++) {
+      let oneToxinArray = [];
+      let currentToxin = ToxinasFull[i];
+      for (let j = 0; j < result.length; j++) {
+        let sample = result[j];
+        if (sample[currentToxin].checked && sample[currentToxin].result) {
+          oneToxinArray.push(sample[currentToxin].checked);
+        } else if (sample[currentToxin].result) {
+          oneToxinArray.push(false);
+        }
+      }
+      allToxin[currentToxin] = oneToxinArray;
+    }
+    let counterVector = [];
+    for (let i = 0; i < ToxinasFull.length; i++) {
+      let currentToxin = ToxinasFull[i];
+      let oneToxin = allToxin[currentToxin];
+      let totalNumber = oneToxin.length;
+      let trueCounter = 0;
+      for (let j = 0; j < oneToxin.length; j++) {
+        if (oneToxin[j]) {
+          trueCounter++;
+        }
+      }
+      let falseCounter = totalNumber - trueCounter;
+      counterVector.push({
+        name: currentToxin,
+        totalNumber,
+        trueCounter,
+        falseCounter,
+      });
+    }
+    return counterVector;
   }
 
   static async getResultData(filters) {
     const extraOperations = [];
-    console.log(filters);
+
     if (filters) {
       const { startDate, endDate, state, type, destination, user } = filters;
       console.log(type);
