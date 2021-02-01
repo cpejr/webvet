@@ -91,6 +91,7 @@ router.post(
     const { sample } = req.body;
     const { _id } = sample;
     delete sample._id;
+    sample.specialFinalized = true;
 
     try {
       let toxinArray = new Array();
@@ -134,6 +135,7 @@ router.post(
   async function (req, res) {
     const { requisition } = req.body;
     requisition.status = "Aprovada";
+    requisition.special = true;
 
     const sampleVector = [...requisition.sampleVector];
     delete requisition.sampleVector;

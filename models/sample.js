@@ -301,6 +301,10 @@ const sampleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    specialFinalized: {
+      type: Boolean,
+      default: false,
+    }, //Marca a amostra como finalizada pelo painel especial.
   },
   { timestamps: true, strict: false }
 );

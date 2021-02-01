@@ -50,6 +50,10 @@ const requisitionSchema = new mongoose.Schema(
         ref: "Sample",
       },
     ],
+    special: {
+      type: Boolean,
+      default: false,
+    }, //Marca a requisição como criada pelo painel especial.
   },
   { timestamps: true, strict: false }
 );
