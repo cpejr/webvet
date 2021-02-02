@@ -301,10 +301,17 @@ const sampleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isSpecial: { 
+      type: Boolean,
+      default: false,
+    }, //Marca a amostra como criada pelo painel especial.
     specialFinalized: {
       type: Boolean,
       default: false,
     }, //Marca a amostra como finalizada pelo painel especial.
+    specialNumber: {
+      type: String
+    } //Ano da amostra especial, so aparece se for finalizada pelo painel especial.
   },
   { timestamps: true, strict: false }
 );
@@ -888,6 +895,22 @@ class Sample {
       });
       const result = await SampleModel.create(manySamples);
       await Counter.setSampleCount(samplenumber);
+      return result;
+    } catch (error) {
+      console.warn(error);
+      return error;
+    }
+  }
+
+  static async createManySpecial(samples) {
+    let manySamples = [];
+    try {
+      let samplenumber = 0;
+      samples.forEach((sample) => {
+        sample.samplenumber = samplenumber;
+        manySamples.push(sample);
+      });
+      const result = await SampleModel.create(manySamples);
       return result;
     } catch (error) {
       console.warn(error);

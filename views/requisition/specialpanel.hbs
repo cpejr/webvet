@@ -58,6 +58,17 @@
                     </div>
                     <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
                         <h6 class="align-self-start">Configurações adicionais</h6>
+                        <div class="d-flex">
+                            <div class="requisition-text col-md-6">
+                                <input required type="number" name="sample[specialNumber]"
+                                    id="sample[specialNumber]_{{@../index}}" class="requisition-text"
+                                    placeholder="Número da amostra" value="{{specialNumber}}">
+                            </div>
+                            <div class="requisition-text col-md-6">
+                                <input required type="number" name="sample[creationYear]" id="sample[creationYear]_{{@../index}}"
+                                    class="requisition-text" placeholder="Ano da amostra" value="{{creationYear}}">
+                            </div>
+                        </div>
                         <div class="requisition-text col-md-12">
                             <input type="text" name="sample[comment]" id="sample[comment]_{{@../index}}"
                                 class="requisition-text" placeholder="Comentário" value="{{comment}}">

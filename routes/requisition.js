@@ -8,7 +8,6 @@ const Kit = require("../models/kit");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-  // console.log(req.session);
   res.render("requisition/newrequisition", {
     title: "Requisition",
     layout: "layoutDashboard.hbs",
@@ -62,14 +61,12 @@ router.get(
             (element) => element.name === toxina.Full
           ).kits;
           aux["kits"] = availableKits;
-          // auxconsole.log("Aux: ", aux);
           if (aux.active) {
             sample.toxins.push(aux);
           }
           delete sample[toxina.Full];
         });
       });
-      //console.log("Samples: ", allSamples);
       res.render("requisition/specialpanel", {
         title: "Painel de Amostras",
         layout: "layoutDashboard.hbs",
@@ -141,7 +138,7 @@ router.post(
     delete requisition.sampleVector;
 
     try {
-      const requisitionId = await Requisition.create(requisition);
+      const requisitionId = await Requisition.createSpecial(requisition);
       let sampleObjects = [];
       sampleVector &&
         sampleVector.forEach((sampleInfo) => {
@@ -154,6 +151,8 @@ router.post(
             isCitrus: citrus ? true : false,
             receivedquantity,
             packingtype,
+            creationYear: requisition.specialYear,
+            isSpecial: true,
           };
 
           if (!requisition.mycotoxin) requisition.mycotoxin = [];
@@ -166,7 +165,7 @@ router.post(
           sampleObjects.push(sample);
         });
 
-      const newSamples = await Sample.createMany(sampleObjects);
+      const newSamples = await Sample.createManySpecial(sampleObjects);
       let promiseVector = new Array();
       newSamples.forEach((sample) => {
         const id = sample.id;
