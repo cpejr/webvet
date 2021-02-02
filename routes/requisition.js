@@ -50,7 +50,7 @@ router.get(
   async function (req, res) {
     try {
       const allKits = await Kit.getAllForSpecialPanel();
-      let allSamples = await Sample.getAllActive();
+      let allSamples = await Sample.getAllSpecialActive();
       allSamples = allSamples.reverse();
       allSamples.forEach((sample) => {
         sample.toxins = new Array();
@@ -94,7 +94,10 @@ router.post(
     try {
       let toxinArray = new Array();
       ToxinasAll.forEach((toxina) => {
-        sample[toxina.Full] && toxinArray.push(toxina.Full);
+        if(sample[toxina.Full]){
+          toxinArray.push(toxina.Full);
+          sample[toxina.Full].active = false;
+        }
       });
       let frase = "";
       let fraseCompleta =

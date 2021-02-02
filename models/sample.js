@@ -3,8 +3,8 @@ const Counter = require("../models/counter");
 const Workmap = require("./Workmap");
 const SimpleLinearRegression = require("ml-regression-simple-linear");
 
-var data = new Date();
-var yyyy = data.getFullYear();
+const data = new Date();
+const yyyy = data.getFullYear();
 
 const sampleSchema = new mongoose.Schema(
   {
@@ -301,7 +301,7 @@ const sampleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isSpecial: { 
+    isSpecial: {
       type: Boolean,
       default: false,
     }, //Marca a amostra como criada pelo painel especial.
@@ -310,8 +310,8 @@ const sampleSchema = new mongoose.Schema(
       default: false,
     }, //Marca a amostra como finalizada pelo painel especial.
     specialNumber: {
-      type: String
-    } //Ano da amostra especial, so aparece se for finalizada pelo painel especial.
+      type: String,
+    }, //Ano da amostra especial, so aparece se for finalizada pelo painel especial.
   },
   { timestamps: true, strict: false }
 );
@@ -394,7 +394,7 @@ class Sample {
   }
 
   static async updateCustom(id, params) {
-    const response = await SampleModel.updateOne({ _id: id }, { $set: params });
+    const response = await SampleModel.findByIdAndUpdate(id, { $set: params });
     return response;
   }
 
@@ -579,7 +579,7 @@ class Sample {
       abs2 / p_absorvance[0] / (1 - abs2 / p_absorvance[0])
     );
 
-    var finalResult =
+    const finalResult =
       (compara(log_b_b0, intercept, slope) +
         compara(log_b_b0_2, intercept, slope)) /
       2;
@@ -589,10 +589,10 @@ class Sample {
 
   static finalizeSample(id, toxina, kit_id) {
     return new Promise((resolve, reject) => {
-      var parameter = toxina + ".active";
-      var parameter2 = toxina + ".kitId";
-      var parameter3 = "report";
-      var updateVal = {};
+      let parameter = toxina + ".active";
+      let parameter2 = toxina + ".kitId";
+      let parameter3 = "report";
+      let updateVal = {};
 
       updateVal[parameter] = false;
       updateVal[parameter2] = kit_id;
@@ -635,7 +635,7 @@ class Sample {
   }
 
   static getByIdArrayWithQuery(id_array, query) {
-    querry["_id"] = { $in: id_array };
+    query["_id"] = { $in: id_array };
     return new Promise((resolve, reject) => {
       SampleModel.find(query)
         .then((map) => {
@@ -649,11 +649,10 @@ class Sample {
 
   static getActiveByIdArray(id_array, toxinafull) {
     return new Promise((resolve, reject) => {
-      var querry = {};
-      querry["_id"] = { $in: id_array };
-      querry[toxinafull + ".active"] = true;
+      let query = { _id: { $in: id_array }, isSpecial: false };
+      query[toxinafull + ".active"] = true;
 
-      SampleModel.find(querry)
+      SampleModel.find(query)
         .then((map) => {
           resolve(map);
         })
@@ -665,9 +664,9 @@ class Sample {
 
   static async updateResult(id, toxina_full, result) {
     return new Promise((resolve, reject) => {
-      var parameter = toxina_full + ".result";
+      let parameter = toxina_full + ".result";
 
-      var updateVal = {};
+      let updateVal = {};
 
       updateVal[parameter] = result;
 
@@ -683,40 +682,16 @@ class Sample {
 
   static getAllActiveWithWorkmap() {
     return new Promise((resolve, reject) => {
-      var querry = { $or: [] };
+      let query = { $or: [], isSpecial: false };
 
-      for (let index = 0; index < ToxinasFull.length; index++) {
-        const toxina = ToxinasFull[index];
-        var expression = {};
+      ToxinasFull.forEach((toxina) => {
+        let expression = {};
 
         expression[toxina + ".status"] = { $eq: "Mapa de Trabalho" };
         expression[toxina + ".active"] = true;
 
-        querry.$or.push(expression);
-      }
-
-      SampleModel.find(querry)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static getAllActive() {
-    return new Promise((resolve, reject) => {
-      var query = { $or: [] };
-
-      for (let index = 0; index < ToxinasFull.length; index++) {
-        const toxina = ToxinasFull[index];
-        var expression = {};
-
-        expression[toxina + ".active"] = true;
-
         query.$or.push(expression);
-      }
+      });
 
       SampleModel.find(query)
         .then((result) => {
@@ -728,21 +703,62 @@ class Sample {
     });
   }
 
-  static getAllActiveWithUser() {
+  static getAllActive() {
     return new Promise((resolve, reject) => {
-      var querry = { $or: [] };
+      let query = { $or: [] };
 
-      for (let index = 0; index < ToxinasFull.length; index++) {
-        const toxina = ToxinasFull[index];
-        var expression = {};
+      ToxinasFull.forEach((toxina) => {
+        let expression = {};
 
         expression[toxina + ".active"] = true;
 
-        querry.$or.push(expression);
+        query.$or.push(expression);
+      });
+
+      SampleModel.find(query)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  static async getAllSpecialActive() {
+    let query = { isSpecial: true, $or: [] };
+    try {
+      ToxinasFull.forEach((toxina) => {
+        let expression = {};
+
+        expression[toxina + ".active"] = true;
+
+        query.$or.push(expression);
+      });
+
+      const sample = await SampleModel.find(query);
+
+      return sample;
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  static getAllActiveWithUser() {
+    return new Promise((resolve, reject) => {
+      let query = { $or: [] };
+
+      for (let index = 0; index < ToxinasFull.length; index++) {
+        const toxina = ToxinasFull[index];
+        let expression = {};
+
+        expression[toxina + ".active"] = true;
+
+        query.$or.push(expression);
       }
 
       SampleModel.aggregate([
-        { $match: querry },
+        { $match: query },
         {
           $group: {
             _id: "$requisitionId",
@@ -817,8 +833,8 @@ class Sample {
   }
 
   static async getAllReport() {
-    let querry = { report: true };
-    const result = await SampleModel.find(querry).populate({
+    let query = { report: true };
+    const result = await SampleModel.find(query).populate({
       path: "requisitionId",
       select: "requisitionnumber user createdAt _id",
     });
