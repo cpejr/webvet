@@ -56,7 +56,8 @@ router.get(
         sample.toxins = new Array();
         ToxinasAll.forEach((toxina) => {
           let aux = sample[toxina.Full];
-          aux.name = toxina.Formal;
+          aux.formal = toxina.Formal;
+          aux.full = toxina.Full;
           const availableKits = allKits.find(
             (element) => element.name === toxina.Full
           ).kits;

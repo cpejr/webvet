@@ -18,11 +18,11 @@
                     <div class="scroll">
                         {{#each toxins}}
                             <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
-                                <h6 class="align-self-start">{{name}}</h6>
-                                <select required id="sample[{{name}}][kitId]_{{@../index}}"
-                                    name="sample[{{name}}][kitId]" class="drowdownoptions"
+                                <h6 class="align-self-start">{{formal}}</h6>
+                                <select required id="sample[{{full}}][kitId]_{{@../index}}"
+                                    name="sample[{{full}}][kitId]" class="drowdownoptions"
                                     placeholder="Selecione o kit">
-                                    <option disabled selected value="">Selecione um Kit para {{name}}
+                                    <option disabled selected value="">Selecione um Kit para {{formal}}
                                     </option>
                                     {{#each kits}}
                                         <option value="{{_id}}">[LoD: {{Lod}}; LoC: {{Loq}}] - {{productCode}} -
