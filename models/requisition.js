@@ -184,7 +184,6 @@ class Requisition {
     try {
       requisition.requisitionnumber = 0;
       const result = await RequisitionModel.create(requisition);
-      requisitionnumber++;
       return result;
     } catch (error) {
       console.warn(error);
