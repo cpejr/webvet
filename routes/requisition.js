@@ -90,6 +90,7 @@ router.post(
     const { _id } = sample;
     delete sample._id;
     sample.specialFinalized = true;
+    sample.report = true;
 
     try {
       let toxinArray = new Array();
