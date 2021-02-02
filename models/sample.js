@@ -341,25 +341,6 @@ class Sample {
   }
 
   /**
-   * Get a Sample by it's numsample
-   * @param {string} destination - Sample's Number
-   * @returns {Object} Sample Document Data
-   */
-  static getBySampleNumber(samplenumber) {
-    return new Promise((resolve, reject) => {
-      SampleModel.findOne({ samplenumber: samplenumber })
-        .populate("sample")
-        .exec()
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  /**
    * Get a Sample by it's requisition id
    * @param {string} requisition id - Sample's Requisition Id
    * @returns {Object} Sample Document Data
@@ -412,17 +393,9 @@ class Sample {
     });
   }
 
-  static updateCustom(id, params) {
-    return new Promise((resolve, reject) => {
-      SampleModel.updateOne({ _id: id }, { $set: params })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          console.warn(err);
-          reject(err);
-        });
-    });
+  static async updateCustom(id, params) {
+    const response = await SampleModel.updateOne({ _id: id }, { $set: params });
+    return response;
   }
 
   static updateBySampleNumber(samplenumber, sample) {
