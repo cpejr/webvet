@@ -330,25 +330,6 @@ class Sample {
   }
 
   /**
-   * Get a Sample by it's numsample
-   * @param {string} destination - Sample's Number
-   * @returns {Object} Sample Document Data
-   */
-  static getBySampleNumber(samplenumber) {
-    return new Promise((resolve, reject) => {
-      SampleModel.findOne({ samplenumber: samplenumber })
-        .populate("sample")
-        .exec()
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  /**
    * Get a Sample by it's requisition id
    * @param {string} requisition id - Sample's Requisition Id
    * @returns {Object} Sample Document Data
