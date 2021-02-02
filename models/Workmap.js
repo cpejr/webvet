@@ -62,14 +62,12 @@ class Workmap {
    * @param {Object} Sample - id
    * @returns {null}
    */
-  static addSample(id, sample) {
-    return new Promise((resolve, reject) => {
-      WorkmapModel.findByIdAndUpdate(id, {
-        $push: { samplesArray: sample },
-      }).catch((err) => {
-        reject(err);
-      });
+  static async addSample(id, sample) {
+    const response = await WorkmapModel.findByIdAndUpdate(id, {
+      $push: { samplesArray: sample },
     });
+
+    return response;
   }
 
   /**
@@ -92,16 +90,12 @@ class Workmap {
     });
   }
 
-  static removeSample(id, sample) {
-    return new Promise((resolve, reject) => {
-      WorkmapModel.findByIdAndUpdate(id, { $pull: { samplesArray: sample } })
-        .then(() => {
-          resolve();
-        })
-        .catch((err) => {
-          reject(err);
-        });
+  static async removeSample(id, sample) {
+    const result = await WorkmapModel.findByIdAndUpdate(id, {
+      $pull: { samplesArray: sample },
     });
+
+    return result;
   }
 
   static delete(id) {
@@ -128,31 +122,17 @@ class Workmap {
     });
   }
 
-  static getByIdArray(id_array) {
-    return new Promise((resolve, reject) => {
-      WorkmapModel.find({ _id: { $in: id_array } })
-        .then((map) => {
-          resolve(map);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async getByIdArray(id_array) {
+    const map = await WorkmapModel.find({ _id: { $in: id_array } });
+    return map;
   }
 
-  static setFinalizationNumber(id_array, finalizationNumber) {
-    return new Promise((resolve, reject) => {
-      WorkmapModel.updateMany(
-        { _id: { $in: id_array } },
-        { $set: { finalizationNumber: finalizationNumber } }
-      )
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async setFinalizationNumber(id_array, finalizationNumber) {
+    const result = await WorkmapModel.updateMany(
+      { _id: { $in: id_array } },
+      { $set: { finalizationNumber: finalizationNumber } }
+    );
+    return result;
   }
 
   static getLastFinalizedSamples() {

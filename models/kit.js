@@ -234,19 +234,11 @@ class Kit {
    * @param {Object} Kit - Kit Document Data
    * @returns {null}
    */
-  static update(id, kit) {
-    return new Promise((resolve, reject) => {
-      if (kit.mapArray.length === kit.toxinaStart) {
-        kit.kitType = "-";
-      }
-      KitModel.findByIdAndUpdate(id, kit)
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async update(id, kit) {
+    if (kit.mapArray.length === kit.toxinaStart) {
+      kit.kitType = "-";
+    }
+    return await KitModel.findByIdAndUpdate(id, kit);
   }
 
   /**
@@ -500,17 +492,10 @@ class Kit {
     });
   }
 
-  static getAllActive() {
-    return new Promise((resolve, reject) => {
-      KitModel.find({ active: true })
-        .exec()
-        .then((results) => {
-          resolve(results);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  static async getAllActive() {
+    const results = await KitModel.find({ active: true });
+
+    return results;
   }
 
   static getByIdArray(id_array) {

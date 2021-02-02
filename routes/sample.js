@@ -126,26 +126,32 @@ router.post("/scndTesting/edit/:mycotoxin/:sampleId", async (req, res) => {
 });
 
 router.post("/mapedit/:mycotoxin/:sampleId/:mapID", async (req, res) => {
-  const { mapID, sampleId, mycotoxin } = req.params;
+  try {
+    const { mapID, sampleId, mycotoxin } = req.params;
 
-  const sample = await Sample.getById(sampleId);
-  const promises = [];
-  if (sample[mycotoxin].workmapId + "" !== mapID) {
-    if (sample[mycotoxin].status === "Mapa de Trabalho")
-      promises.push(
-        Workmap.removeSample(sample[mycotoxin].workmapId, sampleId)
-      );
+    const sample = await Sample.getById(sampleId);
+    const promises = [];
+    if (sample[mycotoxin].workmapId + "" !== mapID) {
+      if (sample[mycotoxin].status === "Mapa de Trabalho")
+        promises.push(
+          Workmap.removeSample(sample[mycotoxin].workmapId, sampleId)
+        );
 
-    promises.push(Workmap.addSample(mapID, sampleId));
+      promises.push(Workmap.addSample(mapID, sampleId));
 
-    let sampleUpdate = {};
-    sampleUpdate[mycotoxin + ".status"] = "Mapa de Trabalho";
-    sampleUpdate[mycotoxin + ".workmapId"] = mapID;
+      let sampleUpdate = {};
+      sampleUpdate[mycotoxin + ".status"] = "Mapa de Trabalho";
+      sampleUpdate[mycotoxin + ".workmapId"] = mapID;
 
-    promises.push(Sample.updateCustom(sampleId, sampleUpdate));
+      promises.push(Sample.updateCustom(sampleId, sampleUpdate));
+    }
+
+    await Promise.all(promises);
+    res.status(200).send("ok");
+  } catch (error) {
+    res.status(500).send("fail");
+    console.warn(error);
   }
-  await Promise.all(promises);
-  res.status(200).send("ok");
 });
 
 router.get("/edit/:sampleId", async (req, res) => {
