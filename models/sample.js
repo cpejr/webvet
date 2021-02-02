@@ -705,7 +705,7 @@ class Sample {
 
   static getAllActive() {
     return new Promise((resolve, reject) => {
-      let query = { $or: [] };
+      let query = { $or: [], isSpecial: false };
 
       ToxinasFull.forEach((toxina) => {
         let expression = {};
@@ -833,7 +833,7 @@ class Sample {
   }
 
   static async getAllReport() {
-    let query = { report: true };
+    let query = { report: true, isSpecial: false };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
       select: "requisitionnumber user createdAt _id",
