@@ -115,11 +115,9 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
       await Promise.all(promises);
     }
 
-    console.log("Redirect");
     res.redirect("/sampleresult");
 
     async function updateKits(KitArray) {
-      console.log("I updateKits");
       let promises = [];
       let finalizationNumber = await Counter.getFinalizationCount();
 
@@ -157,12 +155,11 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
       //Update Finalization Count
       promises.push(Counter.setFinalizationCount(finalizationNumber + 1));
 
-      console.log("F updateKits");
       return await Promise.all(promises);
     }
 
     async function updateSamplesByGroup(obj) {
-      console.log("I updateKits");
+
       let { samples, calibrators, toxinaFull, kitId } = obj;
       let promises = [];
 
@@ -181,7 +178,7 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
           );
         }
       }
-      console.log("f updateKits");
+
       return await Promise.all(promises);
     }
   } catch (error) {
