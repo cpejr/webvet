@@ -31,8 +31,8 @@ function addInput() {
                         class="requisition-text" placeholder="Nome da amostra ${numInput}">
                 </div>
                 <div class="requisition-text col-md-4">
-                    <input required type="number" name="sample[sampleVector][${numInput}][specialNumber]"
-                        id="specialNumber[${numInput}]" class="requisition-text"
+                    <input required type="number" name="sample[sampleVector][${numInput}][samplenumber]"
+                        id="samplenumber[${numInput}]" class="requisition-text"
                         placeholder="Número da amostra">
                 </div>
                 <div class="col-md-4 d-flex flex-row">
@@ -96,7 +96,7 @@ $("#adminUser").on("change", function (event) {
   findAndUpdateValue("#register", selectedUser.register);
   findAndUpdateValue(
     "#IE",
-    selectedUser.address ? selectedUser.address.ie : undefined
+    selectedUser.address ? selectedUser.address.IE : undefined
   );
   findAndUpdateValue(
     "#street",
