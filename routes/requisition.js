@@ -159,7 +159,7 @@ router.post(
             packingtype,
             creationYear: requisition.specialYear,
             isSpecial: true,
-            specialNumber, 
+            samplenumber, 
           };
 
           if (!requisition.mycotoxin) requisition.mycotoxin = [];
