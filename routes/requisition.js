@@ -147,7 +147,7 @@ router.post(
       let sampleObjects = [];
       sampleVector &&
         sampleVector.forEach((sampleInfo) => {
-          const { name, citrus, receivedquantity, packingtype, specialNumber } = sampleInfo;
+          const { name, citrus, receivedquantity, packingtype, samplenumber } = sampleInfo;
           console.log("🚀 ~ file: requisition.js ~ line 146 ~ sampleVector.forEach ~ sampleInfo", sampleInfo)
           let sample = {
             name,
