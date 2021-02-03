@@ -284,28 +284,20 @@ router.get("/samples/:id", auth.isAuthenticated, function (req, res) {
 
 router.get(
   "/admreport",
-  auth.isAuthenticated || auth.isAdmin || auth.isAnalyst,
+  auth.isAuthenticated,
+  auth.isFromLab,
   async function (req, res) {
     try {
-      const result = [];
-
       const amostras = await Sample.getAllReport();
-
-      for (var j = 0; j < amostras.length; j++) {
-        const amostra = amostras[j];
-        result[j] = {
-          number: amostra.requisitionId.requisitionnumber,
-          year: amostra.requisitionId.createdAt.getFullYear(),
-          _id: amostra.requisitionId._id,
-        };
-      }
+      const especiais = await Sample.getAllSpecialFinalized();
+      console.log("🚀 ~ file: report.js ~ line 304 ~ especiais", especiais)
 
       res.render("report/admreport", {
         title: "Laudos Disponíveis",
         layout: "layoutDashboard.hbs",
         ...req.session,
         laudos: amostras.reverse(),
-        result: result.reverse(),
+        laudosEspeciais: especiais.reverse(),
       });
     } catch (error) {
       console.warn(error);

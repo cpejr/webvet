@@ -42,20 +42,27 @@
           <input type="text" value="{{actualUser.address.street}}" name="user[address][street]" class=""
             placeholder="Endereço">
         </div>
-        <div class="requisition-text col-md-3">
+        <div class="requisition-text col-md-2">
           <input type="text" value="{{actualUser.address.number}}" name="user[address][number]" class=""
             placeholder="Número">
         </div>
-        <div class="requisition-text col-md-3">
+        <div class="requisition-text col-md-2">
           <input type="text" value="{{actualUser.address.complement}}" name="user[address][complement]" class=""
             placeholder="Complemento">
         </div>
+        <div class="requisition-text col-md-2">
+          <input type="text" value="{{actualUser.address.IE}}" name="user[address][IE]" class=""
+            placeholder="I.E">
+        </div>
       </div>
       <div class="d-flex">
-        <div class="requisition-text col-md-5">
+        <div class="requisition-text col-md-3">
+          <input type="text" value="{{actualUser.address.neighborhood}}" name="user[address][neighborhood]" placeholder="Bairro">
+        </div>
+        <div class="requisition-text col-md-3">
           <input type="text" value="{{actualUser.address.city}}" name="user[address][city]" placeholder="Cidade">
         </div>
-        <div class="requisition-text col-md-4 d-flex align-items-center">
+        <div class="requisition-text col-md-3 d-flex align-items-center">
           <select id="userstate" class="drowdownoptions ml-2" name="user[address][state]" required="required">
             <option disabled selected value="">Estado</option>
             {{#each allStates}}

@@ -18,11 +18,11 @@
                     <div class="scroll">
                         {{#each toxins}}
                             <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
-                                <h6 class="align-self-start">{{name}}</h6>
-                                <select required id="sample[{{name}}][kitId]_{{@../index}}"
-                                    name="sample[{{name}}][kitId]" class="drowdownoptions"
+                                <h6 class="align-self-start">{{formal}}</h6>
+                                <select required id="sample[{{full}}][kitId]_{{@../index}}"
+                                    name="sample[{{full}}][kitId]" class="drowdownoptions"
                                     placeholder="Selecione o kit">
-                                    <option disabled selected value="">Selecione um Kit para {{name}}
+                                    <option disabled selected value="">Selecione um Kit para {{formal}}
                                     </option>
                                     {{#each kits}}
                                         <option value="{{_id}}">[LoD: {{Lod}}; LoC: {{Loq}}] - {{productCode}} -
@@ -32,25 +32,25 @@
                                     {{/each}}
                                 </select>
                                 <div class="requisition-text col-md-12">
-                                    <input required type="text" name="sample[{{name}}][result]"
-                                        id="sample[{{name}}][result]_{{@../index}}" class="requisition-text"
+                                    <input required type="text" name="sample[{{full}}][result]"
+                                        id="sample[{{full}}][result]_{{@../index}}" class="requisition-text"
                                         placeholder="Resultado (Número ou NaN)" value="{{result}}">
                                 </div>
                                 <div class="requisition-text col-md-12">
-                                    <input required type="number" name="sample[{{name}}][resultChart]"
-                                        id="sample[{{name}}][resultChart]_{{@../index}}" class="requisition-text"
+                                    <input required type="number" name="sample[{{full}}][resultChart]"
+                                        id="sample[{{full}}][resultChart]_{{@../index}}" class="requisition-text"
                                         placeholder="Valor no gráfico" value="{{resultChart}}">
                                 </div>
                                 <div class="requisition-text col-md-12">
-                                    <input required type="text" name="sample[{{name}}][resultText]"
-                                        id="sample[{{name}}][resultText]_{{@../index}}" class="requisition-text"
+                                    <input required type="text" name="sample[{{full}}][resultText]"
+                                        id="sample[{{full}}][resultText]_{{@../index}}" class="requisition-text"
                                         placeholder="Resultado no relatório" value="{{resultText}}">
                                 </div>
                                 <div
                                     class="requisition-text d-flex align-items-center justify-content-space-between col-md-12">
                                     <h6 class="m-0">Toxina detectada? </h6>
-                                    <input type="checkbox" name="sample[{{name}}][checked]"
-                                        id="sample[{{name}}][checked]_{{@../index}}" value="true"
+                                    <input type="checkbox" name="sample[{{full}}][checked]"
+                                        id="sample[{{full}}][checked]_{{@../index}}" value="true"
                                         class="checkbox col-md-4">
                                 </div>
                             </div>
@@ -58,14 +58,20 @@
                     </div>
                     <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
                         <h6 class="align-self-start">Configurações adicionais</h6>
+                        <div class="d-flex">
+                            <div class="requisition-text col-md-6">
+                                <input required type="number" name="sample[samplenumber]"
+                                    id="sample[samplenumber]_{{@../index}}" class="requisition-text"
+                                    placeholder="Número da amostra" value="{{samplenumber}}">
+                            </div>
+                            <div class="requisition-text col-md-6">
+                                <input required type="number" name="sample[creationYear]" id="sample[creationYear]_{{@../index}}"
+                                    class="requisition-text" placeholder="Ano da amostra" value="{{creationYear}}">
+                            </div>
+                        </div>
                         <div class="requisition-text col-md-12">
                             <input type="text" name="sample[comment]" id="sample[comment]_{{@../index}}"
                                 class="requisition-text" placeholder="Comentário" value="{{comment}}">
-                        </div>
-                        <div class="requisition-text d-flex align-items-center justify-content-space-between col-md-12">
-                            <h6 class="m-0">Criar laudo? </h6>
-                            <input type="checkbox" name="sample[report]" id="sample[report]_{{@../index}}" value="true"
-                                class="checkbox col-md-4">
                         </div>
                     </div>
                     <input hidden name="sample[_id]" id="_id_{{@../index}}" value={{_id}}>

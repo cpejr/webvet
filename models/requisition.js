@@ -50,6 +50,16 @@ const requisitionSchema = new mongoose.Schema(
         ref: "Sample",
       },
     ],
+    special: {
+      type: Boolean,
+      default: false,
+    }, //Marca a requisição como criada pelo painel especial.
+    specialYear: {
+      type: String,
+    }, //Numero da requisição especial, so aparece se for finalizada pelo painel especial.
+    specialNumber: {
+      type: String
+    } //Ano da requisição especial, so aparece se for finalizada pelo painel especial.
   },
   { timestamps: true, strict: false }
 );
@@ -163,6 +173,17 @@ class Requisition {
       const result = await RequisitionModel.create(requisition);
       requisitionnumber++;
       Counter.setRequisitionCount(requisitionnumber);
+      return result;
+    } catch (error) {
+      console.warn(error);
+      return error;
+    }
+  }
+
+  static async createSpecial(requisition) {
+    try {
+      requisition.requisitionnumber = 0;
+      const result = await RequisitionModel.create(requisition);
       return result;
     } catch (error) {
       console.warn(error);

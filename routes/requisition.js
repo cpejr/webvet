@@ -8,7 +8,6 @@ const Kit = require("../models/kit");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-  // console.log(req.session);
   res.render("requisition/newrequisition", {
     title: "Requisition",
     layout: "layoutDashboard.hbs",
@@ -51,25 +50,24 @@ router.get(
   async function (req, res) {
     try {
       const allKits = await Kit.getAllForSpecialPanel();
-      let allSamples = await Sample.getAllActive();
+      let allSamples = await Sample.getAllSpecialActive();
       allSamples = allSamples.reverse();
       allSamples.forEach((sample) => {
         sample.toxins = new Array();
         ToxinasAll.forEach((toxina) => {
           let aux = sample[toxina.Full];
-          aux.name = toxina.Formal;
+          aux.formal = toxina.Formal;
+          aux.full = toxina.Full;
           const availableKits = allKits.find(
             (element) => element.name === toxina.Full
           ).kits;
           aux["kits"] = availableKits;
-          // auxconsole.log("Aux: ", aux);
           if (aux.active) {
             sample.toxins.push(aux);
           }
           delete sample[toxina.Full];
         });
       });
-      //console.log("Samples: ", allSamples);
       res.render("requisition/specialpanel", {
         title: "Painel de Amostras",
         layout: "layoutDashboard.hbs",
@@ -91,11 +89,16 @@ router.post(
     const { sample } = req.body;
     const { _id } = sample;
     delete sample._id;
+    sample.specialFinalized = true;
+    sample.report = true;
 
     try {
       let toxinArray = new Array();
       ToxinasAll.forEach((toxina) => {
-        sample[toxina.Full] && toxinArray.push(toxina.Full);
+        if(sample[toxina.Full]){
+          toxinArray.push(toxina.Full);
+          sample[toxina.Full].active = false;
+        }
       });
       let frase = "";
       let fraseCompleta =
@@ -134,16 +137,18 @@ router.post(
   async function (req, res) {
     const { requisition } = req.body;
     requisition.status = "Aprovada";
+    requisition.special = true;
 
     const sampleVector = [...requisition.sampleVector];
     delete requisition.sampleVector;
 
     try {
-      const requisitionId = await Requisition.create(requisition);
+      const requisitionId = await Requisition.createSpecial(requisition);
       let sampleObjects = [];
       sampleVector &&
         sampleVector.forEach((sampleInfo) => {
-          const { name, citrus, receivedquantity, packingtype } = sampleInfo;
+          const { name, citrus, receivedquantity, packingtype, samplenumber } = sampleInfo;
+          console.log("🚀 ~ file: requisition.js ~ line 146 ~ sampleVector.forEach ~ sampleInfo", sampleInfo)
           let sample = {
             name,
             approved: true,
@@ -152,6 +157,9 @@ router.post(
             isCitrus: citrus ? true : false,
             receivedquantity,
             packingtype,
+            creationYear: requisition.specialYear,
+            isSpecial: true,
+            samplenumber, 
           };
 
           if (!requisition.mycotoxin) requisition.mycotoxin = [];
@@ -164,7 +172,7 @@ router.post(
           sampleObjects.push(sample);
         });
 
-      const newSamples = await Sample.createMany(sampleObjects);
+      const newSamples = await Sample.createManySpecial(sampleObjects);
       let promiseVector = new Array();
       newSamples.forEach((sample) => {
         const id = sample.id;
