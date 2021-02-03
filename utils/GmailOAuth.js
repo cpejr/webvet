@@ -49,7 +49,7 @@ class GmailOAuth {
         ${this.getAccessTokenURL()}
       `);
     } else {
-      console.log(`achou token`);
+      console.log(`Achou token do google...`);
       return tokenData;
     }
   }

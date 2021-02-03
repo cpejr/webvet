@@ -337,25 +337,6 @@ class Sample {
     return result;
   }
 
-  /**
-   * Get a Sample by it's requisition id
-   * @param {string} requisition id - Sample's Requisition Id
-   * @returns {Object} Sample Document Data
-   */
-  static getByIdRequisition(idrequisition) {
-    return new Promise((resolve, reject) => {
-      SampleModel.findById(idrequisition)
-        .populate("sample")
-        .exec()
-        .then((result) => {
-          resolve(result.toObject());
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
   static getMaxSampleNumber() {
     return new Promise((resolve, reject) => {
       SampleModel.find({}, { samplenumber: 1, _id: 0 })

@@ -178,6 +178,7 @@ router.get('/getSamplesActive/:toxin/:samples', auth.isAuthenticated, (req, res)
   let toxin = req.params.toxin;
   let query = {}
   query[toxin][active] = true;
+  query.isSpecial = {$ne: true}; 
 
   Sample.getByIdArrayWithQuery(samples, query).then((res) => {
     res.send(res);
