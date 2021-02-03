@@ -722,6 +722,17 @@ class Sample {
     }
   }
 
+  static async getAllSpecialFinalized() {
+    let query = { isSpecial: true, specialFinalized: true };
+    try {
+      const sample = await SampleModel.find(query);
+
+      return sample;
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
   static getAllActiveWithUser() {
     return new Promise((resolve, reject) => {
       let query = { $or: [] };

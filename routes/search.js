@@ -188,6 +188,15 @@ router.get('/getSamplesActive/:toxin/:samples', auth.isAuthenticated, (req, res)
   });
 });
 
+router.get('/getSpecialFinalizedSamples', auth.isAuthenticated, auth.isFromLab, (req, res) =>{
+  Sample.getAllSpecialFinalized().then((res)=>{
+    res.send(res);
+  }).catch((error) => {
+    console.warn(error);
+    res.redirect('/error');
+  });
+});
+
 router.get('/getSamplesActiveByWorkmapArray/:mapidArray/:toxin', auth.isAuthenticated, (req, res) => {
   let workmapids = req.params.mapidArray.split(",");
   let toxin = req.params.toxin;
