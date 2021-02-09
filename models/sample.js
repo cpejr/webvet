@@ -627,7 +627,7 @@ class Sample {
 
   static getActiveByIdArray(id_array, toxinafull) {
     return new Promise((resolve, reject) => {
-      let query = { _id: { $in: id_array }, isSpecial: {$ne: true} };
+      let query = { _id: { $in: id_array }, isSpecial: { $ne: true } };
       query[toxinafull + ".active"] = true;
 
       SampleModel.find(query)
@@ -660,7 +660,7 @@ class Sample {
 
   static getAllActiveWithWorkmap() {
     return new Promise((resolve, reject) => {
-      let query = { $or: [], isSpecial: {$ne: true} };
+      let query = { $or: [], isSpecial: { $ne: true } };
 
       ToxinasFull.forEach((toxina) => {
         let expression = {};
@@ -683,7 +683,7 @@ class Sample {
 
   static getAllActive() {
     return new Promise((resolve, reject) => {
-      let query = { $or: [], isSpecial: {$ne: true} };
+      let query = { $or: [], isSpecial: { $ne: true } };
 
       ToxinasFull.forEach((toxina) => {
         let expression = {};
@@ -735,7 +735,7 @@ class Sample {
 
   static getAllActiveWithUser() {
     return new Promise((resolve, reject) => {
-      let query = { $or: [] };
+      let query = { $or: [], $not: { isSpecial: true } };
 
       for (let index = 0; index < ToxinasFull.length; index++) {
         const toxina = ToxinasFull[index];
@@ -822,7 +822,7 @@ class Sample {
   }
 
   static async getAllReport() {
-    let query = { report: true, isSpecial: {$ne: true}};
+    let query = { report: true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
       select: "requisitionnumber user createdAt _id",
