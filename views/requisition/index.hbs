@@ -1,4 +1,8 @@
-<h4>Requisições Disponíveis</h4>
+<div class="d-flex col-md-12 m-0 mb-4 justify-content-between">
+  <div class="col-md-2"></div>
+  <h4 class="align-self-center col-md-8" id="title">Requisições Disponíveis</h4>
+  <button class="btn btn-success col-md-2" onclick="changeTable()">Alternar</button>
+</div>
 <p></p>
 <div class="table-responsive">
   <table id="tb-user" class="table table-striped table-hover">
@@ -6,23 +10,115 @@
       <tr>
         <th>Status</th>
         <th>Identificação</th>
-        <th>Fazenda</th>
+        <th>Produtor</th>
         <th>Destino</th>
         <th>Editar</th>
       </tr>
     </thead>
-    <tbody>
-      {{#each requisitions}}
-        <tr>
-          <th>{{status}}</th>
-          <th>{{requisitionnumber}}/{{year}}</th>
-          <th>{{producer}}</th>
-          <th>{{destination}}</th>
-          <th>
-            <button onClick="location.href='requisition/edit/{{_id}}'" class="fa fa-info btn m-1"></button>
-          </th>
-        </tr>
+    <tbody id="regularBody">
+      {{#each regularRequisitions}}
+      <tr>
+        <th>{{status}}</th>
+        <th>{{requisitionnumber}}/{{year}}</th>
+        <th>{{producer}}</th>
+        <th>{{destination}}</th>
+        <th>
+          <button onClick="location.href='requisition/edit/{{_id}}'" class="fa fa-info btn m-1"></button>
+        </th>
+      </tr>
+      {{/each}}
+    </tbody>
+    <tbody id="specialBody" hidden>
+      {{#each specialRequisitions}}
+      <tr>
+        <th>{{status}}</th>
+        <th>{{requisitionnumber}}/{{year}}</th>
+        <th>{{producer}}</th>
+        <th>{{destination}}</th>
+        <th>
+          <button onClick="location.href='requisition/edit/{{_id}}'" class="fa fa-info btn m-1"></button>
+        </th>
+      </tr>
       {{/each}}
     </tbody>
   </table>
+  <div class="btn-group btn-group-toggle" id="regularPages" data-toggle="buttons">
+    {{#for 1 number_of_pages_regular_plus_1 1}}
+    <label class="btn btn-secondary {{#compare this @root.regularPage }} active {{/compare}}">
+      <input type="radio" name="regularpage" value="{{this}}" id="regularpage{{this}}">
+      {{this}}
+    </label>
+    {{/for}}
+  </div>
+
+  <div class="btn-group btn-group-toggle" id="specialPages" data-toggle="buttons" hidden>
+    {{#for 1 number_of_pages_special_plus_1 1}}
+    <label class="btn btn-secondary {{#compare this @root.specialPage }} active {{/compare}}">
+      <input type="radio" name="specialpage" value="{{this}}" id="specialpage{{this}}">
+      {{this}}
+    </label>
+    {{/for}}
+  </div>
 </div>
+
+<script>
+  let currentClass = "regularBody";
+  let specialPage = urlParam('specialPage');
+  let regularPage = urlParam('regularPage');
+  let toPage = urlParam('toPage');
+
+  if (toPage == "special")
+    changeTable();
+
+  function changeTable() {
+    switch (currentClass) {
+      case "regularBody":
+        $("#title").html("Requisições Especiais Disponíveis")
+        $("#specialBody").removeAttr("hidden");
+        $("#regularBody").attr("hidden", true);
+        $("#specialPages").removeAttr("hidden");
+        $("#regularPages").attr("hidden", true);
+        currentClass = "specialBody";
+        break;
+      case "specialBody":
+        $("#title").html("Requisições Disponíveis")
+        $("#regularBody").removeAttr("hidden");
+        $("#specialBody").attr("hidden", true);
+        $("#regularPages").removeAttr("hidden");
+        $("#specialPages").attr("hidden", true);
+
+        currentClass = "regularBody";
+        break;
+    }
+  }
+
+  $("input[name='regularpage']").change(function (e) {
+
+    regularPage = $(this).val();
+    redirect("regular");
+  });
+
+  $("input[name='specialpage']").change(function (e) {
+
+    specialPage = $(this).val();
+    redirect("special");
+  });
+
+  function urlParam(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+      .exec(window.location.search);
+
+    return (results !== null) ? results[1] || 0 : false;
+  }
+
+  function redirect(toPage = "regular") {
+    const query = [];
+    if (specialPage) query.push(`specialPage=${specialPage}`);
+    if (regularPage) query.push(`regularPage=${regularPage}`);
+
+    query.push(`toPage=${toPage}`)
+
+    window.location.replace(`/requisition?${query.join('&')}`);
+
+  }
+</script>

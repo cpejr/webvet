@@ -95,7 +95,7 @@ router.post(
     try {
       let toxinArray = new Array();
       ToxinasAll.forEach((toxina) => {
-        if(sample[toxina.Full]){
+        if (sample[toxina.Full]) {
           toxinArray.push(toxina.Full);
           sample[toxina.Full].active = false;
         }
@@ -147,8 +147,14 @@ router.post(
       let sampleObjects = [];
       sampleVector &&
         sampleVector.forEach((sampleInfo) => {
-          const { name, citrus, receivedquantity, packingtype, samplenumber } = sampleInfo;
-          console.log("🚀 ~ file: requisition.js ~ line 146 ~ sampleVector.forEach ~ sampleInfo", sampleInfo)
+          const {
+            name,
+            citrus,
+            receivedquantity,
+            packingtype,
+            samplenumber,
+          } = sampleInfo;
+
           let sample = {
             name,
             approved: true,
@@ -159,7 +165,7 @@ router.post(
             packingtype,
             creationYear: requisition.specialYear,
             isSpecial: true,
-            samplenumber, 
+            samplenumber,
           };
 
           if (!requisition.mycotoxin) requisition.mycotoxin = [];
@@ -297,25 +303,52 @@ router.post("/new", auth.isAuthenticated, function (req, res) {
     });
 });
 
-router.get("/", auth.isAuthenticated, function (req, res) {
-  Requisition.getAll().then((requisitions) => {
-    requisitions = requisitions.map((requisition) => {
-      const req = requisition.toJSON();
-      const date = new Date(requisition.createdAt);
-      const year = date.getFullYear();
+router.get("/", auth.isAuthenticated, async function (req, res) {
+  let { specialPage = 1, regularPage = 1 } = req.query;
+  if (specialPage <= 0) specialPage = 1;
+  if (regularPage <= 0) regularPage = 1;
 
-      req.year = year;
+  let specialRequisitions = Requisition.getSpecial(specialPage);
+  let regularRequisitions = Requisition.getRegular(regularPage);
 
-      return req;
-    });
+  let specialCountPages = Requisition.getSpecialCountPages();
+  let regularCountPages = Requisition.getRegularCountPages();
 
-    requisitions = requisitions.reverse();
-    res.render("requisition/index", {
-      title: "Requisições Disponíveis",
-      layout: "layoutDashboard.hbs",
-      ...req.session,
-      requisitions,
-    });
+  [
+    specialRequisitions,
+    regularRequisitions,
+    specialCountPages,
+    regularCountPages,
+  ] = await Promise.all([
+    specialRequisitions,
+    regularRequisitions,
+    specialCountPages,
+    regularCountPages,
+  ]);
+
+  specialRequisitions = specialRequisitions.map(formatRequisition);
+  regularRequisitions = regularRequisitions.map(formatRequisition);
+
+  function formatRequisition(requisition) {
+    const req = requisition.toJSON();
+    const date = new Date(requisition.createdAt);
+    const year = date.getFullYear();
+
+    req.year = year;
+
+    return req;
+  }
+
+  res.render("requisition/index", {
+    title: "Requisições Disponíveis",
+    layout: "layoutDashboard.hbs",
+    ...req.session,
+    specialRequisitions,
+    regularRequisitions,
+    number_of_pages_special_plus_1: specialCountPages + 1,
+    number_of_pages_regular_plus_1: regularCountPages + 1,
+    specialPage,
+    regularPage,
   });
 });
 
@@ -353,7 +386,7 @@ router.get(
             nova,
             ...req.session,
             samples,
-            allSampleTypes
+            allSampleTypes,
           });
         });
       })

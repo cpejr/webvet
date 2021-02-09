@@ -762,7 +762,6 @@ class Kit {
           },
         },
       ]).then((result) => {
-        console.log(result);
         resolve(result);
       });
     });

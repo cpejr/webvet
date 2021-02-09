@@ -58,8 +58,8 @@ const requisitionSchema = new mongoose.Schema(
       type: String,
     }, //Numero da requisição especial, so aparece se for finalizada pelo painel especial.
     specialNumber: {
-      type: String
-    } //Ano da requisição especial, so aparece se for finalizada pelo painel especial.
+      type: String,
+    }, //Ano da requisição especial, so aparece se for finalizada pelo painel especial.
   },
   { timestamps: true, strict: false }
 );
@@ -83,6 +83,38 @@ class Requisition {
           reject(err);
         });
     });
+  }
+
+  static async getSpecial(page = 1) {
+    return RequisitionModel.find({ special: true })
+      .populate("user")
+      .sort({ createdAt: -1 })
+      .skip(REQUISITIONS_PER_PAGE * (page - 1))
+      .limit(REQUISITIONS_PER_PAGE);
+  }
+
+  static async getSpecialCountPages() {
+    const count = await RequisitionModel.find({
+      special: true,
+    }).countDocuments();
+
+    return Math.ceil(count / REQUISITIONS_PER_PAGE);
+  }
+
+  static async getRegular(page = 1) {
+    return RequisitionModel.find({ special: { $ne: true } })
+      .populate("user")
+      .sort({ createdAt: -1 })
+      .skip(REQUISITIONS_PER_PAGE * (page - 1))
+      .limit(REQUISITIONS_PER_PAGE);
+  }
+
+  static async getRegularCountPages() {
+    const count = await RequisitionModel.find({
+      special: { $ne: true },
+    }).countDocuments();
+    console.log(count);;
+    return Math.ceil(count / REQUISITIONS_PER_PAGE);
   }
 
   static async countNew() {

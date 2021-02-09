@@ -705,32 +705,41 @@ class Sample {
 
   static async getAllSpecialActive() {
     let query = { isSpecial: true, $or: [] };
-    try {
-      ToxinasFull.forEach((toxina) => {
-        let expression = {};
+    ToxinasFull.forEach((toxina) => {
+      let expression = {};
 
-        expression[toxina + ".active"] = true;
+      expression[toxina + ".active"] = true;
 
-        query.$or.push(expression);
-      });
+      query.$or.push(expression);
+    });
 
-      const sample = await SampleModel.find(query);
+    const sample = await SampleModel.find(query);
 
-      return sample;
-    } catch (err) {
-      console.warn(err);
-    }
+    return sample;
   }
 
   static async getAllSpecialFinalized() {
     let query = { isSpecial: true, specialFinalized: true };
-    try {
-      const sample = await SampleModel.find(query);
+    const sample = await SampleModel.find(query);
 
-      return sample;
-    } catch (err) {
-      console.warn(err);
-    }
+    return sample;
+  }
+
+  static async getSpecialFinalized(page = 1) {
+    let query = { isSpecial: true, specialFinalized: true };
+    const sample = await SampleModel.find(query)
+      .skip((page - 1) * REPORTS_PER_PAGE)
+      .limit(REPORTS_PER_PAGE)
+      .sort({ createdAt: -1 });
+
+    return sample;
+  }
+
+  static async getSpecialCountPages() {
+    let query = { isSpecial: true, specialFinalized: true };
+    const sample = await SampleModel.find(query).countDocuments();
+
+    return Math.ceil(sample / REPORTS_PER_PAGE);
   }
 
   static getAllActiveWithUser() {
@@ -828,6 +837,25 @@ class Sample {
       select: "requisitionnumber user createdAt _id",
     });
     return result;
+  }
+
+  static async getRegular(page = 1) {
+    let query = { report: true, isSpecial: { $ne: true } };
+    const result = await SampleModel.find(query)
+      .populate({
+        path: "requisitionId",
+        select: "requisitionnumber user createdAt _id",
+      })
+      .skip((page - 1) * REPORTS_PER_PAGE)
+      .limit(REPORTS_PER_PAGE)
+      .sort({ createdAt: -1 });
+    return result;
+  }
+
+  static async getRegularCountPages() {
+    let query = { report: true, isSpecial: { $ne: true } };
+    const result = await SampleModel.find(query).countDocuments();
+    return Math.ceil(result / REPORTS_PER_PAGE);
   }
 
   static async getRelatedEmails(id) {
@@ -972,7 +1000,6 @@ class Sample {
 
     if (filters) {
       const { startDate, endDate, state, type, destination, user } = filters;
-      console.log(type);
       extraOperations.push({
         $lookup: {
           from: "requisitions",
@@ -1014,7 +1041,6 @@ class Sample {
 
         match["date"] = filter;
       }
-      console.log(match);
       extraOperations.push({ $match: match });
     }
 
@@ -1087,7 +1113,6 @@ class Sample {
 
         match["date"] = filter;
       }
-      console.log(match);
       extraOperations.push({ $match: match });
     }
 
@@ -1147,7 +1172,6 @@ class Sample {
 
     if (filters) {
       const { startDate, endDate, state, type, destination, user } = filters;
-      console.log(type);
       extraOperations.push({
         $lookup: {
           from: "requisitions",
@@ -1189,7 +1213,6 @@ class Sample {
 
         match["date"] = filter;
       }
-      console.log(match);
       extraOperations.push({ $match: match });
     }
 
