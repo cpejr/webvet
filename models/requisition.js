@@ -113,7 +113,6 @@ class Requisition {
     const count = await RequisitionModel.find({
       special: { $ne: true },
     }).countDocuments();
-    console.log(count);;
     return Math.ceil(count / REQUISITIONS_PER_PAGE);
   }
 
