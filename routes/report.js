@@ -284,28 +284,40 @@ router.get("/samples/:id", auth.isAuthenticated, function (req, res) {
 
 router.get(
   "/admreport",
-  auth.isAuthenticated || auth.isAdmin || auth.isAnalyst,
+  auth.isAuthenticated,
+  auth.isFromLab,
   async function (req, res) {
+    let { specialPage = 1, regularPage = 1 } = req.query;
+    if (specialPage <= 0) specialPage = 1;
+    if (regularPage <= 0) regularPage = 1;
+
     try {
-      const result = [];
+      let amostras = Sample.getRegular(regularPage);
+      let especiais = Sample.getSpecialFinalized(specialPage);
 
-      const amostras = await Sample.getAllReport();
+      let specialCountPages = Sample.getSpecialCountPages();
+      let regularCountPages = Sample.getRegularCountPages();
 
-      for (var j = 0; j < amostras.length; j++) {
-        const amostra = amostras[j];
-        result[j] = {
-          number: amostra.requisitionId.requisitionnumber,
-          year: amostra.requisitionId.createdAt.getFullYear(),
-          _id: amostra.requisitionId._id,
-        };
-      }
+      [
+        amostras,
+        especiais,
+        specialCountPages,
+        regularCountPages,
+      ] = await Promise.all([
+        amostras,
+        especiais,
+        specialCountPages,
+        regularCountPages,
+      ]);
 
       res.render("report/admreport", {
         title: "Laudos Disponíveis",
         layout: "layoutDashboard.hbs",
         ...req.session,
-        laudos: amostras.reverse(),
-        result: result.reverse(),
+        laudos: amostras,
+        laudosEspeciais: especiais,
+        number_of_pages_special_plus_1: specialCountPages + 1,
+        number_of_pages_regular_plus_1: regularCountPages + 1,
       });
     } catch (error) {
       console.warn(error);

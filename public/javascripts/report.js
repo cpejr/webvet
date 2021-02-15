@@ -1,7 +1,6 @@
 function submitForm(finalized) {
   let route = $("#formReport").attr("action");
   route += `?finalized=${finalized}`;
-  console.log(route)
   $("#formReport").attr("action", route);
   $("#formReport").submit();
 }

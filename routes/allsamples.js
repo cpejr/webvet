@@ -75,96 +75,91 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
 //   res.redirect("/")
 // });
 
-router.post("/", auth.isAuthenticated, auth.isFromLab, function (req, res) {
-  //Dando update em todos os kits ativos.
-  Kit.getAllActive()
-    .then(async (activeKits) => {
-      let toxinas = req.body.toxinas;
-      let promises = [];
+router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
+  try {
+    //Dando update em todos os kits ativos.
+    const activeKits = await Kit.getAllActive();
 
-      promises.push(updateKits(activeKits));
+    let toxinas = req.body.toxinas;
+    let promises = [];
 
-      if (toxinas) {
-        for (let i = 0; i < ToxinasAll.length; i++) {
-          const toxinaFull = ToxinasAll[i].Full;
-          const toxinaSigla = ToxinasAll[i].Sigla;
+    promises.push(updateKits(activeKits));
 
-          let samples = toxinas[toxinaSigla];
+    if (toxinas) {
+      for (let i = 0; i < ToxinasAll.length; i++) {
+        const toxinaFull = ToxinasAll[i].Full;
+        const toxinaSigla = ToxinasAll[i].Sigla;
 
-          let productCode = toxinaSigla;
-          //CORREÇÃO PROVISÓRIA DA SIGLA FBS
-          if (productCode === "FBS") productCode = "FUMO";
-          productCode += " Romer";
+        let samples = toxinas[toxinaSigla];
 
-          //Encontrar kit correspondente da toxina
-          let kit = activeKits.find((x) => x.productCode === productCode);
+        let productCode = toxinaSigla;
+        //CORREÇÃO PROVISÓRIA DA SIGLA FBS
+        if (productCode === "FBS") productCode = "FUMO";
+        productCode += " Romer";
 
-          if (kit) {
-            let objUpdate = {
-              calibrators: kit.calibrators,
-              kitId: kit._id,
-              samples: samples,
-              toxinaFull: toxinaFull,
-            };
+        //Encontrar kit correspondente da toxina
+        let kit = activeKits.find((x) => x.productCode === productCode);
 
-            promises.push(updateSamplesByGroup(objUpdate));
-          }
+        if (kit) {
+          let objUpdate = {
+            calibrators: kit.calibrators,
+            kitId: kit._id,
+            samples: samples,
+            toxinaFull: toxinaFull,
+          };
+
+          promises.push(updateSamplesByGroup(objUpdate));
         }
-
-        await Promise.all(promises);
-        res.redirect("/sampleresult");
-      } else {
-        res.redirect("/sampleresult");
       }
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
 
-  function updateKits(KitArray) {
-    return new Promise(async (resolve, reject) => {
+      await Promise.all(promises);
+    }
+
+    res.redirect("/sampleresult");
+
+    async function updateKits(KitArray) {
       let promises = [];
       let finalizationNumber = await Counter.getFinalizationCount();
 
-      KitArray.forEach((kit) => {
+      KitArray.forEach(async (kit) => {
         var new_toxinaStart = kit.toxinaStart;
 
-        Workmap.getByIdArray(kit.mapArray).then((workmaps) => {
-          //Order by mapID
-          workmaps.sort(function (a, b) {
-            return Number(a.mapID) - Number(b.mapID);
-          });
-
-          for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) {
-            //Ele confere de trás para frente
-            if (workmaps[i].samplesArray.length > 0) {
-              new_toxinaStart = Number(workmaps[i].mapID) + 1;
-              break;
-            }
-          }
-
-          let WorkmapsToFinalize = kit.mapArray.slice(
-            kit.toxinaStart,
-            new_toxinaStart
-          );
-          Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber);
-
-          kit.amount = kit.stripLength - new_toxinaStart;
-          kit.toxinaStart = new_toxinaStart;
-          promises.push(Kit.update(kit._id, kit));
+        const workmaps = await Workmap.getByIdArray(kit.mapArray);
+        //Order by mapID
+        workmaps.sort(function (a, b) {
+          return Number(a.mapID) - Number(b.mapID);
         });
+
+        for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) {
+          //Ele confere de trás para frente
+          if (workmaps[i].samplesArray.length > 0) {
+            new_toxinaStart = Number(workmaps[i].mapID) + 1;
+            break;
+          }
+        }
+
+        let WorkmapsToFinalize = kit.mapArray.slice(
+          kit.toxinaStart,
+          new_toxinaStart
+        );
+
+        promises.push(
+          Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber)
+        );
+
+        kit.amount = kit.stripLength - new_toxinaStart;
+        kit.toxinaStart = new_toxinaStart;
+        promises.push(Kit.update(kit._id, kit));
       });
 
       //Update Finalization Count
       promises.push(Counter.setFinalizationCount(finalizationNumber + 1));
 
-      await Promise.all(promises);
-      resolve();
-    });
-  }
+      return await Promise.all(promises);
+    }
 
-  function updateSamplesByGroup(obj) {
-    return new Promise((resolve, reject) => {
+    async function updateSamplesByGroup(obj) {
+
       let { samples, calibrators, toxinaFull, kitId } = obj;
       let promises = [];
 
@@ -182,15 +177,13 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, function (req, res) {
             )
           );
         }
-
-        Promise.all(promises).then((test) => {
-          // console.log(test);
-          resolve(test);
-        });
-      } else {
-        resolve();
       }
-    });
+
+      return await Promise.all(promises);
+    }
+  } catch (error) {
+    res.redirect("/sampleresult");
+    console.warn(error);
   }
 });
 

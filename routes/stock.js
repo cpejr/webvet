@@ -22,7 +22,6 @@ function dynamicSort(property) {
 
 /* GET home page. */
 
-const KITS_PER_PAGE = 12;
 router.get('/', auth.isAuthenticated, async function (req, res) {
 
   let promises = [Kit.getAllForStock(), Kit.getAllArchived(0, KITS_PER_PAGE), Kit.countAvailableWorkmaps(), Counter.getEntireKitStocks()];

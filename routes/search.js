@@ -178,8 +178,18 @@ router.get('/getSamplesActive/:toxin/:samples', auth.isAuthenticated, (req, res)
   let toxin = req.params.toxin;
   let query = {}
   query[toxin][active] = true;
+  query.isSpecial = {$ne: true}; 
 
   Sample.getByIdArrayWithQuery(samples, query).then((res) => {
+    res.send(res);
+  }).catch((error) => {
+    console.warn(error);
+    res.redirect('/error');
+  });
+});
+
+router.get('/getSpecialFinalizedSamples', auth.isAuthenticated, auth.isFromLab, (req, res) =>{
+  Sample.getAllSpecialFinalized().then((res)=>{
     res.send(res);
   }).catch((error) => {
     console.warn(error);

@@ -90,7 +90,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
       contaminatedPercent,
       positiveAverageWithAD: `${positiveAverage.toFixed(
         2
-      )} - ${averageDeviation}`,
+      )} - ${averageDeviation.toFixed(2)}`,
       positiveMedian,
       max,
     };

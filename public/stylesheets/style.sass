@@ -1642,6 +1642,9 @@ li
   border-radius: 0.25rem
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
 
+html body
+  min-height: 100vh
+
 th.absorbance
   min-width: 72px
 
@@ -1779,11 +1782,10 @@ input[type="number"]
   #wrapper
     padding: 0
 
-@media print 
-    canvas.chart-canvas 
-        min-height: 100%
-        max-width: 100%
-        max-height: 100%
-        height: auto!important
-        width: auto!important
-    
+@media print
+  canvas.chart-canvas
+    min-height: 100%
+    max-width: 100%
+    max-height: 100%
+    height: auto!important
+    width: auto!important

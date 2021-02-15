@@ -21,6 +21,20 @@
     </div>
 
     <div class="col-md-10 m-3">
+        <h5 class="mb-4">Campos da requisição especial</h5>
+        <div class="d-flex flex-row">
+            <div class="col-md-6 requisition-text">
+                <input required id="specialNumber" type="number" name="requisition[specialNumber]" class="col-md-10"
+                    placeholder="Número da requisição">
+            </div>
+            <div class="col-md-6 requisition-text">
+                <input required id="specialYear" type="number" name="requisition[specialYear]" class="col-md-10"
+                    placeholder="Ano da requisição">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-10 m-3">
         <h5 class="mb-4">Dados de cobrança</h5>
         <div class="d-flex flex-row">
             <div class="col-md-6 requisition-text">
@@ -48,7 +62,7 @@
                     placeholder="Complemento">
             </div>
             <div class="col-md-4 requisition-text">
-                <input required id="IE" type="text" name="requisition[IE]" class="col-md-10" placeholder="I.E">
+                <input required id="IE" type="text" name="requisition[address][IE]" class="col-md-10" placeholder="I.E">
             </div>
         </div>
         <div class="d-flex flex-row">
@@ -162,24 +176,28 @@
         </div>
         <div class="d-flex flex-column card col-md-12">
             <div class="col-md-12 d-flex flex-row">
-                <div class="requisition-text col-md-8">
-                    <input required type="text" name="requisition[sampleVector][1][name]" id="sample1"
-                        class="requisition-text" placeholder="Amostra 1">
+                <div class="requisition-text col-md-4">
+                    <input required type="text" name="requisition[sampleVector][1][name]" id="name[1]"
+                        class="requisition-text" placeholder="Nome da amostra 1">
+                </div>
+                <div class="requisition-text col-md-4">
+                    <input required type="number" name="requisition[sampleVector][1][samplenumber]" id="samplenumber[1]"
+                        class="requisition-text" placeholder="Número da amostra">
                 </div>
                 <div class="col-md-4 d-flex flex-row">
                     <div class="checkbox col-md-6 d-flex align-items-center m-0">
-                        <input type="checkbox" id="polpa" name="requisition[sampleVector][1][citrus]" value="true"
+                        <input type="checkbox" id="citrus[1]" name="requisition[sampleVector][1][citrus]" value="true"
                             class="my-auto" />
                         Contém polpa cítrica
                     </div>
                     <div class="btn-polpa col-md-6 d-flex align-items-center justify-content-center">
-                        <a id="add" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
+                        <a id="add[1]" type="button" onclick="addInput()" class="btn btn-outline-success">+</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-12 d-flex flex-row">
                 <div class="col-md-6 d-flex requisition-text align-items-center">
-                    <select id="sampletype" class="drowdownoptions w-100"
+                    <select id="sampletype[1]" class="drowdownoptions w-100"
                         name="requisition[sampleVector][1][sampletype]" required>
                         {{#each allSampleTypes}}
                             <option value="{{this}}">{{this}}</option>
@@ -187,11 +205,12 @@
                     </select>
                 </div>
                 <div class="col-md-3 requisition-text">
-                    <input required id="packingtype" type="text" name="requisition[sampleVector][1][packingtype]"
+                    <input required id="packingtype[1]" type="text" name="requisition[sampleVector][1][packingtype]"
                         class="col-md-10" placeholder="Tipo de embalagem">
                 </div>
                 <div class="requisition-text col-md-3">
-                    <input required type="text" name="requisition[sampleVector][1][receivedquantity]" class="requisition-text"
+                    <input required id="receivedquantity[1]" type="text"
+                        name="requisition[sampleVector][1][receivedquantity]" class="requisition-text"
                         placeholder="Quantidade recebida (g)">
                 </div>
             </div>

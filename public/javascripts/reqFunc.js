@@ -62,7 +62,6 @@ function findAndSelectCorrectly(elementId, newData, defaultId) {
 
 // Logica para setar os dados do endereço ao selecionar o usuário no select
 $("#adminUser").on("change", async function (event) {
-  console.log("aa");
   //Dados de Conbrança  
   const target = event.target.value;
   const userData = await $.get(`/users/byid/${target}`)

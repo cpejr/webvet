@@ -37,17 +37,19 @@
       <div id="{{Full}}2">
       </div>
       <div class="btns-kanban ">
-        <form action="/allcalibrators" method="post">
+        <div class="btn-print">
+          <a href="/printtemplate" class="btn btn-success">Imprimir</a>
+        </div>
+
+        <div class="btn-scnd-print">
+          <a href="/previousmap" class="btn btn-success ml-3">Mapa anterior</a>
+        </div>
+
+        <form action="/allcalibrators" class="ml-auto" method="post">
           <div class="btn-minus">
-            <a href="/allcalibrators" class="btn btn-success"> Finalizar</a>
+            <a href="/allcalibrators" class="btn btn-success">Finalizar</a>
           </div>
         </form>
-        <div class="btn-scnd-print ml-auto">
-          <a href="/previousmap" class="btn btn-success"> Mapa anterior</a>
-        </div>
-        <div class="btn-print">
-          <a href="/printtemplate" class="btn btn-success ml-3"> Imprimir</a>
-        </div>
       </div>
     </div>
   </div>
