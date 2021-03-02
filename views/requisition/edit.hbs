@@ -54,33 +54,9 @@
       <div class="requisition-text col-md-4 d-flex align-items-center">
         <select id="userstate" class="drowdownoptions" name="requisition[address][state]" required="required">
           <option disabled selected value="">Estado</option>
-          <option value="AC">Acre</option>
-          <option value="AL">Alagoas</option>
-          <option value="AP">Amapá</option>
-          <option value="AM">Amazonas</option>
-          <option value="BA">Bahia</option>
-          <option value="CE">Ceará</option>
-          <option value="DF">Distrito Federal</option>
-          <option value="ES">Espirito Santo</option>
-          <option value="GO">Goiás</option>
-          <option value="MA">Maranhão</option>
-          <option value="MS">Mato Grosso do Sul</option>
-          <option value="MT">Mato Grosso</option>
-          <option value="MG">Minas Gerais</option>
-          <option value="PA">Pará</option>
-          <option value="PB">Paraíba</option>
-          <option value="PR">Paraná</option>
-          <option value="PE">Pernambuco</option>
-          <option value="PI">Piauí</option>
-          <option value="RJ">Rio de Janeiro</option>
-          <option value="RN">Rio Grande do Norte</option>
-          <option value="RS">Rio Grande do Sul</option>
-          <option value="RO">Rondônia</option>
-          <option value="RR">Roraima</option>
-          <option value="SC">Santa Catarina</option>
-          <option value="SP">São Paulo</option>
-          <option value="SE">Sergipe</option>
-          <option value="TO">Tocantins</option>
+          {{#each allStates}}
+          <option value="{{initials}}">{{name}}</option>
+          {{/each}}
         </select>
       </div>
       <div class="requisition-text col-md-4">
@@ -125,33 +101,9 @@
       <div class="requisition-text col-md-6 d-flex align-items-center">
         <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
           <option disabled selected value="">Estado</option>
-          <option value="AC">Acre</option>
-          <option value="AL">Alagoas</option>
-          <option value="AP">Amapá</option>
-          <option value="AM">Amazonas</option>
-          <option value="BA">Bahia</option>
-          <option value="CE">Ceará</option>
-          <option value="DF">Distrito Federal</option>
-          <option value="ES">Espirito Santo</option>
-          <option value="GO">Goiás</option>
-          <option value="MA">Maranhão</option>
-          <option value="MS">Mato Grosso do Sul</option>
-          <option value="MT">Mato Grosso</option>
-          <option value="MG">Minas Gerais</option>
-          <option value="PA">Pará</option>
-          <option value="PB">Paraíba</option>
-          <option value="PR">Paraná</option>
-          <option value="PE">Pernambuco</option>
-          <option value="PI">Piauí</option>
-          <option value="RJ">Rio de Janeiro</option>
-          <option value="RN">Rio Grande do Norte</option>
-          <option value="RS">Rio Grande do Sul</option>
-          <option value="RO">Rondônia</option>
-          <option value="RR">Roraima</option>
-          <option value="SC">Santa Catarina</option>
-          <option value="SP">São Paulo</option>
-          <option value="SE">Sergipe</option>
-          <option value="TO">Tocantins</option>
+          {{#each allStates}}
+          <option value="{{initials}}">{{name}}</option>
+          {{/each}}
         </select>
       </div>
       <div class="requisition-text col-md-6">
@@ -252,49 +204,54 @@
     </div>
     <div class="d-flex form-row col-md-10 justify-content-center">
       {{#each samples}}
-        <div class="container-fluid card my-2 p-4">
-          <div class="row">
-            <div class="requisition-text col-md-10">
-              <input required type="text" name="sample[{{@index}}][name]" class="requisition-text"
-                placeholder="Nome da amostra" value="{{name}}">
-            </div>
-            <script>
-              $(document).ready(function () {
-                let reqtype = "{{sampletype}}";
-                $('select#{{_id}}').val(reqtype);
-              });
-            </script>
-
-            <div class="checkbox col-md-2 d-flex pb-1">
-              <div class="align-self-end">
-                <input type="checkbox" id="polpa{{@index}}" name="sample[{{@index}}][isCitrus]" value="true"
-                  class="my-auto" {{#if isCitrus}}checked{{/if}} />
-                <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
-              </div>
-            </div>
+      <div class="container-fluid card my-2 p-4">
+        <div class="row">
+          <div class="requisition-text col-md-5">
+            <input required type="text" name="sample[{{@index}}][name]" class="requisition-text"
+              placeholder="Nome da amostra" value="{{name}}">
           </div>
-          <div class="row">
-            <div class="requisition-text col-md-4 d-flex align-items-center">
-              <input type="hidden" name="sample[{{@index}}][_id]" class="requisition-text" value="{{_id}}">
-              <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100"
-                name="sample[{{@index}}][sampletype]" required="required">
-                {{#each allSampleTypes}}
-                  <option value="{{this}}">{{this}}</option>
-                {{/each}}
-              </select>
-            </div>
-            <div class="requisition-text col-md-3">
-              <input required type="text" name="sample[{{@index}}][packingtype]" class="requisition-text"
-                placeholder="Tipo de embalagem" value="{{packingtype}}">
-            </div>
-            <div class="requisition-text col-md-3">
-              <input required type="text" name="sample[{{@index}}][receivedquantity]" class="requisition-text"
-                placeholder="Quantidade recebida (g)" value="{{receivedquantity}}">
-            </div>
+          <div class="requisition-text col-md-5">
+            <input required type="text" name="sample[{{@index}}][limitDate]" class="requisition-text"
+              placeholder="Data Limite de Avaliação (dd/mm/yyyy)" value="{{limitDate}}">
+          </div>
+          <script>
+            $(document).ready(function () {
+              let reqtype = "{{sampletype}}";
+              $('select#{{_id}}').val(reqtype);
+            });
+          </script>
 
-
+          <div class="checkbox col-md-2 d-flex pb-1">
+            <div class="align-self-end">
+              <input type="checkbox" id="polpa{{@index}}" name="sample[{{@index}}][isCitrus]" value="true"
+                class="my-auto" {{#if isCitrus}}checked{{/if}} />
+              <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
+            </div>
           </div>
         </div>
+        <div class="row">
+          <div class="requisition-text col-md-4 d-flex align-items-center">
+            <input type="hidden" name="sample[{{@index}}][_id]" class="requisition-text" value="{{_id}}">
+            <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100"
+              name="sample[{{@index}}][sampletype]" required="required">
+              <option disabled selected value="" id="defaultSampleOption">Escolha o tipo do alimento</option>
+              {{#each ../allSampleTypes}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="requisition-text col-md-3">
+            <input required type="text" name="sample[{{@index}}][packingtype]" class="requisition-text"
+              placeholder="Tipo de embalagem" value="{{packingtype}}">
+          </div>
+          <div class="requisition-text col-md-3">
+            <input required type="text" name="sample[{{@index}}][receivedquantity]" class="requisition-text"
+              placeholder="Quantidade recebida (g)" value="{{receivedquantity}}">
+          </div>
+
+
+        </div>
+      </div>
       {{/each}}
 
       <div class="requisition-titles mt-3">
@@ -305,74 +262,74 @@
         <div class="d-flex mx-1">
 
           {{#if requisitionExtra.aflatoxina_hasResult}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" disabled checked />Aflatoxinas</label>
-            <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Aflatoxinas" value="Aflatoxinas"
-              checked />
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" disabled checked />Aflatoxinas</label>
+          <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Aflatoxinas" value="Aflatoxinas"
+            checked />
           {{else}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Aflatoxinas"
-                value="Aflatoxinas" />Aflatoxinas</label>
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Aflatoxinas"
+              value="Aflatoxinas" />Aflatoxinas</label>
           {{/if}}
         </div>
         <div class="d-flex mx-1">
           {{#if requisitionExtra.deoxinivalenol_hasResult}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" disabled checked />Deoxinivalenol*</label>
-            <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Deoxinivalenol"
-              value="Deoxinivalenol" checked />
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" disabled checked />Deoxinivalenol*</label>
+          <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Deoxinivalenol" value="Deoxinivalenol"
+            checked />
           {{else}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Deoxinivalenol"
-                value="Deoxinivalenol" />Deoxinivalenol*</label>
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Deoxinivalenol"
+              value="Deoxinivalenol" />Deoxinivalenol*</label>
           {{/if}}
         </div>
         <div class="d-flex mx-1">
           {{#if requisitionExtra.fumonisina_hasResult}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" disabled checked />Fumonisinas</label>
-            <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Fumonisinas" value="Fumonisinas"
-              checked />
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" disabled checked />Fumonisinas</label>
+          <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Fumonisinas" value="Fumonisinas"
+            checked />
           {{else}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Fumonisinas"
-                value="Fumonisinas" />Fumonisinas</label>
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Fumonisinas"
+              value="Fumonisinas" />Fumonisinas</label>
           {{/if}}
         </div>
         <div class="d-flex mx-1">
           {{#if requisitionExtra.ocratoxina_hasResult}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" disabled checked />Ocratoxina A</label>
-            <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Ocratoxina A" value="Ocratoxina A"
-              checked />
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" disabled checked />Ocratoxina A</label>
+          <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Ocratoxina A" value="Ocratoxina A"
+            checked />
           {{else}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Ocratoxina A"
-                value="Ocratoxina A" />Ocratoxina A</label>
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Ocratoxina A"
+              value="Ocratoxina A" />Ocratoxina A</label>
           {{/if}}
         </div>
         <div class="d-flex mx-1">
           {{#if requisitionExtra.t2toxina_hasResult}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" disabled checked />T-2 toxina</label>
-            <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="T-2 toxina" value="T-2 toxina"
-              checked />
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" disabled checked />T-2 toxina</label>
+          <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="T-2 toxina" value="T-2 toxina"
+            checked />
           {{else}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="T-2 toxina" value="T-2 toxina" />T-2
-              toxina</label>
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="T-2 toxina" value="T-2 toxina" />T-2
+            toxina</label>
           {{/if}}
         </div>
         <div class="d-flex mx-1">
           {{#if requisitionExtra.zearalenona_hasResult}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" disabled checked />Zearalenona</label>
-            <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Zearalenona" value="Zearalenona"
-              checked />
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" disabled checked />Zearalenona</label>
+          <input type="checkbox" class="d-none" name="requisition[mycotoxin]" id="Zearalenona" value="Zearalenona"
+            checked />
           {{else}}
-            <label class="radio-text form-check-label">
-              <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Zearalenona"
-                value="Zearalenona" />Zearalenona</label>
+          <label class="radio-text form-check-label">
+            <input type="checkbox" class="mr-1" name="requisition[mycotoxin]" id="Zearalenona"
+              value="Zearalenona" />Zearalenona</label>
           {{/if}}
         </div>
       </div>
@@ -396,9 +353,9 @@
 </div>
 
 {{#if nova}}
-  <input type="checkbox" style="display: none;" id="toApprove" name="toApprove" value="toApprove" />
+<input type="checkbox" style="display: none;" id="toApprove" name="toApprove" value="toApprove" />
 {{else}}
-  <input type="checkbox" style="display: none;" id="toApprove" name="toApprove" value="approved" checked />
+<input type="checkbox" style="display: none;" id="toApprove" name="toApprove" value="approved" checked />
 {{/if}}
 <div>
   <input class="some" type="submit" id="submitButton"></input>
@@ -406,14 +363,14 @@
 </form>
 <div class="text-center">
   {{#unless nova}}
-    <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
+  <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
   {{/unless}}
 
   {{#if nova}}
-    <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
-      requisição</button>
+  <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
+    requisição</button>
 
-    <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
+  <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
   {{/if}}
 </div>
 

@@ -347,44 +347,42 @@ router.get(
   "/edit/:id",
   auth.isAuthenticated,
   auth.isFromLab,
-  function (req, res) {
-    Requisition.getById(req.params.id)
-      .then((requisition) => {
-        Sample.getByIdArray(requisition.samples).then((samples) => {
-          let nova = false;
-          const requisitionExtra = {};
+  async function (req, res) {
+    const { id } = req.params;
 
-          if (requisition.status === "Nova") {
-            nova = true;
+    try {
+      const requisition = await Requisition.getById(req.params.id);
+      const samples = await Sample.getByIdArray(requisition.samples);
+
+      let nova = requisition.status === "Nova" ? true : false;
+      let requisitionExtra = {};
+
+      ToxinasFull.forEach((toxin) => {
+        let hasResult = false;
+        for (let i = 0; i < samples.length; i++)
+          if (samples[i][toxin].result) {
+            hasResult = true;
+            break;
           }
 
-          ToxinasFull.forEach((toxin) => {
-            let hasResult = false;
-            for (let i = 0; i < samples.length; i++)
-              if (samples[i][toxin].result) {
-                hasResult = true;
-                break;
-              }
-
-            requisitionExtra[`${toxin}_hasResult`] = hasResult;
-          });
-
-          res.render("requisition/edit", {
-            title: "Edit Requisition",
-            layout: "layoutDashboard.hbs",
-            requisition,
-            requisitionExtra,
-            nova,
-            ...req.session,
-            samples,
-            allSampleTypes,
-          });
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        res.redirect("/error");
+        requisitionExtra[`${toxin}_hasResult`] = hasResult;
       });
+
+      res.render("requisition/edit", {
+        title: "Edit Requisition",
+        layout: "layoutDashboard.hbs",
+        requisition,
+        requisitionExtra,
+        nova,
+        ...req.session,
+        samples,
+        allSampleTypes,
+        allStates,
+      });
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
   }
 );
 
