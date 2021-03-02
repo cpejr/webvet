@@ -8,10 +8,15 @@ const Kit = require("../models/kit");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+  const { user } = req.session;
   res.render("requisition/newrequisition", {
     title: "Requisition",
     layout: "layoutDashboard.hbs",
     users,
+    isFromLab: user.type === "Admin" || user.type === "Analista" ? true : false,
+    allStates,
+    allDestinations,
+    ToxinasAll,
     ...req.session,
   });
 });
@@ -153,6 +158,7 @@ router.post(
             receivedquantity,
             packingtype,
             samplenumber,
+            limitDate,
           } = sampleInfo;
 
           let sample = {
@@ -166,6 +172,8 @@ router.post(
             creationYear: requisition.specialYear,
             isSpecial: true,
             samplenumber,
+            limitDate,
+            specialFinalized: true,
           };
 
           if (!requisition.mycotoxin) requisition.mycotoxin = [];
@@ -232,55 +240,38 @@ router.post("/new", auth.isAuthenticated, function (req, res) {
   Requisition.create(requisition)
     .then((reqid) => {
       let sampleObjects = [];
-      for (let i = 0; i < samplesVector.length; i++) {
-        const { name, citrus } = samplesVector[i];
 
-        const sample = {
+      samplesVector.forEach((sample) => {
+        const { name, citrus, limitDate } = sample;
+        const newSample = {
           name,
           samplenumber: -1,
-          responsible: req.body.requisition.responsible,
+          responsible: requisition.responsible,
           requisitionId: NaN,
           isCitrus: citrus ? true : false,
-          aflatoxina: {
-            active: false,
-          },
-          ocratoxina: {
-            active: false,
-          },
-          deoxinivalenol: {
-            active: false,
-          },
-          fumonisina: {
-            active: false,
-          },
-          t2toxina: {
-            active: false,
-          },
-          zearalenona: {
-            active: false,
-          },
+          limitDate,
         };
 
         ToxinasAll.forEach((toxin) => {
-          if (req.body.requisition.mycotoxin.includes(toxin.Formal))
-            sample[toxin.Full].active = true;
+          if (requisition.mycotoxin.includes(toxin.Formal)) {
+            newSample[toxin.Full] = { active: true };
+          } else {
+            newSample[toxin.Full] = { active: false };
+          }
         });
 
-        sample.requisitionId = reqid;
-        sampleObjects.push(sample);
-      }
+        newSample.requisitionId = reqid;
+        sampleObjects.push(newSample);
+      });
 
       Sample.createMany(sampleObjects)
         .then((sids) => {
-          for (let index = 0; index < sids.length; index++) {
-            const sid = sids[index]._id;
-
-            //Isso aq dá para otimizar (acho)
+          sids.forEach((sid) => {
             Requisition.addSample(reqid, sid).catch((error) => {
               console.warn(error);
               res.redirect("/error");
             });
-          }
+          });
         })
         .catch((error) => {
           console.warn(error);
@@ -356,44 +347,42 @@ router.get(
   "/edit/:id",
   auth.isAuthenticated,
   auth.isFromLab,
-  function (req, res) {
-    Requisition.getById(req.params.id)
-      .then((requisition) => {
-        Sample.getByIdArray(requisition.samples).then((samples) => {
-          let nova = false;
-          const requisitionExtra = {};
+  async function (req, res) {
+    const { id } = req.params;
 
-          if (requisition.status === "Nova") {
-            nova = true;
+    try {
+      const requisition = await Requisition.getById(req.params.id);
+      const samples = await Sample.getByIdArray(requisition.samples);
+
+      let nova = requisition.status === "Nova" ? true : false;
+      let requisitionExtra = {};
+
+      ToxinasFull.forEach((toxin) => {
+        let hasResult = false;
+        for (let i = 0; i < samples.length; i++)
+          if (samples[i][toxin].result) {
+            hasResult = true;
+            break;
           }
 
-          ToxinasFull.forEach((toxin) => {
-            let hasResult = false;
-            for (let i = 0; i < samples.length; i++)
-              if (samples[i][toxin].result) {
-                hasResult = true;
-                break;
-              }
-
-            requisitionExtra[`${toxin}_hasResult`] = hasResult;
-          });
-
-          res.render("requisition/edit", {
-            title: "Edit Requisition",
-            layout: "layoutDashboard.hbs",
-            requisition,
-            requisitionExtra,
-            nova,
-            ...req.session,
-            samples,
-            allSampleTypes,
-          });
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        res.redirect("/error");
+        requisitionExtra[`${toxin}_hasResult`] = hasResult;
       });
+
+      res.render("requisition/edit", {
+        title: "Edit Requisition",
+        layout: "layoutDashboard.hbs",
+        requisition,
+        requisitionExtra,
+        nova,
+        ...req.session,
+        samples,
+        allSampleTypes,
+        allStates,
+      });
+    } catch (error) {
+      console.warn(error);
+      res.redirect("/error");
+    }
   }
 );
 

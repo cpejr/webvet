@@ -191,6 +191,7 @@
             nodeItem.setAttribute("data-approved", element.approved);
             nodeItem.setAttribute("data-owner", element.owner);
             nodeItem.setAttribute("data-iscitrus", element.iscitrus);
+            nodeItem.setAttribute("data-limitDate", element.limitDate);
 
 
             let badges = `${element.title}<br><span  class="badge badge-secondary">${element.status}</span>`;
@@ -205,6 +206,9 @@
 
             if (element.iscitrus + "" === 'true')
               badges += `<span  class="badge badge-success">Polpa Cítrica</span>`
+
+            if (element.limitDate)
+              badges += `<span  class="badge badge-secondary">${element.limitDate}</span>`
 
             nodeItem.innerHTML = badges;
           }
