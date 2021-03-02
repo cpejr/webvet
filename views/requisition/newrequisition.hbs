@@ -13,28 +13,17 @@
       <input required id="fullname" type="text" name="requisition[client][fullname]" value="{{user.fullname}}"
         class="requisition-text" placeholder="Razão Social/Nome Completo">
     </div>
-    {{#compare user.type "Admin"}}
-    <div class="requisition-text col-md-12 d-flex align-items-center">
-      <select required="required" id="adminUser" type="" name="requisition[user]" value="" class="drowdownoptions"
-        placeholder="Selecione o Usuário">
-        <option disabled selected value="">Selecione o Usuário</option>
-        {{#each users}}
-        <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
-        {{/each}}
-      </select>
-    </div>
-    {{/compare}}
-    {{#compare user.type "Analista"}}
-    <div class="requisition-text col-md-12 d-flex align-items-center">
-      <select required="required" id="analystUser" type="" name="requisition[user]" value="" class="drowdownoptions"
-        placeholder="Selecione o Usuário">
-        <option disabled selected value="">Selecione o Usuário</option>
-        {{#each users}}
-        <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
-        {{/each}}
-      </select>
-    </div>
-    {{/compare}}
+    {{#if isFromLab}}
+      <div class="requisition-text col-md-12 d-flex align-items-center">
+        <select required="required" id="analystUser" type="" name="requisition[user]" value="" class="drowdownoptions"
+          placeholder="Selecione o Usuário">
+          <option disabled selected value="">Selecione o Usuário</option>
+          {{#each users}}
+          <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+          {{/each}}
+        </select>
+      </div>
+    {{/if}}
     <div class="requisition-text col-md-6">
       <input required id="cpf" type="text" name="requisition[client][register]" value="{{user.register}}"
         class="requisition-text" placeholder="CNPJ/CPF">
@@ -51,7 +40,7 @@
         class="requisition-text" placeholder="Nº">
     </div>
     <div class="requisition-text col-md-6">
-      <input required id="complement" type="text" name="requisition[address][complement]"
+      <input id="complement" type="text" name="requisition[address][complement]"
         value="{{user.address.complement}}" class="requisition-text" placeholder="Complemento">
     </div>
     <div class="requisition-text col-md-6">
@@ -140,11 +129,22 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="form-row">
-      <div class="requisition-text col-md-8">
-        <input required type="text" name="requisition[sampleVector][1][name]" id="sample1" class="requisition-text"
-          placeholder="Amostra 1">
-      </div>
+    <div class="form-row sample_row">
+      {{#if isFromLab}}
+        <div class="requisition-text col-md-3">
+          <input required type="text" name="requisition[sampleVector][1][name]" id="sample1" class="requisition-text"
+            placeholder="Amostra 1">
+        </div>
+        <div class="requisition-text col-md-5">
+          <input id="receivedlimitdate[1]" type="text" name="requisition[sampleVector][1][limitDate]"
+            class="requisition-text" placeholder="Data Limite de Avaliação (dd/mm/yyyy)">
+        </div>
+      {{else}}
+        <div class="requisition-text col-md-8">
+          <input required type="text" name="requisition[sampleVector][1][name]" id="sample1" class="requisition-text"
+            placeholder="Amostra 1">
+        </div>
+      {{/if}}
       <div class="checkbox col-md-2 d-flex pb-1">
         <div class="align-self-end">
           <input type="checkbox" id="polpa" name="requisition[sampleVector][1][citrus]" value="true" class="my-auto" />
@@ -188,6 +188,7 @@
   </div>
 </form>
 </div>
+<div hidden class="isFromLab">{{isFromLab}}</div>
 <script>
   $(document).ready(function () {
     //Set select values

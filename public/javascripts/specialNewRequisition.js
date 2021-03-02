@@ -80,7 +80,7 @@ function addInput() {
             </div>
             <div class="col-md-12 d-flex flex-row">
               <div class="requisition-text col-md-5">
-                <input required id="receivedlimitdate[${numInput}]" type="text"
+                <input id="receivedlimitdate[${numInput}]" type="text"
                   name="requisition[sampleVector][${numInput}][limitDate]" class="requisition-text"
                   placeholder="Data Limite de Avaliação (dd/mm/yyyy)">
               </div>
