@@ -95,6 +95,9 @@ function createAnalysisKanban(toxinaFull) {
       if (el.dataset.iscitrus == "true")
         badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
 
+      if (el.dataset.limitDate)
+        badges += `<span  class="badge badge-secondary">${el.dataset.limitDate}</span>`;
+
       el.innerHTML = badges;
     },
   });
@@ -151,6 +154,9 @@ function createWormapKanban(toxinaFull) {
           if (el.dataset.iscitrus + "" == "true")
             badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
 
+          if (el.dataset.limitDate)
+            badges += `<span  class="badge badge-secondary">${el.dataset.limitDate}</span>`;
+
           el.innerHTML = badges;
         }
       } else {
@@ -171,6 +177,9 @@ function createWormapKanban(toxinaFull) {
 
           if (el.dataset.iscitrus == "true")
             badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
+
+          if (el.dataset.limitDate)
+            badges += `<span  class="badge badge-secondary">${el.dataset.limitDate}</span>`;
 
           el.innerHTML = badges;
         }
