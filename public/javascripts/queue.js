@@ -61,6 +61,7 @@ function createAnalysisKanban(toxinaFull) {
               approved: el.dataset.approved,
               owner: el.dataset.owner,
               iscitrus: el.dataset.iscitrus,
+              limitDate: el.dataset.limitdate,
               click: function (el) {
                 window.location.href = "sample/edit/" + el.dataset.eid;
               },
@@ -94,6 +95,9 @@ function createAnalysisKanban(toxinaFull) {
 
       if (el.dataset.iscitrus == "true")
         badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
+
+      if (el.dataset.limitdate)
+        badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
 
       el.innerHTML = badges;
     },
@@ -151,6 +155,9 @@ function createWormapKanban(toxinaFull) {
           if (el.dataset.iscitrus + "" == "true")
             badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
 
+          if (el.dataset.limitdate)
+            badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
+
           el.innerHTML = badges;
         }
       } else {
@@ -171,6 +178,9 @@ function createWormapKanban(toxinaFull) {
 
           if (el.dataset.iscitrus == "true")
             badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
+
+          if (el.dataset.limitdate)
+            badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
 
           el.innerHTML = badges;
         }
@@ -212,6 +222,7 @@ $.get("/search/samplesActiveWithUser", (objects) => {
               approved: sample.approved,
               owner: debt,
               iscitrus: sample.isCitrus,
+              limitDate: sample.limitDate,
               click: function (el) {
                 window.location.href = "sample/edit/" + el.dataset.eid;
               },
@@ -318,6 +329,7 @@ $('div[class="loteradio"]').each(function (index, group) {
                       status: sample[toxina].status,
                       approved: sample.approved,
                       iscitrus: sample.isCitrus,
+                      limitDate: sample.limitDate,
                       click: function (el) {
                         window.location.href = "sample/edit/" + el.dataset.eid;
                       },

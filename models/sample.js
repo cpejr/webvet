@@ -309,6 +309,9 @@ const sampleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     }, //Marca a amostra como finalizada pelo painel especial.
+    limitDate:{
+      type: String,
+    },
   },
   { timestamps: true, strict: false }
 );
@@ -744,7 +747,7 @@ class Sample {
 
   static getAllActiveWithUser() {
     return new Promise((resolve, reject) => {
-      let query = { $or: [], $not: { isSpecial: true } };
+      let query = { $or: [], isSpecial: { $ne: true } };
 
       for (let index = 0; index < ToxinasFull.length; index++) {
         const toxina = ToxinasFull[index];

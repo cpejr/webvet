@@ -12,6 +12,9 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
     title: "Requisition",
     layout: "layoutDashboard.hbs",
     users,
+    allStates,
+    allDestinations,
+    ToxinasAll,
     ...req.session,
   });
 });
@@ -153,6 +156,7 @@ router.post(
             receivedquantity,
             packingtype,
             samplenumber,
+            limitDate
           } = sampleInfo;
 
           let sample = {
@@ -166,6 +170,8 @@ router.post(
             creationYear: requisition.specialYear,
             isSpecial: true,
             samplenumber,
+            limitDate,
+            specialFinalized: true
           };
 
           if (!requisition.mycotoxin) requisition.mycotoxin = [];
