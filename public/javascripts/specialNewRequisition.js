@@ -16,14 +16,15 @@ function findAndSelectCorrectly(elementId, newData, defaultId) {
   }
 }
 
-$(document).on("click", ".removeButton", function(){
+$(document).on("click", ".removeButton", function () {
   $(this).closest(".sample_row").remove();
-})
+});
+
 
 function addInput() {
   if (numInput < 11) {
     var newInput = document.createElement("div");
-
+    
     let html = `
             <div class="col-md-12 d-flex flex-row">
                 <div class="requisition-text col-md-4">
@@ -33,23 +34,18 @@ function addInput() {
                 <div class="requisition-text col-md-4">
                     <input required type="number" name="sample[sampleVector][${numInput}][samplenumber]"
                         id="samplenumber[${numInput}]" class="requisition-text"
-                        placeholder="Número da amostra">
+                        placeholder="Número da amostra ${numInput}">
                 </div>
-                <div class="col-md-4 d-flex flex-row">
-                    <div class="checkbox col-md-6 d-flex align-items-center m-0">
-                        <input type="checkbox" id="citrus[${numInput}]" name="requisition[sampleVector][${numInput}][citrus]" value="true"
-                            class="my-auto" />
-                        Contém polpa cítrica
-                    </div>
-                    <div class="btn-polpa col-md-6 d-flex align-items-center justify-content-center">
-                        <a id="remove[${numInput}]" type="button" class="btn removeButton btn-outline-danger">x</a>
-                    </div>
+                <div class="requisition-text col-md-4">
+                    <input required id="packingtype[${numInput}]" type="text" name="requisition[sampleVector][${numInput}][packingtype]"
+                        class="col-md-10" placeholder="Tipo de embalagem">
                 </div>
             </div>
             <div class="col-md-12 d-flex flex-row">
                 <div class="col-md-6 d-flex requisition-text align-items-center">
                     <select id="sampletype[${numInput}]" class="drowdownoptions w-100"
                         name="requisition[sampleVector][1][sampletype]" required>
+                        <option disabled selected value="" id="defaultSampleOption">Escolha o tipo do alimento</option>  
                         <option value="Algodão / Subprodutos">Algodão / Subprodutos</option>
                         <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>
                         <option value="Arroz">Arroz</option>
@@ -69,14 +65,30 @@ function addInput() {
                         <option value="Trigo / Subprodutos">Trigo / Subprodutos</option>
                     </select>
                 </div>
-                <div class="col-md-3 requisition-text">
-                    <input required id="packingtype[${numInput}]" type="text" name="requisition[sampleVector][${numInput}][packingtype]"
-                        class="col-md-10" placeholder="Tipo de embalagem">
-                </div>
                 <div class="requisition-text col-md-3">
-                    <input required id="receivedquantity[${numInput}]" type="text" name="requisition[sampleVector][${numInput}][receivedquantity]"
-                        class="requisition-text" placeholder="Quantidade recebida (g)">
+                    <input required id="receivedquantity[${numInput}]" type="text"
+                        name="requisition[sampleVector][${numInput}][receivedquantity]" class="requisition-text"
+                        placeholder="Quantidade recebida (g)">
                 </div>
+                <div class="checkbox col-md-4 d-flex align-items-center m-0">
+                    <input type="checkbox" id="citrus[${numInput}]" name="requisition[sampleVector][${numInput}][citrus]" value="true"
+                        class="my-auto" />
+                    <div class="ml-2">
+                        Contém polpa cítrica
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex flex-row">
+              <div class="requisition-text col-md-5">
+                <input required id="receivedlimitdate[${numInput}]" type="text"
+                  name="requisition[sampleVector][${numInput}][limitDate]" class="requisition-text"
+                  placeholder="Data Limite de Avaliação (dd/mm/yyyy)">
+              </div>
+              <div class="col-md-7 p-0 d-flex flex-row-reverse">
+                  <div class="btn-polpa col-md-6 d-flex align-items-center justify-content-center">
+                      <a id="add[${numInput}]" type="button" class="btn btn-outline-danger ml-auto removeButton">x</a>
+                  </div>
+              </div>
             </div>
     `;
     newInput.innerHTML = html;

@@ -309,6 +309,9 @@ const sampleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     }, //Marca a amostra como finalizada pelo painel especial.
+    limitDate:{
+      type: String,
+    },
   },
   { timestamps: true, strict: false }
 );
