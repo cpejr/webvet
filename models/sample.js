@@ -57,10 +57,7 @@ const sampleSchema = new mongoose.Schema(
         default: false,
       },
       contador: Number,
-      mapReference: {
-        type: String,
-        default: "Sem mapa",
-      },
+
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -100,10 +97,6 @@ const sampleSchema = new mongoose.Schema(
         default: false,
       },
       contador: Number,
-      mapReference: {
-        type: String,
-        default: "Sem mapa",
-      },
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Workmap",
@@ -143,10 +136,6 @@ const sampleSchema = new mongoose.Schema(
         default: false,
       },
       contador: Number,
-      mapReference: {
-        type: String,
-        default: "Sem mapa",
-      },
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -186,10 +175,7 @@ const sampleSchema = new mongoose.Schema(
         default: false,
       },
       contador: Number,
-      mapReference: {
-        type: String,
-        default: "Sem mapa",
-      },
+
       workmapId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Workmap",
@@ -229,10 +215,7 @@ const sampleSchema = new mongoose.Schema(
         default: false,
       },
       contador: Number,
-      mapReference: {
-        type: String,
-        default: "Sem mapa",
-      },
+
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -272,10 +255,7 @@ const sampleSchema = new mongoose.Schema(
         default: false,
       },
       contador: Number,
-      mapReference: {
-        type: String,
-        default: "Sem mapa",
-      },
+
       concentration: String,
       kitId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -309,7 +289,7 @@ const sampleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     }, //Marca a amostra como finalizada pelo painel especial.
-    limitDate:{
+    limitDate: {
       type: String,
     },
   },
@@ -661,27 +641,31 @@ class Sample {
     });
   }
 
-  static getAllActiveWithWorkmap() {
-    return new Promise((resolve, reject) => {
-      let query = { $or: [], isSpecial: { $ne: true } };
+  static async getAllActiveWithWorkmap() {
+    let query = { $or: [], isSpecial: { $ne: true } };
 
-      ToxinasFull.forEach((toxina) => {
-        let expression = {};
+    ToxinasFull.forEach((toxina) => {
+      let expression = {};
 
-        expression[toxina + ".status"] = { $eq: "Mapa de Trabalho" };
-        expression[toxina + ".active"] = true;
+      expression[toxina + ".status"] = { $eq: "Mapa de Trabalho" };
+      expression[toxina + ".active"] = true;
 
-        query.$or.push(expression);
-      });
-
-      SampleModel.find(query)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+      query.$or.push(expression);
     });
+
+    let build = SampleModel.find(query);
+
+    ToxinasFull.forEach((toxina) => {
+      build = build.populate(`${toxina}.workmapId`);
+    });
+
+    const result = await build.exec();
+    console.log(
+      "🚀 ~ file: sample.js ~ line 683 ~ Sample ~ getAllActiveWithWorkmap ~ result",
+      result
+    );
+
+    return result;
   }
 
   static getAllActive() {

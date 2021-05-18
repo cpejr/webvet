@@ -9,6 +9,7 @@ const SimpleLinearRegression = require("ml-regression-simple-linear");
 router.get("/", auth.isAuthenticated, async function (req, res) {
   async function calcular(toxinafull, toxinasigla) {
     let kit = await Kit.getActive(toxinasigla);
+    if (!kit) return undefined;
 
     let mapas = [];
     let p_concentration = [];
@@ -16,55 +17,52 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     let resultado = {};
 
     const P = ["P1", "P2", "P3", "P4", "P5"];
-    if (kit !== null) {
-      //Parte responsável por pegar a concentracao e absorvancia settadas no kit ativo
-      p_concentration = P.map((p) => kit.calibrators[p].concentration);
-      p_absorvance = P.map((p) => kit.calibrators[p].absorbance);
+    //Parte responsável por pegar a concentracao e absorvancia settadas no kit ativo
+    p_concentration = P.map((p) => kit.calibrators[p].concentration);
+    p_absorvance = P.map((p) => kit.calibrators[p].absorbance);
 
-      //parte responsável por pegar as amostras do kit, logo  através do kit ativo de afla pega na variável mapArray o id dos mapas que estão sendo utilizados naqueles kits
-      mapas = await Workmap.getByIdArray(kit.mapArray);
-      var samples_id = [];
+    //parte responsável por pegar as amostras do kit, logo  através do kit ativo de afla pega na variável mapArray o id dos mapas que estão sendo utilizados naqueles kits
+    mapas = await Workmap.getByIdArray(kit.mapArray);
+    var samples_id = [];
 
-      //Após ter os ids dos mapas de trabalho que estão sendo utilizados roda um for para percorrer todos os mapas e um for dentro desse para acessar todas as amostras em cada mapa
-      const promises = mapas.map(
-        async (map) => (samples_id = samples_id.concat(map.samplesArray))
-      );
+    //Após ter os ids dos mapas de trabalho que estão sendo utilizados roda um for para percorrer todos os mapas e um for dentro desse para acessar todas as amostras em cada mapa
+    const promises = mapas.map(
+      async (map) => (samples_id = samples_id.concat(map.samplesArray))
+    );
 
-      await Promise.all(promises);
+    await Promise.all(promises);
 
-      amostras = await Sample.getActiveByIdArray(samples_id, toxinafull);
+    amostras = await Sample.getActiveByIdArray(samples_id, toxinafull);
 
-      var log_concentracao = [
-        Math.log10(p_concentration[1]),
-        Math.log10(p_concentration[2]),
-        Math.log10(p_concentration[3]),
-        Math.log10(p_concentration[4]),
-      ]; //eixo x
+    var log_concentracao = [
+      Math.log10(p_concentration[1]),
+      Math.log10(p_concentration[2]),
+      Math.log10(p_concentration[3]),
+      Math.log10(p_concentration[4]),
+    ]; //eixo x
 
-      var b_b0 = [];
-      var ln_b_b0 = [];
+    var b_b0 = [];
+    var ln_b_b0 = [];
 
-      for (var i = 0; i < 4; i++)
-        b_b0[i] = p_absorvance[i + 1] / p_absorvance[0];
+    for (var i = 0; i < 4; i++) b_b0[i] = p_absorvance[i + 1] / p_absorvance[0];
 
-      for (var i = 0; i < b_b0.length; i++)
-        ln_b_b0[i] = Math.log10(b_b0[i] / (1 - b_b0[i]));
+    for (var i = 0; i < b_b0.length; i++)
+      ln_b_b0[i] = Math.log10(b_b0[i] / (1 - b_b0[i]));
 
-      const result = new SimpleLinearRegression(log_concentracao, ln_b_b0);
-      const { slope, intercept } = result;
-      const score = result.score(log_concentracao, ln_b_b0);
+    const result = new SimpleLinearRegression(log_concentracao, ln_b_b0);
+    const { slope, intercept } = result;
+    const score = result.score(log_concentracao, ln_b_b0);
 
-      resultado.parte1 = {
-        intercept: intercept,
-        resultado: score.r * -1,
-        slope: slope,
-      };
+    resultado.parte1 = {
+      intercept: intercept,
+      resultado: score.r * -1,
+      slope: slope,
+    };
 
-      resultado.parte2 = {
-        absorbance: p_absorvance,
-        concentration: p_concentration,
-      };
-    }
+    resultado.parte2 = {
+      absorbance: p_absorvance,
+      concentration: p_concentration,
+    };
     return resultado;
   }
 
@@ -73,7 +71,9 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
 
   ToxinasSigla.forEach(async (sigla, index) => {
     let resultado = await calcular(ToxinasFull[index], sigla);
-    if (resultado != undefined) {
+    console.log(resultado, sigla, ToxinasFull[index]);
+
+    if (resultado !== undefined) {
       toxinas[index] = {
         name: sigla,
         calibradores: {},
