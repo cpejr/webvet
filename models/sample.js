@@ -6,289 +6,110 @@ const SimpleLinearRegression = require("ml-regression-simple-linear");
 const data = new Date();
 const yyyy = data.getFullYear();
 
+const reportSchema = new mongoose.Schema(
+  {
+    // Laudo disponível
+    isAvailable: { type: Boolean, default: false },
+
+    // Parecer no laudo
+    feedback: { type: String },
+
+    // Comentario no laudo
+    comment: { type: String },
+  },
+  { timestamps: false, versionKey: false }
+);
+
+const analysisSchema = new mongoose.Schema(
+  {
+    toxinId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Toxin",
+    },
+    status: {
+      type: String,
+      enum: [
+        "Nova",
+        "Em análise",
+        "Aguardando pagamento",
+        "Aguardando amostra",
+        "Mapa de Trabalho",
+        "Finalizado",
+      ],
+      default: "Nova",
+    },
+
+    absorbance: Number,
+    absorbance2: Number,
+
+    resultNumber: Number,
+    resultText: String,
+    resultChart: Number,
+
+    wasDetected: Boolean,
+
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Workmap",
+    },
+
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Kit",
+    },
+  },
+  { timestamps: false, versionKey: false }
+);
+
 const sampleSchema = new mongoose.Schema(
   {
-    samplenumber: Number,
     name: String,
+    //Contém Polpa cítrica
+    isCitrus: {
+      type: Boolean,
+      default: false,
+    },
+    creationYear: {
+      type: Number,
+      default: yyyy,
+    },
+    samplenumber: Number,
+    responsibleName: String,
+    requisitionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Requisition",
+    },
     sampletype: String,
-    receivedquantity: Number, //Quantidade recebida
-    packingtype: String, //Tipo de embalagem
+    //Quantidade recebida
+    receivedquantity: Number,
+    //Tipo de embalagem
+    packingtype: String,
+    // ??
+    description: String,
+    //Aprovado pelo ADM
     approved: {
       //A aprovacao da requisicao associada
       type: Boolean,
       default: false,
     },
-    report: {
-      type: Boolean, //1 for available, 0 for not available
-      default: 0,
-    },
-    requisitionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Requisition",
-    },
-    responsible: String,
-    creationYear: {
-      type: Number,
-      default: yyyy,
-    },
-    comment: String,
-    aflatoxina: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
 
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    deoxinivalenol: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    fumonisina: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    ocratoxina: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
+    report: reportSchema,
 
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    t2toxina: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
+    analysis: [analysisSchema],
 
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    zearalenona: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
-
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    parecer: String,
-    finalized: {
-      //Disponivel para o produtor ou nao.
-      type: String,
-      enum: ["Não finalizada", "Analisada", "Disponivel"],
-      default: "Não finalizada",
-    },
-    isCitrus: {
-      type: Boolean,
-      default: false,
-    },
+    //Marca a amostra como criada pelo painel especial.
     isSpecial: {
       type: Boolean,
       default: false,
-    }, //Marca a amostra como criada pelo painel especial.
+    },
+
+    //Marca a amostra como finalizada pelo painel especial.
     specialFinalized: {
       type: Boolean,
       default: false,
-    }, //Marca a amostra como finalizada pelo painel especial.
+    },
+
+    // Texto para colocar data limite
     limitDate: {
       type: String,
     },
@@ -336,12 +157,6 @@ class Sample {
     });
   }
 
-  /**
-   * Update a Sample
-   * @param {string} id - Sample Id
-   * @param {Object} Sample - Sample Document Data
-   * @returns {null}
-   */
   static update(id, sample) {
     return new Promise((resolve, reject) => {
       SampleModel.findByIdAndUpdate(id, sample)
@@ -370,19 +185,6 @@ class Sample {
         });
     });
   }
-  /**
-   * Delete a Sample
-   * @param {string} id - Sample Id
-   * @returns {null}
-   */
-  /* Função desabilidata por Arthur, ela não faz update nos workmaps
-  static delete(id) {
-    return new Promise((resolve, reject) => {
-      SampleModel.findByIdAndDelete(id).catch((err) => {
-        reject(err);
-      });
-    });
-  }*/
 
   static deleteMany(id_array) {
     return new Promise((resolve, reject) => {
@@ -422,38 +224,6 @@ class Sample {
             .catch((err) => {
               reject(err);
             });
-        });
-    });
-  }
-
-  /**
-   * Deletes all Samples from DB
-   * @returns {null}
-   */
-  static clear() {
-    return new Promise((resolve, reject) => {
-      SampleModel.deleteMany({})
-        .then(() => {
-          resolve();
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  /**
-   * Sum all Samples from DB
-   * @returns {null}
-   */
-  static count() {
-    return new Promise((resolve, reject) => {
-      SampleModel.countDocuments({})
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
         });
     });
   }
@@ -929,59 +699,6 @@ class Sample {
     });
   }
 
-  static updateDeoxWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { "deoxinivalenol.contador": cont } }
-      )
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static updateT2Workmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { "t2toxina.contador": cont } })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static updatefumWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { "fumonisina.contador": cont } })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static updateZeaWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { "zearalenona.contador": cont } }
-      )
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
   static async getSampleData(filters) {
     const extraOperations = [];
 
