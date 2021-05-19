@@ -17,29 +17,7 @@ const session = require("express-session");
 
 require("./models/email").config();
 
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
-const stockRouter = require("./routes/stock");
-const queueRouter = require("./routes/queue");
-const userRouter = require("./routes/user");
-const cardsAdminRouter = require("./routes/cardsAdmin");
-const homeAdminRouter = require("./routes/homeAdmin");
-const searchRouter = require("./routes/search");
-const analystRouter = require("./routes/analyst");
-const recordRouter = require("./routes/record");
-const sampleRouter = require("./routes/sample");
-const requisitionRouter = require("./routes/requisition");
-const profileRouter = require("./routes/profile");
-const allkitsRouter = require("./routes/allkits");
-const printtemplateRouter = require("./routes/printtemplate");
-const calibrationcurvesRouter = require("./routes/calibrationcurves");
-const allcalibratorsRouter = require("./routes/allcalibrators");
-const allsamplesRouter = require("./routes/allsamples");
-const previousmapRouter = require("./routes/previousmap");
-const sampleresultRouter = require("./routes/sampleresult");
-const reportRouter = require("./routes/report");
-const statisticsRouter = require("./routes/statistics");
-const covenantRouter = require("./routes/covenant");
+const routes = require("./routes");
 
 const app = express();
 
@@ -181,6 +159,7 @@ const serviceAccont = {
   auth_provider_x509_cert_url: process.env.ADMIN_AUTH_PROVIDER_X509_CERT_URL,
   client_x509_cert_url: process.env.ADMIN_CLIENT_X509_CERT_URL,
 };
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccont),
   databaseURL: process.env.FIREBASE_DATABASE_URL,
@@ -306,29 +285,7 @@ app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/cardsAdmin", cardsAdminRouter);
-app.use("/queue", queueRouter);
-app.use("/requisition", requisitionRouter);
-app.use("/stock", stockRouter);
-app.use("/user", userRouter);
-app.use("/homeAdmin", homeAdminRouter);
-app.use("/search", searchRouter);
-app.use("/analyst", analystRouter);
-app.use("/sample", sampleRouter);
-app.use("/record", recordRouter);
-app.use("/profile", profileRouter);
-app.use("/allkits", allkitsRouter);
-app.use("/printtemplate", printtemplateRouter);
-app.use("/calibrationcurves", calibrationcurvesRouter);
-app.use("/allcalibrators", allcalibratorsRouter);
-app.use("/allsamples", allsamplesRouter);
-app.use("/report", reportRouter);
-app.use("/previousmap", previousmapRouter);
-app.use("/sampleresult", sampleresultRouter);
-app.use("/statistics", statisticsRouter);
-app.use("/covenant", covenantRouter);
+app.use(routes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

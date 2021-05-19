@@ -1,0 +1,43 @@
+<div class="col-sm-12 container-fluid">
+  <div class="col-sm-12 text-center container-fluid">
+    <h1>Curvas de Calibração</h1>
+  </div>
+  <div class="container-fluid d-flex flex-column flex-sm-row flex-wrap justify-content-center">
+    {{#each toxinas}}
+    <div class="d-flex flex-row mb-3 flex-wrap col-6 justify-content-center">
+      <table class="table col-6">
+        <thead>
+          <tr>
+            <th scope="col">{{name}}</th>
+            <th scope="col">Concentração</th>
+            <th scope="col">Absorvância</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each calibradores}}
+          <tr>
+            <th scope="row">{{calname}}</th>
+            <td>{{concentracao}}</td>
+            <td>{{absorvancia}}</td>
+          </tr>
+          {{/each}}
+          </tr>
+        </tbody>
+      </table>
+      <text class="d-flex flex-column align-self-center text-left ml-4 h6 col-3">
+        <p><b>Slope:</b> {{round valores.slope 2}}</p>
+        <p><b>Intercept:</b> {{round valores.intercept 2}}</p>
+        <p><b>R:</b> {{round valores.resultado 2}}</p>
+      </text>
+    </div>
+    {{/each}}
+  </div>
+  <div class="btn-group-justified w-40 container-fluid">
+    <div class="btn btn-back">
+      <a href="/finalization/calibrators" class="btn btn-success" id="test">Digitar absorvâncias novamente</a>
+    </div>
+    <div class="btn btn-abs">
+      <a href="/finalization/absorbances" class="btn btn-success">Prosseguir</a>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Kit = require("../models/kit");
+const Kit = require("../../models/kit");
 
 function dynamicSort(property) {
   var sortOrder = 1;
@@ -54,7 +54,7 @@ router.get("/", async function (req, res) {
       displayInfo.sort(dynamicSort("name"));
     }
 
-    res.render("sampleresult", {
+    res.render("finalization/result", {
       title: "Curvas de Calibração",
       displayInfo,
       ...req.session,

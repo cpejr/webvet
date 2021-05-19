@@ -1,21 +1,21 @@
 var express = require('express');
 var router = express.Router();
-const auth = require('../middlewares/auth');
-const Kit = require('../models/kit');
+const auth = require('../../middlewares/auth');
+const Kit = require('../../models/kit');
 
 
 router.get('/', (req, res) => {
   var names = ["AFLA", "DON", "FBS", "OTA", "T2", "ZEA"];
 
 
-  res.render('allcalibrators', { names, ...req.session, layout:"layoutFinalization.hbs" });
+  res.render('finalization/calibrators', { names, ...req.session, layout:"layoutFinalization.hbs" });
 });
 
 router.post('/', auth.isAuthenticated, function (req, res) {
 
   Kit.getAllActive().then(async (activekits) => {
     updateKitsCalibrators(activekits).then(() => {
-      res.redirect("/calibrationcurves");
+      res.redirect("/finalization/calibrationcurves");
     }).catch((error) => {
       console.warn(error);
     });
@@ -55,6 +55,5 @@ router.post('/', auth.isAuthenticated, function (req, res) {
     });
   }
 });
-
 
 module.exports = router;

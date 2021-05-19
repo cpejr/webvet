@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Kit = require("../models/kit");
-const Workmap = require("../models/Workmap");
-const Sample = require("../models/sample");
-const Counter = require("../models/counter");
-const auth = require("../middlewares/auth");
+const Kit = require("../../models/kit");
+const Workmap = require("../../models/Workmap");
+const Sample = require("../../models/sample");
+const Counter = require("../../models/counter");
+const auth = require("../../middlewares/auth");
 
 router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
   Sample.getAllActiveWithWorkmap()
@@ -54,7 +54,7 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
     Result é um vetor de 6 dimensões 
     e cada posição faz referência a uma toxina diferente   
     */
-      res.render("allsamples", {
+      res.render("finalization/absorbances", {
         result,
         dd,
         mm,
@@ -115,7 +115,7 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
       await Promise.all(promises);
     }
 
-    res.redirect("/sampleresult");
+    res.redirect("/finalization/result");
 
     async function updateKits(KitArray) {
       let promises = [];
@@ -182,7 +182,7 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
       return await Promise.all(promises);
     }
   } catch (error) {
-    res.redirect("/sampleresult");
+    res.redirect("/finalization/result");
     console.warn(error);
   }
 });
