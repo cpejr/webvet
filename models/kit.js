@@ -1,21 +1,4 @@
 const mongoose = require("mongoose");
-const Counter = require("../models/counter");
-
-function dynamicSort(property) {
-  var sortOrder = 1;
-  if (property[0] === "-") {
-    sortOrder = -1;
-    property = property.substr(1);
-  }
-  return function (a, b) {
-    /* next line works with strings and numbers,
-     * and you may want to customize it to your needs
-     */
-    var result =
-      a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
-    return result * sortOrder;
-  };
-}
 
 const calibratorSchema = new mongoose.Schema({
   //Número P do calibrador
@@ -37,12 +20,12 @@ const workmapSchema = new mongoose.Schema({
 
   isDeleted: {
     type: Boolean, //1 for deleted, 0 for not deleted
-    default: 0,
+    default: false,
   },
 
   isActive: {
     type: Boolean, //1 for active, 0 for not active
-    default: 0,
+    default: false,
   },
 
   finalizationNumber: {
@@ -55,23 +38,27 @@ const kitSchema = new mongoose.Schema({
   calibrators: [calibratorSchema],
 
   //Código do kit
-  productCode: {
-    type: String,
-    required: true,
+  toxinId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Toxin",
   },
+
   //Data de expiração
   expirationDate: Date,
+
   //Limite de detecção
   Lod: {
     type: Number,
     default: 0,
   },
+
   //Limite de quantificação
   Loq: {
     type: Number,
     default: 0,
   },
-  //Quantidade em estoque
+
+  //Quantidade de workmaps restantes
   amount: Number,
 
   //Fornecedor do Kit
@@ -86,14 +73,16 @@ const kitSchema = new mongoose.Schema({
   //Kit está ativo para finalização
   active: {
     type: Boolean, // 1 for active, 0 for not
-    default: 0,
+    default: false,
   },
 
   //Marca o kit como deletado
   deleted: {
     type: Boolean, // 1 for deleted, 0 for not deleted
-    default: 0,
+    default: false,
   },
+
+  kitDescription: String,
 
   kitType: {
     type: String,
@@ -109,12 +98,22 @@ const kitSchema = new mongoose.Schema({
   workmaps: [workmapSchema],
 });
 
+kitSchema.virtual("toxin", {
+  ref: "Toxin", // The model to use
+  localField: "toxinId", // Find people where `localField`
+  foreignField: "_id", // is equal to `foreignField`
+  // If `justOne` is true, 'members' will be a single doc as opposed to
+  // an array. `justOne` is false by default.
+  justOne: true,
+});
+
 const KitModel = mongoose.model("Kit", kitSchema);
 
 const KitActions = {
   async getAll() {
     try {
-      return await KitModel.find();
+      const result = await KitModel.find();
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 112 ~ getAll ~ err", err);
       return err;
@@ -123,10 +122,11 @@ const KitActions = {
 
   async getAllInStock() {
     try {
-      return await KitModel.find({
+      const result = await KitModel.find({
         kitType: { $nin: ["-"] },
         deleted: false,
       });
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 121 ~ getAllInStock ~ err", err);
       return err;
@@ -135,16 +135,33 @@ const KitActions = {
 
   async getById(id) {
     try {
-      return await KitModel.findById(id);
+      const result = await KitModel.findById(id).populate("toxin");
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 121 ~ getById ~ err", err);
       return err;
     }
   },
 
-  async create(kit) {
+  async create({ calibrators, amount, ...kitData }) {
     try {
-      return await KitModel.create(kit);
+      const calibratorData = calibrators.map(({ concentration }, index) => {
+        return { p: index + 1, concentration };
+      });
+      let countWorkmaps = 0;
+      let workmapData = [];
+      while (countWorkmaps <= amount) {
+        countWorkmaps += 1;
+        workmapData.push({ samples: [] });
+      }
+      const newKit = {
+        ...kitData,
+        calibrators: calibratorData,
+        workmaps: workmapData,
+        amount,
+      };
+      const result = await KitModel.create(newKit);
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 142 ~ create ~ err", err);
       return err;
@@ -156,7 +173,8 @@ const KitActions = {
       if (kit.workmaps.length <= kit.toxinIndex) {
         kit.kitType = "-";
       }
-      return await KitModel.findByIdAndUpdate(id, kit);
+      const result = await KitModel.findByIdAndUpdate(id, kit);
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 154 ~ update ~ err", err);
       return err;
@@ -165,9 +183,10 @@ const KitActions = {
 
   async addMycotoxin(id, mycotoxin) {
     try {
-      return await KitModel.findByIdAndUpdate(id, {
+      const result = await KitModel.findByIdAndUpdate(id, {
         $push: { mycotoxins: mycotoxin },
       });
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 163 ~ addMycotoxin ~ err", err);
       return err;
@@ -176,7 +195,8 @@ const KitActions = {
 
   async delete(id) {
     try {
-      return await KitModel.findByIdAndUpdate(id, { deleted: 1 });
+      const result = await KitModel.findByIdAndUpdate(id, { deleted: 1 });
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 191 ~ delete ~ err", err);
       return err;
@@ -185,9 +205,10 @@ const KitActions = {
 
   async addWorkmap(id, workmap) {
     try {
-      return await KitModel.findByIdAndUpdate(id, {
+      const result = await KitModel.findByIdAndUpdate(id, {
         $push: { mapArray: workmap },
       });
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 183 ~ addWorkmap ~ err", err);
       return err;
@@ -197,10 +218,11 @@ const KitActions = {
   async getActiveID(sigla) {
     try {
       if (sigla === "FBS") sigla = "FUMO";
-      return await KitModel.findOne(
+      const result = await KitModel.findOne(
         { active: true, productCode: sigla + " Romer" },
         { active: 1 }
       );
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 192 ~ getActiveID ~ err", err);
       return err;
@@ -210,10 +232,11 @@ const KitActions = {
   async getActive(sigla) {
     try {
       if (sigla === "FBS") sigla = "FUMO";
-      return await KitModel.findOne({
+      const result = await KitModel.findOne({
         active: true,
         productCode: sigla + " Romer",
       });
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 211 ~ getActive ~ err", err);
       return err;
@@ -222,7 +245,7 @@ const KitActions = {
 
   async getAllLastActiveWithSamples() {
     try {
-      return await KitModel.aggregate([
+      const result = await KitModel.aggregate([
         {
           $match: {
             active: true,
@@ -304,6 +327,7 @@ const KitActions = {
           },
         },
       ]);
+      return result;
     } catch (err) {
       console.warn(
         "🚀 ~ file: kit.js ~ line 211 ~ getAllLastActiveWithSamples ~ err",
@@ -315,22 +339,20 @@ const KitActions = {
 
   async getAllActive() {
     try {
-      return await KitModel.find({ active: true });
+      const result = await KitModel.find({ active: true });
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 211 ~ getAllActive ~ err", err);
       return err;
     }
   },
 
-  async getAllForStock() {
+  getAllForStock() {
     try {
-      return await KitModel.aggregate([
-        {
-          $match: {
-            kitType: { $not: { $eq: "-" } },
-          },
-        },
-      ]);
+      const result = KitModel.find({
+        kitType: { $not: { $eq: "-" } },
+      }).populate("toxin");
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 322 ~ getAllForStock ~ err", err);
       return err;
@@ -380,9 +402,9 @@ const KitActions = {
     }
   },
 
-  async countAvailableWorkmaps() {
+  countAvailableWorkmaps() {
     try {
-      return await KitModel.aggregate([
+      const result = KitModel.aggregate([
         {
           $match: {
             deleted: false,
@@ -401,6 +423,7 @@ const KitActions = {
           },
         },
       ]);
+      return result;
     } catch (err) {
       console.warn(
         "🚀 ~ file: kit.js ~ line 370 ~ countAvailableWorkmaps ~ err",
@@ -410,9 +433,9 @@ const KitActions = {
     }
   },
 
-  async getAllArchived(page, itens_per_page) {
+  getAllArchived(page, itens_per_page) {
     try {
-      return await KitModel.aggregate([
+      const result = KitModel.aggregate([
         {
           $match: {
             kitType: { $eq: "-" },
@@ -438,6 +461,7 @@ const KitActions = {
           },
         },
       ]);
+      return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 435 ~ getAllArchived ~ err", err);
       return err;
@@ -446,7 +470,7 @@ const KitActions = {
 
   async getCurrentWorkmapsSamples() {
     try {
-      return await KitModel.aggregate([
+      const result = await KitModel.aggregate([
         {
           $match: {
             active: true,
@@ -513,9 +537,27 @@ const KitActions = {
           },
         },
       ]);
+      return result;
     } catch (err) {
       console.warn(
         "🚀 ~ file: kit.js ~ line 370 ~ getCurrentWorkmapsSamples ~ err",
+        err
+      );
+      return err;
+    }
+  },
+
+  async checkIfAlreadyExists(toxinId, kitType) {
+    try {
+      const result = await KitModel.find({
+        toxinId,
+        kitType,
+        isDeleted: false,
+      });
+      return result.length > 0;
+    } catch (err) {
+      console.warn(
+        "🚀 ~ file: kit.js ~ line 533 ~ checkIfAlreadyExists ~ err",
         err
       );
       return err;
