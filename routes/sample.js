@@ -160,10 +160,11 @@ router.get("/edit/:sampleId", async (req, res) => {
   try {
     const sample = await Sample.getById(sampleId);
 
-    res.render("samples/edit", {
+    res.render("samples/admEdit", {
       title: "Editar amostra",
       layout: "layoutDashboard.hbs",
       sample,
+      allDestinations,
     });
   } catch (error) {
     console.warn(error);

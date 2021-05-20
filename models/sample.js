@@ -76,20 +76,20 @@ const sampleSchema = new mongoose.Schema(
       default: yyyy,
     },
     samplenumber: Number,
-    
+
     requisitionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Requisition",
     },
-    
+
     sampletype: String,
-    
+
     //Quantidade recebida
     receivedquantity: Number,
-    
+
     //Tipo de embalagem
     packingtype: String,
-    
+
     //Aprovado pelo ADM
     approved: {
       //A aprovacao da requisicao associada
@@ -177,6 +177,10 @@ const Sample = {
     });
   },
 
+  getByFields(fields) {
+    return SampleModel.find(fields);
+  },
+
   async updateCustom(id, params) {
     const response = await SampleModel.findByIdAndUpdate(id, { $set: params });
     return response;
@@ -234,6 +238,36 @@ const Sample = {
             });
         });
     });
+  },
+
+  async removeAnalysis(samplesIds, toxinsIds) {
+    return SampleModel.update(
+      { _id: { $in: samplesIds } },
+      {
+        $pull: {
+          analysis: {
+            toxinId: { $in: toxinsIds },
+          },
+        },
+      },
+      { multi: true }
+    );
+  },
+
+  async addAnalysis(samplesIds, toxinsIds) {
+    const objs = toxinsIds.map((id) => ({ toxinsId: id, status: "nova" }));
+
+    return SampleModel.update(
+      { _id: { $in: samplesIds } },
+      {
+        $push: {
+          analysis: {
+            $each: objs,
+          },
+        },
+      },
+      { multi: true }
+    );
   },
 
   updateReport(id, report) {
@@ -438,10 +472,6 @@ const Sample = {
     });
 
     const result = await build.exec();
-    console.log(
-      "🚀 ~ file: sample.js ~ line 683 ~ Sample ~ getAllActiveWithWorkmap ~ result",
-      result
-    );
 
     return result;
   },

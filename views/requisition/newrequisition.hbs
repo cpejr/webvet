@@ -15,7 +15,7 @@
     </div>
     {{#if isFromLab}}
       <div class="requisition-text col-md-12 d-flex align-items-center">
-        <select required="required" id="analystUser" type="" name="requisition[user]" value="" class="drowdownoptions"
+        <select required="required" id="analystUser" type="" name="requisition[charge][user]" value="" class="drowdownoptions"
           placeholder="Selecione o Usuário">
           <option disabled selected value="">Selecione o Usuário</option>
           {{#each users}}
@@ -29,7 +29,7 @@
         class="requisition-text" placeholder="CNPJ/CPF">
     </div>
     <div class="requisition-text col-md-6">
-      <input required id="I.E" type="text" name="requisition[charge][IE]" class="requisition-text" placeholder="I.E">
+      <input required id="I.E" type="text" name="requisition[charge][IE]" class="requisition-text" placeholder="I.E" value="{{user.address.IE}}" >
     </div>
     <div class="requisition-text col-md-6">
       <input required id="street" type="text" name="requisition[charge][street]" value="{{user.address.street}}"
@@ -94,19 +94,19 @@
   <br>
   <div class="form-row col-md-10">
     <div class="requisition-text col-md-6">
-      <input required type="text" name="requisition[analisys][producerName]" class="requisition-text"
+      <input required type="text" name="requisition[analysis][producerName]" class="requisition-text"
         placeholder="Nome do cliente | Fazenda | Produtor">
     </div>
     <div class="requisition-text col-md-6">
-      <input type="text" name="requisition[analisys][autorizationnumber]" class="requisition-text"
+      <input type="text" name="requisition[analysis][autorizationnumber]" class="requisition-text"
         placeholder="Número de Autorização">
     </div>
 
     <div class="requisition-text col-md-6">
-      <input required type="text" name="requisition[analisys][city]" class="requisition-text" placeholder="Município">
+      <input required type="text" name="requisition[analysis][city]" class="requisition-text" placeholder="Município">
     </div>
     <div class="requisition-text col-md-6 d-flex align-items-center">
-      <select id="requisitonstate" class="drowdownoptions" name="requisition[analisys][state]" required="required">
+      <select id="requisitonstate" class="drowdownoptions" name="requisition[analysis][state]" required="required">
         <option disabled selected value="">Estado</option>
         {{#each allStates}}
         <option value="{{initials}}">{{name}}</option>
@@ -114,11 +114,11 @@
       </select>
     </div>
     <div class="requisition-text col-md-6">
-      <input required type="text" name="requisition[analisys][datecollection]" class="requisition-text"
+      <input required type="text" name="requisition[analysis][collectionDate]" class="requisition-text"
         placeholder="Data de Coleta">
     </div>
     <div class="requisition-text col-md-6">
-      <select required id="destination" class="drowdownoptions mt-3" name="requisition[analisys][destination]">
+      <select required id="destination" class="drowdownoptions mt-3" name="requisition[analysis][destination]">
         <option disabled selected value="" id="defaultDestOption">Escolha a destinação do alimento</option>
         {{#each allDestinations}}
         <option value="{{this}}">{{this}}</option>
@@ -177,7 +177,7 @@
     <p> Análises Solicitadas</p>
   </div>
   <br>
-  <div class=" d-flex flex-wrap col-md-12 align-items-center justify-content-center">
+  <div class="d-flex flex-wrap col-md-12 align-items-center justify-content-center">
     <p>
       {{#each ToxinasAll}}
     <div class="col-md-4 d-flex flex-row m-1">

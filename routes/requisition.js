@@ -238,7 +238,7 @@ router.post("/new", auth.isAuthenticated, async function (req, res) {
   samplesVector.forEach((sample) => {
     const { name, isCitrus, limitDate } = sample;
 
-    const analisys = requisition.selectedToxins.map((toxinId) => ({
+    const analysis = requisition.selectedToxins.map((toxinId) => ({
       toxinId,
       status: "Nova",
     }));
@@ -248,7 +248,7 @@ router.post("/new", auth.isAuthenticated, async function (req, res) {
       requisitionId: requisition._id,
       isCitrus: isCitrus ? true : false,
       limitDate,
-      analisys,
+      analysis,
     };
     sampleObjects.push(newSample);
   });
@@ -320,36 +320,39 @@ router.get(
   auth.isAuthenticated,
   auth.isFromLab,
   async function (req, res) {
-    const { id } = req.params;
-
     try {
-      const requisition = await Requisition.getById(req.params.id);
-      const samples = await Sample.getByIdArray(requisition.samples);
+      const requisitionId = req.params.id;
+      const requisition = await Requisition.getById(requisitionId);
+      const samples = await Sample.getByFields({ requisitionId });
 
-      let nova = requisition.status === "Nova" ? true : false;
-      let requisitionExtra = {};
+      let toxinsOptions = ToxinasAll.map((toxin) => {
+        const result = samples?.find((sample) =>
+          sample?.analysis?.find(
+            (analysis) =>
+              analysis.toxinId === toxin._id && !!analysis.resultNumber
+          )
+        );
 
-      ToxinasFull.forEach((toxin) => {
-        let hasResult = false;
-        for (let i = 0; i < samples.length; i++)
-          if (samples[i][toxin].result) {
-            hasResult = true;
-            break;
-          }
+        let hasToxin = requisition.selectedToxins.includes(toxin._id);
+        let hasResult = !!result;
 
-        requisitionExtra[`${toxin}_hasResult`] = hasResult;
+        return {
+          ...toxin,
+          disabled: hasResult,
+          checked: hasToxin,
+        };
       });
 
-      res.render("requisition/edit", {
+      res.render("requisition/admEdit", {
         title: "Edit Requisition",
         layout: "layoutDashboard.hbs",
         requisition,
-        requisitionExtra,
-        nova,
+        toxinsOptions,
         ...req.session,
         samples,
         allSampleTypes,
         allStates,
+        allDestinations,
       });
     } catch (error) {
       console.warn(error);
@@ -378,50 +381,74 @@ router.post(
   "/edit/:id",
   auth.isAuthenticated,
   auth.isFromLab,
-  function (req, res) {
-    var { requisition, sample } = req.body;
+  async function (req, res) {
+    const { requisition, samples } = req.body;
+    const requisitionId = req.params.id;
 
     const isApproved =
       req.body.toApprove === "toApprove" || req.body.toApprove === "approved";
 
-    if (isApproved) {
-      requisition.status = "Aprovada";
-    }
+    requisition.approved = isApproved;
 
-    for (let i = 0; i < sample.length; i++) {
-      let samples = {
-        name: sample[i].name,
-        sampletype: sample[i].sampletype,
-        approved: isApproved,
-        isCitrus: sample[i].isCitrus ? true : false,
-        receivedquantity: sample[i].receivedquantity,
-        packingtype: sample[i].packingtype,
-      };
+    if (typeof requisition.selectedToxins === "string")
+      requisition.selectedToxins = [requisition.selectedToxins];
+    else if (!requisition.selectedToxins) requisition.selectedToxins = [];
 
-      if (!requisition.mycotoxin) requisition.mycotoxin = [];
+    const oldRequisition = await Requisition.getById(requisitionId);
 
-      ToxinasAll.forEach((toxina) => {
-        let containsToxin = false;
-        containsToxin = requisition.mycotoxin.includes(toxina.Formal);
-        samples[`${toxina.Full}.active`] = containsToxin;
-      });
+    const promises = [];
+    const samplesIds = [];
 
-      Sample.update(sample[i]._id, samples)
-        .then(() => {})
-        .catch((error) => {
-          console.warn(error);
-          res.redirect("/error");
-        });
-    }
-    Requisition.update(req.params.id, requisition)
-      .then(() => {
-        req.flash("success", "Requisição alterada com sucesso.");
-        res.redirect(`/requisition/edit/${req.params.id}`);
-      })
-      .catch((error) => {
-        console.warn(error);
-        res.redirect("/error");
-      });
+    samples.forEach((sample) => {
+      const {
+        _id,
+        name,
+        sampletype,
+        approved,
+        isCitrus,
+        receivedquantity,
+        packingtype,
+      } = sample;
+
+      samplesIds.push(_id.toString());
+
+      promises.push(
+        Sample.update(_id, {
+          name,
+          sampletype,
+          approved,
+          isCitrus,
+          receivedquantity,
+          packingtype,
+        })
+      );
+    });
+
+    // Verificar se ocorreu mudança nas toxinas
+    const removed = [];
+    const added = [];
+
+    oldToxins = oldRequisition.selectedToxins.map((_id) => _id.toString());
+
+    oldToxins?.forEach((id) => {
+      if (!requisition.selectedToxins?.includes(id)) removed.push(id);
+    });
+
+    requisition.selectedToxins?.forEach((id) => {
+      if (!oldToxins.includes(id)) added.push(id);
+    });
+
+    if (removed.length > 0)
+      promises.push(Sample.removeAnalysis(samplesIds, removed));
+
+    if (added.length > 0) promises.push(Sample.addAnalysis(samplesIds, added));
+
+    promises.push(Requisition.update(requisitionId, requisition));
+
+    await Promise.all(promises);
+
+    req.flash("success", "Requisição alterada com sucesso.");
+    res.redirect(`/requisition/edit/${req.params.id}`);
   }
 );
 
