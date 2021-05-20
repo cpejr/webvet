@@ -266,7 +266,7 @@ $('div[class="loteradio"]').each(function (index, group) {
           //if kit exists
           if (kit) {
             $("#hide" + toxina).removeClass("form-disabled");
-            let begin = kit.toxinaStart; //Workmaps start
+            let begin = kit.toxinIndex; //Workmaps start
             nowActiveKits[toxina] = kit._id;
 
             $("#countkits" + toxina).text(kit.stripLength);

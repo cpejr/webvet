@@ -116,7 +116,7 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
       let finalizationNumber = await Counter.getFinalizationCount();
 
       KitArray.forEach(async (kit) => {
-        var new_toxinaStart = kit.toxinaStart;
+        var new_toxinIndex = kit.toxinIndex;
 
         const workmaps = await Workmap.getByIdArray(kit.mapArray);
         //Order by mapID
@@ -124,25 +124,25 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
           return Number(a.mapID) - Number(b.mapID);
         });
 
-        for (let i = workmaps.length - 1; i >= kit.toxinaStart; i--) {
+        for (let i = workmaps.length - 1; i >= kit.toxinIndex; i--) {
           //Ele confere de trás para frente
           if (workmaps[i].samplesArray.length > 0) {
-            new_toxinaStart = Number(workmaps[i].mapID) + 1;
+            new_toxinIndex = Number(workmaps[i].mapID) + 1;
             break;
           }
         }
 
         let WorkmapsToFinalize = kit.mapArray.slice(
-          kit.toxinaStart,
-          new_toxinaStart
+          kit.toxinIndex,
+          new_toxinIndex
         );
 
         promises.push(
           Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber)
         );
 
-        kit.amount = kit.stripLength - new_toxinaStart;
-        kit.toxinaStart = new_toxinaStart;
+        kit.amount = kit.stripLength - new_toxinIndex;
+        kit.toxinIndex = new_toxinIndex;
         promises.push(Kit.update(kit._id, kit));
       });
 
