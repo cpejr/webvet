@@ -2,6 +2,55 @@ const mongoose = require("mongoose");
 const Counter = require("./counter");
 const Sample = require("./sample");
 
+
+const chargeSchema = new mongoose.Schema(
+  {
+    fullname: String,
+    cpfCnpj: String,
+    street: String,
+    // Número da residência
+    number: String,
+    complement: String,
+    IE: String,
+    neighborhood: String,
+    city: String,
+    state: String,
+    cep: String,
+  },
+  { timestamps: true, strict: false }
+);
+
+const contactSchema = new mongoose.Schema(
+  {
+    //Nome completo do responsável
+    fullname: String,
+    email: String,
+    phone: String,
+    cellphone: String,
+  },
+  { timestamps: true, strict: false }
+);
+
+const analisysSchema = new mongoose.Schema(
+  {
+    producer: String,
+
+    // Controle interno do solicitante
+    autorizationnumber: String,
+    destination: String,
+    state: String,
+    city: String,
+    // Data que recebeu as amostras no lab
+    receiptDate: String,
+    // Data de coleta pelo produtor
+    collectionDate: String,
+    
+    // Quantidade recebida no lab
+    receivedQuantity: String,
+  },
+  { timestamps: true, strict: false }
+);
+
 const requisitionSchema = new mongoose.Schema(
   {
     user: {
@@ -11,60 +60,48 @@ const requisitionSchema = new mongoose.Schema(
     selectedToxins: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "",
+        ref: "Toxin",
       },
     ],
-    requisitionnumber: Number,
-    autorizationnumber: String, //Controle interno do solicitante
-    datecollection: String,
-    datereceipt: String, //Data de recebimento
-    comment: String,
-    IE: String,
-    city: String,
-    state: String,
-    producer: String,
-    destination: String,
-    farmname: String,
-    responsible: String,
-    status: {
-      type: String,
-      enum: ["Nova", "Aprovada", "Em Progresso", "Cancelada"],
-      default: "Nova",
-      required: true,
-    },
-    address: {
-      cep: Number,
-      street: String,
-      number: String,
-      complement: String,
-      city: String,
-      state: String,
-      neighborhood: String,
-    },
-    client: {
-      cep: Number,
-      fullname: String,
-      phone: String,
-      cellphone: String,
-      email: String,
-      register: String,
-    },
     samples: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Sample",
       },
     ],
+    requisitionnumber: Number,
+    
+    // Comentário das amostras
+    comment: String,
+
+    status: {
+      type: String,
+      enum: ["Nova", "Aprovada", "Em Progresso", "Cancelada"],
+      default: "Nova",
+      required: true,
+    },
+    analisys: [analisysSchema],
+    // Dados de cobrança
+    charge: chargeSchema,
+
+    // Dados de contato
+    contact: contactSchema,
+
+    //Marca a requisição como criada pelo painel especial.
     special: {
       type: Boolean,
       default: false,
-    }, //Marca a requisição como criada pelo painel especial.
+    }, 
+
+    //Numero da requisição especial, so aparece se for finalizada pelo painel especial.
     specialYear: {
       type: String,
-    }, //Numero da requisição especial, so aparece se for finalizada pelo painel especial.
+    }, 
+
+    //Ano da requisição especial, so aparece se for finalizada pelo painel especial.
     specialNumber: {
       type: String,
-    }, //Ano da requisição especial, so aparece se for finalizada pelo painel especial.
+    }, 
   },
   { timestamps: true, strict: false }
 );
@@ -72,10 +109,7 @@ const requisitionSchema = new mongoose.Schema(
 const RequisitionModel = mongoose.model("Requisition", requisitionSchema);
 
 const Requisition = {
-  /**
-   * Get all Requisitions from database
-   * @returns {Array} Array of Requisitions
-   */
+  
   getAll() {
     return new Promise((resolve, reject) => {
       RequisitionModel.find({})
@@ -414,7 +448,7 @@ const Requisition = {
 
     return result;
   },
-  // -------------------------------------------------------------------------
+ 
 
   async getAnimalData(filters) {
     const extraOperations = [];
