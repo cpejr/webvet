@@ -1,4 +1,4 @@
-var num = 2;
+var num = 1;
 function addInput() {
   let isFromLab = $(".isFromLab").text();
   console.log("🚀 ~ file: reqFunc.js ~ line 4 ~ addInput ~ isFromLab", isFromLab)
@@ -11,39 +11,41 @@ function addInput() {
     let html;
 
     if (isFromLab) {
-      html = `<div class="requisition-text col-md-3">
-                   <input required type="text" name="requisition[sampleVector][${num}][name]" id="sample${num}" class="requisition-text floating-label-field"
-                   placeholder="Amostra ${num}">
-                   <label for='sample${num}' class="floating-label">Amostra ${num}</label>
-               </div>
-               <div class="requisition-text col-md-5">
-                  <input id="receivedlimitdate[${num}]" type="text" name="requisition[sampleVector][${num}][limitDate]"
-                    class="requisition-text" placeholder="Data Limite de Avaliação (dd/mm/yyyy)">
-                </div>
-               <div class="checkbox col-md-2 d-flex pb-1">
-                   <div class="align-self-end">
-                   <input type="checkbox" id="polpa${num}" name="requisition[sampleVector][${num}][citrus]"  value="true" class="my-auto" />
-                   <label for="polpa${num}" class="">Contém polpa cítrica</label>
-                   </div>
-               </div>
-               <div class="btn-polpa">
-                  <a id="remove[${num}]" type="button" class="btn btn-outline-danger removeButton">x</a>
-                </div>`;
+      html = `
+      <div class="requisition-text col-md-3">
+          <input required type="text" name="requisition[sampleVector][${num}][name]" id="sample${num}" class="requisition-text floating-label-field"
+          placeholder="Amostra ${num + 1}">
+          <label for='sample${num}' class="floating-label">Amostra ${num + 1}</label>
+      </div>
+      <div class="requisition-text col-md-5">
+         <input id="receivedlimitdate[${num}]" type="text" name="requisition[sampleVector][${num}][limitDate]"
+           class="requisition-text" placeholder="Data Limite de Avaliação (dd/mm/yyyy)">
+       </div>
+      <div class="checkbox col-md-2 d-flex pb-1">
+          <div class="align-self-end">
+          <input type="checkbox" id="polpa${num}" name="requisition[sampleVector][${num}][isCitrus]" value="true" class="my-auto" />
+          <label for="polpa${num}" class="">Contém polpa cítrica</label>
+          </div>
+      </div>
+      <div class="btn-polpa">
+         <a id="remove[${num}]" type="button" class="btn btn-outline-danger removeButton">x</a>
+       </div>`;
     } else {
-      html = `<div class="requisition-text col-md-8">
-                   <input required type="text" name="requisition[sampleVector][${num}][name]" id="sample${num}" class="requisition-text floating-label-field"
-                   placeholder="Amostra ${num}">
-                   <label for='sample${num}' class="floating-label">Amostra ${num}</label>
-               </div>
-               <div class="checkbox col-md-2 d-flex pb-1">
-                   <div class="align-self-end">
-                   <input type="checkbox" id="polpa${num}" name="requisition[sampleVector][${num}][citrus]"  value="true" class="my-auto" />
-                   <label for="polpa${num}" class="">Contém polpa cítrica</label>
-                   </div>
-               </div>
-               <div class="btn-polpa">
-                  <a id="remove[${num}]" type="button" class="btn btn-outline-danger removeButton">x</a>
-                </div>`;
+      html = `
+      <div class="requisition-text col-md-8">
+          <input required type="text" name="requisition[sampleVector][${num}][name]" id="sample${num}" class="requisition-text floating-label-field"
+          placeholder="Amostra ${num + 1}">
+          <label for='sample${num}' class="floating-label">Amostra ${num + 1}</label>
+      </div>
+      <div class="checkbox col-md-2 d-flex pb-1">
+          <div class="align-self-end">
+          <input type="checkbox" id="polpa${num}" name="requisition[sampleVector][${num}][isCitrus]" value="true" class="my-auto" />
+          <label for="polpa${num}" class="">Contém polpa cítrica</label>
+          </div>
+      </div>
+      <div class="btn-polpa">
+         <a id="remove[${num}]" type="button" class="btn btn-outline-danger removeButton">x</a>
+      </div>`;
     }
 
     html = (newInput.innerHTML = html);

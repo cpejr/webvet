@@ -63,6 +63,7 @@ const analysisSchema = new mongoose.Schema(
 
 const sampleSchema = new mongoose.Schema(
   {
+    // Identificador
     name: String,
     //Contém Polpa cítrica
     isCitrus: {

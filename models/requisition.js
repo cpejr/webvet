@@ -33,7 +33,7 @@ const contactSchema = new mongoose.Schema(
 
 const analisysSchema = new mongoose.Schema(
   {
-    producer: String,
+    producerName: String,
 
     // Controle interno do solicitante
     autorizationnumber: String,
@@ -53,6 +53,7 @@ const analisysSchema = new mongoose.Schema(
 
 const requisitionSchema = new mongoose.Schema(
   {
+    // Usuário associado a requisição
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -81,6 +82,7 @@ const requisitionSchema = new mongoose.Schema(
       required: true,
     },
     analisys: [analisysSchema],
+    
     // Dados de cobrança
     charge: chargeSchema,
 

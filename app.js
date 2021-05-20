@@ -41,6 +41,15 @@ ToxinasFormal = [
   "T-2 toxina",
   "Zearalenona",
 ];
+ToxinasIds = [
+  "60a5a63d45c7b21d74ac59fd",
+  "60a5a68a88ade51d74703066",
+  "60a5a69388ade51d74703067",
+  "60a5a6a388ade51d74703068",
+  "60a5a6bf88ade51d74703069",
+  "60a5a6ca88ade51d7470306a",
+];
+
 
 allStates = [
   { name: "Acre", initials: "AC" },
@@ -112,6 +121,7 @@ for (let i = 0; i < ToxinasFull.length; i++) {
     Full: ToxinasFull[i],
     Sigla: ToxinasSigla[i],
     Formal: ToxinasFormal[i],
+    _id: ToxinasIds[i],
   };
 }
 
