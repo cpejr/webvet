@@ -119,22 +119,22 @@ const sampleSchema = new mongoose.Schema(
 
 const SampleModel = mongoose.model("Sample", sampleSchema);
 
-class Sample {
+const Sample = {
   /**
    * Get a Sample by it's id
    * @param {string} id - Sample Id
    * @returns {Object} Sample Document Data
    */
-  static async getById(id) {
+  async getById(id) {
     const result = await SampleModel.findOne({ _id: id });
     return result;
-  }
+  },
 
-  static async count() {
+  async count() {
     return await SampleModel.countDocuments();
-  }
+  },
 
-  static async getByIdAndPopulate(id) {
+  async getByIdAndPopulate(id) {
     const result = await SampleModel.findById(id)
       .populate(
         "aflatoxina.kitId deoxinivalenol.kitId fumonisina.kitId ocratoxina.kitId t2toxina.kitId zearalenona.kitId"
@@ -143,9 +143,9 @@ class Sample {
         path: "requisitionId",
       });
     return result;
-  }
+  },
 
-  static getMaxSampleNumber() {
+  getMaxSampleNumber() {
     return new Promise((resolve, reject) => {
       SampleModel.find({}, { samplenumber: 1, _id: 0 })
         .sort({ samplenumber: -1 })
@@ -159,9 +159,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static update(id, sample) {
+  update(id, sample) {
     return new Promise((resolve, reject) => {
       SampleModel.findByIdAndUpdate(id, sample)
         .then((res) => {
@@ -171,14 +171,14 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async updateCustom(id, params) {
+  async updateCustom(id, params) {
     const response = await SampleModel.findByIdAndUpdate(id, { $set: params });
     return response;
-  }
+  },
 
-  static updateBySampleNumber(samplenumber, sample) {
+  updateBySampleNumber(samplenumber, sample) {
     return new Promise((resolve, reject) => {
       SampleModel.findOneAndUpdate({ samplenumber: samplenumber }, sample)
         .then((res) => {
@@ -188,9 +188,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static deleteMany(id_array) {
+  deleteMany(id_array) {
     return new Promise((resolve, reject) => {
       SampleModel.find({ _id: { $in: id_array } })
         .then((samples) => {
@@ -230,9 +230,9 @@ class Sample {
             });
         });
     });
-  }
+  },
 
-  static updateReport(id, report) {
+  updateReport(id, report) {
     return new Promise((resolve, reject) => {
       SampleModel.update({ _id: id }, { $set: { report: report } })
         .then((result) => {
@@ -242,17 +242,17 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async updateReportSpecific(id, fieldsToUpdate) {
+  async updateReportSpecific(id, fieldsToUpdate) {
     const result = await SampleModel.updateOne(
       { _id: id },
       { $set: fieldsToUpdate }
     );
     return result;
-  }
+  },
 
-  static async updateAbsorbancesAndFinalize(
+  async updateAbsorbancesAndFinalize(
     id,
     toxinaFull,
     abs,
@@ -274,9 +274,9 @@ class Sample {
       { $set: updateVal }
     );
     return result;
-  }
+  },
 
-  static calcularResult(abs, abs2, calibrators) {
+  calcularResult(abs, abs2, calibrators) {
     let p_concentration = [];
     let p_absorvance = [];
 
@@ -320,9 +320,9 @@ class Sample {
       2;
 
     return finalResult;
-  }
+  },
 
-  static finalizeSample(id, toxina, kit_id) {
+  finalizeSample(id, toxina, kit_id) {
     return new Promise((resolve, reject) => {
       let parameter = toxina + ".active";
       let parameter2 = toxina + ".kitId";
@@ -341,9 +341,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static getByIdArray(id_array) {
+  getByIdArray(id_array) {
     return new Promise((resolve, reject) => {
       SampleModel.find({ _id: { $in: id_array } })
         .then((map) => {
@@ -353,9 +353,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getFinalizedByIdArrayWithUser(id_array) {
+  async getFinalizedByIdArrayWithUser(id_array) {
     return await SampleModel.find({
       _id: { $in: id_array },
       finalized: "Disponivel",
@@ -367,9 +367,9 @@ class Sample {
         select: "fullname",
       },
     });
-  }
+  },
 
-  static getByIdArrayWithQuery(id_array, query) {
+  getByIdArrayWithQuery(id_array, query) {
     query["_id"] = { $in: id_array };
     return new Promise((resolve, reject) => {
       SampleModel.find(query)
@@ -380,9 +380,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static getActiveByIdArray(id_array, toxinafull) {
+  getActiveByIdArray(id_array, toxinafull) {
     return new Promise((resolve, reject) => {
       let query = { _id: { $in: id_array }, isSpecial: { $ne: true } };
       query[toxinafull + ".active"] = true;
@@ -395,9 +395,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async updateResult(id, toxina_full, result) {
+  async updateResult(id, toxina_full, result) {
     return new Promise((resolve, reject) => {
       let parameter = toxina_full + ".result";
 
@@ -413,9 +413,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getAllActiveWithWorkmap() {
+  async getAllActiveWithWorkmap() {
     let query = { $or: [], isSpecial: { $ne: true } };
 
     ToxinasFull.forEach((toxina) => {
@@ -440,9 +440,9 @@ class Sample {
     );
 
     return result;
-  }
+  },
 
-  static getAllActive() {
+  getAllActive() {
     return new Promise((resolve, reject) => {
       let query = { $or: [], isSpecial: { $ne: true } };
 
@@ -462,9 +462,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getAllSpecialActive() {
+  async getAllSpecialActive() {
     let query = { isSpecial: true, $or: [] };
     ToxinasFull.forEach((toxina) => {
       let expression = {};
@@ -477,16 +477,16 @@ class Sample {
     const sample = await SampleModel.find(query);
 
     return sample;
-  }
+  },
 
-  static async getAllSpecialFinalized() {
+  async getAllSpecialFinalized() {
     let query = { isSpecial: true, specialFinalized: true };
     const sample = await SampleModel.find(query);
 
     return sample;
-  }
+  },
 
-  static async getSpecialFinalized(page = 1) {
+  async getSpecialFinalized(page = 1) {
     let query = { isSpecial: true, specialFinalized: true };
     const sample = await SampleModel.find(query)
       .skip((page - 1) * REPORTS_PER_PAGE)
@@ -494,16 +494,16 @@ class Sample {
       .sort({ createdAt: -1 });
 
     return sample;
-  }
+  },
 
-  static async getSpecialCountPages() {
+  async getSpecialCountPages() {
     let query = { isSpecial: true, specialFinalized: true };
     const sample = await SampleModel.find(query).countDocuments();
 
     return Math.ceil(sample / REPORTS_PER_PAGE);
-  }
+  },
 
-  static getAllActiveWithUser() {
+  getAllActiveWithUser() {
     return new Promise((resolve, reject) => {
       let query = { $or: [], isSpecial: { $ne: true } };
 
@@ -589,18 +589,18 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getAllReport() {
+  async getAllReport() {
     let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
       select: "requisitionnumber user createdAt _id",
     });
     return result;
-  }
+  },
 
-  static async getRegular(page = 1) {
+  async getRegular(page = 1) {
     let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query)
       .populate({
@@ -611,15 +611,15 @@ class Sample {
       .limit(REPORTS_PER_PAGE)
       .sort({ createdAt: -1 });
     return result;
-  }
+  },
 
-  static async getRegularCountPages() {
+  async getRegularCountPages() {
     let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).countDocuments();
     return Math.ceil(result / REPORTS_PER_PAGE);
-  }
+  },
 
-  static async getRelatedEmails(id) {
+  async getRelatedEmails(id) {
     const result = await SampleModel.findById(
       id,
       "requisitionId samplenumber createdAt"
@@ -630,9 +630,9 @@ class Sample {
     });
 
     return result;
-  }
+  },
 
-  static async create(sample) {
+  async create(sample) {
     try {
       let samplenumber = await Counter.getSampleCount();
       sample.samplenumber = samplenumber;
@@ -644,9 +644,9 @@ class Sample {
       console.warn(error);
       return error;
     }
-  }
+  },
 
-  static async createMany(samples) {
+  async createMany(samples) {
     let manySamples = [];
     try {
       let samplenumber = await Counter.getSampleCount();
@@ -662,9 +662,9 @@ class Sample {
       console.warn(error);
       return error;
     }
-  }
+  },
 
-  static async createManySpecial(specialSamples) {
+  async createManySpecial(specialSamples) {
     try {
       const result = await SampleModel.create(specialSamples);
       return result;
@@ -672,9 +672,9 @@ class Sample {
       console.warn(error);
       return error;
     }
-  }
+  },
 
-  static updateAflaWorkmap(id, cont) {
+  updateAflaWorkmap(id, cont) {
     return new Promise((resolve, reject) => {
       SampleModel.update({ _id: id }, { $set: { "aflatoxina.contador": cont } })
         .then((result) => {
@@ -684,9 +684,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static updateOcraWorkmap(id, cont) {
+  updateOcraWorkmap(id, cont) {
     return new Promise((resolve, reject) => {
       SampleModel.update({ _id: id }, { $set: { "ocratoxina.contador": cont } })
         .then((result) => {
@@ -696,9 +696,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getSampleData(filters) {
+  async getSampleData(filters) {
     const extraOperations = [];
 
     if (filters) {
@@ -766,9 +766,9 @@ class Sample {
       result[j].frequency = result[j].samples.length / total;
 
     return result;
-  }
+  },
 
-  static async getFinalizationData(filters) {
+  async getFinalizationData(filters) {
     //Desafio: descobrir como fazer isso aqui só com requisição do mongo.
     const extraOperations = [];
 
@@ -868,9 +868,9 @@ class Sample {
       });
     }
     return counterVector;
-  }
+  },
 
-  static async getResultData(filters) {
+  async getResultData(filters) {
     const extraOperations = [];
 
     if (filters) {
@@ -937,9 +937,9 @@ class Sample {
     ]);
 
     return result;
-  }
+  },
 
-  static async getStatisticTableData() {
+  async getStatisticTableData() {
     const result = await SampleModel.aggregate([
       { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
       {
