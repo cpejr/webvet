@@ -130,6 +130,10 @@ class Sample {
     return result;
   }
 
+  static async count() {
+    return await SampleModel.countDocuments();
+  }
+
   static async getByIdAndPopulate(id) {
     const result = await SampleModel.findById(id)
       .populate(
@@ -588,7 +592,7 @@ class Sample {
   }
 
   static async getAllReport() {
-    let query = { report: true, isSpecial: { $ne: true } };
+    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
       select: "requisitionnumber user createdAt _id",
@@ -597,7 +601,7 @@ class Sample {
   }
 
   static async getRegular(page = 1) {
-    let query = { report: true, isSpecial: { $ne: true } };
+    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query)
       .populate({
         path: "requisitionId",
@@ -610,7 +614,7 @@ class Sample {
   }
 
   static async getRegularCountPages() {
-    let query = { report: true, isSpecial: { $ne: true } };
+    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).countDocuments();
     return Math.ceil(result / REPORTS_PER_PAGE);
   }
@@ -628,11 +632,6 @@ class Sample {
     return result;
   }
 
-  /**
-   * Create a new Sample
-   * @param {Object} project - Sample Document Data
-   * @returns {string} New Sample Id
-   */
   static async create(sample) {
     try {
       let samplenumber = await Counter.getSampleCount();
@@ -821,7 +820,7 @@ class Sample {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", report: true } },
+      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
       ...extraOperations,
       {
         $project: {
@@ -921,7 +920,7 @@ class Sample {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", report: true } },
+      { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
       ...extraOperations,
       {
         $project: {
@@ -942,7 +941,7 @@ class Sample {
 
   static async getStatisticTableData() {
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", report: true } },
+      { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
       {
         $project: {
           "aflatoxina.checked": 1,
