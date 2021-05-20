@@ -10,16 +10,23 @@ const toxinSchema = new mongoose.Schema(
   { timestamps: true, strict: false }
 );
 
-const toxinModel = mongoose.model("Toxin", toxinSchema);
+const ToxinModel = mongoose.model("Toxin", toxinSchema);
 
 const ToxinActions = {
   async createToxin({ name, sigle }) {
-    return toxinModel.create({ name, sigle });
+    const result = await ToxinModel.create({ name, sigle });
+    return result;
   },
 
   async updateToxin(id, updateData) {
-    return toxinModel.findByIdAndUpdate(id, updateData);
+    const result = await ToxinModel.findByIdAndUpdate(id, updateData);
+    return result;
   },
+
+  async getAll() {
+    const result = await ToxinModel.find();
+    return result;
+  }
 };
 
 module.exports = ToxinActions;

@@ -115,6 +115,10 @@ allSampleTypes = [
   "Trigo / Subprodutos",
 ];
 
+allKitTypes = [
+  "A", "B", "C", "D", "E", "F"
+]
+
 ToxinasAll = [];
 for (let i = 0; i < ToxinasFull.length; i++) {
   ToxinasAll[i] = {

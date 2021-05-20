@@ -4,7 +4,7 @@
       <button type="submit" class="btn btn-outline-success">Voltar</button>
     </form>
     <div class="col-8">
-      <font color="gray" size="5">{{kit.productCode}} ({{kit.kitType}})</font>
+      <font color="gray" size="5">Kit {{kit.kitType}} ({{kit.toxin.sigle}})</font>
     </div>
     <form class="col-2" action="/stock/delete/{{kit._id}}" method="post">
       <button type="submit" class="btn btn-outline-danger">Apagar</button>
@@ -15,8 +15,8 @@
     <font size="4" color="black" class="d-flex flex-column col-lg-8" style="max-width: 700px;">
       <div class="d-flex flex-row justify-content-start align-items-center mt-2 w-100">
         <label class="col-4 text-right pr-0" for="1">Descrição do Produto:</label>
-        <input class="stock-edit mx-2" id="1" type="text" style="width: 400px" value={{kit.productDescription}}
-          name="productDescription">
+        <input class="stock-edit mx-2" id="1" type="text" style="width: 400px" value={{kit.kitDescription}}
+          name="kitDescription">
       </div>
       <div class="d-flex flex-row justify-content-start align-items-center mt-2 w-100">
         <label class="col-4 text-right pr-0" for="4">Fornecedor: </label>
@@ -33,12 +33,8 @@
       <div class="d-flex flex-row justify-content-start align-items-center mt-2 w-100">
         <label class="col-4 text-right pr-0" for="5">Data de Expiração:</label>
         <div class="mx-2">
-          <input class="stock-edit" id="5" type="text" style="width: 30px" value={{kit.dayexpirationDate}}
-            name="dayexpirationDate">/
-          <input class="stock-edit" id="6" type="text" style="width: 30px" value={{kit.monthexpirationDate}}
-            name="monthexpirationDate">/
-          <input class="stock-edit" id="7" type="text" style="width: 50px" value={{kit.yearexpirationDate}}
-            name="yearexpirationDate">
+          <input class="stock-edit" id="5" type="date" value={{kit.time}}
+            name="expirationDate">
         </div>
       </div>
 
