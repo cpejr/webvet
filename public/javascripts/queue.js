@@ -7,9 +7,9 @@ ToxinasFull = [
   "zearalenona",
 ];
 
-function createAnalysisKanban(toxinaFull) {
+function createAnalysisKanban(toxinId) {
   return new jKanban({
-    element: "#" + toxinaFull,
+    element: `#Analysis${toxinId}`,
     gutter: "10px",
     widthBoard: "190px",
     click: function (el) {
@@ -18,111 +18,52 @@ function createAnalysisKanban(toxinaFull) {
     dragBoards: false,
     boards: [
       {
-        id: "_testing",
+        id: "Em análise",
         title: "Em análise",
         class: "success",
       },
       {
-        id: "_ownering",
+        id: "Aguardando pagamento",
         title: "Aguardando pagamento",
         class: "success",
       },
       {
-        id: "_waiting",
+        id: "Aguardando amostra",
         title: "Aguardando amostra",
         class: "info",
       },
     ],
     dropEl: function (el, target, source, sibling) {
-      const sampleId = el.dataset.eid;
+      const { eid: sampleId, analysis_id, approved, owner } = el.dataset;
 
       let sourceName = $(source).parent().data("id");
 
-      if (sourceName === "_testing")
-        Wormapskanbans[toxinaFull].removeElement(sampleId);
+      // Saiu do em análise
+      if (sourceName === "Em análise")
+        Wormapskanbans[toxinId].removeElement(sampleId);
 
-      let text;
+      // Entrou no em análige
+      //Se está a provada, o usuário não é devedor e já não estiver lá
+      if (
+        target === "Em análise" &&
+        approved === "true" &&
+        owner === "false" &&
+        !Wormapskanbans[toxinId].findElement(sampleId)
+      )
+        Wormapskanbans[toxinId].addElement("_scndTesting", {
+          ...el,
+        });
 
-      switch (target) {
-        case "_testing":
-          text = "Em análise";
+      $.post(`sample/updateAnalysis/${analysis_id}`, { status: target });
 
-          //Se está a provada, o usuário não é devedor e já não estiver lá
-          if (
-            el.dataset.approved === "true" &&
-            el.dataset.owner === "false" &&
-            !Wormapskanbans[toxinaFull].findElement(sampleId)
-          ) {
-            Wormapskanbans[toxinaFull].addElement("_scndTesting", {
-              id: sampleId,
-              title: el.dataset.title,
-              analyst: el.dataset.analyst,
-              status: "Em análise",
-              approved: el.dataset.approved,
-              owner: el.dataset.owner,
-              iscitrus: el.dataset.iscitrus,
-              limitDate: el.dataset.limitdate,
-              click: function (el) {
-                window.location.href = "sample/edit/" + el.dataset.eid;
-              },
-            });
-          }
-          break;
-
-        case "_ownering":
-          text = "Aguardando pagamento";
-          break;
-        case "_waiting":
-          text = "Aguardando amostra";
-          break;
-      }
-
-      $.post(
-        `sample/updatestatus/${target.replace(
-          "_",
-          ""
-        )}/${toxinaFull}/${sampleId}`
-      );
-
-      let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">${text}</span>`;
-      badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
-
-      if (el.dataset.owner + "" === "true")
-        badges += `<span  class="badge badge-danger">Devedor</span>`;
-
-      if (el.dataset.approved == "false")
-        badges += `<span  class="badge badge-danger">Não aprovada</span>`;
-
-      if (el.dataset.iscitrus == "true")
-        badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
-
-      if (el.dataset.limitdate)
-        badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
-
-      el.innerHTML = badges;
+      el.innerHTML = getElementHtml({ ...el.dataset, status: target });
     },
   });
 }
 
-const aflatoxina = createAnalysisKanban("aflatoxina");
-const deoxinivalenol = createAnalysisKanban("deoxinivalenol");
-const ocratoxina = createAnalysisKanban("ocratoxina");
-const t2toxina = createAnalysisKanban("t2toxina");
-const fumonisina = createAnalysisKanban("fumonisina");
-const zearalenona = createAnalysisKanban("zearalenona");
-
-let Analysiskanbans = {
-  aflatoxina,
-  deoxinivalenol,
-  ocratoxina,
-  t2toxina,
-  fumonisina,
-  zearalenona,
-};
-
-function createWormapKanban(toxinaFull) {
+function createWorkmapKanban(toxinId) {
   return new jKanban({
-    element: "#" + toxinaFull + "2",
+    element: `#Workmap${toxinId}`,
     gutter: "10px",
     widthBoard: "165px",
     dragBoards: false,
@@ -189,66 +130,170 @@ function createWormapKanban(toxinaFull) {
   });
 }
 
-let Wormapskanbans = {
-  aflatoxina: createWormapKanban("aflatoxina"),
-  deoxinivalenol: createWormapKanban("deoxinivalenol"),
-  ocratoxina: createWormapKanban("ocratoxina"),
-  t2toxina: createWormapKanban("t2toxina"),
-  fumonisina: createWormapKanban("fumonisina"),
-  zearalenona: createWormapKanban("zearalenona"),
-};
+function getElementHtml({
+  title,
+  analyst,
+  approved,
+  iscitrus,
+  limitdate,
+  owner,
+  status,
+}) {
+  let innerHTML = `${title}<br><span  class="badge badge-secondary">${status}</span>`;
+  innerHTML += `<span  class="badge badge-primary">${analyst}</span>`;
+
+  if (owner == true)
+    innerHTML += `<span  class="badge badge-danger">Devedor</span>`;
+
+  if (approved == "false")
+    innerHTML += `<span  class="badge badge-danger">Não aprovada</span>`;
+
+  if (iscitrus == true)
+    innerHTML += `<span  class="badge badge-success">Polpa Cítrica</span>`;
+
+  if (limitdate)
+    innerHTML += `<span  class="badge badge-secondary">${limitdate}</span>`;
+
+  return innerHTML;
+}
+
+let Analysiskanbans = {};
+let Wormapskanbans = {};
 
 let nowActiveKits = {};
 
+$(function () {
+  $.get("/toxins", (response) => {
+    response.forEach((toxin) => {
+      Wormapskanbans[toxin._id] = createWorkmapKanban(toxin._id);
+      Analysiskanbans[toxin._id] = createAnalysisKanban(toxin._id);
+    });
+    populateAnalysisKanban();
+  });
+});
+
 //cria cedulas kanban
-$.get("/search/samplesActiveWithUser", (objects) => {
-  $(document).ready(function () {
-    objects.forEach((user) => {
-      let debt = user.debt;
-
-      user.samples.forEach((sample) => {
-        //Teste para cada toxina
-        ToxinasFull.forEach((toxina) => {
-          if (sample[toxina].active == true) {
-            let status = sample[toxina].status;
-            let kanban = Analysiskanbans[toxina];
-            let approved = sample.approved;
-
-            let element = {
-              id: sample._id,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsible,
-              status: status,
-              approved: sample.approved,
-              owner: debt,
-              iscitrus: sample.isCitrus,
-              limitDate: sample.limitDate,
-              click: function (el) {
-                window.location.href = "sample/edit/" + el.dataset.eid;
-              },
-            };
-
-            if (
-              status == "Nova" ||
-              status == "Sem amostra" ||
-              status == "A corrigir" ||
-              status == "Aguardando amostra"
-            )
-              kanban.addElement("_waiting", element);
-            else if (status == "Mapa de Trabalho")
-              kanban.addElement("_testing", element);
-            else if (status == "Em análise") {
-              kanban.addElement("_testing", element);
-              if (!debt && approved)
-                Wormapskanbans[toxina].addElement("_scndTesting", element);
-            } else if (status == "Aguardando pagamento")
-              kanban.addElement("_ownering", element);
-          }
-        });
+function populateAnalysisKanban() {
+  $.get("/search/getAllWithoutWorkmap", (response) => {
+    response.forEach((toxinData) => {
+      toxinData.samples.forEach((sample) => {
+        let element = {
+          id: sample._id,
+          title: `Amostra ${sample.samplenumber}`,
+          analyst: sample.name,
+          status: sample.analysis.status,
+          approved: sample.requisition.approved,
+          owner: sample.requisition.charge?.user?.debt,
+          iscitrus: sample.isCitrus,
+          limitDate: sample.limitDate,
+          analysis_id: sample.analysis._id,
+        };
+        addElementToAnalysis(toxinData._id, element);
       });
     });
   });
-});
+}
+
+function addElementToAnalysis(
+  toxinId,
+  {
+    id,
+    title,
+    analyst,
+    status,
+    approved,
+    owner,
+    iscitrus,
+    limitDate,
+    analysis_id,
+  }
+) {
+  let kanban = Analysiskanbans[toxinId];
+
+  let element = {
+    id,
+    title,
+    analyst,
+    status,
+    approved,
+    owner,
+    iscitrus,
+    limitDate,
+    analysis_id,
+    click: function (el) {
+      window.location.href = `sample/edit/${id}`;
+    },
+  };
+
+  switch (element.status) {
+    case "nova":
+    case "Nova":
+    case "Sem amostra":
+    case "A corrigir":
+    case "Aguardando amostra":
+      kanban.addElement("Aguardando amostra", element);
+      break;
+
+    case "Em análise":
+    case "Mapa de Trabalho":
+      kanban.addElement("Em análise", element);
+      break;
+
+    case "Aguardando pagamento":
+      kanban.addElement("Aguardando pagamento", element);
+      break;
+  }
+}
+
+function addElementToWorkmaps(
+  toxinId,
+  {
+    id,
+    title,
+    analyst,
+    status,
+    approved,
+    owner,
+    iscitrus,
+    limitDate,
+    analysis_id,
+  }
+) {
+  let kanban = Analysiskanbans[toxinId];
+
+  let element = {
+    id,
+    title,
+    analyst,
+    status,
+    approved,
+    owner,
+    iscitrus,
+    limitDate,
+    analysis_id,
+    click: function (el) {
+      window.location.href = "sample/edit/" + el.dataset.eid;
+    },
+  };
+
+  switch (element.status) {
+    case "Nova":
+    case "Sem amostra":
+    case "A corrigir":
+    case "Aguardando amostra":
+      kanban.addElement("Aguardando amostra", element);
+      break;
+
+    case "Em análise":
+    case "Mapa de Trabalho":
+      kanban.addElement("Em análise", element);
+      break;
+
+    case "Aguardando pagamento":
+      kanban.addElement("Aguardando pagamento", element);
+      break;
+  }
+}
 
 let workmapsStart = 0;
 let workmapsEnd = 0;
@@ -330,6 +375,7 @@ $('div[class="loteradio"]').each(function (index, group) {
                       approved: sample.approved,
                       iscitrus: sample.isCitrus,
                       limitDate: sample.limitDate,
+                      analysis_id: sample.analysis._id,
                       click: function (el) {
                         window.location.href = "sample/edit/" + el.dataset.eid;
                       },

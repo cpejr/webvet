@@ -541,95 +541,71 @@ const Sample = {
   // Sem Workmap
   // Sem ser especiais
   // Agrupar por toxina
-  getAllActiveWithUser() {
-    return new Promise((resolve, reject) => {
-      let query = {
-        isSpecial: { $ne: true },
-        "analysis.workmapId": null,
-      };
+  async getAllWithoutWorkmap() {
 
-      for (let index = 0; index < ToxinasFull.length; index++) {
-        const toxina = ToxinasFull[index];
-        let expression = {};
-
-        expression[toxina + ".active"] = true;
-
-        query.$or.push(expression);
-      }
-
-      SampleModel.aggregate([
-        { $match: query },
-        {
-          $group: {
-            _id: "$requisitionId",
-            samples: { $push: "$$ROOT" },
+    return await SampleModel.aggregate([
+      {
+        $match: {
+          "analysis.wormapId": null,
+        },
+      },
+      {
+        $lookup: {
+          from: "requisitions",
+          localField: "requisitionId",
+          foreignField: "_id",
+          as: "requisition",
+        },
+      },
+      {
+        $unwind: {
+          path: "$requisition",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "requisition.charge.user",
+          foreignField: "_id",
+          as: "requisition.charge.user",
+        },
+      },
+      {
+        $unwind: {
+          path: "$requisition.charge.user",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $unwind: {
+          path: "$analysis",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$analysis.toxinId",
+          samples: {
+            $push: "$$ROOT",
           },
         },
-        {
-          $lookup: {
-            from: "requisitions",
-            localField: "_id",
-            foreignField: "_id",
-            as: "requisition",
-          },
+      },
+      {
+        $lookup: {
+          from: "toxins",
+          localField: "_id",
+          foreignField: "_id",
+          as: "toxin",
         },
-        {
-          $project: {
-            _id: 1,
-            samples: 1,
-            userId: { $arrayElemAt: ["$requisition.user", 0] },
-          },
+      },
+      {
+        $unwind: {
+          path: "$toxin",
+          preserveNullAndEmptyArrays: true,
         },
-        {
-          $group: {
-            _id: "$userId",
-            samples: { $push: "$samples" },
-          },
-        },
-        {
-          $lookup: {
-            from: "users",
-            localField: "_id",
-            foreignField: "_id",
-            as: "user",
-          },
-        },
-        {
-          $project: {
-            _id: 1,
-            samples: 1,
-            debt: { $arrayElemAt: ["$user.debt", 0] },
-          },
-        },
-        {
-          $sort: {
-            samplenumber: 1,
-          },
-        },
-      ])
-        .then((result) => {
-          function flat(input, depth = 1, stack = []) {
-            for (let item of input) {
-              if (item instanceof Array && depth > 0) {
-                flat(item, depth - 1, stack);
-              } else {
-                stack.push(item);
-              }
-            }
-
-            return stack;
-          }
-
-          for (let i = 0; i < result.length; i++) {
-            result[i].samples = flat(result[i].samples);
-          }
-
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+      },
+    ]);
   },
 
   async getAllReport() {
@@ -1003,6 +979,7 @@ const Sample = {
     ]);
     return result;
   },
+  SampleModel,
 };
 
 module.exports = Sample;

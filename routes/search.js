@@ -69,15 +69,9 @@ router.get("/samplesActive", auth.isAuthenticated, (req, res) => {
     });
 });
 
-router.get("/samplesActiveWithUser", auth.isAuthenticated, (req, res) => {
-  Sample.getAllActiveWithUser()
-    .then((objs) => {
-      res.send(objs);
-    })
-    .catch((error) => {
-      console.warn(error);
-      res.redirect("/error");
-    });
+router.get("/getAllWithoutWorkmap", auth.isAuthenticated, async (req, res) => {
+  const data = await Sample.getAllWithoutWorkmap();
+  res.send(data);
 });
 
 router.get("/userFromSample/:sampleID", auth.isAuthenticated, (req, res) => {

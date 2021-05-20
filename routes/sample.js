@@ -38,40 +38,22 @@ router.post("/create", (req, res) => {
     });
 });
 
-router.post("/updatestatus/:status/:mycotoxin/:sampleId", async (req, res) => {
+router.post("/updateAnalysis/:analysisId", async (req, res) => {
   try {
-    const { status, mycotoxin, sampleId } = req.params;
-
-    const sample = await Sample.getById(sampleId);
+    const { analysisId } = req.params;
     const filedsToUpdate = {};
 
-    if (sample[mycotoxin].status === "Mapa de Trabalho") {
-      const workmapId = sample[mycotoxin].workmapId;
-      filedsToUpdate[`${mycotoxin}.workmapId`] = null;
+    Object.keys(req.body).forEach((field) => {
+      filedsToUpdate[`analysis.$.${field}`] = req.body[field];
+    });
 
-      Workmap.removeSample(workmapId, sampleId);
-    }
-
-    let newStatus;
-    switch (status) {
-      case "testing":
-        newStatus = "Em análise";
-        break;
-
-      case "ownering":
-        newStatus = "Aguardando pagamento";
-        break;
-
-      case "waiting":
-        newStatus = "Aguardando amostra";
-        break;
-    }
-
-    filedsToUpdate[`${mycotoxin}.status`] = newStatus;
-
-    const response = await Sample.update(sampleId, { $set: filedsToUpdate });
+    const response = await Sample.SampleModel.update(
+      { "analysis._id": analysisId },
+      { $set: filedsToUpdate }
+    );
     res.status(200).send(response);
   } catch (error) {
+    console.warn(error);
     res.status(500).send();
   }
 });
