@@ -8,6 +8,12 @@ const requisitionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    selectedToxins: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "",
+      },
+    ],
     requisitionnumber: Number,
     autorizationnumber: String, //Controle interno do solicitante
     datecollection: String,
@@ -19,7 +25,6 @@ const requisitionSchema = new mongoose.Schema(
     producer: String,
     destination: String,
     farmname: String,
-    mycotoxin: [String],
     responsible: String,
     status: {
       type: String,
@@ -66,12 +71,12 @@ const requisitionSchema = new mongoose.Schema(
 
 const RequisitionModel = mongoose.model("Requisition", requisitionSchema);
 
-class Requisition {
+const Requisition = {
   /**
    * Get all Requisitions from database
    * @returns {Array} Array of Requisitions
    */
-  static getAll() {
+  getAll() {
     return new Promise((resolve, reject) => {
       RequisitionModel.find({})
         .populate("user")
@@ -83,54 +88,54 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getSpecial(page = 1) {
+  async getSpecial(page = 1) {
     return RequisitionModel.find({ special: true })
       .populate("user")
       .sort({ createdAt: -1 })
       .skip(REQUISITIONS_PER_PAGE * (page - 1))
       .limit(REQUISITIONS_PER_PAGE);
-  }
+  },
 
-  static async getSpecialCountPages() {
+  async getSpecialCountPages() {
     const count = await RequisitionModel.find({
       special: true,
     }).countDocuments();
 
     return Math.ceil(count / REQUISITIONS_PER_PAGE);
-  }
+  },
 
-  static async getRegular(page = 1) {
+  async getRegular(page = 1) {
     return RequisitionModel.find({ special: { $ne: true } })
       .populate("user")
       .sort({ createdAt: -1 })
       .skip(REQUISITIONS_PER_PAGE * (page - 1))
       .limit(REQUISITIONS_PER_PAGE);
-  }
+  },
 
-  static async getRegularCountPages() {
+  async getRegularCountPages() {
     const count = await RequisitionModel.find({
       special: { $ne: true },
     }).countDocuments();
     return Math.ceil(count / REQUISITIONS_PER_PAGE);
-  }
+  },
 
-  static async countNew() {
+  async countNew() {
     const response = await RequisitionModel.count({ status: "Nova" });
     return response;
-  }
+  },
 
-  static async countAll() {
+  async countAll() {
     const response = await RequisitionModel.count({});
     return response;
-  }
+  },
 
   /**
    * Get a Requisitions by sample
    * @returns one Requisitions
    */
-  static getBySampleID(sampleid) {
+  getBySampleID(sampleid) {
     return new Promise((resolve, reject) => {
       RequisitionModel.find({ samples: { $in: sampleid } })
         .then((req) => {
@@ -140,9 +145,9 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
-  static getByIdArray(reqidArray) {
+  getByIdArray(reqidArray) {
     return new Promise((resolve, reject) => {
       RequisitionModel.find({ _id: { $in: reqidArray } })
         .then((req) => {
@@ -152,14 +157,14 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
   /**
    * Get a Requisition by it's id
    * @param {string} id - Requisition Id
    * @returns {Object} Requisition Document Data
    */
-  static getById(id) {
+  getById(id) {
     return new Promise((resolve, reject) => {
       RequisitionModel.findById(id)
         .populate("user")
@@ -171,14 +176,14 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
   /**
    * Get a Requisition by it's destination
    * @param {string} destination - Requisition Destination
    * @returns {Object} Requisition Document Data
    */
-  static getByDestination(destination) {
+  getByDestination(destination) {
     return new Promise((resolve, reject) => {
       RequisitionModel.findById(destination)
         .populate("user")
@@ -190,14 +195,14 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
   /**
    * Create a new Requisition
    * @param {Object} project - Requisition Document Data
    * @returns {string} New Requisition Id
    */
-  static async create(requisition) {
+  async create(requisition) {
     try {
       let requisitionnumber = await Counter.getRequisitionCount();
       requisition.requisitionnumber = requisitionnumber;
@@ -209,9 +214,9 @@ class Requisition {
       console.warn(error);
       return error;
     }
-  }
+  },
 
-  static async createSpecial(requisition) {
+  async createSpecial(requisition) {
     try {
       requisition.requisitionnumber = 0;
       const result = await RequisitionModel.create(requisition);
@@ -220,14 +225,14 @@ class Requisition {
       console.warn(error);
       return error;
     }
-  }
+  },
 
   /**
    * Update a Requisition
    * @param {string} id - Requisition Id
    * @param {Object} Requisition - Requisition Document Data
    */
-  static update(id, requisition) {
+  update(id, requisition) {
     return new Promise((resolve, reject) => {
       RequisitionModel.findByIdAndUpdate(id, requisition)
         .then((res) => {
@@ -237,14 +242,14 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
   /**
    * Delete a Requisition
    * @param {string} id - Requisition Id
    * @returns {null}
    */
-  static delete(id) {
+  delete(id) {
     return new Promise((resolve, reject) => {
       //projection: -> Optional. A subset of fields to return.
       RequisitionModel.findOneAndDelete(
@@ -261,13 +266,13 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
   /**
    * Deletes all Requisitions from DB
    * @returns {null}
    */
-  static clear() {
+  clear() {
     return new Promise((resolve, reject) => {
       RequisitionModel.deleteMany({})
         .then(() => {
@@ -277,13 +282,13 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
   /**
    * Sum all Requisitions from DB
    * @returns {null}
    */
-  static count() {
+  count() {
     return new Promise((resolve, reject) => {
       RequisitionModel.countDocuments({})
         .then((result) => {
@@ -293,7 +298,7 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
   /**
    * Add sample to samples
@@ -301,7 +306,7 @@ class Requisition {
    * @param {string} sample - Sample Id
    * @returns {null}
    */
-  static async addSample(id, sample) {
+  async addSample(id, sample) {
     try {
       await RequisitionModel.findByIdAndUpdate(id, {
         $push: { samples: sample },
@@ -310,9 +315,9 @@ class Requisition {
       console.warn(error);
       return error;
     }
-  }
+  },
 
-  static getAllInProgress() {
+  getAllInProgress() {
     return new Promise((resolve, reject) => {
       RequisitionModel.find({ status: "Em Progresso" })
         .then((results) => {
@@ -322,16 +327,16 @@ class Requisition {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getAllByUserIdWithUser(userIds) {
+  async getAllByUserIdWithUser(userIds) {
     return await RequisitionModel.find({ user: userIds }).populate(
       "user",
       "fullname"
     );
-  }
+  },
 
-  static async getStateData(filters) {
+  async getStateData(filters) {
     const extraOperations = [];
 
     if (filters) {
@@ -408,10 +413,10 @@ class Requisition {
       result[j].frequency = result[j].samples / total;
 
     return result;
-  }
+  },
   // -------------------------------------------------------------------------
 
-  static async getAnimalData(filters) {
+  async getAnimalData(filters) {
     const extraOperations = [];
 
     if (filters) {
@@ -488,7 +493,7 @@ class Requisition {
       result[j].frequency = result[j].samples / total;
 
     return result;
-  }
-}
+  },
+};
 
 module.exports = Requisition;
