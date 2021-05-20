@@ -215,8 +215,10 @@ router.post("/delete/:id", auth.isAuthenticated, auth.isAdmin, (req, res) => {
     });
 });
 
-router.post("/new", auth.isAuthenticated, function (req, res) {
-  const { requisition } = req.body;
+router.post("/new", auth.isAuthenticated, async function (req, res) {
+  let { requisition } = req.body;
+
+  // Add o usuário associado a requisição quando não é criado pelo ADM
   if (
     req.session.user.type !== "Analista" &&
     req.session.user.type !== "Admin"
@@ -224,74 +226,44 @@ router.post("/new", auth.isAuthenticated, function (req, res) {
     requisition.user = req.session.user._id;
   }
 
-  //CORREÇÃO PROVISÓRIA DO CAMPO DESTINATION
-  if (Array.isArray(requisition.destination))
-    requisition.destination = requisition.destination.toString();
-
-  if (req.body.producerAddress == 0) {
-    //Provavelmente está errado. Tá substituindo o que a pessoa digitou
-    const address = req.session.user.address;
-    requisition.address = address;
-  }
   const samplesVector = [...requisition.sampleVector];
-
   delete requisition.sampleVector;
 
-  Requisition.create(requisition)
-    .then((reqid) => {
-      let sampleObjects = [];
+  //Criar requisição
+  requisition = await Requisition.create(requisition);
 
-      samplesVector.forEach((sample) => {
-        const { name, citrus, limitDate } = sample;
-        const newSample = {
-          name,
-          samplenumber: -1,
-          responsible: requisition.responsible,
-          requisitionId: NaN,
-          isCitrus: citrus ? true : false,
-          limitDate,
-        };
+  //Criar samples
+  let sampleObjects = [];
 
-        ToxinasAll.forEach((toxin) => {
-          if (requisition.mycotoxin.includes(toxin.Formal)) {
-            newSample[toxin.Full] = { active: true };
-          } else {
-            newSample[toxin.Full] = { active: false };
-          }
-        });
+  samplesVector.forEach((sample) => {
+    const { name, isCitrus, limitDate } = sample;
 
-        newSample.requisitionId = reqid;
-        sampleObjects.push(newSample);
-      });
+    const analisys = requisition.selectedToxins.map((toxinId) => ({
+      toxinId,
+      status: "Nova",
+    }));
 
-      Sample.createMany(sampleObjects)
-        .then((sids) => {
-          sids.forEach((sid) => {
-            Requisition.addSample(reqid, sid).catch((error) => {
-              console.warn(error);
-              res.redirect("/error");
-            });
-          });
-        })
-        .catch((error) => {
-          console.warn(error);
-          res.redirect("/error");
-        });
+    const newSample = {
+      name,
+      requisitionId: requisition._id,
+      isCitrus: isCitrus ? true : false,
+      limitDate,
+      analisys,
+    };
+    sampleObjects.push(newSample);
+  });
 
-      req.flash("success", "Nova requisição enviada");
-      if (
-        req.session.user.type === "Analista" ||
-        req.session.user.type === "Admin"
-      ) {
-        res.redirect("/requisition");
-      } else {
-        res.redirect("/user");
-      }
-    })
-    .catch((error) => {
-      console.warn(error);
-      res.redirect("/error"); //catch do create
-    });
+  await Sample.createMany(sampleObjects);
+
+  req.flash("success", "Nova requisição enviada");
+  if (
+    req.session.user.type === "Analista" ||
+    req.session.user.type === "Admin"
+  ) {
+    res.redirect("/requisition");
+  } else {
+    res.redirect("/user");
+  }
 });
 
 router.get("/", auth.isAuthenticated, async function (req, res) {

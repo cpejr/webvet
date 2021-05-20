@@ -72,7 +72,7 @@
     <br/>
     <div class="requisition-text col-md-12">
       <input required id="resposible" type="text" name="requisition[contact][fullname]" class="requisition-text"
-        placeholder="Responsável pela amostra">
+        placeholder="Responsável pela amostra" value="{{user.fullname}}">
     </div>
     <div class="requisition-text col-md-6">
       <input required id="phone" type="text" name="requisition[contact][phone]" value="{{user.phone}}"
@@ -94,19 +94,19 @@
   <br>
   <div class="form-row col-md-10">
     <div class="requisition-text col-md-6">
-      <input required type="text" name="requisition[analisysSchema][producerName]" class="requisition-text"
+      <input required type="text" name="requisition[analisys][producerName]" class="requisition-text"
         placeholder="Nome do cliente | Fazenda | Produtor">
     </div>
     <div class="requisition-text col-md-6">
-      <input type="text" name="requisition[analisysSchema][autorizationnumber]" class="requisition-text"
+      <input type="text" name="requisition[analisys][autorizationnumber]" class="requisition-text"
         placeholder="Número de Autorização">
     </div>
 
     <div class="requisition-text col-md-6">
-      <input required type="text" name="requisition[analisysSchema][city]" class="requisition-text" placeholder="Município">
+      <input required type="text" name="requisition[analisys][city]" class="requisition-text" placeholder="Município">
     </div>
     <div class="requisition-text col-md-6 d-flex align-items-center">
-      <select id="requisitonstate" class="drowdownoptions" name="requisition[analisysSchema][state]" required="required">
+      <select id="requisitonstate" class="drowdownoptions" name="requisition[analisys][state]" required="required">
         <option disabled selected value="">Estado</option>
         {{#each allStates}}
         <option value="{{initials}}">{{name}}</option>
@@ -114,11 +114,11 @@
       </select>
     </div>
     <div class="requisition-text col-md-6">
-      <input required type="text" name="requisition[analisysSchema][datecollection]" class="requisition-text"
+      <input required type="text" name="requisition[analisys][datecollection]" class="requisition-text"
         placeholder="Data de Coleta">
     </div>
     <div class="requisition-text col-md-6">
-      <select required id="destination" class="drowdownoptions mt-3" name="requisition[analisysSchema][destination]">
+      <select required id="destination" class="drowdownoptions mt-3" name="requisition[analisys][destination]">
         <option disabled selected value="" id="defaultDestOption">Escolha a destinação do alimento</option>
         {{#each allDestinations}}
         <option value="{{this}}">{{this}}</option>

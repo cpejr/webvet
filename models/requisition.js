@@ -64,12 +64,12 @@ const requisitionSchema = new mongoose.Schema(
         ref: "Toxin",
       },
     ],
-    samples: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Sample",
-      },
-    ],
+    // samples: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Sample",
+    //   },
+    // ],
     requisitionnumber: Number,
     
     // Comentário das amostras

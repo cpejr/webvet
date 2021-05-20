@@ -26,6 +26,7 @@ const analysisSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Toxin",
     },
+
     status: {
       type: String,
       enum: [
@@ -75,18 +76,20 @@ const sampleSchema = new mongoose.Schema(
       default: yyyy,
     },
     samplenumber: Number,
-    responsibleName: String,
+    
     requisitionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Requisition",
     },
+    
     sampletype: String,
+    
     //Quantidade recebida
     receivedquantity: Number,
+    
     //Tipo de embalagem
     packingtype: String,
-    // ??
-    description: String,
+    
     //Aprovado pelo ADM
     approved: {
       //A aprovacao da requisicao associada
@@ -98,6 +101,11 @@ const sampleSchema = new mongoose.Schema(
 
     analysis: [analysisSchema],
 
+    // Texto para colocar data limite
+    limitDate: {
+      type: String,
+    },
+
     //Marca a amostra como criada pelo painel especial.
     isSpecial: {
       type: Boolean,
@@ -108,11 +116,6 @@ const sampleSchema = new mongoose.Schema(
     specialFinalized: {
       type: Boolean,
       default: false,
-    },
-
-    // Texto para colocar data limite
-    limitDate: {
-      type: String,
     },
   },
   { timestamps: true, strict: false }
@@ -593,7 +596,7 @@ const Sample = {
   },
 
   async getAllReport() {
-    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
+    let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
       select: "requisitionnumber user createdAt _id",
@@ -602,7 +605,7 @@ const Sample = {
   },
 
   async getRegular(page = 1) {
-    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
+    let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query)
       .populate({
         path: "requisitionId",
@@ -615,7 +618,7 @@ const Sample = {
   },
 
   async getRegularCountPages() {
-    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
+    let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).countDocuments();
     return Math.ceil(result / REPORTS_PER_PAGE);
   },
@@ -921,7 +924,7 @@ const Sample = {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
+      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
       ...extraOperations,
       {
         $project: {
@@ -942,7 +945,7 @@ const Sample = {
 
   async getStatisticTableData() {
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
+      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
       {
         $project: {
           "aflatoxina.checked": 1,
@@ -962,7 +965,7 @@ const Sample = {
       { $sort: { createdAt: 1 } },
     ]);
     return result;
-  }
-}
+  },
+};
 
 module.exports = Sample;
