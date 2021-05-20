@@ -99,7 +99,7 @@ router.get('/edit/:id', auth.isAuthenticated, function (req, res) {
 
 router.post('/edit/:id', auth.isAuthenticated, function (req, res) {
   const kit = req.body;
-  Kit.findByIdAndEdit(req.params.id, kit).then((response) => {
+  Kit.update(req.params.id, kit).then((response) => {
     req.flash('success', 'Kit alterado com sucesso.');
     res.redirect(`/stock/edit/${req.params.id}`);
   }).catch((error) => {
@@ -131,7 +131,7 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
       }
     }
     if (!alreadyExists) {
-      Kit.create(kit).then(async (id) => {
+      Kit.create(kit).then(async ({_id}) => {
         var size = req.body.kit.amount;
 
         let promises = [];
@@ -141,12 +141,12 @@ router.post('/new', auth.isAuthenticated, function (req, res) {
             productCode: req.body.kit.productCode,
             mapID: i,
           }
-          promises[i] = Workmap.create(workmap);
+          promises[i] = Kit.createWorkmap(kitId, workmap);
         }
 
         let workmapIds = await Promise.all(promises);
 
-        Kit.addMaps(id, workmapIds).catch((error) => {
+        Kit.addWorkmaps(_id, workmapIds).catch((error) => {
           console.warn(error);
           res.redirect('/error');
         });
@@ -177,20 +177,5 @@ router.post('/delete/:id', auth.isAuthenticated, function (req, res) {
     res.redirect('/error');
   });
 });
-
-router.post('/decreaseAmount/:kitid/', function (req, res) {
-  Kit.decreaseAmount(req.params.kitid).catch((error) => {
-    console.warn(error);
-    res.redirect('/error');
-  });
-});
-
-router.post('/increaseAmount/:kitid/', function (req, res) {
-  Kit.increaseAmount(req.params.kitid).catch((error) => {
-    console.warn(error);
-    res.redirect('/error');
-  });
-});
-
 
 module.exports = router;
