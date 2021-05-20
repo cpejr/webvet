@@ -255,7 +255,7 @@ const Sample = {
   },
 
   async addAnalysis(samplesIds, toxinsIds) {
-    const objs = toxinsIds.map((id) => ({ toxinsId: id, status: "nova" }));
+    const objs = toxinsIds.map((id) => ({ toxinId: id, status: "nova" }));
 
     return SampleModel.update(
       { _id: { $in: samplesIds } },
@@ -537,9 +537,16 @@ const Sample = {
     return Math.ceil(sample / REPORTS_PER_PAGE);
   },
 
+  // Samples com a toxina para analise x
+  // Sem Workmap
+  // Sem ser especiais
+  // Agrupar por toxina
   getAllActiveWithUser() {
     return new Promise((resolve, reject) => {
-      let query = { $or: [], isSpecial: { $ne: true } };
+      let query = {
+        isSpecial: { $ne: true },
+        "analysis.workmapId": null,
+      };
 
       for (let index = 0; index < ToxinasFull.length; index++) {
         const toxina = ToxinasFull[index];

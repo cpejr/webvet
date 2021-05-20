@@ -431,7 +431,11 @@ router.post(
     oldToxins = oldRequisition.selectedToxins.map((_id) => _id.toString());
 
     oldToxins?.forEach((id) => {
-      if (!requisition.selectedToxins?.includes(id)) removed.push(id);
+      if (
+        !requisition.selectedToxins ||
+        !requisition.selectedToxins?.includes(id)
+      )
+        removed.push(id);
     });
 
     requisition.selectedToxins?.forEach((id) => {
