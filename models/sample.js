@@ -6,289 +6,110 @@ const SimpleLinearRegression = require("ml-regression-simple-linear");
 const data = new Date();
 const yyyy = data.getFullYear();
 
+const reportSchema = new mongoose.Schema(
+  {
+    // Laudo disponível
+    isAvailable: { type: Boolean, default: false },
+
+    // Parecer no laudo
+    feedback: { type: String },
+
+    // Comentario no laudo
+    comment: { type: String },
+  },
+  { timestamps: false, versionKey: false }
+);
+
+const analysisSchema = new mongoose.Schema(
+  {
+    toxinId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Toxin",
+    },
+    status: {
+      type: String,
+      enum: [
+        "Nova",
+        "Em análise",
+        "Aguardando pagamento",
+        "Aguardando amostra",
+        "Mapa de Trabalho",
+        "Finalizado",
+      ],
+      default: "Nova",
+    },
+
+    absorbance: Number,
+    absorbance2: Number,
+
+    resultNumber: Number,
+    resultText: String,
+    resultChart: Number,
+
+    wasDetected: Boolean,
+
+    workmapId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Workmap",
+    },
+
+    kitId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Kit",
+    },
+  },
+  { timestamps: false, versionKey: false }
+);
+
 const sampleSchema = new mongoose.Schema(
   {
-    samplenumber: Number,
     name: String,
+    //Contém Polpa cítrica
+    isCitrus: {
+      type: Boolean,
+      default: false,
+    },
+    creationYear: {
+      type: Number,
+      default: yyyy,
+    },
+    samplenumber: Number,
+    responsibleName: String,
+    requisitionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Requisition",
+    },
     sampletype: String,
-    receivedquantity: Number, //Quantidade recebida
-    packingtype: String, //Tipo de embalagem
+    //Quantidade recebida
+    receivedquantity: Number,
+    //Tipo de embalagem
+    packingtype: String,
+    // ??
+    description: String,
+    //Aprovado pelo ADM
     approved: {
       //A aprovacao da requisicao associada
       type: Boolean,
       default: false,
     },
-    report: {
-      type: Boolean, //1 for available, 0 for not available
-      default: 0,
-    },
-    requisitionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Requisition",
-    },
-    responsible: String,
-    creationYear: {
-      type: Number,
-      default: yyyy,
-    },
-    comment: String,
-    aflatoxina: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
 
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    deoxinivalenol: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    fumonisina: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    ocratoxina: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
+    report: reportSchema,
 
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    t2toxina: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
+    analysis: [analysisSchema],
 
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    zearalenona: {
-      status: {
-        type: String,
-        enum: [
-          "Nova",
-          "Sem amostra",
-          "Em análise",
-          "A corrigir",
-          "Aguardando pagamento",
-          "Aguardando amostra",
-          " Mapa de Trabalho",
-        ],
-        default: "Nova",
-      },
-      date: String,
-      absorbance: Number,
-      absorbance2: Number,
-      result: String,
-      resultText: String,
-      resultChart: Number,
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      contador: Number,
-
-      concentration: String,
-      kitId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kit",
-      },
-      workmapId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workmap",
-      },
-      checked: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    parecer: String,
-    finalized: {
-      //Disponivel para o produtor ou nao.
-      type: String,
-      enum: ["Não finalizada", "Analisada", "Disponivel"],
-      default: "Não finalizada",
-    },
-    isCitrus: {
-      type: Boolean,
-      default: false,
-    },
+    //Marca a amostra como criada pelo painel especial.
     isSpecial: {
       type: Boolean,
       default: false,
-    }, //Marca a amostra como criada pelo painel especial.
+    },
+
+    //Marca a amostra como finalizada pelo painel especial.
     specialFinalized: {
       type: Boolean,
       default: false,
-    }, //Marca a amostra como finalizada pelo painel especial.
+    },
+
+    // Texto para colocar data limite
     limitDate: {
       type: String,
     },
@@ -298,18 +119,22 @@ const sampleSchema = new mongoose.Schema(
 
 const SampleModel = mongoose.model("Sample", sampleSchema);
 
-class Sample {
+const Sample = {
   /**
    * Get a Sample by it's id
    * @param {string} id - Sample Id
    * @returns {Object} Sample Document Data
    */
-  static async getById(id) {
+  async getById(id) {
     const result = await SampleModel.findOne({ _id: id });
     return result;
-  }
+  },
 
-  static async getByIdAndPopulate(id) {
+  async count() {
+    return await SampleModel.countDocuments();
+  },
+
+  async getByIdAndPopulate(id) {
     const result = await SampleModel.findById(id)
       .populate(
         "aflatoxina.kitId deoxinivalenol.kitId fumonisina.kitId ocratoxina.kitId t2toxina.kitId zearalenona.kitId"
@@ -318,9 +143,9 @@ class Sample {
         path: "requisitionId",
       });
     return result;
-  }
+  },
 
-  static getMaxSampleNumber() {
+  getMaxSampleNumber() {
     return new Promise((resolve, reject) => {
       SampleModel.find({}, { samplenumber: 1, _id: 0 })
         .sort({ samplenumber: -1 })
@@ -334,15 +159,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  /**
-   * Update a Sample
-   * @param {string} id - Sample Id
-   * @param {Object} Sample - Sample Document Data
-   * @returns {null}
-   */
-  static update(id, sample) {
+  update(id, sample) {
     return new Promise((resolve, reject) => {
       SampleModel.findByIdAndUpdate(id, sample)
         .then((res) => {
@@ -352,14 +171,14 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async updateCustom(id, params) {
+  async updateCustom(id, params) {
     const response = await SampleModel.findByIdAndUpdate(id, { $set: params });
     return response;
-  }
+  },
 
-  static updateBySampleNumber(samplenumber, sample) {
+  updateBySampleNumber(samplenumber, sample) {
     return new Promise((resolve, reject) => {
       SampleModel.findOneAndUpdate({ samplenumber: samplenumber }, sample)
         .then((res) => {
@@ -369,22 +188,9 @@ class Sample {
           reject(err);
         });
     });
-  }
-  /**
-   * Delete a Sample
-   * @param {string} id - Sample Id
-   * @returns {null}
-   */
-  /* Função desabilidata por Arthur, ela não faz update nos workmaps
-  static delete(id) {
-    return new Promise((resolve, reject) => {
-      SampleModel.findByIdAndDelete(id).catch((err) => {
-        reject(err);
-      });
-    });
-  }*/
+  },
 
-  static deleteMany(id_array) {
+  deleteMany(id_array) {
     return new Promise((resolve, reject) => {
       SampleModel.find({ _id: { $in: id_array } })
         .then((samples) => {
@@ -424,41 +230,9 @@ class Sample {
             });
         });
     });
-  }
+  },
 
-  /**
-   * Deletes all Samples from DB
-   * @returns {null}
-   */
-  static clear() {
-    return new Promise((resolve, reject) => {
-      SampleModel.deleteMany({})
-        .then(() => {
-          resolve();
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  /**
-   * Sum all Samples from DB
-   * @returns {null}
-   */
-  static count() {
-    return new Promise((resolve, reject) => {
-      SampleModel.countDocuments({})
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static updateReport(id, report) {
+  updateReport(id, report) {
     return new Promise((resolve, reject) => {
       SampleModel.update({ _id: id }, { $set: { report: report } })
         .then((result) => {
@@ -468,17 +242,17 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async updateReportSpecific(id, fieldsToUpdate) {
+  async updateReportSpecific(id, fieldsToUpdate) {
     const result = await SampleModel.updateOne(
       { _id: id },
       { $set: fieldsToUpdate }
     );
     return result;
-  }
+  },
 
-  static async updateAbsorbancesAndFinalize(
+  async updateAbsorbancesAndFinalize(
     id,
     toxinaFull,
     abs,
@@ -500,9 +274,9 @@ class Sample {
       { $set: updateVal }
     );
     return result;
-  }
+  },
 
-  static calcularResult(abs, abs2, calibrators) {
+  calcularResult(abs, abs2, calibrators) {
     let p_concentration = [];
     let p_absorvance = [];
 
@@ -546,9 +320,9 @@ class Sample {
       2;
 
     return finalResult;
-  }
+  },
 
-  static finalizeSample(id, toxina, kit_id) {
+  finalizeSample(id, toxina, kit_id) {
     return new Promise((resolve, reject) => {
       let parameter = toxina + ".active";
       let parameter2 = toxina + ".kitId";
@@ -567,9 +341,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static getByIdArray(id_array) {
+  getByIdArray(id_array) {
     return new Promise((resolve, reject) => {
       SampleModel.find({ _id: { $in: id_array } })
         .then((map) => {
@@ -579,9 +353,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getFinalizedByIdArrayWithUser(id_array) {
+  async getFinalizedByIdArrayWithUser(id_array) {
     return await SampleModel.find({
       _id: { $in: id_array },
       finalized: "Disponivel",
@@ -593,9 +367,9 @@ class Sample {
         select: "fullname",
       },
     });
-  }
+  },
 
-  static getByIdArrayWithQuery(id_array, query) {
+  getByIdArrayWithQuery(id_array, query) {
     query["_id"] = { $in: id_array };
     return new Promise((resolve, reject) => {
       SampleModel.find(query)
@@ -606,9 +380,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static getActiveByIdArray(id_array, toxinafull) {
+  getActiveByIdArray(id_array, toxinafull) {
     return new Promise((resolve, reject) => {
       let query = { _id: { $in: id_array }, isSpecial: { $ne: true } };
       query[toxinafull + ".active"] = true;
@@ -621,9 +395,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async updateResult(id, toxina_full, result) {
+  async updateResult(id, toxina_full, result) {
     return new Promise((resolve, reject) => {
       let parameter = toxina_full + ".result";
 
@@ -639,9 +413,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getAllActiveWithWorkmap() {
+  async getAllActiveWithWorkmap() {
     let query = { $or: [], isSpecial: { $ne: true } };
 
     ToxinasFull.forEach((toxina) => {
@@ -666,9 +440,9 @@ class Sample {
     );
 
     return result;
-  }
+  },
 
-  static getAllActive() {
+  getAllActive() {
     return new Promise((resolve, reject) => {
       let query = { $or: [], isSpecial: { $ne: true } };
 
@@ -688,9 +462,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getAllSpecialActive() {
+  async getAllSpecialActive() {
     let query = { isSpecial: true, $or: [] };
     ToxinasFull.forEach((toxina) => {
       let expression = {};
@@ -703,16 +477,16 @@ class Sample {
     const sample = await SampleModel.find(query);
 
     return sample;
-  }
+  },
 
-  static async getAllSpecialFinalized() {
+  async getAllSpecialFinalized() {
     let query = { isSpecial: true, specialFinalized: true };
     const sample = await SampleModel.find(query);
 
     return sample;
-  }
+  },
 
-  static async getSpecialFinalized(page = 1) {
+  async getSpecialFinalized(page = 1) {
     let query = { isSpecial: true, specialFinalized: true };
     const sample = await SampleModel.find(query)
       .skip((page - 1) * REPORTS_PER_PAGE)
@@ -720,16 +494,16 @@ class Sample {
       .sort({ createdAt: -1 });
 
     return sample;
-  }
+  },
 
-  static async getSpecialCountPages() {
+  async getSpecialCountPages() {
     let query = { isSpecial: true, specialFinalized: true };
     const sample = await SampleModel.find(query).countDocuments();
 
     return Math.ceil(sample / REPORTS_PER_PAGE);
-  }
+  },
 
-  static getAllActiveWithUser() {
+  getAllActiveWithUser() {
     return new Promise((resolve, reject) => {
       let query = { $or: [], isSpecial: { $ne: true } };
 
@@ -815,19 +589,19 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static async getAllReport() {
-    let query = { report: true, isSpecial: { $ne: true } };
+  async getAllReport() {
+    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
       select: "requisitionnumber user createdAt _id",
     });
     return result;
-  }
+  },
 
-  static async getRegular(page = 1) {
-    let query = { report: true, isSpecial: { $ne: true } };
+  async getRegular(page = 1) {
+    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query)
       .populate({
         path: "requisitionId",
@@ -837,15 +611,15 @@ class Sample {
       .limit(REPORTS_PER_PAGE)
       .sort({ createdAt: -1 });
     return result;
-  }
+  },
 
-  static async getRegularCountPages() {
-    let query = { report: true, isSpecial: { $ne: true } };
+  async getRegularCountPages() {
+    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).countDocuments();
     return Math.ceil(result / REPORTS_PER_PAGE);
-  }
+  },
 
-  static async getRelatedEmails(id) {
+  async getRelatedEmails(id) {
     const result = await SampleModel.findById(
       id,
       "requisitionId samplenumber createdAt"
@@ -856,14 +630,9 @@ class Sample {
     });
 
     return result;
-  }
+  },
 
-  /**
-   * Create a new Sample
-   * @param {Object} project - Sample Document Data
-   * @returns {string} New Sample Id
-   */
-  static async create(sample) {
+  async create(sample) {
     try {
       let samplenumber = await Counter.getSampleCount();
       sample.samplenumber = samplenumber;
@@ -875,9 +644,9 @@ class Sample {
       console.warn(error);
       return error;
     }
-  }
+  },
 
-  static async createMany(samples) {
+  async createMany(samples) {
     let manySamples = [];
     try {
       let samplenumber = await Counter.getSampleCount();
@@ -893,9 +662,9 @@ class Sample {
       console.warn(error);
       return error;
     }
-  }
+  },
 
-  static async createManySpecial(specialSamples) {
+  async createManySpecial(specialSamples) {
     try {
       const result = await SampleModel.create(specialSamples);
       return result;
@@ -903,9 +672,9 @@ class Sample {
       console.warn(error);
       return error;
     }
-  }
+  },
 
-  static updateAflaWorkmap(id, cont) {
+  updateAflaWorkmap(id, cont) {
     return new Promise((resolve, reject) => {
       SampleModel.update({ _id: id }, { $set: { "aflatoxina.contador": cont } })
         .then((result) => {
@@ -915,9 +684,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static updateOcraWorkmap(id, cont) {
+  updateOcraWorkmap(id, cont) {
     return new Promise((resolve, reject) => {
       SampleModel.update({ _id: id }, { $set: { "ocratoxina.contador": cont } })
         .then((result) => {
@@ -927,62 +696,9 @@ class Sample {
           reject(err);
         });
     });
-  }
+  },
 
-  static updateDeoxWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { "deoxinivalenol.contador": cont } }
-      )
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static updateT2Workmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { "t2toxina.contador": cont } })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static updatefumWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { "fumonisina.contador": cont } })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  static updateZeaWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update(
-        { _id: id },
-        { $set: { "zearalenona.contador": cont } }
-      )
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-  static async getSampleData(filters) {
+  async getSampleData(filters) {
     const extraOperations = [];
 
     if (filters) {
@@ -1050,9 +766,9 @@ class Sample {
       result[j].frequency = result[j].samples.length / total;
 
     return result;
-  }
+  },
 
-  static async getFinalizationData(filters) {
+  async getFinalizationData(filters) {
     //Desafio: descobrir como fazer isso aqui só com requisição do mongo.
     const extraOperations = [];
 
@@ -1104,7 +820,7 @@ class Sample {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", report: true } },
+      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
       ...extraOperations,
       {
         $project: {
@@ -1152,9 +868,9 @@ class Sample {
       });
     }
     return counterVector;
-  }
+  },
 
-  static async getResultData(filters) {
+  async getResultData(filters) {
     const extraOperations = [];
 
     if (filters) {
@@ -1204,7 +920,7 @@ class Sample {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", report: true } },
+      { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
       ...extraOperations,
       {
         $project: {
@@ -1221,11 +937,11 @@ class Sample {
     ]);
 
     return result;
-  }
+  },
 
-  static async getStatisticTableData() {
+  async getStatisticTableData() {
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", report: true } },
+      { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
       {
         $project: {
           "aflatoxina.checked": 1,

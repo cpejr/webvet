@@ -2,9 +2,9 @@ var express = require("express");
 var firebase = require("firebase");
 var admin = require("firebase-admin");
 var router = express.Router();
-const auth = require('../middlewares/auth');
-const User = require('../models/user');
-const Email = require('../models/email');
+const auth = require("../middlewares/auth");
+const User = require("../models/user");
+const Email = require("../models/email");
 const GmailOAuth = require("../utils/GmailOAuth");
 
 /* GET home page. */
@@ -176,14 +176,18 @@ router.post("/signup", (req, res) => {
             });
           res.render("index/form", {
             title: "signup",
-            layout: "layout",
+            layout: "layoutIndex",
             error: error2,
           });
         });
     })
     .catch(function (error) {
       console.log(error);
-      res.render("index/form", { title: "signup", layout: "layout", error });
+      res.render("index/form", {
+        title: "signup",
+        layout: "layoutIndex",
+        error,
+      });
     });
 });
 
@@ -217,7 +221,5 @@ router.get("/validateCredentials", async (request, response) => {
     response.status(400).json({ error: "Invalid data" });
   }
 });
-
-
 
 module.exports = router;

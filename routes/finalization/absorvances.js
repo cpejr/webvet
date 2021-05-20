@@ -69,12 +69,6 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
     });
 });
 
-// router.get('/renameSample', async function(req, res){
-//   await Sample.rename();
-//   console.log("Ta feita a merda");
-//   res.redirect("/")
-// });
-
 router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
   try {
     //Dando update em todos os kits ativos.
