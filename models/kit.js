@@ -170,9 +170,6 @@ const KitActions = {
 
   async update(id, kit) {
     try {
-      if (kit.workmaps && kit.workmaps.length <= kit.toxinIndex) {
-        kit.kitType = "-";
-      }
       const result = await KitModel.findByIdAndUpdate(id, kit);
       return result;
     } catch (err) {
