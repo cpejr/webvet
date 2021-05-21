@@ -10,37 +10,39 @@
       <button type="submit" class="btn btn-outline-danger">Apagar</button>
     </form>
   </div>
-  <hr color="lightgray">
-  <form action="/stock/edit/{{kit._id}}" method="post">
-    <font size="4" color="black" class="d-flex flex-column col-lg-8" style="max-width: 700px;">
-      <div class="d-flex flex-row justify-content-start align-items-center mt-2 w-100">
-        <label class="col-4 text-right pr-0" for="1">Descrição do Produto:</label>
-        <input class="stock-edit mx-2" id="1" type="text" style="width: 400px" value={{kit.kitDescription}}
-          name="kitDescription">
-      </div>
-      <div class="d-flex flex-row justify-content-start align-items-center mt-2 w-100">
-        <label class="col-4 text-right pr-0" for="4">Fornecedor: </label>
-        <input class="stock-edit mx-2" id="4" type="text" style="width: 400px" value={{kit.provider}} name="provider">
-      </div>
-      <div class="d-flex flex-row justify-content-start align-items-center mt-2 w-100">
-        <label class="col-4 text-right pr-0" for="2">Lod:</label>
-        <input class="stock-edit mx-2" id="2" type="text" style="width: 50px" value={{kit.Lod}} name="Lod">
-      </div>
-      <div class="d-flex flex-row justify-content-start align-items-center mt-2 w-100">
-        <label class="col-4 text-right pr-0" for="3">Loq:</label>
-        <input class="stock-edit mx-2" id="3" type="text" style="width: 50px" value={{kit.Loq}} name="LoQ">
-      </div>
-      <div class="d-flex flex-row justify-content-start align-items-center mt-2 w-100">
-        <label class="col-4 text-right pr-0" for="5">Data de Expiração:</label>
-        <div class="mx-2">
-          <input class="stock-edit" id="5" type="date" value={{kit.time}}
-            name="expirationDate">
+
+  <form action="/stock/edit/{{kit._id}}" class="d-flex flex-column align-items-center" method="post">
+    <div class="col-md-10 m-3">
+      <div class="d-flex flex-row">
+        <div class="col-md-6 requisition-text">
+          <input required id="kitDescription" type="text" name="kitDescription" class="col-md-10"
+            placeholder="Descrição do Kit: " value="{{kit.kitDescription}}">
+        </div>
+        <div class="col-md-6 requisition-text">
+          <input required id="provider" type="text" name="provider" class="col-md-10" placeholder="Fornecedor: "
+            value="{{kit.provider}}">
         </div>
       </div>
-
-      <div class="text-center mt-4 ml-auto">
-        <button type="submit" align="center" class="btn btn-outline-success">Enviar Alterações</button>
+    </div>
+    <div class="col-md-10 m-3">
+      <div class="d-flex flex-row">
+        <div class="col-md-4 requisition-text">
+          <input required id="lod" type="number" name="Lod" class="col-md-10" placeholder="Limite de detecção: "
+            value="{{kit.Lod}}">
+        </div>
+        <div class="col-md-4 requisition-text">
+          <input required id="loq" type="number" name="Loq" class="col-md-10" placeholder="Limite de quantificação: "
+            value="{{kit.Loq}}">
+        </div>
+        <div class="col-md-4 requisition-text">
+          <input required id="date" type="date" name="expirationDate" class="col-md-10"
+            placeholder="Data de expiração: " value={{kit.time}}>
+        </div>
       </div>
-    </font>
+    </div>
+    <div class="col-md-12">
+      <button type="submit" align="center" class="btn btn-outline-success">Enviar Alterações</button>
+    </div>
   </form>
 </div>
+<script src="/javascripts/dynamicPlaceHolder.js"></script>

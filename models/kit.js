@@ -170,13 +170,13 @@ const KitActions = {
 
   async update(id, kit) {
     try {
-      if (kit.workmaps.length <= kit.toxinIndex) {
+      if (kit.workmaps && kit.workmaps.length <= kit.toxinIndex) {
         kit.kitType = "-";
       }
       const result = await KitModel.findByIdAndUpdate(id, kit);
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 154 ~ update ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 179 ~ update ~ err", err);
       return err;
     }
   },
