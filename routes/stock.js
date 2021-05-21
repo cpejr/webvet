@@ -103,10 +103,14 @@ router.post("/setstock", auth.isAuthenticated, async function (req, res) {
 });
 
 router.get("/edit/:id", auth.isAuthenticated, function (req, res) {
+  function setTwoCharacters(string){
+    return string.length <= 1 ? ("0"+string) : string;
+  }
   Kit.getById(req.params.id)
     .then((kit) => {
-      const exp = kit.expirationDate
-      kit.time = `${exp.getFullYear()}-${exp.getMonth()}-${exp.getDate()}`;
+      const exp = kit.expirationDate;
+      kit.time = `${exp.getFullYear()}-${setTwoCharacters(exp.getMonth().toString())}-${setTwoCharacters(exp.getDate().toString())}`;
+      console.log(kit.provider);
       res.render("stock/edit", {
         title: "Edit Kit",
         layout: "layoutDashboard.hbs",
