@@ -93,13 +93,20 @@ router.get("/archived", async (req, res) => {
 });
 
 router.post("/setstock", auth.isAuthenticated, async function (req, res) {
-  let params = req.body;
-  let kitstocks = [];
-  toxinaFull.forEach((toxin) => {
-    kitstocks.push({ name: toxin, minStock: params[toxin] });
-  });
-  await Counter.setKitStocks(kitstocks);
-  res.redirect("/stock");
+  try {
+    const toxins = await Toxin.getAll();
+    let params = req.body;
+    let kitstocks = [];
+    toxins.forEach((toxin) => {
+      kitstocks.push({ name: toxin.name, minStock: params[toxin.name]});
+    });
+    console.log(kitstocks);
+    await Counter.setKitStocks(kitstocks);
+    res.redirect("/stock");
+  } catch (err) {
+    console.log("🚀 ~ file: stock.js ~ line 108 ~ error", err)
+    res.redirect("/error");
+  }
 });
 
 router.get("/edit/:id", auth.isAuthenticated, function (req, res) {

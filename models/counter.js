@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
+const Toxin = require("./toxin");
 var data = new Date();
 var yyyy = data.getFullYear();
 
-const kitStock = new mongoose.Schema({
-  name: String,
+const kitStockSchema = new mongoose.Schema({
+  toxinId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Toxin",
+  },
   minStock: Number,
 });
 
@@ -13,7 +17,7 @@ const counterSchema = new mongoose.Schema(
     sampleCount: Number, //This number reset when change the year
     requisitionCount: Number, //This number reset when change the year
     finalizationCount: Number, //This number DOESN'T reset when change the year
-    kitStocks: [kitStock],
+    kitStocks: [kitStockSchema],
     counterName: {
       type: String,
       default: "Contador padrão",
@@ -23,6 +27,15 @@ const counterSchema = new mongoose.Schema(
 );
 
 const CounterModel = mongoose.model("Counter", counterSchema);
+
+kitStockSchema.virtual("toxin", {
+  ref: "Toxin", // The model to use
+  localField: "toxinId", // Find people where `localField`
+  foreignField: "_id", // is equal to `foreignField`
+  // If `justOne` is true, 'members' will be a single doc as opposed to
+  // an array. `justOne` is false by default.
+  justOne: true,
+});
 
 class Counter {
   /* Gets the current counter from database as a singular {object} of counter*/
@@ -56,11 +69,12 @@ class Counter {
     });
   }
 
-  static create() {
+  static async createDefault() {
     let kitStockVector = [];
-    for (let i = 0; i < ToxinasFull.length; i++) {
-      kitStockVector.push({ name: ToxinasFull[i], minStock: 0 });
-    }
+    const toxins = await Toxin.getAll();
+    toxins.forEach((toxin) =>
+      kitStockVector.push({ toxinId: toxin._id, minStock: 0 })
+    );
 
     const Contador = {
       lastYear: yyyy,
@@ -275,38 +289,35 @@ class Counter {
     });
   }
 
-  static getEntireKitStocks() {
-    return new Promise((resolve, reject) => {
-      CounterModel.findOne({}, { kitStocks: 1 }).then((counter) => {
-        if (counter === null) {
-          //Counter does not exist in DB
-          this.create().then((newCounter) => {
-            resolve(newCounter.kitStocks);
-          });
-        } else {
-          let notFound = [];
-          for (let i = 0; i < ToxinasFull.length; i++) {
-            //Check if all toxins are present in kitStocks of counter.
-            let toxinName = ToxinasFull[i];
-            if (
-              counter.kitStocks.findIndex(
-                (element) => element.name === toxinName
-              ) === undefined
-            ) {
-              notFound.push(toxinName);
-            }
-          }
-          if (notFound.length > 0) {
-            //Essential toxins are missing in kitStocks
-            console.log("Nao foram encontradas " + notFound.length);
-            console.log(notFound);
-            resolve(counter.kitStocks);
-          } else {
-            resolve(counter.kitStocks);
-          }
+  static async getEntireKitStocks() {
+    try {
+      const pipeline = await CounterModel.aggregate([{
+        $project: {
+            kitStocks: 1
         }
-      });
-    });
+      }, {
+        $lookup: {
+            from: 'toxins',
+            localField: 'kitStocks.toxinId',
+            foreignField: '_id',
+            as: 'toxins'
+        }
+      }]);
+      if (!pipeline) {
+        await this.createDefault();
+        const newResult = await this.getEntireKitStocks();
+        return newResult;
+      } else {
+        const result = pipeline[0].kitStocks.map((element, index) => {return {...element, ...pipeline[0].toxins[index]}});
+        return result;
+      }
+    } catch (err) {
+      console.warn(
+        "🚀 ~ file: counter.js ~ line 308 ~ Counter ~ getEntireKitStocks ~ err",
+        err
+      );
+      return err;
+    }
   }
 }
 
