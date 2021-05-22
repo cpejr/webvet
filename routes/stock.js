@@ -31,14 +31,19 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     Counter.getEntireKitStocks(),
   ];
 
-  const [resultActiveKits, resultDisabledKits, sumAmounts, reqKitstocks] =
+  const [resultActiveKits, resultDisabledKits, sumAmounts, kitStocks] =
     await Promise.all(promises);
 
-  let kitstocks = [];
   sumAmounts.forEach((sum, index) => {
-    let indKit = reqKitstocks[index];
-    let upperKitName = indKit.name[0].toUpperCase() + indKit.name.substr(1);
-    kitstocks[i] = { ...sum, minStock: indKit.minStock, name: upperKitName };
+    let stockIndex = kitStocks.findIndex(
+      (element) => element.sigle === sum._id
+    );
+    let indKit = kitStocks[stockIndex];
+    sumAmounts[index] = {
+      ...sum,
+      minStock: indKit.minStock,
+      name: indKit.name,
+    };
   });
 
   let number_of_pages = 0;
@@ -81,7 +86,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     activeKits,
     number_of_pages,
     layout: "layoutDashboard.hbs",
-    kitstocks,
+    sumAmounts,
     ...req.session,
   });
 });
@@ -98,25 +103,27 @@ router.post("/setstock", auth.isAuthenticated, async function (req, res) {
     let params = req.body;
     let kitstocks = [];
     toxins.forEach((toxin) => {
-      kitstocks.push({ name: toxin.name, minStock: params[toxin.name]});
+      kitstocks.push({ _id: toxin._id, minStock: params[toxin.name] });
     });
     console.log(kitstocks);
     await Counter.setKitStocks(kitstocks);
     res.redirect("/stock");
   } catch (err) {
-    console.log("🚀 ~ file: stock.js ~ line 108 ~ error", err)
+    console.log("🚀 ~ file: stock.js ~ line 108 ~ error", err);
     res.redirect("/error");
   }
 });
 
 router.get("/edit/:id", auth.isAuthenticated, function (req, res) {
-  function setTwoCharacters(string){
-    return string.length <= 1 ? ("0"+string) : string;
+  function setTwoCharacters(string) {
+    return string.length <= 1 ? "0" + string : string;
   }
   Kit.getById(req.params.id)
     .then((kit) => {
       const exp = kit.expirationDate;
-      kit.time = `${exp.getFullYear()}-${setTwoCharacters(exp.getMonth().toString())}-${setTwoCharacters(exp.getDate().toString())}`;
+      kit.time = `${exp.getFullYear()}-${setTwoCharacters(
+        exp.getMonth().toString()
+      )}-${setTwoCharacters(exp.getDate().toString())}`;
       console.log(kit.provider);
       res.render("stock/edit", {
         title: "Edit Kit",

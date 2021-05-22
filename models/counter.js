@@ -303,7 +303,7 @@ class Counter {
             as: 'toxins'
         }
       }]);
-      if (!pipeline) {
+      if (pipeline.length === 0) {
         await this.createDefault();
         const newResult = await this.getEntireKitStocks();
         return newResult;
