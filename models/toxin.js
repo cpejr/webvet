@@ -6,6 +6,8 @@ const toxinSchema = new mongoose.Schema(
     name: String,
     //Sigla da toxina
     sigle: String,
+    //Toxina em formula minúscula
+    lower: String,
   },
   { timestamps: true, strict: false }
 );

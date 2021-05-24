@@ -90,7 +90,7 @@ const kitSchema = new mongoose.Schema({
     required: true,
   },
 
-  toxinIndex: {
+  workmapIndex: {
     type: Number,
     default: 0,
   },
@@ -123,9 +123,9 @@ const KitActions = {
   async getAllInStock() {
     try {
       const result = await KitModel.find({
-        kitType: { $nin: ["-"] },
-        deleted: false,
-      });
+        kitType: { $ne: "-" },
+        deleted: { $ne: true },
+      }).populate("toxin");
       return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 121 ~ getAllInStock ~ err", err);
@@ -170,13 +170,10 @@ const KitActions = {
 
   async update(id, kit) {
     try {
-      if (kit.workmaps.length <= kit.toxinIndex) {
-        kit.kitType = "-";
-      }
       const result = await KitModel.findByIdAndUpdate(id, kit);
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 154 ~ update ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 176 ~ update ~ err", err);
       return err;
     }
   },
@@ -188,7 +185,7 @@ const KitActions = {
       });
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 163 ~ addMycotoxin ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 183 ~ addMycotoxin ~ err", err);
       return err;
     }
   },
@@ -198,7 +195,7 @@ const KitActions = {
       const result = await KitModel.findByIdAndUpdate(id, { deleted: 1 });
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 191 ~ delete ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 198 ~ delete ~ err", err);
       return err;
     }
   },
@@ -224,7 +221,7 @@ const KitActions = {
       );
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 192 ~ getActiveID ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 224 ~ getActiveID ~ err", err);
       return err;
     }
   },
@@ -238,7 +235,7 @@ const KitActions = {
       });
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 211 ~ getActive ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 238 ~ getActive ~ err", err);
       return err;
     }
   },
@@ -330,7 +327,7 @@ const KitActions = {
       return result;
     } catch (err) {
       console.warn(
-        "🚀 ~ file: kit.js ~ line 211 ~ getAllLastActiveWithSamples ~ err",
+        "🚀 ~ file: kit.js ~ line 330 ~ getAllLastActiveWithSamples ~ err",
         err
       );
       return err;
@@ -342,7 +339,7 @@ const KitActions = {
       const result = await KitModel.find({ active: true });
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 211 ~ getAllActive ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 342 ~ getAllActive ~ err", err);
       return err;
     }
   },
@@ -354,7 +351,7 @@ const KitActions = {
       }).populate("toxin");
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 322 ~ getAllForStock ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 354 ~ getAllForStock ~ err", err);
       return err;
     }
   },
@@ -402,24 +399,41 @@ const KitActions = {
     }
   },
 
-  countAvailableWorkmaps() {
+  async countAvailableWorkmaps() {
     try {
-      const result = KitModel.aggregate([
+      const result = await KitModel.aggregate([
         {
           $match: {
-            deleted: false,
+            deleted: { $ne: true },
+            kitType: { $ne: "-" },
+          },
+        },
+        {
+          $lookup: {
+            from: "toxins",
+            localField: "toxinId",
+            foreignField: "_id",
+            as: "toxin",
+          },
+        },
+        {
+          $unwind: {
+            path: "$toxin",
           },
         },
         {
           $project: {
-            productCode: 1,
+            toxin: 1,
+            kitType: 1,
             amount: 1,
           },
         },
         {
           $group: {
-            _id: "$productCode",
-            currentSum: { $sum: "$amount" },
+            _id: "$toxin.sigle",
+            count: {
+              $sum: "$amount",
+            },
           },
         },
       ]);
@@ -438,7 +452,7 @@ const KitActions = {
       const result = KitModel.aggregate([
         {
           $match: {
-            kitType: { $eq: "-" },
+            $or: [{ deleted: true }, { kitType: { $eq: "-" } }],
           },
         },
         {
