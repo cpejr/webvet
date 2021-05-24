@@ -5,9 +5,11 @@ const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
 const User = require("../models/user");
 const Kit = require("../models/kit");
+const Toxin = require("../models/toxin");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+  const toxins = await Toxin.getAll();
   const { user } = req.session;
   res.render("requisition/newrequisition", {
     title: "Requisition",
@@ -16,7 +18,7 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
     isFromLab: user.type === "Admin" || user.type === "Analista" ? true : false,
     allStates,
     allDestinations,
-    ToxinasAll,
+    toxins,
     ...req.session,
   });
 });
@@ -155,9 +157,9 @@ router.post(
           const {
             name,
             citrus,
-            receivedquantity,
+            receivedQuantity,
             packingtype,
-            samplenumber,
+            sampleNumber,
             limitDate,
           } = sampleInfo;
 
@@ -167,11 +169,11 @@ router.post(
             requisitionId,
             responsible: requisition.responsible,
             isCitrus: citrus ? true : false,
-            receivedquantity,
+            receivedQuantity,
             packingtype,
             creationYear: requisition.specialYear,
             isSpecial: true,
-            samplenumber,
+            sampleNumber,
             limitDate,
             specialFinalized: true,
           };
@@ -406,7 +408,7 @@ router.post(
         sampletype,
         approved,
         isCitrus,
-        receivedquantity,
+        receivedQuantity,
         packingtype,
       } = sample;
 
@@ -418,7 +420,7 @@ router.post(
           sampletype,
           approved,
           isCitrus,
-          receivedquantity,
+          receivedQuantity,
           packingtype,
         })
       );

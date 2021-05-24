@@ -75,7 +75,7 @@ const sampleSchema = new mongoose.Schema(
       type: Number,
       default: yyyy,
     },
-    samplenumber: Number,
+    sampleNumber: Number,
 
     requisitionId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -85,7 +85,7 @@ const sampleSchema = new mongoose.Schema(
     sampletype: String,
 
     //Quantidade recebida
-    receivedquantity: Number,
+    receivedQuantity: Number,
 
     //Tipo de embalagem
     packingtype: String,
@@ -149,10 +149,10 @@ const Sample = {
     return result;
   },
 
-  getMaxSampleNumber() {
+  getMaxsampleNumber() {
     return new Promise((resolve, reject) => {
-      SampleModel.find({}, { samplenumber: 1, _id: 0 })
-        .sort({ samplenumber: -1 })
+      SampleModel.find({}, { sampleNumber: 1, _id: 0 })
+        .sort({ sampleNumber: -1 })
         .limit(1)
         .populate("sample")
         .exec()
@@ -186,9 +186,9 @@ const Sample = {
     return response;
   },
 
-  updateBySampleNumber(samplenumber, sample) {
+  updateBysampleNumber(sampleNumber, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOneAndUpdate({ samplenumber: samplenumber }, sample)
+      SampleModel.findOneAndUpdate({ sampleNumber: sampleNumber }, sample)
         .then((res) => {
           resolve(res);
         })
@@ -612,7 +612,7 @@ const Sample = {
     let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
-      select: "requisitionnumber user createdAt _id",
+      select: "requisitionNumber user createdAt _id",
     });
     return result;
   },
@@ -622,7 +622,7 @@ const Sample = {
     const result = await SampleModel.find(query)
       .populate({
         path: "requisitionId",
-        select: "requisitionnumber user createdAt _id",
+        select: "requisitionNumber user createdAt _id",
       })
       .skip((page - 1) * REPORTS_PER_PAGE)
       .limit(REPORTS_PER_PAGE)
@@ -639,7 +639,7 @@ const Sample = {
   async getRelatedEmails(id) {
     const result = await SampleModel.findById(
       id,
-      "requisitionId samplenumber createdAt"
+      "requisitionId sampleNumber createdAt"
     ).populate({
       path: "requisitionId",
       select: "user _id",
@@ -651,11 +651,11 @@ const Sample = {
 
   async create(sample) {
     try {
-      let samplenumber = await Counter.getSampleCount();
-      sample.samplenumber = samplenumber;
+      let sampleNumber = await Counter.getSampleCount();
+      sample.sampleNumber = sampleNumber;
       const result = await SampleModel.create(sample);
-      samplenumber++;
-      await Counter.setSampleCount(samplenumber);
+      sampleNumber++;
+      await Counter.setSampleCount(sampleNumber);
       return result;
     } catch (error) {
       console.warn(error);
@@ -666,14 +666,14 @@ const Sample = {
   async createMany(samples) {
     let manySamples = [];
     try {
-      let samplenumber = await Counter.getSampleCount();
+      let sampleNumber = await Counter.getSampleCount();
       samples.forEach((sample) => {
-        sample.samplenumber = samplenumber;
+        sample.sampleNumber = sampleNumber;
         manySamples.push(sample);
-        samplenumber++;
+        sampleNumber++;
       });
       const result = await SampleModel.create(manySamples);
-      await Counter.setSampleCount(samplenumber);
+      await Counter.setSampleCount(sampleNumber);
       return result;
     } catch (error) {
       console.warn(error);

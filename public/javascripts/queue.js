@@ -358,7 +358,7 @@ $('div[class="loteradio"]').each(function (index, group) {
 
                     let element = {
                       id: sample._id,
-                      title: "Amostra " + sample.samplenumber,
+                      title: "Amostra " + sample.sampleNumber,
                       analyst: sample.responsible,
                       status: sample[toxina].status,
                       approved: sample.approved,

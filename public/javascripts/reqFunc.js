@@ -106,7 +106,7 @@ $("#adminUser").on("change", async function (event) {
   const userData = await $.get(`/users/byid/${target}`);
 
   findAndUpdateValue("#fullname", userData.fullname);
-  findAndUpdateValue("#register", userData.register);
+  findAndUpdateValue("#cpfCnpj", userData.cpfCnpj);
   findAndUpdateValue("#IE", userData.address ? userData.address.ie : undefined);
   findAndUpdateValue(
     "#street",

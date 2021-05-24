@@ -40,7 +40,7 @@ const analysisSchema = new mongoose.Schema(
     producerName: String,
 
     // Controle interno do solicitante
-    autorizationnumber: String,
+    autorizationNumber: String,
     destination: String,
     state: String,
     city: String,
@@ -69,8 +69,8 @@ const requisitionSchema = new mongoose.Schema(
     //     ref: "Sample",
     //   },
     // ],
-    requisitionnumber: Number,
 
+    requisitionNumber: Number,
     // Comentário das amostras
     comment: String,
 
@@ -240,11 +240,11 @@ const Requisition = {
    */
   async create(requisition) {
     try {
-      let requisitionnumber = await Counter.getRequisitionCount();
-      requisition.requisitionnumber = requisitionnumber;
+      let requisitionNumber = await Counter.getRequisitionCount();
+      requisition.requisitionNumber = requisitionNumber;
       const result = await RequisitionModel.create(requisition);
-      requisitionnumber++;
-      Counter.setRequisitionCount(requisitionnumber);
+      requisitionNumber++;
+      Counter.setRequisitionCount(requisitionNumber);
       return result;
     } catch (error) {
       console.warn(error);
@@ -254,7 +254,7 @@ const Requisition = {
 
   async createSpecial(requisition) {
     try {
-      requisition.requisitionnumber = 0;
+      requisition.requisitionNumber = 0;
       const result = await RequisitionModel.create(requisition);
       return result;
     } catch (error) {

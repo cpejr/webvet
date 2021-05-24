@@ -8,8 +8,8 @@ const Sample = require("../../models/sample");
 const Workmap = require("../../models/Workmap");
 
 router.get("/", auth.isAuthenticated, async function (req, res) {
-  async function calcular(toxinafull, toxinasigla) {
-    let kit = await Kit.getActive(toxinasigla);
+  async function calcular(toxinafull, toxinId) {
+    let kit = await Kit.getActive(toxinId); //Vai ter que mudar, passa o Id da toxina.
     if (!kit) return undefined;
 
     let mapas = [];

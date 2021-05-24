@@ -31,21 +31,25 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     Counter.getEntireKitStocks(),
   ];
 
-  const [resultActiveKits, resultDisabledKits, sumAmounts, kitStocks] =
+  const [resultActiveKits, resultDisabledKits, reqSumAmounts, kitStocks] =
     await Promise.all(promises);
 
-  sumAmounts.forEach((sum, index) => {
+  reqSumAmounts.forEach((sum, index) => {
     let stockIndex = kitStocks.findIndex(
       (element) => element.sigle === sum._id
     );
     let indKit = kitStocks[stockIndex];
-    sumAmounts[index] = {
+    reqSumAmounts[index] = {
       ...sum,
       auxId: indKit._id,
       minStock: indKit.minStock,
       name: indKit.name,
     };
   });
+
+  const sumAmounts = reqSumAmounts.sort((a, b) => 
+    (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
+  )
 
   let number_of_pages = 0;
   if (resultDisabledKits.length > 0) {
@@ -61,7 +65,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   let activeKits = resultActiveKits.map((kit) => processKit(kit));
   activeKits = activeKits.sort(dynamicSort("kitType"));
 
-  let disabledKits = {};
+  let disabledKits = [];
   if (resultDisabledKits.length > 0) {
     disabledKits = resultDisabledKits[0].kits.map((kit) => processKit(kit));
   }
@@ -124,7 +128,6 @@ router.get("/edit/:id", auth.isAuthenticated, function (req, res) {
       kit.time = `${exp.getFullYear()}-${setTwoCharacters(
         exp.getMonth().toString()
       )}-${setTwoCharacters(exp.getDate().toString())}`;
-      console.log(kit.provider);
       res.render("stock/edit", {
         title: "Edit Kit",
         layout: "layoutDashboard.hbs",
