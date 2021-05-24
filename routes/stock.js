@@ -41,6 +41,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     let indKit = kitStocks[stockIndex];
     sumAmounts[index] = {
       ...sum,
+      auxId: indKit._id,
       minStock: indKit.minStock,
       name: indKit.name,
     };
@@ -99,13 +100,11 @@ router.get("/archived", async (req, res) => {
 
 router.post("/setstock", auth.isAuthenticated, async function (req, res) {
   try {
-    const toxins = await Toxin.getAll();
-    let params = req.body;
+    const obj = req.body;
     let kitstocks = [];
-    toxins.forEach((toxin) => {
-      kitstocks.push({ _id: toxin._id, minStock: params[toxin.name] });
+    Object.keys(obj).forEach((toxinId) => {
+      obj[toxinId] !== '' && kitstocks.push({ _id: toxinId, minStock: obj[toxinId] });
     });
-    console.log(kitstocks);
     await Counter.setKitStocks(kitstocks);
     res.redirect("/stock");
   } catch (err) {

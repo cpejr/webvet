@@ -90,7 +90,7 @@ const kitSchema = new mongoose.Schema({
     required: true,
   },
 
-  toxinIndex: {
+  workmapIndex: {
     type: Number,
     default: 0,
   },
@@ -404,34 +404,38 @@ const KitActions = {
       const result = await KitModel.aggregate([
         {
           $match: {
-            deleted: {$ne: true},
-            kitType: {$ne: '-'}
-          }
-        }, {
+            deleted: { $ne: true },
+            kitType: { $ne: "-" },
+          },
+        },
+        {
           $lookup: {
-            from: 'toxins', 
-            localField: 'toxinId', 
-            foreignField: '_id', 
-            as: 'toxin'
-          }
-        }, {
+            from: "toxins",
+            localField: "toxinId",
+            foreignField: "_id",
+            as: "toxin",
+          },
+        },
+        {
           $unwind: {
-            path: '$toxin'
-          }
-        }, {
+            path: "$toxin",
+          },
+        },
+        {
           $project: {
-            toxin: 1, 
-            kitType: 1, 
-            amount: 1
-          }
-        }, {
+            toxin: 1,
+            kitType: 1,
+            amount: 1,
+          },
+        },
+        {
           $group: {
-            _id: '$toxin.sigle', 
+            _id: "$toxin.sigle",
             count: {
-              $sum: '$amount'
-            }
-          }
-        }
+              $sum: "$amount",
+            },
+          },
+        },
       ]);
       return result;
     } catch (err) {
@@ -448,7 +452,7 @@ const KitActions = {
       const result = KitModel.aggregate([
         {
           $match: {
-            kitType: { $eq: "-" },
+            $or: [{ deleted: true }, { kitType: { $eq: "-" } }],
           },
         },
         {

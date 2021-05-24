@@ -212,58 +212,41 @@ class Counter {
     }
   }
 
-  static setKitStocks(newKitStocks) {
-    function clearStocks(kitstocks, counter) {
-      for (let i = 0; i < kitstocks.length; i++) {
-        let actualMinStock = kitstocks[i].minStock;
-        let actualName = kitstocks[i].name;
-        let curresIndex = counter.kitStocks.findIndex(
-          (element) => element.name === actualName
+  static async setKitStocks(newKitStocks) {
+    let promiseVector = [];
+    try {
+      newKitStocks.forEach((kitstock) => {
+        promiseVector.push(
+          new Promise((resolve, reject) => {
+            CounterModel.findOneAndUpdate(
+              {},
+              {
+                "kitStocks.$[kitStock].minStock": kitstock.minStock,
+              },
+              { arrayFilters: [{ "kitStock._id": kitstock._id }] }
+            )
+              .then((result) => {
+                resolve(result);
+              })
+              .catch((err) => {
+                console.log(
+                  "🚀 ~ file: counter.js ~ line 250 ~ Counter ~ .then ~ err",
+                  err
+                );
+                reject(err);
+              });
+          })
         );
-        if (actualMinStock === "") {
-          let currentKit = counter.kitStocks[curresIndex];
-          kitstocks[i].minStock = currentKit.minStock;
-        }
-      }
-      return kitstocks;
+      });
+      const result = await Promise.all(promiseVector);
+      return result;
+    } catch (err) {
+      console.log(
+        "🚀 ~ file: counter.js ~ line 236 ~ Counter ~ setKitStocks ~ err",
+        err
+      );
+      return err;
     }
-
-    return new Promise(async (resolve, reject) => {
-      CounterModel.findOne({})
-        .then((counter) => {
-          if (counter === null) {
-            //Counter doesn't exist in DB.
-            this.create().then((newCounter) => {
-              let updatedKitStocks = clearStocks(newKitStocks, newCounter);
-              newCounter.kitStocks = updatedKitStocks;
-              newCounter.save();
-
-              resolve(newCounter);
-            });
-          } else if (counter.kitStocks === undefined) {
-            //Counter exists in DB but doesn't have kitStock array.
-            let nullKits = [];
-            for (let j = 0; j < ToxinasFull; j++) {
-              nullKits.push({ name: ToxinasFull[j], minStock: 0 });
-            }
-            let fakeCounter = [];
-            fakeCounter[kitstocks] = nullKits;
-            let fakedKitStocks = clearStocks(newKitStocks, fakeCounter);
-
-            counter.kitStocks = fakedKitStocks;
-            counter.save();
-          } else {
-            //Counter exists in DB and has a valid KitStock array.
-            let clearedKitStocks = clearStocks(newKitStocks, counter);
-            counter.kitStocks = clearedKitStocks;
-            counter.save();
-          }
-          resolve(counter);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
   }
 
   static getSpecificKitStock(name) {
@@ -291,24 +274,29 @@ class Counter {
 
   static async getEntireKitStocks() {
     try {
-      const pipeline = await CounterModel.aggregate([{
-        $project: {
-            kitStocks: 1
-        }
-      }, {
-        $lookup: {
-            from: 'toxins',
-            localField: 'kitStocks.toxinId',
-            foreignField: '_id',
-            as: 'toxins'
-        }
-      }]);
+      const pipeline = await CounterModel.aggregate([
+        {
+          $project: {
+            kitStocks: 1,
+          },
+        },
+        {
+          $lookup: {
+            from: "toxins",
+            localField: "kitStocks.toxinId",
+            foreignField: "_id",
+            as: "toxins",
+          },
+        },
+      ]);
       if (pipeline.length === 0) {
         await this.createDefault();
         const newResult = await this.getEntireKitStocks();
         return newResult;
       } else {
-        const result = pipeline[0].kitStocks.map((element, index) => {return {...element, ...pipeline[0].toxins[index]}});
+        const result = pipeline[0].kitStocks.map((element, index) => {
+          return { ...pipeline[0].toxins[index], ...element };
+        });
         return result;
       }
     } catch (err) {
