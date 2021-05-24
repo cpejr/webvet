@@ -18,8 +18,8 @@ const workmapSchema = new mongoose.Schema({
     },
   ],
 
-  isDeleted: {
-    type: Boolean, //1 for deleted, 0 for not deleted
+  wasUsed: {
+    type: Boolean, //Marca se o workmap já foi consumido
     default: false,
   },
 
@@ -88,11 +88,6 @@ const kitSchema = new mongoose.Schema({
     type: String,
     enum: ["A", "B", "C", "D", "E", "F", "-"],
     required: true,
-  },
-
-  workmapIndex: {
-    type: Number,
-    default: 0,
   },
 
   workmaps: [workmapSchema],
@@ -451,8 +446,19 @@ const KitActions = {
     try {
       const result = KitModel.aggregate([
         {
-          $match: {
-            $or: [{ deleted: true }, { kitType: { $eq: "-" } }],
+          $match: { kitType: { $eq: "-" } },
+        },
+        {
+          $lookup: {
+            from: "toxins",
+            localField: "toxinId",
+            foreignField: "_id",
+            as: "toxin",
+          },
+        },
+        {
+          $unwind: {
+            path: "$toxin",
           },
         },
         {
