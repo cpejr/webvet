@@ -612,7 +612,7 @@ const Sample = {
     let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
-      select: "requisitionnumber user createdAt _id",
+      select: "requisitionNumber user createdAt _id",
     });
     return result;
   },
@@ -622,7 +622,7 @@ const Sample = {
     const result = await SampleModel.find(query)
       .populate({
         path: "requisitionId",
-        select: "requisitionnumber user createdAt _id",
+        select: "requisitionNumber user createdAt _id",
       })
       .skip((page - 1) * REPORTS_PER_PAGE)
       .limit(REPORTS_PER_PAGE)
