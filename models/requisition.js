@@ -2,9 +2,13 @@ const mongoose = require("mongoose");
 const Counter = require("./counter");
 const Sample = require("./sample");
 
-
 const chargeSchema = new mongoose.Schema(
   {
+    // Usuário associado a requisição
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     fullname: String,
     cpfCnpj: String,
     street: String,
@@ -17,7 +21,7 @@ const chargeSchema = new mongoose.Schema(
     state: String,
     cep: String,
   },
-  { timestamps: true, strict: false }
+  { timestamps: false, strict: false }
 );
 
 const contactSchema = new mongoose.Schema(
@@ -28,12 +32,12 @@ const contactSchema = new mongoose.Schema(
     phone: String,
     cellphone: String,
   },
-  { timestamps: true, strict: false }
+  { timestamps: false, strict: false }
 );
 
-const analisysSchema = new mongoose.Schema(
+const analysisSchema = new mongoose.Schema(
   {
-    producer: String,
+    producerName: String,
 
     // Controle interno do solicitante
     autorizationnumber: String,
@@ -44,35 +48,33 @@ const analisysSchema = new mongoose.Schema(
     receiptDate: String,
     // Data de coleta pelo produtor
     collectionDate: String,
-    
+
     // Quantidade recebida no lab
     receivedQuantity: String,
   },
-  { timestamps: true, strict: false }
+  { timestamps: false, strict: false }
 );
 
 const requisitionSchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
     selectedToxins: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Toxin",
       },
     ],
-    samples: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Sample",
-      },
-    ],
+    // samples: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Sample",
+    //   },
+    // ],
     requisitionnumber: Number,
-    
+
     // Comentário das amostras
     comment: String,
+
+    approved: { type: Boolean, default: false },
 
     status: {
       type: String,
@@ -80,7 +82,8 @@ const requisitionSchema = new mongoose.Schema(
       default: "Nova",
       required: true,
     },
-    analisys: [analisysSchema],
+    analysis: analysisSchema,
+
     // Dados de cobrança
     charge: chargeSchema,
 
@@ -91,17 +94,17 @@ const requisitionSchema = new mongoose.Schema(
     special: {
       type: Boolean,
       default: false,
-    }, 
+    },
 
     //Numero da requisição especial, so aparece se for finalizada pelo painel especial.
     specialYear: {
       type: String,
-    }, 
+    },
 
     //Ano da requisição especial, so aparece se for finalizada pelo painel especial.
     specialNumber: {
       type: String,
-    }, 
+    },
   },
   { timestamps: true, strict: false }
 );
@@ -109,7 +112,6 @@ const requisitionSchema = new mongoose.Schema(
 const RequisitionModel = mongoose.model("Requisition", requisitionSchema);
 
 const Requisition = {
-  
   getAll() {
     return new Promise((resolve, reject) => {
       RequisitionModel.find({})
@@ -448,7 +450,6 @@ const Requisition = {
 
     return result;
   },
- 
 
   async getAnimalData(filters) {
     const extraOperations = [];
