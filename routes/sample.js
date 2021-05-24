@@ -76,7 +76,9 @@ router.post("/updatestatus/:status/:mycotoxin/:sampleId", async (req, res) => {
   }
 });
 
-router.post("/setActiveKit/:toxinafull/:kitActiveID", function (req, res) {
+router.post("/setActiveKit/:toxinafull/:kitActiveID", function (req, res) { 
+  //Vai dar erro. Náo use mais Kit.getActiveID é com Id da toxina agora
+  
   //Set active to inactive
   let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)];
   //Correção provisória do problema com a sigla

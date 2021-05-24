@@ -127,7 +127,6 @@ router.get("/edit/:id", auth.isAuthenticated, function (req, res) {
       kit.time = `${exp.getFullYear()}-${setTwoCharacters(
         exp.getMonth().toString()
       )}-${setTwoCharacters(exp.getDate().toString())}`;
-      console.log(kit.provider);
       res.render("stock/edit", {
         title: "Edit Kit",
         layout: "layoutDashboard.hbs",
