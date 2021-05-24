@@ -577,6 +577,24 @@ const KitActions = {
       return err;
     }
   },
+
+  findByFields(fields) {
+    return KitModel.find(fields);
+  },
+
+  setActive(toxinId, kitType) {
+    return Promise.all([
+      KitModel.updateMany(
+        { toxinId, active: true, kitType: { $ne: kitType } },
+        { $set: { active: false } }
+      ),
+      KitModel.updateOne(
+        { toxinId, kitType, active: false, deleted: false },
+        { $set: { active: true } }
+      ),
+    ]);
+  },
+
 };
 
 module.exports = KitActions;

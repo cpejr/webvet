@@ -50,7 +50,7 @@ function createAnalysisKanban(toxinId) {
         owner === "false" &&
         !Wormapskanbans[toxinId].findElement(sampleId)
       )
-        Wormapskanbans[toxinId].addElement("_scndTesting", {
+        Wormapskanbans[toxinId].addElement("Em análise", {
           ...el,
         });
 
@@ -69,7 +69,7 @@ function createWorkmapKanban(toxinId) {
     dragBoards: false,
     boards: [
       {
-        id: "_scndTesting",
+        id: "Em análise",
         title: "Em análise",
         class: "info",
       },
@@ -77,29 +77,13 @@ function createWorkmapKanban(toxinId) {
     dropEl: function (el, target, source, sibling) {
       const sampleId = el.dataset.eid;
 
-      if (target == "_scndTesting") {
+      if (target == "Em análise") {
         if (el.dataset.calibrator) {
           //cards P não se movem para em analise
           return false;
         } else {
           $.post(`/sample/scndTesting/edit/${toxinaFull}/${sampleId}`);
-
-          let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Em análise</span>`;
-          badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
-
-          if (el.dataset.owner + "" === "true")
-            badges += `<span  class="badge badge-danger">Devedor</span>`;
-
-          if (el.dataset.approved == "false")
-            badges += `<span  class="badge badge-danger">Não aprovada</span>`;
-
-          if (el.dataset.iscitrus + "" == "true")
-            badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
-
-          if (el.dataset.limitdate)
-            badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
-
-          el.innerHTML = badges;
+          el.innerHTML = getElementHtml(el.dataset);
         }
       } else {
         if (el.dataset.calibrator)
@@ -107,23 +91,7 @@ function createWorkmapKanban(toxinId) {
           return false;
         else {
           $.post(`/sample/mapedit/${toxinaFull}/${sampleId}/${target}`);
-
-          let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Mapa de trabalho</span>`;
-          badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
-
-          if (el.dataset.owner + "" === "true")
-            badges += `<span  class="badge badge-danger">Devedor</span>`;
-
-          if (el.dataset.approved == "false")
-            badges += `<span  class="badge badge-danger">Não aprovada</span>`;
-
-          if (el.dataset.iscitrus == "true")
-            badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
-
-          if (el.dataset.limitdate)
-            badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
-
-          el.innerHTML = badges;
+          el.innerHTML = getElementHtml(el.dataset);
         }
       }
     },
@@ -170,27 +138,48 @@ $(function () {
     });
     populateAnalysisKanban();
   });
+
+  $('div[class="container-radio-kit-type"]').each((index, element) => {
+    let toxinId = $(element).data("toxin");
+    $(element)
+      .find("input.radio-queue")
+      .each(function (index, radio) {
+        // Add onChange para cada radio
+        $(radio).on("change", function (e, data) {
+          let kitType = $(this).val();
+          $.post(`/stock/toggleActive/${toxinId}/${kitType}`, (newActive) => {
+            console.log(
+              "🚀 ~ file: queue.js ~ line 153 ~ newActive",
+              newActive
+            );
+          });
+        });
+      });
+  });
 });
+
+function createSampleElement(sample) {
+  return {
+    id: sample._id,
+    title: `Amostra ${sample.samplenumber}`,
+    analyst: sample.name,
+    status: sample.analysis.status,
+    approved: sample.requisition.approved,
+    owner: sample.requisition.charge?.user?.debt,
+    iscitrus: sample.isCitrus,
+    limitDate: sample.limitDate,
+    analysis_id: sample.analysis._id,
+  };
+}
 
 //cria cedulas kanban
 function populateAnalysisKanban() {
   $.get("/search/getAllWithoutWorkmap", (response) => {
-    response.forEach((toxinData) => {
-      toxinData.samples.forEach((sample) => {
-        let element = {
-          id: sample._id,
-          title: `Amostra ${sample.samplenumber}`,
-          analyst: sample.name,
-          status: sample.analysis.status,
-          approved: sample.requisition.approved,
-          owner: sample.requisition.charge?.user?.debt,
-          iscitrus: sample.isCitrus,
-          limitDate: sample.limitDate,
-          analysis_id: sample.analysis._id,
-        };
-        addElementToAnalysis(toxinData._id, element);
-      });
-    });
+    response.forEach((toxinData) =>
+      toxinData.samples.forEach((sample) =>
+        addElementToAnalysis(toxinData._id, createSampleElement(sample))
+      )
+    );
   });
 }
 
@@ -306,7 +295,7 @@ $('div[class="loteradio"]').each(function (index, group) {
     .each(function (index, checkbox) {
       $(checkbox).change(function (e, data) {
         let letter = $(this).data("letter");
-        $.get(`/search/kits/${toxina}/${letter}`, (kits) => {
+        $.get(`/stock/${toxina}/${letter}`, (kits) => {
           let kit = kits[0];
           //if kit exists
           if (kit) {

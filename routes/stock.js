@@ -103,7 +103,8 @@ router.post("/setstock", auth.isAuthenticated, async function (req, res) {
     const obj = req.body;
     let kitstocks = [];
     Object.keys(obj).forEach((toxinId) => {
-      obj[toxinId] !== '' && kitstocks.push({ _id: toxinId, minStock: obj[toxinId] });
+      obj[toxinId] !== "" &&
+        kitstocks.push({ _id: toxinId, minStock: obj[toxinId] });
     });
     await Counter.setKitStocks(kitstocks);
     res.redirect("/stock");
@@ -200,6 +201,14 @@ router.post("/delete/:id", auth.isAuthenticated, function (req, res) {
       console.warn(error);
       res.redirect("/error");
     });
+});
+
+router.post("/toggleActive/:toxinId/:kitType", async function (req, res) {
+  const { toxinId, kitType } = req.params;
+  const [_, newActive] = await Kit.setActive(toxinId, kitType);
+  console.log("🚀 ~ file: stock.js ~ line 209 ~ newActive", newActive);
+
+  return res.send(newActive);
 });
 
 module.exports = router;
