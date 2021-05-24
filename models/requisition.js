@@ -40,7 +40,7 @@ const analysisSchema = new mongoose.Schema(
     producerName: String,
 
     // Controle interno do solicitante
-    autorizationnumber: String,
+    autorizationNumber: String,
     destination: String,
     state: String,
     city: String,

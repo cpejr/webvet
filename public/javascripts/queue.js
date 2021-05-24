@@ -179,7 +179,7 @@ function populateAnalysisKanban() {
       toxinData.samples.forEach((sample) => {
         let element = {
           id: sample._id,
-          title: `Amostra ${sample.samplenumber}`,
+          title: `Amostra ${sample.sampleNumber}`,
           analyst: sample.name,
           status: sample.analysis.status,
           approved: sample.requisition.approved,
@@ -369,7 +369,7 @@ $('div[class="loteradio"]').each(function (index, group) {
 
                     let element = {
                       id: sample._id,
-                      title: "Amostra " + sample.samplenumber,
+                      title: "Amostra " + sample.sampleNumber,
                       analyst: sample.responsible,
                       status: sample[toxina].status,
                       approved: sample.approved,

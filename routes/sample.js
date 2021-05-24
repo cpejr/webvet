@@ -17,10 +17,10 @@ router.get("/", auth.isAuthenticated, function (req, res) {
 
 router.post("/create", (req, res) => {
   const { sample } = req.body;
-  Sample.getMaxSampleNumber()
+  Sample.getMaxsampleNumber()
     .then((maxSample) => {
       sample = {
-        samplenumber: maxSample[0].samplenumber + 1,
+        sampleNumber: maxSample[0].sampleNumber + 1,
       };
 
       Sample.create(sample)
@@ -159,10 +159,10 @@ router.get("/edit/:sampleId", async (req, res) => {
 router.post("/save", (req, res) => {
   const { sample } = req.body;
   sample.isCitrus = sample.isCitrus ? true : false;
-  Sample.updateBySampleNumber(sample.samplenumber + "", sample)
+  Sample.updateBysampleNumber(sample.sampleNumber + "", sample)
     .then(() => {
       req.flash("success", "Amostra alterada");
-      res.redirect("/sample/edit/" + sample.samplenumber);
+      res.redirect("/sample/edit/" + sample.sampleNumber);
     })
     .catch((error) => {
       console.warn(error);

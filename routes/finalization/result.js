@@ -43,7 +43,7 @@ router.get("/", async function (req, res) {
           average:
             (sample[toxinafull].absorbance + sample[toxinafull].absorbance2) /
             2,
-          number: sample.samplenumber,
+          number: sample.sampleNumber,
           changed_workmap:
             j != 0 &&
             samples[j - 1][toxinafull].workmapId !=

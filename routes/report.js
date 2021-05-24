@@ -14,11 +14,11 @@ function round(value, decimalPlaces) {
 
 router.get("/", auth.isAuthenticated, function (req, res) {
   Requisition.getAll().then((requisitions) => {
-    var user = req.session.user.register;
+    var user = req.session.user.cpfCnpj;
     var logados = new Array();
     var countlogados = 0;
     for (var i = 0; i < requisitions.length; i++) {
-      if (requisitions[i].user.register == user) {
+      if (requisitions[i].user.cpfCnpj == user) {
         logados[countlogados] = requisitions[i];
         countlogados++;
       } else {
@@ -48,9 +48,9 @@ router.get("/show/:id", auth.isAuthenticated, async function (req, res) {
       producer: requisition.producer,
       clientName: requisition.client.fullname,
       packingtype: requisition.packingtype,
-      receivedquantity: requisition.receivedquantity,
+      receivedQuantity: requisition.receivedQuantity,
       datereceipt: requisition.datereceipt,
-      autorizationnumber: requisition.autorizationnumber,
+      autorizationNumber: requisition.autorizationNumber,
       responsible: requisition.responsible,
     };
 
@@ -110,9 +110,9 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       producer: requisition.producer,
       clientName: requisition.client.fullname,
       packingtype: requisition.packingtype,
-      receivedquantity: requisition.receivedquantity,
+      receivedQuantity: requisition.receivedQuantity,
       datereceipt: requisition.datereceipt,
-      autorizationnumber: requisition.autorizationnumber,
+      autorizationNumber: requisition.autorizationNumber,
       responsible: requisition.responsible,
     };
 
@@ -247,9 +247,9 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
       const sampleData = await Sample.getRelatedEmails(sampleId);
 
       // console.log(sampleData);
-      const { createdAt, samplenumber, requisitionId } = sampleData;
+      const { createdAt, sampleNumber, requisitionId } = sampleData;
       const { email, fullname } = requisitionId.user;
-      const sampleCode = `${samplenumber}/${createdAt.getFullYear()}`;
+      const sampleCode = `${sampleNumber}/${createdAt.getFullYear()}`;
       Email.reportEmail(email, fullname, sampleCode);
     }
   } catch (error) {

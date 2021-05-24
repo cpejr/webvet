@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     uid: {
       type: String,
     },
-    register: {
+    cpfCnpj: {
       type: String, // CPF ou CNPJ
       // unique: true
     },
