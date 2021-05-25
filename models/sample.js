@@ -541,12 +541,12 @@ const Sample = {
   // Sem Workmap
   // Sem ser especiais
   // Agrupar por toxina
-  async getAllWithoutWorkmap() {
+  async getAllWithoutFinalization() {
 
     return await SampleModel.aggregate([
       {
         $match: {
-          "analysis.wormapId": null,
+          "analysis.wasDetected": null,
         },
       },
       {

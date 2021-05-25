@@ -69,8 +69,8 @@ router.get("/samplesActive", auth.isAuthenticated, (req, res) => {
     });
 });
 
-router.get("/getAllWithoutWorkmap", auth.isAuthenticated, async (req, res) => {
-  const data = await Sample.getAllWithoutWorkmap();
+router.get("/getAllWithoutFinalization", auth.isAuthenticated, async (req, res) => {
+  const data = await Sample.getAllWithoutFinalization();
   res.send(data);
 });
 

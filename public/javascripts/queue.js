@@ -169,7 +169,7 @@ function populateWorkmapsKanbans(activeKit, toxinId) {
 
     const currentKanban = Workmapskanbans[activeKit.toxinId];
 
-    currentKanban.removeAllBoards();
+    currentKanban.removeAllBoards("Em análise");
     const boards = [];
 
     activeKit.workmaps.forEach((workmap, index) => {
@@ -193,12 +193,6 @@ function populateWorkmapsKanbans(activeKit, toxinId) {
     });
 
     if (boards.length > 0) {
-      // Add analysis board
-      boards.unshift({
-        id: "Em análise",
-        title: "Em análise",
-        class: "info",
-      });
       currentKanban.addBoards(boards);
 
       // Add calibradores
@@ -228,7 +222,7 @@ function createSampleElement(sample) {
 
 //cria cedulas kanban
 function populateAnalysisKanban() {
-  $.get("/search/getAllWithoutWorkmap", (response) => {
+  $.get("/search/getAllWithoutFinalization", (response) => {
     response.forEach((toxinData) =>
       toxinData.samples.forEach((sample) =>
         addElementToAnalysis(toxinData._id, createSampleElement(sample))
