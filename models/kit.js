@@ -90,6 +90,11 @@ const kitSchema = new mongoose.Schema({
     required: true,
   },
 
+  workmapIndex: {
+    type: Number,
+    default: 0,
+  },
+
   workmaps: [workmapSchema],
 });
 
@@ -164,7 +169,6 @@ const KitActions = {
   },
 
   async update(id, kit) {
-    //Vai dar erro no calibration e no absorbances, tem que mudar.
     try {
       const result = await KitModel.findByIdAndUpdate(id, kit);
       return result;
@@ -175,7 +179,6 @@ const KitActions = {
   },
 
   async addMycotoxin(id, mycotoxin) {
-    //Vai dar erro no report, tem que mudar.
     try {
       const result = await KitModel.findByIdAndUpdate(id, {
         $push: { mycotoxins: mycotoxin },
@@ -189,7 +192,7 @@ const KitActions = {
 
   async delete(id) {
     try {
-      const result = await KitModel.findByIdAndUpdate(id, { deleted: false });
+      const result = await KitModel.findByIdAndUpdate(id, { deleted: 1 });
       return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 198 ~ delete ~ err", err);
@@ -197,23 +200,33 @@ const KitActions = {
     }
   },
 
-  async getActive(toxinId) {
+  async addWorkmap(id, workmap) {
     try {
-      const result = await KitModel.findOne({
-        active: true,
-        toxinId,
-        deleted: { $ne: true },
-        kitType: { $ne: "-" },
+      const result = await KitModel.findByIdAndUpdate(id, {
+        $push: { mapArray: workmap },
       });
       return result;
     } catch (err) {
-      console.warn("🚀 ~ file: kit.js ~ line 238 ~ getActive ~ err", err);
+      console.warn("🚀 ~ file: kit.js ~ line 183 ~ addWorkmap ~ err", err);
+      return err;
+    }
+  },
+
+  async getActiveID(sigla) {
+    try {
+      if (sigla === "FBS") sigla = "FUMO";
+      const result = await KitModel.findOne(
+        { active: true, productCode: sigla + " Romer" },
+        { active: 1 }
+      );
+      return result;
+    } catch (err) {
+      console.warn("🚀 ~ file: kit.js ~ line 224 ~ getActiveID ~ err", err);
       return err;
     }
   },
 
   async getAllLastActiveWithSamples() {
-    //Passei o olho mas náo testei. Pode ser que tenha que mudar algo.
     try {
       const result = await KitModel.aggregate([
         {
@@ -224,7 +237,7 @@ const KitActions = {
         {
           $project: {
             calibrators: true,
-            kitType: true,
+            productCode: true,
           },
         },
         {
@@ -243,14 +256,14 @@ const KitActions = {
         {
           $project: {
             calibrators: true,
-            kitType: true,
+            productCode: true,
             finalizationCount: { $arrayElemAt: ["$counter", 0] },
           },
         },
         {
           $project: {
             calibrators: true,
-            kitType: true,
+            productCode: true,
             finalizationCount: "$finalizationCount.finalizationCount",
           },
         },
@@ -258,7 +271,7 @@ const KitActions = {
           $lookup: {
             from: "workmaps",
             let: {
-              kitType: "$kitType",
+              productCode: "$productCode",
               finalizationCount: "$finalizationCount",
             },
             pipeline: [
@@ -267,7 +280,7 @@ const KitActions = {
                   $expr: {
                     $and: [
                       { $eq: ["$finalizationNumber", "$$finalizationCount"] },
-                      { $eq: ["$kitType", "$$kitType"] },
+                      { $eq: ["$productCode", "$$productCode"] },
                     ],
                   },
                 },
@@ -291,7 +304,7 @@ const KitActions = {
         },
         {
           $project: {
-            kitType: true,
+            productCode: true,
             calibrators: true,
             samples: true,
           },
@@ -309,11 +322,7 @@ const KitActions = {
 
   async getAllActive() {
     try {
-      const result = await KitModel.find({
-        active: true,
-        deleted: { $ne: true },
-        kitType: { $ne: "-" },
-      });
+      const result = await KitModel.find({ active: true });
       return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 342 ~ getAllActive ~ err", err);
@@ -324,7 +333,7 @@ const KitActions = {
   getAllForStock() {
     try {
       const result = KitModel.find({
-        kitType: { $ne: "-" },
+        kitType: { $not: { $eq: "-" } },
       }).populate("toxin");
       return result;
     } catch (err) {
@@ -428,19 +437,8 @@ const KitActions = {
     try {
       const result = KitModel.aggregate([
         {
-          $match: { kitType: { $eq: "-" } },
-        },
-        {
-          $lookup: {
-            from: "toxins",
-            localField: "toxinId",
-            foreignField: "_id",
-            as: "toxin",
-          },
-        },
-        {
-          $unwind: {
-            path: "$toxin",
+          $match: {
+            $or: [{ deleted: true }, { kitType: { $eq: "-" } }],
           },
         },
         {
@@ -554,7 +552,7 @@ const KitActions = {
       const result = await KitModel.find({
         toxinId,
         kitType,
-        deleted: { $ne: true },
+        isDeleted: false,
       });
       return result.length > 0;
     } catch (err) {
@@ -582,7 +580,9 @@ const KitActions = {
       ),
     ]);
   },
-
+  getActiveWithSamples(toxinId) {
+    return KitModel.findOne({ toxinId, active: true }).populate("workmaps.samples");
+  },
 };
 
 module.exports = KitActions;

@@ -40,7 +40,7 @@ function createAnalysisKanban(toxinId) {
 
       // Saiu do em análise
       if (sourceName === "Em análise")
-        Wormapskanbans[toxinId].removeElement(sampleId);
+        Workmapskanbans[toxinId].removeElement(sampleId);
 
       // Entrou no em análige
       //Se está a provada, o usuário não é devedor e já não estiver lá
@@ -48,9 +48,9 @@ function createAnalysisKanban(toxinId) {
         target === "Em análise" &&
         approved === "true" &&
         owner === "false" &&
-        !Wormapskanbans[toxinId].findElement(sampleId)
+        !Workmapskanbans[toxinId].findElement(sampleId)
       )
-        Wormapskanbans[toxinId].addElement("Em análise", {
+        Workmapskanbans[toxinId].addElement("Em análise", {
           ...el,
         });
 
@@ -126,19 +126,27 @@ function getElementHtml({
 }
 
 let Analysiskanbans = {};
-let Wormapskanbans = {};
+let Workmapskanbans = {};
 
 let nowActiveKits = {};
 
 $(function () {
   $.get("/toxins", (response) => {
     response.forEach((toxin) => {
-      Wormapskanbans[toxin._id] = createWorkmapKanban(toxin._id);
+      Workmapskanbans[toxin._id] = createWorkmapKanban(toxin._id);
       Analysiskanbans[toxin._id] = createAnalysisKanban(toxin._id);
     });
     populateAnalysisKanban();
   });
 
+  //First load for workmaps kanbans
+  $.get("/stock/getAllActive", (response) => {
+    response.forEach((activeKit) =>
+      populateWorkmapsKanbans(activeKit, activeKit.toxinId)
+    );
+  });
+
+  //Add events
   $('div[class="container-radio-kit-type"]').each((index, element) => {
     let toxinId = $(element).data("toxin");
     $(element)
@@ -147,16 +155,62 @@ $(function () {
         // Add onChange para cada radio
         $(radio).on("change", function (e, data) {
           let kitType = $(this).val();
-          $.post(`/stock/toggleActive/${toxinId}/${kitType}`, (newActive) => {
-            console.log(
-              "🚀 ~ file: queue.js ~ line 153 ~ newActive",
-              newActive
-            );
-          });
+          $.post(`/stock/toggleActive/${toxinId}/${kitType}`, (newActive) =>
+            populateWorkmapsKanbans(newActive, toxinId)
+          );
         });
       });
   });
 });
+
+function populateWorkmapsKanbans(activeKit, toxinId) {
+  if (activeKit) {
+    $(`#hide${toxinId}`).removeClass("form-disabled");
+
+    const currentKanban = Workmapskanbans[activeKit.toxinId];
+
+    currentKanban.removeAllBoards();
+    const boards = [];
+
+    activeKit.workmaps.forEach((workmap, index) => {
+      if (!workmap.wasUsed) {
+        // Generate items
+        const items = [];
+
+        // Add samples
+        workmap.samples.forEach((sample) => {
+          items.push(createSampleElement(sample));
+        });
+
+        // Generate boards
+        boards.push({
+          id: workmap._id,
+          title: `Mapa de trabalho ${index + 1}`,
+          class: "info",
+          item: items,
+        });
+      }
+    });
+
+    if (boards.length > 0) {
+      // Add analysis board
+      boards.unshift({
+        id: "Em análise",
+        title: "Em análise",
+        class: "info",
+      });
+      currentKanban.addBoards(boards);
+
+      // Add calibradores
+      for (let i = 1; i <= 5; i++)
+        currentKanban.addFixedElement(boards[1].id, {
+          id: `P${i}`,
+          title: `P${i}`,
+          calibrator: true,
+        });
+    }
+  } else $(`#hide${toxinId}`).addClass("form-disabled");
+}
 
 function createSampleElement(sample) {
   return {
@@ -314,12 +368,12 @@ $('div[class="loteradio"]').each(function (index, group) {
               i <= workmapsEnd;
               i++ //the map 0 was defined before
             )
-              Wormapskanbans[toxina].removeAllBoards("_scndTesting");
+              Workmapskanbans[toxina].removeAllBoards("_scndTesting");
 
             //Add boards
             for (let i = begin; i < kit.stripLength; i++) {
               //the map 0 was defined before
-              Wormapskanbans[toxina].addBoards([
+              Workmapskanbans[toxina].addBoards([
                 {
                   id: kit.mapArray[i],
                   title: "Mapa de trabalho" + " " + (i + 1),
@@ -332,12 +386,12 @@ $('div[class="loteradio"]').each(function (index, group) {
             if (begin != kit.stripLength) {
               //ADD and DelETE calibradores
               for (let i = 1; i <= 5; i++) {
-                Wormapskanbans[toxina].removeElement("P" + i);
-                Wormapskanbans[toxina].addFixedElement(kit.mapArray[begin], {
+                Workmapskanbans[toxina].removeElement("P" + i);
+                Workmapskanbans[toxina].addFixedElement(kit.mapArray[begin], {
                   id: "P" + i,
                   title: "P" + i,
                   calibrator: true,
-                  click: () => {},
+                  class: ["not-draggable"],
                 });
               }
 
@@ -374,7 +428,7 @@ $('div[class="loteradio"]').each(function (index, group) {
                       element.owner = sampleAnalysis.dataset.owner;
                     else element.owner = "false";
 
-                    Wormapskanbans[toxina].addElement(
+                    Workmapskanbans[toxina].addElement(
                       sample[toxina].workmapId,
                       element
                     );

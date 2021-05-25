@@ -47,9 +47,9 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     };
   });
 
-  const sumAmounts = reqSumAmounts.sort((a, b) => 
-    (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
-  )
+  const sumAmounts = reqSumAmounts.sort((a, b) =>
+    a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+  );
 
   let number_of_pages = 0;
   if (resultDisabledKits.length > 0) {
@@ -208,10 +208,13 @@ router.post("/delete/:id", auth.isAuthenticated, function (req, res) {
 
 router.post("/toggleActive/:toxinId/:kitType", async function (req, res) {
   const { toxinId, kitType } = req.params;
-  const [_, newActive] = await Kit.setActive(toxinId, kitType);
-  console.log("🚀 ~ file: stock.js ~ line 209 ~ newActive", newActive);
+  await Kit.setActive(toxinId, kitType);
 
-  return res.send(newActive);
+  return res.send(await Kit.getActiveWithSamples(toxinId));
+});
+
+router.get("/getAllActive", async function (req, res) {
+  return res.send(await Kit.getAllActive());
 });
 
 module.exports = router;
