@@ -34,69 +34,75 @@ const workmapSchema = new mongoose.Schema({
   },
 });
 
-const kitSchema = new mongoose.Schema({
-  calibrators: [calibratorSchema],
+const kitSchema = new mongoose.Schema(
+  {
+    calibrators: [calibratorSchema],
 
-  //Código do kit
-  toxinId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Toxin",
+    //Código do kit
+    toxinId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Toxin",
+    },
+
+    //Data de expiração
+    expirationDate: Date,
+
+    //Limite de detecção
+    Lod: {
+      type: Number,
+      default: 0,
+    },
+
+    //Limite de quantificação
+    Loq: {
+      type: Number,
+      default: 0,
+    },
+
+    //Quantidade de workmaps restantes
+    amount: Number,
+
+    //Fornecedor do Kit
+    provider: String,
+
+    //Situação do estoque do kit
+    status: {
+      type: String,
+      enum: ["Suficiente", "Próximo ao Vencimento", "Kit Vencido"],
+    },
+
+    //Kit está ativo para finalização
+    active: {
+      type: Boolean, // 1 for active, 0 for not
+      default: false,
+    },
+
+    //Marca o kit como deletado
+    deleted: {
+      type: Boolean, // 1 for deleted, 0 for not deleted
+      default: false,
+    },
+
+    kitDescription: String,
+
+    kitType: {
+      type: String,
+      enum: ["A", "B", "C", "D", "E", "F", "-"],
+      required: true,
+    },
+
+    workmapIndex: {
+      type: Number,
+      default: 0,
+    },
+
+    workmaps: [workmapSchema],
   },
-
-  //Data de expiração
-  expirationDate: Date,
-
-  //Limite de detecção
-  Lod: {
-    type: Number,
-    default: 0,
-  },
-
-  //Limite de quantificação
-  Loq: {
-    type: Number,
-    default: 0,
-  },
-
-  //Quantidade de workmaps restantes
-  amount: Number,
-
-  //Fornecedor do Kit
-  provider: String,
-
-  //Situação do estoque do kit
-  status: {
-    type: String,
-    enum: ["Suficiente", "Próximo ao Vencimento", "Kit Vencido"],
-  },
-
-  //Kit está ativo para finalização
-  active: {
-    type: Boolean, // 1 for active, 0 for not
-    default: false,
-  },
-
-  //Marca o kit como deletado
-  deleted: {
-    type: Boolean, // 1 for deleted, 0 for not deleted
-    default: false,
-  },
-
-  kitDescription: String,
-
-  kitType: {
-    type: String,
-    enum: ["A", "B", "C", "D", "E", "F", "-"],
-    required: true,
-  },
-
-  workmapIndex: {
-    type: Number,
-    default: 0,
-  },
-
-  workmaps: [workmapSchema],
-});
+  {
+    toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+    toObject: { virtuals: true },
+  }
+);
 
 kitSchema.virtual("toxin", {
   ref: "Toxin", // The model to use
@@ -580,8 +586,59 @@ const KitActions = {
       ),
     ]);
   },
+
   getActiveWithSamples(toxinId) {
-    return KitModel.findOne({ toxinId, active: true }).populate("workmaps.samples");
+    return KitModel.findOne({ toxinId, active: true }).populate(
+      "workmaps.samples"
+    );
+  },
+
+  async getAllActiveWithSamples(toxinId) {
+    let response = await KitModel.find({ active: true }).populate({
+      path: "workmaps.samples",
+      populate: {
+        path: "requisition",
+      },
+    });
+
+    response = response.map((kit) => kit.toJSON());
+    response.forEach((kit, ki) =>
+      kit.workmaps.forEach((workmap, wi) => {
+        workmap.samples.forEach((sample, si) => {
+          response[ki].workmaps[wi].samples[si].analysis = sample.analysis.find(
+            (analysis) => {
+              return `${analysis.workmapId}` == `${workmap._id}`;
+            }
+          );
+        });
+      })
+    );
+
+    return response;
+  },
+
+  async updateSampleWorkmapId(oldWorkmapId, newWorkmapId, sapleId) {
+    const promises = [];
+    promises.push(
+      KitModel.updateOne(
+        { "workmaps._id": oldWorkmapId },
+        {
+          $pull: { "workmaps.$.samples": sapleId },
+        }
+      )
+    );
+
+    if (newWorkmapId && newWorkmapId !== null)
+      promises.push(
+        KitModel.updateOne(
+          { "workmaps._id": newWorkmapId },
+          {
+            $push: { "workmaps.$.samples": sapleId },
+          }
+        )
+      );
+
+    return await Promise.all(promises);
   },
 };
 

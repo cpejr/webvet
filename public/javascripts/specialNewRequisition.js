@@ -6,6 +6,7 @@ function findAndUpdateValue(elementId, newData) {
   //Se for undefined vira "" por padrão.
   $(`${elementId}`).val(newData !== undefined ? newData : "");
 }
+
 function findAndSelectCorrectly(elementId, newData, defaultId) {
   //Seleciona a opção com o valor passado do select com o id passado.
   //Se o valor é undefined seleciona pelo id default.
@@ -20,11 +21,10 @@ $(document).on("click", ".removeButton", function () {
   $(this).closest(".sample_row").remove();
 });
 
-
 function addInput() {
   if (numInput < 11) {
     var newInput = document.createElement("div");
-    
+
     let html = `
             <div class="col-md-12 d-flex flex-row">
                 <div class="requisition-text col-md-4">
@@ -104,39 +104,19 @@ function addInput() {
 $("#adminUser").on("change", function (event) {
   //Dados de Conbrança
   let selectedUser = users.find((user) => user._id === event.target.value);
+
   findAndUpdateValue("#fullname", selectedUser.fullname);
   findAndUpdateValue("#cpfCnpj", selectedUser.cpfCnpj);
-  findAndUpdateValue(
-    "#IE",
-    selectedUser.address ? selectedUser.address.IE : undefined
-  );
-  findAndUpdateValue(
-    "#street",
-    selectedUser.address ? selectedUser.address.street : undefined
-  );
-  findAndUpdateValue(
-    "#number",
-    selectedUser.address ? selectedUser.address.number : undefined
-  );
-  findAndUpdateValue(
-    "#complement",
-    selectedUser.address ? selectedUser.address.complement : undefined
-  );
-  findAndUpdateValue(
-    "#neighborhood",
-    selectedUser.address ? selectedUser.address.neighborhood : undefined
-  );
-  findAndUpdateValue(
-    "#city",
-    selectedUser.address ? selectedUser.address.city : undefined
-  );
-  findAndUpdateValue(
-    "#cep",
-    selectedUser.address ? selectedUser.address.cep : undefined
-  );
+  findAndUpdateValue("#IE", selectedUser.address?.IE);
+  findAndUpdateValue("#street", selectedUser.address?.street);
+  findAndUpdateValue("#number", selectedUser.address?.number);
+  findAndUpdateValue("#complement", selectedUser.address?.complement);
+  findAndUpdateValue("#neighborhood", selectedUser.address?.neighborhood);
+  findAndUpdateValue("#city", selectedUser.address?.city);
+  findAndUpdateValue("#cep", selectedUser.address?.cep);
   findAndSelectCorrectly(
     "#state",
-    selectedUser.address ? selectedUser.address.state : undefined,
+    selectedUser.address?.state,
     "#defaultStateOption"
   );
 
@@ -147,13 +127,10 @@ $("#adminUser").on("change", function (event) {
   findAndUpdateValue("#cellphone", selectedUser.cellphone);
 
   //Requisição de Análise
-  findAndUpdateValue(
-    "#reqCity",
-    selectedUser.address ? selectedUser.address.city : undefined
-  );
+  findAndUpdateValue("#reqCity", selectedUser.address?.city);
   findAndSelectCorrectly(
     "#reqState",
-    selectedUser.address ? selectedUser.address.state : undefined,
+    selectedUser.address?.state,
     "#defaultStateReqOption"
   );
 });

@@ -16,7 +16,7 @@
     {{#if isFromLab}}
       <div class="requisition-text col-md-12 d-flex align-items-center">
         <select required="required" id="analystUser" type="" name="requisition[charge][user]" value="" class="drowdownoptions"
-          placeholder="Selecione o Usuário">
+          placeholder="Selecione o Usuário" required>
           <option disabled selected value="">Selecione o Usuário</option>
           {{#each users}}
           <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
@@ -25,7 +25,7 @@
       </div>
     {{/if}}
     <div class="requisition-text col-md-6">
-      <input required id="cpf" type="text" name="requisition[charge][cpfCnpj]" value="{{user.charge.cpfCnpj}}"
+      <input required id="cpfCnpj" type="text" name="requisition[charge][cpfCnpj]" value="{{user.charge.cpfCnpj}}"
         class="requisition-text" placeholder="CNPJ/CPF">
     </div>
     <div class="requisition-text col-md-6">

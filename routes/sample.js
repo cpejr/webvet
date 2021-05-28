@@ -38,53 +38,43 @@ router.post("/create", (req, res) => {
     });
 });
 
-router.post("/updateAnalysis/:analysisId", async (req, res) => {
+router.post("/updateAnalysisWorkmapAndStatus/:analysisId", async (req, res) => {
   try {
     const { analysisId } = req.params;
+    let { workmapId, status } = req.body;
+
+    if (!workmapId) workmapId = null;
+
     const filedsToUpdate = {};
 
-    Object.keys(req.body).forEach((field) => {
-      filedsToUpdate[`analysis.$.${field}`] = req.body[field];
-    });
+    let newStatus;
+    if (workmapId && workmapId !== null) newStatus = "Mapa de Trabalho";
+    else if (!status) newStatus = "Em análise";
+    else newStatus = status;
 
-    const response = await Sample.SampleModel.update(
+    filedsToUpdate[`analysis.$.status`] = newStatus;
+    filedsToUpdate[`analysis.$.workmapId`] = workmapId;
+
+    const sample = await Sample.SampleModel.findOneAndUpdate(
       { "analysis._id": analysisId },
       { $set: filedsToUpdate }
     );
+
+    const analysis = sample.analysis.find(
+      (analysis) => analysis._id == analysisId
+    );
+
+    const response = await Kit.updateSampleWorkmapId(
+      analysis.workmapId,
+      workmapId,
+      sample._id
+    );
+
     res.status(200).send(response);
   } catch (error) {
     console.warn(error);
     res.status(500).send();
   }
-});
-
-router.post("/setActiveKit/:toxinafull/:kitActiveID", function (req, res) { 
-  //Vai dar erro. Náo use mais Kit.getActiveID é com Id da toxina agora
-  
-  //Set active to inactive
-  let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)];
-  //Correção provisória do problema com a sigla
-  if (sigla === "FBS") sigla = "FUMO";
-
-  Kit.getActiveID(sigla)
-    .then((kit) => {
-      if (kit) Kit.setActiveStatus(kit._id, false);
-    })
-    .then(() => {
-      //Update new one
-      Kit.setActiveStatus(req.params.kitActiveID, true)
-        .then((response) => {
-          res.send(response);
-        })
-        .catch((error) => {
-          console.warn(error);
-          res.redirect("/error");
-        });
-    })
-    .catch((error) => {
-      console.warn(error);
-      res.redirect("/error");
-    });
 });
 
 router.post("/scndTesting/edit/:mycotoxin/:sampleId", async (req, res) => {

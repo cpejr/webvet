@@ -1,11 +1,6 @@
-ToxinasFull = [
-  "aflatoxina",
-  "deoxinivalenol",
-  "fumonisina",
-  "ocratoxina",
-  "t2toxina",
-  "zearalenona",
-];
+const Analysiskanbans = {};
+const Workmapskanbans = {};
+let SamplesInAnalysis = {};
 
 function createAnalysisKanban(toxinId) {
   return new jKanban({
@@ -34,29 +29,38 @@ function createAnalysisKanban(toxinId) {
       },
     ],
     dropEl: function (el, target, source, sibling) {
-      const { eid: sampleId, analysis_id, approved, owner } = el.dataset;
+      const { eid: sampleId, analysis_id, approved, debt } = el.dataset;
 
       let sourceName = $(source).parent().data("id");
 
       // Saiu do em análise
       if (sourceName === "Em análise")
-        Workmapskanbans[toxinId].removeElement(sampleId);
+        Workmapskanbans[toxinId].removeElement(`${sampleId}`);
 
-      // Entrou no em análige
+      // Entrou no em análise
       //Se está a provada, o usuário não é devedor e já não estiver lá
+      console.log(
+        "🚀 ~ file: queue.js ~ line 44 ~ createAnalysisKanban ~ target",
+        target,
+        approved,
+        debt
+      );
       if (
-        target === "Em análise" &&
-        approved === "true" &&
-        owner === "false" &&
+        target == "Em análise" &&
+        `${approved}` == "true" &&
+        `${debt}` == "false" &&
         !Workmapskanbans[toxinId].findElement(sampleId)
       )
         Workmapskanbans[toxinId].addElement("Em análise", {
-          ...el,
+          ...el.dataset,
+          status: target,
+          innerHTML: getElementHtml({ ...el.dataset, status: target }),
         });
 
-      $.post(`sample/updateAnalysis/${analysis_id}`, { status: target });
-
       el.innerHTML = getElementHtml({ ...el.dataset, status: target });
+      $.post(`sample/updateAnalysisWorkmapAndStatus/${analysis_id}`, {
+        status: target,
+      });
     },
   });
 }
@@ -75,25 +79,14 @@ function createWorkmapKanban(toxinId) {
       },
     ],
     dropEl: function (el, target, source, sibling) {
-      const sampleId = el.dataset.eid;
+      const { analysis_id } = el.dataset;
 
-      if (target == "Em análise") {
-        if (el.dataset.calibrator) {
-          //cards P não se movem para em analise
-          return false;
-        } else {
-          $.post(`/sample/scndTesting/edit/${toxinaFull}/${sampleId}`);
-          el.innerHTML = getElementHtml(el.dataset);
-        }
-      } else {
-        if (el.dataset.calibrator)
-          //cards originais
-          return false;
-        else {
-          $.post(`/sample/mapedit/${toxinaFull}/${sampleId}/${target}`);
-          el.innerHTML = getElementHtml(el.dataset);
-        }
-      }
+      const newWorkmapId = target != "Em análise" ? target : null;
+      $.post(`sample/updateAnalysisWorkmapAndStatus/${analysis_id}`, {
+        workmapId: newWorkmapId,
+      });
+
+      el.innerHTML = getElementHtml(el.dataset);
     },
   });
 }
@@ -104,19 +97,19 @@ function getElementHtml({
   approved,
   iscitrus,
   limitdate,
-  owner,
+  debt,
   status,
 }) {
   let innerHTML = `${title}<br><span  class="badge badge-secondary">${status}</span>`;
   innerHTML += `<span  class="badge badge-primary">${analyst}</span>`;
 
-  if (owner == true)
+  if (`${debt}` == "true")
     innerHTML += `<span  class="badge badge-danger">Devedor</span>`;
 
-  if (approved == "false")
+  if (`${approved}` == "false")
     innerHTML += `<span  class="badge badge-danger">Não aprovada</span>`;
 
-  if (iscitrus == true)
+  if (`${iscitrus}` == "true")
     innerHTML += `<span  class="badge badge-success">Polpa Cítrica</span>`;
 
   if (limitdate)
@@ -125,26 +118,22 @@ function getElementHtml({
   return innerHTML;
 }
 
-let Analysiskanbans = {};
-let Workmapskanbans = {};
-
-let nowActiveKits = {};
-
-$(function () {
-  $.get("/toxins", (response) => {
-    response.forEach((toxin) => {
-      Workmapskanbans[toxin._id] = createWorkmapKanban(toxin._id);
-      Analysiskanbans[toxin._id] = createAnalysisKanban(toxin._id);
-    });
-    populateAnalysisKanban();
+$(async function () {
+  // Generate kanbans
+  const toxins = await $.get("/toxins");
+  toxins.forEach((toxin) => {
+    Workmapskanbans[toxin._id] = createWorkmapKanban(toxin._id);
+    Analysiskanbans[toxin._id] = createAnalysisKanban(toxin._id);
+    SamplesInAnalysis[toxin._id] = [];
   });
 
   //First load for workmaps kanbans
-  $.get("/stock/getAllActive", (response) => {
-    response.forEach((activeKit) =>
-      populateWorkmapsKanbans(activeKit, activeKit.toxinId)
-    );
-  });
+  const activeKits = await $.get("/stock/getAllActiveWithSamples");
+  activeKits.forEach((activeKit) =>
+    populateWorkmapsKanbans(activeKit, activeKit.toxinId)
+  );
+
+  await populateKanbans();
 
   //Add events
   $('div[class="container-radio-kit-type"]').each((index, element) => {
@@ -153,11 +142,12 @@ $(function () {
       .find("input.radio-queue")
       .each(function (index, radio) {
         // Add onChange para cada radio
-        $(radio).on("change", function (e, data) {
+        $(radio).on("change", async function (e, data) {
           let kitType = $(this).val();
-          $.post(`/stock/toggleActive/${toxinId}/${kitType}`, (newActive) =>
-            populateWorkmapsKanbans(newActive, toxinId)
+          const newActive = await $.post(
+            `/stock/toggleActive/${toxinId}/${kitType}`
           );
+          populateWorkmapsKanbans(newActive, toxinId);
         });
       });
   });
@@ -169,18 +159,13 @@ function populateWorkmapsKanbans(activeKit, toxinId) {
 
     const currentKanban = Workmapskanbans[activeKit.toxinId];
 
-    currentKanban.removeAllBoards("Em análise");
+    currentKanban?.removeAllBoards("Em análise");
     const boards = [];
 
     activeKit.workmaps.forEach((workmap, index) => {
       if (!workmap.wasUsed) {
         // Generate items
         const items = [];
-
-        // Add samples
-        workmap.samples.forEach((sample) => {
-          items.push(createSampleElement(sample));
-        });
 
         // Generate boards
         boards.push({
@@ -197,7 +182,7 @@ function populateWorkmapsKanbans(activeKit, toxinId) {
 
       // Add calibradores
       for (let i = 1; i <= 5; i++)
-        currentKanban.addFixedElement(boards[1].id, {
+        currentKanban.addFixedElement(boards[0].id, {
           id: `P${i}`,
           title: `P${i}`,
           calibrator: true,
@@ -207,60 +192,43 @@ function populateWorkmapsKanbans(activeKit, toxinId) {
 }
 
 function createSampleElement(sample) {
-  return {
+  const element = {
     id: sample._id,
-    title: `Amostra ${sample.samplenumber}`,
+    title: `Amostra ${sample.sampleNumber}`,
     analyst: sample.name,
-    status: sample.analysis.status,
+    status: sample?.analysis?.status,
     approved: sample.requisition.approved,
-    owner: sample.requisition.charge?.user?.debt,
+    debt: sample.requisition.charge?.user?.debt,
     iscitrus: sample.isCitrus,
-    limitDate: sample.limitDate,
-    analysis_id: sample.analysis._id,
-  };
-}
-
-//cria cedulas kanban
-function populateAnalysisKanban() {
-  $.get("/search/getAllWithoutFinalization", (response) => {
-    response.forEach((toxinData) =>
-      toxinData.samples.forEach((sample) =>
-        addElementToAnalysis(toxinData._id, createSampleElement(sample))
-      )
-    );
-  });
-}
-
-function addElementToAnalysis(
-  toxinId,
-  {
-    id,
-    title,
-    analyst,
-    status,
-    approved,
-    owner,
-    iscitrus,
-    limitDate,
-    analysis_id,
-  }
-) {
-  let kanban = Analysiskanbans[toxinId];
-
-  let element = {
-    id,
-    title,
-    analyst,
-    status,
-    approved,
-    owner,
-    iscitrus,
-    limitDate,
-    analysis_id,
+    limitdate: sample.limitDate,
+    analysis_id: sample?.analysis?._id,
+    workmap_id: sample?.analysis?.workmapId,
     click: function (el) {
       window.location.href = `sample/edit/${id}`;
     },
   };
+  element.innerHTML = getElementHtml({
+    ...element,
+  });
+
+  return element;
+}
+
+//cria cedulas kanban
+async function populateKanbans() {
+  const response = await $.get("/search/getAllWithoutFinalization");
+
+  response.forEach((toxinData) =>
+    toxinData.samples.forEach((sample) => {
+      const element = createSampleElement(sample);
+      addElementToAnalysis(toxinData._id, element);
+      addElementToWorkmaps(toxinData._id, element);
+    })
+  );
+}
+
+function addElementToAnalysis(toxinId, element) {
+  let kanban = Analysiskanbans[toxinId];
 
   switch (element.status) {
     case "nova":
@@ -282,159 +250,19 @@ function addElementToAnalysis(
   }
 }
 
-function addElementToWorkmaps(
-  toxinId,
-  {
-    id,
-    title,
-    analyst,
-    status,
-    approved,
-    owner,
-    iscitrus,
-    limitDate,
-    analysis_id,
-  }
-) {
-  let kanban = Analysiskanbans[toxinId];
+function addElementToWorkmaps(toxinId, element) {
+  let kanban = Workmapskanbans[toxinId];
 
-  let element = {
-    id,
-    title,
-    analyst,
-    status,
-    approved,
-    owner,
-    iscitrus,
-    limitDate,
-    analysis_id,
-    click: function (el) {
-      window.location.href = "sample/edit/" + el.dataset.eid;
-    },
-  };
+  const sampleMustGoToWorkmaps = element.approved && !element.debt;
 
-  switch (element.status) {
-    case "Nova":
-    case "Sem amostra":
-    case "A corrigir":
-    case "Aguardando amostra":
-      kanban.addElement("Aguardando amostra", element);
-      break;
+  if (sampleMustGoToWorkmaps)
+    switch (element.status) {
+      case "Em análise":
+        kanban.addElement("Em análise", element);
+        break;
 
-    case "Em análise":
-    case "Mapa de Trabalho":
-      kanban.addElement("Em análise", element);
-      break;
-
-    case "Aguardando pagamento":
-      kanban.addElement("Aguardando pagamento", element);
-      break;
-  }
+      case "Mapa de Trabalho":
+        kanban.addElement(element.workmap_id, element);
+        break;
+    }
 }
-
-let workmapsStart = 0;
-let workmapsEnd = 0;
-
-//Add eventos
-$('div[class="loteradio"]').each(function (index, group) {
-  let toxina = $(group).data("toxin");
-  $(group)
-    .find("input.radio-queue")
-    .each(function (index, checkbox) {
-      $(checkbox).change(function (e, data) {
-        let letter = $(this).data("letter");
-        $.get(`/stock/${toxina}/${letter}`, (kits) => {
-          let kit = kits[0];
-          //if kit exists
-          if (kit) {
-            $("#hide" + toxina).removeClass("form-disabled");
-            let begin = kit.toxinIndex; //Workmaps start
-            nowActiveKits[toxina] = kit._id;
-
-            $("#countkits" + toxina).text(kit.stripLength);
-
-            if (data == undefined)
-              $.post(`/sample/setActiveKit/${toxina}/${kit._id}`);
-
-            //remove boards
-            for (
-              let i = workmapsStart;
-              i <= workmapsEnd;
-              i++ //the map 0 was defined before
-            )
-              Workmapskanbans[toxina].removeAllBoards("_scndTesting");
-
-            //Add boards
-            for (let i = begin; i < kit.stripLength; i++) {
-              //the map 0 was defined before
-              Workmapskanbans[toxina].addBoards([
-                {
-                  id: kit.mapArray[i],
-                  title: "Mapa de trabalho" + " " + (i + 1),
-                  class: "info",
-                },
-              ]);
-            }
-
-            //If there is workmaps
-            if (begin != kit.stripLength) {
-              //ADD and DelETE calibradores
-              for (let i = 1; i <= 5; i++) {
-                Workmapskanbans[toxina].removeElement("P" + i);
-                Workmapskanbans[toxina].addFixedElement(kit.mapArray[begin], {
-                  id: "P" + i,
-                  title: "P" + i,
-                  calibrator: true,
-                  class: ["not-draggable"],
-                });
-              }
-
-              //Update variables
-              workmapsStart = begin;
-              workmapsEnd = kit.stripLength;
-
-              //allocate the samples/calibrators that are in an workmap
-              $.get(
-                `/search/getSamplesActiveByWorkmapArray/${kit.mapArray}/${toxina}`
-              ).then((samples) => {
-                for (let i = 0; i < samples.length; i++) {
-                  const sample = samples[i];
-                  if (sample[toxina].status === "Mapa de Trabalho") {
-                    let sampleAnalysis = Analysiskanbans[toxina].findElement(
-                      sample._id
-                    );
-
-                    let element = {
-                      id: sample._id,
-                      title: "Amostra " + sample.sampleNumber,
-                      analyst: sample.responsible,
-                      status: sample[toxina].status,
-                      approved: sample.approved,
-                      iscitrus: sample.isCitrus,
-                      limitDate: sample.limitDate,
-                      analysis_id: sample.analysis._id,
-                      click: function (el) {
-                        window.location.href = "sample/edit/" + el.dataset.eid;
-                      },
-                    };
-
-                    if (sampleAnalysis)
-                      element.owner = sampleAnalysis.dataset.owner;
-                    else element.owner = "false";
-
-                    Workmapskanbans[toxina].addElement(
-                      sample[toxina].workmapId,
-                      element
-                    );
-                  }
-                }
-              });
-            }
-          } else {
-            $("#countkits" + toxina).text("0");
-            $("#hide" + toxina).addClass("form-disabled");
-          }
-        });
-      });
-    });
-});

@@ -23,17 +23,15 @@
       <input required id="fullname" type="text" name="requisition[charge][fullname]" value="{{requisition.charge.fullname}}"
         class="requisition-text" placeholder="Razão Social/Nome Completo">
     </div>
-    {{#if isFromLab}}
       <div class="requisition-text col-md-12 d-flex align-items-center">
         <select required="required" id="analystUser" type="" name="requisition[charge][user]" value="{{requisition.charge.user}}" class="drowdownoptions"
-          placeholder="Selecione o Usuário">
+          placeholder="Selecione o Usuário" required>
           <option disabled selected value="">Selecione o Usuário</option>
           {{#each users}}
           <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
           {{/each}}
         </select>
       </div>
-    {{/if}}
     <div class="requisition-text col-md-6">
       <input required id="cpf" type="text" name="requisition[charge][cpfCnpj]" value="{{requisition.charge.cpfCnpj}}"
         class="requisition-text" placeholder="CNPJ/CPF">
@@ -186,7 +184,7 @@
               placeholder="Tipo de embalagem" value="{{packingtype}}">
           </div>
           <div class="requisition-text col-md-3">
-            <input required type="text" name="samples[{{@index}}][receivedQuantity]" class="requisition-text"
+            <input required type="number" name="samples[{{@index}}][receivedQuantity]" class="requisition-text"
               placeholder="Quantidade recebida (g)" value="{{receivedQuantity}}">
           </div>
 
@@ -282,6 +280,11 @@
 
     let destination = "{{requisition.analysis.destination}}";
     $('select#destination').val(destination);
-  });
+
+    let userId = "{{requisition.charge.user}}"
+    $('select#analystUser').val(userId);
+    
+ });
 </script>
+
 <script src="/javascripts/dynamicPlaceHolder.js" />

@@ -285,23 +285,11 @@ const Requisition = {
    * @param {string} id - Requisition Id
    * @returns {null}
    */
-  delete(id) {
-    return new Promise((resolve, reject) => {
-      //projection: -> Optional. A subset of fields to return.
-      RequisitionModel.findOneAndDelete(
-        { _id: id },
-        { projection: { samples: 1 } }
-      )
-        .then((obj) => {
-          var samples = obj.samples;
-          Sample.deleteMany(samples).then((result) => {
-            resolve(result);
-          });
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  async delete(id) {
+    return await Promise.all([
+      RequisitionModel.deleteOne({ _id: id }),
+      Sample.SampleModel.deleteMany({ requisitionId: id }),
+    ]);
   },
 
   /**

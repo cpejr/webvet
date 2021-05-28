@@ -118,8 +118,22 @@ const sampleSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true, strict: false }
+  {
+    timestamps: true,
+    strict: false,
+    toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+    toObject: { virtuals: true },
+  }
 );
+
+sampleSchema.virtual("requisition", {
+  ref: "Requisition", // The model to use
+  localField: "requisitionId", // Find people where `localField`
+  foreignField: "_id", // is equal to `foreignField`
+  // If `justOne` is true, 'members' will be a single doc as opposed to
+  // an array. `justOne` is false by default.
+  justOne: true,
+});
 
 const SampleModel = mongoose.model("Sample", sampleSchema);
 
@@ -476,28 +490,6 @@ const Sample = {
     return result;
   },
 
-  getAllActive() {
-    return new Promise((resolve, reject) => {
-      let query = { $or: [], isSpecial: { $ne: true } };
-
-      ToxinasFull.forEach((toxina) => {
-        let expression = {};
-
-        expression[toxina + ".active"] = true;
-
-        query.$or.push(expression);
-      });
-
-      SampleModel.find(query)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-
   async getAllSpecialActive() {
     let query = { isSpecial: true, $or: [] };
     ToxinasFull.forEach((toxina) => {
@@ -542,7 +534,6 @@ const Sample = {
   // Sem ser especiais
   // Agrupar por toxina
   async getAllWithoutFinalization() {
-
     return await SampleModel.aggregate([
       {
         $match: {

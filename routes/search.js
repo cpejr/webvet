@@ -58,17 +58,6 @@ router.get("/samples", auth.isAuthenticated, (req, res) => {
     });
 });
 
-router.get("/samplesActive", auth.isAuthenticated, (req, res) => {
-  Sample.getAllActive()
-    .then((samples) => {
-      res.send(samples);
-    })
-    .catch((error) => {
-      console.warn(error);
-      res.redirect("/error");
-    });
-});
-
 router.get("/getAllWithoutFinalization", auth.isAuthenticated, async (req, res) => {
   const data = await Sample.getAllWithoutFinalization();
   res.send(data);

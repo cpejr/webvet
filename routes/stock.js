@@ -213,8 +213,8 @@ router.post("/toggleActive/:toxinId/:kitType", async function (req, res) {
   return res.send(await Kit.getActiveWithSamples(toxinId));
 });
 
-router.get("/getAllActive", async function (req, res) {
-  return res.send(await Kit.getAllActive());
+router.get("/getAllActiveWithSamples", async function (req, res) {
+  return res.send(await Kit.getAllActiveWithSamples());
 });
 
 module.exports = router;

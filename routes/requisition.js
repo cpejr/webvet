@@ -11,6 +11,8 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
   const toxins = await Toxin.getAll();
   const { user } = req.session;
+  console.log("🚀 ~ file: requisition.js ~ line 14 ~ user", user);
+
   res.render("requisition/newrequisition", {
     title: "Requisition",
     layout: "layoutDashboard.hbs",
@@ -19,7 +21,7 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
     allStates,
     allDestinations,
     toxins,
-    ...req.session,
+    user,
   });
 });
 
@@ -205,17 +207,24 @@ router.post(
   }
 );
 
-router.post("/delete/:id", auth.isAuthenticated, auth.isAdmin, (req, res) => {
-  Requisition.delete(req.params.id)
-    .then(() => {
-      res.redirect("/requisition");
-      req.flash("success", "Requisição deletada com sucesso!");
-    })
-    .catch((error) => {
-      console.warn(error);
-      res.redirect("/error");
-    });
-});
+router.post(
+  "/delete/:id",
+  auth.isAuthenticated,
+  auth.isAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    Requisition.delete(req.params.id)
+
+      .then(() => {
+        res.redirect("/requisition");
+        req.flash("success", "Requisição deletada com sucesso!");
+      })
+      .catch((error) => {
+        console.warn(error);
+        res.redirect("/error");
+      });
+  }
+);
 
 router.post("/new", auth.isAuthenticated, async function (req, res) {
   let { requisition } = req.body;
@@ -323,6 +332,7 @@ router.get(
   auth.isFromLab,
   async function (req, res) {
     try {
+      let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
       const requisitionId = req.params.id;
       const requisition = await Requisition.getById(requisitionId);
       const samples = await Sample.getByFields({ requisitionId });
@@ -354,6 +364,7 @@ router.get(
         samples,
         allSampleTypes,
         allStates,
+        users,
         allDestinations,
       });
     } catch (error) {
