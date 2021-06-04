@@ -1,41 +1,31 @@
 <div class="queue-tabs">
-  {{#each toxinas}}
+  {{#each toxins}}
   <input type="radio" name="queue-tabs" id="tab{{@index}}" {{#if @first}} checked="checked" {{/if}}>
   <label class="Main" for="tab{{@index}}">{{Formal}}</label>
   <div class="queue-tab">
-    <div id="{{Full}}">
-    </div>
+    <div id="Analysis{{_id}}"></div>
     <div class="d-inline-flex justify-content-between w-100 mt-2">
       <div class="d-flex align-items-center">
-        <div class="loteradio" id="KitRadio{{Full}}" data-toxin="{{Full}}">
-
+        <div class="container-radio-kit-type" id="KitRadio{{_id}}" data-toxin="{{_id}}">
           <a class="mr-1"> Selecione o Kit:</a>
-          <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}A" data-letter="A"
-            value="0"></input>
-          <label for="Kit{{Full}}A" class="radio-text form-check-label mr-3"> A </label>
-          <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}B" data-letter="B"
-            value="0"></input>
-          <label for="Kit{{Full}}B" class="radio-text form-check-label mr-3"> B </label>
-          <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}C" data-letter="C"
-            value="0"></input>
-          <label for="Kit{{Full}}C" class="radio-text form-check-label mr-3"> C </label>
-          <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}D" data-letter="D"
-            value="0"></input>
-          <label for="Kit{{Full}}D" class="radio-text form-check-label mr-3"> D </label>
-          <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}E" data-letter="E"
-            value="0"></input>
-          <label for="Kit{{Full}}E" class="radio-text form-check-label mr-3"> E </label>
-          <input class="radio-queue center" type="radio" name="Kit{{Full}}" id="Kit{{Full}}F" data-letter="F"
-            value="0"></input>
-          <label for="Kit{{Full}}F" class="radio-text form-check-label mr-3"> F </label>
+          <input class="radio-queue center" type="radio" name="Kit{{_id}}" id="Kit{{_id}}A" value="A" />
+          <label for="Kit{{_id}}A" class="radio-text form-check-label mr-3"> A </label>
+          <input class="radio-queue center" type="radio" name="Kit{{_id}}" id="Kit{{_id}}B" value="B" />
+          <label for="Kit{{_id}}B" class="radio-text form-check-label mr-3"> B </label>
+          <input class="radio-queue center" type="radio" name="Kit{{_id}}" id="Kit{{_id}}C" value="C" />
+          <label for="Kit{{_id}}C" class="radio-text form-check-label mr-3"> C </label>
+          <input class="radio-queue center" type="radio" name="Kit{{_id}}" id="Kit{{_id}}D" value="D" />
+          <label for="Kit{{_id}}D" class="radio-text form-check-label mr-3"> D </label>
+          <input class="radio-queue center" type="radio" name="Kit{{_id}}" id="Kit{{_id}}E" value="E" />
+          <label for="Kit{{_id}}E" class="radio-text form-check-label mr-3"> E </label>
+          <input class="radio-queue center" type="radio" name="Kit{{_id}}" id="Kit{{_id}}F" value="F" />
+          <label for="Kit{{_id}}F" class="radio-text form-check-label mr-3"> F </label>
         </div>
       </div>
-      <button class="btn btn-success" id="countkits{{Full}}">0</button>
     </div>
 
-    <div id="hide{{Full}}" class="form-disabled">
-      <div id="{{Full}}2">
-      </div>
+    <div id="hide{{_id}}" class="form-disabled">
+      <div id="Workmap{{_id}}"></div>
       <div class="btns-kanban ">
         <div class="btn-print">
           <a href="/printtemplate" class="btn btn-success">Imprimir</a>
@@ -55,7 +45,7 @@
   </div>
   <script>
     $(document).ready(function () {
-      let el = $("#Kit{{Full}}{{active}}");
+      let el = $("#Kit{{_id}}{{active}}");
       if (el) {
         $(el).prop("checked", true).trigger('change', [{ stating: true }]);
       }

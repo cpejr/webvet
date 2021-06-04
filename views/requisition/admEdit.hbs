@@ -1,0 +1,290 @@
+<div>
+  <div class="d-flex justify-content-between">
+    <form class="col-2" action="/requisition" method="get">
+      <button type="submit" class="btn btn-outline-success">Voltar</button>
+    </form>
+    <form class="col-2" action="/requisition/delete/{{requisition._id}}" method="post">
+      <button type="submit" class="btn btn-outline-danger">Apagar</button>
+    </form>
+  </div>
+
+  <div class="edit-requisition">
+    <hr color="lightgray">
+    <div class="requisition-titles">
+      <p> Dados de Cobrança</p>
+    </div>
+    </br>
+  </div>
+
+  <form action="/requisition/edit/{{requisition._id}}" id="reqEdit" method="post"
+    class="d-flex flex-column align-items-center">
+    <div id="keep-address" class="form-row col-md-10">
+    <div class="requisition-text col-md-12">
+      <input required id="fullname" type="text" name="requisition[charge][fullname]" value="{{requisition.charge.fullname}}"
+        class="requisition-text" placeholder="Razão Social/Nome Completo">
+    </div>
+      <div class="requisition-text col-md-12 d-flex align-items-center">
+        <select required="required" id="analystUser" type="" name="requisition[charge][user]" value="{{requisition.charge.user}}" class="drowdownoptions"
+          placeholder="Selecione o Usuário" required>
+          <option disabled selected value="">Selecione o Usuário</option>
+          {{#each users}}
+          <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+          {{/each}}
+        </select>
+      </div>
+    <div class="requisition-text col-md-6">
+      <input required id="cpf" type="text" name="requisition[charge][cpfCnpj]" value="{{requisition.charge.cpfCnpj}}"
+        class="requisition-text" placeholder="CNPJ/CPF">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required id="I.E" type="text" name="requisition[charge][IE]" class="requisition-text" placeholder="I.E" value="{{requisition.charge.IE}}">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required id="street" type="text" name="requisition[charge][street]" value="{{requisition.charge.street}}"
+        class="requisition-text" placeholder="Rua de endereço de Faturamento">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required id="number" type="text" name="requisition[charge][number]" value="{{requisition.charge.number}}"
+        class="requisition-text" placeholder="Nº">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input id="complement" type="text" name="requisition[charge][complement]"
+        value="{{requisition.charge.complement}}" class="requisition-text" placeholder="Complemento">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required id="neighborhood" type="text" name="requisition[charge][neighborhood]"
+        value="{{requisition.charge.neighborhood}}" class="requisition-text" placeholder="Bairro">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required id="city" type="text" name="requisition[charge][city]" value="{{requisition.charge.city}}"
+        class="requisition-text" placeholder="Cidade">
+    </div>
+    <div class="requisition-text col-md-2 d-flex align-items-center">
+      <select id="userstate" class="drowdownoptions" name="requisition[charge][state]" required="required">
+        <option disabled selected value="">Estado</option>
+        {{#each allStates}}
+        <option value="{{initials}}">{{name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="requisition-text col-md-4">
+      <input required id="cep" type="number" name="requisition[charge][cep]" value="{{requisition.charge.cep}}"
+        class="requisition-text" placeholder="CEP">
+    </div>
+    <br/>
+    <br/>
+      <div class="requisition-titles mt-4 col-md-12">
+        <p>Dados de contato</p>
+      </div>
+    <br/>
+    <div class="requisition-text col-md-12">
+      <input required id="resposible" type="text" name="requisition[contact][fullname]" class="requisition-text"
+        placeholder="Responsável pela amostra" value="{{requisition.contact.fullname}}">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required id="phone" type="text" name="requisition[contact][phone]" value="{{requisition.contact.phone}}"
+        class="requisition-text" placeholder="Tel. com DDD">
+    </div>
+    <div class=" requisition-text col-md-6">
+      <input required id="cellphone" type="text" name="requisition[contact][cellphone]" value="{{requisition.contact.cellphone}}"
+        class="requisition-text" placeholder="Cel. com DDD">
+    </div>
+    <div class="requisition-text col-md-12">
+      <input required id="email" type="text" name="requisition[contact][email]" value="{{requisition.contact.email}}"
+        class="requisition-text" placeholder="Email">
+    </div>
+    </div>
+    <br>
+    <div class="requisition-titles">
+    <p>Requisição de Análise</p>
+  </div>
+  <br>
+  <div class="form-row col-md-10">
+    <div class="requisition-text col-md-6">
+      <input required type="text" name="requisition[analysis][producerName]" class="requisition-text"
+        placeholder="Nome do cliente | Fazenda | Produtor" value="{{requisition.analysis.producerName}}">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input type="text" name="requisition[analysis][autorizationNumber]" class="requisition-text"
+        placeholder="Número de Autorização" value="{{requisition.analysis.autorizationNumber}}">
+    </div>
+
+    <div class="requisition-text col-md-6">
+      <input required type="text" name="requisition[analysis][city]" class="requisition-text" placeholder="Município" value="{{requisition.analysis.city}}">
+    </div>
+    <div class="requisition-text col-md-6 d-flex align-items-center">
+      <select id="requisitonstate" class="drowdownoptions" name="requisition[analysis][state]" required="required" value="{{requisition.analysis.state}}">
+        <option disabled selected value="">Estado</option>
+        {{#each allStates}}
+        <option value="{{initials}}">{{name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required type="date" name="requisition[analysis][collectionDate]" class="requisition-text"
+        placeholder="Data de Coleta (dd/mm/aaaa)" value="{{requisition.analysis.collectionDate}}">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required type="date" name="requisition[analysis][receiptDate]" class="requisition-text"
+        placeholder="Data de Recebimento (dd/mm/aaaa)" value="{{requisition.analysis.receiptDate}}">
+    </div>
+    <div class="requisition-text col-md-12">
+      <select required id="destination" class="drowdownoptions mt-3" name="requisition[analysis][destination]">
+        <option disabled selected value="" id="defaultDestOption">Escolha a destinação do alimento</option>
+        {{#each allDestinations}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+  <br/>
+    <div class="requisition-titles">
+      <p> Identificação da Amostra</p>
+    </div>
+    <div class="d-flex form-row col-md-10 justify-content-center">
+      {{#each samples}}
+      <div class="container-fluid card my-2 p-4">
+        <div class="row">
+          <div class="requisition-text col-md-5">
+            <input required type="text" name="samples[{{@index}}][name]" class="requisition-text"
+              placeholder="Nome da amostra" value="{{name}}">
+          </div>
+          <div class="requisition-text col-md-5">
+            <input required type="text" name="samples[{{@index}}][limitDate]" class="requisition-text"
+              placeholder="Data Limite de Avaliação (dd/mm/yyyy)" value="{{limitDate}}">
+          </div>
+          <script>
+            $(document).ready(function () {
+              let reqtype = "{{sampletype}}";
+              $('select#{{_id}}').val(reqtype);
+            });
+          </script>
+
+          <div class="checkbox col-md-2 d-flex pb-1">
+            <div class="align-self-end">
+              <input type="checkbox" id="polpa{{@index}}" name="samples[{{@index}}][isCitrus]" value="true"
+                class="my-auto" {{#if isCitrus}}checked{{/if}} />
+              <label for="polpa{{@index}}" class="">Contém polpa cítrica</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="requisition-text col-md-4 d-flex align-items-center">
+            <input type="hidden" name="samples[{{@index}}][_id]" class="requisition-text" value="{{_id}}">
+            <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100"
+              name="samples[{{@index}}][sampletype]" required="required">
+              <option disabled selected value="" id="defaultSampleOption">Escolha o tipo do alimento</option>
+              {{#each ../allSampleTypes}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="requisition-text col-md-3">
+            <input required type="text" name="samples[{{@index}}][packingtype]" class="requisition-text"
+              placeholder="Tipo de embalagem" value="{{packingtype}}">
+          </div>
+          <div class="requisition-text col-md-3">
+            <input required type="number" name="samples[{{@index}}][receivedQuantity]" class="requisition-text"
+              placeholder="Quantidade recebida (g)" value="{{receivedQuantity}}">
+          </div>
+
+
+        </div>
+      </div>
+      {{/each}}
+
+      <div class="requisition-titles mt-3">
+        <p> Análises Solicitadas</p>
+      </div>
+
+      <div class="d-flex flex-wrap col-md-12 align-items-center justify-content-center">
+          <p>
+            {{#each toxinsOptions}}
+              <div class="col-md-4 d-flex flex-row m-1">
+                <input type="checkbox" class="mr-3" name="requisition[selectedToxins]" id="{{_id}}"
+                  value="{{_id}}" {{#if checked}}checked{{/if}} {{#if disabled}}disabled{{/if}}/>
+                <label for="{{_id}}" class="">
+                  <h6>
+                    {{Formal}}
+                  </h6>
+                </label>
+                {{#if disabled}}
+                  <input type="checkbox" class="d-none" name="requisition[mycotoxin]" value="{{_id}}"
+                    checked />
+                {{/if}}
+              </div>
+            {{/each}}
+        </p>
+      </div>
+
+      <script>
+        $(document).ready(function () {
+          const micotoxins = '{{requisition.mycotoxin}}'.split(',');
+
+          micotoxins.forEach(toxin => {
+            $(`input[id='${toxin}']`).prop("checked", true);
+          })
+        });
+      </script>
+
+
+    </div>
+    <div class="requisition-text col-md-10 mt-5 mb-5">
+      <textarea class="requisition-text w-100" name="requisition[comment]" placeholder="Observações"
+        rows="4">{{requisition.comment}}</textarea>
+    </div>
+</div>
+
+{{#unless requisition.approved}}
+<input type="checkbox" style="display: none;" id="toApprove" name="toApprove" value="toApprove" />
+{{else}}
+<input type="checkbox" style="display: none;" id="toApprove" name="toApprove" value="approved" checked />
+{{/unless}}
+<div>
+  <input class="some" type="submit" id="submitButton"></input>
+</div>
+</form>
+<div class="text-center">
+  {{#if requisition.approved}}
+    <button id="submitAlterations" align="center" class="btn btn-outline-success">Salvar alerações</button>
+  {{/if}}
+
+  {{#unless requisition.approved}}
+    <button id="submitAlterations" align="center" class="btn btn-outline-danger mr-5">Salvar alerações sem aprovar
+    requisição</button>
+
+    <button id="submitAproved" align="center" class="btn btn-outline-success">Aprovar requisição</button>
+  {{/unless}}
+</div>
+
+<script>
+ 
+  $("#submitAlterations").click(function () {
+    $("#submitButton").trigger("click");
+  });
+
+  $("#submitAproved").click(function () {
+    $('#toApprove').prop("checked", true);
+    $("#submitButton").trigger("click");
+  });
+
+</script>
+<script>
+  $(document).ready(function () {
+    //Set select values
+    let charge = "{{requisition.charge.state}}";
+    $('select#userstate').val(charge);
+
+    let analysis = "{{requisition.analysis.state}}";
+    $('select#requisitonstate').val(analysis);
+
+    let destination = "{{requisition.analysis.destination}}";
+    $('select#destination').val(destination);
+
+    let userId = "{{requisition.charge.user}}"
+    $('select#analystUser').val(userId);
+    
+ });
+</script>
+
+<script src="/javascripts/dynamicPlaceHolder.js" />

@@ -41,7 +41,7 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
           result[index].samples.push({
             changedworkmap: changedworkmap,
             _id: element._id,
-            samplenumber: element.samplenumber,
+            sampleNumber: element.sampleNumber,
           });
         }
       }

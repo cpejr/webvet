@@ -17,10 +17,10 @@ router.get("/", auth.isAuthenticated, function (req, res) {
 
 router.post("/create", (req, res) => {
   const { sample } = req.body;
-  Sample.getMaxSampleNumber()
+  Sample.getMaxsampleNumber()
     .then((maxSample) => {
       sample = {
-        samplenumber: maxSample[0].samplenumber + 1,
+        sampleNumber: maxSample[0].sampleNumber + 1,
       };
 
       Sample.create(sample)
@@ -38,69 +38,43 @@ router.post("/create", (req, res) => {
     });
 });
 
-router.post("/updatestatus/:status/:mycotoxin/:sampleId", async (req, res) => {
+router.post("/updateAnalysisWorkmapAndStatus/:analysisId", async (req, res) => {
   try {
-    const { status, mycotoxin, sampleId } = req.params;
+    const { analysisId } = req.params;
+    let { workmapId, status } = req.body;
 
-    const sample = await Sample.getById(sampleId);
+    if (!workmapId) workmapId = null;
+
     const filedsToUpdate = {};
 
-    if (sample[mycotoxin].status === "Mapa de Trabalho") {
-      const workmapId = sample[mycotoxin].workmapId;
-      filedsToUpdate[`${mycotoxin}.workmapId`] = null;
-
-      Workmap.removeSample(workmapId, sampleId);
-    }
-
     let newStatus;
-    switch (status) {
-      case "testing":
-        newStatus = "Em análise";
-        break;
+    if (workmapId && workmapId !== null) newStatus = "Mapa de Trabalho";
+    else if (!status) newStatus = "Em análise";
+    else newStatus = status;
 
-      case "ownering":
-        newStatus = "Aguardando pagamento";
-        break;
+    filedsToUpdate[`analysis.$.status`] = newStatus;
+    filedsToUpdate[`analysis.$.workmapId`] = workmapId;
 
-      case "waiting":
-        newStatus = "Aguardando amostra";
-        break;
-    }
+    const sample = await Sample.SampleModel.findOneAndUpdate(
+      { "analysis._id": analysisId },
+      { $set: filedsToUpdate }
+    );
 
-    filedsToUpdate[`${mycotoxin}.status`] = newStatus;
+    const analysis = sample.analysis.find(
+      (analysis) => analysis._id == analysisId
+    );
 
-    const response = await Sample.update(sampleId, { $set: filedsToUpdate });
+    const response = await Kit.updateSampleWorkmapId(
+      analysis.workmapId,
+      workmapId,
+      sample._id
+    );
+
     res.status(200).send(response);
   } catch (error) {
+    console.warn(error);
     res.status(500).send();
   }
-});
-
-router.post("/setActiveKit/:toxinafull/:kitActiveID", function (req, res) {
-  //Set active to inactive
-  let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)];
-  //Correção provisória do problema com a sigla
-  if (sigla === "FBS") sigla = "FUMO";
-
-  Kit.getActiveID(sigla)
-    .then((kit) => {
-      if (kit) Kit.setActiveStatus(kit._id, false);
-    })
-    .then(() => {
-      //Update new one
-      Kit.setActiveStatus(req.params.kitActiveID, true)
-        .then((response) => {
-          res.send(response);
-        })
-        .catch((error) => {
-          console.warn(error);
-          res.redirect("/error");
-        });
-    })
-    .catch((error) => {
-      console.warn(error);
-      res.redirect("/error");
-    });
 });
 
 router.post("/scndTesting/edit/:mycotoxin/:sampleId", async (req, res) => {
@@ -160,10 +134,11 @@ router.get("/edit/:sampleId", async (req, res) => {
   try {
     const sample = await Sample.getById(sampleId);
 
-    res.render("samples/edit", {
+    res.render("samples/admEdit", {
       title: "Editar amostra",
       layout: "layoutDashboard.hbs",
       sample,
+      allDestinations,
     });
   } catch (error) {
     console.warn(error);
@@ -174,10 +149,10 @@ router.get("/edit/:sampleId", async (req, res) => {
 router.post("/save", (req, res) => {
   const { sample } = req.body;
   sample.isCitrus = sample.isCitrus ? true : false;
-  Sample.updateBySampleNumber(sample.samplenumber + "", sample)
+  Sample.updateBysampleNumber(sample.sampleNumber + "", sample)
     .then(() => {
       req.flash("success", "Amostra alterada");
-      res.redirect("/sample/edit/" + sample.samplenumber);
+      res.redirect("/sample/edit/" + sample.sampleNumber);
     })
     .catch((error) => {
       console.warn(error);

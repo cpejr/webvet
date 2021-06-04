@@ -54,13 +54,13 @@
           </tr>
         </thead>
         <tbody>
-          {{#each kitstocks}}
+          {{#each sumAmounts}}
             <tr>
               <th>{{name}}</th>
-              <th>{{currentSum}}</th>
+              <th>{{count}}</th>
               <th>{{minStock}}</th>
               <th>
-                <input type="text" class="text-center" style="width: 90px" name={{name}} />
+                <input type="number" class="text-center" style="width: 90px" name="[{{auxId}}]" />
               </th>
             </tr>
           {{/each}}
@@ -85,20 +85,21 @@
           <th>Código Produto</th>
           <th>Descrição</th>
           <th>Validade</th>
-          <th>Quantidade</th>
+          <th>Provedor</th>
           <th></th>
         </tr>
       </thead>
       <tbody id='tb-body-archived'>
         {{#each disabledKits}}
           <tr>
-            <th>{{productCode}}</th>
-            <th>{{productDescription}}</th>
+            <th>{{toxin.sigle}} Romer</th>
+            <th>{{kitDescription}}</th>
             <th>
               <div class="expirationDate{{color}}">
-                {{dayexpirationDate}}/{{monthexpirationDate}}/{{yearexpirationDate}}
+                {{date}}/{{month}}/{{year}}
               </div>
-            <th>{{amount}}</th>
+            </th>
+            <th>{{provider}}</th>
             <th>
               <button onClick="location.href='stock/edit/{{_id}}'" class="fa fa-info btn m-1"></button>
             </th>

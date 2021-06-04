@@ -10,8 +10,8 @@
       <tr>
         <th>Status</th>
         <th>Identificação</th>
-        <th>Produtor</th>
-        <th>Destino</th>
+        <th>Responsável</th>
+        <th>Email</th>
         <th>Editar</th>
       </tr>
     </thead>
@@ -19,9 +19,9 @@
       {{#each regularRequisitions}}
       <tr>
         <th>{{status}}</th>
-        <th>{{requisitionnumber}}/{{year}}</th>
-        <th>{{producer}}</th>
-        <th>{{destination}}</th>
+        <th>{{requisitionNumber}}/{{year}}</th>
+        <th>{{contact.fullname}}</th>
+        <th>{{contact.email}}</th>
         <th>
           <button onClick="location.href='requisition/edit/{{_id}}'" class="fa fa-info btn m-1"></button>
         </th>

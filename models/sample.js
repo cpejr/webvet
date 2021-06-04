@@ -26,6 +26,7 @@ const analysisSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Toxin",
     },
+
     status: {
       type: String,
       enum: [
@@ -63,6 +64,7 @@ const analysisSchema = new mongoose.Schema(
 
 const sampleSchema = new mongoose.Schema(
   {
+    // Identificador
     name: String,
     //Contém Polpa cítrica
     isCitrus: {
@@ -73,19 +75,21 @@ const sampleSchema = new mongoose.Schema(
       type: Number,
       default: yyyy,
     },
-    samplenumber: Number,
-    responsibleName: String,
+    sampleNumber: Number,
+
     requisitionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Requisition",
     },
+
     sampletype: String,
+
     //Quantidade recebida
-    receivedquantity: Number,
+    receivedQuantity: Number,
+
     //Tipo de embalagem
     packingtype: String,
-    // ??
-    description: String,
+
     //Aprovado pelo ADM
     approved: {
       //A aprovacao da requisicao associada
@@ -96,6 +100,11 @@ const sampleSchema = new mongoose.Schema(
     report: reportSchema,
 
     analysis: [analysisSchema],
+
+    // Texto para colocar data limite
+    limitDate: {
+      type: String,
+    },
 
     //Marca a amostra como criada pelo painel especial.
     isSpecial: {
@@ -108,14 +117,23 @@ const sampleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
-    // Texto para colocar data limite
-    limitDate: {
-      type: String,
-    },
   },
-  { timestamps: true, strict: false }
+  {
+    timestamps: true,
+    strict: false,
+    toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+    toObject: { virtuals: true },
+  }
 );
+
+sampleSchema.virtual("requisition", {
+  ref: "Requisition", // The model to use
+  localField: "requisitionId", // Find people where `localField`
+  foreignField: "_id", // is equal to `foreignField`
+  // If `justOne` is true, 'members' will be a single doc as opposed to
+  // an array. `justOne` is false by default.
+  justOne: true,
+});
 
 const SampleModel = mongoose.model("Sample", sampleSchema);
 
@@ -145,10 +163,10 @@ const Sample = {
     return result;
   },
 
-  getMaxSampleNumber() {
+  getMaxsampleNumber() {
     return new Promise((resolve, reject) => {
-      SampleModel.find({}, { samplenumber: 1, _id: 0 })
-        .sort({ samplenumber: -1 })
+      SampleModel.find({}, { sampleNumber: 1, _id: 0 })
+        .sort({ sampleNumber: -1 })
         .limit(1)
         .populate("sample")
         .exec()
@@ -173,14 +191,18 @@ const Sample = {
     });
   },
 
+  getByFields(fields) {
+    return SampleModel.find(fields);
+  },
+
   async updateCustom(id, params) {
     const response = await SampleModel.findByIdAndUpdate(id, { $set: params });
     return response;
   },
 
-  updateBySampleNumber(samplenumber, sample) {
+  updateBysampleNumber(sampleNumber, sample) {
     return new Promise((resolve, reject) => {
-      SampleModel.findOneAndUpdate({ samplenumber: samplenumber }, sample)
+      SampleModel.findOneAndUpdate({ sampleNumber: sampleNumber }, sample)
         .then((res) => {
           resolve(res);
         })
@@ -230,6 +252,36 @@ const Sample = {
             });
         });
     });
+  },
+
+  async removeAnalysis(samplesIds, toxinsIds) {
+    return SampleModel.update(
+      { _id: { $in: samplesIds } },
+      {
+        $pull: {
+          analysis: {
+            toxinId: { $in: toxinsIds },
+          },
+        },
+      },
+      { multi: true }
+    );
+  },
+
+  async addAnalysis(samplesIds, toxinsIds) {
+    const objs = toxinsIds.map((id) => ({ toxinId: id, status: "nova" }));
+
+    return SampleModel.update(
+      { _id: { $in: samplesIds } },
+      {
+        $push: {
+          analysis: {
+            $each: objs,
+          },
+        },
+      },
+      { multi: true }
+    );
   },
 
   updateReport(id, report) {
@@ -434,34 +486,8 @@ const Sample = {
     });
 
     const result = await build.exec();
-    console.log(
-      "🚀 ~ file: sample.js ~ line 683 ~ Sample ~ getAllActiveWithWorkmap ~ result",
-      result
-    );
 
     return result;
-  },
-
-  getAllActive() {
-    return new Promise((resolve, reject) => {
-      let query = { $or: [], isSpecial: { $ne: true } };
-
-      ToxinasFull.forEach((toxina) => {
-        let expression = {};
-
-        expression[toxina + ".active"] = true;
-
-        query.$or.push(expression);
-      });
-
-      SampleModel.find(query)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
   },
 
   async getAllSpecialActive() {
@@ -503,109 +529,91 @@ const Sample = {
     return Math.ceil(sample / REPORTS_PER_PAGE);
   },
 
-  getAllActiveWithUser() {
-    return new Promise((resolve, reject) => {
-      let query = { $or: [], isSpecial: { $ne: true } };
-
-      for (let index = 0; index < ToxinasFull.length; index++) {
-        const toxina = ToxinasFull[index];
-        let expression = {};
-
-        expression[toxina + ".active"] = true;
-
-        query.$or.push(expression);
-      }
-
-      SampleModel.aggregate([
-        { $match: query },
-        {
-          $group: {
-            _id: "$requisitionId",
-            samples: { $push: "$$ROOT" },
+  // Samples com a toxina para analise x
+  // Sem Workmap
+  // Sem ser especiais
+  // Agrupar por toxina
+  async getAllWithoutFinalization() {
+    return await SampleModel.aggregate([
+      {
+        $match: {
+          "analysis.wasDetected": null,
+        },
+      },
+      {
+        $lookup: {
+          from: "requisitions",
+          localField: "requisitionId",
+          foreignField: "_id",
+          as: "requisition",
+        },
+      },
+      {
+        $unwind: {
+          path: "$requisition",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "requisition.charge.user",
+          foreignField: "_id",
+          as: "requisition.charge.user",
+        },
+      },
+      {
+        $unwind: {
+          path: "$requisition.charge.user",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $unwind: {
+          path: "$analysis",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$analysis.toxinId",
+          samples: {
+            $push: "$$ROOT",
           },
         },
-        {
-          $lookup: {
-            from: "requisitions",
-            localField: "_id",
-            foreignField: "_id",
-            as: "requisition",
-          },
+      },
+      {
+        $lookup: {
+          from: "toxins",
+          localField: "_id",
+          foreignField: "_id",
+          as: "toxin",
         },
-        {
-          $project: {
-            _id: 1,
-            samples: 1,
-            userId: { $arrayElemAt: ["$requisition.user", 0] },
-          },
+      },
+      {
+        $unwind: {
+          path: "$toxin",
+          preserveNullAndEmptyArrays: true,
         },
-        {
-          $group: {
-            _id: "$userId",
-            samples: { $push: "$samples" },
-          },
-        },
-        {
-          $lookup: {
-            from: "users",
-            localField: "_id",
-            foreignField: "_id",
-            as: "user",
-          },
-        },
-        {
-          $project: {
-            _id: 1,
-            samples: 1,
-            debt: { $arrayElemAt: ["$user.debt", 0] },
-          },
-        },
-        {
-          $sort: {
-            samplenumber: 1,
-          },
-        },
-      ])
-        .then((result) => {
-          function flat(input, depth = 1, stack = []) {
-            for (let item of input) {
-              if (item instanceof Array && depth > 0) {
-                flat(item, depth - 1, stack);
-              } else {
-                stack.push(item);
-              }
-            }
-
-            return stack;
-          }
-
-          for (let i = 0; i < result.length; i++) {
-            result[i].samples = flat(result[i].samples);
-          }
-
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+      },
+    ]);
   },
 
   async getAllReport() {
-    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
+    let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).populate({
       path: "requisitionId",
-      select: "requisitionnumber user createdAt _id",
+      select: "requisitionNumber user createdAt _id",
     });
     return result;
   },
 
   async getRegular(page = 1) {
-    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
+    let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query)
       .populate({
         path: "requisitionId",
-        select: "requisitionnumber user createdAt _id",
+        select: "requisitionNumber user createdAt _id",
       })
       .skip((page - 1) * REPORTS_PER_PAGE)
       .limit(REPORTS_PER_PAGE)
@@ -614,7 +622,7 @@ const Sample = {
   },
 
   async getRegularCountPages() {
-    let query = { 'report.isAvailable': true, isSpecial: { $ne: true } };
+    let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).countDocuments();
     return Math.ceil(result / REPORTS_PER_PAGE);
   },
@@ -622,7 +630,7 @@ const Sample = {
   async getRelatedEmails(id) {
     const result = await SampleModel.findById(
       id,
-      "requisitionId samplenumber createdAt"
+      "requisitionId sampleNumber createdAt"
     ).populate({
       path: "requisitionId",
       select: "user _id",
@@ -634,11 +642,11 @@ const Sample = {
 
   async create(sample) {
     try {
-      let samplenumber = await Counter.getSampleCount();
-      sample.samplenumber = samplenumber;
+      let sampleNumber = await Counter.getSampleCount();
+      sample.sampleNumber = sampleNumber;
       const result = await SampleModel.create(sample);
-      samplenumber++;
-      await Counter.setSampleCount(samplenumber);
+      sampleNumber++;
+      await Counter.setSampleCount(sampleNumber);
       return result;
     } catch (error) {
       console.warn(error);
@@ -649,14 +657,14 @@ const Sample = {
   async createMany(samples) {
     let manySamples = [];
     try {
-      let samplenumber = await Counter.getSampleCount();
+      let sampleNumber = await Counter.getSampleCount();
       samples.forEach((sample) => {
-        sample.samplenumber = samplenumber;
+        sample.sampleNumber = sampleNumber;
         manySamples.push(sample);
-        samplenumber++;
+        sampleNumber++;
       });
       const result = await SampleModel.create(manySamples);
-      await Counter.setSampleCount(samplenumber);
+      await Counter.setSampleCount(sampleNumber);
       return result;
     } catch (error) {
       console.warn(error);
@@ -920,7 +928,7 @@ const Sample = {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
+      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
       ...extraOperations,
       {
         $project: {
@@ -941,7 +949,7 @@ const Sample = {
 
   async getStatisticTableData() {
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", 'report.isAvailable': true } },
+      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
       {
         $project: {
           "aflatoxina.checked": 1,
@@ -961,7 +969,8 @@ const Sample = {
       { $sort: { createdAt: 1 } },
     ]);
     return result;
-  }
-}
+  },
+  SampleModel,
+};
 
 module.exports = Sample;

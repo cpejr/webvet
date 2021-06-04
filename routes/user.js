@@ -48,7 +48,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     for (const requi of requisitions) {
       data.push({
         name: requi.user.fullname,
-        number: requi.requisitionnumber,
+        number: requi.requisitionNumber,
         year: requi.createdAt.getFullYear(),
         _id: requi._id,
       });

@@ -17,7 +17,7 @@
       <tbody>
         {{#each laudos}}
         <tr>
-          <th>{{samplenumber}}/{{creationYear}}</th>
+          <th>{{sampleNumber}}/{{creationYear}}</th>
           {{#compare finalized "Disponivel"}}
           <th>Disponível para o produtor</th>
           {{/compare}}
@@ -29,7 +29,7 @@
           {{/compare}}
           <th>
             <a href="../../report/show/admin/{{_id}}"><button class="btn btn-success">Editar laudo
-                {{samplenumber}}/{{creationYear}}</button></a>
+                {{sampleNumber}}/{{creationYear}}</button></a>
           </th>
         </tr>
         {{/each}}
@@ -60,7 +60,7 @@
       <tbody>
         {{#each laudosEspeciais}}
         <tr>
-          <th>{{samplenumber}}/{{creationYear}}</th>
+          <th>{{sampleNumber}}/{{creationYear}}</th>
           {{#compare finalized "Disponivel"}}
           <th>Disponível para o produtor</th>
           {{/compare}}
@@ -72,7 +72,7 @@
           {{/compare}}
           <th>
             <a href="../../report/show/admin/{{_id}}"><button class="btn btn-success">Editar laudo
-                {{samplenumber}}/{{creationYear}}</button></a>
+                {{sampleNumber}}/{{creationYear}}</button></a>
           </th>
         </tr>
         {{/each}}

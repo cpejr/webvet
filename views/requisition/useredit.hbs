@@ -21,8 +21,8 @@
           value="{{requisition.client.fullname}}" class="requisition-text" placeholder="Razão Social/Nome Completo">
       </div>
       <div class="requisition-text col-md-6">
-        <input required id="cpf" type="text" name="requisition[client][register]"
-          value="{{requisition.client.register}}" class="requisition-text" placeholder="CNPJ/CPF">
+        <input required id="cpf" type="text" name="requisition[client][cpfCnpj]"
+          value="{{requisition.client.cpfCnpj}}" class="requisition-text" placeholder="CNPJ/CPF">
       </div>
       <div class="requisition-text col-md-6">
         <input required id="I.E" type="text" name="requisition[IE]" class="requisition-text" placeholder="I.E"
@@ -112,8 +112,8 @@
           placeholder="Nome do cliente | Fazenda | Produtor" value="{{requisition.producer}}">
       </div>
       <div class="requisition-text col-md-4">
-        <input type="text" name="requisition[autorizationnumber]" class="requisition-text"
-          placeholder="Número de Autorização" value="{{requisition.autorizationnumber}}">
+        <input type="text" name="requisition[autorizationNumber]" class="requisition-text"
+          placeholder="Número de Autorização" value="{{requisition.autorizationNumber}}">
       </div>
       <div class="requisition-text col-md-8">
         <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município"
