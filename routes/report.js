@@ -37,11 +37,10 @@ router.get("/show/:id", auth.isAuthenticated, async function (req, res) {
   try {
     const sample = await Sample.getByIdAndPopulate(req.params.id);
 
-    const requisition = sample.requisitionId;
+    const { requisition } = sample;
     const toxinVector = [];
 
     const Requisitiondata = {
-      listToxinas: requisition.mycotoxin,
       toxinas: requisition.mycotoxin.sort().join(", "),
       requisitionNumber: requisition.requisitionNumber,
       year: requisition.createdAt.getFullYear(),
@@ -292,23 +291,19 @@ router.get(
     if (regularPage <= 0) regularPage = 1;
 
     try {
-      let amostras = Sample.getRegular(regularPage);
+      let amostras = Sample.getRegularFinalized(regularPage);
       let especiais = Sample.getSpecialFinalized(specialPage);
 
-      let specialCountPages = Sample.getSpecialCountPages();
       let regularCountPages = Sample.getRegularCountPages();
+      let specialCountPages = Sample.getSpecialCountPages();
 
-      [
-        amostras,
-        especiais,
-        specialCountPages,
-        regularCountPages,
-      ] = await Promise.all([
-        amostras,
-        especiais,
-        specialCountPages,
-        regularCountPages,
-      ]);
+      [amostras, especiais, specialCountPages, regularCountPages] =
+        await Promise.all([
+          amostras,
+          especiais,
+          specialCountPages,
+          regularCountPages,
+        ]);
 
       res.render("report/admreport", {
         title: "Laudos Disponíveis",

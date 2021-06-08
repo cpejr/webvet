@@ -10,7 +10,7 @@
       <thead>
         <tr>
           <th>Identificação</th>
-          <th>Finalização</th>
+          <th>Status</th>
           <th>Laudos</th>
         </tr>
       </thead>
@@ -18,15 +18,7 @@
         {{#each laudos}}
         <tr>
           <th>{{sampleNumber}}/{{creationYear}}</th>
-          {{#compare finalized "Disponivel"}}
-          <th>Disponível para o produtor</th>
-          {{/compare}}
-          {{#compare finalized "Não finalizada"}}
-          <th>Não finalizado</th>
-          {{/compare}}
-          {{#compare finalized "Analisada"}}
-          <th>Revisada por um analista</th>
-          {{/compare}}
+          <th>{{report.status}}</th>
           <th>
             <a href="../../report/show/admin/{{_id}}"><button class="btn btn-success">Editar laudo
                 {{sampleNumber}}/{{creationYear}}</button></a>

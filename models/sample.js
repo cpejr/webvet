@@ -9,7 +9,15 @@ const yyyy = data.getFullYear();
 const reportSchema = new mongoose.Schema(
   {
     // Laudo disponível
-    isAvailable: { type: Boolean, default: false },
+    status: {
+      type: String,
+      enum: [
+        "Disponível para o produtor",
+        "Revisada por Analista",
+        "Não finalizado",
+      ],
+      default: "Não finalizado",
+    },
 
     // Parecer no laudo
     feedback: { type: String },
@@ -157,11 +165,9 @@ const Sample = {
   async getByIdAndPopulate(id) {
     const result = await SampleModel.findById(id)
       .populate(
-        "aflatoxina.kitId deoxinivalenol.kitId fumonisina.kitId ocratoxina.kitId t2toxina.kitId zearalenona.kitId"
+        
       )
-      .populate({
-        path: "requisitionId",
-      });
+      .populate("requisition");
     return result;
   },
 
@@ -320,7 +326,11 @@ const Sample = {
         $set: {
           "analysis.$.absorbance1": abs1,
           "analysis.$.absorbance2": abs2,
-          "analysis.$.resultNumber": this.calcularResult(abs1, abs2, calibrators),
+          "analysis.$.resultNumber": this.calcularResult(
+            abs1,
+            abs2,
+            calibrators
+          ),
           "analysis.$.status": "Finalizado",
           "analysis.$.finalizationNumber": finalizationNumber,
         },
@@ -469,23 +479,6 @@ const Sample = {
     return sample;
   },
 
-  async getSpecialFinalized(page = 1) {
-    let query = { isSpecial: true, specialFinalized: true };
-    const sample = await SampleModel.find(query)
-      .skip((page - 1) * REPORTS_PER_PAGE)
-      .limit(REPORTS_PER_PAGE)
-      .sort({ createdAt: -1 });
-
-    return sample;
-  },
-
-  async getSpecialCountPages() {
-    let query = { isSpecial: true, specialFinalized: true };
-    const sample = await SampleModel.find(query).countDocuments();
-
-    return Math.ceil(sample / REPORTS_PER_PAGE);
-  },
-
   // Samples com a toxina para analise x
   // Sem Workmap
   // Sem ser especiais
@@ -565,13 +558,10 @@ const Sample = {
     return result;
   },
 
-  async getRegular(page = 1) {
-    let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
+  async getRegularFinalized(page = 1) {
+    let query = { "analysis.status": "Finalizado", isSpecial: { $ne: true } };
     const result = await SampleModel.find(query)
-      .populate({
-        path: "requisitionId",
-        select: "requisitionNumber user createdAt _id",
-      })
+      .populate("requisition")
       .skip((page - 1) * REPORTS_PER_PAGE)
       .limit(REPORTS_PER_PAGE)
       .sort({ createdAt: -1 });
@@ -579,9 +569,26 @@ const Sample = {
   },
 
   async getRegularCountPages() {
-    let query = { "report.isAvailable": true, isSpecial: { $ne: true } };
+    let query = { "analysis.status": "Finalizado", isSpecial: { $ne: true } };
     const result = await SampleModel.find(query).countDocuments();
     return Math.ceil(result / REPORTS_PER_PAGE);
+  },
+
+  async getSpecialFinalized(page = 1) {
+    let query = { "analysis.status": "Finalizado", isSpecial: true };
+    const sample = await SampleModel.find(query)
+      .skip((page - 1) * REPORTS_PER_PAGE)
+      .limit(REPORTS_PER_PAGE)
+      .sort({ createdAt: -1 });
+
+    return sample;
+  },
+
+  async getSpecialCountPages() {
+    let query = { "analysis.status": "Finalizado", isSpecial: true };
+    const sample = await SampleModel.find(query).countDocuments();
+
+    return Math.ceil(sample / REPORTS_PER_PAGE);
   },
 
   async getRelatedEmails(id) {
