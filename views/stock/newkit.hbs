@@ -8,7 +8,7 @@
       <div class="Addkit-text col-md-5">
         <select id="toxinId" class="drowdownoptions" name="kit[toxinId]" required="required">
           <option value disabled selected> Código do Produto</option>
-          {{#each ToxinSiglas}}
+          {{#each Toxins}}
           <option value="{{this._id}}">{{this.sigle}} Romer</option>
           {{/each}}
         </select>

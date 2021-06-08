@@ -9,7 +9,6 @@ const Toxin = require("../models/toxin");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-  const toxins = await Toxin.getAll();
   const { user } = req.session;
   console.log("🚀 ~ file: requisition.js ~ line 14 ~ user", user);
 
@@ -20,7 +19,7 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
     isFromLab: user.type === "Admin" || user.type === "Analista" ? true : false,
     allStates,
     allDestinations,
-    toxins,
+    toxins: Toxins,
     user,
   });
 });

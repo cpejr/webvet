@@ -48,7 +48,7 @@ router.post("/forgotPassword", (req, res) => {
 });
 
 router.get("/toxins", async (req, res) => {
-  res.send(await Toxin.getAll());
+  res.send(Toxins);
 });
 
 /**

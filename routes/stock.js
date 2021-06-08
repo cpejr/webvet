@@ -156,12 +156,11 @@ router.post("/edit/:id", auth.isAuthenticated, function (req, res) {
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   try {
-    const ToxinSiglas = await Toxin.getAll();
     res.render("stock/newkit", {
       title: "Novo Kit",
       layout: "layoutDashboard.hbs",
       ...req.session,
-      ToxinSiglas,
+      Toxins,
       allKitTypes,
     });
   } catch (err) {

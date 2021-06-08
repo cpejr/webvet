@@ -71,8 +71,7 @@ class Counter {
 
   static async createDefault() {
     let kitStockVector = [];
-    const toxins = await Toxin.getAll();
-    toxins.forEach((toxin) =>
+    Toxins.forEach((toxin) =>
       kitStockVector.push({ toxinId: toxin._id, minStock: 0 })
     );
 
