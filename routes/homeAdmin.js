@@ -6,7 +6,6 @@ const Requisition = require("../models/requisition");
 const User = require("../models/user");
 const Kit = require("../models/kit");
 const Counter = require("../models/counter");
-const Toxin = require("../models/toxin");
 
 /* GET home page. */
 router.get(

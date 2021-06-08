@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 const Kit = require("../models/kit");
 const Counter = require("../models/counter");
-const Toxin = require("../models/toxin");
 
 /* GET home page. */
 

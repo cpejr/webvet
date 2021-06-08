@@ -5,7 +5,6 @@ const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
 const User = require("../models/user");
 const Kit = require("../models/kit");
-const Toxin = require("../models/toxin");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });

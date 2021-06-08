@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Toxin = require("./toxin");
 var data = new Date();
 var yyyy = data.getFullYear();
 

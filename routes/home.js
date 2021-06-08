@@ -4,7 +4,6 @@ var admin = require("firebase-admin");
 var router = express.Router();
 const auth = require("../middlewares/auth");
 const User = require("../models/user");
-const Toxin = require("../models/toxin");
 const Email = require("../models/email");
 const GmailOAuth = require("../utils/GmailOAuth");
 
