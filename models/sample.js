@@ -320,7 +320,7 @@ const Sample = {
         $set: {
           "analysis.$.absorbance1": abs1,
           "analysis.$.absorbance2": abs2,
-          "analysis.$.resultNumber": calcularResult(abs1, abs2, calibrators),
+          "analysis.$.resultNumber": this.calcularResult(abs1, abs2, calibrators),
           "analysis.$.status": "Finalizado",
           "analysis.$.finalizationNumber": finalizationNumber,
         },
@@ -361,7 +361,7 @@ const Sample = {
     const { slope, intercept } = result;
 
     let log_b_b0 = Math.log10(
-      abs / p_absorvance[0] / (1 - abs1 / p_absorvance[0])
+      abs1 / p_absorvance[0] / (1 - abs1 / p_absorvance[0])
     );
     let log_b_b0_2 = Math.log10(
       abs2 / p_absorvance[0] / (1 - abs2 / p_absorvance[0])

@@ -8,16 +8,17 @@ module.exports = {
   // A const user pega as informações do usuário que está logado no firebase e compara com o usuário que quer acessar as páginas
   // Caso não haja nenhum usuário logado, a página é redirecionada para o login. Caso haja um usuário logado, a página que o usuário quer acessar é carregada
   isAuthenticated: (req, res, next) => {
-    const test = firebase.auth();
+    next();
+    // const test = firebase.auth();
 
-    const user = test.currentUser;
+    // const user = test.currentUser;
 
-    if (user !== null) {
-      next();
-    }
-    else {
-      res.redirect('/login');
-    }
+    // if (user !== null) {
+    //   next();
+    // }
+    // else {
+    //   res.redirect('/login');
+    // }
   },
 
   // Essa função confere se o tipo do usuário é "produtor" e permite que ele entre nas páginas disponíveis apenas para produtores
@@ -77,22 +78,24 @@ module.exports = {
   // A const type identifica qual o tipo do usuário que está logado e compara essa string com "Admin", se o usuário for administrador ele poderá acessar a página desejada, caso contrário, ele é redirecionado para a página de clientes
 
   isAdmin: (req, res, next) => {
-    const { type } = req.session.user;
-    if (type === 'Admin') {
-      next();
-    }
-    else {
-      res.redirect('/user');
-    }
+    next();
+    // const { type } = req.session.user;
+    // if (type === 'Admin') {
+    //   next();
+    // }
+    // else {
+    //   res.redirect('/user');
+    // }
   },
 
   isFromLab: (req, res, next) => {
-    const { type } = req.session.user;
-    if (type === 'Admin' || type === 'Analista') {
-      next();
-    }
-    else {
-      res.redirect('/user');
-    }
+    next();
+    // const { type } = req.session.user;
+    // if (type === 'Admin' || type === 'Analista') {
+    //   next();
+    // }
+    // else {
+    //   res.redirect('/user');
+    // }
   },
 }

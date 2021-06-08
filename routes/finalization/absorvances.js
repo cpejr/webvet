@@ -22,16 +22,11 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
     });
 
     result[index] = {
-      _id: kit.toxin._id,
+      _id: kit._id,
       name: kit.toxin.sigle,
       samples,
     };
   });
-
-  console.log(
-    "🚀 ~ file: absorvances.js ~ line 36 ~ router.get ~ result",
-    result
-  );
 
   res.render("finalization/absorbances", {
     result,
@@ -41,19 +36,21 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
 });
 
 router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
-  const { kits } = req.body;
+  const body = req.body.kits;
+
   let finalizationNumber = await Counter.getFinalizationCount();
 
   const promises = [];
-  const kitsIds = Object.keys(kits);
-  const kitsObj = await Kit.findByFields({ _id: { $in: kitsIds } });
+  const kitsIds = Object.keys(body);
+  
+  const kits = await Kit.findByFields({ _id: { $in: kitsIds } });
 
   kitsIds.forEach((kitId) => {
-    const workmapsIds = Object.keys(kits[kitId]);
-    const kit = kitsObj.find((kit) => `${kit._id}` == `${kitId}`);
+    const workmapsIds = Object.keys(body[kitId]);
+    const kit = kits.find((kit) => `${kit._id}` == `${kitId}`);
 
     workmapsIds.forEach((workmapId) => {
-      const samplesIds = Object.keys(kits[kitId][workmapId]);
+      const samplesIds = Object.keys(body[kitId][workmapId]);
       promises.push(
         Kit.finalizeWorkmap(
           kitId,
@@ -64,8 +61,8 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
       );
 
       samplesIds.forEach((sampleId) => {
-        const analysisId = Object.keys(sampleData)[0];
-        const sampleData = kits[kitId][workmapId][sampleId][analysisId];
+        const analysisId = Object.keys(body[kitId][workmapId][sampleId])[0];
+        const sampleData = body[kitId][workmapId][sampleId][analysisId];
 
         promises.push(
           Sample.finalize(
@@ -82,10 +79,9 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
   });
 
   promises.push(Counter.setFinalizationCount(finalizationNumber + 1));
-
   await Promise.all(promises);
 
-  res.redirect("finalization/result");
+  res.redirect("/finalization/result");
 });
 
 module.exports = router;

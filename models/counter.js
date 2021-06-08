@@ -191,11 +191,12 @@ class Counter {
 
   static async getFinalizationCount() {
     const result = await CounterModel.findOne({});
+
     //if a counter doesn't exist, will create a new one
-    if (result != null) sendValue(result);
+    if (result != null) return sendValue(result);
     else {
       let newCounter = await create();
-      sendValue(newCounter);
+      return sendValue(newCounter);
     }
 
     function sendValue(counter) {

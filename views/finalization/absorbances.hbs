@@ -19,8 +19,8 @@
             <tr>
               <th>{{sampleNumber}}</th>
               <td class="d-flex input-group-sm px-2" style="max-width: 200px;">
-                  <input type="text" name="kits[{{../_id}}][{{workmapId}}][{{_id}}][{{analysis._id}}][absorbance1]" class="form-control text-center">
-                  <input type="text" name="kits[{{../_id}}][{{workmapId}}][{{_id}}][{{analysis._id}}][absorbance2]" class="form-control text-center">
+                  <input type="text" name="kits[{{../_id}}][{{analysis.workmapId}}][{{_id}}][{{analysis._id}}][absorbance1]" class="form-control text-center">
+                  <input type="text" name="kits[{{../_id}}][{{analysis.workmapId}}][{{_id}}][{{analysis._id}}][absorbance2]" class="form-control text-center">
               </td>
             </tr>
             {{#if changedworkmap}}
@@ -39,7 +39,7 @@
       <a href="/queue" class="btn btn-success" id="test">Voltar</a>
     </div>
     <div class="btn btn-abs">
-      <button class="btn btn-success">Finalizar</button>
+      <button class="btn btn-success">Finalizar e ver resultados</button>
     </div>
   </div>
   

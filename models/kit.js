@@ -615,6 +615,35 @@ const KitActions = {
     return response;
   },
 
+  async getAllByFinalizationNumber(finalizationNumber) {
+    let response = await KitModel.find({
+      "workmaps.finalizationNumber": finalizationNumber,
+    })
+      .populate("toxin")
+      .populate({
+        path: "workmaps.samples",
+        populate: {
+          path: "requisition",
+        },
+      })
+      .sort({ "toxin.name": 1 });
+
+    response = response.map((kit) => kit.toJSON());
+    response.forEach((kit, ki) =>
+      kit.workmaps.forEach((workmap, wi) => {
+        workmap.samples.forEach((sample, si) => {
+          response[ki].workmaps[wi].samples[si].analysis = sample.analysis.find(
+            (analysis) => {
+              return `${analysis.workmapId}` == `${workmap._id}`;
+            }
+          );
+        });
+      })
+    );
+
+    return response;
+  },
+
   async updateSampleWorkmapId(oldWorkmapId, newWorkmapId, sapleId) {
     const promises = [];
     promises.push(
@@ -643,13 +672,21 @@ const KitActions = {
     return KitModel.updateOne(conditions, doc);
   },
 
-  finalizeWorkmap(kitId, wormapId, finalizationNumber, newAmount) {
+  finalizeWorkmap(kitId, workmapId, finalizationNumber, newAmount) {
+    console.log(
+      "🚀 ~ file: kit.js ~ line 647 ~ finalizeWorkmap ~ workmapId",
+      workmapId
+    );
+    console.log(
+      "🚀 ~ file: kit.js ~ line 647 ~ finalizeWorkmap ~ kitId",
+      kitId
+    );
     return KitModel.updateOne(
-      { _id: kitId, "workmaps._id": wormapId },
+      { _id: kitId, "workmaps._id": workmapId },
       {
         "workmaps.$.finalizationNumber": finalizationNumber,
         "workmaps.$.wasUsed": true,
-        "amount": newAmount 
+        amount: newAmount,
       }
     );
   },
