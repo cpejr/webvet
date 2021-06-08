@@ -136,6 +136,24 @@ const sampleSchema = new mongoose.Schema(
   }
 );
 
+sampleSchema.virtual("analysis.toxin", {
+  ref: "Toxin", // The model to use
+  localField: "analysis.toxinId", // Find people where `localField`
+  foreignField: "_id", // is equal to `foreignField`
+  // If `justOne` is true, 'members' will be a single doc as opposed to
+  // an array. `justOne` is false by default.
+  justOne: true,
+});
+
+sampleSchema.virtual("analysis.kit", {
+  ref: "Kit", // The model to use
+  localField: "analysis.workmapId", // Find people where `localField`
+  foreignField: "workmaps._id", // is equal to `foreignField`
+  // If `justOne` is true, 'members' will be a single doc as opposed to
+  // an array. `justOne` is false by default.
+  justOne: true,
+});
+
 sampleSchema.virtual("requisition", {
   ref: "Requisition", // The model to use
   localField: "requisitionId", // Find people where `localField`
@@ -164,10 +182,14 @@ const Sample = {
 
   async getByIdAndPopulate(id) {
     const result = await SampleModel.findById(id)
-      .populate(
-        
-      )
-      .populate("requisition");
+      .populate("analysis.toxin")
+      .populate("analysis.kit")
+      .populate({
+        path: "requisition",
+        populate: {
+          path: "selectedToxins charge.user",
+        },
+      });
     return result;
   },
 
@@ -304,13 +326,6 @@ const Sample = {
     });
   },
 
-  async updateReportSpecific(id, fieldsToUpdate) {
-    const result = await SampleModel.updateOne(
-      { _id: id },
-      { $set: fieldsToUpdate }
-    );
-    return result;
-  },
 
   async finalize(
     sampleId,
@@ -589,19 +604,6 @@ const Sample = {
     const sample = await SampleModel.find(query).countDocuments();
 
     return Math.ceil(sample / REPORTS_PER_PAGE);
-  },
-
-  async getRelatedEmails(id) {
-    const result = await SampleModel.findById(
-      id,
-      "requisitionId sampleNumber createdAt"
-    ).populate({
-      path: "requisitionId",
-      select: "user _id",
-      populate: { path: "user", select: "email fullname _id" },
-    });
-
-    return result;
   },
 
   async create(sample) {

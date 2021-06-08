@@ -11,26 +11,26 @@
     </h3>
   </div>
   <div class="laudo-text">
-    <h4> <b>Registro Lab.</b> MICOTOX {{Requisitiondata.requisitionNumber}}/{{Requisitiondata.year}}</h4>
-    <h4> <b>1. Laudo n°:</b> {{sample.sampleNumber}}/{{Requisitiondata.year}}</h4>
+    <h4> <b>Registro Lab.</b> MICOTOX {{requisition.requisitionNumber}}/{{requisition.year}}</h4>
+    <h4> <b>1. Laudo n°:</b> {{sample.sampleNumber}}/{{requisition.year}}</h4>
     <h4> <b>2. Descrição da Amostra:</b> {{sample.name}}</h4>
     <div class="info-laudo">
       <h4> 2.1 - Tipo de embalagem: {{sample.packingtype}} </h4>
       <h4> 2.2 - Quantidade recebida: {{sample.receivedQuantity}} g</h4>
-      <h4> 2.3 - Produtor: {{Requisitiondata.producer}}</h4>
+      <h4> 2.3 - Produtor: {{requisition.charge.user.fullname}}</h4>
       <div class="laudo-linha d-flex flex-row m-0">
-        <h4 class="mr-5 m-0"> 2.4 - Data de recebimento: {{Requisitiondata.datereceipt}}</h4>
-        <h4 class="m-0"> N° autorização: {{Requisitiondata.autorizationNumber}}</h4>
+        <h4 class="mr-5 m-0"> 2.4 - Data de recebimento: {{requisition.analysis.receiptDate}}</h4>
+        <h4 class="m-0"> N° autorização: {{requisition.analysis.autorizationNumber}}</h4>
       </div>
     </div>
     <h4> <b>3. Descrição da empresa pública ou privada/pessoa física/pessoa jurídica solicitante:</b> </h4>
     <div class="info-laudo">
-      <h4> 3.1 - Nome: {{Requisitiondata.clientName}}</h4>
-      <h4> 3.2 - Responsável pela entrega da amostra: {{Requisitiondata.responsible}} </h4>
+      <h4> 3.1 - Nome: {{requisition.charge.fullname}}</h4>
+      <h4> 3.2 - Responsável pela entrega da amostra: {{requisition.contact.fullname}} </h4>
     </div>
     <h4> <b>4. Características das análises da amostra:</b> </h4>
     <div class="info-laudo">
-      <h4> 4.1 - Detecção e quantificação de {{Requisitiondata.toxinas}} </h4>
+      <h4> 4.1 - Detecção e quantificação de {{requisition.toxinas}} </h4>
     </div>
     <h4> <b>5. Resultados:</b> </h4>
     <form action="/report/show/admin/{{sample._id}}" method="post" id="formReport">
@@ -47,28 +47,25 @@
             </tr>
           </thead>
           <tbody>
-            {{#each toxinVector}}
+            {{#each sample.analysis}}
             <tr>
-              <th scope="row">{{toxinDisplayName}}</th>
+              <th scope="row">{{toxin.name}}</th>
               <td class="d-flex flex-row justify-content-center">
-                <p>{{roundResult}} ({{resultChart}}) </p>
-                <input readonly name="{{toxinFull}}[resultChart]" value="{{resultChart}}" class="d-none" />
+                <p>{{resultNumber}} ({{resultChart}}) </p>
+                <input readonly name="analysis[{{_id}}][resultChart]" value="{{resultChart}}" class="d-none" />
               </td>
               <td>
-                <input type="text" id="{{toxinFull}}Conc" value="{{resultText}}" name="{{toxinFull}}[resultText]">
-                <input type="checkbox" class="hidden-print" name="{{toxinFull}}[checked]" id="toxinaCheck"
-                  value="{{toxinDisplayName}}">
-                <button class="btn btn-success hidden-print" id="{{toxinFull}}" name="check[{{checked}}]"
-                  hidden>+</button>
+                <input type="text" value="{{resultText}}" name="analysis[{{_id}}][resultText]">
+                <input type="checkbox" class="hidden-print" name="analysis[{{_id}}][wasDetected]" id="toxinaDetected"
+                  value="{{toxin.name}}">
               </td>
-              <td>{{lod}}</td>
-              <td>{{loq}}</td>
+              <td>{{kit.Lod}}</td>
+              <td>{{kit.Loq}}</td>
             </tr>
             <script>
               var initialCheck = function () {
-                if ($('button[name="check[true]"][id="{{toxinFull}}"]').length > 0) {
-                  // console.log("{{toxinFull}} esta presente!");
-                  $('input[name="{{toxinFull}}[checked]"]').attr("checked", "{{toxinDisplayName}}");
+                if ("{{wasDetected}}" === "true") {
+                  $('input[name="analysis[{{_id}}][wasDetected]"]').attr("checked", "{{toxin.name}}");
                 }
               };
 
@@ -83,9 +80,9 @@
         </div>
       </div>
       <h4><b> 6. Parecer técnico: </b></h4>
-      <textarea style="border: none" id="parecer" name="sample[parecer]" class="col-sm-12 mb-3" readonly></textarea>
+      <textarea style="border: none" id="feedback" name="feedback" class="col-sm-12 mb-3" readonly></textarea>
       <h4><b> 7. Comentários: </b></h4>
-      <textarea name="sample[comment]" cols="100" rows="7">{{sample.comment}}</textarea>
+      <textarea name="comment" cols="100" rows="7">{{sample.report.comment}}</textarea>
       <br>
 
       <h4> Belo Horizonte, {{sample.date}} </h4>
@@ -119,29 +116,29 @@
             <button class="btn btn-success hidden-print" onclick="print()"> Imprimir </button>
           </div>
           {{#compare user.type 'Admin'}}
-          {{#compare sample.finalized 'Disponivel'}}
+          {{#compare sample.report.status 'Disponível para o produtor'}}
           <div class="col-sm-4">
             <button class="btn btn-success hidden-print" id="unfinalize">Cancelar finalização</butt>
           </div>
           {{/compare}}
-          {{#compare sample.finalized 'Não finalizada'}}
+          {{#compare sample.report.status 'Não finalizado'}}
           <div class="col-sm-4">
             <button class="btn btn-success hidden-print" id="finalize">Finalizar</button>
           </div>
           {{/compare}}
-          {{#compare sample.finalized 'Analisada'}}
+          {{#compare sample.report.status 'Revisada por Analista'}}
           <div class="col-sm-4">
             <button class="btn btn-success hidden-print" id="finalize">Finalizar</button>
           </div>
           {{/compare}}
           {{/compare}}
           {{#compare user.type 'Analista'}}
-          {{#compare sample.finalized 'Não finalizada'}}
+          {{#compare sample.report.status 'Não finalizado'}}
           <div class="col-sm-4">
             <button class="btn btn-success hidden-print" id="analize">Marcar como Analisada</button>
           </div>
           {{/compare}}
-          {{#compare sample.finalized 'Analisada'}}
+          {{#compare sample.report.status 'Revisada por Analista'}}
           <div class="col-sm-4">
             <button class="btn btn-success hidden-print" id="unanalize">Cancelar análise</button>
           </div>

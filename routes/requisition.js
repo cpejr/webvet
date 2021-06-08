@@ -121,7 +121,7 @@ router.post(
         }
       });
 
-      sample.parecer = fraseCompleta = fraseCompleta.replace("*frase*", frase);
+      sample.feedback = fraseCompleta = fraseCompleta.replace("*frase*", frase);
       if (sample.comment === "")
         sample.comment =
           "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.";
