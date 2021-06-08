@@ -16,21 +16,18 @@
 
         <tbody>
           {{#each samples}}
+            <tr>
+              <th>{{sampleNumber}}</th>
+              <td class="d-flex input-group-sm px-2" style="max-width: 200px;">
+                  <input type="text" name="kits[{{../_id}}][{{workmapId}}][{{_id}}][{{analysis._id}}][absorbance1]" class="form-control text-center">
+                  <input type="text" name="kits[{{../_id}}][{{workmapId}}][{{_id}}][{{analysis._id}}][absorbance2]" class="form-control text-center">
+              </td>
+            </tr>
             {{#if changedworkmap}}
               <tr>
                 <td><br></td>
               </tr>
             {{/if}}
-            <tr>
-              <th>{{sampleNumber}}</th>
-              <td class="d-flex input-group-sm px-2" style="max-width: 200px;">
-                <div class="some">
-                  <input name="toxinas[{{../name}}][{{@index}}][_id]" type="text" value="{{_id}}">
-                </div>
-                  <input type="text" name="toxinas[{{../name}}][{{@index}}][absorbance]" class="form-control text-center">
-                  <input type="text" name="toxinas[{{../name}}][{{@index}}][absorbance2]" class="form-control text-center">
-              </td>
-            </tr>
           {{/each}}
         </tbody>
       </table>

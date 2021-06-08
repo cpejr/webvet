@@ -7,26 +7,26 @@
       </div>
 
       <div class="container-fluid d-flex d-flex justify-content-around flex-wrap">
-        {{#each names}}
+        {{#each kits}}
           <table>
             <thead>
               <tr>
-                <th scope="col">{{this}}</th>
+                <th scope="col">{{toxin.sigle}}</th>
                 <th class="absorbance px-2" scope="col">Absorvância</th>
               </tr>
             </thead>
 
             <tbody>
-              {{#for 1 6 1}}
+              {{#each calibrators}}
                 <tr>
-                  <th class="px-3">P{{this}}</th>
+                  <th class="px-3">P{{p}}</th>
                   <th>
                     <div class="input-group-sm" style="max-width: 100px;">
-                      <input name="{{../this}}Calibrator[P{{this}}]" class="form-control text-center">
+                      <input name="[{{../_id}}][calibrators][{{@index}}][absorbance]" class="form-control text-center" value="{{absorbance}}">
                     </div>
                   </th>
                 </tr>
-              {{/for}}
+              {{/each}}
           </table>
         {{/each}}
       </div>
@@ -36,7 +36,7 @@
           <a href="/queue" class="btn btn-success" id="test">Voltar</a>
         </div>
         <div class="btn btn-abs">
-          <button class="btn btn-success">Finalizar</button>
+          <button class="btn btn-success">Ver resultados</button>
         </div>
       </div>
 

@@ -18,6 +18,7 @@ const session = require("express-session");
 require("./models/email").config();
 
 const routes = require("./routes");
+const Toxin = require("./models/toxin");
 
 const app = express();
 
@@ -50,6 +51,8 @@ ToxinasIds = [
   "60a5a6ca88ade51d7470306a",
 ];
 
+Toxins = undefined;
+Toxin.getAll().then((toxins) => (Toxins = toxins));
 
 allStates = [
   { name: "Acre", initials: "AC" },
@@ -115,9 +118,7 @@ allSampleTypes = [
   "Trigo / Subprodutos",
 ];
 
-allKitTypes = [
-  "A", "B", "C", "D", "E", "F"
-]
+allKitTypes = ["A", "B", "C", "D", "E", "F"];
 
 ToxinasAll = [];
 for (let i = 0; i < ToxinasFull.length; i++) {

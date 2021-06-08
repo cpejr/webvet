@@ -40,14 +40,16 @@ const analysisSchema = new mongoose.Schema(
       default: "Nova",
     },
 
-    absorbance: Number,
+    absorbance1: Number,
     absorbance2: Number,
 
-    resultNumber: Number,
-    resultText: String,
-    resultChart: Number,
+    resultNumber: Number, // Gerado na finalizacao
+    resultText: String, // Gerado no laudo
+    resultChart: Number, // Gerado no laudo
 
-    wasDetected: Boolean,
+    finalizationNumber: Number, // Gerado na finalizacao
+
+    wasDetected: Boolean, // Gerado no laudo
 
     workmapId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -304,31 +306,30 @@ const Sample = {
     return result;
   },
 
-  async updateAbsorbancesAndFinalize(
-    id,
-    toxinaFull,
-    abs,
+  async finalize(
+    sampleId,
+    analysisId,
+    abs1,
     abs2,
     calibrators,
-    kitId
+    finalizationNumber
   ) {
-    let updateVal = {
-      [`${toxinaFull}.absorbance`]: abs,
-      [`${toxinaFull}.absorbance2`]: abs2,
-      [`${toxinaFull}.result`]: this.calcularResult(abs, abs2, calibrators),
-      [`${toxinaFull}.active`]: false,
-      [`${toxinaFull}.kitId`]: kitId,
-      [`report`]: true,
-    };
-
     const result = await SampleModel.updateOne(
-      { _id: id },
-      { $set: updateVal }
+      { _id: sampleId, "analysis._id": analysisId },
+      {
+        $set: {
+          "analysis.$.absorbance1": abs1,
+          "analysis.$.absorbance2": abs2,
+          "analysis.$.resultNumber": calcularResult(abs1, abs2, calibrators),
+          "analysis.$.status": "Finalizado",
+          "analysis.$.finalizationNumber": finalizationNumber,
+        },
+      }
     );
     return result;
   },
 
-  calcularResult(abs, abs2, calibrators) {
+  calcularResult(abs1, abs2, calibrators) {
     let p_concentration = [];
     let p_absorvance = [];
 
@@ -336,13 +337,13 @@ const Sample = {
       return Math.pow(10, (logb_bo_amostra - intercept) / slope);
     }
 
-    for (let i = 0; i < 5; i++) {
-      let currentCalibrator = "P" + (i + 1);
-      p_concentration[i] = calibrators[currentCalibrator].concentration;
-      p_absorvance[i] = calibrators[currentCalibrator].absorbance;
-    }
+    calibrators.forEach((calibrator, i) => {
+      p_concentration[i] = calibrator.concentration;
+      p_absorvance[i] = calibrator.absorbance;
+    });
 
     let log_concentracao = []; //Eixo x
+
     //Calcular log das concentracoes dos P's de 1 a 4
     for (let i = 1; i < 5; i++) {
       log_concentracao.push(Math.log10(p_concentration[i]));
@@ -360,7 +361,7 @@ const Sample = {
     const { slope, intercept } = result;
 
     let log_b_b0 = Math.log10(
-      abs / p_absorvance[0] / (1 - abs / p_absorvance[0])
+      abs / p_absorvance[0] / (1 - abs1 / p_absorvance[0])
     );
     let log_b_b0_2 = Math.log10(
       abs2 / p_absorvance[0] / (1 - abs2 / p_absorvance[0])
@@ -372,27 +373,6 @@ const Sample = {
       2;
 
     return finalResult;
-  },
-
-  finalizeSample(id, toxina, kit_id) {
-    return new Promise((resolve, reject) => {
-      let parameter = toxina + ".active";
-      let parameter2 = toxina + ".kitId";
-      let parameter3 = "report";
-      let updateVal = {};
-
-      updateVal[parameter] = false;
-      updateVal[parameter2] = kit_id;
-      updateVal[parameter3] = true;
-
-      SampleModel.update({ _id: id }, { $set: updateVal })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
   },
 
   getByIdArray(id_array) {
@@ -465,29 +445,6 @@ const Sample = {
           reject(err);
         });
     });
-  },
-
-  async getAllActiveWithWorkmap() {
-    let query = { $or: [], isSpecial: { $ne: true } };
-
-    ToxinasFull.forEach((toxina) => {
-      let expression = {};
-
-      expression[toxina + ".status"] = { $eq: "Mapa de Trabalho" };
-      expression[toxina + ".active"] = true;
-
-      query.$or.push(expression);
-    });
-
-    let build = SampleModel.find(query);
-
-    ToxinasFull.forEach((toxina) => {
-      build = build.populate(`${toxina}.workmapId`);
-    });
-
-    const result = await build.exec();
-
-    return result;
   },
 
   async getAllSpecialActive() {
@@ -680,30 +637,6 @@ const Sample = {
       console.warn(error);
       return error;
     }
-  },
-
-  updateAflaWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { "aflatoxina.contador": cont } })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-
-  updateOcraWorkmap(id, cont) {
-    return new Promise((resolve, reject) => {
-      SampleModel.update({ _id: id }, { $set: { "ocratoxina.contador": cont } })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
   },
 
   async getSampleData(filters) {

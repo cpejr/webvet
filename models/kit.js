@@ -23,11 +23,6 @@ const workmapSchema = new mongoose.Schema({
     default: false,
   },
 
-  isActive: {
-    type: Boolean, //1 for active, 0 for not active
-    default: false,
-  },
-
   finalizationNumber: {
     type: Number, //Contagem de finalização do workmap para puxar antigos
     default: -1,
@@ -328,7 +323,7 @@ const KitActions = {
 
   async getAllActive() {
     try {
-      const result = await KitModel.find({ active: true });
+      const result = await KitModel.find({ active: true }).populate("toxin");
       return result;
     } catch (err) {
       console.warn("🚀 ~ file: kit.js ~ line 342 ~ getAllActive ~ err", err);
@@ -593,13 +588,16 @@ const KitActions = {
     );
   },
 
-  async getAllActiveWithSamples(toxinId) {
-    let response = await KitModel.find({ active: true }).populate({
-      path: "workmaps.samples",
-      populate: {
-        path: "requisition",
-      },
-    });
+  async getAllActiveWithSamples() {
+    let response = await KitModel.find({ active: true })
+      .populate("toxin")
+      .populate({
+        path: "workmaps.samples",
+        populate: {
+          path: "requisition",
+        },
+      })
+      .sort({ "toxin.name": 1 });
 
     response = response.map((kit) => kit.toJSON());
     response.forEach((kit, ki) =>
@@ -639,6 +637,21 @@ const KitActions = {
       );
 
     return await Promise.all(promises);
+  },
+
+  updateOne(conditions, doc) {
+    return KitModel.updateOne(conditions, doc);
+  },
+
+  finalizeWorkmap(kitId, wormapId, finalizationNumber, newAmount) {
+    return KitModel.updateOne(
+      { _id: kitId, "workmaps._id": wormapId },
+      {
+        "workmaps.$.finalizationNumber": finalizationNumber,
+        "workmaps.$.wasUsed": true,
+        "amount": newAmount 
+      }
+    );
   },
 };
 

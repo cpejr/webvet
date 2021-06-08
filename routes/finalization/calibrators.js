@@ -1,59 +1,36 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const auth = require('../../middlewares/auth');
-const Kit = require('../../models/kit');
+const auth = require("../../middlewares/auth");
+const Kit = require("../../models/kit");
 
+router.get("/", async (req, res) => {
+  const kits = await Kit.getAllActive();
 
-router.get('/', (req, res) => {
-  var names = ["AFLA", "DON", "FBS", "OTA", "T2", "ZEA"];
-
-
-  res.render('finalization/calibrators', { names, ...req.session, layout:"layoutFinalization.hbs" });
+  res.render("finalization/calibrators", {
+    kits,
+    ...req.session,
+    layout: "layoutFinalization.hbs",
+  });
 });
 
-router.post('/', auth.isAuthenticated, function (req, res) {
+router.post("/", auth.isAuthenticated, async function (req, res) {
+  const { body } = req;
+  const kitIds = Object.keys(req.body);
 
-  Kit.getAllActive().then(async (activekits) => {
-    updateKitsCalibrators(activekits).then(() => {
-      res.redirect("/finalization/calibrationcurves");
-    }).catch((error) => {
-      console.warn(error);
+  const promises = [];
+
+  kitIds.forEach((kitId) => {
+    const fieldsToUpdate = {};
+    body[kitId]?.calibrators?.forEach((calibrator, index) => {
+      fieldsToUpdate[`calibrators.${index}.absorbance`] = calibrator.absorbance;
     });
-  }).catch((error) => {
-    console.warn(error);
+    
+    promises.push(Kit.updateOne({ _id: kitId }, { $set: fieldsToUpdate }));
   });
 
-  function updateKitsCalibrators(kits) {
-    return new Promise((resolve, reject) => {
-      let promises = [];
-      for (let j = 0; j < kits.length; j++) {
+  await Promise.all(promises);
 
-        var Current_kit = kits[j];
-        let sigla = Current_kit.productCode;
-        sigla = sigla.replace(" Romer", "");
-
-        //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
-        if (sigla === "FUMO")
-          sigla = "FBS";
-
-        Current_kit.calibrators.P1.absorbance = parseFloat(req.body[sigla + "Calibrator"].P1);
-        Current_kit.calibrators.P2.absorbance = parseFloat(req.body[sigla + "Calibrator"].P2);
-        Current_kit.calibrators.P3.absorbance = parseFloat(req.body[sigla + "Calibrator"].P3);
-        Current_kit.calibrators.P4.absorbance = parseFloat(req.body[sigla + "Calibrator"].P4);
-        Current_kit.calibrators.P5.absorbance = parseFloat(req.body[sigla + "Calibrator"].P5);
-
-        let promise = Kit.update(Current_kit._id, Current_kit).catch((err) => {
-          console.warn(err);
-        });
-
-        promises.push(promise);
-      }
-
-      Promise.all(promises).then(() => {
-        resolve();
-      });
-    });
-  }
+  res.redirect("/finalization/calibrationcurves");
 });
 
 module.exports = router;
