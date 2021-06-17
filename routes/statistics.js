@@ -160,29 +160,27 @@ router.get("/barcharts", auth.isAuthenticated, async function (req, res) {
   });
 });
 
-router.get(
-  "/boxcharts",
-  /* auth.isAuthenticated,*/ async (req, res) => {
-    let enableUserFilter = false;
-    const user = req.session.user;
-    let users;
+router.get("/boxcharts", auth.isAuthenticated, async (req, res) => {
+  let enableUserFilter = false;
+  const user = req.session.user;
+  let users;
 
-    if (user && (user.type === "Admin" || user.type === "Analista")) {
-      users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-      enableUserFilter = true;
-    }
-
-    res.render("statistics/boxcharts", {
-      title: "Gráficos",
-      layout: "layoutDashboard.hbs",
-      ...req.session,
-      allDestinations,
-      allSampleTypes,
-      users,
-      enableUserFilter,
-    });
+  if (user && (user.type === "Admin" || user.type === "Analista")) {
+    users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+    enableUserFilter = true;
   }
-);
+
+  res.render("statistics/boxcharts", {
+    title: "Gráficos",
+    layout: "layoutDashboard.hbs",
+    ...req.session,
+    allDestinations,
+    allSampleTypes,
+    users,
+    enableUserFilter,
+    Toxins
+  });
+});
 
 router.get("/statesData", auth.isAuthenticated, async (req, res) => {
   const filters = req.query;

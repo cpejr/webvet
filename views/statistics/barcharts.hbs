@@ -1,106 +1,129 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
+></script>
 <script type="text/javascript" src="/javascripts/statistics.js"></script>
 <script type="text/javascript" src="/javascripts/Chart.BoxPlot.js"></script>
 
 <div>
-    <div class="container text-left card p-3 d-print-none">
-        <h5 class="card-title">Fitros:</h5>
-        <div class="row my-1 mx-0">
-            <label class="col-2">Data de início:</label>
-            <input id="startDateFilter" class="col" type="date" name="myDate" min="2000-01-01">
-            <button id="clearStartDate" class="col-1 btn btn-dark btn-sm ml-1">Limpar</button>
-        </div>
-        <div class="row my-1 mx-0">
-            <label class="col-2">Data Limite:</label>
-            <input id="limitDateFilter" class="col" type="date" name="myDate">
-            <button id="clearEndDate" class="col-1 btn btn-dark btn-sm ml-1">Limpar</button>
-        </div>
-        <div class="row my-1 mx-0">
-            <label class="col-2">Estado:</label>
-            <select id="stateFilter" class="col drowdownoptions" name="requisition[address][state]" required="required">
-                <option selected value="">Estado</option>
-                <option value="AC">Acre</option>
-                <option value="AL">Alagoas</option>
-                <option value="AP">Amapá</option>
-                <option value="AM">Amazonas</option>
-                <option value="BA">Bahia</option>
-                <option value="CE">Ceará</option>
-                <option value="DF">Distrito Federal</option>
-                <option value="ES">Espirito Santo</option>
-                <option value="GO">Goiás</option>
-                <option value="MA">Maranhão</option>
-                <option value="MS">Mato Grosso do Sul</option>
-                <option value="MT">Mato Grosso</option>
-                <option value="MG">Minas Gerais</option>
-                <option value="PA">Pará</option>
-                <option value="PB">Paraíba</option>
-                <option value="PR">Paraná</option>
-                <option value="PE">Pernambuco</option>
-                <option value="PI">Piauí</option>
-                <option value="RJ">Rio de Janeiro</option>
-                <option value="RN">Rio Grande do Norte</option>
-                <option value="RS">Rio Grande do Sul</option>
-                <option value="RO">Rondônia</option>
-                <option value="RR">Roraima</option>
-                <option value="SC">Santa Catarina</option>
-                <option value="SP">São Paulo</option>
-                <option value="SE">Sergipe</option>
-                <option value="TO">Tocantins</option>
-            </select>
-        </div>
-
-        <div class="row my-1 mx-0">
-            <label class="col-2">Tipo de amostra:</label>
-            <select id="typeFilter" class="drowdownoptions col" required="required">
-                <option selected value="">Tipo de amostra</option>
-                {{#each allSampleTypes}}
-                <option value="{{this}}">{{this}}</option>
-                {{/each}}
-            </select>
-        </div>
-
-        <div class="row my-1 mx-0">
-            <label class="col-2">Tipo de destinação:</label>
-            <select id="destinationFilter" class="drowdownoptions col" required="required">
-                <option selected value="">Tipo de destinação</option>
-                {{#each allDestinations}}
-                <option value="{{this}}">{{this}}</option>
-                {{/each}}
-            </select>
-        </div>
-
-        {{#if enableUserFilter}}
-        <div class="row my-1 mx-0">
-            <label class="col-2">Usuário:</label>
-            <select id="userFilter" class="drowdownoptions col" required="required">
-                <option selected value="">Usuário</option>
-                {{#each users}}
-                <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
-                {{/each}}
-            </select>
-        </div>
-        {{/if}}
-
-        <div class="d-flex justify-content-center">
-            <button id="print" class="btn success hidden-print ml-4"> Imprimir </button>
-            <button id="applyFilter" class="btn success">Aplicar</button>
-        </div>
-
+  <div class="container text-left card p-3 d-print-none">
+    <h5 class="card-title">Fitros:</h5>
+    <div class="row my-1 mx-0">
+      <label class="col-2">Data de início:</label>
+      <input
+        id="startDateFilter"
+        class="col"
+        type="date"
+        name="myDate"
+        min="2000-01-01"
+      />
+      <button
+        id="clearStartDate"
+        class="col-1 btn btn-dark btn-sm ml-1"
+      >Limpar</button>
     </div>
+    <div class="row my-1 mx-0">
+      <label class="col-2">Data Limite:</label>
+      <input id="limitDateFilter" class="col" type="date" name="myDate" />
+      <button
+        id="clearEndDate"
+        class="col-1 btn btn-dark btn-sm ml-1"
+      >Limpar</button>
+    </div>
+    <div class="row my-1 mx-0">
+      <label class="col-2">Estado:</label>
+      <select
+        id="stateFilter"
+        class="col drowdownoptions"
+        name="requisition[address][state]"
+        required="required"
+      >
+        <option selected value="">Estado</option>
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espirito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </select>
+    </div>
+
+    <div class="row my-1 mx-0">
+      <label class="col-2">Tipo de amostra:</label>
+      <select id="typeFilter" class="drowdownoptions col" required="required">
+        <option selected value="">Tipo de amostra</option>
+        {{#each allSampleTypes}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="row my-1 mx-0">
+      <label class="col-2">Tipo de destinação:</label>
+      <select
+        id="destinationFilter"
+        class="drowdownoptions col"
+        required="required"
+      >
+        <option selected value="">Tipo de destinação</option>
+        {{#each allDestinations}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    {{#if enableUserFilter}}
+      <div class="row my-1 mx-0">
+        <label class="col-2">Usuário:</label>
+        <select id="userFilter" class="drowdownoptions col" required="required">
+          <option selected value="">Usuário</option>
+          {{#each users}}
+            <option value="{{_id}}">{{fullname}} - {{type}} - {{email}}</option>
+          {{/each}}
+        </select>
+      </div>
+    {{/if}}
+
+    <div class="d-flex justify-content-center">
+      <button id="print" class="btn success hidden-print"> Imprimir </button>
+      <button id="applyFilter" class="btn success ml-4">Aplicar</button>
+    </div>
+
+  </div>
 </div>
 
 <div class="container-fluid charts-print-resize">
-    <div>
-        <canvas id="StateFrequency"></canvas>
-    </div>
-    <div>
-        <canvas id="SampleFrequency"></canvas>
-    </div>
-    <div>
-        <canvas id="AnimalsFrequency"></canvas>
-    </div>
-    <div>
-        <canvas id="FinalizedPorcentage"></canvas>
-    </div>
+  <div>
+    <canvas id="StateFrequency"></canvas>
+  </div>
+  <div>
+    <canvas id="SampleFrequency"></canvas>
+  </div>
+  <div>
+    <canvas id="AnimalsFrequency"></canvas>
+  </div>
+  <div>
+    <canvas id="FinalizedPorcentage"></canvas>
+  </div>
 </div>

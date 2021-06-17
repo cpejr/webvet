@@ -851,9 +851,11 @@ const Sample = {
 
       const match = {};
 
-      if (user) match["requisitionData.user"] = mongoose.Types.ObjectId(user);
-      if (destination) match["requisitionData.destination"] = destination;
-      if (state) match["requisitionData.state"] = state;
+      if (user)
+        match["requisitionData.charge.user"] = mongoose.Types.ObjectId(user);
+      if (destination)
+        match["requisitionData.analysis.destination"] = destination;
+      if (state) match["requisitionData.analysis.state"] = state;
       if (type)
         match["sampletype"] = {
           $regex: new RegExp("^" + type.toLowerCase(), "i"),
@@ -870,19 +872,24 @@ const Sample = {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
+      { $match: { "report.status": "Disponível para o produtor" } },
       ...extraOperations,
+      { $unwind: "$analysis" },
       {
-        $project: {
-          aflatoxina: 1,
-          deoxinivalenol: 1,
-          fumonisina: 1,
-          ocratoxina: 1,
-          t2toxina: 1,
-          zearalenona: 1,
-          createdAt: 1,
+        $group: {
+          _id: "$analysis.toxinId",
+          analysis: { $push: "$analysis" },
         },
       },
+      {
+        $lookup: {
+          from: "toxins",
+          localField: "_id",
+          foreignField: "_id",
+          as: "toxin",
+        },
+      },
+      { $unwind: "$toxin" },
       { $sort: { createdAt: 1 } },
     ]);
 
