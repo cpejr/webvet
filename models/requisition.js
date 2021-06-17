@@ -72,7 +72,7 @@ const requisitionSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["Nova", "Aprovada", "Em Progresso", "Cancelada"],
+      enum: ["Nova", "Aprovada", "Em Progresso", "Finalizada", "Cancelada"],
       default: "Nova",
       required: true,
     },

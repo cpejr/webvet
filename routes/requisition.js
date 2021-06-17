@@ -402,6 +402,7 @@ router.post(
       req.body.toApprove === "toApprove" || req.body.toApprove === "approved";
 
     requisition.approved = isApproved;
+    requisition.status = isApproved ? "Aprovada" : "Nova";
 
     if (typeof requisition.selectedToxins === "string")
       requisition.selectedToxins = [requisition.selectedToxins];
@@ -413,28 +414,11 @@ router.post(
     const samplesIds = [];
 
     samples.forEach((sample) => {
-      const {
-        _id,
-        name,
-        sampletype,
-        approved,
-        isCitrus,
-        receivedQuantity,
-        packingtype,
-      } = sample;
+      const { _id } = sample;
 
       samplesIds.push(_id.toString());
 
-      promises.push(
-        Sample.update(_id, {
-          name,
-          sampletype,
-          approved,
-          isCitrus,
-          receivedQuantity,
-          packingtype,
-        })
-      );
+      promises.push(Sample.update(_id, sample));
     });
 
     // Verificar se ocorreu mudança nas toxinas

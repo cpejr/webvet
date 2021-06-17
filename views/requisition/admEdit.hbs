@@ -121,12 +121,18 @@
       </select>
     </div>
     <div class="requisition-text col-md-6">
+      <div class="d-flex">
+      <label for="requisition[analysis][collectionDate]">Data de Coleta:</label>
       <input required type="date" name="requisition[analysis][collectionDate]" class="requisition-text"
         placeholder="Data de Coleta (dd/mm/aaaa)" value="{{requisition.analysis.collectionDate}}">
+      </div>
     </div>
     <div class="requisition-text col-md-6">
+      <div class="d-flex">
+      <label for="requisition[analysis][receiptDate]">Data de Recebimento:</label>
       <input required type="date" name="requisition[analysis][receiptDate]" class="requisition-text"
         placeholder="Data de Recebimento (dd/mm/aaaa)" value="{{requisition.analysis.receiptDate}}">
+      </div>
     </div>
     <div class="requisition-text col-md-12">
       <select required id="destination" class="drowdownoptions mt-3" name="requisition[analysis][destination]">
