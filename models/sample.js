@@ -902,21 +902,14 @@ const Sample = {
 
   async getStatisticTableData() {
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
+      {
+        $match: {
+          "report.status": "Disponível para o produtor",
+        },
+      },
       {
         $project: {
-          "aflatoxina.checked": 1,
-          "aflatoxina.resultChart": 1,
-          "deoxinivalenol.checked": 1,
-          "deoxinivalenol.resultChart": 1,
-          "fumonisina.checked": 1,
-          "fumonisina.resultChart": 1,
-          "ocratoxina.checked": 1,
-          "ocratoxina.resultChart": 1,
-          "t2toxina.checked": 1,
-          "t2toxina.resultChart": 1,
-          "zearalenona.checked": 1,
-          "zearalenona.resultChart": 1,
+          analysis: 1,
         },
       },
       { $sort: { createdAt: 1 } },
