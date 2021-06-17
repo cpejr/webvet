@@ -130,6 +130,20 @@ class Email {
     return await Email.sendEmail(emailContent);
   }
 
+  static async requisitionApprovedEmail(to, firstName, requisitionCode) {
+    const content = `Prezado(a) ${firstName},
+    A sua requisição de código ${requisitionCode} foi aprovada e em breve suas amostras serão analizadas.
+    Acompanhe o andamento em www.micotoxinasbrasil.com.br`;
+    const subject = "LAMICO: Requisição Aprovada";
+    const emailContent = {
+      to: to,
+      subject: subject,
+      text: content,
+    };
+
+    return await Email.sendEmail(emailContent);
+  }
+
   static async userRejectedEmail(to, fullname) {
     const content = `Prezado(a) ${fullname},
     Seu cadastro foi reprovado. Entre em contato com o admin para maiores informações.`;

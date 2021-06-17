@@ -5,6 +5,7 @@ const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
 const User = require("../models/user");
 const Kit = require("../models/kit");
+const Email = require("../models/email");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
@@ -450,6 +451,20 @@ router.post(
 
     req.flash("success", "Requisição alterada com sucesso.");
     res.redirect(`/requisition/edit/${req.params.id}`);
+
+    /**
+     * Lógica de envio de emails caso aprovado
+     */
+    if (
+      requisition.status == "Aprovada" &&
+      oldRequisition.status != requisition.status
+    ) {
+      const { createdAt, requisitionNumber } = oldRequisition;
+
+      const { email, fullname } = oldRequisition.charge.user;
+      const sampleCode = `${requisitionNumber}/${createdAt.getFullYear()}`;
+      Email.requisitionApprovedEmail(email, fullname, sampleCode);
+    }
   }
 );
 
