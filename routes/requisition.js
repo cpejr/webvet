@@ -9,7 +9,6 @@ const Kit = require("../models/kit");
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
   const { user } = req.session;
-  console.log("🚀 ~ file: requisition.js ~ line 14 ~ user", user);
 
   res.render("requisition/newrequisition", {
     title: "Requisition",
@@ -232,7 +231,7 @@ router.post("/new", auth.isAuthenticated, async function (req, res) {
     req.session.user.type !== "Analista" &&
     req.session.user.type !== "Admin"
   ) {
-    requisition.user = req.session.user._id;
+    requisition.charge.user = req.session.user._id;
   }
 
   const samplesVector = [...requisition.sampleVector];
@@ -379,6 +378,9 @@ router.get("/useredit/:id", auth.isAuthenticated, function (req, res) {
         title: "Edit Requisition",
         layout: "layoutDashboard.hbs",
         requisition,
+        allSampleTypes,
+        allStates,
+        allDestinations,
         ...req.session,
       });
     })

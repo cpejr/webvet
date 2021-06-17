@@ -22,7 +22,6 @@ router.post('/create', auth.isAuthenticated, auth.isAdmin, function(req, res){
   firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then((userF) => {
     user.uid = userF.user.uid;
     User.create(user).then((id) => {
-      // console.log(`Created new user with id: ${id}`);
       req.flash('success', 'Cadastrado com sucesso.');
       res.redirect('/analyst/new');
     }).catch((error) => {

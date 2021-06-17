@@ -193,6 +193,18 @@ const Sample = {
     return result;
   },
 
+  getAndPopulate(query) {
+    return SampleModel.find(query)
+      .populate("analysis.toxin")
+      .populate("analysis.kit")
+      .populate({
+        path: "requisition",
+        populate: {
+          path: "selectedToxins charge.user",
+        },
+      });
+  },
+
   getMaxsampleNumber() {
     return new Promise((resolve, reject) => {
       SampleModel.find({}, { sampleNumber: 1, _id: 0 })
@@ -325,7 +337,6 @@ const Sample = {
         });
     });
   },
-
 
   async finalize(
     sampleId,

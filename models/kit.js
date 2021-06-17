@@ -673,14 +673,6 @@ const KitActions = {
   },
 
   finalizeWorkmap(kitId, workmapId, finalizationNumber, newAmount) {
-    console.log(
-      "🚀 ~ file: kit.js ~ line 647 ~ finalizeWorkmap ~ workmapId",
-      workmapId
-    );
-    console.log(
-      "🚀 ~ file: kit.js ~ line 647 ~ finalizeWorkmap ~ kitId",
-      kitId
-    );
     return KitModel.updateOne(
       { _id: kitId, "workmaps._id": workmapId },
       {

@@ -34,65 +34,44 @@ router.get("/", auth.isAuthenticated, function (req, res) {
 });
 
 router.get("/show/:id", auth.isAuthenticated, async function (req, res) {
-  try {
-    const sample = await Sample.getByIdAndPopulate(req.params.id);
-    console.log("🚀 ~ file: report.js ~ line 39 ~ sample", sample);
+  const sample = (await Sample.getByIdAndPopulate(req.params.id)).toJSON();
+  let { requisition } = sample;
 
-    const { requisition } = sample;
-    const toxinVector = [];
+  const toxinsNames = requisition.selectedToxins
+    .map((toxin) => toxin.name)
+    .sort();
 
-    const Requisitiondata = {
-      toxinas: requisition.mycotoxin.sort().join(", "),
-      requisitionNumber: requisition.requisitionNumber,
-      year: requisition.createdAt.getFullYear(),
-      producer: requisition.producer,
-      clientName: requisition.client.fullname,
-      packingtype: requisition.packingtype,
-      receivedQuantity: requisition.receivedQuantity,
-      datereceipt: requisition.datereceipt,
-      autorizationNumber: requisition.autorizationNumber,
-      responsible: requisition.responsible,
-    };
+  requisition = {
+    ...requisition,
+    toxinas:
+      toxinsNames.slice(0, -1).join(", ") + " e " + toxinsNames.slice(-1),
+    year: requisition.createdAt.getFullYear(),
+  };
 
-    ToxinasFull.forEach((toxinFull, index) => {
-      const toxinKit = sample[toxinFull];
-      const toxinFormal = ToxinasFormal[index];
+  sample.analysis = sample.analysis.map((analysis, index) => {
+    if (analysis.status !== "Finalizado") {
+      analysis.resultText = "Aguardando finalização";
+      analysis.kit = {
+        Lod: "Aguardando finalização",
+        Loq: "Aguardando finalização",
+      };
+    }
 
-      if (requisition.mycotoxin.includes(toxinFormal)) {
-        const kit = toxinKit.kitId;
+    return analysis;
+  });
 
-        const toxinData = {
-          toxinDisplayName: toxinFormal,
-          toxinFull,
-          resultText: "Aguardando finalização",
-          lod: "Aguardando finalização",
-          loq: "Aguardando finalização",
-        };
+  moment.locale("pt-br");
+  sample.date = moment(sample.updatedAt).format("LL");
+  requisition.analysis.receiptDate = moment(
+    requisition.analysis.receiptDate
+  ).format("DD/MM/YYYY");
 
-        if (kit) {
-          toxinData.resultText = toxinKit.resultText;
-          toxinData.lod = kit.Lod;
-          toxinData.loq = kit.Loq;
-        }
-
-        toxinVector.push(toxinData);
-      }
-    });
-
-    moment.locale("pt-br");
-    sample.date = moment(sample.updatedAt).format("LL");
-
-    res.render("report/show", {
-      title: "Show ",
-      sample,
-      toxinVector,
-      Requisitiondata,
-      ...req.session,
-    });
-  } catch (error) {
-    console.warn(error);
-    res.redirect("/error");
-  }
+  res.render("report/show", {
+    title: "Show ",
+    sample,
+    requisition,
+    ...req.session,
+  });
 });
 
 router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
@@ -213,7 +192,6 @@ router.post("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
   if (status === "Disponível para o produtor") {
     const sampleData = await Sample.getByIdAndPopulate(sampleId);
 
-    // console.log(sampleData);
     const { createdAt, sampleNumber, requisition } = sampleData;
     const { email, fullname } = requisition.charge.user;
     const sampleCode = `${sampleNumber}/${createdAt.getFullYear()}`;

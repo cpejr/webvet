@@ -1,68 +1,74 @@
-<div class="d-flex justify-content-center flex-row flex-wrap" id="user-box-device">
+<div
+  class="d-flex justify-content-center flex-row flex-wrap"
+  id="user-box-device"
+>
   <div class="user-card mb-3 mx-md-3" id="requisition-user">
     <h1>Requisições em Progresso</h1>
     <table class="w-100 table">
       {{#each data}}
-      <tr class="hover" onClick="location.href='../../requisition/useredit/{{_id}}'">
-        <th>
-          <li>Requisição {{number}}/{{year}}</li>
-        </th>
-        <th>
-          <li>{{name}}</li>
-        </th>
-      </tr>
+        <tr
+          class="hover"
+          onClick="location.href='../../requisition/useredit/{{_id}}'"
+        >
+          <th>
+            <li>Requisição {{number}}/{{year}}</li>
+          </th>
+          <th>
+            <li>{{name}}</li>
+          </th>
+        </tr>
       {{/each}}
     </table>
   </div>
   <div class="user-card mb-3 mx-md-3" id="laudo-user">
     <h1>Laudos disponíveis</h1>
-    {{#if repEmpty}}
-    <li>Nenhum laudo disponível</li>
+    {{#if reportEmpty}}
+      <li>Nenhum laudo disponível</li>
     {{else}}
-    <table class="w-100 table">
-      {{#each reports}}
-      <tr class="hover" onClick="location.href='../../report/show/{{_id}}'">
-        <th>
-          <li>Laudo {{sampleNumber}}/{{creationYear}}</li>
-        </th>
-        <th>
-          <li>{{name}}</li>
-        </th>
-      </tr>
-      {{/each}}
-    </table>
+      <table class="w-100 table">
+        {{#each reports}}
+          <tr class="hover" onClick="location.href='../../report/show/{{_id}}'">
+            <th>
+              <li>Laudo {{sampleNumber}}/{{creationYear}}</li>
+            </th>
+            <th>
+              <li>{{name}}</li>
+            </th>
+          </tr>
+        {{/each}}
+      </table>
     {{/if}}
   </div>
   {{#if generalData.hasGeneralData}}
-  <div class="user-card user-row mb-3 mx-md-4" id="requisition-user">
-    <h1>Dados gerais</h1>
-    <table class="w-100 table">
-      {{#if generalData.isOnCovenant}}
-      <tr>
-        <th>
-          <li>Convênio associado:</li>
-        </th>
-        <th>
-          <li>{{generalData.convenant}}</li>
-        </th>
-      </tr>
-      {{/if}}
-      {{#if generalData.hasManager}}
-      <tr>
-        <th>
-          {{#if generalData.moreThanOneManager}}
-          <li>Gerentes associados:</li>
-          {{else}}
-          <li>Gerente associado:</li>
-          {{/if}}
-        </th>
-        <th>
-          <li>{{generalData.manager}}</li>
-        </th>
-      </tr>
-      {{/if}}
-    </table>
-  </div>
+    <div class="user-card user-row mb-3 mx-md-4" id="requisition-user">
+      <h1>Dados gerais</h1>
+      <table class="w-100 table">
+        {{#if generalData.isOnCovenant}}
+          <tr>
+            <th>
+              <li>Convênio associado:</li>
+            </th>
+            <th>
+              <li>{{generalData.convenant}}</li>
+            </th>
+          </tr>
+        {{/if}}
+        {{#if generalData.hasManager}}
+          <tr>
+            <th>
+              {{#if generalData.moreThanOneManager}}
+                <li>Gerentes associados:</li>
+              {{else}}
+                <li>Gerente associado:</li>
+              {{/if}}
+            </th>
+            <th>
+              <li>{{generalData.manager}}</li>
+            </th>
+          </tr>
+        {{/if}}
+      </table>
+    </div>
   {{/if}}
 </div>
 <script src="/javascripts/dynamicPlaceHolder.js"></script>

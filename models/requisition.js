@@ -63,7 +63,7 @@ const requisitionSchema = new mongoose.Schema(
         ref: "Toxin",
       },
     ],
-   
+
     requisitionNumber: Number,
     // Comentário das amostras
     comment: String,
@@ -106,20 +106,6 @@ const requisitionSchema = new mongoose.Schema(
 const RequisitionModel = mongoose.model("Requisition", requisitionSchema);
 
 const Requisition = {
-  getAll() {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.find({})
-        .populate("user")
-        .exec()
-        .then((results) => {
-          resolve(results);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-
   async getSpecial(page = 1) {
     return RequisitionModel.find({ special: true })
       .populate("user")
@@ -287,22 +273,6 @@ const Requisition = {
   },
 
   /**
-   * Deletes all Requisitions from DB
-   * @returns {null}
-   */
-  clear() {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.deleteMany({})
-        .then(() => {
-          resolve();
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-
-  /**
    * Sum all Requisitions from DB
    * @returns {null}
    */
@@ -335,23 +305,8 @@ const Requisition = {
     }
   },
 
-  getAllInProgress() {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.find({ status: "Em Progresso" })
-        .then((results) => {
-          resolve(results);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-
-  async getAllByUserIdWithUser(userIds) {
-    return await RequisitionModel.find({ user: userIds }).populate(
-      "user",
-      "fullname"
-    );
+  async getAndPopulate(query) {
+    return await RequisitionModel.find(query).populate("charge.user");
   },
 
   async getStateData(filters) {

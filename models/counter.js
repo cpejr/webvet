@@ -228,10 +228,7 @@ class Counter {
                 resolve(result);
               })
               .catch((err) => {
-                console.log(
-                  "🚀 ~ file: counter.js ~ line 250 ~ Counter ~ .then ~ err",
-                  err
-                );
+                console.warn(err);
                 reject(err);
               });
           })
@@ -240,7 +237,7 @@ class Counter {
       const result = await Promise.all(promiseVector);
       return result;
     } catch (err) {
-      console.log(
+      console.warn(
         "🚀 ~ file: counter.js ~ line 236 ~ Counter ~ setKitStocks ~ err",
         err
       );

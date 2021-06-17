@@ -112,7 +112,7 @@ router.post("/setstock", auth.isAuthenticated, async function (req, res) {
     await Counter.setKitStocks(kitstocks);
     res.redirect("/stock");
   } catch (err) {
-    console.log("🚀 ~ file: stock.js ~ line 108 ~ error", err);
+    console.warn("🚀 ~ file: stock.js ~ line 108 ~ error", err);
     res.redirect("/error");
   }
 });
@@ -163,7 +163,7 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
       allKitTypes,
     });
   } catch (err) {
-    console.log("🚀 ~ file: stock.js ~ line 138 ~ err", err);
+    console.warn("🚀 ~ file: stock.js ~ line 138 ~ err", err);
     res.redirect("/error");
   }
 });

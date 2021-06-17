@@ -73,7 +73,6 @@ router.get("/associated", auth.isAuthenticated, function (req, res) {
 router.get("/analysts", auth.isAuthenticated, function (req, res) {
   User.getByQuery({ type: "Analista" })
     .then((users) => {
-      //console.log(users);
       res.render("admin/users/analysts", {
         title: "Produdores",
         layout: "layoutDashboard.hbs",
@@ -148,10 +147,8 @@ router.get("/managers/:id", auth.isAuthenticated, function (req, res) {
 router.get("/producers/:id", auth.isAuthenticated, function (req, res) {
   User.getAssociatedProducersById(req.params.id)
     .then((users) => {
-      //console.log(users);
       User.getById(req.params.id)
         .then((user) => {
-          //console.log(user);
           res.render("admin/users/producers", {
             title: "Produtores Associados",
             layout: "layoutDashboard.hbs",
@@ -198,12 +195,9 @@ router.get(
       array = array.map((user) => {
         return user._id;
       });
-      //console.log("Vetor de associados: ", array);
       if (array.indexOf(element) === -1) {
-        //console.log(element, "nao pertence");
         return false;
       } else {
-        //console.log(element, " pertence");
         return true;
       }
     }
@@ -223,14 +217,11 @@ router.get(
       //Remove associated producers from the main list
       producers = producers.filter(function (producer) {
         if (existsInArray(producer._id, associated)) {
-          //console.log("Não passou ", producer.fullname);
           return false;
         }
         if (producer._id == id) {
-          //console.log("Não passou ", producer.fullname);
           return false;
         }
-        //console.log("Passou ", producer.fullname);
         return true;
       });
 
@@ -349,7 +340,7 @@ router.post("/block/:id", auth.isAuthenticated, function (req, res) {
           });
       })
       .catch(function (error) {
-        console.log("Error deleting user:", error);
+        console.warn("Error deleting user:", error);
         req.flash("danger", "Error deleting user");
         res.redirect("/users/pending");
       });

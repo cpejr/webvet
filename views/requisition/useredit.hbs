@@ -17,89 +17,70 @@
     class="d-flex flex-column align-items-center">
     <div id="keep-address" class="form-row col-md-10">
       <div class="requisition-text col-md-12">
-        <input required id="fullname" type="text" name="requisition[client][fullname]"
-          value="{{requisition.client.fullname}}" class="requisition-text" placeholder="Razão Social/Nome Completo">
+        <input required id="fullname" type="text" name="requisition[charge][fullname]" value="{{requisition.charge.fullname}}"
+          class="requisition-text" placeholder="Razão Social/Nome Completo">
       </div>
       <div class="requisition-text col-md-6">
-        <input required id="cpf" type="text" name="requisition[client][cpfCnpj]"
-          value="{{requisition.client.cpfCnpj}}" class="requisition-text" placeholder="CNPJ/CPF">
+      <input required id="cpf" type="text" name="requisition[charge][cpfCnpj]" value="{{requisition.charge.cpfCnpj}}"
+        class="requisition-text" placeholder="CNPJ/CPF">
       </div>
       <div class="requisition-text col-md-6">
-        <input required id="I.E" type="text" name="requisition[IE]" class="requisition-text" placeholder="I.E"
-          value="{{requisition.IE}}">
+      <input required id="I.E" type="text" name="requisition[charge][IE]" class="requisition-text" placeholder="I.E" value="{{requisition.charge.IE}}">
       </div>
       <div class="requisition-text col-md-6">
-        <input required id="street" type="text" name="requisition[address][street]"
-          value="{{requisition.address.street}}" class="requisition-text" placeholder="Endereço de Faturamento">
+      <input required id="street" type="text" name="requisition[charge][street]" value="{{requisition.charge.street}}"
+        class="requisition-text" placeholder="Rua de endereço de Faturamento">
       </div>
       <div class="requisition-text col-md-6">
-        <input required id="number" type="text" name="requisition[address][number]"
-          value="{{requisition.address.number}}" class="requisition-text" placeholder="Nº">
+      <input required id="number" type="text" name="requisition[charge][number]" value="{{requisition.charge.number}}"
+        class="requisition-text" placeholder="Nº">
       </div>
       <div class="requisition-text col-md-6">
-        <input id="complement" type="text" name="requisition[address][complement]"
-          value="{{requisition.address.complement}}" class="requisition-text" placeholder="Complemento">
+      <input id="complement" type="text" name="requisition[charge][complement]"
+        value="{{requisition.charge.complement}}" class="requisition-text" placeholder="Complemento">
       </div>
       <div class="requisition-text col-md-6">
-        <input required id="neighborhood" type="text" name="requisition[address][neighborhood]"
-          value="{{requisition.address.neighborhood}}" class="requisition-text" placeholder="Bairro">
+      <input required id="neighborhood" type="text" name="requisition[charge][neighborhood]"
+        value="{{requisition.charge.neighborhood}}" class="requisition-text" placeholder="Bairro">
+      </div>
+      <div class="requisition-text col-md-6">
+      <input required id="city" type="text" name="requisition[charge][city]" value="{{requisition.charge.city}}"
+        class="requisition-text" placeholder="Cidade">
+      </div>
+      <div class="requisition-text col-md-2 d-flex align-items-center">
+      <select id="userstate" class="drowdownoptions" name="requisition[charge][state]" required="required">
+        <option disabled selected value="">Estado</option>
+        {{#each allStates}}
+        <option value="{{initials}}">{{name}}</option>
+        {{/each}}
+      </select>
       </div>
       <div class="requisition-text col-md-4">
-        <input required id="city" type="text" name="requisition[address][city]" value="{{requisition.address.city}}"
-          class="requisition-text" placeholder="Cidade">
+      <input required id="cep" type="number" name="requisition[charge][cep]" value="{{requisition.charge.cep}}"
+        class="requisition-text" placeholder="CEP">
+    </div>
+    <br/>
+    <br/>
+      <div class="requisition-titles mt-4 col-md-12">
+        <p>Dados de contato</p>
       </div>
-      <div class="requisition-text col-md-4 d-flex align-items-center">
-        <select id="userstate" class="drowdownoptions" name="requisition[address][state]" required="required">
-          <option disabled selected value="">Estado</option>
-          <option value="AC">Acre</option>
-          <option value="AL">Alagoas</option>
-          <option value="AP">Amapá</option>
-          <option value="AM">Amazonas</option>
-          <option value="BA">Bahia</option>
-          <option value="CE">Ceará</option>
-          <option value="DF">Distrito Federal</option>
-          <option value="ES">Espirito Santo</option>
-          <option value="GO">Goiás</option>
-          <option value="MA">Maranhão</option>
-          <option value="MS">Mato Grosso do Sul</option>
-          <option value="MT">Mato Grosso</option>
-          <option value="MG">Minas Gerais</option>
-          <option value="PA">Pará</option>
-          <option value="PB">Paraíba</option>
-          <option value="PR">Paraná</option>
-          <option value="PE">Pernambuco</option>
-          <option value="PI">Piauí</option>
-          <option value="RJ">Rio de Janeiro</option>
-          <option value="RN">Rio Grande do Norte</option>
-          <option value="RS">Rio Grande do Sul</option>
-          <option value="RO">Rondônia</option>
-          <option value="RR">Roraima</option>
-          <option value="SC">Santa Catarina</option>
-          <option value="SP">São Paulo</option>
-          <option value="SE">Sergipe</option>
-          <option value="TO">Tocantins</option>
-        </select>
-      </div>
-      <div class="requisition-text col-md-4">
-        <input required id="cep" type="number" name="requisition[address][cep]" value="{{requisition.address.cep}}"
-          class="requisition-text" placeholder="CEP" title="Um CEP válido tem 8 caracteres!">
-      </div>
-      <div class="requisition-text col-md-12">
-        <input required id="resposible" type="text" name="requisition[responsible]" class="requisition-text"
-          placeholder="Responsável pela amostra" value="{{requisition.responsible}}">
-      </div>
-      <div class="requisition-text col-md-6">
-        <input required id="phone" type="number" name="requisition[client][phone]" value="{{requisition.client.phone}}"
-          class="requisition-text" placeholder="Tel. com DDD">
-      </div>
-      <div class=" requisition-text col-md-6">
-        <input required id="cellphone" type="number" name="requisition[client][cellphone]"
-          value="{{requisition.client.cellphone}}" class="requisition-text" placeholder="Cel. com DDD">
-      </div>
-      <div class="requisition-text col-md-12">
-        <input required id="email" type="text" name="requisition[client][email]" value="{{requisition.client.email}}"
-          class="requisition-text" placeholder="Email">
-      </div>
+    <br/>
+    <div class="requisition-text col-md-12">
+      <input required id="resposible" type="text" name="requisition[contact][fullname]" class="requisition-text"
+        placeholder="Responsável pela amostra" value="{{requisition.contact.fullname}}">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required id="phone" type="text" name="requisition[contact][phone]" value="{{requisition.contact.phone}}"
+        class="requisition-text" placeholder="Tel. com DDD">
+    </div>
+    <div class=" requisition-text col-md-6">
+      <input required id="cellphone" type="text" name="requisition[contact][cellphone]" value="{{requisition.contact.cellphone}}"
+        class="requisition-text" placeholder="Cel. com DDD">
+    </div>
+    <div class="requisition-text col-md-12">
+      <input required id="email" type="text" name="requisition[contact][email]" value="{{requisition.contact.email}}"
+        class="requisition-text" placeholder="Email">
+    </div>
     </div>
     <br>
     <div class="requisition-titles">
@@ -107,136 +88,34 @@
     </div>
     <br>
     <div class="form-row col-md-10">
-      <div class="requisition-text col-md-8">
-        <input required type="text" name="requisition[producer]" class="requisition-text"
-          placeholder="Nome do cliente | Fazenda | Produtor" value="{{requisition.producer}}">
-      </div>
-      <div class="requisition-text col-md-4">
-        <input type="text" name="requisition[autorizationNumber]" class="requisition-text"
-          placeholder="Número de Autorização" value="{{requisition.autorizationNumber}}">
-      </div>
-      <div class="requisition-text col-md-8">
-        <input required type="text" name="requisition[city]" class="requisition-text" placeholder="Município"
-          value="{{requisition.city}}">
-      </div>
-      <div class="requisition-text col-md-4 d-flex align-items-center">
-        <select id="requisitonstate" class="drowdownoptions" name="requisition[state]" required="required">
-          <option disabled selected value="">Estado</option>
-          <option value="AC">Acre</option>
-          <option value="AL">Alagoas</option>
-          <option value="AP">Amapá</option>
-          <option value="AM">Amazonas</option>
-          <option value="BA">Bahia</option>
-          <option value="CE">Ceará</option>
-          <option value="DF">Distrito Federal</option>
-          <option value="ES">Espirito Santo</option>
-          <option value="GO">Goiás</option>
-          <option value="MA">Maranhão</option>
-          <option value="MS">Mato Grosso do Sul</option>
-          <option value="MT">Mato Grosso</option>
-          <option value="MG">Minas Gerais</option>
-          <option value="PA">Pará</option>
-          <option value="PB">Paraíba</option>
-          <option value="PR">Paraná</option>
-          <option value="PE">Pernambuco</option>
-          <option value="PI">Piauí</option>
-          <option value="RJ">Rio de Janeiro</option>
-          <option value="RN">Rio Grande do Norte</option>
-          <option value="RS">Rio Grande do Sul</option>
-          <option value="RO">Rondônia</option>
-          <option value="RR">Roraima</option>
-          <option value="SC">Santa Catarina</option>
-          <option value="SP">São Paulo</option>
-          <option value="SE">Sergipe</option>
-          <option value="TO">Tocantins</option>
-        </select>
-      </div>
-      
-      <h6 align="center" class="my-3"> Qual é a destinação do alimento?</h6>
-      
-
-      <div class="form-group d-flex flex-wrap text-left justify-content-center">
-        <div class="column">
-          <div class="form-check">
-            <input id="Aves" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Aves">
-            <label for="Aves" class="radio-text form-check-label mr-3"> Aves </label>
-          </div>
-
-          <div class="form-check">
-            <input id="Gado de Leite" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Gado de Leite">
-            <label for="Gado de Leite" class="radio-text form-check-label mr-3"> Gado de Leite </label>
-          </div>
-        </div>
-
-        <div class="column">
-          <div class="form-check">
-            <input id="Gado de Corte" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Gado de Corte">
-            <label for="Gado de Corte" class="radio-text form-check-label mr-3"> Gado de Corte </label>
-          </div>
-
-          <div class="form-check">
-            <input id="Suínos" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Suínos">
-            <label for="Suínos" class="radio-text form-check-label mr-3"> Suínos </label>
-          </div>
-        </div>
-
-        <div class="column">
-          <div class="form-check">
-            <input id="Equinos" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Equinos">
-            <label for="Equinos" class="radio-text form-check-label mr-3"> Equinos </label>
-          </div>
-
-          <div class="form-check">
-            <input id="Caprinos" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Caprinos">
-            <label for="Caprinos" class="radio-text form-check-label mr-3"> Caprinos </label>
-          </div>
-        </div>
-
-        <div class="column">
-          <div class="form-check">
-            <input id="Ovinos" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Ovinos">
-            <label for="Ovinos" class="radio-text form-check-label mr-3"> Ovinos </label>
-          </div>
-          <div class="form-check">
-            <input id="Peixes" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Peixes">
-            <label for="Peixes" class="radio-text form-check-label mr-3"> Peixes </label>
-          </div>
-        </div>
-        <div class="column">
-          <div class="form-check">
-            <input id="Pet" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Pet">
-            <label for="Pet" class="radio-text form-check-label mr-3"> Pet </label>
-          </div>
-
-          <div class="form-check">
-            <input id="Matéria-Prima" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="Matéria-Prima">
-            <label for="Matéria-Prima" class="radio-text form-check-label mr-3"> Matéria-Prima(Fábrica de
-              Ração) </label>
-          </div>
-        </div>
-        <div class="row ml-0">
-          <div class="form-check">
-            <input id="Outros" class="form-check-input destination" type="radio" name="requisition[destination]"
-              value="">
-            <label for="Outros" class="radio-text form-check-label mr-3"> Outros </label>
-          </div>
-          <div id="Other-destination" class="form-disabled form-row h-50">
-            <input type="text" id="OtherInput" class="input w-100" placeholder="Destinação">
-          </div>
-        </div>
-      </div>
-      <br>
+    <div class="requisition-text col-md-6">
+      <input required type="text" name="requisition[analysis][producerName]" class="requisition-text"
+        placeholder="Nome do cliente | Fazenda | Produtor" value="{{requisition.analysis.producerName}}">
     </div>
+    <div class="requisition-text col-md-6">
+      <input type="text" name="requisition[analysis][autorizationNumber]" class="requisition-text"
+        placeholder="Número de Autorização" value="{{requisition.analysis.autorizationNumber}}">
+    </div>
+    <div class="requisition-text col-md-6">
+      <input required type="text" name="requisition[analysis][city]" class="requisition-text" placeholder="Município" value="{{requisition.analysis.city}}">
+    </div>
+    <div class="requisition-text col-md-6 d-flex align-items-center">
+      <select id="requisitonstate" class="drowdownoptions" name="requisition[analysis][state]" required="required" value="{{requisition.analysis.state}}">
+        <option disabled selected value="">Estado</option>
+        {{#each allStates}}
+        <option value="{{initials}}">{{name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="requisition-text col-md-12">
+      <select required id="destination" class="drowdownoptions mt-3" name="requisition[analysis][destination]">
+        <option disabled selected value="" id="defaultDestOption">Escolha a destinação do alimento</option>
+        {{#each allDestinations}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+     </div>
     <div class="text-center mt-2">
       <button type="submit" id="submitAlterations" align="center" class="btn btn-outline-success">Salvar
         alerações</button>
@@ -244,41 +123,22 @@
   </form>
 </div>
 
-
-
 <script>
-  //SetCheckbox selected
   $(document).ready(function () {
-    if ($('[id="{{requisition.destination}}"]').length)
-      $('[id="{{requisition.destination}}"]').prop("checked", true);
-    else {
-      $('#Outros').prop("checked", true);
-      $('#Outros').val("{{requisition.destination}}");
-      $('#OtherInput').val("{{requisition.destination}}");
-      $('#Other-destination').removeClass('form-disabled');
-    }
-
     //Set select values
-    let userstate = "{{requisition.address.state}}";
-    $('select#userstate').val(userstate);
+    let charge = "{{requisition.charge.state}}";
+    $('select#userstate').val(charge);
 
-    let reqstate = "{{requisition.state}}";
-    $('select#requisitonstate').val(reqstate);
+    let analysis = "{{requisition.analysis.state}}";
+    $('select#requisitonstate').val(analysis);
 
-    let reqdestination = "{{requisition.destination}}";
-    $('select#requisitondestination').val(reqdestination);
-  });
+    let destination = "{{requisition.analysis.destination}}";
+    $('select#destination').val(destination);
 
-  $('.destination').change(function () {
-    if ($('#Outros').is(':checked')) {
-      $('#Other-destination').removeClass('form-disabled');
-    } else {
-      $('#Other-destination').addClass('form-disabled');
-    }
-  });
-
-  $("#Other-destination").keyup(function () {
-    $('#Outros').val($(this).find('input').val());
-  });
+    let userId = "{{requisition.charge.user}}"
+    $('select#analystUser').val(userId);
+    
+ });
 </script>
-<script src="/javascripts/dynamicPlaceHolder.js" />
+
+<script src="/javascripts/dynamicPlaceHolder.js" ></script>
