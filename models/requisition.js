@@ -72,7 +72,7 @@ const requisitionSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["Nova", "Aprovada", "Em Progresso", "Finalizada", "Cancelada"],
+      enum: ["Nova", "Aprovada", "Cancelada"],
       default: "Nova",
       required: true,
     },
@@ -320,8 +320,8 @@ const Requisition = {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$datereceipt",
-                format: "%d/%m/%Y",
+                dateString: "$analysis.receiptDate",
+                format: "%Y-%m-%d",
               },
             },
           },
@@ -330,19 +330,10 @@ const Requisition = {
 
       const match = {};
 
-      if (user) match["user"] = mongoose.Types.ObjectId(user);
-      if (destination) match["destination"] = destination;
-      if (state) match["state"] = state;
+      if (user) match["charge.user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["analysis.destination"] = destination;
+      if (state) match["analysis.state"] = state;
       if (type) {
-        extraOperations.push({
-          $lookup: {
-            from: "samples",
-            localField: "samples",
-            foreignField: "_id",
-            as: "samplesObject",
-          },
-        });
-
         extraOperations.push({
           $match: {
             samplesObject: {
@@ -368,13 +359,21 @@ const Requisition = {
     }
 
     const result = await RequisitionModel.aggregate([
-      { $match: { status: "Aprovada" } },
+      { $match: { status: { $nin: ["Nova", "Cancelada"] } } },
+      {
+        $lookup: {
+          from: "samples",
+          localField: "_id",
+          foreignField: "requisitionId",
+          as: "samplesObject",
+        },
+      },
       ...extraOperations,
-      { $project: { state: 1, samples: 1 } },
+      { $project: { analysis: 1, samplesObject: 1 } },
       {
         $group: {
-          _id: "$state",
-          samples: { $sum: { $size: "$samples" } },
+          _id: "$analysis.state",
+          samples: { $sum: { $size: "$samplesObject" } },
         },
       },
     ]);
@@ -399,8 +398,8 @@ const Requisition = {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$datereceipt",
-                format: "%d/%m/%Y",
+                dateString: "$analysis.receiptDate",
+                format: "%Y-%m-%d",
               },
             },
           },
@@ -409,19 +408,10 @@ const Requisition = {
 
       const match = {};
 
-      if (user) match["user"] = mongoose.Types.ObjectId(user);
-      if (destination) match["destination"] = destination;
-      if (state) match["state"] = state;
+      if (user) match["charge.user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["analysis.destination"] = destination;
+      if (state) match["analysis.state"] = state;
       if (type) {
-        extraOperations.push({
-          $lookup: {
-            from: "samples",
-            localField: "samples",
-            foreignField: "_id",
-            as: "samplesObject",
-          },
-        });
-
         extraOperations.push({
           $match: {
             samplesObject: {
@@ -447,13 +437,21 @@ const Requisition = {
     }
 
     const result = await RequisitionModel.aggregate([
-      { $match: { status: "Aprovada" } },
+      { $match: { status: { $nin: ["Nova", "Cancelada"] } } },
+      {
+        $lookup: {
+          from: "samples",
+          localField: "_id",
+          foreignField: "requisitionId",
+          as: "samplesObject",
+        },
+      },
       ...extraOperations,
-      { $project: { destination: 1, samples: 1 } },
+      { $project: { analysis: 1, samplesObject: 1 } },
       {
         $group: {
-          _id: "$destination",
-          samples: { $sum: { $size: "$samples" } },
+          _id: "$analysis.destination",
+          samples: { $sum: { $size: "$samplesObject" } },
         },
       },
     ]);
@@ -464,6 +462,10 @@ const Requisition = {
     for (let j = 0; j < result.length; j++)
       result[j].frequency = result[j].samples / total;
 
+    console.log(
+      "🚀 ~ file: requisition.js ~ line 467 ~ getAnimalData ~ result",
+      result
+    );
     return result;
   },
 };

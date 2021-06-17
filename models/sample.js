@@ -680,8 +680,8 @@ const Sample = {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$requisitionData.datereceipt",
-                format: "%d/%m/%Y",
+                dateString: "$requisitionData.analysis.receiptDate",
+                format: "%Y-%m-%d",
               },
             },
           },
@@ -690,9 +690,11 @@ const Sample = {
 
       const match = {};
 
-      if (user) match["requisitionData.user"] = mongoose.Types.ObjectId(user);
-      if (destination) match["requisitionData.destination"] = destination;
-      if (state) match["requisitionData.state"] = state;
+      if (user)
+        match["requisitionData.charge.user"] = mongoose.Types.ObjectId(user);
+      if (destination)
+        match["requisitionData.analysis.destination"] = destination;
+      if (state) match["requisitionData.analysis.state"] = state;
       if (type)
         match["sampletype"] = {
           $regex: new RegExp("^" + type.toLowerCase(), "i"),
@@ -709,7 +711,7 @@ const Sample = {
     }
 
     let result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel" } },
+      { $match: { "report.status": "Disponível para o produtor" } },
       ...extraOperations,
       { $project: { sampletype: 1 } },
       {
@@ -752,8 +754,8 @@ const Sample = {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$requisitionData.datereceipt",
-                format: "%d/%m/%Y",
+                dateString: "$requisitionData.analysis.receiptDate",
+                format: "%Y-%m-%d",
               },
             },
           },
@@ -762,9 +764,11 @@ const Sample = {
 
       const match = {};
 
-      if (user) match["requisitionData.user"] = mongoose.Types.ObjectId(user);
-      if (destination) match["requisitionData.destination"] = destination;
-      if (state) match["requisitionData.state"] = state;
+      if (user)
+        match["requisitionData.charge.user"] = mongoose.Types.ObjectId(user);
+      if (destination)
+        match["requisitionData.analysis.destination"] = destination;
+      if (state) match["requisitionData.analysis.state"] = state;
       if (type)
         match["sampletype"] = {
           $regex: new RegExp("^" + type.toLowerCase(), "i"),
@@ -781,54 +785,39 @@ const Sample = {
     }
 
     const result = await SampleModel.aggregate([
-      { $match: { finalized: "Disponivel", "report.isAvailable": true } },
+      { $match: { "report.status": "Disponível para o produtor" } },
       ...extraOperations,
       {
         $project: {
-          aflatoxina: 1,
-          deoxinivalenol: 1,
-          fumonisina: 1,
-          ocratoxina: 1,
-          t2toxina: 1,
-          zearalenona: 1,
+          analysis: 1,
         },
       },
     ]);
 
-    let allToxin = {};
-    for (let i = 0; i < ToxinasFull.length; i++) {
-      let oneToxinArray = [];
-      let currentToxin = ToxinasFull[i];
-      for (let j = 0; j < result.length; j++) {
-        let sample = result[j];
-        if (sample[currentToxin].checked && sample[currentToxin].result) {
-          oneToxinArray.push(sample[currentToxin].checked);
-        } else if (sample[currentToxin].result) {
-          oneToxinArray.push(false);
-        }
-      }
-      allToxin[currentToxin] = oneToxinArray;
-    }
-    let counterVector = [];
-    for (let i = 0; i < ToxinasFull.length; i++) {
-      let currentToxin = ToxinasFull[i];
-      let oneToxin = allToxin[currentToxin];
-      let totalNumber = oneToxin.length;
-      let trueCounter = 0;
-      for (let j = 0; j < oneToxin.length; j++) {
-        if (oneToxin[j]) {
-          trueCounter++;
-        }
-      }
-      let falseCounter = totalNumber - trueCounter;
-      counterVector.push({
-        name: currentToxin,
-        totalNumber,
-        trueCounter,
-        falseCounter,
+    let chartData = {};
+
+    Toxins.forEach((toxin) => {
+      chartData[toxin._id] = {
+        name: toxin.name,
+        totalNumber: 0,
+        trueCounter: 0,
+        falseCounter: 0,
+      };
+    });
+
+    result.forEach((sample) => {
+      sample.analysis.forEach((analysis) => {
+        const { wasDetected, toxinId } = analysis;
+        chartData[toxinId].totalNumber++;
+
+        if (wasDetected) chartData[toxinId].trueCounter++;
+        else chartData[toxinId].falseCounter++;
       });
-    }
-    return counterVector;
+    });
+
+    const finalVector = Object.keys(chartData).map((_id) => chartData[_id]);
+
+    return finalVector;
   },
 
   async getResultData(filters) {
@@ -852,8 +841,8 @@ const Sample = {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$requisitionData.datereceipt",
-                format: "%d/%m/%Y",
+                dateString: "$requisitionData.analysis.receiptDate",
+                format: "%Y-%m-%d",
               },
             },
           },
