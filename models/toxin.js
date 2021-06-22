@@ -26,7 +26,7 @@ const ToxinActions = {
   },
 
   async getAll() {
-    const result = await ToxinModel.find();
+    const result = await ToxinModel.find().sort({name: 1});
     return result;
   }
 };
