@@ -1,6 +1,7 @@
-<form class="form-show-box d-flex flex-column" action="/sample/save" method="post">
+<form class="form-show-box d-flex flex-column" action="/sample/edit" method="post">
   <h1 class="form-show-title"> Visualização da Amostra</h1>
   <div>
+    <input type="text" value="{{sample._id}}" name="sample[_id]" hidden>
     <div class="form-show-text col-md-12">
       <label for="sample[name]">Nome</label>
       <input type="text" value="{{sample.name}}" name="sample[name]">
@@ -12,8 +13,8 @@
         <input type="text" value="{{sample.sampleNumber}}" class="form-disabled" name="sample[sampleNumber]">
       </div>
       <div class="form-show-text col-md-6">
-        <label for="sample[responsible]">Responsável</label>
-        <input type="text" value="{{sample.responsible}}" name="sample[responsible]">
+        <label for="sample[responsible]">Data limite:</label>
+        <input type="text" value="{{sample.limitDate}}" name="sample[limitDate]">
       </div>
     </div>
     <div class="mt-3">
