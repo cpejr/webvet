@@ -4,6 +4,7 @@ const Kit = require("../../models/kit");
 const Sample = require("../../models/sample");
 const Counter = require("../../models/counter");
 const auth = require("../../middlewares/auth");
+const { listenerCount } = require("events");
 
 router.get("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
   const kits = await Kit.getAllActiveWithSamples();
@@ -42,7 +43,7 @@ router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
 
   const promises = [];
   const kitsIds = Object.keys(body);
-  
+
   const kits = await Kit.findByFields({ _id: { $in: kitsIds } });
 
   kitsIds.forEach((kitId) => {

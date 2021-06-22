@@ -673,13 +673,16 @@ const KitActions = {
   },
 
   finalizeWorkmap(kitId, workmapId, finalizationNumber, newAmount) {
+    const filedsToUpdate = {
+      "workmaps.$.finalizationNumber": finalizationNumber,
+      "workmaps.$.wasUsed": true,
+      amount: newAmount,
+    };
+    if (newAmount <= 0) filedsToUpdate.kitType = "-";
+
     return KitModel.updateOne(
       { _id: kitId, "workmaps._id": workmapId },
-      {
-        "workmaps.$.finalizationNumber": finalizationNumber,
-        "workmaps.$.wasUsed": true,
-        amount: newAmount,
-      }
+      filedsToUpdate
     );
   },
 };
