@@ -91,13 +91,13 @@ const sampleSchema = new mongoose.Schema(
       ref: "Requisition",
     },
 
-    sampletype: String,
+    sampleType: String,
 
     //Quantidade recebida
     receivedQuantity: Number,
 
     //Tipo de embalagem
-    packingtype: String,
+    packingType: String,
 
     //Aprovado pelo ADM
     approved: {
@@ -653,7 +653,7 @@ const Sample = {
         match["requisitionData.analysis.destination"] = destination;
       if (state) match["requisitionData.analysis.state"] = state;
       if (type)
-        match["sampletype"] = {
+        match["sampleType"] = {
           $regex: new RegExp("^" + type.toLowerCase(), "i"),
         };
       if (startDate || endDate) {
@@ -670,10 +670,10 @@ const Sample = {
     let result = await SampleModel.aggregate([
       { $match: { "report.status": "Disponível para o produtor" } },
       ...extraOperations,
-      { $project: { sampletype: 1 } },
+      { $project: { sampleType: 1 } },
       {
         $group: {
-          _id: "$sampletype",
+          _id: "$sampleType",
           samples: { $push: "$_id" },
         },
       },
@@ -727,7 +727,7 @@ const Sample = {
         match["requisitionData.analysis.destination"] = destination;
       if (state) match["requisitionData.analysis.state"] = state;
       if (type)
-        match["sampletype"] = {
+        match["sampleType"] = {
           $regex: new RegExp("^" + type.toLowerCase(), "i"),
         };
       if (startDate || endDate) {
@@ -814,7 +814,7 @@ const Sample = {
         match["requisitionData.analysis.destination"] = destination;
       if (state) match["requisitionData.analysis.state"] = state;
       if (type)
-        match["sampletype"] = {
+        match["sampleType"] = {
           $regex: new RegExp("^" + type.toLowerCase(), "i"),
         };
       if (startDate || endDate) {

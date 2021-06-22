@@ -37,14 +37,14 @@ function addInput() {
                         placeholder="Número da amostra ${numInput}">
                 </div>
                 <div class="requisition-text col-md-4">
-                    <input required id="packingtype[${numInput}]" type="text" name="requisition[sampleVector][${numInput}][packingtype]"
+                    <input required id="packingType[${numInput}]" type="text" name="requisition[sampleVector][${numInput}][packingType]"
                         class="col-md-10" placeholder="Tipo de embalagem">
                 </div>
             </div>
             <div class="col-md-12 d-flex flex-row">
                 <div class="col-md-6 d-flex requisition-text align-items-center">
-                    <select id="sampletype[${numInput}]" class="drowdownoptions w-100"
-                        name="requisition[sampleVector][1][sampletype]" required>
+                    <select id="sampleType[${numInput}]" class="drowdownoptions w-100"
+                        name="requisition[sampleVector][1][sampleType]" required>
                         <option disabled selected value="" id="defaultSampleOption">Escolha o tipo do alimento</option>  
                         <option value="Algodão / Subprodutos">Algodão / Subprodutos</option>
                         <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>

@@ -161,7 +161,7 @@
           </div>
           <script>
             $(document).ready(function () {
-              let reqtype = "{{sampletype}}";
+              let reqtype = "{{sampleType}}";
               $('select#{{_id}}').val(reqtype);
             });
           </script>
@@ -177,8 +177,8 @@
         <div class="row">
           <div class="requisition-text col-md-4 d-flex align-items-center">
             <input type="hidden" name="samples[{{@index}}][_id]" class="requisition-text" value="{{_id}}">
-            <select id="{{_id}}" value="{{sampletype}}" class="drowdownoptions w-100"
-              name="samples[{{@index}}][sampletype]" required="required">
+            <select id="{{_id}}" value="{{sampleType}}" class="drowdownoptions w-100"
+              name="samples[{{@index}}][sampleType]" required="required">
               <option disabled selected value="" id="defaultSampleOption">Escolha o tipo do alimento</option>
               {{#each ../allSampleTypes}}
                 <option value="{{this}}">{{this}}</option>
@@ -186,8 +186,8 @@
             </select>
           </div>
           <div class="requisition-text col-md-3">
-            <input required type="text" name="samples[{{@index}}][packingtype]" class="requisition-text"
-              placeholder="Tipo de embalagem" value="{{packingtype}}">
+            <input required type="text" name="samples[{{@index}}][packingType]" class="requisition-text"
+              placeholder="Tipo de embalagem" value="{{packingType}}">
           </div>
           <div class="requisition-text col-md-3">
             <input required type="number" name="samples[{{@index}}][receivedQuantity]" class="requisition-text"

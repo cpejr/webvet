@@ -40,7 +40,7 @@ router.get(
         allStates,
         allDestinations,
         allSampleTypes,
-        ToxinasAll,
+        toxins: Toxins,
         ...req.session,
       });
     } catch (error) {
@@ -146,7 +146,7 @@ router.post(
     requisition.status = "Aprovada";
     requisition.special = true;
 
-    const sampleVector = [...requisition.sampleVector];
+    const sampleVector = requisition.sampleVector;
     delete requisition.sampleVector;
 
     try {
@@ -158,43 +158,36 @@ router.post(
             name,
             citrus,
             receivedQuantity,
-            packingtype,
+            packingType,
             sampleNumber,
             limitDate,
           } = sampleInfo;
 
-          let sample = {
+          const analysis = requisition.selectedToxins.map((toxinId) => ({
+            toxinId,
+            status: "Nova",
+          }));
+
+          const newSample = {
             name,
             approved: true,
             requisitionId,
             responsible: requisition.responsible,
             isCitrus: citrus ? true : false,
             receivedQuantity,
-            packingtype,
+            packingType,
             creationYear: requisition.specialYear,
             isSpecial: true,
             sampleNumber,
             limitDate,
             specialFinalized: true,
+            analysis
           };
 
-          if (!requisition.mycotoxin) requisition.mycotoxin = [];
-
-          ToxinasAll.forEach((toxina) => {
-            let containsToxin = false;
-            containsToxin = requisition.mycotoxin.includes(toxina.Formal);
-            sample[toxina.Full] = { active: containsToxin };
-          });
-          sampleObjects.push(sample);
+          sampleObjects.push(newSample);
         });
 
-      const newSamples = await Sample.createManySpecial(sampleObjects);
-      let promiseVector = new Array();
-      newSamples.forEach((sample) => {
-        const id = sample.id;
-        promiseVector.push(Requisition.addSample(requisitionId, id));
-      });
-      await Promise.all(promiseVector);
+      await Sample.createManySpecial(sampleObjects);
 
       req.flash("success", "Nova requisição enviada");
       res.redirect("/requisition/specialnew");
@@ -235,7 +228,7 @@ router.post("/new", auth.isAuthenticated, async function (req, res) {
     requisition.charge.user = req.session.user._id;
   }
 
-  const samplesVector = [...requisition.sampleVector];
+  const samplesVector = requisition.sampleVector;
   delete requisition.sampleVector;
 
   //Criar requisição

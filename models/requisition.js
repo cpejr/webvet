@@ -288,23 +288,6 @@ const Requisition = {
     });
   },
 
-  /**
-   * Add sample to samples
-   * @param {string} id - requisition Id
-   * @param {string} sample - Sample Id
-   * @returns {null}
-   */
-  async addSample(id, sample) {
-    try {
-      await RequisitionModel.findByIdAndUpdate(id, {
-        $push: { samples: sample },
-      });
-    } catch (error) {
-      console.warn(error);
-      return error;
-    }
-  },
-
   async getAndPopulate(query) {
     return await RequisitionModel.find(query).populate("charge.user");
   },
