@@ -33,23 +33,23 @@
                                 </select>
                                 <div class="requisition-text col-md-12">
                                     <input required type="text" name="sample[{{full}}][result]"
-                                        id="sample[{{full}}][result]_{{@../index}}" class="requisition-text"
-                                        placeholder="Resultado (Número ou NaN)" value="{{result}}">
+                                        id="sample[{{full}}][resultNumber]_{{@../index}}" class="requisition-text"
+                                        placeholder="Resultado (Número ou NaN)">
                                 </div>
                                 <div class="requisition-text col-md-12">
                                     <input required type="number" name="sample[{{full}}][resultChart]"
                                         id="sample[{{full}}][resultChart]_{{@../index}}" class="requisition-text"
-                                        placeholder="Valor no gráfico" value="{{resultChart}}">
+                                        placeholder="Valor no gráfico">
                                 </div>
                                 <div class="requisition-text col-md-12">
                                     <input required type="text" name="sample[{{full}}][resultText]"
                                         id="sample[{{full}}][resultText]_{{@../index}}" class="requisition-text"
-                                        placeholder="Resultado no relatório" value="{{resultText}}">
+                                        placeholder="Resultado no relatório">
                                 </div>
                                 <div
                                     class="requisition-text d-flex align-items-center justify-content-space-between col-md-12">
                                     <h6 class="m-0">Toxina detectada? </h6>
-                                    <input type="checkbox" name="sample[{{full}}][checked]"
+                                    <input type="checkbox" name="sample[{{full}}][wasDetected]"
                                         id="sample[{{full}}][checked]_{{@../index}}" value="true"
                                         class="checkbox col-md-4">
                                 </div>

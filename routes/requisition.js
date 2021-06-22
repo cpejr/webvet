@@ -57,23 +57,31 @@ router.get(
   async function (req, res) {
     try {
       const allKits = await Kit.getAllForSpecialPanel();
-      let allSamples = await Sample.getAllSpecialActive();
-      allSamples = allSamples.reverse();
-      allSamples.forEach((sample) => {
+      let samples = await Sample.getAllSpecialActive();
+      let allSamples = new Array();
+      samples.forEach((sample) => {
+        sample = sample.toJSON();
         sample.toxins = new Array();
-        ToxinasAll.forEach((toxina) => {
-          let aux = sample[toxina.Full];
-          aux.formal = toxina.Formal;
-          aux.full = toxina.Full;
-          const availableKits = allKits.find(
-            (element) => element.name === toxina.Full
-          ).kits;
-          aux["kits"] = availableKits;
-          if (aux.active) {
+        Toxins.forEach((toxin) => {
+          const Toxin = toxin.toJSON();
+          let doesInclude = false;
+          sample.analysis.forEach((data) => {
+            if (data.toxin.sigle === Toxin.sigle) {
+              doesInclude = true;
+            }
+          });
+          if (doesInclude) {
+            let aux = {};
+            aux.formal = Toxin.name;
+            aux.full = Toxin.lower;
+            const availableKits = allKits.find(
+              (element) => element.name === Toxin.sigle
+            ).kits;
+            aux.kits = availableKits;
             sample.toxins.push(aux);
           }
-          delete sample[toxina.Full];
         });
+        allSamples.push(sample);
       });
       res.render("requisition/specialpanel", {
         title: "Painel de Amostras",
@@ -97,10 +105,12 @@ router.post(
     const { _id } = sample;
     delete sample._id;
     sample.specialFinalized = true;
-    sample.report = true;
 
     try {
       let toxinArray = new Array();
+      Toxinas.forEach((toxina) =>{
+        sample[toxina.toJSON().lower];
+      })
       ToxinasAll.forEach((toxina) => {
         if (sample[toxina.Full]) {
           toxinArray.push(toxina.Full);
@@ -180,8 +190,8 @@ router.post(
             isSpecial: true,
             sampleNumber,
             limitDate,
-            specialFinalized: true,
-            analysis
+            specialFinalized: false,
+            analysis,
           };
 
           sampleObjects.push(newSample);

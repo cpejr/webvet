@@ -348,7 +348,20 @@ const KitActions = {
       const result = await KitModel.aggregate([
         {
           $match: {
-            deleted: false,
+            deleted: {
+              $ne: true,
+            },
+            kitType: {
+              $ne: "-",
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: "toxins",
+            localField: "toxinId",
+            foreignField: "_id",
+            as: "toxin",
           },
         },
         {
@@ -358,17 +371,24 @@ const KitActions = {
             provider: 1,
             productCode: 1,
             productDescription: 1,
+            toxin: 1,
+          },
+        },
+        {
+          $unwind: {
+            path: "$toxin",
           },
         },
       ]);
+
       const obj = new Array();
-      ToxinasAll.forEach((toxin) => {
+
+      Toxins.forEach((toxin) => {
         const filteredKits = result.filter(
-          (aux) =>
-            aux.productCode ===
-            (toxin.Sigla === "FBS" ? "FUMO Romer" : toxin.Sigla + " Romer")
+          (aux) => aux.toxin.lower === toxin.lower
         );
-        let aux = { name: toxin.Full };
+
+        let aux = { name: toxin.sigle };
         if (filteredKits.length > 0) {
           aux.kits = filteredKits;
         } else {
@@ -376,6 +396,7 @@ const KitActions = {
         }
         obj.push(aux);
       });
+
       return obj;
     } catch (err) {
       console.warn(
