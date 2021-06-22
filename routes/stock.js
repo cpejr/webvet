@@ -186,7 +186,7 @@ router.post("/new", auth.isAuthenticated, async function (req, res) {
         "danger",
         "Já existe um kit com esse código e mesmo tipo cadastrado"
       );
-      res.redirect("/stock");
+      res.redirect("/stock/new");
     }
   } catch (err) {
     res.redirect("/error");

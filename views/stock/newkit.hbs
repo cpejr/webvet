@@ -5,8 +5,8 @@
 <form action="/stock/new" method="post">
   <div class="new-kit d-flex flex-column">
     <div class="d-flex flex-row justify-content-center">
-      <div class="Addkit-text col-md-5">
-        <select id="toxinId" class="drowdownoptions" name="kit[toxinId]" required="required">
+      <div class="Addkit-text col-md-5 d-flex">
+        <select id="toxinId" class="drowdownoptions my-2" name="kit[toxinId]" required="required">
           <option value disabled selected> Código do Produto</option>
           {{#each Toxins}}
           <option value="{{this._id}}">{{this.sigle}} Romer</option>
@@ -30,10 +30,10 @@
       <div class="Addkit-text col-1">
         <input class="addkit-input" type="text" name="kit[Loq]" placeholder="LoQ:" required>
       </div>
-      <div class="Addkit-text col-1">
-        <h10 class="addkit-input">Expiração:</h10>
+      <div class="Addkit-text col-1 d-flex">
+        <h10 class="addkit-input my-auto">Expiração:</h10>
       </div>
-      <div class="Addkit-text col-2">
+      <div class="Addkit-text col-2 d-flex">
         <input label="Validade:" style="min-width: 100px; " class="addkit-input" type="date" name="kit[expirationDate]"
           required>
       </div>

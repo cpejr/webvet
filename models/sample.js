@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Counter = require("../models/counter");
-const Workmap = require("./Workmap");
 const SimpleLinearRegression = require("ml-regression-simple-linear");
 
 const data = new Date();
@@ -250,48 +249,6 @@ const Sample = {
         })
         .catch((err) => {
           reject(err);
-        });
-    });
-  },
-
-  deleteMany(id_array) {
-    return new Promise((resolve, reject) => {
-      SampleModel.find({ _id: { $in: id_array } })
-        .then((samples) => {
-          let samplesToRemove = {};
-
-          for (let j = 0; j < samples.length; j++) {
-            const sample = samples[j];
-
-            //Find samples in workmaps
-            for (let i = 0; i < ToxinasFull.length; i++) {
-              const toxina = ToxinasFull[i];
-              if (sample[toxina].status === "Mapa de Trabalho") {
-                let workmapIdStr = sample[toxina].workmapId.toString();
-
-                //Initialize
-                if (samplesToRemove[workmapIdStr] == undefined)
-                  samplesToRemove[workmapIdStr] = [];
-
-                samplesToRemove[workmapIdStr].push(sample._id);
-              }
-            }
-          }
-
-          //Atualizar os workmaps
-          let workmapsId = Object.keys(samplesToRemove);
-          for (let i = 0; i < workmapsId.length; i++)
-            Workmap.removeSamples(
-              workmapsId[i],
-              samplesToRemove[workmapsId[i]]
-            );
-        })
-        .then(() => {
-          SampleModel.deleteMany({ _id: { $in: id_array } })
-            .then((obj) => resolve(obj))
-            .catch((err) => {
-              reject(err);
-            });
         });
     });
   },

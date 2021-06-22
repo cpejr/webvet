@@ -4,23 +4,31 @@
   </div>
 </div>
 <div class="container-fluid d-flex d-flex justify-content-around flex-wrap">
-  {{#each result}}
-    <table class="flex-fill">
+   {{#each displayInfo}}
+    <table>
       <thead>
         <tr>
-          <th class="" scope="col">{{_id}}</th>
+          <th class="" scope="col">{{name}}</th>
+          <th class="absorbance px-2" scope="col">Média abs</th>
+          <th class="absorbance px-2" scope="col">Resultado</th>
         </tr>
       </thead>
 
       <tbody>
-        {{#each samples}}
-          {{#if changedWorkmap}}
+        {{#each results}}
+          {{#if changed_workmap}}
             <tr>
               <td><br></td>
             </tr>
           {{/if}}
           <tr>
-            <th>{{sampleNumber}}</th>
+            <th class="px-3">{{number}}</th>
+            <td class="input-group-sm" style="max-width: 100px;">
+              <input readonly type="text" class="form-control text-center" value="{{round average 3}}">
+            </td>
+            <td class="input-group-sm" style="max-width: 100px;">
+              <input readonly type="text" class="form-control text-center" value="{{round compara 2}}">
+            </td>
           </tr>
         {{/each}}
       </tbody>

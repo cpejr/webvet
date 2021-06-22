@@ -4,8 +4,6 @@ const router = express.Router();
 
 const auth = require("../../middlewares/auth");
 const Kit = require("../../models/kit");
-const Sample = require("../../models/sample");
-const Workmap = require("../../models/Workmap");
 
 function dynamicSort(property) {
   var sortOrder = 1;

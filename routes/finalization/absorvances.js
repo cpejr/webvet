@@ -4,7 +4,6 @@ const Kit = require("../../models/kit");
 const Sample = require("../../models/sample");
 const Counter = require("../../models/counter");
 const auth = require("../../middlewares/auth");
-const { listenerCount } = require("events");
 
 router.get("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
   const kits = await Kit.getAllActiveWithSamples();
@@ -18,7 +17,8 @@ router.get("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
         samples = [...samples, ...workmap.samples];
 
         // changedworkmap serve para soltar os espaços entre os campos
-        samples[samples.length - 1].changedworkmap = true;
+        if (samples.length > 0)
+          samples[samples.length - 1].changedworkmap = true;
       }
     });
 

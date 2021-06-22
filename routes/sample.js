@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 const Sample = require("../models/sample");
 const Kit = require("../models/kit");
-const Workmap = require("../models/Workmap");
 
 /* GET home page. */
 
@@ -113,5 +112,14 @@ router.post("/edit", auth.isAuthenticated, (req, res) => {
       res.redirect("/error");
     });
 });
+
+router.get(
+  "/getAllWithoutFinalization",
+  auth.isAuthenticated,
+  async (req, res) => {
+    const data = await Sample.getAllWithoutFinalization();
+    res.send(data);
+  }
+);
 
 module.exports = router;

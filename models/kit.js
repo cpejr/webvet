@@ -550,12 +550,12 @@ const KitActions = {
 
   async checkIfAlreadyExists(toxinId, kitType) {
     try {
-      const result = await KitModel.find({
+      const result = await KitModel.findOne({
         toxinId,
         kitType,
-        isDeleted: false,
+        deleted: false,
       });
-      return result.length > 0;
+      return result;
     } catch (err) {
       console.warn(
         "🚀 ~ file: kit.js ~ line 533 ~ checkIfAlreadyExists ~ err",

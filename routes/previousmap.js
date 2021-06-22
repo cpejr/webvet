@@ -1,47 +1,45 @@
-const express = require('express');
+const express = require("express");
+const Counter = require("../models/counter");
+const Kit = require("../models/kit");
 const router = express.Router();
-const Workmap = require('../models/Workmap');
-
-function dynamicSort(property) {
-  var sortOrder = 1;
-  if (property[0] === "-") {
-    sortOrder = -1;
-    property = property.substr(1);
-  }
-  return function (a, b) {
-    /* next line works with strings and numbers, 
-     * and you may want to customize it to your needs
-     */
-    var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-    return result * sortOrder;
-  }
-}
+const auth = require("../middlewares/auth");
 
 /* GET home page. */
-router.get('/', /*auth.isAuthenticated,*/ async function (req, res) {
-  let result = await Workmap.getLastFinalizedSamples();
+router.get("/", auth.isAuthenticated, async function (req, res) {
+  const finalizationNumber = (await Counter.getFinalizationCount()) - 1;
+  const lastFinalizedKits = await Kit.getAllByFinalizationNumber(
+    finalizationNumber
+  );
 
-  for (let i = 0; i < result.length; i++) {
-    const element = result[i];
+  let displayInfo = [];
+  lastFinalizedKits.forEach((kit, i) => {
+    displayInfo[i] = { name: kit.toxin.sigle, results: [] };
 
-    let sigla = element._id.replace(" Romer", "");
-    //CORREÇÃO PROVISÓRIA DA SIGLA FBS 
-    if (sigla === "FUMO")
-      sigla = "FBS";
+    let changedWorkmap = false;
+    kit.workmaps.forEach((workmap) => {
+      if (workmap.finalizationNumber === finalizationNumber) {
+        workmap.samples.forEach((sample) => {
+          const analysis = sample.analysis;
 
-    let toxina = ToxinasFull[ToxinasSigla.indexOf(sigla)];
+          displayInfo[i].results.push({
+            compara: parseFloat(analysis.resultNumber),
+            average: (analysis.absorbance1 + analysis.absorbance2) / 2,
+            number: sample.sampleNumber,
+            changed_workmap: changedWorkmap,
+            _id: sample._id,
+          });
 
-    //Verificar se mudou de workmap
-    for (let j = 0; j < element.samples.length; j++) 
-      if (j > 0 && element.samples[j - 1][toxina].workmapId + "" !== element.samples[j][toxina].workmapId + "") 
-        result[i].samples[j].changedWorkmap = true;
-    
-    result[i]._id = sigla
-  }
+          changedWorkmap = false;
+        });
+        changedWorkmap = true;
+      }
+    });
+  });
 
-  //Order by Sigla
-  result.sort(dynamicSort("_id"));
-  
-  res.render('previousmap', { result, ...req.session });
+  res.render("previousmap", {
+    displayInfo,
+    ...req.session,
+    layout: "layoutFinalization.hbs",
+  });
 });
 module.exports = router;

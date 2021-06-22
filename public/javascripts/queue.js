@@ -211,7 +211,7 @@ function createSampleElement(sample) {
 
 //cria cedulas kanban
 async function populateKanbans() {
-  const response = await $.get("/search/getAllWithoutFinalization");
+  const response = await $.get("/sample/getAllWithoutFinalization");
 
   response.forEach((toxinData) =>
     toxinData.samples.forEach((sample) => {
