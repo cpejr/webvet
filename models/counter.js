@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Toxin = require("./toxin");
 var data = new Date();
 var yyyy = data.getFullYear();
 
@@ -71,8 +70,7 @@ class Counter {
 
   static async createDefault() {
     let kitStockVector = [];
-    const toxins = await Toxin.getAll();
-    toxins.forEach((toxin) =>
+    Toxins.forEach((toxin) =>
       kitStockVector.push({ toxinId: toxin._id, minStock: 0 })
     );
 
@@ -193,11 +191,12 @@ class Counter {
 
   static async getFinalizationCount() {
     const result = await CounterModel.findOne({});
+
     //if a counter doesn't exist, will create a new one
-    if (result != null) sendValue(result);
+    if (result != null) return sendValue(result);
     else {
       let newCounter = await create();
-      sendValue(newCounter);
+      return sendValue(newCounter);
     }
 
     function sendValue(counter) {
@@ -229,10 +228,7 @@ class Counter {
                 resolve(result);
               })
               .catch((err) => {
-                console.log(
-                  "🚀 ~ file: counter.js ~ line 250 ~ Counter ~ .then ~ err",
-                  err
-                );
+                console.warn(err);
                 reject(err);
               });
           })
@@ -241,7 +237,7 @@ class Counter {
       const result = await Promise.all(promiseVector);
       return result;
     } catch (err) {
-      console.log(
+      console.warn(
         "🚀 ~ file: counter.js ~ line 236 ~ Counter ~ setKitStocks ~ err",
         err
       );

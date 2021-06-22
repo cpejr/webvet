@@ -1,184 +1,87 @@
 const express = require("express");
 const router = express.Router();
 const Kit = require("../../models/kit");
-const Workmap = require("../../models/Workmap");
 const Sample = require("../../models/sample");
 const Counter = require("../../models/counter");
 const auth = require("../../middlewares/auth");
 
-router.get("/", auth.isAuthenticated, auth.isFromLab, (req, res) => {
-  Sample.getAllActiveWithWorkmap()
-    .then((amostras) => {
-      var today = new Date();
+router.get("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
+  const kits = await Kit.getAllActiveWithSamples();
+  result = [];
 
-      var dd = String(today.getDate()).padStart(2, "0");
-      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-      var yyyy = today.getFullYear();
+  kits.forEach((kit, index) => {
+    let samples = [];
 
-      result = [];
+    kit.workmaps.forEach((workmap) => {
+      if (!workmap.wasUsed) {
+        samples = [...samples, ...workmap.samples];
 
-      for (let i = 0; i < ToxinasSigla.length; i++) {
-        const sigla = ToxinasSigla[i];
-
-        result[i] = {
-          name: sigla,
-          samples: [],
-        };
+        // changedworkmap serve para soltar os espaços entre os campos
+        samples[samples.length - 1].changedworkmap = true;
       }
-
-      function addSample(index, element, toxinaFull) {
-        if (
-          element[toxinaFull].active &&
-          element[toxinaFull].status === "Mapa de Trabalho"
-        ) {
-          //                     se não é o primeiro elemento        compara o workmapid com a ultima amostra da lista
-          var changedworkmap =
-            result[index].samples.length > 0 &&
-            result[index].samples[result[index].samples.length - 1]
-              .workmapId !== element[toxinaFull].workmapId;
-          //changedworkmap serve para soltar os espaços entre os campos
-
-          result[index].samples.push({
-            changedworkmap: changedworkmap,
-            _id: element._id,
-            sampleNumber: element.sampleNumber,
-          });
-        }
-      }
-
-      for (let i = 0; i < amostras.length; i++)
-        for (let j = 0; j < ToxinasFull.length; j++)
-          addSample(j, amostras[i], ToxinasFull[j]);
-
-      /*
-    Result é um vetor de 6 dimensões 
-    e cada posição faz referência a uma toxina diferente   
-    */
-      res.render("finalization/absorbances", {
-        result,
-        dd,
-        mm,
-        yyyy,
-        today,
-        ...req.session,
-        layout: "layoutFinalization.hbs",
-      });
-    })
-    .catch((error) => {
-      console.warn(error);
     });
+
+    result[index] = {
+      _id: kit._id,
+      name: kit.toxin.sigle,
+      samples,
+    };
+  });
+
+  res.render("finalization/absorbances", {
+    result,
+    ...req.session,
+    layout: "layoutFinalization.hbs",
+  });
 });
 
 router.post("/", auth.isAuthenticated, auth.isFromLab, async (req, res) => {
-  try {
-    //Dando update em todos os kits ativos.
-    const activeKits = await Kit.getAllActive();
+  const body = req.body.kits;
 
-    let toxinas = req.body.toxinas;
-    let promises = [];
+  let finalizationNumber = await Counter.getFinalizationCount();
 
-    promises.push(updateKits(activeKits));
+  const promises = [];
+  const kitsIds = Object.keys(body);
+  
+  const kits = await Kit.findByFields({ _id: { $in: kitsIds } });
 
-    if (toxinas) {
-      for (let i = 0; i < ToxinasAll.length; i++) {
-        const toxinaFull = ToxinasAll[i].Full;
-        const toxinaSigla = ToxinasAll[i].Sigla;
+  kitsIds.forEach((kitId) => {
+    const workmapsIds = Object.keys(body[kitId]);
+    const kit = kits.find((kit) => `${kit._id}` == `${kitId}`);
 
-        let samples = toxinas[toxinaSigla];
+    workmapsIds.forEach((workmapId) => {
+      const samplesIds = Object.keys(body[kitId][workmapId]);
+      promises.push(
+        Kit.finalizeWorkmap(
+          kitId,
+          workmapId,
+          finalizationNumber,
+          kit.amount - 1
+        )
+      );
 
-        let productCode = toxinaSigla;
-        //CORREÇÃO PROVISÓRIA DA SIGLA FBS
-        if (productCode === "FBS") productCode = "FUMO";
-        productCode += " Romer";
-
-        //Encontrar kit correspondente da toxina
-        let kit = activeKits.find((x) => x.productCode === productCode);
-
-        if (kit) {
-          let objUpdate = {
-            calibrators: kit.calibrators,
-            kitId: kit._id,
-            samples: samples,
-            toxinaFull: toxinaFull,
-          };
-
-          promises.push(updateSamplesByGroup(objUpdate));
-        }
-      }
-
-      await Promise.all(promises);
-    }
-
-    res.redirect("/finalization/result");
-
-    async function updateKits(KitArray) {
-      let promises = [];
-      let finalizationNumber = await Counter.getFinalizationCount();
-
-      KitArray.forEach(async (kit) => {
-        var new_toxinIndex = kit.toxinIndex;
-
-        const workmaps = await Workmap.getByIdArray(kit.mapArray);
-        //Order by mapID
-        workmaps.sort(function (a, b) {
-          return Number(a.mapID) - Number(b.mapID);
-        });
-
-        for (let i = workmaps.length - 1; i >= kit.toxinIndex; i--) {
-          //Ele confere de trás para frente
-          if (workmaps[i].samplesArray.length > 0) {
-            new_toxinIndex = Number(workmaps[i].mapID) + 1;
-            break;
-          }
-        }
-
-        let WorkmapsToFinalize = kit.mapArray.slice(
-          kit.toxinIndex,
-          new_toxinIndex
-        );
+      samplesIds.forEach((sampleId) => {
+        const analysisId = Object.keys(body[kitId][workmapId][sampleId])[0];
+        const sampleData = body[kitId][workmapId][sampleId][analysisId];
 
         promises.push(
-          Workmap.setFinalizationNumber(WorkmapsToFinalize, finalizationNumber)
+          Sample.finalize(
+            sampleId,
+            analysisId,
+            sampleData.absorbance1,
+            sampleData.absorbance1,
+            kit.calibrators,
+            finalizationNumber
+          )
         );
-
-        kit.amount = kit.stripLength - new_toxinIndex;
-        kit.toxinIndex = new_toxinIndex;
-        promises.push(Kit.update(kit._id, kit));
       });
+    });
+  });
 
-      //Update Finalization Count
-      promises.push(Counter.setFinalizationCount(finalizationNumber + 1));
+  promises.push(Counter.setFinalizationCount(finalizationNumber + 1));
+  await Promise.all(promises);
 
-      return await Promise.all(promises);
-    }
-
-    async function updateSamplesByGroup(obj) {
-
-      let { samples, calibrators, toxinaFull, kitId } = obj;
-      let promises = [];
-
-      if (samples) {
-        for (let i = 0; i < samples.length; i++) {
-          let sample = samples[i];
-          promises.push(
-            Sample.updateAbsorbancesAndFinalize(
-              sample._id,
-              toxinaFull,
-              sample.absorbance,
-              sample.absorbance2,
-              calibrators,
-              kitId
-            )
-          );
-        }
-      }
-
-      return await Promise.all(promises);
-    }
-  } catch (error) {
-    res.redirect("/finalization/result");
-    console.warn(error);
-  }
+  res.redirect("/finalization/result");
 });
 
 module.exports = router;

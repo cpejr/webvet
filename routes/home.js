@@ -4,7 +4,6 @@ var admin = require("firebase-admin");
 var router = express.Router();
 const auth = require("../middlewares/auth");
 const User = require("../models/user");
-const Toxin = require("../models/toxin");
 const Email = require("../models/email");
 const GmailOAuth = require("../utils/GmailOAuth");
 
@@ -48,7 +47,7 @@ router.post("/forgotPassword", (req, res) => {
 });
 
 router.get("/toxins", async (req, res) => {
-  res.send(await Toxin.getAll());
+  res.send(Toxins);
 });
 
 /**
@@ -63,48 +62,41 @@ router.post("/login", (req, res) => {
     .then((userID) => {
       User.getByFirebaseId(userID.user.uid)
         .then((currentLogged) => {
-          if (currentLogged) {
-            const userR = {
-              type: currentLogged.type,
-              fullname: currentLogged.fullname,
-              userId: currentLogged._id,
-              uid: currentLogged.uid,
-              email: currentLogged.email,
-              status: currentLogged.status,
-              address: currentLogged.address,
-            };
-            req.session.user = currentLogged;
+          if (currentLogged === null) {
+            req.flash("danger", "Uusário não cadastrado.");
+            res.redirect("/login");
+          }
+       
+          const userR = {
+            type: currentLogged.type,
+            fullname: currentLogged.fullname,
+            userId: currentLogged._id,
+            uid: currentLogged.uid,
+            email: currentLogged.email,
+            status: currentLogged.status,
+            address: currentLogged.address,
+          };
+          req.session.user = currentLogged;
 
-            if (userR.status == "Aguardando aprovação") {
-              req.flash("danger", "Aguardando a aprovação do Administrador");
-              res.redirect("/login");
-              // console.log("Usuario nao aprovado");
-            }
-            if (userR.status == "Ativo") {
-              // console.log("Usuario esta Ativo");
-              if (userR.type == "Admin") {
-                // console.log("Login como Admin");
+          if (userR.status == "Aguardando aprovação") {
+            req.flash("danger", "Aguardando a aprovação do Administrador");
+            res.redirect("/login");
+          }
+          if (userR.status == "Ativo") {
+            if (userR.type == "Admin") {
+              res.redirect("/homeAdmin");
+            } else {
+              if (userR.type == "Analista") {
                 res.redirect("/homeAdmin");
               } else {
-                if (userR.type == "Analista") {
-                  // console.log("Logado como Analista");
-                  res.redirect("/homeAdmin");
-                } else {
-                  // console.log("Logado como cliente");
-                  res.redirect("/user");
-                }
+                res.redirect("/user");
               }
             }
-            if (userR.status == "Bloqueado") {
-              // console.log("Esse esta bloqueado");
-              req.flash(
-                "danger",
-                "Essa conta foi bloqueada pelo Administrador"
-              );
-              res.redirect("/login");
-            }
           }
-          // else
+          if (userR.status == "Bloqueado") {
+            req.flash("danger", "Essa conta foi bloqueada pelo Administrador");
+            res.redirect("/login");
+          }
         })
         .catch((error) => {
           // Handle Errors here.
@@ -129,15 +121,14 @@ router.post("/login", (req, res) => {
         default:
           req.flash("danger", "Erro indefinido.");
       }
-      console.log(`Error Code: ${error.code}`);
-      console.log(`Error Message: ${error.message}`);
+      console.warn(`Error Code: ${error.code}`);
+      console.warn(`Error Message: ${error.message}`);
       res.redirect("/login");
     });
 });
 
 router.post("/signup", (req, res) => {
   const { user } = req.body;
-  // console.log(user);
   firebase
     .auth()
     .createUserWithEmailAndPassword(user.email, user.password)
@@ -145,14 +136,13 @@ router.post("/signup", (req, res) => {
       user.uid = userF.user.uid;
       User.create(user)
         .then((id) => {
-          console.log(`Created new user with id: ${id}`);
           req.flash("success", "Cadastrado com sucesso. Aguarde aprovação");
 
           //Send emails
           Email.userWaitingForApproval(
             user.email,
             user.fullname.split(" ")[0]
-          ).catch((error) => console.log(error));
+          ).catch((error) => console.warn(error));
           User.getAdmin()
             .then((admin) => {
               Email.newUserNotificationEmail(admin.email).catch((error) => {
@@ -160,7 +150,7 @@ router.post("/signup", (req, res) => {
               });
             })
             .catch((error) => {
-              console.log(error);
+              console.warn(error);
               res.redirect("/error");
               return error;
             });
@@ -168,8 +158,8 @@ router.post("/signup", (req, res) => {
           res.redirect("/login");
         })
         .catch((error2) => {
-          console.log(error2);
-          console.log(
+          console.warn(error2);
+          console.warn(
             "Nao foi possivel criar o usuario no mongo, deletando..."
           );
           admin
@@ -177,7 +167,7 @@ router.post("/signup", (req, res) => {
             .deleteUser(userF.user.uid)
             .then(() => {})
             .catch((err) => {
-              console.log(err);
+              console.warn(err);
             });
           res.render("index/form", {
             title: "signup",
@@ -187,7 +177,7 @@ router.post("/signup", (req, res) => {
         });
     })
     .catch(function (error) {
-      console.log(error);
+      console.warn(error);
       res.render("index/form", {
         title: "signup",
         layout: "layoutIndex",
@@ -208,7 +198,7 @@ router.get("/logout", auth.isAuthenticated, (req, res) => {
       res.redirect("/login");
     })
     .catch((error) => {
-      console.log(error);
+      console.warn(error);
       res.redirect("/error");
     });
 });
@@ -222,7 +212,7 @@ router.get("/validateCredentials", async (request, response) => {
 
     response.status(200).json({ response: "ok" });
   } catch (err) {
-    console.log(err);
+    console.warn(err);
     response.status(400).json({ error: "Invalid data" });
   }
 });

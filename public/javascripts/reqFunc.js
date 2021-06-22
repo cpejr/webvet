@@ -1,10 +1,6 @@
 var num = 1;
 function addInput() {
   let isFromLab = $(".isFromLab").text();
-  console.log(
-    "🚀 ~ file: reqFunc.js ~ line 4 ~ addInput ~ isFromLab",
-    isFromLab
-  );
 
   isFromLab = isFromLab === "true" ? true : false;
 
@@ -83,6 +79,7 @@ function findAndUpdateValue(elementId, newData) {
   //Se for undefined vira "" por padrão.
   $(`${elementId}`).val(newData !== undefined ? newData : "");
 }
+
 function findAndSelectCorrectly(elementId, newData, defaultId) {
   //Seleciona a opção com o valor passado do select com o id passado.
   //Se o valor é undefined seleciona pelo id default.
@@ -93,11 +90,8 @@ function findAndSelectCorrectly(elementId, newData, defaultId) {
   }
 }
 
-// Logica para setar os dados do endereço ao selecionar o usuário no select
-$("#analystUser").on("change", async function (event) {
-  //Dados de Conbrança
-  const target = event.target.value;
-  const userData = await $.get(`/users/byid/${target}`);
+async function populateByUserId(userId) {
+  const userData = await $.get(`/users/byid/${userId}`);
 
   findAndUpdateValue("#fullname", userData.fullname);
   findAndUpdateValue("#cpfCnpj", userData.cpfCnpj);
@@ -127,4 +121,21 @@ $("#analystUser").on("change", async function (event) {
     userData.address?.state,
     "#defaultStateReqOption"
   );
+}
+
+// Logica para setar os dados do endereço ao selecionar o usuário no select
+$("#analystUser").on("change", async function (event) {
+  //Dados de Conbrança
+  const target = event.target.value;
+  populateByUserId(target);
+});
+
+$(function () {
+  let isFromLab = $(".isFromLab").text();
+
+  isFromLab = isFromLab === "true" ? true : false;
+  if (!isFromLab) {
+    let id = $(".userId").text();
+    populateByUserId(id);
+  }
 });

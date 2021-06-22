@@ -5,13 +5,11 @@ const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
 const User = require("../models/user");
 const Kit = require("../models/kit");
-const Toxin = require("../models/toxin");
+const Email = require("../models/email");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-  const toxins = await Toxin.getAll();
   const { user } = req.session;
-  console.log("🚀 ~ file: requisition.js ~ line 14 ~ user", user);
 
   res.render("requisition/newrequisition", {
     title: "Requisition",
@@ -20,7 +18,7 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
     isFromLab: user.type === "Admin" || user.type === "Analista" ? true : false,
     allStates,
     allDestinations,
-    toxins,
+    toxins: Toxins,
     user,
   });
 });
@@ -123,7 +121,7 @@ router.post(
         }
       });
 
-      sample.parecer = fraseCompleta = fraseCompleta.replace("*frase*", frase);
+      sample.feedback = fraseCompleta = fraseCompleta.replace("*frase*", frase);
       if (sample.comment === "")
         sample.comment =
           "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.";
@@ -234,7 +232,7 @@ router.post("/new", auth.isAuthenticated, async function (req, res) {
     req.session.user.type !== "Analista" &&
     req.session.user.type !== "Admin"
   ) {
-    requisition.user = req.session.user._id;
+    requisition.charge.user = req.session.user._id;
   }
 
   const samplesVector = [...requisition.sampleVector];
@@ -381,6 +379,9 @@ router.get("/useredit/:id", auth.isAuthenticated, function (req, res) {
         title: "Edit Requisition",
         layout: "layoutDashboard.hbs",
         requisition,
+        allSampleTypes,
+        allStates,
+        allDestinations,
         ...req.session,
       });
     })
@@ -402,6 +403,7 @@ router.post(
       req.body.toApprove === "toApprove" || req.body.toApprove === "approved";
 
     requisition.approved = isApproved;
+    requisition.status = isApproved ? "Aprovada" : "Nova";
 
     if (typeof requisition.selectedToxins === "string")
       requisition.selectedToxins = [requisition.selectedToxins];
@@ -413,28 +415,11 @@ router.post(
     const samplesIds = [];
 
     samples.forEach((sample) => {
-      const {
-        _id,
-        name,
-        sampletype,
-        approved,
-        isCitrus,
-        receivedQuantity,
-        packingtype,
-      } = sample;
+      const { _id } = sample;
 
       samplesIds.push(_id.toString());
 
-      promises.push(
-        Sample.update(_id, {
-          name,
-          sampletype,
-          approved,
-          isCitrus,
-          receivedQuantity,
-          packingtype,
-        })
-      );
+      promises.push(Sample.update(_id, sample));
     });
 
     // Verificar se ocorreu mudança nas toxinas
@@ -466,6 +451,20 @@ router.post(
 
     req.flash("success", "Requisição alterada com sucesso.");
     res.redirect(`/requisition/edit/${req.params.id}`);
+
+    /**
+     * Lógica de envio de emails caso aprovado
+     */
+    if (
+      requisition.status == "Aprovada" &&
+      oldRequisition.status != requisition.status
+    ) {
+      const { createdAt, requisitionNumber } = oldRequisition;
+
+      const { email, fullname } = oldRequisition.charge.user;
+      const sampleCode = `${requisitionNumber}/${createdAt.getFullYear()}`;
+      Email.requisitionApprovedEmail(email, fullname, sampleCode);
+    }
   }
 );
 

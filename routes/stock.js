@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 const Kit = require("../models/kit");
 const Counter = require("../models/counter");
-const Toxin = require("../models/toxin");
 
 /* GET home page. */
 
@@ -113,7 +112,7 @@ router.post("/setstock", auth.isAuthenticated, async function (req, res) {
     await Counter.setKitStocks(kitstocks);
     res.redirect("/stock");
   } catch (err) {
-    console.log("🚀 ~ file: stock.js ~ line 108 ~ error", err);
+    console.warn("🚀 ~ file: stock.js ~ line 108 ~ error", err);
     res.redirect("/error");
   }
 });
@@ -156,16 +155,15 @@ router.post("/edit/:id", auth.isAuthenticated, function (req, res) {
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   try {
-    const ToxinSiglas = await Toxin.getAll();
     res.render("stock/newkit", {
       title: "Novo Kit",
       layout: "layoutDashboard.hbs",
       ...req.session,
-      ToxinSiglas,
+      Toxins,
       allKitTypes,
     });
   } catch (err) {
-    console.log("🚀 ~ file: stock.js ~ line 138 ~ err", err);
+    console.warn("🚀 ~ file: stock.js ~ line 138 ~ err", err);
     res.redirect("/error");
   }
 });

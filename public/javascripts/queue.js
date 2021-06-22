@@ -39,12 +39,7 @@ function createAnalysisKanban(toxinId) {
 
       // Entrou no em análise
       //Se está a provada, o usuário não é devedor e já não estiver lá
-      console.log(
-        "🚀 ~ file: queue.js ~ line 44 ~ createAnalysisKanban ~ target",
-        target,
-        approved,
-        debt
-      );
+    
       if (
         target == "Em análise" &&
         `${approved}` == "true" &&

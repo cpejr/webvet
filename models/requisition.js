@@ -63,12 +63,6 @@ const requisitionSchema = new mongoose.Schema(
         ref: "Toxin",
       },
     ],
-    // samples: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Sample",
-    //   },
-    // ],
 
     requisitionNumber: Number,
     // Comentário das amostras
@@ -78,7 +72,7 @@ const requisitionSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["Nova", "Aprovada", "Em Progresso", "Cancelada"],
+      enum: ["Nova", "Aprovada", "Cancelada"],
       default: "Nova",
       required: true,
     },
@@ -112,20 +106,6 @@ const requisitionSchema = new mongoose.Schema(
 const RequisitionModel = mongoose.model("Requisition", requisitionSchema);
 
 const Requisition = {
-  getAll() {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.find({})
-        .populate("user")
-        .exec()
-        .then((results) => {
-          resolve(results);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-
   async getSpecial(page = 1) {
     return RequisitionModel.find({ special: true })
       .populate("user")
@@ -293,22 +273,6 @@ const Requisition = {
   },
 
   /**
-   * Deletes all Requisitions from DB
-   * @returns {null}
-   */
-  clear() {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.deleteMany({})
-        .then(() => {
-          resolve();
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-
-  /**
    * Sum all Requisitions from DB
    * @returns {null}
    */
@@ -341,23 +305,8 @@ const Requisition = {
     }
   },
 
-  getAllInProgress() {
-    return new Promise((resolve, reject) => {
-      RequisitionModel.find({ status: "Em Progresso" })
-        .then((results) => {
-          resolve(results);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-
-  async getAllByUserIdWithUser(userIds) {
-    return await RequisitionModel.find({ user: userIds }).populate(
-      "user",
-      "fullname"
-    );
+  async getAndPopulate(query) {
+    return await RequisitionModel.find(query).populate("charge.user");
   },
 
   async getStateData(filters) {
@@ -371,8 +320,8 @@ const Requisition = {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$datereceipt",
-                format: "%d/%m/%Y",
+                dateString: "$analysis.receiptDate",
+                format: "%Y-%m-%d",
               },
             },
           },
@@ -381,19 +330,10 @@ const Requisition = {
 
       const match = {};
 
-      if (user) match["user"] = mongoose.Types.ObjectId(user);
-      if (destination) match["destination"] = destination;
-      if (state) match["state"] = state;
+      if (user) match["charge.user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["analysis.destination"] = destination;
+      if (state) match["analysis.state"] = state;
       if (type) {
-        extraOperations.push({
-          $lookup: {
-            from: "samples",
-            localField: "samples",
-            foreignField: "_id",
-            as: "samplesObject",
-          },
-        });
-
         extraOperations.push({
           $match: {
             samplesObject: {
@@ -419,13 +359,21 @@ const Requisition = {
     }
 
     const result = await RequisitionModel.aggregate([
-      { $match: { status: "Aprovada" } },
+      { $match: { status: { $nin: ["Nova", "Cancelada"] } } },
+      {
+        $lookup: {
+          from: "samples",
+          localField: "_id",
+          foreignField: "requisitionId",
+          as: "samplesObject",
+        },
+      },
       ...extraOperations,
-      { $project: { state: 1, samples: 1 } },
+      { $project: { analysis: 1, samplesObject: 1 } },
       {
         $group: {
-          _id: "$state",
-          samples: { $sum: { $size: "$samples" } },
+          _id: "$analysis.state",
+          samples: { $sum: { $size: "$samplesObject" } },
         },
       },
     ]);
@@ -450,8 +398,8 @@ const Requisition = {
           $addFields: {
             date: {
               $dateFromString: {
-                dateString: "$datereceipt",
-                format: "%d/%m/%Y",
+                dateString: "$analysis.receiptDate",
+                format: "%Y-%m-%d",
               },
             },
           },
@@ -460,19 +408,10 @@ const Requisition = {
 
       const match = {};
 
-      if (user) match["user"] = mongoose.Types.ObjectId(user);
-      if (destination) match["destination"] = destination;
-      if (state) match["state"] = state;
+      if (user) match["charge.user"] = mongoose.Types.ObjectId(user);
+      if (destination) match["analysis.destination"] = destination;
+      if (state) match["analysis.state"] = state;
       if (type) {
-        extraOperations.push({
-          $lookup: {
-            from: "samples",
-            localField: "samples",
-            foreignField: "_id",
-            as: "samplesObject",
-          },
-        });
-
         extraOperations.push({
           $match: {
             samplesObject: {
@@ -498,13 +437,21 @@ const Requisition = {
     }
 
     const result = await RequisitionModel.aggregate([
-      { $match: { status: "Aprovada" } },
+      { $match: { status: { $nin: ["Nova", "Cancelada"] } } },
+      {
+        $lookup: {
+          from: "samples",
+          localField: "_id",
+          foreignField: "requisitionId",
+          as: "samplesObject",
+        },
+      },
       ...extraOperations,
-      { $project: { destination: 1, samples: 1 } },
+      { $project: { analysis: 1, samplesObject: 1 } },
       {
         $group: {
-          _id: "$destination",
-          samples: { $sum: { $size: "$samples" } },
+          _id: "$analysis.destination",
+          samples: { $sum: { $size: "$samplesObject" } },
         },
       },
     ]);
@@ -515,6 +462,10 @@ const Requisition = {
     for (let j = 0; j < result.length; j++)
       result[j].frequency = result[j].samples / total;
 
+    console.log(
+      "🚀 ~ file: requisition.js ~ line 467 ~ getAnimalData ~ result",
+      result
+    );
     return result;
   },
 };

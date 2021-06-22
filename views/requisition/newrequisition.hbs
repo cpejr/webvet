@@ -7,7 +7,7 @@
   </br>
 </div>
 
-<form action="/requisition/new" method="post" class="d-flex flex-column align-items-center">
+<form action="/requisition/new" method="post" class="d-flex flex-column align-items-center" id="form">
   <div id="keep-address" class="form-row col-md-10">
     <div class="requisition-text col-md-12">
       <input required id="fullname" type="text" name="requisition[charge][fullname]" value="{{user.fullname}}"
@@ -202,11 +202,21 @@
 </form>
 </div>
 <div hidden class="isFromLab">{{isFromLab}}</div>
+<div hidden class="userId">{{user._id}}</div>
 <script>
   $(document).ready(function () {
     //Set select values
     let userstate = "{{user.address.state}}";
     $('select#userstate').val(userstate);
+
+    $('#form').submit(function (e) {
+        //check atleat 1 checkbox is checked
+        if (!$('input[type=checkbox]').is(':checked')) {
+           alert("Selecione uma toxina");
+            //prevent the default form submit if it is not checked
+            e.preventDefault();
+        }
+    })
   });
 </script>
 <script src="/javascripts/reqFunc.js"></script>
