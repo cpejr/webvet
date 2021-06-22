@@ -6,6 +6,7 @@ const Requisition = require("../models/requisition");
 const User = require("../models/user");
 const Kit = require("../models/kit");
 const Counter = require("../models/counter");
+const moment = require("moment");
 
 /* GET home page. */
 router.get(
@@ -36,7 +37,12 @@ router.get(
     let today = new Date();
     let vencidos = [];
     kits.forEach((kit) => {
-      if (kit.expirationDate < today) vencidos.push(kit);
+      if (kit.expirationDate < today) {
+        moment.locale("pt-br");
+        kit.expiration = moment(kit.expirationDate).format("DD/MM/YYYY");
+
+        vencidos.push(kit);
+      }
     });
 
     var gt0 = false;
@@ -48,15 +54,18 @@ router.get(
     if (newRequisitions > 1) gt1 = true;
 
     //Kitstock notification object
-    let totalKitCounter = currentKitCount.map(obj => {return {name: obj._id, count: obj.count}});
-    
-    totalKitCounter.forEach((counter, index) =>{
+    let totalKitCounter = currentKitCount.map((obj) => {
+      return { name: obj._id, count: obj.count };
+    });
+
+    totalKitCounter.forEach((counter, index) => {
       let stockIndex = kitStocks.findIndex(
         (element) => element.sigle === counter.name
       );
-      totalKitCounter[index].isLessThan = counter.count < kitStocks[stockIndex].minStock;
+      totalKitCounter[index].isLessThan =
+        counter.count < kitStocks[stockIndex].minStock;
       totalKitCounter[index].minStock = kitStocks[stockIndex].minStock;
-    })
+    });
 
     res.render("admin/homeAdmin", {
       title: "Home",

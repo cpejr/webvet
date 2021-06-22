@@ -39,7 +39,7 @@ function createAnalysisKanban(toxinId) {
 
       // Entrou no em análise
       //Se está a provada, o usuário não é devedor e já não estiver lá
-    
+
       if (
         target == "Em análise" &&
         `${approved}` == "true" &&
@@ -212,6 +212,10 @@ function createSampleElement(sample) {
 //cria cedulas kanban
 async function populateKanbans() {
   const response = await $.get("/sample/getAllWithoutFinalization");
+  console.log(
+    "🚀 ~ file: queue.js ~ line 215 ~ populateKanbans ~ response",
+    response
+  );
 
   response.forEach((toxinData) =>
     toxinData.samples.forEach((sample) => {
@@ -248,7 +252,14 @@ function addElementToAnalysis(toxinId, element) {
 function addElementToWorkmaps(toxinId, element) {
   let kanban = Workmapskanbans[toxinId];
 
-  const sampleMustGoToWorkmaps = element.approved && !element.debt;
+  const sampleMustGoToWorkmaps =
+    element.approved && !element.debt && findElement(element.workmap_id);
+
+  console.log(
+    "🚀 ~ file: queue.js ~ line 256 ~ addElementToWorkmaps ~ sampleMustGoToWorkmaps",
+    sampleMustGoToWorkmaps,
+    element
+  );
 
   if (sampleMustGoToWorkmaps)
     switch (element.status) {
