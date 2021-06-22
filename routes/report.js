@@ -103,13 +103,13 @@ router.get("/show/admin/:id", auth.isAuthenticated, async function (req, res) {
         Loq: "Aguardando finalização",
       };
     } else {
-      analysis.resultNumber = round(analysis.resultNumber, 2);
+      analysis.resultNumber = round(parseFloat(analysis.resultNumber), 2);
 
       if (!analysis.resultChart || !analysis.resultText) {
         let newResultChart; //Essa é a variável que vai receber o valor que irá para o gráfico final
         let newResultText;
 
-        if (analysis.resultNumber < kit.Lod) {
+        if (isNaN(analysis.resultNumber) || analysis.resultNumber < kit.Lod) {
           //Menor que lod
           newResultText = "ND";
           newResultChart = kit.Lod;

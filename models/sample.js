@@ -50,7 +50,7 @@ const analysisSchema = new mongoose.Schema(
     absorbance1: Number,
     absorbance2: Number,
 
-    resultNumber: Number, // Gerado na finalizacao
+    resultNumber: String, // Gerado na finalizacao
     resultText: String, // Gerado no laudo
     resultChart: Number, // Gerado no laudo
 
@@ -307,6 +307,7 @@ const Sample = {
       { _id: sampleId, "analysis._id": analysisId },
       {
         $set: {
+          "report.status": "Não finalizado",
           "analysis.$.absorbance1": abs1,
           "analysis.$.absorbance2": abs2,
           "analysis.$.resultNumber": this.calcularResult(

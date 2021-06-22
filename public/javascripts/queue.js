@@ -156,11 +156,13 @@ function populateWorkmapsKanbans(activeKit, toxinId) {
 
     currentKanban?.removeAllBoards("Em análise");
     const boards = [];
-
+    let samples = [];
     activeKit.workmaps.forEach((workmap, index) => {
       if (!workmap.wasUsed) {
         // Generate items
         const items = [];
+
+        if (workmap.samples) samples = [...samples, ...workmap.samples];
 
         // Generate boards
         boards.push({
@@ -182,6 +184,13 @@ function populateWorkmapsKanbans(activeKit, toxinId) {
           title: `P${i}`,
           calibrator: true,
         });
+
+      samples.forEach((sample) =>
+        addElementToWorkmaps(
+          sample?.analysis?.toxinId,
+          createSampleElement(sample)
+        )
+      );
     }
   } else $(`#hide${toxinId}`).addClass("form-disabled");
 }
@@ -212,16 +221,11 @@ function createSampleElement(sample) {
 //cria cedulas kanban
 async function populateKanbans() {
   const response = await $.get("/sample/getAllWithoutFinalization");
-  console.log(
-    "🚀 ~ file: queue.js ~ line 215 ~ populateKanbans ~ response",
-    response
-  );
 
   response.forEach((toxinData) =>
     toxinData.samples.forEach((sample) => {
       const element = createSampleElement(sample);
-      addElementToAnalysis(toxinData._id, element);
-      addElementToWorkmaps(toxinData._id, element);
+      addElementToAnalysis(`${toxinData._id}`, element);
     })
   );
 }
@@ -251,15 +255,11 @@ function addElementToAnalysis(toxinId, element) {
 
 function addElementToWorkmaps(toxinId, element) {
   let kanban = Workmapskanbans[toxinId];
-
+  
   const sampleMustGoToWorkmaps =
-    element.approved && !element.debt && findElement(element.workmap_id);
-
-  console.log(
-    "🚀 ~ file: queue.js ~ line 256 ~ addElementToWorkmaps ~ sampleMustGoToWorkmaps",
-    sampleMustGoToWorkmaps,
-    element
-  );
+    element.approved &&
+    !element.debt &&
+    !!kanban.findBoard(`${element.workmap_id}`);
 
   if (sampleMustGoToWorkmaps)
     switch (element.status) {

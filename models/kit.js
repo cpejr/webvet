@@ -582,10 +582,29 @@ const KitActions = {
     ]);
   },
 
-  getActiveWithSamples(toxinId) {
-    return KitModel.findOne({ toxinId, active: true }).populate(
-      "workmaps.samples"
-    );
+  async getActiveWithSamples(toxinId) {
+    let kit = await KitModel.findOne({ toxinId, active: true })
+      .populate("toxin")
+      .populate({
+        path: "workmaps.samples",
+        populate: {
+          path: "requisition",
+        },
+      })
+      .sort({ "toxin.name": 1 });
+
+    kit = kit.toJSON();
+    kit.workmaps.forEach((workmap, wi) => {
+      workmap.samples.forEach((sample, si) => {
+        kit.workmaps[wi].samples[si].analysis = sample.analysis.find(
+          (analysis) => {
+            return `${analysis.workmapId}` == `${workmap._id}`;
+          }
+        );
+      });
+    });
+
+    return kit;
   },
 
   async getAllActiveWithSamples() {

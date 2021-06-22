@@ -207,8 +207,9 @@ router.post("/delete/:id", auth.isAuthenticated, function (req, res) {
 router.post("/toggleActive/:toxinId/:kitType", async function (req, res) {
   const { toxinId, kitType } = req.params;
   await Kit.setActive(toxinId, kitType);
+  const response = await Kit.getActiveWithSamples(toxinId);
 
-  return res.send(await Kit.getActiveWithSamples(toxinId));
+  return res.send(response);
 });
 
 router.get("/getAllActiveWithSamples", async function (req, res) {

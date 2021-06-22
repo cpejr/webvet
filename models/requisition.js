@@ -445,10 +445,6 @@ const Requisition = {
     for (let j = 0; j < result.length; j++)
       result[j].frequency = result[j].samples / total;
 
-    console.log(
-      "🚀 ~ file: requisition.js ~ line 467 ~ getAnimalData ~ result",
-      result
-    );
     return result;
   },
 };
