@@ -338,7 +338,7 @@ const Requisition = {
           $match: {
             samplesObject: {
               $elemMatch: {
-                sampletype: {
+                sampleType: {
                   $regex: new RegExp("^" + type.toLowerCase(), "i"),
                 },
               },
@@ -416,7 +416,7 @@ const Requisition = {
           $match: {
             samplesObject: {
               $elemMatch: {
-                sampletype: {
+                sampleType: {
                   $regex: new RegExp("^" + type.toLowerCase(), "i"),
                 },
               },
