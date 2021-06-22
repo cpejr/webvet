@@ -163,7 +163,12 @@ router.post(
             limitDate,
           } = sampleInfo;
 
-          let sample = {
+          const analysis = requisition.selectedToxins.map((toxinId) => ({
+            toxinId,
+            status: "Nova",
+          }));
+
+          const newSample = {
             name,
             approved: true,
             requisitionId,
@@ -176,25 +181,13 @@ router.post(
             sampleNumber,
             limitDate,
             specialFinalized: true,
+            analysis
           };
 
-          if (!requisition.mycotoxin) requisition.mycotoxin = [];
-
-          ToxinasAll.forEach((toxina) => {
-            let containsToxin = false;
-            containsToxin = requisition.mycotoxin.includes(toxina.Formal);
-            sample[toxina.Full] = { active: containsToxin };
-          });
-          sampleObjects.push(sample);
+          sampleObjects.push(newSample);
         });
 
-      const newSamples = await Sample.createManySpecial(sampleObjects);
-      let promiseVector = new Array();
-      newSamples.forEach((sample) => {
-        const id = sample.id;
-        promiseVector.push(Requisition.addSample(requisitionId, id));
-      });
-      await Promise.all(promiseVector);
+      await Sample.createManySpecial(sampleObjects);
 
       req.flash("success", "Nova requisição enviada");
       res.redirect("/requisition/specialnew");
