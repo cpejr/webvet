@@ -12,72 +12,73 @@
         <h5 class="mb-4 col-md-12">Preencha os valores e finalize as amostras</h5>
         <div class="col-md-12 d-flex flex-wrap">
             {{#each allSamples}}
-                <form action="/requisition/specialpanel" method="post"
-                    class="container-fluid panelCard col-md-5 my-1 p-2">
-                    <h6 class="mt-3">Amostra: {{name}}</h6>
-                    <div class="scroll">
-                        {{#each toxins}}
-                            <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
-                                <h6 class="align-self-start">{{formal}}</h6>
-                                <select required id="sample[{{full}}][kitId]_{{@../index}}"
-                                    name="sample[{{full}}][kitId]" class="drowdownoptions"
-                                    placeholder="Selecione o kit">
-                                    <option disabled selected value="">Selecione um Kit para {{formal}}
-                                    </option>
-                                    {{#each kits}}
-                                        <option value="{{_id}}">[LoD: {{Lod}}; LoC: {{Loq}}] - {{productCode}} -
-                                            {{productDescription}} -
-                                            {{provider}}
-                                        </option>
-                                    {{/each}}
-                                </select>
-                                <div class="requisition-text col-md-12">
-                                    <input required type="text" name="sample[{{full}}][result]"
-                                        id="sample[{{full}}][result]_{{@../index}}" class="requisition-text"
-                                        placeholder="Resultado (Número ou NaN)" value="{{result}}">
-                                </div>
-                                <div class="requisition-text col-md-12">
-                                    <input required type="number" name="sample[{{full}}][resultChart]"
-                                        id="sample[{{full}}][resultChart]_{{@../index}}" class="requisition-text"
-                                        placeholder="Valor no gráfico" value="{{resultChart}}">
-                                </div>
-                                <div class="requisition-text col-md-12">
-                                    <input required type="text" name="sample[{{full}}][resultText]"
-                                        id="sample[{{full}}][resultText]_{{@../index}}" class="requisition-text"
-                                        placeholder="Resultado no relatório" value="{{resultText}}">
-                                </div>
-                                <div
-                                    class="requisition-text d-flex align-items-center justify-content-space-between col-md-12">
-                                    <h6 class="m-0">Toxina detectada? </h6>
-                                    <input type="checkbox" name="sample[{{full}}][checked]"
-                                        id="sample[{{full}}][checked]_{{@../index}}" value="true"
-                                        class="checkbox col-md-4">
-                                </div>
-                            </div>
-                        {{/each}}
-                    </div>
+            <form action="/requisition/specialpanel" method="post" class="container-fluid panelCard col-md-5 my-1 p-2">
+                <h6 class="mt-3">Amostra: {{name}}</h6>
+                <div class="scroll">
+                    {{#each toxins}}
                     <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
-                        <h6 class="align-self-start">Configurações adicionais</h6>
-                        <div class="d-flex">
-                            <div class="requisition-text col-md-6">
-                                <input required type="number" name="sample[sampleNumber]"
-                                    id="sample[sampleNumber]_{{@../index}}" class="requisition-text"
-                                    placeholder="Número da amostra" value="{{sampleNumber}}">
-                            </div>
-                            <div class="requisition-text col-md-6">
-                                <input required type="number" name="sample[creationYear]" id="sample[creationYear]_{{@../index}}"
-                                    class="requisition-text" placeholder="Ano da amostra" value="{{creationYear}}">
-                            </div>
+                        <h6 class="align-self-start">{{name}}</h6>
+                        <select required id="sample[toxinData][{{lower}}][kitId]_{{@../index}}"
+                            name="sample[toxinData][{{lower}}][kitId]" class="drowdownoptions"
+                            placeholder="Selecione o kit">
+                            <option disabled selected value="">Selecione um Kit para {{name}}
+                            </option>
+                            {{#each kits}}
+                            <option value="{{_id}}">[LoD: {{Lod}}; LoC: {{Loq}}] - {{productCode}} -
+                                {{productDescription}} -
+                                {{provider}}
+                            </option>
+                            {{/each}}
+                        </select>
+                        <div class="requisition-text col-md-12">
+                            <input required type="text" name="sample[toxinData][{{lower}}][resultNumber]"
+                                id="sample[toxinData][{{lower}}][resultNumber]_{{@../index}}" class="requisition-text"
+                                placeholder="Resultado (Número ou NaN)">
                         </div>
                         <div class="requisition-text col-md-12">
-                            <input type="text" name="sample[comment]" id="sample[comment]_{{@../index}}"
-                                class="requisition-text" placeholder="Comentário" value="{{comment}}">
+                            <input required type="number" name="sample[toxinData][{{lower}}][resultChart]"
+                                id="sample[toxinData][{{lower}}][resultChart]_{{@../index}}" class="requisition-text"
+                                placeholder="Valor no gráfico">
+                        </div>
+                        <div class="requisition-text col-md-12">
+                            <input required type="text" name="sample[toxinData][{{lower}}][resultText]"
+                                id="sample[toxinData][{{lower}}][resultText]_{{@../index}}" class="requisition-text"
+                                placeholder="Resultado no relatório">
+                        </div>
+                        <div class="requisition-text d-flex align-items-center justify-content-space-between col-md-12">
+                            <h6 class="m-0">Toxina detectada? </h6>
+                            <input type="checkbox" name="sample[toxinData][{{lower}}][wasDetected]"
+                                id="sample[toxinData][{{lower}}][checked]_{{@../index}}" value="true"
+                                class="checkbox col-md-4">
+                        </div>
+                        <input hidden name="sample[toxinData][{{lower}}][toxinId]"
+                            id="sample[toxinData][{{lower}}][toxinId]_{{@../index}}" value={{toxinId}}>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="col-md-12 card d-flex py-3 mb-2 flex-column">
+                    <h6 class="align-self-start">Configurações adicionais</h6>
+                    <div class="d-flex">
+                        <div class="requisition-text col-md-6">
+                            <input required type="number" name="sample[sampleNumber]"
+                                id="sample[sampleNumber]_{{@../index}}" class="requisition-text"
+                                placeholder="Número da amostra" value="{{sampleNumber}}">
+                        </div>
+                        <div class="requisition-text col-md-6">
+                            <input required type="number" name="sample[creationYear]"
+                                id="sample[creationYear]_{{@../index}}" class="requisition-text"
+                                placeholder="Ano da amostra" value="{{creationYear}}">
                         </div>
                     </div>
-                    <input hidden name="sample[_id]" id="_id_{{@../index}}" value={{_id}}>
+                    <div class="requisition-text col-md-12">
+                        <input type="text" name="sample[comment]" id="sample[comment]_{{@../index}}"
+                            class="requisition-text" placeholder="Comentário" value="{{comment}}">
+                    </div>
+                </div>
+                <input hidden name="sample[_id]" id="_id_{{@../index}}" value={{_id}}>
 
-                    <button type="submit" class="btn btn-success">Finalizar amostra</button>
-                </form>
+                <button type="submit" class="btn btn-success">Finalizar amostra</button>
+            </form>
             {{/each}}
         </div>
     </div>

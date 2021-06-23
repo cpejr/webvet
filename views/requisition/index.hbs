@@ -32,9 +32,9 @@
       {{#each specialRequisitions}}
       <tr>
         <th>{{status}}</th>
-        <th>{{specialNumber}}/{{year}}</th>
-        <th>{{producer}}</th>
-        <th>{{destination}}</th>
+        <th>{{specialNumber}}/{{specialYear}}</th>
+        <th>{{contact.fullname}}</th>
+        <th>{{contact.email}}</th>
         <th>
           <button onClick="location.href='requisition/edit/{{_id}}'" class="fa fa-info btn m-1"></button>
         </th>
