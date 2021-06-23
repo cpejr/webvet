@@ -1,11 +1,9 @@
 const express = require("express");
-const Counter = require("../models/counter");
-const Kit = require("../models/kit");
+const Counter = require("../../models/counter");
 const router = express.Router();
-const auth = require("../middlewares/auth");
+const Kit = require("../../models/kit");
 
-/* GET home page. */
-router.get("/", auth.isAuthenticated, async function (req, res) {
+router.get("/", async function (req, res) {
   const finalizationNumber = (await Counter.getFinalizationCount()) - 1;
   const lastFinalizedKits = await Kit.getAllByFinalizationNumber(
     finalizationNumber
@@ -35,11 +33,13 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
       }
     });
   });
-
-  res.render("previousmap", {
+  
+  res.render("finalization/result", {
+    title: "Curvas de Calibração",
     displayInfo,
     ...req.session,
     layout: "layoutFinalization.hbs",
   });
 });
+
 module.exports = router;

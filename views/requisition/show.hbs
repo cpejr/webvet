@@ -5,10 +5,10 @@
     <hr color="lightgray">
     <form class="showboxinfo" action="/requisition/edit/{{requisitions._id}}" method="get">
       <p>
-        <font size="4" color="black">Data de coleta: {{requisitions.datecollection}}
+        <font size="4" color="black">Data de coleta: {{requisitions.collectionDate}}
       </p>
       <p>
-        <font size="4" color="black">Data de recebimento: {{requisitions.receivedquantity}}
+        <font size="4" color="black">Data de recebimento: {{requisitions.receivedQuantity}}
       </p>
       <p>
         <font size="4" color="black">Origem: {{requisitions.origin}}
@@ -23,7 +23,7 @@
         <font size="4" color="black">Fazenda: {{requisitions.farmname}}
       </p>
       <p>
-        <font size="4" color="black">Número da Autorização: {{requisitions.autorizationnumber}}
+        <font size="4" color="black">Número da Autorização: {{requisitions.autorizationNumber}}
       </p>
       <div class="container-fluid">
         <button type="submit" class="btn btn-outline-success">Editar</button>

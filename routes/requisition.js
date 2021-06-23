@@ -5,10 +5,12 @@ const Requisition = require("../models/requisition");
 const Sample = require("../models/sample");
 const User = require("../models/user");
 const Kit = require("../models/kit");
+const Email = require("../models/email");
 
 router.get("/new", auth.isAuthenticated, async function (req, res) {
   let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
   const { user } = req.session;
+
   res.render("requisition/newrequisition", {
     title: "Requisition",
     layout: "layoutDashboard.hbs",
@@ -16,8 +18,8 @@ router.get("/new", auth.isAuthenticated, async function (req, res) {
     isFromLab: user.type === "Admin" || user.type === "Analista" ? true : false,
     allStates,
     allDestinations,
-    ToxinasAll,
-    ...req.session,
+    toxins: Toxins,
+    user,
   });
 });
 
@@ -38,7 +40,7 @@ router.get(
         allStates,
         allDestinations,
         allSampleTypes,
-        ToxinasAll,
+        toxins: Toxins,
         ...req.session,
       });
     } catch (error) {
@@ -55,23 +57,32 @@ router.get(
   async function (req, res) {
     try {
       const allKits = await Kit.getAllForSpecialPanel();
-      let allSamples = await Sample.getAllSpecialActive();
-      allSamples = allSamples.reverse();
-      allSamples.forEach((sample) => {
+      let samples = await Sample.getAllSpecialActive();
+      let allSamples = new Array();
+      samples.forEach((sample) => {
+        sample = sample.toJSON();
         sample.toxins = new Array();
-        ToxinasAll.forEach((toxina) => {
-          let aux = sample[toxina.Full];
-          aux.formal = toxina.Formal;
-          aux.full = toxina.Full;
-          const availableKits = allKits.find(
-            (element) => element.name === toxina.Full
-          ).kits;
-          aux["kits"] = availableKits;
-          if (aux.active) {
+        Toxins.forEach((toxin) => {
+          const Toxin = toxin.toJSON();
+          let doesInclude = false;
+          sample.analysis.forEach((data) => {
+            if (data.toxin.sigle === Toxin.sigle) {
+              doesInclude = true;
+            }
+          });
+          if (doesInclude) {
+            let aux = {};
+            aux.name = Toxin.name;
+            aux.lower = Toxin.lower;
+            aux.toxinId = Toxin._id;
+            const availableKits = allKits.find(
+              (element) => element.name === Toxin.sigle
+            ).kits;
+            aux.kits = availableKits;
             sample.toxins.push(aux);
           }
-          delete sample[toxina.Full];
         });
+        allSamples.push(sample);
       });
       res.render("requisition/specialpanel", {
         title: "Painel de Amostras",
@@ -92,37 +103,57 @@ router.post(
   auth.isFromLab,
   async function (req, res) {
     const { sample } = req.body;
-    const { _id } = sample;
-    delete sample._id;
-    sample.specialFinalized = true;
-    sample.report = true;
-
     try {
-      let toxinArray = new Array();
-      ToxinasAll.forEach((toxina) => {
-        if (sample[toxina.Full]) {
-          toxinArray.push(toxina.Full);
-          sample[toxina.Full].active = false;
-        }
-      });
+      const { _id, toxinData } = sample;
+      const toxinList = Object.keys(toxinData);
+      delete sample._id;
+
       let frase = "";
       let fraseCompleta =
         "Foi detectada a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.";
 
-      toxinArray.forEach((name, index) => {
+      let analysis = new Array();
+      toxinList.forEach((name, index) => {
+        //Criação da frase
         if (index === 0) {
           frase = name;
-        } else if (index === toxinArray.length - 1) {
+        } else if (index === toxinList.length - 1) {
           frase = frase + ` e ${name}`;
         } else {
           frase = frase + `, ${name}`;
         }
-      });
 
-      sample.parecer = fraseCompleta = fraseCompleta.replace("*frase*", frase);
-      if (sample.comment === "")
-        sample.comment =
-          "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.";
+        //Criação das análises
+        const {
+          toxinId, 
+          resultNumber, 
+          resultText, 
+          resultChart, 
+          wasDetected,
+          kitId
+        } = toxinData[name];
+        const newAnalysis = {
+          toxinId,
+          status: "Finalizado",
+          resultNumber,
+          resultText,
+          resultChart,
+          wasDetected,
+          kitId
+        }
+        analysis.push(newAnalysis);
+      });
+      sample.analysis = analysis;
+      delete sample.toxinData;
+
+      //Criação do report
+      sample.report = {
+        status: "Disponível para o produtor",
+        feedback: fraseCompleta.replace("*frase*", frase),
+        comment:  (sample.comment !== "") ? sample.comment :
+        "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.",
+      }
+      sample.specialFinalized = true;
 
       await Sample.updateCustom(_id, sample);
 
@@ -144,7 +175,7 @@ router.post(
     requisition.status = "Aprovada";
     requisition.special = true;
 
-    const sampleVector = [...requisition.sampleVector];
+    const sampleVector = requisition.sampleVector;
     delete requisition.sampleVector;
 
     try {
@@ -155,44 +186,37 @@ router.post(
           const {
             name,
             citrus,
-            receivedquantity,
-            packingtype,
-            samplenumber,
+            receivedQuantity,
+            packingType,
+            sampleNumber,
             limitDate,
           } = sampleInfo;
 
-          let sample = {
+          const analysis = requisition.selectedToxins.map((toxinId) => ({
+            toxinId,
+            status: "Nova",
+          }));
+
+          const newSample = {
             name,
             approved: true,
             requisitionId,
             responsible: requisition.responsible,
             isCitrus: citrus ? true : false,
-            receivedquantity,
-            packingtype,
+            receivedQuantity,
+            packingType,
             creationYear: requisition.specialYear,
             isSpecial: true,
-            samplenumber,
+            sampleNumber,
             limitDate,
-            specialFinalized: true,
+            specialFinalized: false,
+            analysis,
           };
 
-          if (!requisition.mycotoxin) requisition.mycotoxin = [];
-
-          ToxinasAll.forEach((toxina) => {
-            let containsToxin = false;
-            containsToxin = requisition.mycotoxin.includes(toxina.Formal);
-            sample[toxina.Full] = { active: containsToxin };
-          });
-          sampleObjects.push(sample);
+          sampleObjects.push(newSample);
         });
 
-      const newSamples = await Sample.createManySpecial(sampleObjects);
-      let promiseVector = new Array();
-      newSamples.forEach((sample) => {
-        const id = sample.id;
-        promiseVector.push(Requisition.addSample(requisitionId, id));
-      });
-      await Promise.all(promiseVector);
+      await Sample.createManySpecial(sampleObjects);
 
       req.flash("success", "Nova requisição enviada");
       res.redirect("/requisition/specialnew");
@@ -203,95 +227,74 @@ router.post(
   }
 );
 
-router.post("/delete/:id", auth.isAuthenticated, auth.isAdmin, (req, res) => {
-  Requisition.delete(req.params.id)
-    .then(() => {
-      res.redirect("/requisition");
-      req.flash("success", "Requisição deletada com sucesso!");
-    })
-    .catch((error) => {
-      console.warn(error);
-      res.redirect("/error");
-    });
-});
+router.post(
+  "/delete/:id",
+  auth.isAuthenticated,
+  auth.isAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    Requisition.delete(req.params.id)
 
-router.post("/new", auth.isAuthenticated, function (req, res) {
-  const { requisition } = req.body;
+      .then(() => {
+        res.redirect("/requisition");
+        req.flash("success", "Requisição deletada com sucesso!");
+      })
+      .catch((error) => {
+        console.warn(error);
+        res.redirect("/error");
+      });
+  }
+);
+
+router.post("/new", auth.isAuthenticated, async function (req, res) {
+  let { requisition } = req.body;
+
+  // Add o usuário associado a requisição quando não é criado pelo ADM
   if (
     req.session.user.type !== "Analista" &&
     req.session.user.type !== "Admin"
   ) {
-    requisition.user = req.session.user._id;
+    requisition.charge.user = req.session.user._id;
   }
 
-  //CORREÇÃO PROVISÓRIA DO CAMPO DESTINATION
-  if (Array.isArray(requisition.destination))
-    requisition.destination = requisition.destination.toString();
-
-  if (req.body.producerAddress == 0) {
-    //Provavelmente está errado. Tá substituindo o que a pessoa digitou
-    const address = req.session.user.address;
-    requisition.address = address;
-  }
-  const samplesVector = [...requisition.sampleVector];
-
+  const samplesVector = requisition.sampleVector;
   delete requisition.sampleVector;
 
-  Requisition.create(requisition)
-    .then((reqid) => {
-      let sampleObjects = [];
+  //Criar requisição
+  requisition = await Requisition.create(requisition);
 
-      samplesVector.forEach((sample) => {
-        const { name, citrus, limitDate } = sample;
-        const newSample = {
-          name,
-          samplenumber: -1,
-          responsible: requisition.responsible,
-          requisitionId: NaN,
-          isCitrus: citrus ? true : false,
-          limitDate,
-        };
+  //Criar samples
+  let sampleObjects = [];
 
-        ToxinasAll.forEach((toxin) => {
-          if (requisition.mycotoxin.includes(toxin.Formal)) {
-            newSample[toxin.Full] = { active: true };
-          } else {
-            newSample[toxin.Full] = { active: false };
-          }
-        });
+  samplesVector.forEach((sample) => {
+    const { name, isCitrus, limitDate } = sample;
 
-        newSample.requisitionId = reqid;
-        sampleObjects.push(newSample);
-      });
+    const analysis = requisition.selectedToxins.map((toxinId) => ({
+      toxinId,
+      status: "Nova",
+    }));
 
-      Sample.createMany(sampleObjects)
-        .then((sids) => {
-          sids.forEach((sid) => {
-            Requisition.addSample(reqid, sid).catch((error) => {
-              console.warn(error);
-              res.redirect("/error");
-            });
-          });
-        })
-        .catch((error) => {
-          console.warn(error);
-          res.redirect("/error");
-        });
+    const newSample = {
+      name,
+      requisitionId: requisition._id,
+      isCitrus: isCitrus ? true : false,
+      limitDate,
+      analysis,
+    };
+    sampleObjects.push(newSample);
+  });
 
-      req.flash("success", "Nova requisição enviada");
-      if (
-        req.session.user.type === "Analista" ||
-        req.session.user.type === "Admin"
-      ) {
-        res.redirect("/requisition");
-      } else {
-        res.redirect("/user");
-      }
-    })
-    .catch((error) => {
-      console.warn(error);
-      res.redirect("/error"); //catch do create
-    });
+  await Sample.createMany(sampleObjects);
+
+  req.flash("success", "Nova requisição enviada");
+  if (
+    req.session.user.type === "Analista" ||
+    req.session.user.type === "Admin"
+  ) {
+    res.redirect("/requisition");
+  } else {
+    res.redirect("/user");
+  }
 });
 
 router.get("/", auth.isAuthenticated, async function (req, res) {
@@ -317,7 +320,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     regularCountPages,
   ]);
 
-  specialRequisitions = specialRequisitions.map(formatRequisition);
+  specialRequisitions = specialRequisitions.map(formatSpecial);
   regularRequisitions = regularRequisitions.map(formatRequisition);
 
   function formatRequisition(requisition) {
@@ -327,6 +330,11 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
 
     req.year = year;
 
+    return req;
+  }
+
+  function formatSpecial(requisition) {
+    const req = requisition.toJSON();
     return req;
   }
 
@@ -348,36 +356,41 @@ router.get(
   auth.isAuthenticated,
   auth.isFromLab,
   async function (req, res) {
-    const { id } = req.params;
-
     try {
-      const requisition = await Requisition.getById(req.params.id);
-      const samples = await Sample.getByIdArray(requisition.samples);
+      let users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+      const requisitionId = req.params.id;
+      const requisition = await Requisition.getById(requisitionId);
+      const samples = await Sample.getByFields({ requisitionId });
 
-      let nova = requisition.status === "Nova" ? true : false;
-      let requisitionExtra = {};
+      let toxinsOptions = ToxinasAll.map((toxin) => {
+        const result = samples?.find((sample) =>
+          sample?.analysis?.find(
+            (analysis) =>
+              analysis.toxinId === toxin._id && !!analysis.resultNumber
+          )
+        );
 
-      ToxinasFull.forEach((toxin) => {
-        let hasResult = false;
-        for (let i = 0; i < samples.length; i++)
-          if (samples[i][toxin].result) {
-            hasResult = true;
-            break;
-          }
+        let hasToxin = requisition.selectedToxins.includes(toxin._id);
+        let hasResult = !!result;
 
-        requisitionExtra[`${toxin}_hasResult`] = hasResult;
+        return {
+          ...toxin,
+          disabled: hasResult,
+          checked: hasToxin,
+        };
       });
 
-      res.render("requisition/edit", {
+      res.render("requisition/admEdit", {
         title: "Edit Requisition",
         layout: "layoutDashboard.hbs",
         requisition,
-        requisitionExtra,
-        nova,
+        toxinsOptions,
         ...req.session,
         samples,
         allSampleTypes,
         allStates,
+        users,
+        allDestinations,
       });
     } catch (error) {
       console.warn(error);
@@ -393,6 +406,9 @@ router.get("/useredit/:id", auth.isAuthenticated, function (req, res) {
         title: "Edit Requisition",
         layout: "layoutDashboard.hbs",
         requisition,
+        allSampleTypes,
+        allStates,
+        allDestinations,
         ...req.session,
       });
     })
@@ -406,50 +422,76 @@ router.post(
   "/edit/:id",
   auth.isAuthenticated,
   auth.isFromLab,
-  function (req, res) {
-    var { requisition, sample } = req.body;
+  async function (req, res) {
+    const { requisition, samples } = req.body;
+    const requisitionId = req.params.id;
 
     const isApproved =
       req.body.toApprove === "toApprove" || req.body.toApprove === "approved";
 
-    if (isApproved) {
-      requisition.status = "Aprovada";
+    requisition.approved = isApproved;
+    requisition.status = isApproved ? "Aprovada" : "Nova";
+
+    if (typeof requisition.selectedToxins === "string")
+      requisition.selectedToxins = [requisition.selectedToxins];
+    else if (!requisition.selectedToxins) requisition.selectedToxins = [];
+
+    const oldRequisition = await Requisition.getById(requisitionId);
+
+    const promises = [];
+    const samplesIds = [];
+
+    samples.forEach((sample) => {
+      const { _id } = sample;
+
+      samplesIds.push(_id.toString());
+
+      promises.push(Sample.update(_id, sample));
+    });
+
+    // Verificar se ocorreu mudança nas toxinas
+    const removed = [];
+    const added = [];
+
+    oldToxins = oldRequisition.selectedToxins.map((_id) => _id.toString());
+
+    oldToxins?.forEach((id) => {
+      if (
+        !requisition.selectedToxins ||
+        !requisition.selectedToxins?.includes(id)
+      )
+        removed.push(id);
+    });
+
+    requisition.selectedToxins?.forEach((id) => {
+      if (!oldToxins.includes(id)) added.push(id);
+    });
+
+    if (removed.length > 0)
+      promises.push(Sample.removeAnalysis(samplesIds, removed));
+
+    if (added.length > 0) promises.push(Sample.addAnalysis(samplesIds, added));
+
+    promises.push(Requisition.update(requisitionId, requisition));
+
+    await Promise.all(promises);
+
+    req.flash("success", "Requisição alterada com sucesso.");
+    res.redirect(`/requisition/edit/${req.params.id}`);
+
+    /**
+     * Lógica de envio de emails caso aprovado
+     */
+    if (
+      requisition.status == "Aprovada" &&
+      oldRequisition.status != requisition.status
+    ) {
+      const { createdAt, requisitionNumber } = oldRequisition;
+
+      const { email, fullname } = oldRequisition.charge.user;
+      const sampleCode = `${requisitionNumber}/${createdAt.getFullYear()}`;
+      Email.requisitionApprovedEmail(email, fullname, sampleCode);
     }
-
-    for (let i = 0; i < sample.length; i++) {
-      let samples = {
-        name: sample[i].name,
-        sampletype: sample[i].sampletype,
-        approved: isApproved,
-        isCitrus: sample[i].isCitrus ? true : false,
-        receivedquantity: sample[i].receivedquantity,
-        packingtype: sample[i].packingtype,
-      };
-
-      if (!requisition.mycotoxin) requisition.mycotoxin = [];
-
-      ToxinasAll.forEach((toxina) => {
-        let containsToxin = false;
-        containsToxin = requisition.mycotoxin.includes(toxina.Formal);
-        samples[`${toxina.Full}.active`] = containsToxin;
-      });
-
-      Sample.update(sample[i]._id, samples)
-        .then(() => {})
-        .catch((error) => {
-          console.warn(error);
-          res.redirect("/error");
-        });
-    }
-    Requisition.update(req.params.id, requisition)
-      .then(() => {
-        req.flash("success", "Requisição alterada com sucesso.");
-        res.redirect(`/requisition/edit/${req.params.id}`);
-      })
-      .catch((error) => {
-        console.warn(error);
-        res.redirect("/error");
-      });
   }
 );
 

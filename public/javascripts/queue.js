@@ -1,15 +1,10 @@
-ToxinasFull = [
-  "aflatoxina",
-  "deoxinivalenol",
-  "fumonisina",
-  "ocratoxina",
-  "t2toxina",
-  "zearalenona",
-];
+const Analysiskanbans = {};
+const Workmapskanbans = {};
+let SamplesInAnalysis = {};
 
-function createAnalysisKanban(toxinaFull) {
+function createAnalysisKanban(toxinId) {
   return new jKanban({
-    element: "#" + toxinaFull,
+    element: `#Analysis${toxinId}`,
     gutter: "10px",
     widthBoard: "190px",
     click: function (el) {
@@ -18,340 +13,262 @@ function createAnalysisKanban(toxinaFull) {
     dragBoards: false,
     boards: [
       {
-        id: "_testing",
+        id: "Em análise",
         title: "Em análise",
         class: "success",
       },
       {
-        id: "_ownering",
+        id: "Aguardando pagamento",
         title: "Aguardando pagamento",
         class: "success",
       },
       {
-        id: "_waiting",
+        id: "Aguardando amostra",
         title: "Aguardando amostra",
         class: "info",
       },
     ],
     dropEl: function (el, target, source, sibling) {
-      const sampleId = el.dataset.eid;
+      const { eid: sampleId, analysis_id, approved, debt } = el.dataset;
 
       let sourceName = $(source).parent().data("id");
 
-      if (sourceName === "_testing")
-        Wormapskanbans[toxinaFull].removeElement(sampleId);
+      // Saiu do em análise
+      if (sourceName === "Em análise")
+        Workmapskanbans[toxinId].removeElement(`${sampleId}`);
 
-      let text;
+      // Entrou no em análise
+      //Se está a provada, o usuário não é devedor e já não estiver lá
 
-      switch (target) {
-        case "_testing":
-          text = "Em análise";
+      if (
+        target == "Em análise" &&
+        `${approved}` == "true" &&
+        `${debt}` == "false" &&
+        !Workmapskanbans[toxinId].findElement(sampleId)
+      )
+        Workmapskanbans[toxinId].addElement("Em análise", {
+          ...el.dataset,
+          status: target,
+          innerHTML: getElementHtml({ ...el.dataset, status: target }),
+        });
 
-          //Se está a provada, o usuário não é devedor e já não estiver lá
-          if (
-            el.dataset.approved === "true" &&
-            el.dataset.owner === "false" &&
-            !Wormapskanbans[toxinaFull].findElement(sampleId)
-          ) {
-            Wormapskanbans[toxinaFull].addElement("_scndTesting", {
-              id: sampleId,
-              title: el.dataset.title,
-              analyst: el.dataset.analyst,
-              status: "Em análise",
-              approved: el.dataset.approved,
-              owner: el.dataset.owner,
-              iscitrus: el.dataset.iscitrus,
-              limitDate: el.dataset.limitdate,
-              click: function (el) {
-                window.location.href = "sample/edit/" + el.dataset.eid;
-              },
-            });
-          }
-          break;
-
-        case "_ownering":
-          text = "Aguardando pagamento";
-          break;
-        case "_waiting":
-          text = "Aguardando amostra";
-          break;
-      }
-
-      $.post(
-        `sample/updatestatus/${target.replace(
-          "_",
-          ""
-        )}/${toxinaFull}/${sampleId}`
-      );
-
-      let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">${text}</span>`;
-      badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
-
-      if (el.dataset.owner + "" === "true")
-        badges += `<span  class="badge badge-danger">Devedor</span>`;
-
-      if (el.dataset.approved == "false")
-        badges += `<span  class="badge badge-danger">Não aprovada</span>`;
-
-      if (el.dataset.iscitrus == "true")
-        badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
-
-      if (el.dataset.limitdate)
-        badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
-
-      el.innerHTML = badges;
+      el.innerHTML = getElementHtml({ ...el.dataset, status: target });
+      $.post(`sample/updateAnalysisWorkmapAndStatus/${analysis_id}`, {
+        status: target,
+      });
     },
   });
 }
 
-const aflatoxina = createAnalysisKanban("aflatoxina");
-const deoxinivalenol = createAnalysisKanban("deoxinivalenol");
-const ocratoxina = createAnalysisKanban("ocratoxina");
-const t2toxina = createAnalysisKanban("t2toxina");
-const fumonisina = createAnalysisKanban("fumonisina");
-const zearalenona = createAnalysisKanban("zearalenona");
-
-let Analysiskanbans = {
-  aflatoxina,
-  deoxinivalenol,
-  ocratoxina,
-  t2toxina,
-  fumonisina,
-  zearalenona,
-};
-
-function createWormapKanban(toxinaFull) {
+function createWorkmapKanban(toxinId) {
   return new jKanban({
-    element: "#" + toxinaFull + "2",
+    element: `#Workmap${toxinId}`,
     gutter: "10px",
     widthBoard: "165px",
     dragBoards: false,
     boards: [
       {
-        id: "_scndTesting",
+        id: "Em análise",
         title: "Em análise",
         class: "info",
       },
     ],
     dropEl: function (el, target, source, sibling) {
-      const sampleId = el.dataset.eid;
+      const { analysis_id } = el.dataset;
 
-      if (target == "_scndTesting") {
-        if (el.dataset.calibrator) {
-          //cards P não se movem para em analise
-          return false;
-        } else {
-          $.post(`/sample/scndTesting/edit/${toxinaFull}/${sampleId}`);
+      const newWorkmapId = target != "Em análise" ? target : null;
+      $.post(`sample/updateAnalysisWorkmapAndStatus/${analysis_id}`, {
+        workmapId: newWorkmapId,
+      });
 
-          let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Em análise</span>`;
-          badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
-
-          if (el.dataset.owner + "" === "true")
-            badges += `<span  class="badge badge-danger">Devedor</span>`;
-
-          if (el.dataset.approved == "false")
-            badges += `<span  class="badge badge-danger">Não aprovada</span>`;
-
-          if (el.dataset.iscitrus + "" == "true")
-            badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
-
-          if (el.dataset.limitdate)
-            badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
-
-          el.innerHTML = badges;
-        }
-      } else {
-        if (el.dataset.calibrator)
-          //cards originais
-          return false;
-        else {
-          $.post(`/sample/mapedit/${toxinaFull}/${sampleId}/${target}`);
-
-          let badges = `${el.dataset.title}<br><span  class="badge badge-secondary">Mapa de trabalho</span>`;
-          badges += `<span  class="badge badge-primary">${el.dataset.analyst}</span>`;
-
-          if (el.dataset.owner + "" === "true")
-            badges += `<span  class="badge badge-danger">Devedor</span>`;
-
-          if (el.dataset.approved == "false")
-            badges += `<span  class="badge badge-danger">Não aprovada</span>`;
-
-          if (el.dataset.iscitrus == "true")
-            badges += `<span  class="badge badge-success">Polpa Cítrica</span>`;
-
-          if (el.dataset.limitdate)
-            badges += `<span  class="badge badge-secondary">${el.dataset.limitdate}</span>`;
-
-          el.innerHTML = badges;
-        }
-      }
+      el.innerHTML = getElementHtml(el.dataset);
     },
   });
 }
 
-let Wormapskanbans = {
-  aflatoxina: createWormapKanban("aflatoxina"),
-  deoxinivalenol: createWormapKanban("deoxinivalenol"),
-  ocratoxina: createWormapKanban("ocratoxina"),
-  t2toxina: createWormapKanban("t2toxina"),
-  fumonisina: createWormapKanban("fumonisina"),
-  zearalenona: createWormapKanban("zearalenona"),
-};
+function getElementHtml({
+  title,
+  analyst,
+  approved,
+  iscitrus,
+  limitdate,
+  debt,
+  status,
+}) {
+  let innerHTML = `${title}<br><span  class="badge badge-secondary">${status}</span>`;
+  innerHTML += `<span  class="badge badge-primary">${analyst}</span>`;
 
-let nowActiveKits = {};
+  if (`${debt}` == "true")
+    innerHTML += `<span  class="badge badge-danger">Devedor</span>`;
 
-//cria cedulas kanban
-$.get("/search/samplesActiveWithUser", (objects) => {
-  $(document).ready(function () {
-    objects.forEach((user) => {
-      let debt = user.debt;
+  if (`${approved}` == "false")
+    innerHTML += `<span  class="badge badge-danger">Não aprovada</span>`;
 
-      user.samples.forEach((sample) => {
-        //Teste para cada toxina
-        ToxinasFull.forEach((toxina) => {
-          if (sample[toxina].active == true) {
-            let status = sample[toxina].status;
-            let kanban = Analysiskanbans[toxina];
-            let approved = sample.approved;
+  if (`${iscitrus}` == "true")
+    innerHTML += `<span  class="badge badge-success">Polpa Cítrica</span>`;
 
-            let element = {
-              id: sample._id,
-              title: "Amostra " + sample.samplenumber,
-              analyst: sample.responsible,
-              status: status,
-              approved: sample.approved,
-              owner: debt,
-              iscitrus: sample.isCitrus,
-              limitDate: sample.limitDate,
-              click: function (el) {
-                window.location.href = "sample/edit/" + el.dataset.eid;
-              },
-            };
+  if (limitdate)
+    innerHTML += `<span  class="badge badge-secondary">${limitdate}</span>`;
 
-            if (
-              status == "Nova" ||
-              status == "Sem amostra" ||
-              status == "A corrigir" ||
-              status == "Aguardando amostra"
-            )
-              kanban.addElement("_waiting", element);
-            else if (status == "Mapa de Trabalho")
-              kanban.addElement("_testing", element);
-            else if (status == "Em análise") {
-              kanban.addElement("_testing", element);
-              if (!debt && approved)
-                Wormapskanbans[toxina].addElement("_scndTesting", element);
-            } else if (status == "Aguardando pagamento")
-              kanban.addElement("_ownering", element);
-          }
+  return innerHTML;
+}
+
+$(async function () {
+  // Generate kanbans
+  const toxins = await $.get("/toxins");
+  toxins.forEach((toxin) => {
+    Workmapskanbans[toxin._id] = createWorkmapKanban(toxin._id);
+    Analysiskanbans[toxin._id] = createAnalysisKanban(toxin._id);
+    SamplesInAnalysis[toxin._id] = [];
+  });
+
+  //First load for workmaps kanbans
+  const activeKits = await $.get("/stock/getAllActiveWithSamples");
+  activeKits.forEach((activeKit) =>
+    populateWorkmapsKanbans(activeKit, activeKit.toxinId)
+  );
+
+  await populateKanbans();
+
+  //Add events
+  $('div[class="container-radio-kit-type"]').each((index, element) => {
+    let toxinId = $(element).data("toxin");
+    $(element)
+      .find("input.radio-queue")
+      .each(function (index, radio) {
+        // Add onChange para cada radio
+        $(radio).on("change", async function (e, data) {
+          let kitType = $(this).val();
+          const newActive = await $.post(
+            `/stock/toggleActive/${toxinId}/${kitType}`
+          );
+          populateWorkmapsKanbans(newActive, toxinId);
         });
       });
-    });
   });
 });
 
-let workmapsStart = 0;
-let workmapsEnd = 0;
+function populateWorkmapsKanbans(activeKit, toxinId) {
+  if (activeKit) {
+    $(`#hide${toxinId}`).removeClass("form-disabled");
 
-//Add eventos
-$('div[class="loteradio"]').each(function (index, group) {
-  let toxina = $(group).data("toxin");
-  $(group)
-    .find("input.radio-queue")
-    .each(function (index, checkbox) {
-      $(checkbox).change(function (e, data) {
-        let letter = $(this).data("letter");
-        $.get(`/search/kits/${toxina}/${letter}`, (kits) => {
-          let kit = kits[0];
-          //if kit exists
-          if (kit) {
-            $("#hide" + toxina).removeClass("form-disabled");
-            let begin = kit.toxinaStart; //Workmaps start
-            nowActiveKits[toxina] = kit._id;
+    const currentKanban = Workmapskanbans[activeKit.toxinId];
 
-            $("#countkits" + toxina).text(kit.stripLength);
+    currentKanban?.removeAllBoards("Em análise");
+    const boards = [];
+    let samples = [];
+    activeKit.workmaps.forEach((workmap, index) => {
+      if (!workmap.wasUsed) {
+        // Generate items
+        const items = [];
 
-            if (data == undefined)
-              $.post(`/sample/setActiveKit/${toxina}/${kit._id}`);
+        if (workmap.samples) samples = [...samples, ...workmap.samples];
 
-            //remove boards
-            for (
-              let i = workmapsStart;
-              i <= workmapsEnd;
-              i++ //the map 0 was defined before
-            )
-              Wormapskanbans[toxina].removeAllBoards("_scndTesting");
-
-            //Add boards
-            for (let i = begin; i < kit.stripLength; i++) {
-              //the map 0 was defined before
-              Wormapskanbans[toxina].addBoards([
-                {
-                  id: kit.mapArray[i],
-                  title: "Mapa de trabalho" + " " + (i + 1),
-                  class: "info",
-                },
-              ]);
-            }
-
-            //If there is workmaps
-            if (begin != kit.stripLength) {
-              //ADD and DelETE calibradores
-              for (let i = 1; i <= 5; i++) {
-                Wormapskanbans[toxina].removeElement("P" + i);
-                Wormapskanbans[toxina].addFixedElement(kit.mapArray[begin], {
-                  id: "P" + i,
-                  title: "P" + i,
-                  calibrator: true,
-                  click: () => {},
-                });
-              }
-
-              //Update variables
-              workmapsStart = begin;
-              workmapsEnd = kit.stripLength;
-
-              //allocate the samples/calibrators that are in an workmap
-              $.get(
-                `/search/getSamplesActiveByWorkmapArray/${kit.mapArray}/${toxina}`
-              ).then((samples) => {
-                for (let i = 0; i < samples.length; i++) {
-                  const sample = samples[i];
-                  if (sample[toxina].status === "Mapa de Trabalho") {
-                    let sampleAnalysis = Analysiskanbans[toxina].findElement(
-                      sample._id
-                    );
-
-                    let element = {
-                      id: sample._id,
-                      title: "Amostra " + sample.samplenumber,
-                      analyst: sample.responsible,
-                      status: sample[toxina].status,
-                      approved: sample.approved,
-                      iscitrus: sample.isCitrus,
-                      limitDate: sample.limitDate,
-                      click: function (el) {
-                        window.location.href = "sample/edit/" + el.dataset.eid;
-                      },
-                    };
-
-                    if (sampleAnalysis)
-                      element.owner = sampleAnalysis.dataset.owner;
-                    else element.owner = "false";
-
-                    Wormapskanbans[toxina].addElement(
-                      sample[toxina].workmapId,
-                      element
-                    );
-                  }
-                }
-              });
-            }
-          } else {
-            $("#countkits" + toxina).text("0");
-            $("#hide" + toxina).addClass("form-disabled");
-          }
+        // Generate boards
+        boards.push({
+          id: workmap._id,
+          title: `Mapa de trabalho ${index + 1}`,
+          class: "info",
+          item: items,
         });
-      });
+      }
     });
-});
+
+    if (boards.length > 0) {
+      currentKanban.addBoards(boards);
+
+      // Add calibradores
+      for (let i = 1; i <= 5; i++)
+        currentKanban.addFixedElement(boards[0].id, {
+          id: `P${i}`,
+          title: `P${i}`,
+          calibrator: true,
+        });
+
+      samples.forEach((sample) =>
+        addElementToWorkmaps(
+          sample?.analysis?.toxinId,
+          createSampleElement(sample)
+        )
+      );
+    }
+  } else $(`#hide${toxinId}`).addClass("form-disabled");
+}
+
+function createSampleElement(sample) {
+  const element = {
+    id: sample._id,
+    title: `Amostra ${sample.sampleNumber}`,
+    analyst: sample.name,
+    status: sample?.analysis?.status,
+    approved: sample.requisition.approved,
+    debt: sample.requisition.charge?.user?.debt,
+    iscitrus: sample.isCitrus,
+    limitdate: sample.limitDate,
+    analysis_id: sample?.analysis?._id,
+    workmap_id: sample?.analysis?.workmapId,
+    click: function (el) {
+      window.location.href = `sample/edit/${id}`;
+    },
+  };
+  element.innerHTML = getElementHtml({
+    ...element,
+  });
+
+  return element;
+}
+
+//cria cedulas kanban
+async function populateKanbans() {
+  const response = await $.get("/sample/getAllWithoutFinalization");
+
+  response.forEach((toxinData) =>
+    toxinData.samples.forEach((sample) => {
+      const element = createSampleElement(sample);
+      addElementToAnalysis(`${toxinData._id}`, element);
+    })
+  );
+}
+
+function addElementToAnalysis(toxinId, element) {
+  let kanban = Analysiskanbans[toxinId];
+
+  switch (element.status) {
+    case "nova":
+    case "Nova":
+    case "Sem amostra":
+    case "A corrigir":
+    case "Aguardando amostra":
+      kanban.addElement("Aguardando amostra", element);
+      break;
+
+    case "Em análise":
+    case "Mapa de Trabalho":
+      kanban.addElement("Em análise", element);
+      break;
+
+    case "Aguardando pagamento":
+      kanban.addElement("Aguardando pagamento", element);
+      break;
+  }
+}
+
+function addElementToWorkmaps(toxinId, element) {
+  let kanban = Workmapskanbans[toxinId];
+  
+  const sampleMustGoToWorkmaps =
+    element.approved &&
+    !element.debt &&
+    !!kanban.findBoard(`${element.workmap_id}`);
+
+  if (sampleMustGoToWorkmaps)
+    switch (element.status) {
+      case "Em análise":
+        kanban.addElement("Em análise", element);
+        break;
+
+      case "Mapa de Trabalho":
+        kanban.addElement(element.workmap_id, element);
+        break;
+    }
+}

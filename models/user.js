@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     uid: {
       type: String,
     },
-    register: {
+    cpfCnpj: {
       type: String, // CPF ou CNPJ
       // unique: true
     },
@@ -165,15 +165,7 @@ class User {
    * @returns {Object} - User Document Data
    */
   static getByFirebaseId(id) {
-    return new Promise((resolve, reject) => {
-      UserModel.findOne({ uid: id })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    return UserModel.findOne({ uid: id });
   }
 
   static getAllActiveProducers() {
@@ -259,7 +251,6 @@ class User {
    */
   static removeProducer(id, user_id) {
     return new Promise((resolve, reject) => {
-      // console.log("Ids: ", user_id);
       UserModel.findByIdAndUpdate(id, {
         $pull: { associatedProducers: user_id },
       })
@@ -276,7 +267,6 @@ class User {
     return new Promise((resolve, reject) => {
       UserModel.updateMany({ _id: { $in: id_array } }, { isOnCovenant: true })
         .then((result) => {
-          //console.log("Marcados como isOnCovenant");
           resolve(result);
         })
         .catch((err) => {
@@ -289,7 +279,6 @@ class User {
     return new Promise((resolve, reject) => {
       UserModel.updateMany({ _id: { $in: id_array } }, { isOnCovenant: false })
         .then((result) => {
-          //console.log("Desmarcados do isOnCovenant");
           resolve(result);
         })
         .catch((err) => {

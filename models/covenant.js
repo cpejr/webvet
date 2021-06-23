@@ -81,7 +81,6 @@ class Covenant {
 
   static async getRelatedIdsAndConvName(userId, associated) {
     try {
-      // console.log("Imprimindo Id do usuario que logou: ", userId);
       const covenant = await CovenantModel.findOne({
         $or: [{ admin: userId }, { managers: { $all: [userId] } }],
       })
@@ -90,16 +89,12 @@ class Covenant {
 
       const { admin, managers, name } = covenant;
       const { _id } = admin;
-      // console.log("Imprimindo Id admin do convênio: ", _id);
       if (_id.equals(userId)) {
         //Is Admin
-        // console.log("É admin");
         //Vai percorrer todos os gerentes e concatenar os vetores de produtores associados.
         //new Set([]) retira repetições
         let managedProducers = new Array();
         for (const manager of managers) {
-          // console.log("Manager encontrado!: ", manager.fullname);
-          // console.log("Produtores associados: ", manager.associatedProducers);
           managedProducers = managedProducers.concat(
             manager.associatedProducers
           );
@@ -108,7 +103,6 @@ class Covenant {
         return { ids: [...new Set([...managedProducers, ...associated, userId])], name };
       } else {
         //Is not Admin
-        // console.log("Não é admin");
         //Retorna o proprio ID e seus produtores associados, gerente nao tem acesso a outros gerentes nem admin.
         return { ids: [userId, ...associated], name };
       }
@@ -121,7 +115,6 @@ class Covenant {
   static delete(id) {
     return new Promise((resolve, reject) => {
       CovenantModel.findByIdAndDelete(id).then((result) => {
-        // console.log("Resultado do delete: ", result);
         let users = result.managers;
         users.push(result.admin);
         resolve(users);

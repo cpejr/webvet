@@ -1,36 +1,36 @@
 function submitForm(finalized) {
   let route = $("#formReport").attr("action");
-  route += `?finalized=${finalized}`;
+  route += `?status=${finalized}`;
   $("#formReport").attr("action", route);
   $("#formReport").submit();
 }
 
 $("#finalize").on('click', function () {
-  submitForm("Disponivel");
+  submitForm("Disponível para o produtor");
 });
 
 $("#analize").on('click', function () {
-  submitForm("Analisada");
+  submitForm("Revisada por Analista");
 });
 
 $("#unanalize").on('click', function () {
-  submitForm("Não finalizada");
+  submitForm("Não finalizado");
 });
 
 $("#unfinalize").on('click', function () {
-  submitForm("Não finalizada");
+  submitForm("Não finalizado");
 });
 
 
 $(function () {
   var countChecked = function () {
-    var n = $('input[id="toxinaCheck"]:checked').length;
+    var n = $('input[id="toxinaDetected"]:checked').length;
     var listNames = [];
     var frase = "";
     var fraseCompleta =
       "Foi detectada a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.";
 
-    $('input[id="toxinaCheck"]:checked').each(function () {
+    $('input[id="toxinaDetected"]:checked').each(function () {
       listNames.push($(this).val());
     });
 
@@ -51,19 +51,19 @@ $(function () {
         frase = frase + " e " + listNames[listNames.length - 1];
       }
       fraseCompleta = fraseCompleta.replace("*frase*", frase);
-      $("#parecer").text(fraseCompleta);
+      $("#feedback").text(fraseCompleta);
     } else {
-      $("#parecer").text(
+      $("#feedback").text(
         "Não foi detectada a presença destas micotoxinas na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada."
       );
     }
   };
 
   countChecked();
-  $("input[type=checkbox][id=toxinaCheck]").on('change',countChecked);
+  $("input[type=checkbox][id=toxinaDetected]").on('change',countChecked);
 
   var checkAll = function () {
-    $('input[type=checkbox][id="toxinaCheck"]').each(function () {
+    $('input[type=checkbox][id="toxinaDetected"]').each(function () {
       $(this).prop("checked", $("#allCheck").is(":checked"));
       countChecked();
     });

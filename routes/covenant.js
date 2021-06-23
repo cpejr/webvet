@@ -29,7 +29,6 @@ router.get('/', auth.isAuthenticated, auth.isFromLab, async function (req, res) 
 
 router.post('/new', auth.isAuthenticated, auth.isFromLab, async function (req, res) {
     const { covenant } = req.body;
-    // console.log("Convenio a ser criado:", covenant);
 
     let users = [...covenant.managers];
     if (!Array.isArray(covenant.managers)) users = [covenant.managers];
@@ -39,9 +38,7 @@ router.post('/new', auth.isAuthenticated, auth.isFromLab, async function (req, r
     await users.forEach(user => {
         objects.push(mongoose.Types.ObjectId(user));
     })
-    // console.log("Convenio a ser criado:", covenant);
     await Covenant.create(covenant);
-    // console.log("Usuarios para adicionar isOnCovenant: ", objects);
     await User.addCovenant(objects);
 
     res.redirect('/covenant');
@@ -93,7 +90,6 @@ router.post('/delete/:id', auth.isAuthenticated, auth.isAdmin, async function (r
     await users.forEach(user => {
         objects.push(mongoose.Types.ObjectId(user));
     })
-    // console.log("Usuarios para remover: ", objects);
     User.removeCovenant(objects);
     res.redirect('/covenant');
 });

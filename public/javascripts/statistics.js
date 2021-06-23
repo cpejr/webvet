@@ -21,24 +21,6 @@ function randomValues(count, min, max) {
 
 let chart1, chart2, chart3, chart4;
 
-let ToxinasFull = [
-  "aflatoxina",
-  "deoxinivalenol",
-  "fumonisina",
-  "ocratoxina",
-  "t2toxina",
-  "zearalenona",
-];
-
-let ToxinasFormal = [
-  "Aflatoxinas",
-  "Deoxinivalenol",
-  "Fumonisinas",
-  "Ocratoxina A",
-  "T-2 toxina",
-  "Zearalenona",
-];
-
 function buildCharts() {
   let ctx1 = $("#StateFrequency");
   chart1 = new Chart(ctx1, {
@@ -331,7 +313,6 @@ function populateCharts() {
       eixo_x.push(element._id);
       eixo_y.push((element.frequency * 100).toFixed(2));
     }
-    // console.log(result);
 
     chart2.data.labels = eixo_x;
     chart2.data.datasets[0].data = eixo_y;
@@ -351,7 +332,6 @@ function populateCharts() {
       eixo_x.push(element._id);
       eixo_y.push((element.frequency * 100).toFixed(2));
     }
-    // console.log(result);
 
     chart3.data.labels = eixo_x;
     chart3.data.datasets[0].data = eixo_y;
@@ -366,7 +346,7 @@ function populateCharts() {
 
     counterVector.forEach((element) => {
       let porcentage = (element.trueCounter * 100) / element.totalNumber;
-      eixo_x.push(ToxinasFormal[ToxinasFull.indexOf(element.name)]);
+      eixo_x.push(element.name);
       eixo_y.push(porcentage.toFixed(2));
       eixo2_y.push((100 - porcentage.toFixed(2)).toFixed(2));
     });

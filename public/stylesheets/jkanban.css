@@ -3,6 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
+  width: unset !important;
 }
 
 .kanban-container * {
@@ -20,6 +21,7 @@
     float: left;
     background: #E2E4E6;
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    margin-top: 8px;
 }
 
 .kanban-board.disabled-board{

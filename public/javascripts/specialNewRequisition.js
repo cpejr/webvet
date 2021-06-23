@@ -6,6 +6,7 @@ function findAndUpdateValue(elementId, newData) {
   //Se for undefined vira "" por padrão.
   $(`${elementId}`).val(newData !== undefined ? newData : "");
 }
+
 function findAndSelectCorrectly(elementId, newData, defaultId) {
   //Seleciona a opção com o valor passado do select com o id passado.
   //Se o valor é undefined seleciona pelo id default.
@@ -20,11 +21,10 @@ $(document).on("click", ".removeButton", function () {
   $(this).closest(".sample_row").remove();
 });
 
-
 function addInput() {
   if (numInput < 11) {
     var newInput = document.createElement("div");
-    
+
     let html = `
             <div class="col-md-12 d-flex flex-row">
                 <div class="requisition-text col-md-4">
@@ -32,19 +32,19 @@ function addInput() {
                         class="requisition-text" placeholder="Nome da amostra ${numInput}">
                 </div>
                 <div class="requisition-text col-md-4">
-                    <input required type="number" name="sample[sampleVector][${numInput}][samplenumber]"
-                        id="samplenumber[${numInput}]" class="requisition-text"
+                    <input required type="number" name="sample[sampleVector][${numInput}][sampleNumber]"
+                        id="sampleNumber[${numInput}]" class="requisition-text"
                         placeholder="Número da amostra ${numInput}">
                 </div>
                 <div class="requisition-text col-md-4">
-                    <input required id="packingtype[${numInput}]" type="text" name="requisition[sampleVector][${numInput}][packingtype]"
+                    <input required id="packingType[${numInput}]" type="text" name="requisition[sampleVector][${numInput}][packingType]"
                         class="col-md-10" placeholder="Tipo de embalagem">
                 </div>
             </div>
             <div class="col-md-12 d-flex flex-row">
                 <div class="col-md-6 d-flex requisition-text align-items-center">
-                    <select id="sampletype[${numInput}]" class="drowdownoptions w-100"
-                        name="requisition[sampleVector][1][sampletype]" required>
+                    <select id="sampleType[${numInput}]" class="drowdownoptions w-100"
+                        name="requisition[sampleVector][1][sampleType]" required>
                         <option disabled selected value="" id="defaultSampleOption">Escolha o tipo do alimento</option>  
                         <option value="Algodão / Subprodutos">Algodão / Subprodutos</option>
                         <option value="Amendoim / Subprodutos">Amendoim / Subprodutos</option>
@@ -104,39 +104,19 @@ function addInput() {
 $("#adminUser").on("change", function (event) {
   //Dados de Conbrança
   let selectedUser = users.find((user) => user._id === event.target.value);
+
   findAndUpdateValue("#fullname", selectedUser.fullname);
-  findAndUpdateValue("#register", selectedUser.register);
-  findAndUpdateValue(
-    "#IE",
-    selectedUser.address ? selectedUser.address.IE : undefined
-  );
-  findAndUpdateValue(
-    "#street",
-    selectedUser.address ? selectedUser.address.street : undefined
-  );
-  findAndUpdateValue(
-    "#number",
-    selectedUser.address ? selectedUser.address.number : undefined
-  );
-  findAndUpdateValue(
-    "#complement",
-    selectedUser.address ? selectedUser.address.complement : undefined
-  );
-  findAndUpdateValue(
-    "#neighborhood",
-    selectedUser.address ? selectedUser.address.neighborhood : undefined
-  );
-  findAndUpdateValue(
-    "#city",
-    selectedUser.address ? selectedUser.address.city : undefined
-  );
-  findAndUpdateValue(
-    "#cep",
-    selectedUser.address ? selectedUser.address.cep : undefined
-  );
+  findAndUpdateValue("#cpfCnpj", selectedUser.cpfCnpj);
+  findAndUpdateValue("#IE", selectedUser.address?.IE);
+  findAndUpdateValue("#street", selectedUser.address?.street);
+  findAndUpdateValue("#number", selectedUser.address?.number);
+  findAndUpdateValue("#complement", selectedUser.address?.complement);
+  findAndUpdateValue("#neighborhood", selectedUser.address?.neighborhood);
+  findAndUpdateValue("#city", selectedUser.address?.city);
+  findAndUpdateValue("#cep", selectedUser.address?.cep);
   findAndSelectCorrectly(
     "#state",
-    selectedUser.address ? selectedUser.address.state : undefined,
+    selectedUser.address?.state,
     "#defaultStateOption"
   );
 
@@ -147,13 +127,10 @@ $("#adminUser").on("change", function (event) {
   findAndUpdateValue("#cellphone", selectedUser.cellphone);
 
   //Requisição de Análise
-  findAndUpdateValue(
-    "#reqCity",
-    selectedUser.address ? selectedUser.address.city : undefined
-  );
+  findAndUpdateValue("#reqCity", selectedUser.address?.city);
   findAndSelectCorrectly(
     "#reqState",
-    selectedUser.address ? selectedUser.address.state : undefined,
+    selectedUser.address?.state,
     "#defaultStateReqOption"
   );
 });

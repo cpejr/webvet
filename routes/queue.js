@@ -1,24 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const auth = require('../middlewares/auth');
-const Kit = require('../models/kit');
+const auth = require("../middlewares/auth");
+const Kit = require("../models/kit");
 
 /* GET home page. */
-router.get('/', auth.isAuthenticated, function (req, res) {
-  let copy = ToxinasAll;
-  Kit.getAllActive().then((kits) => {
-    for (let i = 0; i < kits.length; i++) {
-      let sigla = kits[i].productCode.replace(" Romer", "");
+router.get("/", auth.isAuthenticated, async function (req, res) {
+  let toxins = ToxinasAll;
 
-      //Correção provisória do problema com a sigla
-      if (sigla === "FUMO")
-        sigla = "FBS"
+  const activeKits = await Kit.getAllActive();
+  ToxinasAll.forEach((toxin, index) => {
+    const activeKit = activeKits.find((kit) => kit.toxinId == toxin._id);
+    if (activeKit) toxins[index].active = activeKit.kitType;
+  });
 
-      let index = ToxinasSigla.indexOf(sigla);
-
-      copy[index].active = kits[i].kitType;
-    }
-    res.render('admin/queue', { toxinas: copy, title: 'Queue', layout: 'layoutDashboard.hbs', ...req.session });
+  res.render("admin/queue", {
+    toxins,
+    title: "Queue",
+    layout: "layoutDashboard.hbs",
+    ToxinasAll,
+    ...req.session,
   });
 });
 

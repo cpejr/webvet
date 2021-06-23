@@ -7,100 +7,89 @@ const User = require("../models/user");
 const Samples = require("../models/sample");
 const Covenant = require("../models/covenant");
 const { isAuthenticated } = require("../middlewares/auth");
-const ObjectId = require("mongodb").ObjectID;
 
 router.get("/", auth.isAuthenticated, async function (req, res) {
-  try {
-    const user = req.session.user;
+  const user = req.session.user;
 
-    const generalData = {
-      isOnCovenant: user.isOnCovenant,
-      convenant: undefined,
-      hasManager: false,
-      moreThanOneManager: false,
-      manager: undefined,
-      hasGeneralData: false,
-    };
+  const generalData = {
+    isOnCovenant: user.isOnCovenant,
+    convenant: undefined,
+    hasManager: false,
+    moreThanOneManager: false,
+    manager: undefined,
+    hasGeneralData: false,
+  };
 
-    let userIds = [user._id];
-    if (user.type !== "Produtor") {
-      //Produtor só pode ver os proprios laudos
-      userIds = [user._id, ...user.associatedProducers];
-    }
-    //POR ALGUM MOTIVO ESSA COMPARACAO NAO FUNCIONA SE NAO FIZER ZOADO ASSIM
-    if (user.isOnCovenant == true) {
-      //Se pertencente ao convenio vai puxar os ids relacionados.
-      // console.log("Está em um convênio");
-      const convenant = await Covenant.getRelatedIdsAndConvName(
-        user._id,
-        user.associatedProducers
-      );
-      userIds = convenant.ids;
-      generalData.convenant = convenant.name;
-      // console.log("Puxou os associados do convenio");
-    }
-    // console.log("Ids associados: ", userIds);
-    const requisitions = await Requisition.getAllByUserIdWithUser(userIds); //É só passar os Ids certos pra esse cara.
-
-    let data = new Array();
-    let samplesId = new Array();
-    let reports = new Array();
-    for (const requi of requisitions) {
-      data.push({
-        name: requi.user.fullname,
-        number: requi.requisitionnumber,
-        year: requi.createdAt.getFullYear(),
-        _id: requi._id,
-      });
-      for (const sampleId of requi.samples) {
-        samplesId.push(ObjectId(sampleId));
-      }
-    }
-
-    const samples = await Samples.getFinalizedByIdArrayWithUser(samplesId);
-
-    for (const sample of samples) {
-      if (sample.report === true) {
-        sample.name = sample.requisitionId.user.fullname;
-        reports.push(sample);
-      }
-    }
-    let repEmpty = true;
-    if (reports.length > 0) {
-      repEmpty = false;
-    }
-
-    const managers = await User.getManagersOfUserById(user._id);
-
-    if (managers.length > 0) {
-      generalData.moreThanOneManager = managers.length > 1;
-      generalData.hasManager = true;
-
-      const managersName = [];
-
-      managers.forEach(element => {
-        managersName.push(element.fullname);
-      });
-      // console.log(managersName)
-      generalData.manager = managersName.join(', ');
-    }
-
-    generalData.hasGeneralData =
-      generalData.hasManager || generalData.isOnCovenant;
-
-    res.render("user", {
-      title: "Cliente",
-      layout: "layoutDashboard.hbs",
-      generalData,
-      data,
-      reports,
-      repEmpty,
-      ...req.session,
-    });
-  } catch (err) {
-    console.warn(err);
-    res.redirect("/error");
+  let userIds = [user._id];
+  if (user.type !== "Produtor") {
+    //Produtor só pode ver os proprios laudos
+    userIds = [user._id, ...user.associatedProducers];
   }
+  //POR ALGUM MOTIVO ESSA COMPARACAO NAO FUNCIONA SE NAO FIZER ZOADO ASSIM
+  if (user.isOnCovenant == true) {
+    //Se pertencente ao convenio vai puxar os ids relacionados.
+    const convenant = await Covenant.getRelatedIdsAndConvName(
+      user._id,
+      user.associatedProducers
+    );
+    userIds = convenant.ids;
+    generalData.convenant = convenant.name;
+  }
+  const requisitions = await Requisition.getAndPopulate({
+    "charge.user": { $in: userIds },
+  }); //É só passar os Ids certos pra esse cara.
+
+  let data = [];
+  let requisitionsIds = [];
+
+  for (const requisition of requisitions) {
+    requisitionsIds.push(requisition._id);
+
+    data.push({
+      name: requisition.charge.user.fullname,
+      number: requisition.requisitionNumber,
+      year: requisition.createdAt.getFullYear(),
+      _id: requisition._id,
+    });
+  }
+  let reports = await Samples.getAndPopulate({
+    requisitionId: { $in: requisitionsIds },
+    "report.status": "Disponível para o produtor",
+  });
+
+  reports = reports.map((sample) => ({
+    ...sample.toJSON(),
+    name: sample.requisition.charge.user.fullname,
+  }));
+
+  let reportEmpty = reports.length === 0;
+
+  const managers = await User.getManagersOfUserById(user._id);
+
+  if (managers.length > 0) {
+    generalData.moreThanOneManager = managers.length > 1;
+    generalData.hasManager = true;
+
+    const managersName = [];
+
+    managers.forEach((element) => {
+      managersName.push(element.fullname);
+    });
+    generalData.manager = managersName.join(", ");
+  }
+
+  generalData.hasGeneralData =
+    generalData.hasManager || generalData.isOnCovenant;
+
+  res.render("user", {
+    title: "Cliente",
+    layout: "layoutDashboard.hbs",
+    generalData,
+    data,
+    reports,
+    reportEmpty,
+    ...req.session,
+  });
 });
 
 router.post(
@@ -108,15 +97,12 @@ router.post(
   auth.isAuthenticated,
   auth.isAdmin,
   async function (req, res) {
-    // console.log("Entrou na rota delete");
-    // console.log("req.params.id = " + req.params.id);
     const { id } = req.params;
-    // console.log("req.body.covenant = " + req.body.covenant);
     const cId = req.body.covenant.id;
-    // console.log(cId);
+    
     await Covenant.removeManager(cId, id);
     await User.removeCovenant([id]);
-    // console.log("Convenio deletado!");
+
     res.redirect(`/covenant/edit/${cId}`);
   }
 );
@@ -138,10 +124,8 @@ router.post(
       return producer;
     });
 
-    //console.log("produtores: ", producers);
 
     await User.addProducers(id, producers);
-    //console.log("Produtores associados!");
 
     req.flash("success", "Produtor asassociado com sucesso.");
     res.redirect(`/users/show/${id}/%20`);

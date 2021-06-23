@@ -1,10 +1,10 @@
-ToxinasFull = [
-  "aflatoxina",
-  "deoxinivalenol",
-  "fumonisina",
-  "ocratoxina",
-  "t2toxina",
-  "zearalenona",
+ToxinasIds = [
+  "60a5a63d45c7b21d74ac59fd",
+  "60a5a68a88ade51d74703066",
+  "60a5a69388ade51d74703067",
+  "60a5a6a388ade51d74703068",
+  "60a5a6bf88ade51d74703069",
+  "60a5a6ca88ade51d7470306a",
 ];
 
 ToxinasFormal = [
@@ -93,32 +93,32 @@ $(() => {
   });
 
   $("#print").on("click", () => {
-    for (let i = 0; i < ToxinasFull.length; i++) {
-      const toxina = ToxinasFull[i];
+    for (let i = 0; i < ToxinasFormal.length; i++) {
+      const toxina = ToxinasFormal[i];
       charts[toxina].canvas.parentNode.style.width = "800px";
     }
     print();
   });
 
   window.onbeforeprint = function () {
-    for (let i = 0; i < ToxinasFull.length; i++) {
-      const toxina = ToxinasFull[i];
+    for (let i = 0; i < ToxinasFormal.length; i++) {
+      const toxina = ToxinasFormal[i];
       charts[toxina].resize();
     }
   };
 
   window.onafterprint = function () {
-    for (let i = 0; i < ToxinasFull.length; i++) {
-      const toxina = ToxinasFull[i];
+    for (let i = 0; i < ToxinasFormal.length; i++) {
+      const toxina = ToxinasFormal[i];
       charts[toxina].canvas.parentNode.style.width = "auto";
     }
   };
 });
 
 function buildCharts() {
-  for (let i = 0; i < ToxinasFull.length; i++) {
-    const toxina = ToxinasFull[i];
-    var ctx = document.getElementById(toxina).getContext("2d");
+  for (let i = 0; i < ToxinasFormal.length; i++) {
+    const toxina = ToxinasFormal[i];
+    var ctx = document.getElementById(ToxinasIds[i]).getContext("2d");
     charts[toxina] = new Chart(ctx, {
       type: "scatter",
       data: {
@@ -218,30 +218,25 @@ function populateCharts() {
   // Define the data
   $.get(`/statistics/resultsData?${buildQueryParams()}`).then((result) => {
     let data = {};
-    for (let j = 0; j < result.length; j++) {
-      for (let i = 0; i < ToxinasFull.length; i++) {
-        if (!data[ToxinasFull[i]]) {
-          data[ToxinasFull[i]] = [];
-        }
-        let resultData = result[j][ToxinasFull[i]].resultChart;
-        if (isNaN(resultData)) {
-          resultData = 0;
-        } else {
-          resultData = Number(resultData);
-        }
-        if (resultData)
-          data[ToxinasFull[i]].push({
-            y: resultData,
-            x: data[ToxinasFull[i]].length,
+
+    result.forEach((toxinGroup) => {
+      let count = 0;
+      data[toxinGroup.toxin.name] = [];
+
+      toxinGroup.analysis.forEach((analysis) => {
+        if (typeof analysis.resultChart !== "undefined") {
+          data[toxinGroup.toxin.name].push({
+            y: analysis.resultChart,
+            x: count,
           });
-      }
-    }
-    for (let i = 0; i < ToxinasFull.length; i++) {
-      let chart = charts[ToxinasFull[i]];
-      // chart.data.labels = [...dates];
-      // chart.data.labels = [0,1,2,3];
-      chart.data.datasets[0].data = data[ToxinasFull[i]];
-      // chart.data.datasets[0].data = [0,1,2,3];
+          count++;
+        }
+      });
+    });
+
+    for (let i = 0; i < ToxinasFormal.length; i++) {
+      let chart = charts[ToxinasFormal[i]];
+      chart.data.datasets[0].data = data[ToxinasFormal[i]];
       chart.update();
     }
   });

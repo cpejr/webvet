@@ -32,15 +32,15 @@ class GmailOAuth {
       tokenData = newToken;
       // Store the token in to the database
       tokenModel.updateOrCreateToken(TOKEN_SERVICE, newToken).catch((err) => {
-        console.log("Failed to save the token in the database");
-        console.log(err);
+        console.warn("Failed to save the token in the database");
+        console.warn(err);
       });
     });
 
     tokenData = await tokenModel.getToken(TOKEN_SERVICE);
 
     if (!tokenData) {
-      console.log(`
+      console.warn(`
       Token não encontrado, ou não está na base. Siga as instruções:
         1) Acesse a conta gmail do LAMICO (${process.env.EMAIL_USER})
         2) Acesse o link: 'https://myaccount.google.com/u/2/permissions?pageId=none'
@@ -49,7 +49,7 @@ class GmailOAuth {
         ${this.getAccessTokenURL()}
       `);
     } else {
-      console.log(`Achou token do google...`);
+      console.warn(`Achou token do google...`);
       return tokenData;
     }
   }
@@ -81,8 +81,8 @@ class GmailOAuth {
     return await tokenModel
       .updateOrCreateToken(TOKEN_SERVICE, tokenFields)
       .catch((err) => {
-        console.log("Failed to save the token in the database");
-        console.log(err);
+        console.warn("Failed to save the token in the database");
+        console.warn(err);
       });
   }
 }

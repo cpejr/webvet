@@ -1,4 +1,4 @@
-<form action="/allsamples" method="post">
+<form action="/finalization/absorbances" method="post">
 
   <div class="col-sm-fluid container-fluid">
     <h4>Amostras</h4>
@@ -16,21 +16,18 @@
 
         <tbody>
           {{#each samples}}
+            <tr>
+              <th>{{sampleNumber}}</th>
+              <td class="d-flex input-group-sm px-2" style="max-width: 200px;">
+                  <input type="number" name="kits[{{../_id}}][{{analysis.workmapId}}][{{_id}}][{{analysis._id}}][absorbance1]" class="form-control text-center">
+                  <input type="number" name="kits[{{../_id}}][{{analysis.workmapId}}][{{_id}}][{{analysis._id}}][absorbance2]" class="form-control text-center">
+              </td>
+            </tr>
             {{#if changedworkmap}}
               <tr>
                 <td><br></td>
               </tr>
             {{/if}}
-            <tr>
-              <th>{{samplenumber}}</th>
-              <td class="d-flex input-group-sm px-2" style="max-width: 200px;">
-                <div class="some">
-                  <input name="toxinas[{{../name}}][{{@index}}][_id]" type="text" value="{{_id}}">
-                </div>
-                  <input type="text" name="toxinas[{{../name}}][{{@index}}][absorbance]" class="form-control text-center">
-                  <input type="text" name="toxinas[{{../name}}][{{@index}}][absorbance2]" class="form-control text-center">
-              </td>
-            </tr>
           {{/each}}
         </tbody>
       </table>
@@ -42,7 +39,7 @@
       <a href="/queue" class="btn btn-success" id="test">Voltar</a>
     </div>
     <div class="btn btn-abs">
-      <button class="btn btn-success">Finalizar</button>
+      <button class="btn btn-success">Finalizar e ver resultados</button>
     </div>
   </div>
   

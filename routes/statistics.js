@@ -8,14 +8,14 @@ const User = require("../models/user");
 router.get("/", auth.isAuthenticated, async function (req, res) {
   const finalizedSamples = await Sample.getStatisticTableData();
 
-  const finalizedByToxin = {};
+  const finalizedAnalysisByToxin = {};
   const tableData = {};
 
   // Build structure
-  ToxinasFull.forEach((toxin) => {
-    finalizedByToxin[toxin] = [];
+  Toxins.forEach((toxin) => {
+    finalizedAnalysisByToxin[toxin._id] = [];
 
-    tableData[toxin] = {
+    tableData[toxin._id] = {
       testedAmount: 0,
       contaminatedPercent: 0,
       positiveAverage: 0,
@@ -26,26 +26,25 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
 
   // Group by finalized Toxins
   finalizedSamples.forEach((sample) => {
-    ToxinasFull.forEach((toxin) => {
-      if (sample[toxin].resultChart)
-        finalizedByToxin[toxin].push(sample[toxin]);
+    sample.analysis.forEach((analysis) => {
+      finalizedAnalysisByToxin[analysis.toxinId].push(analysis);
     });
   });
 
-  function generateTableData(samples) {
-    const testedAmount = samples.length;
+  function generateTableData(analysis) {
+    const testedAmount = analysis.length;
     let positiveValues = [];
     let positiveSum = 0;
     let max = 0;
 
     let contaminatedCount = 0;
 
-    samples.forEach((sample) => {
-      const contaminated = sample.checked;
+    analysis.forEach((analy) => {
+      const contaminated = analy.wasDetected;
 
       if (contaminated) {
         contaminatedCount++;
-        const result = Number(sample.resultChart);
+        const result = Number(analy.resultChart);
         positiveValues.push(result);
         positiveSum += result;
 
@@ -74,11 +73,11 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     let positiveAverage = positiveSum / contaminatedCount;
     let averageDeviation = 0;
 
-    samples.forEach((sample) => {
-      const contaminated = sample.checked;
+    analysis.forEach((analy) => {
+      const contaminated = analy.wasDetected;
 
       if (contaminated) {
-        const result = Number(sample.resultChart);
+        const result = Number(analy.resultChart);
         averageDeviation += Math.pow(result - positiveAverage, 2);
       }
     });
@@ -86,7 +85,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     averageDeviation = Math.sqrt(averageDeviation);
 
     return {
-      testedAmount,
+      testedAmount: testedAmount.toFixed(0),
       contaminatedPercent,
       positiveAverageWithAD: `${positiveAverage.toFixed(
         2
@@ -97,11 +96,11 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   }
 
   // Generate table data for each toxin
-  ToxinasFull.forEach((toxin) => {
-    const samples = finalizedByToxin[toxin];
-    const data = generateTableData(samples);
+  Toxins.forEach((toxin) => {
+    const analysis = finalizedAnalysisByToxin[toxin._id];
+    const data = generateTableData(analysis);
 
-    tableData[toxin] = data;
+    tableData[toxin._id] = data;
   });
 
   // Generate table rows
@@ -117,8 +116,8 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
   Object.entries(tableDataRows).forEach(([key, value]) => {
     const row = [];
     row.push(value);
-    ToxinasFull.forEach((toxin) => {
-      const value = tableData[toxin][key];
+    Toxins.forEach((toxin) => {
+      const value = tableData[toxin._id][key];
       let pushValue;
 
       if (value)
@@ -161,29 +160,27 @@ router.get("/barcharts", auth.isAuthenticated, async function (req, res) {
   });
 });
 
-router.get(
-  "/boxcharts",
-  /* auth.isAuthenticated,*/ async (req, res) => {
-    let enableUserFilter = false;
-    const user = req.session.user;
-    let users;
+router.get("/boxcharts", auth.isAuthenticated, async (req, res) => {
+  let enableUserFilter = false;
+  const user = req.session.user;
+  let users;
 
-    if (user && (user.type === "Admin" || user.type === "Analista")) {
-      users = await User.getByQuery({ status: "Ativo", deleted: "false" });
-      enableUserFilter = true;
-    }
-
-    res.render("statistics/boxcharts", {
-      title: "Gráficos",
-      layout: "layoutDashboard.hbs",
-      ...req.session,
-      allDestinations,
-      allSampleTypes,
-      users,
-      enableUserFilter,
-    });
+  if (user && (user.type === "Admin" || user.type === "Analista")) {
+    users = await User.getByQuery({ status: "Ativo", deleted: "false" });
+    enableUserFilter = true;
   }
-);
+
+  res.render("statistics/boxcharts", {
+    title: "Gráficos",
+    layout: "layoutDashboard.hbs",
+    ...req.session,
+    allDestinations,
+    allSampleTypes,
+    users,
+    enableUserFilter,
+    Toxins
+  });
+});
 
 router.get("/statesData", auth.isAuthenticated, async (req, res) => {
   const filters = req.query;

@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="requisition-text col-md-9">
-          <input type="text" value="{{actualUser.register}}" name="user[register]" class="" placeholder="CPF ou CNPJ">
+          <input type="text" value="{{actualUser.cpfCnpj}}" name="user[cpfCnpj]" class="" placeholder="CPF ou CNPJ">
         </div>
       </div>
       <div class="d-flex">
@@ -130,7 +130,7 @@
                 <th>{{email}}</th>
                 <th>{{phone}}</th>
                 <th>{{cellphone}}</th>
-                <th>{{register}}</th>
+                <th>{{cpfCnpj}}</th>
                 <th>
                   <form action="/user/removeProducer/{{actualUser._id}}" method="post">
                     <input value="{{_id}}" name="producer" hidden="hidden" />

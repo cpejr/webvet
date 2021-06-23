@@ -14,7 +14,7 @@
     (function () {
       this.jKanban = function () {
         var self = this;
-        this._disallowedItemProperties = ['id', 'title', 'analyst', 'status', 'owner', 'calibrator', 'calid', 'click', 'drag', 'dragend', 'drop', 'order'];
+        this._disallowedItemProperties = ['id', 'title','calid', 'click', 'drag', 'dragend', 'drop', 'order', 'innerHTML'];
         this.element = "";
         this.container = "";
         this.boardContainer = [];
@@ -179,39 +179,7 @@
 
           nodeItem.setAttribute("data-eid", element.id);
           nodeItem.setAttribute("data-title", element.title);
-
-          if (element.calibrator == true) {
-            nodeItem.setAttribute("data-calibrator", element.calibrator);
-            nodeItem.setAttribute("data-calid", element.calid);
-            nodeItem.innerHTML = element.title;
-          }
-          else {
-            nodeItem.setAttribute("data-analyst", element.analyst)
-            nodeItem.setAttribute("data-status", element.status);
-            nodeItem.setAttribute("data-approved", element.approved);
-            nodeItem.setAttribute("data-owner", element.owner);
-            nodeItem.setAttribute("data-iscitrus", element.iscitrus);
-            nodeItem.setAttribute("data-limitDate", element.limitDate);
-
-
-            let badges = `${element.title}<br><span  class="badge badge-secondary">${element.status}</span>`;
-            badges += `<span  class="badge badge-primary">${element.analyst}</span>`;
-
-            if (element.owner + "" === "true")
-              badges += `<span  class="badge badge-danger">Devedor</span>`
-
-
-            if (element.approved + "" === 'false')
-              badges += `<span  class="badge badge-danger">Não aprovada</span>`
-
-            if (element.iscitrus + "" === 'true')
-              badges += `<span  class="badge badge-success">Polpa Cítrica</span>`
-
-            if (element.limitDate)
-              badges += `<span  class="badge badge-secondary">${element.limitDate}</span>`
-
-            nodeItem.innerHTML = badges;
-          }
+          nodeItem.innerHTML = element.innerHTML || element.title;
 
           //add function
           nodeItem.clickfn = element.click;
@@ -236,25 +204,8 @@
           nodeItem.setAttribute("data-eid", element.id);
           nodeItem.setAttribute("data-title", element.title);
 
-
-          if (typeof element.id !== "undefined" && element.id !== "" && element.calibrator != true) {
-            nodeItem.setAttribute("data-analyst", element.analyst);
-            nodeItem.setAttribute("data-status", element.status);
-            nodeItem.innerHTML = element.title + " " + '<br><span  class="badge badge-secondary">' + element.status + '</span>' + " " + '<span  class="badge badge-primary">' + element.analyst + '</span>';
-          }
-          else if (element.owner + "" === "true") {
-            nodeItem.setAttribute("data-analyst", element.analyst);
-            nodeItem.setAttribute("data-owner", element.owner);
-            nodeItem.setAttribute("data-status", element.status);
-            nodeItem.innerHTML = element.title + " " + '<br><span  class="badge badge-secondary">' + element.status + '</span>' + " " + '<span  class="badge badge-primary">' + element.analyst + '</span>' + " " + '<span  class="badge badge-danger">' + element.owner + '</span>';
-          }
-          else if (element.calibrator == true) {
-            nodeItem.setAttribute("data-calibrator", element.calibrator);
-            nodeItem.setAttribute("data-calid", element.calid);
-            nodeItem.innerHTML = element.title;
-          }
-
           //add function
+          nodeItem.innerHTML = element.innerHTML || element.title;
           nodeItem.clickfn = element.click;;
           __appendCustomProperties(nodeItem, element);
           __onclickHandler(nodeItem);
@@ -281,25 +232,9 @@
 
           nodeItem.setAttribute("data-eid", element.id);
           nodeItem.setAttribute("data-title", element.title);
+        
 
-          if (typeof element.id !== "undefined" && element.id !== "" && element.calibrator != true) {
-
-            nodeItem.setAttribute("data-analyst", element.analyst);
-            nodeItem.setAttribute("data-status", element.status);
-          }
-
-          else if (element.owner == "Devedor") {
-            nodeItem.setAttribute("data-analyst", element.analyst);
-            nodeItem.setAttribute("data-owner", element.owner);
-            nodeItem.setAttribute("data-status", element.status);
-          }
-
-          else if (element.calibrator == true) {
-            nodeItem.setAttribute("data-calibrator", element.calibrator);
-            nodeItem.setAttribute("data-calid", element.calid);
-          }
-
-          nodeItem.innerHTML = element.title;
+          nodeItem.innerHTML = element.innerHTML;
           //add function
           nodeItem.clickfn = element.click;
           nodeItem.dragfn = element.drag;

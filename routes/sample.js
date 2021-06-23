@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 const Sample = require("../models/sample");
 const Kit = require("../models/kit");
-const Workmap = require("../models/Workmap");
 
 /* GET home page. */
 
@@ -15,12 +14,12 @@ router.get("/", auth.isAuthenticated, function (req, res) {
   });
 });
 
-router.post("/create", (req, res) => {
+router.post("/create", auth.isAuthenticated, (req, res) => {
   const { sample } = req.body;
-  Sample.getMaxSampleNumber()
+  Sample.getMaxsampleNumber()
     .then((maxSample) => {
       sample = {
-        samplenumber: maxSample[0].samplenumber + 1,
+        sampleNumber: maxSample[0].sampleNumber + 1,
       };
 
       Sample.create(sample)
@@ -38,123 +37,50 @@ router.post("/create", (req, res) => {
     });
 });
 
-router.post("/updatestatus/:status/:mycotoxin/:sampleId", async (req, res) => {
-  try {
-    const { status, mycotoxin, sampleId } = req.params;
+router.post(
+  "/updateAnalysisWorkmapAndStatus/:analysisId",
+  auth.isAuthenticated,
+  async (req, res) => {
+    try {
+      const { analysisId } = req.params;
+      let { workmapId, status } = req.body;
 
-    const sample = await Sample.getById(sampleId);
-    const filedsToUpdate = {};
+      if (!workmapId) workmapId = null;
 
-    if (sample[mycotoxin].status === "Mapa de Trabalho") {
-      const workmapId = sample[mycotoxin].workmapId;
-      filedsToUpdate[`${mycotoxin}.workmapId`] = null;
+      const filedsToUpdate = {};
 
-      Workmap.removeSample(workmapId, sampleId);
-    }
+      let newStatus;
+      if (workmapId && workmapId !== null) newStatus = "Mapa de Trabalho";
+      else if (!status) newStatus = "Em análise";
+      else newStatus = status;
 
-    let newStatus;
-    switch (status) {
-      case "testing":
-        newStatus = "Em análise";
-        break;
+      filedsToUpdate[`analysis.$.status`] = newStatus;
+      filedsToUpdate[`analysis.$.workmapId`] = workmapId;
 
-      case "ownering":
-        newStatus = "Aguardando pagamento";
-        break;
+      const sample = await Sample.SampleModel.findOneAndUpdate(
+        { "analysis._id": analysisId },
+        { $set: filedsToUpdate }
+      );
 
-      case "waiting":
-        newStatus = "Aguardando amostra";
-        break;
-    }
+      const analysis = sample.analysis.find(
+        (analysis) => analysis._id == analysisId
+      );
 
-    filedsToUpdate[`${mycotoxin}.status`] = newStatus;
+      const response = await Kit.updateSampleWorkmapId(
+        analysis.workmapId,
+        workmapId,
+        sample._id
+      );
 
-    const response = await Sample.update(sampleId, { $set: filedsToUpdate });
-    res.status(200).send(response);
-  } catch (error) {
-    res.status(500).send();
-  }
-});
-
-router.post("/setActiveKit/:toxinafull/:kitActiveID", function (req, res) {
-  //Set active to inactive
-  let sigla = ToxinasSigla[ToxinasFull.indexOf(req.params.toxinafull)];
-  //Correção provisória do problema com a sigla
-  if (sigla === "FBS") sigla = "FUMO";
-
-  Kit.getActiveID(sigla)
-    .then((kit) => {
-      if (kit) Kit.setActiveStatus(kit._id, false);
-    })
-    .then(() => {
-      //Update new one
-      Kit.setActiveStatus(req.params.kitActiveID, true)
-        .then((response) => {
-          res.send(response);
-        })
-        .catch((error) => {
-          console.warn(error);
-          res.redirect("/error");
-        });
-    })
-    .catch((error) => {
+      res.status(200).send(response);
+    } catch (error) {
       console.warn(error);
-      res.redirect("/error");
-    });
-});
-
-router.post("/scndTesting/edit/:mycotoxin/:sampleId", async (req, res) => {
-  try {
-    //this function is for the second kanban
-    const { mycotoxin, sampleId } = req.params;
-
-    const sample = await Sample.getById(sampleId);
-
-    if (sample[mycotoxin].status === "Mapa de Trabalho")
-      Workmap.removeSample(sample[mycotoxin].workmapId, sampleId);
-
-    let sampleUpdate = {};
-    sampleUpdate[mycotoxin + ".status"] = "Em análise";
-    sampleUpdate[mycotoxin + ".workmapId"] = null;
-
-    const response = await Sample.updateCustom(sampleId, sampleUpdate);
-
-    res.status(200).send(response);
-  } catch (error) {
-    res.status(500).send();
-  }
-});
-
-router.post("/mapedit/:mycotoxin/:sampleId/:mapID", async (req, res) => {
-  try {
-    const { mapID, sampleId, mycotoxin } = req.params;
-
-    const sample = await Sample.getById(sampleId);
-    const promises = [];
-    if (sample[mycotoxin].workmapId + "" !== mapID) {
-      if (sample[mycotoxin].status === "Mapa de Trabalho")
-        promises.push(
-          Workmap.removeSample(sample[mycotoxin].workmapId, sampleId)
-        );
-
-      promises.push(Workmap.addSample(mapID, sampleId));
-
-      let sampleUpdate = {};
-      sampleUpdate[mycotoxin + ".status"] = "Mapa de Trabalho";
-      sampleUpdate[mycotoxin + ".workmapId"] = mapID;
-
-      promises.push(Sample.updateCustom(sampleId, sampleUpdate));
+      res.status(500).send();
     }
-
-    await Promise.all(promises);
-    res.status(200).send("ok");
-  } catch (error) {
-    res.status(500).send("fail");
-    console.warn(error);
   }
-});
+);
 
-router.get("/edit/:sampleId", async (req, res) => {
+router.get("/edit/:sampleId", auth.isAuthenticated, async (req, res) => {
   const { sampleId } = req.params;
 
   try {
@@ -164,6 +90,7 @@ router.get("/edit/:sampleId", async (req, res) => {
       title: "Editar amostra",
       layout: "layoutDashboard.hbs",
       sample,
+      allDestinations,
     });
   } catch (error) {
     console.warn(error);
@@ -171,18 +98,28 @@ router.get("/edit/:sampleId", async (req, res) => {
   }
 });
 
-router.post("/save", (req, res) => {
-  const { sample } = req.body;
-  sample.isCitrus = sample.isCitrus ? true : false;
-  Sample.updateBySampleNumber(sample.samplenumber + "", sample)
+router.post("/edit", auth.isAuthenticated, (req, res) => {
+  const { _id, ...fieldsToUpdate } = req.body?.sample;
+  fieldsToUpdate.isCitrus = fieldsToUpdate.isCitrus ? true : false;
+
+  Sample.update(_id, fieldsToUpdate)
     .then(() => {
       req.flash("success", "Amostra alterada");
-      res.redirect("/sample/edit/" + sample.samplenumber);
+      res.redirect(`/sample/edit/${_id}`);
     })
     .catch((error) => {
       console.warn(error);
       res.redirect("/error");
     });
 });
+
+router.get(
+  "/getAllWithoutFinalization",
+  auth.isAuthenticated,
+  async (req, res) => {
+    const data = await Sample.getAllWithoutFinalization();
+    res.send(data);
+  }
+);
 
 module.exports = router;
