@@ -53,15 +53,7 @@
         {{#each laudosEspeciais}}
         <tr>
           <th>{{sampleNumber}}/{{creationYear}}</th>
-          {{#compare finalized "Disponivel"}}
-          <th>Disponível para o produtor</th>
-          {{/compare}}
-          {{#compare finalized "Não finalizado"}}
-          <th>Não finalizado</th>
-          {{/compare}}
-          {{#compare finalized "Analisada"}}
-          <th>Revisada por um analista</th>
-          {{/compare}}
+          <th>{{report.status}}</th>
           <th>
             <a href="../../report/show/admin/{{_id}}"><button class="btn btn-success">Editar laudo
                 {{sampleNumber}}/{{creationYear}}</button></a>

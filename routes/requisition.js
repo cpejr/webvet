@@ -72,8 +72,9 @@ router.get(
           });
           if (doesInclude) {
             let aux = {};
-            aux.formal = Toxin.name;
-            aux.full = Toxin.lower;
+            aux.name = Toxin.name;
+            aux.lower = Toxin.lower;
+            aux.toxinId = Toxin._id;
             const availableKits = allKits.find(
               (element) => element.name === Toxin.sigle
             ).kits;
@@ -102,39 +103,57 @@ router.post(
   auth.isFromLab,
   async function (req, res) {
     const { sample } = req.body;
-    const { _id } = sample;
-    delete sample._id;
-    sample.specialFinalized = true;
-
     try {
-      let toxinArray = new Array();
-      Toxinas.forEach((toxina) =>{
-        sample[toxina.toJSON().lower];
-      })
-      ToxinasAll.forEach((toxina) => {
-        if (sample[toxina.Full]) {
-          toxinArray.push(toxina.Full);
-          sample[toxina.Full].active = false;
-        }
-      });
+      const { _id, toxinData } = sample;
+      const toxinList = Object.keys(toxinData);
+      delete sample._id;
+
       let frase = "";
       let fraseCompleta =
         "Foi detectada a presença de *frase* na amostra analisada. O resultado da análise restringe-se tão somente à amostra analisada.";
 
-      toxinArray.forEach((name, index) => {
+      let analysis = new Array();
+      toxinList.forEach((name, index) => {
+        //Criação da frase
         if (index === 0) {
           frase = name;
-        } else if (index === toxinArray.length - 1) {
+        } else if (index === toxinList.length - 1) {
           frase = frase + ` e ${name}`;
         } else {
           frase = frase + `, ${name}`;
         }
-      });
 
-      sample.feedback = fraseCompleta = fraseCompleta.replace("*frase*", frase);
-      if (sample.comment === "")
-        sample.comment =
-          "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.";
+        //Criação das análises
+        const {
+          toxinId, 
+          resultNumber, 
+          resultText, 
+          resultChart, 
+          wasDetected,
+          kitId
+        } = toxinData[name];
+        const newAnalysis = {
+          toxinId,
+          status: "Finalizado",
+          resultNumber,
+          resultText,
+          resultChart,
+          wasDetected,
+          kitId
+        }
+        analysis.push(newAnalysis);
+      });
+      sample.analysis = analysis;
+      delete sample.toxinData;
+
+      //Criação do report
+      sample.report = {
+        status: "Disponível para o produtor",
+        feedback: fraseCompleta.replace("*frase*", frase),
+        comment:  (sample.comment !== "") ? sample.comment :
+        "Na análise de risco para micotoxinas diversos fatores devem ser considerados tais como:níveis e tipos de micotoxinas detectadas, status nutricional e imunológico dos animais, sexo, raça,ambiente, entre outros. Apenas para fins de referência, segue anexo com informações a respeito dos limites máximos tolerados em cereais e produtos derivados para alimentação animal.",
+      }
+      sample.specialFinalized = true;
 
       await Sample.updateCustom(_id, sample);
 
@@ -301,7 +320,7 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
     regularCountPages,
   ]);
 
-  specialRequisitions = specialRequisitions.map(formatRequisition);
+  specialRequisitions = specialRequisitions.map(formatSpecial);
   regularRequisitions = regularRequisitions.map(formatRequisition);
 
   function formatRequisition(requisition) {
@@ -311,6 +330,11 @@ router.get("/", auth.isAuthenticated, async function (req, res) {
 
     req.year = year;
 
+    return req;
+  }
+
+  function formatSpecial(requisition) {
+    const req = requisition.toJSON();
     return req;
   }
 
