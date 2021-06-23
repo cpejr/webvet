@@ -442,17 +442,14 @@ const Sample = {
   },
 
   async getAllSpecialActive() {
-    let query = { isSpecial: true, $or: [] };
-    ToxinasFull.forEach((toxina) => {
-      let expression = {};
-
-      expression[toxina + ".active"] = true;
-
-      query.$or.push(expression);
-    });
-
-    const sample = await SampleModel.find(query);
-
+    let query = {
+      isSpecial: true,
+      specialFinalized: { $ne: true },
+      "analysis.wasDetected": null,
+    };
+    const sample = await SampleModel
+      .find(query)
+      .populate("analysis.toxin");
     return sample;
   },
 
