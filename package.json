@@ -20,7 +20,7 @@
     "express-handlebars": "^3.0.2",
     "express-session": "^1.16.1",
     "firebase": "^7.20.0",
-    "firebase-admin": "^8.13.0",
+    "firebase-admin": "^11.4.1",
     "font-awesome": "^4.7.0",
     "googleapis": "^59.0.0",
     "gulp-sass": "^4.0.2",
